@@ -1,7 +1,6 @@
-
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { FsFilter }  from '@firestitch/filter';
+import { FsFilter } from '@firestitch/filter';
 
 export interface FsListColumn {
     title: string;
@@ -9,7 +8,7 @@ export interface FsListColumn {
     template?: string;
     // onClick?: any;
     data?: object;
-};
+}
 
 export interface FsListCell {
     value?: string;
@@ -39,7 +38,7 @@ export class FsList {
     public columns: FsListColumn[];
     public topActions: TopActions[] = [];
     // Modules available for column templates
-    public imports: Array<any> = [];
+    public imports: any[] = [];
     public data$: BehaviorSubject<Array<Array<FsListCell>> | any> = new BehaviorSubject<Array<Array<FsListCell>> | any>([]);
 
     public filters = [];
