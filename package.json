@@ -31,7 +31,7 @@
     "build:release": "webpack --config=bundler/webpack.release.js --progress --profile",
     "build:sass": "node-sass -r build/ -o build/ || true",
     "serve": "webpack-dev-server --config=bundler/webpack.playground.js --progress --profile --watch",
-    "lint": "tslint src/**/*.ts"
+    "lint": "tslint 'src/**/*.ts' -p ./tslint.json"
   },
   "main": "release/index.js",
   "typings": "release/index.d.ts",
