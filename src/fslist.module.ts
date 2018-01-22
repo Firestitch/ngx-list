@@ -6,9 +6,9 @@ import { FsFilterModule } from '@firestitch/filter';
 
 import { FsCellComponent } from './app/components/cell/cell.component';
 import { FsListComponent } from './app/components/list/list.component';
-import { FsList } from './fslist';
+import { FsStatusComponent } from './app/components/status/status.component';
+import { FsRowComponent } from './app/components/row/row.component';
 
-export * from './fslist';
 export * from './app/components/list/list.component';
 
 @NgModule({
@@ -21,12 +21,17 @@ export * from './app/components/list/list.component';
   ],
   declarations: [
     FsListComponent,
-    FsCellComponent
+    FsCellComponent,
+    FsStatusComponent,
+    FsRowComponent,
+    FsCellComponent,
   ],
   providers: [
   ],
   exports: [
-    FsListComponent
+    FsListComponent,
+    FsRowComponent,
+    FsCellComponent
   ]
 })
 export class FsListModule {

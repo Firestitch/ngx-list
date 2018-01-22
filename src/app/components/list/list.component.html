@@ -2,38 +2,56 @@
 
 <!-- <ng-template > -->
 <div class="fs-list-container">
-    <!-- @TODO There was filters -->
-    <div class="fs-list-filters" fxLayout="row">
-        <fs-filter *ngIf="list.filterService.fsConfig.items.length" [(filter)]="list.filterService" fxFlex></fs-filter>
-        <div *ngIf="!list.filterService.fsConfig.items.length" fxFlex></div>
-        <div class="fs-list-top-actions" *ngIf="list.topActions.length">
+  <!-- @TODO There was filters -->
+  <div class="fs-list-filters" fxLayoutWrap>
+    <fs-filter *ngIf="list.filterService.fsConfig.items.length" [(filter)]="list.filterService"
+               fxFlex="70"></fs-filter>
+    <div *ngIf="!list.filterService.fsConfig.items.length" fxFlex="30"></div>
+    <div class="fs-list-top-actions" *ngIf="list.topActions.length">
             <span *ngFor="let action of list.topActions">
-                <button *ngIf="action.raised !== false" mat-raised-button (click)="topActionsClick(action,$event)" [ngClass]="{ 'mat-primary': action.primary !== false }">{{ action.label }}</button>
-                <button *ngIf="action.raised === false" mat-button (click)="topActionsClick(action,$event)" [ngClass]="{ 'mat-primary': action.primary !== false }">{{ action.label }}</button>
+                <button *ngIf="action.raised !== false" mat-raised-button
+                        (click)="topActionsClick(action,$event)"
+                        [ngClass]="{ 'mat-primary': action.primary !== false }">{{ action.label }}</button>
+                <button *ngIf="action.raised === false" mat-button
+                        (click)="topActionsClick(action,$event)"
+                        [ngClass]="{ 'mat-primary': action.primary !== false }">{{ action.label }}</button>
             </span>
-        </div>
     </div>
-
-    <table class="fs-list">
-        <thead class="fs-list-head">
+    <div fxFlex="40">
+      <fs-list-status [paging]="list.paging" *ngIf="list.paging"></fs-list-status>
+    </div>
+  </div>
+  <table class="fs-list" role="grid">
+    <!--<thead class="fs-list-head">
+        <tr class="fs-list-row">
+            <ng-template ngFor let-column [ngForOf]="list.columns">
+                <td class="fs-list-col fs-list-col-header fs-list-col-topheader" [attr.align]="column.align || 'left'">{{column.title}}</td>
+            </ng-template>
+        </tr>
+    </thead>-->
+    <thead class="fs-list-head">
+      <fs-row>
+        <fs-cell *ngFor="let column of list.columns"
+                 [ngClass]="'fs-list-col-header fs-list-col-topheader ' + (column.cssClasses || '')">
+          {{column.title }}
+        </fs-cell>
+      </fs-row>
+    </thead>
+    <tbody class="fs-list-body">
+      <ng-container #row></ng-container>
+    </tbody>
+    <!--<tbody class="fs-list-body">
+        <ng-template ngFor let-row [ngForOf]="list.data$ | async" let-rowIndex="index">
             <tr class="fs-list-row">
-                <ng-template ngFor let-column [ngForOf]="list.columns">
-                    <td class="fs-list-col fs-list-col-header fs-list-col-topheader" [attr.align]="column.align || 'left'">{{column.title}}</td>
+                <ng-template ngFor let-column [ngForOf]="list.columns" let-cellIndex="index">
+                    <td class="fs-list-col"
+                    [attr.align]="column.align || 'left'">
+                        <fs-cell *ngIf="column.template"></fs-cell>
+                        <ng-template *ngIf="!column.template">{{row[column.code].value}}</ng-template>
+                    </td>
                 </ng-template>
             </tr>
-        </thead>
-        <tbody class="fs-list-body">
-            <ng-template ngFor let-row [ngForOf]="list.data$ | async" let-rowIndex="index">
-                <tr class="fs-list-row">
-                    <ng-template ngFor let-column [ngForOf]="list.columns" let-cellIndex="index">
-                        <td class="fs-list-col"
-                        [attr.align]="column.align || 'left'">
-                            <fs-cell *ngIf="column.template"></fs-cell>
-                            <ng-template *ngIf="!column.template">{{row[column.code].value}}</ng-template>
-                        </td>
-                    </ng-template>
-                </tr>
-            </ng-template>
-        </tbody>
-    </table>
+        </ng-template>
+    </tbody>-->
+  </table>
 </div>

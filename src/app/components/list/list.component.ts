@@ -1,106 +1,72 @@
 import {
   Component,
-  NgModule,
-  AfterViewInit,
   OnInit,
   Input,
-  Compiler,
-  Injector,
-  NgModuleRef,
   ViewContainerRef,
   ViewChild,
   ViewEncapsulation,
-  ViewChildren,
-  QueryList,
-  ApplicationRef
+  ComponentFactoryResolver
 } from '@angular/core';
 
-import { FsCellComponent } from '../cell/cell.component';
-import { FsList } from '../../../fslist';
+import { FsList } from '../../models';
+import { FsRowComponent } from '../row/row.component';
 
 @Component({
-    selector: 'fs-list',
-    templateUrl: './list.component.html',
-    styleUrls: ['./list.component.scss'],
-    encapsulation: ViewEncapsulation.None
+  selector: 'fs-list',
+  templateUrl: 'list.component.html',
+  styleUrls: ['./list.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class FsListComponent implements AfterViewInit {
-    components = [];
-    @Input() public list: FsList;
-    @ViewChild('vc', { read: ViewContainerRef }) vc;
-    @ViewChildren(FsCellComponent, { read: ViewContainerRef }) items: QueryList<ViewContainerRef>;
+export class FsListComponent implements OnInit {
+  components = [];
+  @Input() public list: FsList;
+  @ViewChild('row', { read: ViewContainerRef }) rowsContainer;
 
-    constructor(private compiler: Compiler, private _injector: Injector,
-                private _m: NgModuleRef<any>, private app: ApplicationRef) {}
+  constructor(private _componentFactoryResolver: ComponentFactoryResolver) {
+  }
 
-    ngAfterViewInit() {
+  public ngOnInit() {
+    this.loadData();
+    if (this.rowsContainer) {
+      this.drawData();
+    }
+  }
 
-        if (this.list.filters && this.list.filters.length) {
-            setTimeout(() => {
-                this.list.filterService.fsConfig = {
-                    persist: this.list.persist,
-                    items: this.list.filters,
-                    inline: this.list.inlineFilters,
-                    init: (instance) => {
-                        this.list.load(instance.gets({ flatten: true }));
-                    },
-                    change: (query, instance) => {
-                        this.list.load(instance.gets({ flatten: true }));
-                    }
-                };
-            });
-        }else {
-            this.list.load({});
+  public loadData() {
+    if (this.list.filters && this.list.filters.length) {
+      this.list.filterService.fsConfig = {
+        persist: this.list.persist,
+        items: this.list.filters,
+        inline: this.list.inlineFilters,
+        init: (instance) => {
+          this.rowsContainer.clear();
+          this.list.load(instance.gets({ flatten: true }));
+        },
+        change: (query, instance) => {
+          this.rowsContainer.clear();
+          this.list.load(instance.gets({ flatten: true }));
         }
-
-        this.items.changes
-            .subscribe((cellRef) => {
-                this.renderColumns();
-            });
+      };
+    }else {
+      this.list.load({});
     }
+  }
 
-    renderColumns() {
+  public drawData() {
+    this.rowsContainer.clear();
 
-        this.components = [];
-        this.compiler.clearCache();
+    this.list.data$.subscribe((rows) => {
+      rows.forEach((row, index) => this.initRowComponent(row, index));
+    });
+  }
 
-        this.list.data$.value.forEach(row => {
-            this.list.columns.forEach(column => {
+  public initRowComponent(data, index) {
+    const componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.list.rowComponent);
 
-                let component = Component({
-                    template: column.template,
-                    encapsulation: ViewEncapsulation.Emulated,
-                    styles: []
-                })(class implements OnInit {
-                    public row = row;
-                    // public column = column;
-                    ngOnInit() {
-                        Object.assign(this, column.data || {});
-                    }
-                });
+    const viewContainerRef = this.rowsContainer;
 
-                this.components.push(component);
-            });
-        });
-
-        const tmpModule = NgModule({
-            declarations: this.components,
-            imports: this.list.imports
-        })(class {});
-
-        this.compiler.compileModuleAndAllComponentsAsync(tmpModule)
-        .then((factories) => {
-            this.items.forEach((item, index) => {
-                let cmpRef = factories.componentFactories[index].create(this._injector, [], null, this._m);
-                cmpRef.instance.name = 'dynamic' + index;
-                item.insert(cmpRef.hostView);
-            });
-        });
-    }
-
-    topActionsClick(action, $event) {
-        if (action.click) {
-            action.click(this.list.filtersQuery, $event);
-        }
-    }
+    const componentRef = viewContainerRef.createComponent(componentFactory);
+    (<FsRowComponent>componentRef.instance).row = data;
+    (<FsRowComponent>componentRef.instance).rowIndex = index;
+  }
 }

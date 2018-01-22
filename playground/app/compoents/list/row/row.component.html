@@ -1,0 +1,15 @@
+<fs-cell name="number" class="index-col">
+  {{ rowIndex + 1 }}
+</fs-cell>
+<fs-cell name="column1">
+  This row's name is <input [(ngModel)]="row.name" (click)="onClick($event, row)"/>. {{ row.name }}
+</fs-cell>
+<fs-cell name="column2" align="right">
+  This row's guid is {{ row.guid }}.
+</fs-cell>
+<fs-cell name="link">
+  <a routerLink="/welcome">Simple Link</a>
+</fs-cell>
+<fs-cell name="handler" align="center">
+  <a (click)="proceed('/welcome')">Link Handler</a>
+</fs-cell>

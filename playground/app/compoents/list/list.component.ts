@@ -6,10 +6,11 @@ import { FsArray } from '@firestitch/common';
 import { FsList } from '../../../../src';
 import { FsApi } from '@firestitch/api';
 import 'rxjs/add/operator/map';
+import { RowComponent } from './row/row.component';
 
 @Component({
   selector: 'pl-list',
-  template: '<fs-list [(list)]="list"></fs-list>',
+  templateUrl: 'list.component.html',
   styles: []
 })
 export class ListComponent implements OnInit {
@@ -18,36 +19,32 @@ export class ListComponent implements OnInit {
 
   constructor(fsArray: FsArray, fsApi: FsApi, route: ActivatedRoute, router: Router) {
     this.list = FsList.create({
-      imports: [FormsModule, RouterModule],
+      rowComponent: RowComponent,
       inlineFilters: true,
       columns:
         [
           {
+            title: '№',
+            name: 'number',
+            'class': 'index-col'
+          },
+          {
             title: 'column1',
-            template: `This row's name is <input [(ngModel)]="row.name" (click)="onClick($event, row)"/>. {{ row.name }}`,
-            data: {
-              onClick: (event, row) => {
-                console.log(event, row);
-              }
-            }
+            name: 'column1',
           },
           {
             title: 'column2',
             align: 'right',
-            template: `This row's guid is {{ row.guid }}.`
+            name: 'column2',
           },
           {
             title: 'Simple Link',
-            template: `<a routerLink="/welcome">Simple Link</a>`
+            name: 'link',
           },
           {
             title: 'Redirect with Handler',
-            template: `<a (click)="proceed('/welcome')">Link Handler</a>`,
-            data: {
-              proceed(link) {
-                router.navigateByUrl(link);
-              }
-            }
+            name: 'redirect',
+            align: 'center',
           },
         ],
       topActions:
@@ -98,7 +95,7 @@ export class ListComponent implements OnInit {
         // or some other structure. Think about this and also take a look at the Angular 1 implementaion.
 
         return fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
-          .map(response => ({ data: response.data.objects }));
+          .map(response => ({ data: response.data.objects, paging: response.data.paging }));
       }
     });
   }

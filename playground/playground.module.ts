@@ -11,6 +11,8 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app/app.component';
 import { ListComponent } from './app/compoents/list/list.component';
 import { WelcomeComponent } from './app/compoents/welcome/welcome.component';
+import { RowComponent } from './app/compoents/list/row/row.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   bootstrap: [ AppComponent ],
@@ -18,17 +20,22 @@ import { WelcomeComponent } from './app/compoents/welcome/welcome.component';
     AppComponent,
     ListComponent,
     WelcomeComponent,
+    RowComponent,
   ],
   imports: [
     BrowserModule,
     FsListModule,
     BrowserAnimationsModule,
     FsApiModule,
+    FormsModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'list', pathMatch: 'full'},
       { path: 'list', component: ListComponent },
       { path: 'welcome', component: WelcomeComponent },
     ])
+  ],
+  entryComponents: [
+    RowComponent,
   ]
 })
 export class PlaygroundModule {}
