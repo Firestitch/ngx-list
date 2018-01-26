@@ -1,18 +1,19 @@
-import './vendor.scss';
-
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import 'rxjs/add/operator/map';
-import { FsListModule } from '../src';
-import { FsApiModule } from '@firestitch/api';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FsApiModule } from '@firestitch/api';
+
+import { FsListModule } from '../src';
 
 import { AppComponent } from './app/app.component';
 import { ListComponent } from './app/compoents/list/list.component';
 import { WelcomeComponent } from './app/compoents/welcome/welcome.component';
-import { RowComponent } from './app/compoents/list/row/row.component';
-import { FormsModule } from '@angular/forms';
+
+import 'rxjs/add/operator/map';
+
+import './vendor.scss';
 
 @NgModule({
   bootstrap: [ AppComponent ],
@@ -20,7 +21,6 @@ import { FormsModule } from '@angular/forms';
     AppComponent,
     ListComponent,
     WelcomeComponent,
-    RowComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +35,6 @@ import { FormsModule } from '@angular/forms';
     ])
   ],
   entryComponents: [
-    RowComponent,
   ]
 })
 export class PlaygroundModule {}

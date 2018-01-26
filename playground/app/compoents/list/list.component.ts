@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { RouterModule, ActivatedRoute, Router } from '@angular/router';
-import { FsArray } from '@firestitch/common';
-
-import { FsList } from '../../../../src';
+import { Router } from '@angular/router';
 import { FsApi } from '@firestitch/api';
+
+import { FsListConfig } from '../../../../src/app/models/list-config.model';
+
 import 'rxjs/add/operator/map';
-import { RowComponent } from './row/row.component';
 
 @Component({
   selector: 'pl-list',
@@ -15,55 +13,14 @@ import { RowComponent } from './row/row.component';
 })
 export class ListComponent implements OnInit {
 
-  list: FsList = null;
+  public config: FsListConfig;
 
-  constructor(fsArray: FsArray, fsApi: FsApi, route: ActivatedRoute, router: Router) {
-    this.list = FsList.create({
-      rowComponent: RowComponent,
+  constructor(private _fsApi: FsApi, private _router: Router) {
+  }
+
+  public ngOnInit() {
+    this.config = FsListConfig.create({
       inlineFilters: true,
-      columns:
-        [
-          {
-            title: '№',
-            name: 'number',
-            'class': 'index-col'
-          },
-          {
-            title: 'column1',
-            name: 'column1',
-          },
-          {
-            title: 'column2',
-            align: 'right',
-            name: 'column2',
-          },
-          {
-            title: 'Simple Link',
-            name: 'link',
-          },
-          {
-            title: 'Redirect with Handler',
-            name: 'redirect',
-            align: 'center',
-          },
-        ],
-      topActions:
-        [
-          {
-            click: (filters, event) => {
-              console.log(filters);
-            },
-            primary: false,
-            label: 'Pretty Button 2'
-          },
-          {
-            click: (filters, event) => {
-              console.log(filters);
-            },
-            raised: false,
-            label: 'Pretty Button'
-          }
-        ],
       filters: [
         {
           name: 'keyword',
@@ -84,6 +41,22 @@ export class ListComponent implements OnInit {
           }
         }
       ],
+      topActions: [
+        {
+          click: (filters, event) => {
+            console.log(filters);
+          },
+          primary: false,
+          label: 'Pretty Button 2'
+        },
+        {
+          click: (filters, event) => {
+            console.log(filters);
+          },
+          raised: false,
+          label: 'Pretty Button'
+        }
+      ],
       data: (query) => {
 
         // Connect to dummy api and disply the data
@@ -94,12 +67,17 @@ export class ListComponent implements OnInit {
         // so we can return an FsResult object that is populate from the api response
         // or some other structure. Think about this and also take a look at the Angular 1 implementaion.
 
-        return fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
+        return this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
           .map(response => ({ data: response.data.objects, paging: response.data.paging }));
       }
     });
   }
 
-  ngOnInit() {
+  public onClick(event, row) {
+    console.log(event, row);
+  }
+
+  public proceed(link) {
+    this._router.navigateByUrl(link);
   }
 }

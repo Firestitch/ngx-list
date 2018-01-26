@@ -1,14 +1,10 @@
-<!-- container: [<ng-container #vc></ng-container>] -->
-
-<!-- <ng-template > -->
 <div class="fs-list-container">
   <!-- @TODO There was filters -->
   <div class="fs-list-filters" fxLayoutWrap>
-    <fs-filter *ngIf="list.filterService.fsConfig.items.length" [(filter)]="list.filterService"
+    <fs-filter *ngIf="config.filterService.fsConfig.items.length" [(filter)]="config.filterService"
                fxFlex="70"></fs-filter>
-    <div *ngIf="!list.filterService.fsConfig.items.length" fxFlex="30"></div>
-    <div class="fs-list-top-actions" *ngIf="list.topActions.length">
-            <span *ngFor="let action of list.topActions">
+    <div class="fs-list-top-actions" *ngIf="config.topActions?.length">
+            <span *ngFor="let action of config.topActions">
                 <button *ngIf="action.raised !== false" mat-raised-button
                         (click)="topActionsClick(action,$event)"
                         [ngClass]="{ 'mat-primary': action.primary !== false }">{{ action.label }}</button>
@@ -18,40 +14,20 @@
             </span>
     </div>
     <div fxFlex="40">
-      <fs-list-status [paging]="list.paging" *ngIf="list.paging"></fs-list-status>
+      <fs-list-status [paging]="config.paging" *ngIf="config.paging"></fs-list-status>
     </div>
   </div>
   <table class="fs-list" role="grid">
-    <!--<thead class="fs-list-head">
-        <tr class="fs-list-row">
-            <ng-template ngFor let-column [ngForOf]="list.columns">
-                <td class="fs-list-col fs-list-col-header fs-list-col-topheader" [attr.align]="column.align || 'left'">{{column.title}}</td>
-            </ng-template>
-        </tr>
-    </thead>-->
-    <thead class="fs-list-head">
-      <fs-row>
-        <fs-cell *ngFor="let column of list.columns"
-                 [ngClass]="'fs-list-col-header fs-list-col-topheader ' + (column.cssClasses || '')">
-          {{column.title }}
-        </fs-cell>
-      </fs-row>
-    </thead>
-    <tbody class="fs-list-body">
-      <ng-container #row></ng-container>
-    </tbody>
-    <!--<tbody class="fs-list-body">
-        <ng-template ngFor let-row [ngForOf]="list.data$ | async" let-rowIndex="index">
-            <tr class="fs-list-row">
-                <ng-template ngFor let-column [ngForOf]="list.columns" let-cellIndex="index">
-                    <td class="fs-list-col"
-                    [attr.align]="column.align || 'left'">
-                        <fs-cell *ngIf="column.template"></fs-cell>
-                        <ng-template *ngIf="!column.template">{{row[column.code].value}}</ng-template>
-                    </td>
-                </ng-template>
-            </tr>
-        </ng-template>
-    </tbody>-->
+    <fs-list-head
+      class="fs-list-head"
+      role="rowgroup"
+      [config]="config">
+    </fs-list-head>
+
+    <fs-list-body
+      class="fs-list-body"
+      role="rowgroup"
+      [config]="config">
+    </fs-list-body>
   </table>
 </div>

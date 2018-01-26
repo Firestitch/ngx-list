@@ -1,1 +1,32 @@
-<fs-list [list]="list"></fs-list>
+<fs-list [config]="config">
+
+  <fs-list-column title="№">
+    <ng-template fs-list-row-template let-index="index">
+      {{index}}
+    </ng-template>
+  </fs-list-column>
+
+  <fs-list-column name="name" title="Name">
+    <ng-template fs-list-row-template let-name="value" let-row="row">
+      This row's name is <input [(ngModel)]="test" (click)="onClick($event, row)"/>. {{ name }}
+    </ng-template>
+  </fs-list-column>
+
+  <fs-list-column name="guid" title="GUID">
+    <ng-template fs-list-row-template let-guid="value">
+      This row's guid is {{ guid }}.
+    </ng-template>
+  </fs-list-column>
+
+  <fs-list-column title="Link">
+    <ng-template fs-list-row-template let-guid="value">
+      <a routerLink="/welcome">Simple Link</a>
+    </ng-template>
+  </fs-list-column>
+
+  <fs-list-column title="Handler">
+    <ng-template fs-list-row-template>
+      <a (click)="proceed('/welcome')">Link Handler</a>
+    </ng-template>
+  </fs-list-column>
+</fs-list>
