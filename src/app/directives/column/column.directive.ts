@@ -1,5 +1,5 @@
 import { AfterViewInit, ContentChild, Directive, Input, TemplateRef } from '@angular/core';
-import { FsListRowTemplateDirective } from '../../directives';
+import { FsListRowTemplateDirective } from '../';
 
 @Directive({
   selector: 'fs-list-column'

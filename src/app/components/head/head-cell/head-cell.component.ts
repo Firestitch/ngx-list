@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FsCellComponent } from '../cell/cell.component';
+import { FsCellComponent } from '../../body/row/cell/cell.component';
 
 @Component({
   selector: 'fs-head-cell',

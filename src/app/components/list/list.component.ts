@@ -8,7 +8,7 @@ import {
   QueryList,
 } from '@angular/core';
 
-import { FsListColumnDirective } from '../column/column.component';
+import { FsListColumnDirective } from '../../directives';
 import { FsListConfig } from '../../models/list-config.model';
 
 @Component({

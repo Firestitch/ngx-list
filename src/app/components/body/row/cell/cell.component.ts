@@ -1,5 +1,5 @@
 import { Component, HostBinding, Input, OnInit } from '@angular/core';
-import { Column } from '../../models/column.model';
+import { Column } from '../../../../models/column.model';
 
 @Component({
   selector: 'fs-cell',

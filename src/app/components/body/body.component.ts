@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { Column } from '../../models/column.model';
 import { FsListConfig } from '../../models/list-config.model';
-import { FsRowComponent } from '../row/row.component';
+import { FsRowComponent } from './row/row.component';
 
 @Component({
   selector: 'fs-list-body',

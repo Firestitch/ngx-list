@@ -4,7 +4,7 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
-import { Column } from '../../models/column.model';
+import { Column } from '../../../models/column.model';
 
 @Component({
   selector: 'fs-list-row',
