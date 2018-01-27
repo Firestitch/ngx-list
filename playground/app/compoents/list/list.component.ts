@@ -21,6 +21,10 @@ export class ListComponent implements OnInit {
   public ngOnInit() {
     this.config = FsListConfig.create({
       inlineFilters: true,
+      paging: {
+        enabled: true,
+        limits: [5, 15, 20]
+      },
       filters: [
         {
           name: 'keyword',
@@ -58,6 +62,7 @@ export class ListComponent implements OnInit {
         }
       ],
       data: (query) => {
+        query.count = 23;
 
         // Connect to dummy api and disply the data
         // we need to return 3 types of data

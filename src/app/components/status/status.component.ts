@@ -1,24 +1,28 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { IPaging } from '../../interfaces';
+import { Pagination } from '../../models/pagination.model';
 
 @Component({
   selector: 'fs-list-status',
   templateUrl: 'status.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: [
+    './status.component.scss',
+  ]
 })
 export class FsStatusComponent implements OnInit {
-  @Input() public paging: IPaging;
+  @Input() public pagination: Pagination;
 
   constructor() {}
 
   get displayedRecords() {
-    return (this.paging.limit < this.paging.records) ? this.paging.limit : this.paging.records;
+    debugger;
+    return (this.pagination.limit < this.pagination.records) ? this.pagination.limit : this.pagination.records;
   }
 
   get total() {
-    return this.paging.records;
+    return this.pagination.records;
   }
 
   public ngOnInit() {
+    console.log(this.pagination);
   }
 }

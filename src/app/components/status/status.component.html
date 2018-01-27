@@ -1,3 +1,7 @@
-<span>
-  Showing {{displayedRecords}} of {{paging.records}} results
-</span>
+<div class="infinite-records" fxLayout="row" fxLayoutAlign="start center">
+  Showing&nbsp;<a [matMenuTriggerFor]="appMenu">{{pagination.displayed}}</a>&nbsp;of {{pagination.records}} results
+</div>
+
+<mat-menu #appMenu>
+  <button mat-menu-item *ngFor="let lim of pagination.limits" (click)="pagination.setLimit(lim)"> {{lim}} </button>
+</mat-menu>

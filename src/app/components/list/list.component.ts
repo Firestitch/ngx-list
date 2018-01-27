@@ -45,7 +45,9 @@ export class FsListComponent implements OnInit, AfterViewInit {
       this.config = new FsListConfig();
     }
 
-    this.config.load();
+    if (!this.config.filters || this.config.filters.length === 0) {
+      this.config.load();
+    }
   }
 
   public ngAfterViewInit() {

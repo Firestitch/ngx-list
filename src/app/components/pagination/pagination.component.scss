@@ -1,0 +1,46 @@
+.paging {
+
+  .pages {
+    text-align: center;
+    padding: 0;
+    margin: 0;
+
+    li {
+      display: inline-block;
+
+      a {
+        display: inline-block;
+        padding: 16px;
+        text-align: center;
+        color: #333;
+        text-decoration: none;
+        font-size: 15px;
+        cursor: pointer;
+      }
+
+      &:not(.page) a {
+        font-size: 19px;
+      }
+
+      &.disabled a {
+        pointer-events: none;
+        cursor: default;
+        color: #ccc;
+      }
+
+      &.active a {
+        font-weight: bold;
+      }
+    }
+  }
+
+  .records {
+    div {
+      margin-top: 10px;
+    }
+  }
+
+  .limits {
+
+  }
+}

@@ -13,10 +13,8 @@
                         [ngClass]="{ 'mat-primary': action.primary !== false }">{{ action.label }}</button>
             </span>
     </div>
-    <div fxFlex="40">
-      <fs-list-status [paging]="config.paging" *ngIf="config.paging"></fs-list-status>
-    </div>
   </div>
+  <fs-list-status [pagination]="config.paging" *ngIf="config.paging"></fs-list-status>
   <table class="fs-list" role="grid">
     <fs-list-head
       class="fs-list-head"
@@ -30,4 +28,6 @@
       [config]="config">
     </fs-list-body>
   </table>
+
+  <fs-list-pagination [pagination]="config.paging"></fs-list-pagination>
 </div>
