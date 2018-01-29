@@ -141,7 +141,7 @@ export class Pagination extends Model {
    * @param page
    */
   public goToPage(page) {
-    if (page >= 1 && page <= this.pages) {
+    if (page >= 1 && page <= this.pages && this.page !== page) {
       this.page = page;
       this.pageChanged.next(page);
     }

@@ -14,7 +14,7 @@
             </span>
     </div>
   </div>
-  <fs-list-status [pagination]="config.paging" *ngIf="config.paging"></fs-list-status>
+  <fs-list-status [sorting]="config.sorting" [paging]="config.paging" *ngIf="config.paging"></fs-list-status>
   <table class="fs-list" role="grid">
     <fs-list-head
       class="fs-list-head"
@@ -25,6 +25,7 @@
     <fs-list-body
       class="fs-list-body"
       role="rowgroup"
+      [class.loading]="config.loading"
       [config]="config">
     </fs-list-body>
   </table>

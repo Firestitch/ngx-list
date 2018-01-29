@@ -6,13 +6,13 @@
     </ng-template>
   </fs-list-column>
 
-  <fs-list-column name="name" title="Name">
+  <fs-list-column name="name" title="Name" [sortable]="true">
     <ng-template fs-list-row-template let-name="value" let-row="row">
       This row's name is <input [(ngModel)]="test" (click)="onClick($event, row)"/>. {{ name }}
     </ng-template>
   </fs-list-column>
 
-  <fs-list-column name="guid" title="GUID">
+  <fs-list-column name="guid" title="GUID" [sortable]="true">
     <ng-template fs-list-row-template let-guid="value">
       This row's guid is {{ guid }}.
     </ng-template>

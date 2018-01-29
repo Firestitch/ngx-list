@@ -1,10 +1,11 @@
 import { FsFilter } from '@firestitch/filter';
 
 import { Alias, Model} from 'tsmodels';
-import { Column } from './column.model';
+import { Column, SortingDirection } from './column.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { Pagination } from './pagination.model';
+import { Sorting } from './sorting.model';
 
 
 export class FsListConfig extends Model {
@@ -18,9 +19,11 @@ export class FsListConfig extends Model {
   public columns: Column[] = [];
   public persist: string;
   public paging = new Pagination();
+  public sorting = new Sorting(this.columns);
   public filterService = new FsFilter();
 
   public data$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  public loading = false;
 
   constructor(config: any = {}) {
     super();
@@ -30,7 +33,7 @@ export class FsListConfig extends Model {
 
     this.watchFilters();
     this.initPaging(config);
-    this.watchPaging();
+    this.subscribe();
   }
 
   public static create(config) {
@@ -38,18 +41,27 @@ export class FsListConfig extends Model {
   }
 
   public load() {
+    this.loading = true;
+
     const query = Object.assign({}, this.filtersQuery, this.paging.query);
+
+    if (this.sorting.sortingColumn) {
+      Object.assign(query, { order: `${this.sorting.sortingColumn.name},${this.sorting.sortingColumn.direction}`})
+    }
+
     const result: any = this.dataFn(query);
 
     if (result instanceof Promise) {
       result.then(response => {
         this.data$.next(response.data);
         this.paging.updatePaging(response.paging);
+        this.loading = false;
       });
     } else if (result instanceof Observable) {
       result.subscribe(response => {
         this.data$.next(response.data);
         this.paging.updatePaging(response.paging);
+        this.loading = false;
       });
     }
   }
@@ -61,8 +73,9 @@ export class FsListConfig extends Model {
   public tranformTemplatesToColumns(templates) {
     templates.forEach((column) => {
       const col = new Column(column);
+      if (col.sortable) { this.sorting.addSortableColumn(col); } // add column to sortable
       this.columns.push(col);
-    })
+    });
   }
 
   /**
@@ -81,10 +94,14 @@ export class FsListConfig extends Model {
   /**
    * Watch page changes
    */
-  private watchPaging() {
+  private subscribe() {
     this.paging.pageChanged.subscribe(() => {
       this.load();
     });
+
+    this.sorting.sortingChanged.subscribe(() => {
+      this.load();
+    })
   }
 
   /**

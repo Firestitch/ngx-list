@@ -1,7 +1,19 @@
 <div class="infinite-records" fxLayout="row" fxLayoutAlign="start center">
-  Showing&nbsp;<a [matMenuTriggerFor]="appMenu">{{pagination.displayed}}</a>&nbsp;of {{pagination.records}} results
+  Showing&nbsp;<a [matMenuTriggerFor]="limitsMenu">{{paging.displayed}}</a>&nbsp;of {{paging.records}} results
+  <span *ngIf="sorting.sortingColumn">&nbsp;ordered by
+    <a class="order-toggle" [matMenuTriggerFor]="orderColumnsMenu">{{sorting.sortingColumn.title}}</a>,
+    <a class="order-toggle" [matMenuTriggerFor]="orderDirectionMenu">{{sorting.sortingColumn.fullNameDirection}}</a></span>
 </div>
 
-<mat-menu #appMenu>
-  <button mat-menu-item *ngFor="let lim of pagination.limits" (click)="pagination.setLimit(lim)"> {{lim}} </button>
+<mat-menu #limitsMenu>
+  <button mat-menu-item *ngFor="let lim of paging.limits" (click)="setSortableColumn(column)"> {{lim}} </button>
+</mat-menu>
+
+<mat-menu #orderColumnsMenu>
+  <button mat-menu-item *ngFor="let column of sorting.sortingColumns" (click)="setSortableColumn(column)">{{column.title}}</button>
+</mat-menu>
+
+<mat-menu #orderDirectionMenu>
+  <button mat-menu-item (click)="setDirection(OrderDirection.asc)"> ascending </button>
+  <button mat-menu-item (click)="setDirection(OrderDirection.desc)"> descending </button>
 </mat-menu>

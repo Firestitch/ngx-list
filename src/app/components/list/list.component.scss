@@ -5,6 +5,7 @@ fs-list {
   table.fs-list {
     display: table;
     width: 100%;
+    border-collapse: collapse;
 
     .fs-list-head {
       display: table-header-group;
@@ -15,11 +16,49 @@ fs-list {
         font-size: 14px;
         padding: 8px;
         font-weight: normal;
+
+        &.order {
+
+          cursor: pointer;
+          &:hover {
+            background-color: #F6F6F6;
+          }
+        }
+
+        .wrap {
+          display: inline-flex;
+          vertical-align: middle;
+          white-space: nowrap;
+
+          mat-icon {
+            font-size: 14px;
+            display: block;
+            height: 14px;
+            width: 14px;
+          }
+        }
+
+        &.sorting {
+          background-image: none;
+        }
       }
     }
 
     .fs-list-body {
       display: table-row-group;
+      position: relative;
+
+      &.loading {
+        opacity: 0.4;
+      }
+
+      .fs-list-row:hover .fs-list-col {
+        background-color: #f6f6f6;
+      }
+
+      .fs-list-row:last-child .fs-list-col {
+        border-bottom: 2px solid #ddd;
+      }
     }
 
     .fs-list-head, .fs-list-body {
@@ -61,3 +100,7 @@ fs-list {
 //      -webkit-font-feature-settings: 'liga';
 //      -webkit-font-smoothing: antialiased;
 //    }
+
+
+
+
