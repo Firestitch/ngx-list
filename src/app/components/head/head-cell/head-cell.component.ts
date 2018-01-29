@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { FsCellComponent } from '../../body/row/cell/cell.component';
 
 @Component({

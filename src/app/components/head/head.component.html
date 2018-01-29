@@ -2,5 +2,6 @@
   <fs-head-cell *ngFor="let column of config.columns"
                 (click)="config.sorting.sortBy(column)"
                 [column]="column"
-                [class.order]="column.sortable"></fs-head-cell>
+                [class.sorting]="column.sortable"
+                [ngClass]="column.headStyles"></fs-head-cell>
 </div>

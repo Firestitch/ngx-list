@@ -27,4 +27,8 @@ export class FsStatusComponent {
   public setSortableColumn(column) {
     this.sorting.sortBy(column, false);
   }
+
+  public setLimit(limit) {
+    this.paging.setLimit(limit);
+  }
 }

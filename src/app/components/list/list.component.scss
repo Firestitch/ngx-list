@@ -17,7 +17,7 @@ fs-list {
         padding: 8px;
         font-weight: normal;
 
-        &.order {
+        &.sorting {
 
           cursor: pointer;
           &:hover {
@@ -73,6 +73,19 @@ fs-list {
         }
 
         .fs-list-col {
+
+          &.left {
+            text-align: left;
+          }
+
+          &.center {
+            text-align: center;
+          }
+
+          &.right {
+            text-align: right;
+          }
+
           display: table-cell;
 
           border-top: 1px solid #ddd;

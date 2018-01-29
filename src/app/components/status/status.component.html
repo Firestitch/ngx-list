@@ -6,7 +6,7 @@
 </div>
 
 <mat-menu #limitsMenu>
-  <button mat-menu-item *ngFor="let lim of paging.limits" (click)="setSortableColumn(column)"> {{lim}} </button>
+  <button mat-menu-item *ngFor="let lim of paging.limits" (click)="setLimit(lim)"> {{lim}} </button>
 </mat-menu>
 
 <mat-menu #orderColumnsMenu>

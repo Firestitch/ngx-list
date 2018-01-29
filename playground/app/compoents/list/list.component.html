@@ -12,13 +12,13 @@
     </ng-template>
   </fs-list-column>
 
-  <fs-list-column name="guid" title="GUID" [sortable]="true">
+  <fs-list-column name="guid" title="GUID" headerAlign="center" [sortable]="true">
     <ng-template fs-list-row-template let-guid="value">
       This row's guid is {{ guid }}.
     </ng-template>
   </fs-list-column>
 
-  <fs-list-column title="Link">
+  <fs-list-column title="Link" cellAlign="right" [cellClass]="['myTestClass', 'myTestClass2']">
     <ng-template fs-list-row-template let-guid="value">
       <a routerLink="/welcome">Simple Link</a>
     </ng-template>
