@@ -10,6 +10,5 @@ import { FsApi } from '@firestitch/api';
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent {
-  constructor(fsArray: FsArray, fsApi: FsApi) {
-  }
+
 }

@@ -8,12 +8,13 @@ import { FsApiModule } from '@firestitch/api';
 import { FsListModule } from '../src';
 
 import { AppComponent } from './app/app.component';
+import { AppMaterialModule } from './app/material.module';
 import { ListComponent } from './app/compoents/list/list.component';
 import { WelcomeComponent } from './app/compoents/welcome/welcome.component';
 
 import 'rxjs/add/operator/map';
 
-import './vendor.scss';
+import './../tools/assets/playground.scss';
 
 @NgModule({
   bootstrap: [ AppComponent ],
@@ -24,6 +25,7 @@ import './vendor.scss';
   ],
   imports: [
     BrowserModule,
+    AppMaterialModule,
     FsListModule,
     BrowserAnimationsModule,
     FsApiModule,

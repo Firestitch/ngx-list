@@ -8,13 +8,15 @@
 
   <fs-list-column name="name" title="Name">
     <ng-template fs-list-row-template let-name="value" let-row="row">
-      This row's name is <input [(ngModel)]="test" (click)="onClick($event, row)"/>. {{ name }}
+      <mat-form-field>
+        <input matInput [(ngModel)]="row.guid" (click)="onClick($event, row)">
+      </mat-form-field>
     </ng-template>
   </fs-list-column>
 
   <fs-list-column name="guid" title="GUID">
-    <ng-template fs-list-row-template let-guid="value">
-      This row's guid is {{ guid }}.
+    <ng-template fs-list-row-template let-guid="value" let-row="row">
+      This row's guid is {{ row.guid }} ({{guid}}).
     </ng-template>
   </fs-list-column>
 

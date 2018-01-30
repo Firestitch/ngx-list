@@ -19,8 +19,17 @@ export class ListComponent implements OnInit {
   }
 
   public ngOnInit() {
+
+    // FsList
+    // instance
+    // controller
+
+    // this.fslist = FsList.create({...})
+    //<fs-list [fsList]="fsList">
+    //<fs-list [controller]="controller">
+
     this.config = FsListConfig.create({
-      inlineFilters: true,
+      //inlineFilters: true,
       filters: [
         {
           name: 'keyword',
@@ -41,20 +50,42 @@ export class ListComponent implements OnInit {
           }
         }
       ],
-      topActions: [
+      actions: [
         {
-          click: (filters, event) => {
-            console.log(filters);
+          click: (event) => {
+            console.log(event);
           },
-          primary: false,
-          label: 'Pretty Button 2'
+          label: 'Primary Button'
         },
         {
-          click: (filters, event) => {
-            console.log(filters);
+          click: (event) => {
+            console.log(event);
           },
-          raised: false,
-          label: 'Pretty Button'
+          label: 'Secondary Button'
+        }
+      ],
+      rowActions: [
+        {
+          click: (event) => {
+            console.log(event);
+          },
+          icon: 'edit'
+        },
+        {
+          click: (event) => {
+            console.log(event);
+          },
+          icon: 'delete'
+        }
+      ],
+      rowEvents: [
+        {
+          hover: function(event) {
+
+          },
+          click: function(event) {
+
+          }
         }
       ],
       data: (query) => {
@@ -74,6 +105,8 @@ export class ListComponent implements OnInit {
   }
 
   public onClick(event, row) {
+
+    //this.config.reload();
     console.log(event, row);
   }
 

@@ -5,5 +5,5 @@
     "skipTemplateCodegen": true,
     "annotationsAs": "decorators"
   },
-  "extends": "./configs/tsconfig.aot.json"
+  "extends": "./tools/config/tsconfig.aot.json"
 }

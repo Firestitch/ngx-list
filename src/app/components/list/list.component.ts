@@ -15,10 +15,8 @@ import { FsListConfig } from '../../models/list-config.model';
   selector: 'fs-list',
   templateUrl: 'list.component.html',
   styleUrls: [
-    './list.component.scss',
-    './list-actions.component.scss'
-  ],
-  encapsulation: ViewEncapsulation.None
+    './list.component.scss'
+  ]
 })
 export class FsListComponent implements OnInit, AfterViewInit {
   @Input() public config;
@@ -38,6 +36,10 @@ export class FsListComponent implements OnInit, AfterViewInit {
   }
 
   constructor() {
+  }
+
+  public actionClick() {
+    alert('TODO');
   }
 
   public ngOnInit() {

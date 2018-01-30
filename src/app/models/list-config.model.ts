@@ -9,7 +9,8 @@ import { Observable } from 'rxjs/Observable';
 
 export class FsListConfig extends Model {
   @Alias() public inlineFilters: any;
-  @Alias() public topActions: any;
+  @Alias() public actions: any;
+  @Alias() public rowActions: any;
   @Alias() public filters: any;
   @Alias() public columnTemplates: any;
   @Alias('data') public dataFn: any;
