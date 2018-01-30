@@ -1,9 +1,10 @@
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
 import { Column } from '../../../../models/column.model';
 
 @Component({
   selector: 'fs-cell',
-  templateUrl: 'cell.component.html'
+  templateUrl: 'cell.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FsCellComponent implements OnInit {
   @HostBinding('class.fs-list-col') isColl = true;

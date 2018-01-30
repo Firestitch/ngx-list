@@ -124,6 +124,7 @@ export class Pagination extends Model {
    */
   public setLimit(limit) {
     this.limit = limit;
+    this.resetPaging();
     this.pageChanged.next();
   }
 
@@ -145,6 +146,10 @@ export class Pagination extends Model {
       this.page = page;
       this.pageChanged.next(page);
     }
+  }
+
+  public resetPaging() {
+    this.page = 1;
   }
 
   /**

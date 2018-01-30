@@ -1,5 +1,4 @@
-import { Component, Input } from '@angular/core';
-import { FsListConfig } from '../../models/list-config.model';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { SortingDirection } from '../../models/column.model';
 import { Pagination } from '../../models/pagination.model';
 import { Sorting } from '../../models/sorting.model';
@@ -9,15 +8,22 @@ import { Sorting } from '../../models/sorting.model';
   templateUrl: 'status.component.html',
   styleUrls: [
     './status.component.scss',
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FsStatusComponent {
+export class FsStatusComponent implements OnInit {
   @Input() public paging: Pagination;
   @Input() public sorting: Sorting;
+  @Input() public dataChangedRef;
 
   public OrderDirection = SortingDirection;
-  constructor() {
+  constructor(private cdRef: ChangeDetectorRef) {
+  }
 
+  public ngOnInit() {
+    this.dataChangedRef.subscribe(() => {
+      this.cdRef.markForCheck();
+    })
   }
 
   public setDirection(direction: SortingDirection) {

@@ -23,7 +23,7 @@ export class ListComponent implements OnInit {
       inlineFilters: true,
       paging: {
         enabled: true,
-        limits: [5, 15, 20]
+        limits: [5, 15, 50, 150, 250, 500, 1000]
       },
       filters: [
         {
@@ -62,7 +62,7 @@ export class ListComponent implements OnInit {
         }
       ],
       data: (query) => {
-        query.count = 23;
+        query.count = 500;
 
         // Connect to dummy api and disply the data
         // we need to return 3 types of data

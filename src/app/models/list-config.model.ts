@@ -53,15 +53,15 @@ export class FsListConfig extends Model {
 
     if (result instanceof Promise) {
       result.then(response => {
-        this.data$.next(response.data);
         this.paging.updatePaging(response.paging);
         this.loading = false;
+        this.data$.next(response.data);
       });
     } else if (result instanceof Observable) {
       result.subscribe(response => {
-        this.data$.next(response.data);
         this.paging.updatePaging(response.paging);
         this.loading = false;
+        this.data$.next(response.data);
       });
     }
   }

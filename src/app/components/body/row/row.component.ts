@@ -1,40 +1,38 @@
 import {
-  AfterContentInit,
-  Component,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component, DoCheck,
   HostBinding,
   Input,
+  KeyValueDiffer,
+  KeyValueDiffers,
 } from '@angular/core';
 import { Column } from '../../../models/column.model';
 
 @Component({
   selector: 'fs-list-row',
   templateUrl: 'row.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FsRowComponent {
+export class FsRowComponent implements DoCheck {
   @HostBinding('class.fs-list-row') t = true;
   @HostBinding('attr.role') role = 'row';
 
-  @Input() row: any;
+  @Input() public row: any;
+
   @Input() rowIndex: number;
   @Input() columns: Column[];
-  // @Input() listModel: FsList;
 
-  // @ViewChildren(FsCellComponent) cells: QueryList<any>;
+  private _rowDiffer: KeyValueDiffer<{}, {}>;
 
-  constructor() {
-    // this.cells.forEach((cell, index) => {
-    //   console.log(cell);
-    //   cell.colIndex = index;
-    // })
+  constructor(private cdRef: ChangeDetectorRef,
+              private differs: KeyValueDiffers) {
+    this._rowDiffer = differs.find({}).create();
   }
 
-  // public ngAfterContentInit() {
-  //   if (this.cells) {
-  //     this.cells.forEach((cell, index) => {
-  //       // console.log(cell);
-  //       cell.colIndex = index;
-  //       cell.listModel = this.listModel;
-  //     })
-  //   }
-  // }
+  public ngDoCheck() {
+    if (this._rowDiffer.diff(this.row)) {
+      this.cdRef.markForCheck();
+    }
+  }
 }

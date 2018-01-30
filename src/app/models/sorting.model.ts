@@ -44,6 +44,9 @@ export class Sorting {
     if (column.ordered && (column.sortingDirection === SortingDirection.desc && doubleSelectBehaviour)) {
       this.sortingColumn = void 0;
       column.ordered = false;
+
+      this.sortingChanged.next();
+
       return true;
     }
 
