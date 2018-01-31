@@ -1,0 +1,12 @@
+<ng-template [ngTemplateOutlet]="column.headTemplate || headCell" [ngTemplateOutletContext]="cellContext"></ng-template>
+
+<ng-template #headCell let-value="value">
+
+  <div class="wrap">
+    <span class="title">{{value}}</span>
+    <div class="direction" *ngIf="column.ordered" [ngSwitch]="column.sortingDirection">
+      <mat-icon class="material-icons" role="img" aria-label="arrow_downward" *ngSwitchCase="0">arrow_downward</mat-icon>
+      <mat-icon class="material-icons" role="img" aria-label="arrow_upward" *ngSwitchCase="1">arrow_upward</mat-icon>
+    </div>
+  </div>
+</ng-template>

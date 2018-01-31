@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("@angular/core"), require("rxjs/BehaviorSubject"), require("rxjs/Observable"), require("@angular/common"), require("@angular/forms"), require("@angular/material"), require("@angular/router"), require("rxjs/add/observable/forkJoin"), require("@angular/flex-layout"), require("rxjs/add/operator/filter"));
+		module.exports = factory(require("@angular/core"), require("rxjs/Subject"), require("rxjs/BehaviorSubject"), require("rxjs/Observable"), require("@angular/common"), require("@angular/forms"), require("@angular/material"), require("@angular/router"), require("rxjs/add/observable/forkJoin"), require("@angular/flex-layout"), require("rxjs/add/operator/filter"));
 	else if(typeof define === 'function' && define.amd)
-		define("@firestitch/list", ["@angular/core", "rxjs/BehaviorSubject", "rxjs/Observable", "@angular/common", "@angular/forms", "@angular/material", "@angular/router", "rxjs/add/observable/forkJoin", "@angular/flex-layout", "rxjs/add/operator/filter"], factory);
+		define("@firestitch/list", ["@angular/core", "rxjs/Subject", "rxjs/BehaviorSubject", "rxjs/Observable", "@angular/common", "@angular/forms", "@angular/material", "@angular/router", "rxjs/add/observable/forkJoin", "@angular/flex-layout", "rxjs/add/operator/filter"], factory);
 	else if(typeof exports === 'object')
-		exports["@firestitch/list"] = factory(require("@angular/core"), require("rxjs/BehaviorSubject"), require("rxjs/Observable"), require("@angular/common"), require("@angular/forms"), require("@angular/material"), require("@angular/router"), require("rxjs/add/observable/forkJoin"), require("@angular/flex-layout"), require("rxjs/add/operator/filter"));
+		exports["@firestitch/list"] = factory(require("@angular/core"), require("rxjs/Subject"), require("rxjs/BehaviorSubject"), require("rxjs/Observable"), require("@angular/common"), require("@angular/forms"), require("@angular/material"), require("@angular/router"), require("rxjs/add/observable/forkJoin"), require("@angular/flex-layout"), require("rxjs/add/operator/filter"));
 	else
-		root["@firestitch/list"] = factory(root["@angular/core"], root["rxjs/BehaviorSubject"], root["rxjs/Observable"], root["@angular/common"], root["@angular/forms"], root["@angular/material"], root["@angular/router"], root["rxjs/add/observable/forkJoin"], root["@angular/flex-layout"], root["rxjs/add/operator/filter"]);
-})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE__angular_core__, __WEBPACK_EXTERNAL_MODULE_rxjs_BehaviorSubject__, __WEBPACK_EXTERNAL_MODULE_rxjs_Observable__, __WEBPACK_EXTERNAL_MODULE__angular_common__, __WEBPACK_EXTERNAL_MODULE__angular_forms__, __WEBPACK_EXTERNAL_MODULE__angular_material__, __WEBPACK_EXTERNAL_MODULE__angular_router__, __WEBPACK_EXTERNAL_MODULE_rxjs_add_observable_forkJoin__, __WEBPACK_EXTERNAL_MODULE__angular_flex_layout__, __WEBPACK_EXTERNAL_MODULE_rxjs_add_operator_filter__) {
+		root["@firestitch/list"] = factory(root["@angular/core"], root["rxjs/Subject"], root["rxjs/BehaviorSubject"], root["rxjs/Observable"], root["@angular/common"], root["@angular/forms"], root["@angular/material"], root["@angular/router"], root["rxjs/add/observable/forkJoin"], root["@angular/flex-layout"], root["rxjs/add/operator/filter"]);
+})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE__angular_core__, __WEBPACK_EXTERNAL_MODULE_rxjs_Subject__, __WEBPACK_EXTERNAL_MODULE_rxjs_BehaviorSubject__, __WEBPACK_EXTERNAL_MODULE_rxjs_Observable__, __WEBPACK_EXTERNAL_MODULE__angular_common__, __WEBPACK_EXTERNAL_MODULE__angular_forms__, __WEBPACK_EXTERNAL_MODULE__angular_material__, __WEBPACK_EXTERNAL_MODULE__angular_router__, __WEBPACK_EXTERNAL_MODULE_rxjs_add_observable_forkJoin__, __WEBPACK_EXTERNAL_MODULE__angular_flex_layout__, __WEBPACK_EXTERNAL_MODULE_rxjs_add_operator_filter__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -3516,6 +3516,36 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 /***/ }),
 
+/***/ "../node_modules/css-loader/index.js?{\"sourceMap\":true}!../node_modules/postcss-loader/lib/index.js?{\"sourceMap\":true}!../node_modules/resolve-url-loader/index.js?{\"sourceMap\":true,\"absolute\":false,\"fail\":false,\"silent\":false,\"keepQuery\":false,\"attempts\":0,\"debug\":false,\"root\":null,\"includeRoot\":false}!../node_modules/sass-loader/lib/loader.js?{\"sourceMap\":true}!./app/components/pagination/pagination.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../node_modules/css-loader/lib/css-base.js")(true);
+// imports
+
+
+// module
+exports.push([module.i, ".paging .pages {\n  text-align: center;\n  padding: 0;\n  margin: 0;\n}\n\n.paging .pages li {\n  display: inline-block;\n}\n\n.paging .pages li a {\n  display: inline-block;\n  padding: 16px;\n  text-align: center;\n  color: #333;\n  text-decoration: none;\n  font-size: 15px;\n  cursor: pointer;\n}\n\n.paging .pages li:not(.page) a {\n  font-size: 19px;\n}\n\n.paging .pages li.disabled a {\n  pointer-events: none;\n  cursor: default;\n  color: #ccc;\n}\n\n.paging .pages li.active a {\n  font-weight: bold;\n}\n\n.paging .records div {\n  margin-top: 10px;\n}\n\n", "", {"version":3,"sources":["C:/Projects/fs-list/src/app/components/pagination/C:/Projects/fs-list/src/app/components/pagination/src/app/components/pagination/pagination.component.scss","C:/Projects/fs-list/src/app/components/pagination/C:/Projects/fs-list/pagination.component.scss"],"names":[],"mappings":"AAEE;EACE,mBAAA;EACA,WAAA;EACA,UAAA;CCDH;;ADJD;EAQM,sBAAA;CCAL;;ADRD;EAWQ,sBAAA;EACA,cAAA;EACA,mBAAA;EACA,YAAA;EACA,sBAAA;EACA,gBAAA;EACA,gBAAA;CCCP;;ADEkB;EACX,gBAAA;CCCP;;ADEgB;EACT,qBAAA;EACA,gBAAA;EACA,YAAA;CCCP;;AD5BD;EA+BQ,kBAAA;CCCP;;ADhCD;EAsCM,iBAAA;CCFL","file":"pagination.component.scss","sourcesContent":[".paging {\r\n\r\n  .pages {\r\n    text-align: center;\r\n    padding: 0;\r\n    margin: 0;\r\n\r\n    li {\r\n      display: inline-block;\r\n\r\n      a {\r\n        display: inline-block;\r\n        padding: 16px;\r\n        text-align: center;\r\n        color: #333;\r\n        text-decoration: none;\r\n        font-size: 15px;\r\n        cursor: pointer;\r\n      }\r\n\r\n      &:not(.page) a {\r\n        font-size: 19px;\r\n      }\r\n\r\n      &.disabled a {\r\n        pointer-events: none;\r\n        cursor: default;\r\n        color: #ccc;\r\n      }\r\n\r\n      &.active a {\r\n        font-weight: bold;\r\n      }\r\n    }\r\n  }\r\n\r\n  .records {\r\n    div {\r\n      margin-top: 10px;\r\n    }\r\n  }\r\n\r\n  .limits {\r\n\r\n  }\r\n}\r\n",".paging .pages {\n  text-align: center;\n  padding: 0;\n  margin: 0;\n}\n\n.paging .pages li {\n  display: inline-block;\n}\n\n.paging .pages li a {\n  display: inline-block;\n  padding: 16px;\n  text-align: center;\n  color: #333;\n  text-decoration: none;\n  font-size: 15px;\n  cursor: pointer;\n}\n\n.paging .pages li:not(.page) a {\n  font-size: 19px;\n}\n\n.paging .pages li.disabled a {\n  pointer-events: none;\n  cursor: default;\n  color: #ccc;\n}\n\n.paging .pages li.active a {\n  font-weight: bold;\n}\n\n.paging .records div {\n  margin-top: 10px;\n}\n\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "../node_modules/css-loader/index.js?{\"sourceMap\":true}!../node_modules/postcss-loader/lib/index.js?{\"sourceMap\":true}!../node_modules/resolve-url-loader/index.js?{\"sourceMap\":true,\"absolute\":false,\"fail\":false,\"silent\":false,\"keepQuery\":false,\"attempts\":0,\"debug\":false,\"root\":null,\"includeRoot\":false}!../node_modules/sass-loader/lib/loader.js?{\"sourceMap\":true}!./app/components/status/status.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../node_modules/css-loader/lib/css-base.js")(true);
+// imports
+
+
+// module
+exports.push([module.i, ".infinite-records {\n  color: #999;\n  font-size: 13px;\n  margin-left: 4px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: block;\n}\n\n.infinite-records a {\n  color: #546E7A;\n}\n\n.infinite-records .order-toggle {\n  cursor: pointer;\n  padding-left: 4px;\n}\n\n.infinite-records .saved-filters {\n  float: right;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n\n", "", {"version":3,"sources":["C:/Projects/fs-list/src/app/components/status/C:/Projects/fs-list/src/app/components/status/src/app/components/status/status.component.scss","C:/Projects/fs-list/src/app/components/status/C:/Projects/fs-list/status.component.scss"],"names":[],"mappings":"AAAA;EACE,YAAA;EACA,gBAAA;EACA,iBAAA;EACA,oBAAA;EACA,iBAAA;EACA,wBAAA;EACA,eAAA;CCCD;;ADRD;EAUG,eAAA;CCEF;;ADCC;EACE,gBAAA;EACA,kBAAA;CCEH;;ADjBD;EAmBI,aAAA;EACA,qBAAA;EAAA,qBAAA;EAAA,cAAA;CCEH","file":"status.component.scss","sourcesContent":[".infinite-records {\r\n  color: #999;\r\n  font-size: 13px;\r\n  margin-left: 4px;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\r\n  display: block;\r\n\r\n  a {\r\n   color: #546E7A;\r\n  }\r\n\r\n  .order-toggle {\r\n    cursor: pointer;\r\n    padding-left: 4px;\r\n  }\r\n\r\n  .saved-filters {\r\n    float: right;\r\n    display: flex;\r\n  }\r\n}\r\n",".infinite-records {\n  color: #999;\n  font-size: 13px;\n  margin-left: 4px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: block;\n}\n\n.infinite-records a {\n  color: #546E7A;\n}\n\n.infinite-records .order-toggle {\n  cursor: pointer;\n  padding-left: 4px;\n}\n\n.infinite-records .saved-filters {\n  float: right;\n  display: flex;\n}\n\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "../node_modules/css-loader/index.js?{\"sourceMap\":true}!../node_modules/postcss-loader/lib/index.js?{\"sourceMap\":true}!../node_modules/resolve-url-loader/index.js?{\"sourceMap\":true}!../node_modules/sass-loader/lib/loader.js?{\"sourceMap\":true}!./app/components/list/list.component.scss":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3524,7 +3554,7 @@ exports = module.exports = __webpack_require__("../node_modules/css-loader/lib/c
 
 
 // module
-exports.push([module.i, "fs-list {\n  width: 100%;\n  display: block;\n}\n\nfs-list .fs-list-container {\n  position: relative;\n}\n\nfs-list .fs-list-container .material-icons {\n  font-family: 'Material Icons';\n  font-weight: normal;\n  font-style: normal;\n  line-height: 1;\n  letter-spacing: normal;\n  text-transform: none;\n  display: inline-block;\n  white-space: nowrap;\n  word-wrap: normal;\n  direction: ltr;\n  -webkit-font-feature-settings: 'liga';\n  -webkit-font-smoothing: antialiased;\n}\n\nfs-list .fs-list-container .fs-list-filters .fs-list-top-actions {\n  margin-left: 10px;\n}\n\nfs-list .fs-list-container .fs-list-filters .fs-list-top-actions .action-button mat-icon {\n  margin-right: 5px;\n}\n\nfs-list .fs-list-container .fs-list-filters .fs-list-top-actions .mat-button {\n  margin-top: 0;\n  margin-bottom: 0;\n  margin-right: 0;\n}\n\nfs-list .fs-list-container table.fs-list {\n  display: table;\n  width: 100%;\n  border-collapse: collapse;\n}\n\nfs-list .fs-list-container table.fs-list .fs-list-head .fs-list-col {\n  border-bottom: 2px solid #ddd;\n  color: #999;\n  font-size: 14px;\n  padding: 8px;\n  font-weight: normal;\n}\n\nfs-list .fs-list-container table.fs-list .fs-list-body {\n  position: relative;\n}\n\nfs-list .fs-list-container table.fs-list .fs-list-body .fs-list-row:nth-child(1) .fs-list-col {\n  border-top: 0px;\n}\n\nfs-list .fs-list-container table.fs-list .fs-list-body .fs-list-row:last-child .fs-list-col {\n  border-bottom: 2px solid #ddd;\n}\n\nfs-list .fs-list-container table.fs-list .fs-list-body .fs-list-col {\n  border-top: 1px solid #ddd;\n  padding: 8px;\n  vertical-align: middle;\n  outline: none;\n}\n\n", "", {"version":3,"sources":["/Users/Basters/dev/firestitch/fs-list/src/app/components/list/src/app/components/list/list.component.scss","/Users/Basters/dev/firestitch/fs-list/list.component.scss"],"names":[],"mappings":"AAAA;EACI,YAAA;EACA,eAAA;CCCH;;ADAG;EACI,mBAAA;CCGP;;ADPD;EAMY,8BAAA;EACA,oBAAA;EACA,mBAAA;EACA,eAAA;EACA,uBAAA;EACA,qBAAA;EACA,sBAAA;EACA,oBAAA;EACA,kBAAA;EACA,eAAA;EACA,sCAAA;EACA,oCAAA;CCKX;;ADDW;EACI,kBAAA;CCIf;;ADF8B;EACX,kBAAA;CCKnB;;ADFe;EACI,cAAA;EACA,iBAAA;EACA,gBAAA;CCKnB;;ADpCD;EAqCY,eAAA;EACA,YAAA;EACA,0BAAA;CCGX;;AD1CD;EA6CoB,8BAAA;EACA,YAAA;EACA,gBAAA;EACA,aAAA;EACA,oBAAA;CCCnB;;ADEW;EACI,mBAAA;CCCf;;ADCkC;EACX,gBAAA;CCEvB;;AD1DD;EA2DwB,8BAAA;CCGvB;;AD9DD;EA+DoB,2BAAA;EACA,aAAA;EACA,uBAAA;EACA,cAAA;CCGnB","file":"list.component.scss","sourcesContent":["fs-list {\n    width: 100%;\n    display: block;\n    .fs-list-container {\n        position: relative;\n        .material-icons {\n            font-family: 'Material Icons';\n            font-weight: normal;\n            font-style: normal;\n            line-height: 1;\n            letter-spacing: normal;\n            text-transform: none;\n            display: inline-block;\n            white-space: nowrap;\n            word-wrap: normal;\n            direction: ltr;\n            -webkit-font-feature-settings: 'liga';\n            -webkit-font-smoothing: antialiased;\n        }\n\n        .fs-list-filters {\n            .fs-list-top-actions {\n                margin-left: 10px;\n\n                .action-button mat-icon {\n                    margin-right: 5px;\n                }\n\n                .mat-button {\n                    margin-top: 0;\n                    margin-bottom: 0;\n                    margin-right: 0;\n                }\n            }\n        }\n\n        table.fs-list {\n            display: table;\n            width: 100%;\n            border-collapse: collapse;\n            .fs-list-head {\n                .fs-list-row {\n\n                }\n                .fs-list-col {\n                    border-bottom: 2px solid #ddd;\n                    color: #999;\n                    font-size: 14px;\n                    padding: 8px;\n                    font-weight: normal;\n                }\n            }\n            .fs-list-body {\n                position: relative;\n                .fs-list-row {\n                    &:nth-child(1) .fs-list-col {\n                        border-top: 0px;\n                    }\n                    &:last-child .fs-list-col {\n                        border-bottom: 2px solid #ddd;\n                    }\n                }\n                .fs-list-col {\n                    border-top: 1px solid #ddd;\n                    padding: 8px;\n                    vertical-align: middle;\n                    outline: none;\n                }\n            }\n        }\n    }\n}\n\n","fs-list {\n  width: 100%;\n  display: block;\n}\n\nfs-list .fs-list-container {\n  position: relative;\n}\n\nfs-list .fs-list-container .material-icons {\n  font-family: 'Material Icons';\n  font-weight: normal;\n  font-style: normal;\n  line-height: 1;\n  letter-spacing: normal;\n  text-transform: none;\n  display: inline-block;\n  white-space: nowrap;\n  word-wrap: normal;\n  direction: ltr;\n  -webkit-font-feature-settings: 'liga';\n  -webkit-font-smoothing: antialiased;\n}\n\nfs-list .fs-list-container .fs-list-filters .fs-list-top-actions {\n  margin-left: 10px;\n}\n\nfs-list .fs-list-container .fs-list-filters .fs-list-top-actions .action-button mat-icon {\n  margin-right: 5px;\n}\n\nfs-list .fs-list-container .fs-list-filters .fs-list-top-actions .mat-button {\n  margin-top: 0;\n  margin-bottom: 0;\n  margin-right: 0;\n}\n\nfs-list .fs-list-container table.fs-list {\n  display: table;\n  width: 100%;\n  border-collapse: collapse;\n}\n\nfs-list .fs-list-container table.fs-list .fs-list-head .fs-list-col {\n  border-bottom: 2px solid #ddd;\n  color: #999;\n  font-size: 14px;\n  padding: 8px;\n  font-weight: normal;\n}\n\nfs-list .fs-list-container table.fs-list .fs-list-body {\n  position: relative;\n}\n\nfs-list .fs-list-container table.fs-list .fs-list-body .fs-list-row:nth-child(1) .fs-list-col {\n  border-top: 0px;\n}\n\nfs-list .fs-list-container table.fs-list .fs-list-body .fs-list-row:last-child .fs-list-col {\n  border-bottom: 2px solid #ddd;\n}\n\nfs-list .fs-list-container table.fs-list .fs-list-body .fs-list-col {\n  border-top: 1px solid #ddd;\n  padding: 8px;\n  vertical-align: middle;\n  outline: none;\n}\n\n"],"sourceRoot":""}]);
+exports.push([module.i, ":host {\n  width: 100%;\n  display: block;\n}\n\n.fs-list-table {\n  display: table;\n  width: 100%;\n  border-collapse: collapse;\n}\n\n:host ::ng-deep .fs-filter {\n  margin-bottom: 0;\n}\n\n:host ::ng-deep .fs-list-body {\n  display: table-row-group;\n  position: relative;\n}\n\n:host ::ng-deep .fs-list-body.loading {\n  opacity: 0.4;\n}\n\n:host ::ng-deep .fs-list-body .fs-list-row:hover .fs-list-col {\n  background-color: #f6f6f6;\n}\n\n:host ::ng-deep .fs-list-body .fs-list-row:last-child .fs-list-col {\n  border-bottom: 2px solid #ddd;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row,\n:host ::ng-deep .fs-list-body .fs-list-row {\n  display: table-row;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row:nth-child(1) .fs-list-col,\n:host ::ng-deep .fs-list-body .fs-list-row:nth-child(1) .fs-list-col {\n  border-top: 0;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row:last-child .fs-list-col,\n:host ::ng-deep .fs-list-body .fs-list-row:last-child .fs-list-col {\n  border-bottom: 2px solid #ddd;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col {\n  display: table-cell;\n  border-top: 1px solid #ddd;\n  padding: 8px;\n  vertical-align: middle;\n  outline: none;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.left,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.left {\n  text-align: left;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.center,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.center {\n  text-align: center;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.right,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.right {\n  text-align: right;\n}\n\n:host ::ng-deep .fs-list-filters .fs-list-actions {\n  margin-left: 10px;\n}\n\n:host ::ng-deep .fs-list-filters .fs-list-actions .action-button mat-icon {\n  margin-right: 5px;\n}\n\n:host ::ng-deep .fs-list-filters .fs-list-actions .mat-button {\n  margin-top: 0;\n  margin-bottom: 0;\n  margin-right: 0;\n}\n\n:host ::ng-deep .fs-list-head {\n  display: table-header-group;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col {\n  border-bottom: 2px solid #ddd;\n  color: #999;\n  font-size: 14px;\n  padding: 8px;\n  font-weight: normal;\n  font-size: 13px;\n  color: #8f8f8f;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col.sorting {\n  cursor: pointer;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col.sorting:hover {\n  background-color: #F6F6F6;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col .wrap {\n  display: -webkit-inline-box;\n  display: -ms-inline-flexbox;\n  display: inline-flex;\n  vertical-align: middle;\n  white-space: nowrap;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col .wrap mat-icon {\n  font-size: 14px;\n  display: block;\n  height: 14px;\n  width: 14px;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col.sorting {\n  background-image: none;\n}\n\n:host ::ng-deep fs-list-status {\n  font-size: 13px;\n  color: #3a3a3a;\n  padding-bottom: 10px;\n  display: block;\n}\n\n", "", {"version":3,"sources":["C:/Projects/fs-list/src/app/components/list/C:/Projects/fs-list/src/app/components/list/src/app/components/list/list.component.scss","C:/Projects/fs-list/src/app/components/list/C:/Projects/fs-list/list.component.scss"],"names":[],"mappings":"AAAA;EACE,YAAA;EACA,eAAA;CCCD;;ADED;EACE,eAAA;EACA,YAAA;EACA,0BAAA;CCCD;;ADIC;EACE,iBAAA;CCDH;;ADFD;EAOI,yBAAA;EACA,mBAAA;CCDH;;ADPD;EAWM,aAAA;CCAL;;ADXD;EAeM,0BAAA;CCAL;;ADG2B;EACtB,8BAAA;CCAL;;ADKG;;EACE,mBAAA;CCDL;;ADxBD;;EA4BQ,cAAA;CCCP;;ADCkB;;EACX,8BAAA;CCGP;;ADAK;;EAcE,oBAAA;EAEA,2BAAA;EACA,aAAA;EACA,uBAAA;EACA,cAAA;CCVP;;AD3CD;;EAqCU,iBAAA;CCWT;;ADhDD;;EAyCU,mBAAA;CCYT;;ADrDD;;EA6CU,kBAAA;CCaT;;AD1DD;EA4DM,kBAAA;CCEL;;AD9DD;EA+DQ,kBAAA;CCGP;;ADAK;EACE,cAAA;EACA,iBAAA;EACA,gBAAA;CCGP;;ADxED;EA2EI,4BAAA;CCCH;;AD5ED;EA8EM,8BAAA;EACA,YAAA;EACA,gBAAA;EACA,aAAA;EACA,oBAAA;EACA,gBAAA;EACA,eAAA;CCEL;;ADtFD;EAwFQ,gBAAA;CCEP;;AD1FD;EA0FU,0BAAA;CCIT;;ADAK;EACE,4BAAA;EAAA,4BAAA;EAAA,qBAAA;EACA,uBAAA;EACA,oBAAA;CCGP;;ADpGD;EAoGU,gBAAA;EACA,eAAA;EACA,aAAA;EACA,YAAA;CCIT;;AD9BG;EA+BI,uBAAA;CCGP;;ADEC;EACE,gBAAA;EACA,eAAA;EACA,qBAAA;EACA,eAAA;CCCH","file":"list.component.scss","sourcesContent":[":host {\r\n  width: 100%;\r\n  display: block;\r\n}\r\n\r\n.fs-list-table {\r\n  display: table;\r\n  width: 100%;\r\n  border-collapse: collapse;\r\n}\r\n\r\n:host ::ng-deep {\r\n\r\n  .fs-filter {\r\n    margin-bottom: 0;\r\n  }\r\n\r\n  .fs-list-body {\r\n    display: table-row-group;\r\n    position: relative;\r\n\r\n    &.loading {\r\n      opacity: 0.4;\r\n    }\r\n\r\n    .fs-list-row:hover .fs-list-col {\r\n      background-color: #f6f6f6;\r\n    }\r\n\r\n    .fs-list-row:last-child .fs-list-col {\r\n      border-bottom: 2px solid #ddd;\r\n    }\r\n  }\r\n\r\n  .fs-list-head, .fs-list-body {\r\n    .fs-list-row {\r\n      display: table-row;\r\n\r\n      &:nth-child(1) .fs-list-col {\r\n        border-top: 0;\r\n      }\r\n      &:last-child .fs-list-col {\r\n        border-bottom: 2px solid #ddd;\r\n      }\r\n\r\n      .fs-list-col {\r\n\r\n        &.left {\r\n          text-align: left;\r\n        }\r\n\r\n        &.center {\r\n          text-align: center;\r\n        }\r\n\r\n        &.right {\r\n          text-align: right;\r\n        }\r\n\r\n        display: table-cell;\r\n\r\n        border-top: 1px solid #ddd;\r\n        padding: 8px;\r\n        vertical-align: middle;\r\n        outline: none;\r\n      }\r\n    }\r\n  }\r\n\r\n  .fs-list-filters {\r\n    .fs-list-actions {\r\n      margin-left: 10px;\r\n\r\n      .action-button mat-icon {\r\n        margin-right: 5px;\r\n      }\r\n\r\n      .mat-button {\r\n        margin-top: 0;\r\n        margin-bottom: 0;\r\n        margin-right: 0;\r\n      }\r\n    }\r\n  }\r\n\r\n  .fs-list-head {\r\n    display: table-header-group;\r\n\r\n    .fs-list-col {\r\n      border-bottom: 2px solid #ddd;\r\n      color: #999;\r\n      font-size: 14px;\r\n      padding: 8px;\r\n      font-weight: normal;\r\n      font-size: 13px;\r\n      color: rgba(143, 143, 143, 1);\r\n\r\n      &.sorting {\r\n\r\n        cursor: pointer;\r\n        &:hover {\r\n          background-color: #F6F6F6;\r\n        }\r\n      }\r\n\r\n      .wrap {\r\n        display: inline-flex;\r\n        vertical-align: middle;\r\n        white-space: nowrap;\r\n\r\n        mat-icon {\r\n          font-size: 14px;\r\n          display: block;\r\n          height: 14px;\r\n          width: 14px;\r\n        }\r\n      }\r\n\r\n      &.sorting {\r\n        background-image: none;\r\n      }\r\n    }\r\n  }\r\n\r\n  fs-list-status {\r\n    font-size: 13px;\r\n    color: rgb(58, 58, 58);\r\n    padding-bottom: 10px;\r\n    display: block;\r\n  }\r\n}\r\n\r\n\r\n\r\n//    .material-icons {\r\n//      font-family: 'Material Icons';\r\n//      font-weight: normal;\r\n//      font-style: normal;\r\n//      line-height: 1;\r\n//      letter-spacing: normal;\r\n//      text-transform: none;\r\n//      display: inline-block;\r\n//      white-space: nowrap;\r\n//      word-wrap: normal;\r\n//      direction: ltr;\r\n//      -webkit-font-feature-settings: 'liga';\r\n//      -webkit-font-smoothing: antialiased;\r\n//    }\r\n",":host {\n  width: 100%;\n  display: block;\n}\n\n.fs-list-table {\n  display: table;\n  width: 100%;\n  border-collapse: collapse;\n}\n\n:host ::ng-deep .fs-filter {\n  margin-bottom: 0;\n}\n\n:host ::ng-deep .fs-list-body {\n  display: table-row-group;\n  position: relative;\n}\n\n:host ::ng-deep .fs-list-body.loading {\n  opacity: 0.4;\n}\n\n:host ::ng-deep .fs-list-body .fs-list-row:hover .fs-list-col {\n  background-color: #f6f6f6;\n}\n\n:host ::ng-deep .fs-list-body .fs-list-row:last-child .fs-list-col {\n  border-bottom: 2px solid #ddd;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row,\n:host ::ng-deep .fs-list-body .fs-list-row {\n  display: table-row;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row:nth-child(1) .fs-list-col,\n:host ::ng-deep .fs-list-body .fs-list-row:nth-child(1) .fs-list-col {\n  border-top: 0;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row:last-child .fs-list-col,\n:host ::ng-deep .fs-list-body .fs-list-row:last-child .fs-list-col {\n  border-bottom: 2px solid #ddd;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col {\n  display: table-cell;\n  border-top: 1px solid #ddd;\n  padding: 8px;\n  vertical-align: middle;\n  outline: none;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.left,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.left {\n  text-align: left;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.center,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.center {\n  text-align: center;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.right,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.right {\n  text-align: right;\n}\n\n:host ::ng-deep .fs-list-filters .fs-list-actions {\n  margin-left: 10px;\n}\n\n:host ::ng-deep .fs-list-filters .fs-list-actions .action-button mat-icon {\n  margin-right: 5px;\n}\n\n:host ::ng-deep .fs-list-filters .fs-list-actions .mat-button {\n  margin-top: 0;\n  margin-bottom: 0;\n  margin-right: 0;\n}\n\n:host ::ng-deep .fs-list-head {\n  display: table-header-group;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col {\n  border-bottom: 2px solid #ddd;\n  color: #999;\n  font-size: 14px;\n  padding: 8px;\n  font-weight: normal;\n  font-size: 13px;\n  color: #8f8f8f;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col.sorting {\n  cursor: pointer;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col.sorting:hover {\n  background-color: #F6F6F6;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col .wrap {\n  display: inline-flex;\n  vertical-align: middle;\n  white-space: nowrap;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col .wrap mat-icon {\n  font-size: 14px;\n  display: block;\n  height: 14px;\n  width: 14px;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col.sorting {\n  background-image: none;\n}\n\n:host ::ng-deep fs-list-status {\n  font-size: 13px;\n  color: #3a3a3a;\n  padding-bottom: 10px;\n  display: block;\n}\n\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -22928,6 +22958,127 @@ return hooks;
 
 /***/ }),
 
+/***/ "../node_modules/tsmodels/index.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__("../node_modules/tsmodels/src/alias.decorator.ts"));
+__export(__webpack_require__("../node_modules/tsmodels/src/application-model.ts"));
+
+
+/***/ }),
+
+/***/ "../node_modules/tsmodels/src/alias.decorator.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function Alias(alias, type) {
+    return function (target, propertyKey) {
+        target.constructor['_alias'] = target['constructor']['_alias'] || [];
+        target.constructor['_alias'].push({
+            key: propertyKey,
+            value: alias || propertyKey,
+            type: type
+        });
+    };
+}
+exports.Alias = Alias;
+
+
+/***/ }),
+
+/***/ "../node_modules/tsmodels/src/application-model.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Base class for model implementation
+ */
+var Model = (function () {
+    function Model() {
+    }
+    /**
+     * Converter of backend data to model format by aliases
+     *
+     * @param value data from backend
+     * @public
+     */
+    Model.prototype._fromJSON = function (value) {
+        var _this = this;
+        this.constructor['_alias']
+            .forEach(function (item) {
+            var newValue = value[item['value']];
+            if (item['type']) {
+                if (Array.isArray(newValue)) {
+                    _this[item['value']] = newValue.map(function (x) { return _this._createObject(item, x); });
+                }
+                else if (_this._isObject(newValue)) {
+                    _this[item['value']] = _this._createObject(item, newValue);
+                }
+            }
+            else {
+                _this[item['key']] = value[item['value']];
+            }
+        });
+    };
+    /**
+     * Converter of model format to backend data by aliases
+     *
+     * @return new object
+     * @public
+     */
+    Model.prototype._toJSON = function () {
+        var _this = this;
+        var obj = {};
+        this.constructor['_alias']
+            .forEach(function (item) {
+            var value = _this[item['key']];
+            if (item['type']) {
+                if (Array.isArray(value)) {
+                    obj[item['value']] = value.map(function (x) { return x._toJSON(); });
+                }
+                else if (_this._isObject(value)) {
+                    obj[item['value']] = value._toJSON();
+                }
+            }
+            else {
+                obj[item['value']] = _this[item['key']];
+            }
+        });
+        return obj;
+    };
+    Model.prototype._createObject = function (item, obj) {
+        var newObj = new item['type']();
+        newObj._fromJSON(obj);
+        return newObj;
+    };
+    Model.prototype._isObject = function (item) {
+        return Object.prototype.toString.call(item) === '[object Object]';
+    };
+    return Model;
+}());
+exports.Model = Model;
+/**
+ * @deprecated Use the `AppModel` instead. Will be remove in version 1.0.0
+ */
+exports.ApplicationModel = Model;
+/**
+ * @deprecated Use the `AppModel` instead. Will be remove in version 1.0.0
+ */
+exports.AppModel = Model;
+
+
+/***/ }),
+
 /***/ "../node_modules/webpack/buildin/module.js":
 /***/ (function(module, exports) {
 
@@ -22957,7 +23108,14 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./app/components/cell/cell.component.ts":
+/***/ "./app/components/body/body.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<ng-template #rowsContainer></ng-template>\r\n"
+
+/***/ }),
+
+/***/ "./app/components/body/body.component.ts":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22973,13 +23131,154 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("@angular/core");
+var row_component_1 = __webpack_require__("./app/components/body/row/row.component.ts");
+var FsBodyComponent = (function () {
+    function FsBodyComponent(cdRef, _componentFactoryResolver) {
+        this.cdRef = cdRef;
+        this._componentFactoryResolver = _componentFactoryResolver;
+        this.columns = [];
+        this._rowComponent = row_component_1.FsRowComponent;
+    }
+    Object.defineProperty(FsBodyComponent.prototype, "rows", {
+        get: function () {
+            return this._rows;
+        },
+        set: function (value) {
+            this._rows = value;
+            this.rowsContainer.clear();
+            this.initRowsComponents();
+            this.cdRef.markForCheck();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    FsBodyComponent.prototype.ngOnInit = function () {
+        // this.config.data$.subscribe((rows) => {
+        //
+        // })
+    };
+    FsBodyComponent.prototype.initRowsComponents = function () {
+        var _this = this;
+        this.rows.forEach(function (row, index) {
+            _this.initRowComponent(row, index);
+        });
+    };
+    FsBodyComponent.prototype.initRowComponent = function (data, index) {
+        var componentFactory = this._componentFactoryResolver.resolveComponentFactory(this._rowComponent);
+        var viewContainerRef = this.rowsContainer;
+        var componentRef = viewContainerRef.createComponent(componentFactory);
+        componentRef.instance.row = data;
+        componentRef.instance.rowIndex = index;
+        componentRef.instance.columns = this.columns;
+    };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], FsBodyComponent.prototype, "rows", null);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Array)
+    ], FsBodyComponent.prototype, "columns", void 0);
+    __decorate([
+        core_1.ViewChild('rowsContainer', { read: core_1.ViewContainerRef }),
+        __metadata("design:type", Object)
+    ], FsBodyComponent.prototype, "rowsContainer", void 0);
+    FsBodyComponent = __decorate([
+        core_1.Component({
+            selector: 'fs-list-body',
+            template: __webpack_require__("./app/components/body/body.component.html"),
+            changeDetection: core_1.ChangeDetectionStrategy.OnPush
+        }),
+        __metadata("design:paramtypes", [core_1.ChangeDetectorRef,
+            core_1.ComponentFactoryResolver])
+    ], FsBodyComponent);
+    return FsBodyComponent;
+}());
+exports.FsBodyComponent = FsBodyComponent;
+
+
+/***/ }),
+
+/***/ "./app/components/body/index.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__("./app/components/body/body.component.ts"));
+__export(__webpack_require__("./app/components/body/row/index.ts"));
+
+
+/***/ }),
+
+/***/ "./app/components/body/row/cell/cell.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<ng-template [ngTemplateOutlet]=\"column.template || cell\" [ngTemplateOutletContext]=\"cellContext\"></ng-template>\r\n\r\n<ng-template #cell let-value=\"value\">\r\n  {{value}}\r\n</ng-template>\r\n"
+
+/***/ }),
+
+/***/ "./app/components/body/row/cell/cell.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("@angular/core");
+var column_model_1 = __webpack_require__("./app/models/column.model.ts");
 var FsCellComponent = (function () {
     function FsCellComponent() {
+        this.isColl = true;
+        this.role = 'gridcell';
+        this.cellContext = {};
     }
+    FsCellComponent.prototype.ngOnInit = function () {
+        this.initCellContext();
+    };
+    FsCellComponent.prototype.initCellContext = function () {
+        this.cellContext.index = this.rowIndex + 1;
+        this.cellContext.row = this.row;
+        this.cellContext.column = this.column;
+        this.cellContext.value = this.row[this.column.name];
+    };
+    __decorate([
+        core_1.HostBinding('class.fs-list-col'),
+        __metadata("design:type", Object)
+    ], FsCellComponent.prototype, "isColl", void 0);
+    __decorate([
+        core_1.HostBinding('attr.role'),
+        __metadata("design:type", Object)
+    ], FsCellComponent.prototype, "role", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", column_model_1.Column)
+    ], FsCellComponent.prototype, "column", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], FsCellComponent.prototype, "row", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Number)
+    ], FsCellComponent.prototype, "rowIndex", void 0);
     FsCellComponent = __decorate([
         core_1.Component({
             selector: 'fs-cell',
-            template: '<!---->'
+            template: __webpack_require__("./app/components/body/row/cell/cell.component.html"),
+            changeDetection: core_1.ChangeDetectionStrategy.OnPush
         }),
         __metadata("design:paramtypes", [])
     ], FsCellComponent);
@@ -22990,7 +23289,7 @@ exports.FsCellComponent = FsCellComponent;
 
 /***/ }),
 
-/***/ "./app/components/cell/index.ts":
+/***/ "./app/components/body/row/cell/index.ts":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22999,7 +23298,252 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__("./app/components/cell/cell.component.ts"));
+__export(__webpack_require__("./app/components/body/row/cell/cell.component.ts"));
+
+
+/***/ }),
+
+/***/ "./app/components/body/row/index.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__("./app/components/body/row/row.component.ts"));
+__export(__webpack_require__("./app/components/body/row/cell/index.ts"));
+
+
+/***/ }),
+
+/***/ "./app/components/body/row/row.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<fs-cell *ngFor=\"let column of columns\" [column]=\"column\" [row]=\"row\" [rowIndex]=\"rowIndex\" [ngClass]=\"column.cellStyles\">\r\n</fs-cell>\r\n"
+
+/***/ }),
+
+/***/ "./app/components/body/row/row.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("@angular/core");
+var FsRowComponent = (function () {
+    function FsRowComponent(cdRef, differs) {
+        this.cdRef = cdRef;
+        this.differs = differs;
+        this.t = true;
+        this.role = 'row';
+        this._rowDiffer = differs.find({}).create();
+    }
+    FsRowComponent.prototype.ngDoCheck = function () {
+        if (this._rowDiffer.diff(this.row)) {
+            this.cdRef.markForCheck();
+        }
+    };
+    __decorate([
+        core_1.HostBinding('class.fs-list-row'),
+        __metadata("design:type", Object)
+    ], FsRowComponent.prototype, "t", void 0);
+    __decorate([
+        core_1.HostBinding('attr.role'),
+        __metadata("design:type", Object)
+    ], FsRowComponent.prototype, "role", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], FsRowComponent.prototype, "row", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Number)
+    ], FsRowComponent.prototype, "rowIndex", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Array)
+    ], FsRowComponent.prototype, "columns", void 0);
+    FsRowComponent = __decorate([
+        core_1.Component({
+            selector: 'fs-list-row',
+            template: __webpack_require__("./app/components/body/row/row.component.html"),
+            changeDetection: core_1.ChangeDetectionStrategy.OnPush
+        }),
+        __metadata("design:paramtypes", [core_1.ChangeDetectorRef,
+            core_1.KeyValueDiffers])
+    ], FsRowComponent);
+    return FsRowComponent;
+}());
+exports.FsRowComponent = FsRowComponent;
+
+
+/***/ }),
+
+/***/ "./app/components/head/head-cell/head-cell.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<ng-template [ngTemplateOutlet]=\"column.headTemplate || headCell\" [ngTemplateOutletContext]=\"cellContext\"></ng-template>\r\n\r\n<ng-template #headCell let-value=\"value\">\r\n\r\n  <div class=\"wrap\">\r\n    <span class=\"title\">{{value}}</span>\r\n    <div class=\"direction\" *ngIf=\"column.ordered\" [ngSwitch]=\"column.sortingDirection\">\r\n      <mat-icon class=\"material-icons\" role=\"img\" aria-label=\"arrow_downward\" *ngSwitchCase=\"0\">arrow_downward</mat-icon>\r\n      <mat-icon class=\"material-icons\" role=\"img\" aria-label=\"arrow_upward\" *ngSwitchCase=\"1\">arrow_upward</mat-icon>\r\n    </div>\r\n  </div>\r\n</ng-template>\r\n"
+
+/***/ }),
+
+/***/ "./app/components/head/head-cell/head-cell.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("@angular/core");
+var cell_component_1 = __webpack_require__("./app/components/body/row/cell/cell.component.ts");
+var FsHeadCellComponent = (function (_super) {
+    __extends(FsHeadCellComponent, _super);
+    function FsHeadCellComponent(cdRef, differs) {
+        var _this = _super.call(this) || this;
+        _this.cdRef = cdRef;
+        _this.differs = differs;
+        _this.cellContext = {};
+        _this._columnDiffer = differs.find({}).create();
+        return _this;
+    }
+    FsHeadCellComponent.prototype.ngDoCheck = function () {
+        if (this._columnDiffer.diff(this.column)) {
+            this.cdRef.markForCheck();
+        }
+    };
+    FsHeadCellComponent.prototype.initCellContext = function () {
+        this.cellContext.value = this.column.title;
+    };
+    FsHeadCellComponent = __decorate([
+        core_1.Component({
+            selector: 'fs-head-cell',
+            template: __webpack_require__("./app/components/head/head-cell/head-cell.component.html"),
+            changeDetection: core_1.ChangeDetectionStrategy.OnPush
+        }),
+        __metadata("design:paramtypes", [core_1.ChangeDetectorRef,
+            core_1.KeyValueDiffers])
+    ], FsHeadCellComponent);
+    return FsHeadCellComponent;
+}(cell_component_1.FsCellComponent));
+exports.FsHeadCellComponent = FsHeadCellComponent;
+
+
+/***/ }),
+
+/***/ "./app/components/head/head-cell/index.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__("./app/components/head/head-cell/head-cell.component.ts"));
+
+
+/***/ }),
+
+/***/ "./app/components/head/head.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"fs-list-row\">\r\n  <fs-head-cell *ngFor=\"let column of columns\"\r\n                (click)=\"sorting.sortBy(column)\"\r\n                [column]=\"column\"\r\n                [class.sorting]=\"column.sortable\"\r\n                [ngClass]=\"column.headStyles\"></fs-head-cell>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "./app/components/head/head.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("@angular/core");
+var sorting_model_1 = __webpack_require__("./app/models/sorting.model.ts");
+var FsHeadComponent = (function () {
+    function FsHeadComponent(cdRef) {
+        this.cdRef = cdRef;
+    }
+    FsHeadComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.sorting.sortingChanged.subscribe(function () {
+            _this.cdRef.markForCheck();
+        });
+    };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", sorting_model_1.Sorting)
+    ], FsHeadComponent.prototype, "sorting", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Array)
+    ], FsHeadComponent.prototype, "columns", void 0);
+    __decorate([
+        core_1.ViewChild('rowsContainer', { read: core_1.ViewContainerRef }),
+        __metadata("design:type", Object)
+    ], FsHeadComponent.prototype, "rowsContainer", void 0);
+    FsHeadComponent = __decorate([
+        core_1.Component({
+            selector: 'fs-list-head',
+            template: __webpack_require__("./app/components/head/head.component.html"),
+            changeDetection: core_1.ChangeDetectionStrategy.OnPush
+        }),
+        __metadata("design:paramtypes", [core_1.ChangeDetectorRef])
+    ], FsHeadComponent);
+    return FsHeadComponent;
+}());
+exports.FsHeadComponent = FsHeadComponent;
+
+
+/***/ }),
+
+/***/ "./app/components/head/index.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__("./app/components/head/head.component.ts"));
+__export(__webpack_require__("./app/components/head/head-cell/index.ts"));
 
 
 /***/ }),
@@ -23013,8 +23557,14 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__("./app/components/cell/index.ts"));
+__export(__webpack_require__("./app/components/body/row/cell/index.ts"));
 __export(__webpack_require__("./app/components/list/index.ts"));
+__export(__webpack_require__("./app/components/status/index.ts"));
+__export(__webpack_require__("./app/components/body/row/index.ts"));
+__export(__webpack_require__("./app/directives/column/index.ts"));
+__export(__webpack_require__("./app/components/body/index.ts"));
+__export(__webpack_require__("./app/components/head/index.ts"));
+__export(__webpack_require__("./app/components/pagination/index.ts"));
 
 
 /***/ }),
@@ -23036,7 +23586,7 @@ __export(__webpack_require__("./app/components/list/list.component.ts"));
 /***/ "./app/components/list/list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- container: [<ng-container #vc></ng-container>] -->\n\n<!-- <ng-template > -->\n<div class=\"fs-list-container\">\n    <!-- @TODO There was filters -->\n    <div class=\"fs-list-filters\" fxLayout=\"row\">\n        <fs-filter *ngIf=\"list.filterService.fsConfig.items.length\" [(filter)]=\"list.filterService\" fxFlex></fs-filter>\n        <div *ngIf=\"!list.filterService.fsConfig.items.length\" fxFlex></div>\n        <div class=\"fs-list-top-actions\" *ngIf=\"list.topActions.length\">\n            <span *ngFor=\"let action of list.topActions\">\n                <button *ngIf=\"action.raised !== false\" mat-raised-button (click)=\"topActionsClick(action,$event)\" [ngClass]=\"{ 'mat-primary': action.primary !== false }\">{{ action.label }}</button>\n                <button *ngIf=\"action.raised === false\" mat-button (click)=\"topActionsClick(action,$event)\" [ngClass]=\"{ 'mat-primary': action.primary !== false }\">{{ action.label }}</button>\n            </span>\n        </div>\n    </div>\n\n    <table class=\"fs-list\">\n        <thead class=\"fs-list-head\">\n            <tr class=\"fs-list-row\">\n                <ng-template ngFor let-column [ngForOf]=\"list.columns\">\n                    <td class=\"fs-list-col fs-list-col-header fs-list-col-topheader\" [attr.align]=\"column.align || 'left'\">{{column.title}}</td>\n                </ng-template>\n            </tr>\n        </thead>\n        <tbody class=\"fs-list-body\">\n            <ng-template ngFor let-row [ngForOf]=\"list.data$ | async\" let-rowIndex=\"index\">\n                <tr class=\"fs-list-row\">\n                    <ng-template ngFor let-column [ngForOf]=\"list.columns\" let-cellIndex=\"index\">\n                        <td class=\"fs-list-col\"\n                        [attr.align]=\"column.align || 'left'\">\n                            <fs-cell *ngIf=\"column.template\"></fs-cell>\n                            <ng-template *ngIf=\"!column.template\">{{row[column.code].value}}</ng-template>\n                        </td>\n                    </ng-template>\n                </tr>\n            </ng-template>\n        </tbody>\n    </table>\n</div>\n"
+module.exports = "<div class=\"fs-list-container\">\r\n  <div class=\"fs-list-filters\" fxLayoutRow>\r\n    <fs-filter *ngIf=\"config.filterService.fsConfig.items.length\" [(filter)]=\"config.filterService\" fxFlex></fs-filter>\r\n    <div class=\"fs-list-actions\" *ngIf=\"config.actions?.length\">\r\n      <span *ngFor=\"let action of config.actions\">\r\n          <button mat-raised-button\r\n                  (click)=\"actionClick(action,$event)\"\r\n                  [ngClass]=\"{ 'mat-primary': action.primary }\">{{ action.label }}</button>\r\n      </span>\r\n    </div>\r\n  </div>\r\n  <fs-list-status [dataChangedRef]=\"config.data$\" [sorting]=\"config.sorting\" [paging]=\"config.paging\" *ngIf=\"config.paging\"></fs-list-status>\r\n  <table class=\"fs-list-table\" role=\"grid\">\r\n    <fs-list-head\r\n      class=\"fs-list-head\"\r\n      role=\"rowgroup\"\r\n      [columns]=\"config.columns\"\r\n      [sorting]=\"config.sorting\">\r\n    </fs-list-head>\r\n\r\n    <fs-list-body\r\n      class=\"fs-list-body\"\r\n      role=\"rowgroup\"\r\n      [class.loading]=\"config.loading\"\r\n      [rows]=\"rows\"\r\n      [columns]=\"config.columns\">\r\n    </fs-list-body>\r\n  </table>\r\n\r\n  <fs-list-pagination [dataChangedRef]=\"config.data$\" [pagination]=\"config.paging\"></fs-list-pagination>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -23071,111 +23621,405 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("@angular/core");
-var cell_component_1 = __webpack_require__("./app/components/cell/cell.component.ts");
-var fslist_1 = __webpack_require__("./fslist.ts");
+var directives_1 = __webpack_require__("./app/directives/index.ts");
+var list_config_model_1 = __webpack_require__("./app/models/list-config.model.ts");
 var FsListComponent = (function () {
-    function FsListComponent(compiler, _injector, _m, app) {
-        this.compiler = compiler;
-        this._injector = _injector;
-        this._m = _m;
-        this.app = app;
-        this.components = [];
+    function FsListComponent(cdRef) {
+        this.cdRef = cdRef;
+        this.rows = [];
     }
-    FsListComponent.prototype.ngAfterViewInit = function () {
-        var _this = this;
-        if (this.list.filters && this.list.filters.length) {
-            setTimeout(function () {
-                _this.list.filterService.fsConfig = {
-                    persist: _this.list.persist,
-                    items: _this.list.filters,
-                    inline: _this.list.inlineFilters,
-                    init: function (instance) {
-                        _this.list.load(instance.gets({ flatten: true }));
-                    },
-                    change: function (query, instance) {
-                        _this.list.load(instance.gets({ flatten: true }));
-                    }
-                };
-            });
-        }
-        else {
-            this.list.load({});
-        }
-        this.items.changes
-            .subscribe(function (cellRef) {
-            _this.renderColumns();
-        });
+    Object.defineProperty(FsListComponent.prototype, "columnTemplates", {
+        /**
+         * Set columns to config
+         * Create Column Model instances
+         *
+         * @param {QueryList<FsListColumnDirective>} val
+         */
+        set: function (val) {
+            this.config.tranformTemplatesToColumns(val);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    FsListComponent.prototype.actionClick = function () {
+        alert('TODO');
     };
-    FsListComponent.prototype.renderColumns = function () {
+    FsListComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.components = [];
-        this.compiler.clearCache();
-        this.list.data$.value.forEach(function (row) {
-            _this.list.columns.forEach(function (column) {
-                var component = core_1.Component({
-                    template: column.template,
-                    encapsulation: core_1.ViewEncapsulation.Emulated,
-                    styles: []
-                })((function () {
-                    function class_1() {
-                        this.row = row;
-                    }
-                    // public column = column;
-                    class_1.prototype.ngOnInit = function () {
-                        Object.assign(this, column.data || {});
-                    };
-                    return class_1;
-                }()));
-                _this.components.push(component);
-            });
-        });
-        var tmpModule = core_1.NgModule({
-            declarations: this.components,
-            imports: this.list.imports
-        })((function () {
-            function class_2() {
-            }
-            return class_2;
-        }()));
-        this.compiler.compileModuleAndAllComponentsAsync(tmpModule)
-            .then(function (factories) {
-            _this.items.forEach(function (item, index) {
-                var cmpRef = factories.componentFactories[index].create(_this._injector, [], null, _this._m);
-                cmpRef.instance.name = 'dynamic' + index;
-                item.insert(cmpRef.hostView);
-            });
-        });
-    };
-    FsListComponent.prototype.topActionsClick = function (action, $event) {
-        if (action.click) {
-            action.click(this.list.filtersQuery, $event);
+        if (!this.config) {
+            this.config = new list_config_model_1.FsListConfig();
         }
+        if (!this.config.filters || this.config.filters.length === 0) {
+            this.config.load();
+        }
+        this.config.data$.subscribe(function (rows) {
+            _this.rows = rows;
+            _this.cdRef.markForCheck();
+        });
     };
     __decorate([
         core_1.Input(),
-        __metadata("design:type", fslist_1.FsList)
-    ], FsListComponent.prototype, "list", void 0);
-    __decorate([
-        core_1.ViewChild('vc', { read: core_1.ViewContainerRef }),
         __metadata("design:type", Object)
-    ], FsListComponent.prototype, "vc", void 0);
+    ], FsListComponent.prototype, "config", void 0);
     __decorate([
-        core_1.ViewChildren(cell_component_1.FsCellComponent, { read: core_1.ViewContainerRef }),
-        __metadata("design:type", core_1.QueryList)
-    ], FsListComponent.prototype, "items", void 0);
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], FsListComponent.prototype, "columns", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], FsListComponent.prototype, "inlineFilters", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], FsListComponent.prototype, "rows", void 0);
+    __decorate([
+        core_1.ContentChildren(directives_1.FsListColumnDirective),
+        __metadata("design:type", core_1.QueryList),
+        __metadata("design:paramtypes", [core_1.QueryList])
+    ], FsListComponent.prototype, "columnTemplates", null);
     FsListComponent = __decorate([
         core_1.Component({
             selector: 'fs-list',
             template: __webpack_require__("./app/components/list/list.component.html"),
-            styles: [__webpack_require__("./app/components/list/list.component.scss")],
-            encapsulation: core_1.ViewEncapsulation.None
+            styles: [
+                __webpack_require__("./app/components/list/list.component.scss"),
+            ],
+            changeDetection: core_1.ChangeDetectionStrategy.OnPush
         }),
-        __metadata("design:paramtypes", [core_1.Compiler, core_1.Injector,
-            core_1.NgModuleRef, core_1.ApplicationRef])
+        __metadata("design:paramtypes", [core_1.ChangeDetectorRef])
     ], FsListComponent);
     return FsListComponent;
 }());
 exports.FsListComponent = FsListComponent;
+
+
+/***/ }),
+
+/***/ "./app/components/pagination/index.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__("./app/components/pagination/pagination.component.ts"));
+
+
+/***/ }),
+
+/***/ "./app/components/pagination/pagination.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"paging\" fxLayout=\"row\" *ngIf=\"pagination?.pagesArray && pagination.pagesArray.length > 0\">\r\n  <div class=\"records\"></div>\r\n  <div fxFlex>\r\n    <ul class=\"pages\">\r\n      <li class=\"first\" [class.disabled]=\"!pagination.hasPrevPage\">\r\n        <a (click)=\"pagination.goFirst()\">&laquo;</a>\r\n      </li>\r\n      <li class=\"previous\" [class.disabled]=\"!pagination.hasPrevPage\">\r\n        <a (click)=\"pagination.goPrev()\">‹</a>\r\n      </li>\r\n      <li class=\"page\" *ngFor=\"let page of pagination.pagesArray;\"\r\n          [class.active]=\"pagination.isActive(page)\"\r\n      >\r\n        <a (click)=\"pagination.goToPage(page)\">{{ page }}</a>\r\n      </li>\r\n      <li class=\"next\" [class.disabled]=\"!pagination.hasNextPage\">\r\n        <a (click)=\"pagination.goNext()\">›</a>\r\n      </li>\r\n      <li class=\"last\" [class.disabled]=\"!pagination.hasNextPage\">\r\n        <a (click)=\"pagination.goLast()\">&raquo;</a>\r\n      </li>\r\n    </ul>\r\n  </div>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "./app/components/pagination/pagination.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+
+        var result = __webpack_require__("../node_modules/css-loader/index.js?{\"sourceMap\":true}!../node_modules/postcss-loader/lib/index.js?{\"sourceMap\":true}!../node_modules/resolve-url-loader/index.js?{\"sourceMap\":true,\"absolute\":false,\"fail\":false,\"silent\":false,\"keepQuery\":false,\"attempts\":0,\"debug\":false,\"root\":null,\"includeRoot\":false}!../node_modules/sass-loader/lib/loader.js?{\"sourceMap\":true}!./app/components/pagination/pagination.component.scss");
+
+        if (typeof result === "string") {
+            module.exports = result;
+        } else {
+            module.exports = result.toString();
+        }
+    
+
+/***/ }),
+
+/***/ "./app/components/pagination/pagination.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("@angular/core");
+var BehaviorSubject_1 = __webpack_require__("rxjs/BehaviorSubject");
+var pagination_model_1 = __webpack_require__("./app/models/pagination.model.ts");
+var FsPaginationComponent = (function () {
+    function FsPaginationComponent(cdRef) {
+        this.cdRef = cdRef;
+    }
+    FsPaginationComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.dataChangedRef.subscribe(function () {
+            _this.cdRef.markForCheck();
+        });
+    };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", pagination_model_1.Pagination)
+    ], FsPaginationComponent.prototype, "pagination", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", BehaviorSubject_1.BehaviorSubject)
+    ], FsPaginationComponent.prototype, "dataChangedRef", void 0);
+    FsPaginationComponent = __decorate([
+        core_1.Component({
+            selector: 'fs-list-pagination',
+            template: __webpack_require__("./app/components/pagination/pagination.component.html"),
+            styles: [
+                __webpack_require__("./app/components/pagination/pagination.component.scss")
+            ],
+            changeDetection: core_1.ChangeDetectionStrategy.OnPush
+        }),
+        __metadata("design:paramtypes", [core_1.ChangeDetectorRef])
+    ], FsPaginationComponent);
+    return FsPaginationComponent;
+}());
+exports.FsPaginationComponent = FsPaginationComponent;
+
+
+/***/ }),
+
+/***/ "./app/components/status/index.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__("./app/components/status/status.component.ts"));
+
+
+/***/ }),
+
+/***/ "./app/components/status/status.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"infinite-records\" fxLayout=\"row\" fxLayoutAlign=\"start center\">\r\n  Showing&nbsp;<a [matMenuTriggerFor]=\"limitsMenu\">{{paging.displayed}}</a>&nbsp;of {{paging.records}} results\r\n  <span *ngIf=\"sorting.sortingColumn\">&nbsp;ordered by\r\n    <a class=\"order-toggle\" [matMenuTriggerFor]=\"orderColumnsMenu\">{{sorting.sortingColumn.title}}</a>,\r\n    <a class=\"order-toggle\" [matMenuTriggerFor]=\"orderDirectionMenu\">{{sorting.sortingColumn.fullNameDirection}}</a></span>\r\n</div>\r\n\r\n<mat-menu #limitsMenu>\r\n  <button mat-menu-item *ngFor=\"let lim of paging.limits\" (click)=\"setLimit(lim)\"> {{lim}} </button>\r\n</mat-menu>\r\n\r\n<mat-menu #orderColumnsMenu>\r\n  <button mat-menu-item *ngFor=\"let column of sorting.sortingColumns\" (click)=\"setSortableColumn(column)\">{{column.title}}</button>\r\n</mat-menu>\r\n\r\n<mat-menu #orderDirectionMenu>\r\n  <button mat-menu-item (click)=\"setDirection(OrderDirection.asc)\"> ascending </button>\r\n  <button mat-menu-item (click)=\"setDirection(OrderDirection.desc)\"> descending </button>\r\n</mat-menu>\r\n"
+
+/***/ }),
+
+/***/ "./app/components/status/status.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+
+        var result = __webpack_require__("../node_modules/css-loader/index.js?{\"sourceMap\":true}!../node_modules/postcss-loader/lib/index.js?{\"sourceMap\":true}!../node_modules/resolve-url-loader/index.js?{\"sourceMap\":true,\"absolute\":false,\"fail\":false,\"silent\":false,\"keepQuery\":false,\"attempts\":0,\"debug\":false,\"root\":null,\"includeRoot\":false}!../node_modules/sass-loader/lib/loader.js?{\"sourceMap\":true}!./app/components/status/status.component.scss");
+
+        if (typeof result === "string") {
+            module.exports = result;
+        } else {
+            module.exports = result.toString();
+        }
+    
+
+/***/ }),
+
+/***/ "./app/components/status/status.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("@angular/core");
+var column_model_1 = __webpack_require__("./app/models/column.model.ts");
+var pagination_model_1 = __webpack_require__("./app/models/pagination.model.ts");
+var sorting_model_1 = __webpack_require__("./app/models/sorting.model.ts");
+var FsStatusComponent = (function () {
+    function FsStatusComponent(cdRef) {
+        this.cdRef = cdRef;
+        this.OrderDirection = column_model_1.SortingDirection;
+    }
+    FsStatusComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.dataChangedRef.subscribe(function () {
+            _this.cdRef.markForCheck();
+        });
+    };
+    FsStatusComponent.prototype.setDirection = function (direction) {
+        this.sorting.setSortDirection(direction);
+    };
+    FsStatusComponent.prototype.setSortableColumn = function (column) {
+        this.sorting.sortBy(column, false);
+    };
+    FsStatusComponent.prototype.setLimit = function (limit) {
+        this.paging.setLimit(limit);
+    };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", pagination_model_1.Pagination)
+    ], FsStatusComponent.prototype, "paging", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", sorting_model_1.Sorting)
+    ], FsStatusComponent.prototype, "sorting", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], FsStatusComponent.prototype, "dataChangedRef", void 0);
+    FsStatusComponent = __decorate([
+        core_1.Component({
+            selector: 'fs-list-status',
+            template: __webpack_require__("./app/components/status/status.component.html"),
+            styles: [
+                __webpack_require__("./app/components/status/status.component.scss"),
+            ],
+            changeDetection: core_1.ChangeDetectionStrategy.OnPush
+        }),
+        __metadata("design:paramtypes", [core_1.ChangeDetectorRef])
+    ], FsStatusComponent);
+    return FsStatusComponent;
+}());
+exports.FsStatusComponent = FsStatusComponent;
+
+
+/***/ }),
+
+/***/ "./app/directives/column/column.directive.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("@angular/core");
+var _1 = __webpack_require__("./app/directives/index.ts");
+var FsListColumnDirective = (function () {
+    function FsListColumnDirective() {
+    }
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], FsListColumnDirective.prototype, "title", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], FsListColumnDirective.prototype, "name", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], FsListColumnDirective.prototype, "sortable", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], FsListColumnDirective.prototype, "headerAlign", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], FsListColumnDirective.prototype, "headerClass", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], FsListColumnDirective.prototype, "cellAlign", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], FsListColumnDirective.prototype, "cellClass", void 0);
+    __decorate([
+        core_1.ContentChild(_1.FsListRowTemplateDirective, { read: core_1.TemplateRef }),
+        __metadata("design:type", core_1.TemplateRef)
+    ], FsListColumnDirective.prototype, "template", void 0);
+    FsListColumnDirective = __decorate([
+        core_1.Directive({
+            selector: 'fs-list-column'
+        })
+    ], FsListColumnDirective);
+    return FsListColumnDirective;
+}());
+exports.FsListColumnDirective = FsListColumnDirective;
+
+
+/***/ }),
+
+/***/ "./app/directives/column/index.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__("./app/directives/column/column.directive.ts"));
+
+
+/***/ }),
+
+/***/ "./app/directives/index.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__("./app/directives/row-detail-template/index.ts"));
+__export(__webpack_require__("./app/directives/column/index.ts"));
+
+
+/***/ }),
+
+/***/ "./app/directives/row-detail-template/index.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__("./app/directives/row-detail-template/row-template.directive.ts"));
+
+
+/***/ }),
+
+/***/ "./app/directives/row-detail-template/row-template.directive.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("@angular/core");
+var FsListRowTemplateDirective = (function () {
+    function FsListRowTemplateDirective() {
+    }
+    FsListRowTemplateDirective = __decorate([
+        core_1.Directive({ selector: '[fs-list-row-template]' })
+    ], FsListRowTemplateDirective);
+    return FsListRowTemplateDirective;
+}());
+exports.FsListRowTemplateDirective = FsListRowTemplateDirective;
 
 
 /***/ }),
@@ -23190,6 +24034,647 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(__webpack_require__("./app/components/index.ts"));
+__export(__webpack_require__("./app/models/index.ts"));
+__export(__webpack_require__("./app/directives/index.ts"));
+
+
+/***/ }),
+
+/***/ "./app/models/column.model.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var tsmodels_1 = __webpack_require__("../node_modules/tsmodels/index.ts");
+var SortingDirection;
+(function (SortingDirection) {
+    SortingDirection[SortingDirection["asc"] = 0] = "asc";
+    SortingDirection[SortingDirection["desc"] = 1] = "desc";
+})(SortingDirection = exports.SortingDirection || (exports.SortingDirection = {}));
+var Column = (function (_super) {
+    __extends(Column, _super);
+    function Column(colConfig) {
+        if (colConfig === void 0) { colConfig = {}; }
+        var _this = _super.call(this) || this;
+        _this.headerClass = '';
+        _this.cellClass = '';
+        _this.headStyles = [];
+        _this.cellStyles = [];
+        _this._ordered = false;
+        _this._fromJSON(colConfig);
+        if (colConfig.template) {
+            _this.template = colConfig.template;
+        }
+        _this.headStyles = _this.getClassesArray(_this.headerAlign, _this.headerClass);
+        _this.cellStyles = _this.getClassesArray(_this.cellAlign, _this.cellClass);
+        return _this;
+    }
+    Object.defineProperty(Column.prototype, "direction", {
+        get: function () {
+            return (this.sortingDirection === SortingDirection.asc) ? 'asc' : 'desc';
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Column.prototype, "fullNameDirection", {
+        get: function () {
+            return (this.sortingDirection === SortingDirection.asc) ? 'ascending' : 'descending';
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Column.prototype, "ordered", {
+        get: function () {
+            return this._ordered;
+        },
+        set: function (value) {
+            this._ordered = value;
+            if (value) {
+                this.sortingDirection = SortingDirection.asc;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Column.prototype.getAlignClass = function (align) {
+        if (align && ['left', 'center', 'right'].indexOf(align) > -1) {
+            return align;
+        }
+        else {
+            return 'left';
+        }
+    };
+    Column.prototype.getClassesArray = function (align, cssClass) {
+        var alignClass = this.getAlignClass(align) || [];
+        var classArray = [];
+        if (Array.isArray(cssClass)) {
+            classArray = classArray.concat(cssClass, alignClass);
+        }
+        else if (cssClass) {
+            classArray = classArray.concat(cssClass, alignClass);
+        }
+        else {
+            classArray = classArray.concat(this.getAlignClass(align));
+        }
+        return classArray;
+    };
+    Column.prototype.changeDirection = function () {
+        if (this.sortingDirection === SortingDirection.asc) {
+            this.sortingDirection = SortingDirection.desc;
+        }
+        else {
+            this.sortingDirection = SortingDirection.asc;
+        }
+    };
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", String)
+    ], Column.prototype, "title", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", String)
+    ], Column.prototype, "name", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", Boolean)
+    ], Column.prototype, "sortable", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", String)
+    ], Column.prototype, "headerAlign", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", Object)
+    ], Column.prototype, "headerClass", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", String)
+    ], Column.prototype, "cellAlign", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", Object)
+    ], Column.prototype, "cellClass", void 0);
+    return Column;
+}(tsmodels_1.Model));
+exports.Column = Column;
+
+
+/***/ }),
+
+/***/ "./app/models/index.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__("./app/models/column.model.ts"));
+__export(__webpack_require__("./app/models/list-config.model.ts"));
+__export(__webpack_require__("./app/models/sorting.model.ts"));
+
+
+/***/ }),
+
+/***/ "./app/models/list-config.model.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var filter_1 = __webpack_require__("../node_modules/@firestitch/filter/filter.umd.js");
+var tsmodels_1 = __webpack_require__("../node_modules/tsmodels/index.ts");
+var column_model_1 = __webpack_require__("./app/models/column.model.ts");
+var BehaviorSubject_1 = __webpack_require__("rxjs/BehaviorSubject");
+var Observable_1 = __webpack_require__("rxjs/Observable");
+var pagination_model_1 = __webpack_require__("./app/models/pagination.model.ts");
+var sorting_model_1 = __webpack_require__("./app/models/sorting.model.ts");
+var FsListConfig = (function (_super) {
+    __extends(FsListConfig, _super);
+    function FsListConfig(config) {
+        if (config === void 0) { config = {}; }
+        var _this = _super.call(this) || this;
+        _this.filters = [];
+        _this.columns = [];
+        _this.paging = new pagination_model_1.Pagination();
+        _this.sorting = new sorting_model_1.Sorting(_this.columns);
+        _this.filterService = new filter_1.FsFilter();
+        _this.data$ = new BehaviorSubject_1.BehaviorSubject([]);
+        _this.loading = false;
+        _this._fromJSON(config);
+        _this.watchFilters();
+        _this.initPaging(config);
+        _this.subscribe();
+        return _this;
+    }
+    FsListConfig.create = function (config) {
+        return new FsListConfig(config);
+    };
+    FsListConfig.prototype.load = function () {
+        var _this = this;
+        this.loading = true;
+        var query = Object.assign({}, this.filtersQuery, this.paging.query);
+        if (this.sorting.sortingColumn) {
+            Object.assign(query, { order: this.sorting.sortingColumn.name + "," + this.sorting.sortingColumn.direction });
+        }
+        var result = this.dataFn(query);
+        if (result instanceof Promise) {
+            result.then(function (response) {
+                _this.paging.updatePaging(response.paging);
+                _this.loading = false;
+                _this.data$.next(response.data);
+            });
+        }
+        else if (result instanceof Observable_1.Observable) {
+            result.subscribe(function (response) {
+                _this.paging.updatePaging(response.paging);
+                _this.loading = false;
+                _this.data$.next(response.data);
+            });
+        }
+    };
+    /**
+     * Transform templates for using
+     * @param templates
+     */
+    FsListConfig.prototype.tranformTemplatesToColumns = function (templates) {
+        var _this = this;
+        templates.forEach(function (column) {
+            var col = new column_model_1.Column(column);
+            if (col.sortable) {
+                _this.sorting.addSortableColumn(col);
+            } // add column to sortable
+            _this.columns.push(col);
+        });
+    };
+    /**
+     * Init paging
+     * @param config
+     */
+    FsListConfig.prototype.initPaging = function (config) {
+        if (config.paging) {
+            this.paging.enabled = config.paging.enabled;
+            if (config.paging.limits) {
+                this.paging.limits = config.paging.limits;
+            }
+        }
+    };
+    /**
+     * Watch page changes
+     */
+    FsListConfig.prototype.subscribe = function () {
+        var _this = this;
+        this.paging.pageChanged.subscribe(function () {
+            _this.load();
+        });
+        this.sorting.sortingChanged.subscribe(function () {
+            _this.load();
+        });
+    };
+    /**
+     * Update and watch filter changes
+     */
+    FsListConfig.prototype.watchFilters = function () {
+        var _this = this;
+        if (this.filters && this.filters.length) {
+            this.filterService.fsConfig = {
+                persist: this.persist,
+                items: this.filters,
+                inline: this.inlineFilters,
+                init: function (instance) {
+                    _this.filtersQuery = instance.gets({ flatten: true });
+                    _this.load();
+                },
+                change: function (query, instance) {
+                    _this.filtersQuery = instance.gets({ flatten: true });
+                    _this.load();
+                }
+            };
+        }
+        else {
+            this.filtersQuery = {};
+            this.load();
+        }
+    };
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", Object)
+    ], FsListConfig.prototype, "inlineFilters", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", Object)
+    ], FsListConfig.prototype, "actions", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", Object)
+    ], FsListConfig.prototype, "rowActions", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", Object)
+    ], FsListConfig.prototype, "rowEvents", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", Object)
+    ], FsListConfig.prototype, "columnTemplates", void 0);
+    __decorate([
+        tsmodels_1.Alias('data'),
+        __metadata("design:type", Object)
+    ], FsListConfig.prototype, "dataFn", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", Object)
+    ], FsListConfig.prototype, "filters", void 0);
+    return FsListConfig;
+}(tsmodels_1.Model));
+exports.FsListConfig = FsListConfig;
+
+
+/***/ }),
+
+/***/ "./app/models/pagination.model.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var tsmodels_1 = __webpack_require__("../node_modules/tsmodels/index.ts");
+var Subject_1 = __webpack_require__("rxjs/Subject");
+var Pagination = (function (_super) {
+    __extends(Pagination, _super);
+    function Pagination(config) {
+        if (config === void 0) { config = {}; }
+        var _this = _super.call(this) || this;
+        _this.limit = 5;
+        _this.pages = 0; // Total pages
+        _this.page = 1; // Active page
+        _this.pageChanged = new Subject_1.Subject();
+        _this.pagesArray = [];
+        _this.displayed = 0;
+        _this._enabled = true;
+        _this._limits = [10, 25, 50, 100, 200];
+        _this.updatePaging(config);
+        return _this;
+    }
+    Object.defineProperty(Pagination.prototype, "enabled", {
+        /**
+         * Get enabled
+         * @returns {boolean}
+         */
+        get: function () {
+            return this._enabled;
+        },
+        /**
+         * Set enabled and update pages array
+         * @param value
+         */
+        set: function (value) {
+            this._enabled = value;
+            this.updatePagesArray();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Pagination.prototype, "limits", {
+        /**
+         * Get Limits
+         * @returns {number[]}
+         */
+        get: function () {
+            return this._limits;
+        },
+        /**
+         * Set limits, update pages array and set new limit per page
+         * @param value
+         */
+        set: function (value) {
+            this._limits = value;
+            this.updatePagesArray();
+            if (this.limits.length > 0 && this.limits.indexOf(this.limit) === -1) {
+                this.limit = this.limits[0];
+            }
+            else if (this.limits.length === 0) {
+                this.limit = this.records;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Pagination.prototype, "query", {
+        /**
+         * Get query for request
+         * @returns {{page: number; limit: number}}
+         */
+        get: function () {
+            return {
+                page: this.page || 1,
+                limit: this.limit || 10,
+            };
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Pagination.prototype, "hasPrevPage", {
+        /**
+         * If prev page can be activated
+         * @returns {boolean}
+         */
+        get: function () {
+            return this.page > 1 && this.pages > 1;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Pagination.prototype, "hasNextPage", {
+        /**
+         * If next page can be activated
+         * @returns {boolean}
+         */
+        get: function () {
+            return this.page < this.pages && this.pages > 1;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Update paging config and all related fields
+     * @param config
+     */
+    Pagination.prototype.updatePaging = function (config) {
+        this._fromJSON(config);
+        this.updatePagesArray();
+        this.updateDisplayed();
+    };
+    /**
+     * Update pages array with new pages count
+     */
+    Pagination.prototype.updatePagesArray = function () {
+        this.pagesArray = Array(this.pages).fill(null).map(function (x, i) { return i + 1; });
+    };
+    /**
+     * Update dispayed records counter
+     */
+    Pagination.prototype.updateDisplayed = function () {
+        if (this.records > this.limit) {
+            this.displayed = this.limit;
+        }
+        else {
+            this.displayed = this.records;
+        }
+    };
+    /**
+     * Set new limit
+     * @param limit
+     */
+    Pagination.prototype.setLimit = function (limit) {
+        this.limit = limit;
+        this.resetPaging();
+        this.pageChanged.next();
+    };
+    /**
+     * If page is activate page
+     * @param page
+     * @returns {boolean}
+     */
+    Pagination.prototype.isActive = function (page) {
+        return page === this.page;
+    };
+    /**
+     * Go to page
+     * @param page
+     */
+    Pagination.prototype.goToPage = function (page) {
+        if (page >= 1 && page <= this.pages && this.page !== page) {
+            this.page = page;
+            this.pageChanged.next(page);
+        }
+    };
+    Pagination.prototype.resetPaging = function () {
+        this.page = 1;
+    };
+    /**
+     * Go to next page
+     */
+    Pagination.prototype.goNext = function () {
+        if (this.page < this.pages) {
+            this.page++;
+            this.pageChanged.next(this.page);
+        }
+    };
+    /**
+     * Go to first page
+     */
+    Pagination.prototype.goFirst = function () {
+        if (this.page > 1) {
+            this.page = 1;
+            this.pageChanged.next(this.page);
+        }
+    };
+    /**
+     * Go to prev page
+     */
+    Pagination.prototype.goPrev = function () {
+        if (this.page > 1) {
+            this.page--;
+            this.pageChanged.next(this.page);
+        }
+    };
+    /**
+     * Go to last page
+     */
+    Pagination.prototype.goLast = function () {
+        if (this.page < this.pages) {
+            this.page = this.pages;
+            this.pageChanged.next(this.page);
+        }
+    };
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", Object)
+    ], Pagination.prototype, "limit", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", Object)
+    ], Pagination.prototype, "pages", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", Object)
+    ], Pagination.prototype, "page", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", Number)
+    ], Pagination.prototype, "records", void 0);
+    return Pagination;
+}(tsmodels_1.Model));
+exports.Pagination = Pagination;
+
+
+/***/ }),
+
+/***/ "./app/models/sorting.model.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var column_model_1 = __webpack_require__("./app/models/column.model.ts");
+var Subject_1 = __webpack_require__("rxjs/Subject");
+var Sorting = (function () {
+    function Sorting(columns) {
+        this.sortingColumns = [];
+        this.sortingChanged = new Subject_1.Subject();
+        this.tableColumns = columns;
+    }
+    Sorting.prototype.addSortableColumn = function (column) {
+        this.sortingColumns.push(column);
+    };
+    /**
+     * Set Sortable Direction
+     * @param direction
+     */
+    Sorting.prototype.setSortDirection = function (direction) {
+        if (this.sortingColumn && this.sortingColumn.sortingDirection !== direction) {
+            this.sortingColumn.sortingDirection = direction;
+            this.sortingChanged.next();
+        }
+    };
+    /**
+     * Sort By
+     * @param column
+     * @param doubleSelectBehaviour - when user click twice on same param
+     */
+    Sorting.prototype.sortBy = function (column, doubleSelectBehaviour) {
+        if (doubleSelectBehaviour === void 0) { doubleSelectBehaviour = true; }
+        // Can't do sort by non sortable column
+        if (!column.sortable) {
+            return false;
+        }
+        // If column was ordered and sort direction was desc then cancel sorting
+        if (column.ordered && (column.sortingDirection === column_model_1.SortingDirection.desc && doubleSelectBehaviour)) {
+            this.sortingColumn = void 0;
+            column.ordered = false;
+            this.sortingChanged.next();
+            return true;
+        }
+        // Column was ordered before
+        if (column.ordered) {
+            if (doubleSelectBehaviour) {
+                column.changeDirection();
+            }
+            else {
+                return true;
+            }
+        }
+        else {
+            this.tableColumns
+                .filter(function (col) { return col.ordered; })
+                .map(function (col) { return col.ordered = false; });
+            column.ordered = true;
+        }
+        this.sortingColumn = column;
+        this.sortingChanged.next();
+    };
+    return Sorting;
+}());
+exports.Sorting = Sorting;
 
 
 /***/ }),
@@ -23214,9 +24699,8 @@ var common_1 = __webpack_require__("@angular/common");
 var material_1 = __webpack_require__("@angular/material");
 var flex_layout_1 = __webpack_require__("@angular/flex-layout");
 var filter_1 = __webpack_require__("../node_modules/@firestitch/filter/filter.umd.js");
-var cell_component_1 = __webpack_require__("./app/components/cell/cell.component.ts");
-var list_component_1 = __webpack_require__("./app/components/list/list.component.ts");
-__export(__webpack_require__("./fslist.ts"));
+var components_1 = __webpack_require__("./app/components/index.ts");
+var directives_1 = __webpack_require__("./app/directives/index.ts");
 __export(__webpack_require__("./app/components/list/list.component.ts"));
 var FsListModule = (function () {
     function FsListModule() {
@@ -23226,7 +24710,7 @@ var FsListModule = (function () {
         return {
             ngModule: FsListModule_1,
             providers: [
-                list_component_1.FsListComponent
+                components_1.FsListComponent
             ]
         };
     };
@@ -23236,16 +24720,35 @@ var FsListModule = (function () {
                 common_1.CommonModule,
                 material_1.MatButtonModule,
                 material_1.MatIconModule,
+                material_1.MatMenuModule,
                 filter_1.FsFilterModule,
                 flex_layout_1.FlexLayoutModule
             ],
+            entryComponents: [
+                components_1.FsRowComponent,
+            ],
             declarations: [
-                list_component_1.FsListComponent,
-                cell_component_1.FsCellComponent
+                // Components
+                components_1.FsListComponent,
+                components_1.FsRowComponent,
+                components_1.FsCellComponent,
+                // Internal Components
+                components_1.FsStatusComponent,
+                components_1.FsHeadComponent,
+                components_1.FsHeadCellComponent,
+                components_1.FsBodyComponent,
+                components_1.FsPaginationComponent,
+                // Directives
+                directives_1.FsListColumnDirective,
+                directives_1.FsListRowTemplateDirective,
             ],
             providers: [],
             exports: [
-                list_component_1.FsListComponent
+                components_1.FsListComponent,
+                components_1.FsRowComponent,
+                components_1.FsCellComponent,
+                directives_1.FsListColumnDirective,
+                directives_1.FsListRowTemplateDirective,
             ]
         })
     ], FsListModule);
@@ -23253,59 +24756,6 @@ var FsListModule = (function () {
     var FsListModule_1;
 }());
 exports.FsListModule = FsListModule;
-
-
-/***/ }),
-
-/***/ "./fslist.ts":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var BehaviorSubject_1 = __webpack_require__("rxjs/BehaviorSubject");
-var Observable_1 = __webpack_require__("rxjs/Observable");
-var filter_1 = __webpack_require__("../node_modules/@firestitch/filter/filter.umd.js");
-var FsList = (function () {
-    function FsList(config) {
-        this.inlineFilters = false;
-        this.topActions = [];
-        // Modules available for column templates
-        this.imports = [];
-        this.data$ = new BehaviorSubject_1.BehaviorSubject([]);
-        this.filters = [];
-        this.filterService = new filter_1.FsFilter();
-        this.filtersQuery = {};
-        Object.assign(this, config || {});
-    }
-    FsList.create = function (config) {
-        return new FsList(config);
-    };
-    /*
-    setConfig(config: any) {
-        Object.assign(this, config || {});
-    }
-    */
-    // Populated from config
-    FsList.prototype.data = function (query) { };
-    FsList.prototype.load = function (query) {
-        var _this = this;
-        this.filtersQuery = query;
-        var result = this.data(this.filtersQuery);
-        if (result instanceof Promise) {
-            result.then(function (response) {
-                _this.data$.next(response.data);
-            });
-        }
-        else if (result instanceof Observable_1.Observable) {
-            result.subscribe(function (response) {
-                _this.data$.next(response.data);
-            });
-        }
-    };
-    return FsList;
-}());
-exports.FsList = FsList;
 
 
 /***/ }),
@@ -23378,6 +24828,13 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_rxjs_BehaviorSubject__;
 /***/ (function(module, exports) {
 
 module.exports = __WEBPACK_EXTERNAL_MODULE_rxjs_Observable__;
+
+/***/ }),
+
+/***/ "rxjs/Subject":
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_rxjs_Subject__;
 
 /***/ }),
 
