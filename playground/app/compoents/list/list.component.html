@@ -1,3 +1,5 @@
+<h1>Remote Data Source</h1>
+
 <fs-list [config]="config">
 
   <fs-list-column title="№">
@@ -15,7 +17,7 @@
     </ng-template>
   </fs-list-column>
 
-  <fs-list-column name="guid" title="GUID" headerAlign="center" [sortable]="true" cellClass="hi">
+  <fs-list-column name="guid" title="GUID" headerAlign="center" [sortable]="true">
     <ng-template fs-list-row-template let-guid="value" let-row="row">
       This row's guid is {{ row.guid }} ({{guid}}).
     </ng-template>
@@ -34,4 +36,42 @@
   </fs-list-column>
 </fs-list>
 
-<button (click)="test()">test</button>
+
+<h1>Local Data Source</h1>
+<fs-list [config]="localDataSourceConfig" [rows]="rows">
+
+  <fs-list-column title="№">
+    <ng-template fs-list-row-template let-index="index">
+      {{index}}
+    </ng-template>
+  </fs-list-column>
+
+  <fs-list-column name="name" title="Name">
+    <ng-template fs-list-row-template let-value="value" let-row="row">
+      {{value}}
+      <mat-form-field>
+        <input matInput [(ngModel)]="row.guid" (click)="onClick($event, row)">
+      </mat-form-field>
+    </ng-template>
+  </fs-list-column>
+
+  <fs-list-column name="guid" title="GUID" headerAlign="center">
+    <ng-template fs-list-row-template let-guid="value" let-row="row">
+      This row's guid is {{ row.guid }} ({{guid}}).
+    </ng-template>
+  </fs-list-column>
+
+  <fs-list-column title="Link" cellAlign="right" [cellClass]="['myTestClass', 'myTestClass2']">
+    <ng-template fs-list-row-template let-guid="value">
+      <a routerLink="/welcome">Simple Link</a>
+    </ng-template>
+  </fs-list-column>
+
+  <fs-list-column title="Handler">
+    <ng-template fs-list-row-template>
+      <a (click)="proceed('/welcome')">Link Handler</a>
+    </ng-template>
+  </fs-list-column>
+</fs-list>
+
+<button (click)="addRows()">Add 7 Rows</button>

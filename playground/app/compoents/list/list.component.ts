@@ -14,7 +14,16 @@ import 'rxjs/add/operator/map';
 export class ListComponent implements OnInit {
 
   public config: FsListConfig;
-  // public rows = [{"name":"Object 2","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 2","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 2","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 2","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 2","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 2","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 2","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"}];
+  public localDataSourceConfig: FsListConfig;
+  public rows = [
+    {name: 'Object 1', date: '1970-09-15T02:03:44+00:00', guid: '85821c48f3ee78ebf2caa03bc5da1cea'},
+    {name: 'Object 2', date: '1970-09-15T02:03:44+00:00', guid: '85821c48f3ee78ebf2caa03bc5da1cea'},
+    {name: 'Object 3', date: '1970-09-15T02:03:44+00:00', guid: '85821c48f3ee78ebf2caa03bc5da1cea'},
+    {name: 'Object 4', date: '1970-09-15T02:03:44+00:00', guid: '85821c48f3ee78ebf2caa03bc5da1cea'},
+    {name: 'Object 5', date: '1970-09-15T02:03:44+00:00', guid: '85821c48f3ee78ebf2caa03bc5da1cea'},
+    {name: 'Object 6', date: '1970-09-15T02:03:44+00:00', guid: '85821c48f3ee78ebf2caa03bc5da1cea'},
+    {name: 'Object 7', date: '1970-09-15T02:03:44+00:00', guid: '85821c48f3ee78ebf2caa03bc5da1cea'}
+  ];
 
   constructor(private _fsApi: FsApi, private _router: Router) {
   }
@@ -29,7 +38,58 @@ export class ListComponent implements OnInit {
     //<fs-list [fsList]="fsList">
     //<fs-list [controller]="controller">
 
-    this.config = FsListConfig.create({
+    this.config = this.buildRemoteDataSourceConfig();
+    this.localDataSourceConfig = this.buildLocalDataSourceConfig();
+  }
+
+  get columnDefaults() {
+    return {
+      cellClass: ['test-my-default-class']
+    };
+  }
+
+  get listFilters() {
+    return [
+      {
+        name: 'keyword',
+        type: 'text',
+        label: 'Search'
+      },
+      {
+        name: 'simple_select',
+        type: 'select',
+        label: 'Simple Select',
+        values: () => {
+          return [
+            { name: 'All', value: '__all' },
+            { name: 'Option 1', value: 1 },
+            { name: 'Option 2', value: 2 },
+            { name: 'Option 3', value: 3 }
+          ];
+        }
+      }
+    ]
+  }
+
+  get listPaging() {
+    return {
+      enabled: true,
+      //limit: 250,
+      limits: [5, 15, 50, 150, 250, 500, 1000]
+    };
+  }
+
+  get listLocalPaging() {
+    return {
+      enabled: true,
+      manual: true,
+      //limit: 250,
+      limits: [5, 15, 50, 150, 250, 500, 1000]
+    };
+  }
+
+  public buildRemoteDataSourceConfig() {
+    return FsListConfig.create({
       paging: this.listPaging,
       filters: this.listFilters,
       actions: [
@@ -88,42 +148,50 @@ export class ListComponent implements OnInit {
     });
   }
 
-  get columnDefaults() {
-    return {
-      cellClass: ['test-my-default-class']
-    };
-  }
-
-  get listFilters() {
-    return [
-      {
-        name: 'keyword',
-        type: 'text',
-        label: 'Search'
-      },
-      {
-        name: 'simple_select',
-        type: 'select',
-        label: 'Simple Select',
-        values: () => {
-          return [
-            { name: 'All', value: '__all' },
-            { name: 'Option 1', value: 1 },
-            { name: 'Option 2', value: 2 },
-            { name: 'Option 3', value: 3 }
-          ];
+  public buildLocalDataSourceConfig() {
+    return FsListConfig.create({
+      paging: this.listLocalPaging,
+      filters: this.listFilters,
+      actions: [
+        {
+          click: (event) => {
+            console.log(event);
+          },
+          label: 'Primary Button'
+        },
+        {
+          click: (event) => {
+            console.log(event);
+          },
+          label: 'Secondary Button'
         }
-      }
-    ]
-  }
+      ],
+      rowActions: [
+        {
+          click: (event) => {
+            console.log(event);
+          },
+          icon: 'edit'
+        },
+        {
+          click: (event) => {
+            console.log(event);
+          },
+          icon: 'delete'
+        }
+      ],
+      rowEvents: [
+        {
+          hover: function(event) {
 
-  get listPaging() {
-    return {
-      enabled: true,
-      // manual: true,
-      //limit: 250,
-      limits: [5, 15, 50, 150, 250, 500, 1000]
-    };
+          },
+          click: function(event) {
+
+          }
+        }
+      ],
+      columnDefaults: this.columnDefaults
+    });
   }
 
   public onClick(event, row) {
@@ -136,7 +204,15 @@ export class ListComponent implements OnInit {
     this._router.navigateByUrl(link);
   }
 
-  public test() {
-    // this.rows.push({"name":"Object 5","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 6","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 7","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 8","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 9","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 2","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 2","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"});
+  public addRows() {
+    this.rows.push(
+        {name: 'Object 8', date: '1970-09-15T02:03:44+00:00', guid: '85821c48f3ee78ebf2caa03bc5da1cea'},
+        {name: 'Object 9', date: '1970-09-15T02:03:44+00:00', guid: '85821c48f3ee78ebf2caa03bc5da1cea'},
+        {name: 'Object 10', date: '1970-09-15T02:03:44+00:00', guid: '85821c48f3ee78ebf2caa03bc5da1cea'},
+        {name: 'Object 11', date: '1970-09-15T02:03:44+00:00', guid: '85821c48f3ee78ebf2caa03bc5da1cea'},
+        {name: 'Object 12', date: '1970-09-15T02:03:44+00:00', guid: '85821c48f3ee78ebf2caa03bc5da1cea'},
+        {name: 'Object 13', date: '1970-09-15T02:03:44+00:00', guid: '85821c48f3ee78ebf2caa03bc5da1cea'},
+        {name: 'Object 14', date: '1970-09-15T02:03:44+00:00', guid: '85821c48f3ee78ebf2caa03bc5da1cea'}
+      );
   }
 }
