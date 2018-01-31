@@ -1,24 +1,40 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { IPaging } from '../../interfaces';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { SortingDirection } from '../../models/column.model';
+import { Pagination } from '../../models/pagination.model';
+import { Sorting } from '../../models/sorting.model';
 
 @Component({
   selector: 'fs-list-status',
   templateUrl: 'status.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: [
+    './status.component.scss',
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FsStatusComponent implements OnInit {
-  @Input() public paging: IPaging;
+  @Input() public paging: Pagination;
+  @Input() public sorting: Sorting;
+  @Input() public dataChangedRef;
 
-  constructor() {}
-
-  get displayedRecords() {
-    return (this.paging.limit < this.paging.records) ? this.paging.limit : this.paging.records;
-  }
-
-  get total() {
-    return this.paging.records;
+  public OrderDirection = SortingDirection;
+  constructor(private cdRef: ChangeDetectorRef) {
   }
 
   public ngOnInit() {
+    this.dataChangedRef.subscribe(() => {
+      this.cdRef.markForCheck();
+    })
+  }
+
+  public setDirection(direction: SortingDirection) {
+    this.sorting.setSortDirection(direction);
+  }
+
+  public setSortableColumn(column) {
+    this.sorting.sortBy(column, false);
+  }
+
+  public setLimit(limit) {
+    this.paging.setLimit(limit);
   }
 }

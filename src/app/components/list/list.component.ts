@@ -2,10 +2,9 @@ import {
   Component,
   OnInit,
   Input,
-  AfterViewInit,
   ViewEncapsulation,
   ContentChildren,
-  QueryList,
+  QueryList, ChangeDetectionStrategy, ChangeDetectorRef,
 } from '@angular/core';
 
 import { FsListColumnDirective } from '../../directives';
@@ -15,14 +14,18 @@ import { FsListConfig } from '../../models/list-config.model';
   selector: 'fs-list',
   templateUrl: 'list.component.html',
   styleUrls: [
-    './list.component.scss'
-  ]
+    './list.component.scss',
+  ],
+
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FsListComponent implements OnInit, AfterViewInit {
+
+export class FsListComponent implements OnInit {
   @Input() public config;
   @Input() public columns: any;
-  @Input() public rows: any;
   @Input() public inlineFilters: boolean;
+
+  @Input() public rows: any = [];
 
   /**
    * Set columns to config
@@ -35,7 +38,7 @@ export class FsListComponent implements OnInit, AfterViewInit {
     this.config.tranformTemplatesToColumns(val);
   }
 
-  constructor() {
+  constructor(private cdRef: ChangeDetectorRef) {
   }
 
   public actionClick() {
@@ -47,23 +50,13 @@ export class FsListComponent implements OnInit, AfterViewInit {
       this.config = new FsListConfig();
     }
 
+    if (!this.config.filters || this.config.filters.length === 0) {
     this.config.load();
   }
 
-  public ngAfterViewInit() {
-    // if (!this.config) {
-    //   this.config = new FsListConfig({
-    //     rows: this.rows,
-    //     columnTemplates: this._columnTemplates,
-    //   });
-    // }
-    // console.log(config);
-    // console.log(this.cellComponents);
-    // console.log(this.cellContents);
-    // debugger;
-    // this.loadData();
-    // if (this.rowsContainer) {
-    //   this.drawData();
-    // }
+    this.config.data$.subscribe((rows) => {
+      this.rows = rows;
+      this.cdRef.markForCheck();
+    })
   }
 }

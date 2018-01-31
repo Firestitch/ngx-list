@@ -30,6 +30,11 @@ export class ListComponent implements OnInit {
 
     this.config = FsListConfig.create({
       //inlineFilters: true,
+      paging: {
+        enabled: true,
+        //limit: 250,
+        limits: [5, 15, 50, 150, 250, 500, 1000]
+      },
       filters: [
         {
           name: 'keyword',
@@ -89,6 +94,7 @@ export class ListComponent implements OnInit {
         }
       ],
       data: (query) => {
+        query.count = 500;
 
         // Connect to dummy api and disply the data
         // we need to return 3 types of data

@@ -5,3 +5,4 @@ export * from './body/row';
 export * from '../directives/column';
 export * from './body';
 export * from './head';
+export * from './pagination';

@@ -6,7 +6,7 @@
     </ng-template>
   </fs-list-column>
 
-  <fs-list-column name="name" title="Name">
+  <fs-list-column name="name" title="Name" [sortable]="true">
     <ng-template fs-list-row-template let-name="value" let-row="row">
       <mat-form-field>
         <input matInput [(ngModel)]="row.guid" (click)="onClick($event, row)">
@@ -14,13 +14,13 @@
     </ng-template>
   </fs-list-column>
 
-  <fs-list-column name="guid" title="GUID">
+  <fs-list-column name="guid" title="GUID" headerAlign="center" [sortable]="true">
     <ng-template fs-list-row-template let-guid="value" let-row="row">
       This row's guid is {{ row.guid }} ({{guid}}).
     </ng-template>
   </fs-list-column>
 
-  <fs-list-column title="Link">
+  <fs-list-column title="Link" cellAlign="right" [cellClass]="['myTestClass', 'myTestClass2']">
     <ng-template fs-list-row-template let-guid="value">
       <a routerLink="/welcome">Simple Link</a>
     </ng-template>

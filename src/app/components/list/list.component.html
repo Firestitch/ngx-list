@@ -9,17 +9,23 @@
       </span>
     </div>
   </div>
-  <fs-list-status [paging]="config.paging" *ngIf="config.paging"></fs-list-status>
+  <fs-list-status [dataChangedRef]="config.data$" [sorting]="config.sorting" [paging]="config.paging" *ngIf="config.paging"></fs-list-status>
   <table class="fs-list-table" role="grid">
     <fs-list-head
       class="fs-list-head"
       role="rowgroup"
-      [config]="config">
+      [columns]="config.columns"
+      [sorting]="config.sorting">
     </fs-list-head>
+
     <fs-list-body
       class="fs-list-body"
       role="rowgroup"
-      [config]="config">
+      [class.loading]="config.loading"
+      [rows]="rows"
+      [columns]="config.columns">
     </fs-list-body>
   </table>
+
+  <fs-list-pagination [dataChangedRef]="config.data$" [pagination]="config.paging"></fs-list-pagination>
 </div>

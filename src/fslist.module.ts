@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule, MatIconModule } from '@angular/material';
+import { MatButtonModule, MatIconModule, MatMenuModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FsFilterModule } from '@firestitch/filter';
 
@@ -11,7 +11,8 @@ import {
   FsRowComponent,
   FsBodyComponent,
   FsHeadCellComponent,
-  FsHeadComponent
+  FsHeadComponent,
+  FsPaginationComponent,
 } from './app/components';
 
 import {
@@ -26,6 +27,7 @@ export * from './app/components/list/list.component';
     CommonModule,
     MatButtonModule,
     MatIconModule,
+    MatMenuModule,
     FsFilterModule,
     FlexLayoutModule
   ],
@@ -43,6 +45,7 @@ export * from './app/components/list/list.component';
     FsHeadComponent,
     FsHeadCellComponent,
     FsBodyComponent,
+    FsPaginationComponent,
 
     // Directives
     FsListColumnDirective,
