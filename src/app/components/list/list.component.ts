@@ -2,9 +2,13 @@ import {
   Component,
   OnInit,
   Input,
-  ViewEncapsulation,
+  DoCheck,
+  IterableDiffer,
   ContentChildren,
-  QueryList, ChangeDetectionStrategy, ChangeDetectorRef,
+  QueryList,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  IterableDiffers,
 } from '@angular/core';
 
 import { FsListColumnDirective } from '../../directives';
@@ -20,13 +24,13 @@ import { FsListConfig } from '../../models/list-config.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class FsListComponent implements OnInit {
-  @Input() public config;
+export class FsListComponent implements OnInit, DoCheck {
+  @Input() public config: FsListConfig;
   @Input() public columns: any;
   @Input() public inlineFilters: boolean;
+  @Input() public rows: any[];
 
-  @Input() public rows: any = [];
-
+  public displayRows;
   /**
    * Set columns to config
    * Create Column Model instances
@@ -38,7 +42,11 @@ export class FsListComponent implements OnInit {
     this.config.tranformTemplatesToColumns(val);
   }
 
-  constructor(private cdRef: ChangeDetectorRef) {
+  private _rowsDiffer: IterableDiffer<any[]>;
+
+  constructor(private cdRef: ChangeDetectorRef,
+              private differs: IterableDiffers) {
+    this._rowsDiffer = differs.find([]).create(null);
   }
 
   public actionClick() {
@@ -49,14 +57,28 @@ export class FsListComponent implements OnInit {
     if (!this.config) {
       this.config = new FsListConfig();
     }
+    this.config.rows = this.rows;
 
     if (!this.config.filters || this.config.filters.length === 0) {
-    this.config.load();
-  }
+      this.config.load();
+    }
 
     this.config.data$.subscribe((rows) => {
-      this.rows = rows;
+      this.displayRows = rows;
+    });
+  }
+
+  public ngDoCheck() {
+    const rowsDiffer = this._rowsDiffer.diff(this.rows);
+    const displayRowsDiffer = this._rowsDiffer.diff(this.displayRows);
+
+    if (rowsDiffer || displayRowsDiffer) {
       this.cdRef.markForCheck();
-    })
+    }
+
+    if (this.config.paging.manual && rowsDiffer) {
+      this.config.paging.updatePagingManual(this.rows);
+      this.config.paging.pageChanged.next();
+    }
   }
 }

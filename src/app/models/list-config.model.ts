@@ -1,7 +1,7 @@
 import { FsFilter } from '@firestitch/filter';
 
 import { Alias, Model} from 'tsmodels';
-import { Column, SortingDirection } from './column.model';
+import { Column } from './column.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { Pagination } from './pagination.model';
@@ -17,6 +17,7 @@ export class FsListConfig extends Model {
   @Alias('data') public dataFn: any;
   @Alias() public filters = [];
   @Alias('columnDefaults') private _columnDefaults;
+  @Alias('rows') private _rows: any;
 
   public filtersQuery: any;
   public columns: Column[] = [];
@@ -39,6 +40,10 @@ export class FsListConfig extends Model {
     this.subscribe();
   }
 
+  set rows(value) {
+    this._rows = value;
+  }
+
   public static create(config) {
     return new FsListConfig(config);
   }
@@ -52,6 +57,14 @@ export class FsListConfig extends Model {
       Object.assign(query, { order: `${this.sorting.sortingColumn.name},${this.sorting.sortingColumn.direction}`})
     }
 
+    if (this.dataFn) {
+      this.loadRemote(query);
+    } else if (Array.isArray(this._rows)) {
+      this.loadLocal();
+    }
+  }
+
+  public loadRemote(query) {
     const result: any = this.dataFn(query);
 
     if (result instanceof Promise) {
@@ -67,6 +80,15 @@ export class FsListConfig extends Model {
         this.data$.next(response.data);
       });
     }
+  }
+
+  public loadLocal() {
+    this.paging.updatePagingManual(this._rows);
+    const from = (this.paging.page - 1) * this.paging.limit;
+    const to = (this.paging.page === 1) ? this.paging.limit : this.paging.limit * this.paging.page;
+    const sliceOfRows = this._rows.slice(from, to);
+    this.data$.next(sliceOfRows);
+    this.loading = false;
   }
 
   /**
@@ -88,6 +110,7 @@ export class FsListConfig extends Model {
   private initPaging(config) {
     if (config.paging) {
       this.paging.enabled = config.paging.enabled;
+      this.paging.manual = config.paging.manual;
       if (config.paging.limits) {
         this.paging.limits = config.paging.limits
       }

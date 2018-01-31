@@ -7,7 +7,8 @@
   </fs-list-column>
 
   <fs-list-column name="name" title="Name" [sortable]="true">
-    <ng-template fs-list-row-template let-name="value" let-row="row">
+    <ng-template fs-list-row-template let-value="value" let-row="row">
+      {{value}}
       <mat-form-field>
         <input matInput [(ngModel)]="row.guid" (click)="onClick($event, row)">
       </mat-form-field>
@@ -32,3 +33,5 @@
     </ng-template>
   </fs-list-column>
 </fs-list>
+
+<button (click)="test()">test</button>

@@ -6,8 +6,9 @@ export class Pagination extends Model {
 
   @Alias() public limit = 5;
   @Alias() public pages = 0; // Total pages
-  @Alias() public page = 1; // Active page
   @Alias() public records: number;
+  @Alias() public manual = false;
+  public page = 1; // Active page
 
   public pageChanged = new Subject();
   public pagesArray = [];
@@ -95,6 +96,20 @@ export class Pagination extends Model {
    */
   public updatePaging(config) {
     this._fromJSON(config);
+
+    this.updatePagesArray();
+    this.updateDisplayed();
+  }
+
+  /**
+   * Update paging when data source not remove
+   * @param {any[]} rows
+   */
+  public updatePagingManual(rows: any[]) {
+    if (Array.isArray(rows) && rows.length > 0) {
+      this.records = rows.length;
+      this.pages = Math.ceil(rows.length / this.limit);
+    }
 
     this.updatePagesArray();
     this.updateDisplayed();

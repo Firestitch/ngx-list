@@ -14,6 +14,7 @@ import 'rxjs/add/operator/map';
 export class ListComponent implements OnInit {
 
   public config: FsListConfig;
+  // public rows = [{"name":"Object 2","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 2","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 2","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 2","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 2","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 2","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 2","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"}];
 
   constructor(private _fsApi: FsApi, private _router: Router) {
   }
@@ -119,6 +120,7 @@ export class ListComponent implements OnInit {
   get listPaging() {
     return {
       enabled: true,
+      // manual: true,
       //limit: 250,
       limits: [5, 15, 50, 150, 250, 500, 1000]
     };
@@ -132,5 +134,9 @@ export class ListComponent implements OnInit {
 
   public proceed(link) {
     this._router.navigateByUrl(link);
+  }
+
+  public test() {
+    // this.rows.push({"name":"Object 5","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 6","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 7","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 8","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 9","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 2","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"},{"name":"Object 2","date":"1970-09-15T02:03:44+00:00","guid":"85821c48f3ee78ebf2caa03bc5da1cea"});
   }
 }

@@ -7,6 +7,7 @@ import {
   KeyValueDiffers,
 } from '@angular/core';
 import { FsCellComponent } from '../../body/row/cell/cell.component';
+import { Column } from '../../../models/column.model';
 
 @Component({
   selector: 'fs-head-cell',
@@ -17,7 +18,7 @@ export class FsHeadCellComponent extends FsCellComponent implements DoCheck {
 
   public cellContext: any = {};
 
-  private _columnDiffer: KeyValueDiffer<{}, {}>;
+  private _columnDiffer: KeyValueDiffer<string, any>;
 
   constructor(private cdRef: ChangeDetectorRef,
               private differs: KeyValueDiffers) {
@@ -26,7 +27,7 @@ export class FsHeadCellComponent extends FsCellComponent implements DoCheck {
   }
 
   public ngDoCheck() {
-    if (this._columnDiffer.diff(this.column as any)) {
+    if (this._columnDiffer.diff(this.column)) {
       this.cdRef.markForCheck();
     }
   }

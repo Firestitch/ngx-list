@@ -22,10 +22,14 @@
       class="fs-list-body"
       role="rowgroup"
       [class.loading]="config.loading"
-      [rows]="rows"
+      [rows]="displayRows"
       [columns]="config.columns">
     </fs-list-body>
   </table>
 
-  <fs-list-pagination [dataChangedRef]="config.data$" [pagination]="config.paging"></fs-list-pagination>
+  <fs-list-pagination
+    *ngIf="config.paging.enabled"
+    [dataChangedRef]="config.data$"
+    [pagination]="config.paging">
+  </fs-list-pagination>
 </div>

@@ -6,7 +6,7 @@ import {
   Input,
   OnInit,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef, DoCheck, IterableDiffer, IterableDiffers
 } from '@angular/core';
 import { Column } from '../../models/column.model';
 import { FsRowComponent } from './row/row.component';
@@ -16,35 +16,30 @@ import { FsRowComponent } from './row/row.component';
   templateUrl: 'body.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FsBodyComponent implements OnInit {
-  @Input() set rows(value) {
-    this._rows = value;
-
-    this.rowsContainer.clear();
-    this.initRowsComponents();
-
-    this.cdRef.markForCheck();
-  }
-
-  get rows() {
-    return this._rows;
-  }
-
+export class FsBodyComponent implements DoCheck {
+  @Input() rows;
   @Input() columns: Column[] = [];
   @ViewChild('rowsContainer', { read: ViewContainerRef }) rowsContainer;
 
   private _rowComponent = FsRowComponent;
-  private _rows;
+
+  private _rowsDiffer: IterableDiffer<any[]>;
 
   constructor(
     private cdRef: ChangeDetectorRef,
-    private _componentFactoryResolver: ComponentFactoryResolver) {
+    private differs: IterableDiffers,
+    private _componentFactoryResolver: ComponentFactoryResolver
+  ) {
+    this._rowsDiffer = differs.find([]).create(null);
   }
 
-  public ngOnInit() {
-    // this.config.data$.subscribe((rows) => {
-    //
-    // })
+  public ngDoCheck() {
+    if (this._rowsDiffer.diff(this.rows)) {
+      this.rowsContainer.clear();
+      this.initRowsComponents();
+
+      this.cdRef.markForCheck();
+    }
   }
 
   public initRowsComponents() {
