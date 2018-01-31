@@ -113,6 +113,7 @@
     "zone.js": "^0.8.4"
   },
   "dependencies": {
+    "lodash": "^4.17.4",
     "tsmodels": "^0.2.7"
   }
 }

@@ -16,6 +16,7 @@ export class FsListConfig extends Model {
   @Alias() public columnTemplates: any;
   @Alias('data') public dataFn: any;
   @Alias() public filters = [];
+  @Alias('columnDefaults') private _columnDefaults;
 
   public filtersQuery: any;
   public columns: Column[] = [];
@@ -74,7 +75,7 @@ export class FsListConfig extends Model {
    */
   public tranformTemplatesToColumns(templates) {
     templates.forEach((column) => {
-      const col = new Column(column);
+      const col = new Column(column, this._columnDefaults);
       if (col.sortable) { this.sorting.addSortableColumn(col); } // add column to sortable
       this.columns.push(col);
     });

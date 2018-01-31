@@ -29,32 +29,8 @@ export class ListComponent implements OnInit {
     //<fs-list [controller]="controller">
 
     this.config = FsListConfig.create({
-      //inlineFilters: true,
-      paging: {
-        enabled: true,
-        //limit: 250,
-        limits: [5, 15, 50, 150, 250, 500, 1000]
-      },
-      filters: [
-        {
-          name: 'keyword',
-          type: 'text',
-          label: 'Search'
-        },
-        {
-          name: 'simple_select',
-          type: 'select',
-          label: 'Simple Select',
-          values: () => {
-            return [
-              { name: 'All', value: '__all' },
-              { name: 'Option 1', value: 1 },
-              { name: 'Option 2', value: 2 },
-              { name: 'Option 3', value: 3 }
-            ];
-          }
-        }
-      ],
+      paging: this.listPaging,
+      filters: this.listFilters,
       actions: [
         {
           click: (event) => {
@@ -93,6 +69,7 @@ export class ListComponent implements OnInit {
           }
         }
       ],
+      columnDefaults: this.columnDefaults,
       data: (query) => {
         query.count = 500;
 
@@ -108,6 +85,43 @@ export class ListComponent implements OnInit {
           .map(response => ({ data: response.data.objects, paging: response.data.paging }));
       }
     });
+  }
+
+  get columnDefaults() {
+    return {
+      cellClass: ['test-my-default-class']
+    };
+  }
+
+  get listFilters() {
+    return [
+      {
+        name: 'keyword',
+        type: 'text',
+        label: 'Search'
+      },
+      {
+        name: 'simple_select',
+        type: 'select',
+        label: 'Simple Select',
+        values: () => {
+          return [
+            { name: 'All', value: '__all' },
+            { name: 'Option 1', value: 1 },
+            { name: 'Option 2', value: 2 },
+            { name: 'Option 3', value: 3 }
+          ];
+        }
+      }
+    ]
+  }
+
+  get listPaging() {
+    return {
+      enabled: true,
+      //limit: 250,
+      limits: [5, 15, 50, 150, 250, 500, 1000]
+    };
   }
 
   public onClick(event, row) {
