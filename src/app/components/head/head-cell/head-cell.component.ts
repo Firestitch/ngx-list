@@ -10,7 +10,7 @@ import { FsCellComponent } from '../../body/row/cell/cell.component';
 import { Column } from '../../../models/column.model';
 
 @Component({
-  selector: 'fs-head-cell',
+  selector: '[fs-head-cell]',
   templateUrl: 'head-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

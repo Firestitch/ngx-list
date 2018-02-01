@@ -11,20 +11,20 @@
   </div>
   <fs-list-status [dataChangedRef]="config.data$" [sorting]="config.sorting" [paging]="config.paging" *ngIf="config.paging"></fs-list-status>
   <table class="fs-list-table" role="grid">
-    <fs-list-head
+    <thead fs-list-head
       class="fs-list-head"
       role="rowgroup"
       [columns]="config.columns"
       [sorting]="config.sorting">
-    </fs-list-head>
+    </thead>
 
-    <fs-list-body
+    <tbody fs-list-body
       class="fs-list-body"
       role="rowgroup"
       [class.loading]="config.loading"
       [rows]="displayRows"
       [columns]="config.columns">
-    </fs-list-body>
+    </tbody>
   </table>
 
   <fs-list-pagination

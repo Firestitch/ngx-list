@@ -29,3 +29,9 @@ export interface TopActions {
 
   click(): void;
 }
+
+export interface CellOptions {
+  colspan?: string;
+  align?: string;
+  styleClass?: string | string[];
+}

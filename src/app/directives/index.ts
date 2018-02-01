@@ -1,2 +1,3 @@
-export * from './row-detail-template';
+export * from './header-template';
+export * from './row-template';
 export * from './column';

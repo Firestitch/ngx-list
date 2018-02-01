@@ -11,7 +11,7 @@ import { Sorting } from '../../models/sorting.model';
 import { Column } from '../../index';
 
 @Component({
-  selector: 'fs-list-head',
+  selector: '[fs-list-head]',
   templateUrl: 'head.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

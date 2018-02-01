@@ -19,6 +19,7 @@ import {
   FsListColumnDirective,
   FsListRowTemplateDirective,
 } from './app/directives';
+import { FsListHeaderTemplateDirective } from './app/directives/header-template/header-template.directive';
 
 export * from './app/components/list/list.component';
 
@@ -30,9 +31,6 @@ export * from './app/components/list/list.component';
     MatMenuModule,
     FsFilterModule,
     FlexLayoutModule
-  ],
-  entryComponents: [
-    FsRowComponent,
   ],
   declarations: [
     // Components
@@ -50,6 +48,7 @@ export * from './app/components/list/list.component';
     // Directives
     FsListColumnDirective,
     FsListRowTemplateDirective,
+    FsListHeaderTemplateDirective,
   ],
   providers: [
   ],
@@ -59,6 +58,7 @@ export * from './app/components/list/list.component';
     FsCellComponent,
     FsListColumnDirective,
     FsListRowTemplateDirective,
+    FsListHeaderTemplateDirective,
   ]
 })
 export class FsListModule {

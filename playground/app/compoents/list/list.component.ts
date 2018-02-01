@@ -44,6 +44,10 @@ export class ListComponent implements OnInit {
 
   get columnDefaults() {
     return {
+      headerClass: ['test-row-class-hello-world'],
+      sortable: true,
+      headerAlign: 'right',
+      cellAlign: 'right',
       cellClass: ['test-my-default-class']
     };
   }

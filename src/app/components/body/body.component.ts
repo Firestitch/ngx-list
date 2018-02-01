@@ -12,7 +12,7 @@ import { Column } from '../../models/column.model';
 import { FsRowComponent } from './row/row.component';
 
 @Component({
-  selector: 'fs-list-body',
+  selector: '[fs-list-body]',
   templateUrl: 'body.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -35,8 +35,8 @@ export class FsBodyComponent implements DoCheck {
 
   public ngDoCheck() {
     if (this._rowsDiffer.diff(this.rows)) {
-      this.rowsContainer.clear();
-      this.initRowsComponents();
+      // this.rowsContainer.clear();
+      // this.initRowsComponents();
 
       this.cdRef.markForCheck();
     }

@@ -10,7 +10,7 @@ import {
 import { Column } from '../../../models/column.model';
 
 @Component({
-  selector: 'fs-list-row',
+  selector: '[fs-list-row]',
   templateUrl: 'row.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
