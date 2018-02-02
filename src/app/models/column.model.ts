@@ -22,12 +22,23 @@ export class Column extends Model {
   @Alias() public sortable: boolean;
   @Alias() public headerTemplate: TemplateRef<any>;
   @Alias() public rowTemplate: TemplateRef<any>;
+  @Alias() public footerTemplate: TemplateRef<any>;
 
-  @Alias('headerConfigs', StyleConfig) public headerConfigs: StyleConfig = new StyleConfig();
-  @Alias('cellConfigs', StyleConfig) public cellConfigs: StyleConfig = new StyleConfig();
+  @Alias('headerConfigs', StyleConfig)
+  public headerConfigs: StyleConfig = new StyleConfig();
+
+  @Alias('cellConfigs', StyleConfig)
+  public cellConfigs: StyleConfig = new StyleConfig();
+
+  @Alias('footerConfigs', StyleConfig)
+  public footerConfigs: StyleConfig = new StyleConfig();
 
   public colStyles: StyleConfig;
   public sortingDirection: SortingDirection;
+
+  public headerColspanned = false;
+  public cellColspanned = false;
+  public footerColspanned = false;
 
   private _ordered = false;
 
@@ -69,6 +80,7 @@ export class Column extends Model {
 
     const defaultHeader = new StyleConfig({ align: defaults.headerAlign, styleClass: defaults.headerClass});
     const defaultCell = new StyleConfig({ align: defaults.cellAlign, styleClass: defaults.cellClass});
+    const defaultFooter = new StyleConfig({ align: defaults.footerAlign, styleClass: defaults.footerClass});
 
     ALLOWED_DEFAULTS.forEach((key) => {
       switch (key) {
@@ -87,17 +99,20 @@ export class Column extends Model {
         case 'class': {
           this.headerConfigs.mergeClassByPriority(this.colStyles, defaultHeader);
           this.cellConfigs.mergeClassByPriority(this.colStyles, defaultCell);
+          this.footerConfigs.mergeClassByPriority(this.colStyles, defaultFooter);
         } break;
 
         case 'align': {
           this.headerConfigs.mergeAlignByPriority(this.colStyles, defaultHeader);
           this.cellConfigs.mergeAlignByPriority(this.colStyles, defaultCell);
+          this.footerConfigs.mergeAlignByPriority(this.colStyles, defaultFooter);
         } break;
       }
     });
 
     this.headerConfigs.updateClasesArray();
     this.cellConfigs.updateClasesArray();
+    this.footerConfigs.updateClasesArray();
   }
 
   /**

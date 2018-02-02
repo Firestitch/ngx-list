@@ -30,7 +30,7 @@ export interface TopActions {
   click(): void;
 }
 
-export interface CellOptions {
+export interface CellConfig {
   colspan?: string;
   align?: string;
   styleClass?: string | string[];

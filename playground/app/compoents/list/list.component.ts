@@ -46,8 +46,8 @@ export class ListComponent implements OnInit {
     return {
       headerClass: ['header-test-defaults-class'],
       sortable: true,
-      headerAlign: 'right',
-      cellAlign: 'right',
+      headerAlign: 'left',
+      cellAlign: 'left',
       cellClass: ['cell-test-defaults-class'],
       colClass: ['col-test-class']
     };

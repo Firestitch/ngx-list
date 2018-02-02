@@ -1,6 +1,10 @@
-<td fs-cell *ngFor="let column of columns"
-    [column]="column"
-    [row]="row" [rowIndex]="rowIndex"
-    [ngClass]="column.cellConfigs.classesArray"
-    [attr.colspan]="column.cellConfigs.colspan">
-</td>
+<ng-container *ngFor="let column of columns">
+  <td fs-cell
+      *ngIf="!column.cellColspanned"
+      [column]="column"
+      [row]="row"
+      [rowIndex]="rowIndex"
+      [ngClass]="column.cellConfigs.classesArray"
+      [attr.colspan]="column.cellConfigs.colspan">
+  </td>
+</ng-container>

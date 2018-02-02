@@ -23,8 +23,15 @@
       role="rowgroup"
       [class.loading]="config.loading"
       [rows]="displayRows"
-      [columns]="config.columns">
+      [columns]="config.columns"
+      [hasFooter]="config.hasFooter">
     </tbody>
+
+    <tfoot fs-list-footer
+           class="fs-list-footer"
+           *ngIf="config.hasFooter"
+           [columns]="config.columns">
+    </tfoot>
   </table>
 
   <fs-list-pagination

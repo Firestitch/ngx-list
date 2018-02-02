@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { Pagination } from './pagination.model';
 import { Sorting } from './sorting.model';
+import * as _isNumber from 'lodash/isNumber';
 
 
 export class FsListConfig extends Model {
@@ -27,7 +28,9 @@ export class FsListConfig extends Model {
   public filterService = new FsFilter();
 
   public data$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+
   public loading = false;
+  public hasFooter = false;
 
   constructor(config: any = {}) {
     super();
@@ -98,9 +101,16 @@ export class FsListConfig extends Model {
   public tranformTemplatesToColumns(templates) {
     templates.forEach((column) => {
       const col = new Column(column, this._columnDefaults);
+
       if (col.sortable) { this.sorting.addSortableColumn(col); } // add column to sortable
+      if (col.footerTemplate) { this.hasFooter = true; }
+
       this.columns.push(col);
     });
+
+    this.updateColspans('headerConfigs', 'headerColspanned');
+    this.updateColspans('cellConfigs', 'cellColspanned');
+    this.updateColspans('footerConfigs', 'footerColspanned');
   }
 
   /**
@@ -154,6 +164,23 @@ export class FsListConfig extends Model {
       this.filtersQuery = {};
       this.load();
     }
+  }
+
+  private updateColspans(config, updateFlag) {
+    this.columns.forEach((col, index) => {
+      if (col[config].colspan !== void 0) {
+        const spanTo = index + +col[config].colspan - 1;
+
+        if (!_isNumber(spanTo)) { return; }
+        this.columns[index][updateFlag] = false;
+
+        for (let i = index + 1; i < spanTo; i++) {
+          if (this.columns[i]) {
+            this.columns[i][updateFlag] = true;
+          }
+        }
+      }
+    })
   }
 
 }
