@@ -1,9 +1,7 @@
 import { Alias, Model } from 'tsmodels';
 import { TemplateRef } from '@angular/core';
 import * as _isObject from 'lodash/isObject';
-import * as _isString from 'lodash/isString';
 import * as _isBoolean from 'lodash/isBoolean';
-import { CellOptions } from '../interfaces';
 import { StyleConfig } from './styleConfig.model';
 
 export enum SortingDirection {
@@ -16,28 +14,7 @@ const ALLOWED_DEFAULTS = [
   'sortable',
   'align',
   'class'
-  // 'headerAlign',
-  // 'headerClass',
-  // 'cellAlign',
-  // 'cellClass',
-  // 'colAlign',
-  // 'colClass',
 ];
-
-const ALLOWED_TOBE_ARRAY = [
-  'headerClass',
-  'cellClass',
-  'colClass'
-];
-
-const EXTERNAL_OPTIONS = [
-  'headerAlign',
-  'headerClass',
-  'cellAlign',
-  'cellClass',
-];
-
-
 
 export class Column extends Model {
   @Alias() public title: string;
@@ -58,17 +35,9 @@ export class Column extends Model {
     super();
 
     this._fromJSON(colConfig);
+
     this.colStyles = new StyleConfig(colConfig);
-
     this.mergeWithColumnDefaults(colDefaults);
-
-    // if (colConfig.headerTemplate) {
-    //   this.headerTemplate = colConfig.headerTemplate;
-    // }
-    //
-    // if (colConfig.rowTemplate) {
-    //   this.rowTemplate = colConfig.rowTemplate;
-    // }
   }
 
   get direction() {
@@ -131,6 +100,9 @@ export class Column extends Model {
     this.cellConfigs.updateClasesArray();
   }
 
+  /**
+   * Change sorting direction
+   */
   public changeDirection() {
     if (this.sortingDirection === SortingDirection.asc) {
       this.sortingDirection = SortingDirection.desc;

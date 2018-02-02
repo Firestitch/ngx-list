@@ -4,7 +4,7 @@
 
   <fs-list-column>
     <ng-template fs-list-header> <!-- You can't use just directive -->
-      Hello
+      №
     </ng-template>
     <ng-template fs-list-cell let-index="index">
       {{index}}
@@ -12,8 +12,8 @@
   </fs-list-column>
 
   <fs-list-column name="name" title="Name" [sortable]="true">
-    <ng-template fs-list-header let-title="value" colspan="5"> <!-- Or you can describe params. Doesn't matter -->
-      Hello {{title}}
+    <ng-template fs-list-header> <!-- Or you can describe params. Doesn't matter -->
+      Name
     </ng-template>
     <ng-template fs-list-cell let-value="value" let-row="row">
       {{value}}

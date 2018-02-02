@@ -2,6 +2,7 @@ import { Alias, Model } from 'tsmodels';
 import * as _isString from 'lodash/isString';
 
 export class StyleConfig extends Model {
+  @Alias() public colspan;
   @Alias() public align: string; // Can't be used in tempaltes!
   @Alias() public styleClass: string | string[] = []; // Can't be used in tempaltes!
 
