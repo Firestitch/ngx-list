@@ -39,16 +39,17 @@ export class ListComponent implements OnInit {
     //<fs-list [controller]="controller">
 
     this.config = this.buildRemoteDataSourceConfig();
-    this.localDataSourceConfig = this.buildLocalDataSourceConfig();
+    // this.localDataSourceConfig = this.buildLocalDataSourceConfig();
   }
 
   get columnDefaults() {
     return {
-      headerClass: ['test-row-class-hello-world'],
+      headerClass: ['header-test-defaults-class'],
       sortable: true,
       headerAlign: 'right',
       cellAlign: 'right',
-      cellClass: ['test-my-default-class']
+      cellClass: ['cell-test-defaults-class'],
+      colClass: ['col-test-class']
     };
   }
 
@@ -152,51 +153,51 @@ export class ListComponent implements OnInit {
     });
   }
 
-  public buildLocalDataSourceConfig() {
-    return FsListConfig.create({
-      paging: this.listLocalPaging,
-      filters: this.listFilters,
-      actions: [
-        {
-          click: (event) => {
-            console.log(event);
-          },
-          label: 'Primary Button'
-        },
-        {
-          click: (event) => {
-            console.log(event);
-          },
-          label: 'Secondary Button'
-        }
-      ],
-      rowActions: [
-        {
-          click: (event) => {
-            console.log(event);
-          },
-          icon: 'edit'
-        },
-        {
-          click: (event) => {
-            console.log(event);
-          },
-          icon: 'delete'
-        }
-      ],
-      rowEvents: [
-        {
-          hover: function(event) {
-
-          },
-          click: function(event) {
-
-          }
-        }
-      ],
-      columnDefaults: this.columnDefaults
-    });
-  }
+  // public buildLocalDataSourceConfig() {
+  //   return FsListConfig.create({
+  //     paging: this.listLocalPaging,
+  //     filters: this.listFilters,
+  //     actions: [
+  //       {
+  //         click: (event) => {
+  //           console.log(event);
+  //         },
+  //         label: 'Primary Button'
+  //       },
+  //       {
+  //         click: (event) => {
+  //           console.log(event);
+  //         },
+  //         label: 'Secondary Button'
+  //       }
+  //     ],
+  //     rowActions: [
+  //       {
+  //         click: (event) => {
+  //           console.log(event);
+  //         },
+  //         icon: 'edit'
+  //       },
+  //       {
+  //         click: (event) => {
+  //           console.log(event);
+  //         },
+  //         icon: 'delete'
+  //       }
+  //     ],
+  //     rowEvents: [
+  //       {
+  //         hover: function(event) {
+  //
+  //         },
+  //         click: function(event) {
+  //
+  //         }
+  //       }
+  //     ],
+  //     columnDefaults: this.columnDefaults
+  //   });
+  // }
 
   public onClick(event, row) {
 
@@ -208,7 +209,7 @@ export class ListComponent implements OnInit {
     this._router.navigateByUrl(link);
   }
 
-  public addRows() {
+  /*public addRows() {
     this.rows.push(
         {name: 'Object 8', date: '1970-09-15T02:03:44+00:00', guid: '85821c48f3ee78ebf2caa03bc5da1cea'},
         {name: 'Object 9', date: '1970-09-15T02:03:44+00:00', guid: '85821c48f3ee78ebf2caa03bc5da1cea'},
@@ -218,5 +219,5 @@ export class ListComponent implements OnInit {
         {name: 'Object 13', date: '1970-09-15T02:03:44+00:00', guid: '85821c48f3ee78ebf2caa03bc5da1cea'},
         {name: 'Object 14', date: '1970-09-15T02:03:44+00:00', guid: '85821c48f3ee78ebf2caa03bc5da1cea'}
       );
-  }
+  }*/
 }

@@ -114,6 +114,8 @@ export class FsListConfig extends Model {
       if (config.paging.limits) {
         this.paging.limits = config.paging.limits
       }
+    } else if (config.paging === false) {
+      this.paging.enabled = false;
     }
   }
 

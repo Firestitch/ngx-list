@@ -1,3 +1,3 @@
-export * from './header-template';
-export * from './row-template';
+export * from './header';
+export * from './cell';
 export * from './column';

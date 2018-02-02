@@ -17,9 +17,9 @@ import {
 
 import {
   FsListColumnDirective,
-  FsListRowTemplateDirective,
+  FsListCellDirective,
+  FsListHeaderDirective,
 } from './app/directives';
-import { FsListHeaderTemplateDirective } from './app/directives/header-template/header-template.directive';
 
 export * from './app/components/list/list.component';
 
@@ -47,8 +47,8 @@ export * from './app/components/list/list.component';
 
     // Directives
     FsListColumnDirective,
-    FsListRowTemplateDirective,
-    FsListHeaderTemplateDirective,
+    FsListCellDirective,
+    FsListHeaderDirective,
   ],
   providers: [
   ],
@@ -57,8 +57,8 @@ export * from './app/components/list/list.component';
     FsRowComponent,
     FsCellComponent,
     FsListColumnDirective,
-    FsListRowTemplateDirective,
-    FsListHeaderTemplateDirective,
+    FsListCellDirective,
+    FsListHeaderDirective,
   ]
 })
 export class FsListModule {
