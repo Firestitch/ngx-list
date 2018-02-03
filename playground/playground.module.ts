@@ -10,8 +10,8 @@ import { FsListModule } from '../src';
 
 import { AppComponent } from './app/app.component';
 import { AppMaterialModule } from './app/material.module';
-import { ListComponent } from './app/compoents/list/list.component';
-import { WelcomeComponent } from './app/compoents/welcome/welcome.component';
+import { ListComponent } from './app/components/list/list.component';
+import { WelcomeComponent } from './app/components/welcome/welcome.component';
 
 import 'rxjs/add/operator/map';
 
