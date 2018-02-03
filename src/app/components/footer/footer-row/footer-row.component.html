@@ -1,0 +1,10 @@
+<ng-container *ngFor="let column of columns">
+  <td fs-list-footer-cell
+      *ngIf="!column.footerColspanned"
+      [column]="column"
+      [row]="row"
+      [rowIndex]="rowIndex"
+      [ngClass]="column.footerConfigs.classesArray"
+      [attr.colspan]="column.footerConfigs.colspan">
+  </td>
+</ng-container>

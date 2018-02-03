@@ -1,5 +1,7 @@
 import { ContentChild, Directive, Input, TemplateRef } from '@angular/core';
-import { FsListRowTemplateDirective } from '../';
+import { FsListCellDirective, FsListHeaderDirective } from '../';
+import { CellConfig } from '../../interfaces';
+import { FsListFooterDirective } from '../footer/footer.directive';
 
 @Directive({
   selector: 'fs-list-column'
@@ -8,11 +10,21 @@ export class FsListColumnDirective {
   @Input() public title: string;
   @Input() public name: string;
   @Input() public sortable: boolean;
-  @Input() public headerAlign: string;
-  @Input() public headerClass: string | string[];
-  @Input() public cellAlign: string;
-  @Input() public cellClass: string | string[];
+  @Input() public align: string;
+  @Input('class') public styleClass: string | string[];
 
-  @ContentChild(FsListRowTemplateDirective, { read: TemplateRef })
-  template: TemplateRef<any>;
+  @ContentChild(FsListHeaderDirective, { read: TemplateRef })
+  headerTemplate: TemplateRef<any>;
+
+  @ContentChild(FsListHeaderDirective) headerConfigs: CellConfig;
+
+  @ContentChild(FsListCellDirective, { read: TemplateRef })
+  rowTemplate: TemplateRef<any>;
+
+  @ContentChild(FsListCellDirective) cellConfigs: CellConfig;
+
+  @ContentChild(FsListFooterDirective, { read: TemplateRef })
+  footerTemplate: TemplateRef<any>;
+
+  @ContentChild(FsListFooterDirective) footerConfigs: CellConfig;
 }

@@ -13,11 +13,16 @@ import {
   FsHeadCellComponent,
   FsHeadComponent,
   FsPaginationComponent,
+  FsFooterComponent,
+  FsFooterRowComponent,
+  FsFooterCellComponent,
 } from './app/components';
 
 import {
   FsListColumnDirective,
-  FsListRowTemplateDirective,
+  FsListCellDirective,
+  FsListHeaderDirective,
+  FsListFooterDirective,
 } from './app/directives';
 
 export * from './app/components/list/list.component';
@@ -31,25 +36,27 @@ export * from './app/components/list/list.component';
     FsFilterModule,
     FlexLayoutModule
   ],
-  entryComponents: [
-    FsRowComponent,
-  ],
   declarations: [
     // Components
     FsListComponent,
     FsRowComponent,
     FsCellComponent,
+    FsFooterRowComponent,
+    FsFooterCellComponent,
 
     // Internal Components
     FsStatusComponent,
     FsHeadComponent,
     FsHeadCellComponent,
     FsBodyComponent,
+    FsFooterComponent,
     FsPaginationComponent,
 
     // Directives
     FsListColumnDirective,
-    FsListRowTemplateDirective,
+    FsListCellDirective,
+    FsListHeaderDirective,
+    FsListFooterDirective,
   ],
   providers: [
   ],
@@ -58,7 +65,9 @@ export * from './app/components/list/list.component';
     FsRowComponent,
     FsCellComponent,
     FsListColumnDirective,
-    FsListRowTemplateDirective,
+    FsListCellDirective,
+    FsListHeaderDirective,
+    FsListFooterDirective,
   ]
 })
 export class FsListModule {

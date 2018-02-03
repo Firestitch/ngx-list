@@ -1,31 +1,42 @@
 <div class="fs-list-container">
   <div class="fs-list-filters" fxLayoutRow>
-    <fs-filter *ngIf="config.filterService.fsConfig.items.length" [(filter)]="config.filterService" fxFlex></fs-filter>
-    <div class="fs-list-actions" *ngIf="config.actions?.length">
-      <span *ngFor="let action of config.actions">
+    <fs-filter *ngIf="listConfig.filterService.fsConfig.items.length" [(filter)]="listConfig.filterService" fxFlex></fs-filter>
+    <div class="fs-list-actions" *ngIf="listConfig.actions?.length">
+      <span *ngFor="let action of listConfig.actions">
           <button mat-raised-button
                   (click)="actionClick(action,$event)"
                   [ngClass]="{ 'mat-primary': action.primary }">{{ action.label }}</button>
       </span>
     </div>
   </div>
-  <fs-list-status [dataChangedRef]="config.data$" [sorting]="config.sorting" [paging]="config.paging" *ngIf="config.paging"></fs-list-status>
+  <fs-list-status [dataChangedRef]="listConfig.data$" [sorting]="listConfig.sorting" [paging]="listConfig.paging" *ngIf="listConfig.paging"></fs-list-status>
   <table class="fs-list-table" role="grid">
-    <fs-list-head
+    <thead fs-list-head
       class="fs-list-head"
       role="rowgroup"
-      [columns]="config.columns"
-      [sorting]="config.sorting">
-    </fs-list-head>
+      [columns]="listConfig.columns"
+      [sorting]="listConfig.sorting">
+    </thead>
 
-    <fs-list-body
+    <tbody fs-list-body
       class="fs-list-body"
       role="rowgroup"
-      [class.loading]="config.loading"
-      [rows]="rows"
-      [columns]="config.columns">
-    </fs-list-body>
+      [class.loading]="listConfig.loading"
+      [rows]="displayRows"
+      [columns]="listConfig.columns"
+      [hasFooter]="listConfig.hasFooter">
+    </tbody>
+
+    <tfoot fs-list-footer
+           class="fs-list-footer"
+           *ngIf="listConfig.hasFooter"
+           [columns]="listConfig.columns">
+    </tfoot>
   </table>
 
-  <fs-list-pagination [dataChangedRef]="config.data$" [pagination]="config.paging"></fs-list-pagination>
+  <fs-list-pagination
+    *ngIf="listConfig.paging.enabled"
+    [dataChangedRef]="listConfig.data$"
+    [pagination]="listConfig.paging">
+  </fs-list-pagination>
 </div>

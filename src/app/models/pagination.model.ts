@@ -6,8 +6,9 @@ export class Pagination extends Model {
 
   @Alias() public limit = 5;
   @Alias() public pages = 0; // Total pages
-  @Alias() public page = 1; // Active page
   @Alias() public records: number;
+  @Alias() public manual = false;
+  public page = 1; // Active page
 
   public pageChanged = new Subject();
   public pagesArray = [];
@@ -101,10 +102,45 @@ export class Pagination extends Model {
   }
 
   /**
+   * Update paging when data source not remove
+   * @param {any[]} rows
+   */
+  public updatePagingManual(rows: any[]) {
+    if (Array.isArray(rows) && rows.length > 0) {
+      this.records = rows.length;
+      this.pages = Math.ceil(rows.length / this.limit);
+    }
+
+    this.updatePagesArray();
+    this.updateDisplayed();
+  }
+
+  /**
    * Update pages array with new pages count
    */
   public updatePagesArray() {
-    this.pagesArray = Array(this.pages).fill(null).map((x, i) => i + 1);
+    const MIDDLE = 3;
+    const pagesArr = [];
+
+    let from = 0;
+    let to = 0;
+    if (this.page < MIDDLE) {
+      from = MIDDLE - 2;
+      to = MIDDLE + 2;
+    } else if (this.page >= MIDDLE && this.page <= this.pages - MIDDLE + 1) {
+      from = this.page - 2;
+      to = this.page + 2;
+    } else if (this.page > this.pages - MIDDLE + 1) {
+      from = this.pages - MIDDLE - 1;
+      to = this.pages;
+    }
+
+    for (let i = from; i <= to; i++) {
+      pagesArr.push(i);
+    }
+
+    this.pagesArray = Object.assign([], pagesArr);
+
   }
 
   /**

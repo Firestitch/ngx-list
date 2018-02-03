@@ -1,11 +1,13 @@
 import { FsFilter } from '@firestitch/filter';
 
-import { Alias, Model} from 'tsmodels';
-import { Column, SortingDirection } from './column.model';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { Column } from './column.model';
 import { Pagination } from './pagination.model';
 import { Sorting } from './sorting.model';
+
+import * as _isNumber from 'lodash/isNumber';
+import { Alias, Model} from 'tsmodels';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 
 export class FsListConfig extends Model {
@@ -14,8 +16,10 @@ export class FsListConfig extends Model {
   @Alias() public rowActions: any;
   @Alias() public rowEvents: any;
   @Alias() public columnTemplates: any;
-  @Alias('data') public dataFn: any;
+  @Alias('fetch') public fetchFn: any;
   @Alias() public filters = [];
+  @Alias('columnDefaults') private _columnDefaults;
+  @Alias('rows') private _rows: any;
 
   public filtersQuery: any;
   public columns: Column[] = [];
@@ -25,7 +29,9 @@ export class FsListConfig extends Model {
   public filterService = new FsFilter();
 
   public data$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+
   public loading = false;
+  public hasFooter = false;
 
   constructor(config: any = {}) {
     super();
@@ -36,6 +42,10 @@ export class FsListConfig extends Model {
     this.watchFilters();
     this.initPaging(config);
     this.subscribe();
+  }
+
+  set rows(value) {
+    this._rows = value;
   }
 
   public static create(config) {
@@ -51,7 +61,15 @@ export class FsListConfig extends Model {
       Object.assign(query, { order: `${this.sorting.sortingColumn.name},${this.sorting.sortingColumn.direction}`})
     }
 
-    const result: any = this.dataFn(query);
+    if (this.fetchFn) {
+      this.loadRemote(query);
+    } else if (Array.isArray(this._rows)) {
+      this.loadLocal();
+    }
+  }
+
+  public loadRemote(query) {
+    const result: any = this.fetchFn(query);
 
     if (result instanceof Promise) {
       result.then(response => {
@@ -68,16 +86,32 @@ export class FsListConfig extends Model {
     }
   }
 
+  public loadLocal() {
+    this.paging.updatePagingManual(this._rows);
+    const from = (this.paging.page - 1) * this.paging.limit;
+    const to = (this.paging.page === 1) ? this.paging.limit : this.paging.limit * this.paging.page;
+    const sliceOfRows = this._rows.slice(from, to);
+    this.data$.next(sliceOfRows);
+    this.loading = false;
+  }
+
   /**
    * Transform templates for using
    * @param templates
    */
   public tranformTemplatesToColumns(templates) {
     templates.forEach((column) => {
-      const col = new Column(column);
+      const col = new Column(column, this._columnDefaults);
+
       if (col.sortable) { this.sorting.addSortableColumn(col); } // add column to sortable
+      if (col.footerTemplate) { this.hasFooter = true; }
+
       this.columns.push(col);
     });
+
+    this.updateColspans('headerConfigs', 'headerColspanned');
+    this.updateColspans('cellConfigs', 'cellColspanned');
+    this.updateColspans('footerConfigs', 'footerColspanned');
   }
 
   /**
@@ -86,10 +120,12 @@ export class FsListConfig extends Model {
    */
   private initPaging(config) {
     if (config.paging) {
-      this.paging.enabled = config.paging.enabled;
+      this.paging.manual = config.paging.manual;
       if (config.paging.limits) {
         this.paging.limits = config.paging.limits
       }
+    } else if (config.paging === false) {
+      this.paging.enabled = false;
     }
   }
 
@@ -128,6 +164,23 @@ export class FsListConfig extends Model {
       this.filtersQuery = {};
       this.load();
     }
+  }
+
+  private updateColspans(config, updateFlag) {
+    this.columns.forEach((col, index) => {
+      if (col[config].colspan !== void 0) {
+        const spanTo = index + +col[config].colspan - 1;
+
+        if (!_isNumber(spanTo)) { return; }
+        this.columns[index][updateFlag] = false;
+
+        for (let i = index + 1; i < spanTo; i++) {
+          if (this.columns[i]) {
+            this.columns[i][updateFlag] = true;
+          }
+        }
+      }
+    })
   }
 
 }

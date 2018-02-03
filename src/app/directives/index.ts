@@ -1,2 +1,4 @@
-export * from './row-detail-template';
+export * from './header';
+export * from './cell';
 export * from './column';
+export * from './footer';

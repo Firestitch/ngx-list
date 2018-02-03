@@ -1,7 +1,8 @@
-<div class="fs-list-row">
-  <fs-head-cell *ngFor="let column of columns"
-                (click)="sorting.sortBy(column)"
-                [column]="column"
-                [class.sorting]="column.sortable"
-                [ngClass]="column.headStyles"></fs-head-cell>
-</div>
+<tr class="fs-list-row">
+  <th fs-head-cell *ngFor="let column of columns"
+      (click)="sorting.sortBy(column)"
+      [column]="column"
+      [class.sorting]="column.sortable"
+      [ngClass]="column.headerConfigs.classesArray"
+      [attr.colspan]="column.headerConfigs.colspan"></th>
+</tr>

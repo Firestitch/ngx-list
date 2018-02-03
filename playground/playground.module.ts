@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FsApiModule } from '@firestitch/api';
+import { FsExampleModule } from '@firestitch/example';
 
 import { FsListModule } from '../src';
 
@@ -30,9 +31,9 @@ import './../tools/assets/playground.scss';
     BrowserAnimationsModule,
     FsApiModule,
     FormsModule,
+    FsExampleModule,
     RouterModule.forRoot([
-      { path: '', redirectTo: 'list', pathMatch: 'full'},
-      { path: 'list', component: ListComponent },
+      { path: '', component: ListComponent},
       { path: 'welcome', component: WelcomeComponent },
     ])
   ],

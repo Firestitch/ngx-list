@@ -21,6 +21,6 @@ export class FsPaginationComponent implements OnInit {
   public ngOnInit() {
     this.dataChangedRef.subscribe(() => {
       this.cdRef.markForCheck();
-    })
+    });
   }
 }

@@ -1,34 +1,92 @@
-<fs-list [config]="config">
+<h1>FS-List</h1>
+
+<div class="example">
+  <fs-example componentName="fs-list">
+    <fs-list [config]="config">
+
+      <fs-list-column>
+        <ng-template fs-list-header> <!-- You can't use just directive -->
+          №
+        </ng-template>
+        <ng-template fs-list-cell let-index="index">
+          {{index}}
+        </ng-template>
+        <ng-template fs-list-footer colspan="3">
+          Footer with colspan 3 and left align
+        </ng-template>
+      </fs-list-column>
+
+      <fs-list-column name="name" title="Name" [sortable]="true">
+        <ng-template fs-list-header> <!-- Or you can describe params. Doesn't matter -->
+          <b>User</b> name
+        </ng-template>
+        <ng-template fs-list-cell let-value="value" let-row="row">
+          {{value}}
+          <mat-form-field>
+            <input matInput [(ngModel)]="row.guid" (click)="onClick($event, row)">
+          </mat-form-field>
+        </ng-template>
+      </fs-list-column>
+
+      <fs-list-column name="guid" title="GUID" [sortable]="true">
+        <ng-template fs-list-cell let-guid="value" let-row="row">
+          This row's guid is {{ row.guid }} ({{guid}}).
+        </ng-template>
+      </fs-list-column>
+
+      <fs-list-column title="Link">
+        <ng-template fs-list-cell let-guid="value" [class]="['myTestClass', 'myTestClass2']">
+          <a routerLink="/welcome">Simple Link</a>
+        </ng-template>
+        <ng-template fs-list-footer colspan="2" align="right">
+          Footer with colspan 2 and right align
+        </ng-template>
+      </fs-list-column>
+
+      <fs-list-column title="Handler">
+        <ng-template fs-list-cell>
+          <a (click)="proceed('/welcome')">Link Handler</a>
+        </ng-template>
+      </fs-list-column>
+    </fs-list>
+  </fs-example>
+</div>
+
+<!--<h1>Local Data Source</h1>
+<fs-list [config]="localDataSourceConfig" [rows]="rows">
 
   <fs-list-column title="№">
-    <ng-template fs-list-row-template let-index="index">
+    <ng-template fs-list-cell let-index="index">
       {{index}}
     </ng-template>
   </fs-list-column>
 
-  <fs-list-column name="name" title="Name" [sortable]="true">
-    <ng-template fs-list-row-template let-name="value" let-row="row">
+  <fs-list-column name="name" title="Name">
+    <ng-template fs-list-cell let-value="value" let-row="row">
+      {{value}}
       <mat-form-field>
         <input matInput [(ngModel)]="row.guid" (click)="onClick($event, row)">
       </mat-form-field>
     </ng-template>
   </fs-list-column>
 
-  <fs-list-column name="guid" title="GUID" headerAlign="center" [sortable]="true">
-    <ng-template fs-list-row-template let-guid="value" let-row="row">
+  <fs-list-column name="guid" title="GUID" headerAlign="center">
+    <ng-template fs-list-cell let-guid="value" let-row="row">
       This row's guid is {{ row.guid }} ({{guid}}).
     </ng-template>
   </fs-list-column>
 
-  <fs-list-column title="Link" cellAlign="right" [cellClass]="['myTestClass', 'myTestClass2']">
-    <ng-template fs-list-row-template let-guid="value">
+  <fs-list-column title="Link" cellAlign="right">
+    <ng-template fs-list-cell let-guid="value">
       <a routerLink="/welcome">Simple Link</a>
     </ng-template>
   </fs-list-column>
 
   <fs-list-column title="Handler">
-    <ng-template fs-list-row-template>
+    <ng-template fs-list-cell>
       <a (click)="proceed('/welcome')">Link Handler</a>
     </ng-template>
   </fs-list-column>
 </fs-list>
+
+<button (click)="addRows()">Add 7 Rows</button>-->
