@@ -1,45 +1,42 @@
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FsApiModule } from '@firestitch/api';
-import { FsExampleModule } from '@firestitch/example';
-
-import { FsListModule } from '../src';
-
-import { AppComponent } from './app/app.component';
-import { AppMaterialModule } from './app/material.module';
-import { ListComponent } from './app/components/list/list.component';
-import { WelcomeComponent } from './app/components/welcome/welcome.component';
-
-import 'rxjs/add/operator/map';
-
 import './../tools/assets/playground.scss';
+
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app/app.component';
+import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { FsListModule } from '../src';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { AppMaterialModule } from './app/material.module';
+import { KitchenSinkComponent } from './app/components/kitchensink/kitchensink.component';
+import { FsExampleModule } from '@firestitch/example';
+import { FsApiModule } from '@firestitch/api';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   bootstrap: [ AppComponent ],
-  declarations: [
-    AppComponent,
-    ListComponent,
-    WelcomeComponent,
-  ],
   imports: [
     BrowserModule,
-    AppMaterialModule,
     FsListModule,
     BrowserAnimationsModule,
-    FsApiModule,
+    AppMaterialModule,
     FormsModule,
+    FlexLayoutModule,
     FsExampleModule,
+    FsApiModule,
     RouterModule.forRoot([
-      { path: '', component: ListComponent},
-      { path: 'welcome', component: WelcomeComponent },
+      { path: '', component: AppComponent}
     ])
   ],
   entryComponents: [
-  ]
+  ],
+  declarations: [
+    AppComponent,
+    KitchenSinkComponent
+  ],
+  providers: [
+  ],
+
 })
-export class PlaygroundModule {}
-
-
+export class PlaygroundModule {
+}

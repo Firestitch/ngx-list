@@ -1,14 +1,8 @@
-import { Component, ViewEncapsulation } from '@angular/core';
-
-import { FsArray } from '@firestitch/common';
-import { FsApi } from '@firestitch/api';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'fs-app-root',
-  templateUrl: 'app.component.html',
-  styleUrls: ['../styles/styles.scss' ],
-  encapsulation: ViewEncapsulation.None
+  selector: 'app-root',
+  templateUrl: 'app.component.html'
 })
 export class AppComponent {
-
 }
