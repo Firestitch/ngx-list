@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FsApi } from '@firestitch/api';
 
-import { FsListConfig } from '../../../../src/app/models/list-config.model';
+import { IFsListConfig } from '../../../../src/app/interfaces';
 
 import 'rxjs/add/operator/map';
 
@@ -13,8 +13,8 @@ import 'rxjs/add/operator/map';
 })
 export class ListComponent implements OnInit {
 
-  public config: FsListConfig;
-  public localDataSourceConfig: FsListConfig;
+  public config: IFsListConfig;
+  // public localDataSourceConfig: IFsListConfig;
   public rows = [
     {name: 'Object 1', date: '1970-09-15T02:03:44+00:00', guid: '85821c48f3ee78ebf2caa03bc5da1cea'},
     {name: 'Object 2', date: '1970-09-15T02:03:44+00:00', guid: '85821c48f3ee78ebf2caa03bc5da1cea'},
@@ -30,16 +30,7 @@ export class ListComponent implements OnInit {
 
   public ngOnInit() {
 
-    // FsList
-    // instance
-    // controller
-
-    // this.fslist = FsList.create({...})
-    //<fs-list [fsList]="fsList">
-    //<fs-list [controller]="controller">
-
     this.config = this.buildRemoteDataSourceConfig();
-    // this.localDataSourceConfig = this.buildLocalDataSourceConfig();
   }
 
   get columnDefaults() {
@@ -78,8 +69,6 @@ export class ListComponent implements OnInit {
 
   get listPaging() {
     return {
-      enabled: true,
-      //limit: 250,
       limits: [5, 15, 50, 150, 250, 500, 1000]
     };
   }
@@ -88,13 +77,12 @@ export class ListComponent implements OnInit {
     return {
       enabled: true,
       manual: true,
-      //limit: 250,
       limits: [5, 15, 50, 150, 250, 500, 1000]
     };
   }
 
   public buildRemoteDataSourceConfig() {
-    return FsListConfig.create({
+    return {
       paging: this.listPaging,
       filters: this.listFilters,
       actions: [
@@ -136,7 +124,7 @@ export class ListComponent implements OnInit {
         }
       ],
       columnDefaults: this.columnDefaults,
-      data: (query) => {
+      fetch: (query) => {
         query.count = 500;
 
         // Connect to dummy api and disply the data
@@ -150,7 +138,7 @@ export class ListComponent implements OnInit {
         return this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
           .map(response => ({ data: response.data.objects, paging: response.data.paging }));
       }
-    });
+    };
   }
 
   // public buildLocalDataSourceConfig() {
@@ -200,8 +188,6 @@ export class ListComponent implements OnInit {
   // }
 
   public onClick(event, row) {
-
-    //this.config.reload();
     console.log(event, row);
   }
 

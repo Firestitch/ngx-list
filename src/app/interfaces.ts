@@ -1,18 +1,26 @@
+import { Observable } from 'rxjs/Observable';
+
 export interface IPaging {
-  limit: number;
-  page: number;
-  pages: number;
-  records: number;
+  limits?: number[];
+  limit?: number;
+  page?: number;
+  pages?: number;
+  records?: number;
 }
 
-export interface FsListCell {
-  value?: string;
-  onclick?: any;
-  onhover?: any;
-  html?: string;
-  parts?: FsListPart[];
-  icon?: string;
+export interface IFsListConfig {
+  paging?: IPaging;
+  columnDefaults?: Object;
+  filters?: Object[];
+  dataFn?: FsFetchFunction;
+  rowActions?: Object[];
+  actions?: Object[];
 }
+
+export interface FsFetchFunction {
+  <T>(query: any): Observable<T> | Promise<T>
+}
+
 
 export interface FsListPart {
   value?: string;

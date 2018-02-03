@@ -27,12 +27,13 @@ import { FsListConfig } from '../../models/list-config.model';
 })
 
 export class FsListComponent implements OnInit, DoCheck, OnDestroy {
-  @Input() public config: FsListConfig;
+  @Input() public config: any;
   @Input() public columns: any;
   @Input() public inlineFilters: boolean;
   @Input() public rows: any[];
 
   public displayRows;
+  public listConfig: FsListConfig;
   /**
    * Set columns to config
    * Create Column Model instances
@@ -41,7 +42,7 @@ export class FsListComponent implements OnInit, DoCheck, OnDestroy {
    */
   @ContentChildren(FsListColumnDirective)
   set columnTemplates(val: QueryList<FsListColumnDirective>) {
-    this.config.tranformTemplatesToColumns(val);
+    this.listConfig.tranformTemplatesToColumns(val);
   }
 
   private _rowsDiffer: IterableDiffer<any[]>;
@@ -56,16 +57,15 @@ export class FsListComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   public ngOnInit() {
-    if (!this.config) {
-      this.config = new FsListConfig();
-    }
-    this.config.rows = this.rows;
+    this.listConfig = new FsListConfig(this.config);
+    this.listConfig.rows = this.rows;
 
-    if (!this.config.filters || this.config.filters.length === 0) {
-      this.config.load();
+    debugger;
+    if (!this.listConfig.filters || this.listConfig.filters.length === 0) {
+      this.listConfig.load();
     }
 
-    this.config.data$.subscribe((rows) => {
+    this.listConfig.data$.subscribe((rows) => {
       this.displayRows = rows;
     });
   }
@@ -78,14 +78,14 @@ export class FsListComponent implements OnInit, DoCheck, OnDestroy {
       this.cdRef.markForCheck();
     }
 
-    if (this.config.paging.manual && rowsDiffer) {
-      this.config.paging.updatePagingManual(this.rows);
-      this.config.paging.pageChanged.next();
+    if (this.listConfig.paging.manual && rowsDiffer) {
+      this.listConfig.paging.updatePagingManual(this.rows);
+      this.listConfig.paging.pageChanged.next();
     }
   }
 
   public ngOnDestroy() {
-    this.config.data$.complete();
-    this.config.paging.pageChanged.complete();
+    this.listConfig.data$.complete();
+    this.listConfig.paging.pageChanged.complete();
   }
 }

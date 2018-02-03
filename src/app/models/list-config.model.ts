@@ -8,7 +8,6 @@ import * as _isNumber from 'lodash/isNumber';
 import { Alias, Model} from 'tsmodels';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subject } from 'rxjs/Subject';
 
 
 export class FsListConfig extends Model {
@@ -17,7 +16,7 @@ export class FsListConfig extends Model {
   @Alias() public rowActions: any;
   @Alias() public rowEvents: any;
   @Alias() public columnTemplates: any;
-  @Alias('data') public dataFn: any;
+  @Alias('fetch') public fetchFn: any;
   @Alias() public filters = [];
   @Alias('columnDefaults') private _columnDefaults;
   @Alias('rows') private _rows: any;
@@ -62,7 +61,7 @@ export class FsListConfig extends Model {
       Object.assign(query, { order: `${this.sorting.sortingColumn.name},${this.sorting.sortingColumn.direction}`})
     }
 
-    if (this.dataFn) {
+    if (this.fetchFn) {
       this.loadRemote(query);
     } else if (Array.isArray(this._rows)) {
       this.loadLocal();
@@ -70,7 +69,7 @@ export class FsListConfig extends Model {
   }
 
   public loadRemote(query) {
-    const result: any = this.dataFn(query);
+    const result: any = this.fetchFn(query);
 
     if (result instanceof Promise) {
       result.then(response => {
@@ -121,7 +120,6 @@ export class FsListConfig extends Model {
    */
   private initPaging(config) {
     if (config.paging) {
-      this.paging.enabled = config.paging.enabled;
       this.paging.manual = config.paging.manual;
       if (config.paging.limits) {
         this.paging.limits = config.paging.limits
