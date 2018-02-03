@@ -35,7 +35,7 @@
     "build:sass": "node-sass -r build/ -o build/ || true",
     "serve": "webpack-dev-server --config=tools/webpack.playground.js --progress --profile --watch",
     "lint": "tslint 'src/**/*.ts' -p ./tslint.json",
-    "compodoc": "./node_modules/.bin/compodoc src --disableInternal --disablePrivate --disableGraph --disableSourceCode --hideGenerator --tsconfig tsconfig.compodoc.json"
+    "compodoc": "./node_modules/.bin/compodoc src --disableInternal --disablePrivate --disableGraph --disableSourceCode --hideGenerator --output docs --tsconfig tsconfig.compodoc.json"
   },
   "main": "release/index.js",
   "typings": "release/index.d.ts",
