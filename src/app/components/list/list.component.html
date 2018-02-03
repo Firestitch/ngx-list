@@ -4,8 +4,10 @@
     <div class="fs-list-actions" *ngIf="listConfig.actions?.length">
       <span *ngFor="let action of listConfig.actions">
           <button mat-raised-button
-                  (click)="actionClick(action,$event)"
-                  [ngClass]="{ 'mat-primary': action.primary }">{{ action.label }}</button>
+                  (click)="action.click(action, $event)"
+                  [ngClass]="{ 'mat-primary': action.primary }">
+            <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{ action.label }}
+          </button>
       </span>
     </div>
   </div>

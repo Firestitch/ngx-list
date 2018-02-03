@@ -52,10 +52,6 @@ export class FsListComponent implements OnInit, DoCheck, OnDestroy {
     this._rowsDiffer = differs.find([]).create(null);
   }
 
-  public actionClick() {
-    alert('TODO');
-  }
-
   public ngOnInit() {
     this.listConfig = new FsListModel(this.config);
     this.listConfig.rows = this.rows;

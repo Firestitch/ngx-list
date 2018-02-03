@@ -52,6 +52,8 @@ export class KitchenSinkComponent implements OnInit {
           click: (event) => {
             console.log(event);
           },
+          icon: 'delete',
+          primary: true,
           label: 'Secondary Button'
         }
       ],
