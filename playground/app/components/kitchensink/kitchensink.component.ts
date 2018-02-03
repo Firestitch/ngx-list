@@ -58,15 +58,17 @@ export class KitchenSinkComponent implements OnInit {
       rowActions: [
         {
           click: (event) => {
-            console.log(event);
+            console.log('edit', event);
           },
-          icon: 'edit'
+          icon: 'edit',
+          label: 'Edit'
         },
         {
           click: (event) => {
-            console.log(event);
+            console.log('delete', event);
           },
-          icon: 'delete'
+          icon: 'delete',
+          label: 'Remove'
         }
       ],
       rowEvents:

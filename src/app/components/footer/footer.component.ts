@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Input,
   IterableDiffers
 } from '@angular/core';
 import { FsBodyComponent } from '../body/body.component';
@@ -12,6 +13,8 @@ import { FsBodyComponent } from '../body/body.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FsFooterComponent extends FsBodyComponent {
+
+  @Input() hasRowActions: boolean;
 
   constructor(
     cdRef: ChangeDetectorRef,

@@ -15,7 +15,8 @@
       class="fs-list-head"
       role="rowgroup"
       [columns]="listConfig.columns"
-      [sorting]="listConfig.sorting">
+      [sorting]="listConfig.sorting"
+      [hasRowActions]="listConfig.hasRowActions">
     </thead>
 
     <tbody fs-list-body
@@ -23,6 +24,7 @@
       role="rowgroup"
       [class.loading]="listConfig.loading"
       [rows]="displayRows"
+      [rowActions]="listConfig.rowActions"
       [columns]="listConfig.columns"
       [hasFooter]="listConfig.hasFooter">
     </tbody>
@@ -30,7 +32,8 @@
     <tfoot fs-list-footer
            class="fs-list-footer"
            *ngIf="listConfig.hasFooter"
-           [columns]="listConfig.columns">
+           [columns]="listConfig.columns"
+           [hasRowActions]="listConfig.hasRowActions">
     </tfoot>
   </table>
 

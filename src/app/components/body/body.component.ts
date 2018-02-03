@@ -17,6 +17,7 @@ export class FsBodyComponent implements DoCheck {
   @Input() rows;
   @Input() columns: Column[] = [];
   @Input() hasFooter = false;
+  @Input() rowActions = [];
 
   @ViewChild('rowsContainer', { read: ViewContainerRef }) rowsContainer;
 

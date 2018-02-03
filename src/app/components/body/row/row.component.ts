@@ -19,6 +19,7 @@ export class FsRowComponent implements DoCheck {
   @HostBinding('attr.role') role = 'row';
 
   @Input() public row: any;
+  @Input() public rowActions = [];
 
   @Input() rowIndex: number;
   @Input() columns: Column[];

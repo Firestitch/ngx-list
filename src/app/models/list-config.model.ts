@@ -22,6 +22,7 @@ export class FsListModel extends Model {
   @Alias('rows') private _rows: any;
 
   public filtersQuery: any;
+  public hasRowActions;
   public columns: Column[] = [];
   public persist: string;
   public paging = new Pagination();
@@ -38,7 +39,7 @@ export class FsListModel extends Model {
 
     this._fromJSON(config);
 
-
+    this.hasRowActions = this.rowActions && this.rowActions.length > 0;
     this.watchFilters();
     this.initPaging(config);
     this.subscribe();
