@@ -1,4 +1,4 @@
-<ng-template [ngTemplateOutlet]="template || cell" [ngTemplateOutletContext]="cellContext"></ng-template>
+<ng-template [ngTemplateOutlet]="column.rowTemplate || cell" [ngTemplateOutletContext]="cellContext"></ng-template>
 
 <ng-template #cell let-value="value">
   {{value}}

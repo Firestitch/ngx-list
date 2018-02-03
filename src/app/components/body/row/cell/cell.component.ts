@@ -20,10 +20,6 @@ export class FsCellComponent implements OnInit {
   constructor() {
   }
 
-  get template() {
-    return (this.row) ? this.column.rowTemplate : this.column.footerTemplate;
-  }
-
   public ngOnInit() {
     this.initCellContext();
   }
