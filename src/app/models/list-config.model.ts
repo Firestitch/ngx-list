@@ -1,12 +1,14 @@
 import { FsFilter } from '@firestitch/filter';
 
-import { Alias, Model} from 'tsmodels';
 import { Column } from './column.model';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 import { Pagination } from './pagination.model';
 import { Sorting } from './sorting.model';
+
 import * as _isNumber from 'lodash/isNumber';
+import { Alias, Model} from 'tsmodels';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
 
 
 export class FsListConfig extends Model {

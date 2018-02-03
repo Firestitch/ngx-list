@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  OnDestroy,
   Input,
   DoCheck,
   IterableDiffer,
@@ -14,6 +15,7 @@ import {
 import { FsListColumnDirective } from '../../directives';
 import { FsListConfig } from '../../models/list-config.model';
 
+
 @Component({
   selector: 'fs-list',
   templateUrl: 'list.component.html',
@@ -24,7 +26,7 @@ import { FsListConfig } from '../../models/list-config.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class FsListComponent implements OnInit, DoCheck {
+export class FsListComponent implements OnInit, DoCheck, OnDestroy {
   @Input() public config: FsListConfig;
   @Input() public columns: any;
   @Input() public inlineFilters: boolean;
@@ -80,5 +82,10 @@ export class FsListComponent implements OnInit, DoCheck {
       this.config.paging.updatePagingManual(this.rows);
       this.config.paging.pageChanged.next();
     }
+  }
+
+  public ngOnDestroy() {
+    this.config.data$.complete();
+    this.config.paging.pageChanged.complete();
   }
 }
