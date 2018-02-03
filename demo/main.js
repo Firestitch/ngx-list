@@ -309,7 +309,7 @@ webpackContext.id = "../node_modules/moment/locale recursive ^\\.\\/.*$";
 /***/ "../src/app/components/body/body.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<tr fs-list-row *ngFor=\"let row of rows; let i = index\"\r\n    [row]=\"row\"\r\n    [rowIndex]=\"i\"\r\n    [columns]=\"columns\">\r\n</tr>\r\n"
+module.exports = "<tr fs-list-row *ngFor=\"let row of rows; let i = index\"\r\n    [row]=\"row\"\r\n    [rowIndex]=\"i\"\r\n    [columns]=\"columns\"\r\n    [rowActions]=\"rowActions\">\r\n</tr>\r\n"
 
 /***/ }),
 
@@ -335,6 +335,7 @@ var FsBodyComponent = (function () {
         this.differs = differs;
         this.columns = [];
         this.hasFooter = false;
+        this.rowActions = [];
         this._rowsDiffer = differs.find([]).create(null);
     }
     FsBodyComponent.prototype.ngDoCheck = function () {
@@ -354,6 +355,10 @@ var FsBodyComponent = (function () {
         core_1.Input(),
         __metadata("design:type", Object)
     ], FsBodyComponent.prototype, "hasFooter", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], FsBodyComponent.prototype, "rowActions", void 0);
     __decorate([
         core_1.ViewChild('rowsContainer', { read: core_1.ViewContainerRef }),
         __metadata("design:type", Object)
@@ -392,7 +397,7 @@ __export(__webpack_require__("../src/app/components/body/row/index.ts"));
 /***/ "../src/app/components/body/row/cell/cell.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<ng-template [ngTemplateOutlet]=\"template || cell\" [ngTemplateOutletContext]=\"cellContext\"></ng-template>\r\n\r\n<ng-template #cell let-value=\"value\">\r\n  {{value}}\r\n</ng-template>\r\n"
+module.exports = "<ng-template [ngTemplateOutlet]=\"column.rowTemplate || cell\" [ngTemplateOutletContext]=\"cellContext\"></ng-template>\r\n\r\n<ng-template #cell let-value=\"value\">\r\n  {{value}}\r\n</ng-template>\r\n"
 
 /***/ }),
 
@@ -419,13 +424,6 @@ var FsCellComponent = (function () {
         this.role = 'gridcell';
         this.cellContext = {};
     }
-    Object.defineProperty(FsCellComponent.prototype, "template", {
-        get: function () {
-            return (this.row) ? this.column.rowTemplate : this.column.footerTemplate;
-        },
-        enumerable: true,
-        configurable: true
-    });
     FsCellComponent.prototype.ngOnInit = function () {
         this.initCellContext();
     };
@@ -504,7 +502,7 @@ __export(__webpack_require__("../src/app/components/body/row/cell/index.ts"));
 /***/ "../src/app/components/body/row/row.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<ng-container *ngFor=\"let column of columns\">\r\n  <td fs-cell\r\n      *ngIf=\"!column.cellColspanned\"\r\n      [column]=\"column\"\r\n      [row]=\"row\"\r\n      [rowIndex]=\"rowIndex\"\r\n      [ngClass]=\"column.cellConfigs.classesArray\"\r\n      [attr.colspan]=\"column.cellConfigs.colspan\">\r\n  </td>\r\n</ng-container>\r\n"
+module.exports = "<ng-container *ngFor=\"let column of columns\">\r\n  <td fs-cell\r\n      *ngIf=\"!column.cellColspanned\"\r\n      [column]=\"column\"\r\n      [row]=\"row\"\r\n      [rowIndex]=\"rowIndex\"\r\n      [ngClass]=\"column.cellConfigs.classesArray\"\r\n      [attr.colspan]=\"column.cellConfigs.colspan\">\r\n  </td>\r\n</ng-container>\r\n<td *ngIf=\"rowActions?.length > 0\" class=\"fs-list-col\">\r\n  <button mat-icon-button [matMenuTriggerFor]=\"rowActionsRef\">\r\n    <mat-icon>more_vert</mat-icon>\r\n  </button>\r\n  <mat-menu #rowActionsRef>\r\n    <button mat-menu-item *ngFor=\"let action of rowActions\" (click)=\"action.click($event)\">\r\n      <mat-icon *ngIf=\"action.icon\">{{action.icon}}</mat-icon> {{action.label}}\r\n    </button>\r\n  </mat-menu>\r\n</td>\r\n"
 
 /***/ }),
 
@@ -530,6 +528,7 @@ var FsRowComponent = (function () {
         this.differs = differs;
         this.t = true;
         this.role = 'row';
+        this.rowActions = [];
         this._rowDiffer = differs.find({}).create();
     }
     FsRowComponent.prototype.ngDoCheck = function () {
@@ -549,6 +548,10 @@ var FsRowComponent = (function () {
         core_1.Input(),
         __metadata("design:type", Object)
     ], FsRowComponent.prototype, "row", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], FsRowComponent.prototype, "rowActions", void 0);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Number)
@@ -644,7 +647,7 @@ __export(__webpack_require__("../src/app/components/footer/footer-row/footer-cel
 /***/ "../src/app/components/footer/footer-row/footer-row.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<ng-container *ngFor=\"let column of columns\">\r\n  <td fs-list-footer-cell\r\n      *ngIf=\"!column.footerColspanned\"\r\n      [column]=\"column\"\r\n      [row]=\"row\"\r\n      [rowIndex]=\"rowIndex\"\r\n      [ngClass]=\"column.footerConfigs.classesArray\"\r\n      [attr.colspan]=\"column.footerConfigs.colspan\">\r\n  </td>\r\n</ng-container>\r\n"
+module.exports = "<ng-container *ngFor=\"let column of columns\">\r\n  <td fs-list-footer-cell\r\n      *ngIf=\"!column.footerColspanned\"\r\n      [column]=\"column\"\r\n      [row]=\"row\"\r\n      [rowIndex]=\"rowIndex\"\r\n      [ngClass]=\"column.footerConfigs.classesArray\"\r\n      [attr.colspan]=\"column.footerConfigs.colspan\">\r\n  </td>\r\n</ng-container>\r\n<td *ngIf=\"hasRowActions\" class=\"fs-list-col\"></td>\r\n"
 
 /***/ }),
 
@@ -680,6 +683,10 @@ var FsFooterRowComponent = (function (_super) {
     function FsFooterRowComponent(cdRef, differs) {
         return _super.call(this, cdRef, differs) || this;
     }
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], FsFooterRowComponent.prototype, "hasRowActions", void 0);
     FsFooterRowComponent = __decorate([
         core_1.Component({
             selector: '[fs-list-footer-row]',
@@ -714,7 +721,7 @@ __export(__webpack_require__("../src/app/components/footer/footer-row/footer-cel
 /***/ "../src/app/components/footer/footer.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<tr fs-list-footer-row [columns]=\"columns\"></tr>\r\n"
+module.exports = "<tr fs-list-footer-row [columns]=\"columns\" [hasRowActions]=\"hasRowActions\"></tr>\r\n"
 
 /***/ }),
 
@@ -750,6 +757,10 @@ var FsFooterComponent = (function (_super) {
     function FsFooterComponent(cdRef, differs) {
         return _super.call(this, cdRef, differs) || this;
     }
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], FsFooterComponent.prototype, "hasRowActions", void 0);
     FsFooterComponent = __decorate([
         core_1.Component({
             selector: '[fs-list-footer]',
@@ -866,7 +877,7 @@ __export(__webpack_require__("../src/app/components/head/head-cell/head-cell.com
 /***/ "../src/app/components/head/head.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<tr class=\"fs-list-row\">\r\n  <th fs-head-cell *ngFor=\"let column of columns\"\r\n      (click)=\"sorting.sortBy(column)\"\r\n      [column]=\"column\"\r\n      [class.sorting]=\"column.sortable\"\r\n      [ngClass]=\"column.headerConfigs.classesArray\"\r\n      [attr.colspan]=\"column.headerConfigs.colspan\"></th>\r\n</tr>\r\n"
+module.exports = "<tr class=\"fs-list-row\">\r\n  <th fs-head-cell *ngFor=\"let column of columns\"\r\n      (click)=\"sorting.sortBy(column)\"\r\n      [column]=\"column\"\r\n      [class.sorting]=\"column.sortable\"\r\n      [ngClass]=\"column.headerConfigs.classesArray\"\r\n      [attr.colspan]=\"column.headerConfigs.colspan\"></th>\r\n\r\n  <th *ngIf=\"hasRowActions\" class=\"fs-list-col\"></th>\r\n</tr>\r\n"
 
 /***/ }),
 
@@ -905,6 +916,10 @@ var FsHeadComponent = (function () {
         core_1.Input(),
         __metadata("design:type", Array)
     ], FsHeadComponent.prototype, "columns", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], FsHeadComponent.prototype, "hasRowActions", void 0);
     __decorate([
         core_1.ViewChild('rowsContainer', { read: core_1.ViewContainerRef }),
         __metadata("design:type", Object)
@@ -975,7 +990,7 @@ __export(__webpack_require__("../src/app/components/list/list.component.ts"));
 /***/ "../src/app/components/list/list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"fs-list-container\">\r\n  <div class=\"fs-list-filters\" fxLayoutRow>\r\n    <fs-filter *ngIf=\"listConfig.filterService.fsConfig.items.length\" [(filter)]=\"listConfig.filterService\" fxFlex></fs-filter>\r\n    <div class=\"fs-list-actions\" *ngIf=\"listConfig.actions?.length\">\r\n      <span *ngFor=\"let action of listConfig.actions\">\r\n          <button mat-raised-button\r\n                  (click)=\"actionClick(action,$event)\"\r\n                  [ngClass]=\"{ 'mat-primary': action.primary }\">{{ action.label }}</button>\r\n      </span>\r\n    </div>\r\n  </div>\r\n  <fs-list-status [dataChangedRef]=\"listConfig.data$\" [sorting]=\"listConfig.sorting\" [paging]=\"listConfig.paging\" *ngIf=\"listConfig.paging\"></fs-list-status>\r\n  <table class=\"fs-list-table\" role=\"grid\">\r\n    <thead fs-list-head\r\n      class=\"fs-list-head\"\r\n      role=\"rowgroup\"\r\n      [columns]=\"listConfig.columns\"\r\n      [sorting]=\"listConfig.sorting\">\r\n    </thead>\r\n\r\n    <tbody fs-list-body\r\n      class=\"fs-list-body\"\r\n      role=\"rowgroup\"\r\n      [class.loading]=\"listConfig.loading\"\r\n      [rows]=\"displayRows\"\r\n      [columns]=\"listConfig.columns\"\r\n      [hasFooter]=\"listConfig.hasFooter\">\r\n    </tbody>\r\n\r\n    <tfoot fs-list-footer\r\n           class=\"fs-list-footer\"\r\n           *ngIf=\"listConfig.hasFooter\"\r\n           [columns]=\"listConfig.columns\">\r\n    </tfoot>\r\n  </table>\r\n\r\n  <fs-list-pagination\r\n    *ngIf=\"listConfig.paging.enabled\"\r\n    [dataChangedRef]=\"listConfig.data$\"\r\n    [pagination]=\"listConfig.paging\">\r\n  </fs-list-pagination>\r\n</div>\r\n"
+module.exports = "<div class=\"fs-list-container\">\r\n  <div class=\"fs-list-filters\" fxLayoutRow>\r\n    <fs-filter *ngIf=\"listConfig.filterService.fsConfig.items.length\" [(filter)]=\"listConfig.filterService\" fxFlex></fs-filter>\r\n    <div class=\"fs-list-actions\" *ngIf=\"listConfig.actions?.length\">\r\n      <span *ngFor=\"let action of listConfig.actions\">\r\n          <button mat-raised-button\r\n                  (click)=\"action.click(action, $event)\"\r\n                  [ngClass]=\"{ 'mat-primary': action.primary }\">\r\n            <mat-icon *ngIf=\"action.icon\">{{action.icon}}</mat-icon> {{ action.label }}\r\n          </button>\r\n      </span>\r\n    </div>\r\n  </div>\r\n  <fs-list-status [dataChangedRef]=\"listConfig.data$\" [sorting]=\"listConfig.sorting\" [paging]=\"listConfig.paging\" *ngIf=\"listConfig.paging\"></fs-list-status>\r\n  <table class=\"fs-list-table\" role=\"grid\">\r\n    <thead fs-list-head\r\n      class=\"fs-list-head\"\r\n      role=\"rowgroup\"\r\n      [columns]=\"listConfig.columns\"\r\n      [sorting]=\"listConfig.sorting\"\r\n      [hasRowActions]=\"listConfig.hasRowActions\">\r\n    </thead>\r\n\r\n    <tbody fs-list-body\r\n      class=\"fs-list-body\"\r\n      role=\"rowgroup\"\r\n      [class.loading]=\"listConfig.loading\"\r\n      [rows]=\"displayRows\"\r\n      [rowActions]=\"listConfig.rowActions\"\r\n      [columns]=\"listConfig.columns\"\r\n      [hasFooter]=\"listConfig.hasFooter\">\r\n    </tbody>\r\n\r\n    <tfoot fs-list-footer\r\n           class=\"fs-list-footer\"\r\n           *ngIf=\"listConfig.hasFooter\"\r\n           [columns]=\"listConfig.columns\"\r\n           [hasRowActions]=\"listConfig.hasRowActions\">\r\n    </tfoot>\r\n  </table>\r\n\r\n  <fs-list-pagination\r\n    *ngIf=\"listConfig.paging.enabled\"\r\n    [dataChangedRef]=\"listConfig.data$\"\r\n    [pagination]=\"listConfig.paging\">\r\n  </fs-list-pagination>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1013,10 +1028,7 @@ var core_1 = __webpack_require__("../node_modules/@angular/core/esm2015/core.js"
 var directives_1 = __webpack_require__("../src/app/directives/index.ts");
 var list_config_model_1 = __webpack_require__("../src/app/models/list-config.model.ts");
 var FsListComponent = (function () {
-    function FsListComponent(cdRef, differs) {
-        this.cdRef = cdRef;
-        this.differs = differs;
-        this._rowsDiffer = differs.find([]).create(null);
+    function FsListComponent() {
     }
     Object.defineProperty(FsListComponent.prototype, "columnTemplates", {
         /**
@@ -1031,13 +1043,15 @@ var FsListComponent = (function () {
         enumerable: true,
         configurable: true
     });
-    FsListComponent.prototype.actionClick = function () {
-        alert('TODO');
-    };
+    //private _rowsDiffer: IterableDiffer<any[]>;
+    // constructor(private cdRef: ChangeDetectorRef,
+    //             private differs: IterableDiffers) {
+    //   this._rowsDiffer = differs.find([]).create(null);
+    // }
     FsListComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.listConfig = new list_config_model_1.FsListModel(this.config);
-        this.listConfig.rows = this.rows;
+        //this.listConfig.rows = this.rows;
         if (!this.listConfig.filters || this.listConfig.filters.length === 0) {
             this.listConfig.load();
         }
@@ -1045,17 +1059,17 @@ var FsListComponent = (function () {
             _this.displayRows = rows;
         });
     };
-    FsListComponent.prototype.ngDoCheck = function () {
-        var rowsDiffer = this._rowsDiffer.diff(this.rows);
-        var displayRowsDiffer = this._rowsDiffer.diff(this.displayRows);
-        if (rowsDiffer || displayRowsDiffer) {
-            this.cdRef.markForCheck();
-        }
-        if (this.listConfig.paging.manual && rowsDiffer) {
-            this.listConfig.paging.updatePagingManual(this.rows);
-            this.listConfig.paging.pageChanged.next();
-        }
-    };
+    //public ngDoCheck() {
+    // const rowsDiffer = this._rowsDiffer.diff(this.rows);
+    // const displayRowsDiffer = this._rowsDiffer.diff(this.displayRows);
+    // if (rowsDiffer || displayRowsDiffer) {
+    //   this.cdRef.markForCheck();
+    // }
+    // if (this.listConfig.paging.manual && rowsDiffer) {
+    //   this.listConfig.paging.updatePagingManual(this.rows);
+    //   this.listConfig.paging.pageChanged.next();
+    // }
+    //}
     FsListComponent.prototype.ngOnDestroy = function () {
         this.listConfig.data$.complete();
         this.listConfig.paging.pageChanged.complete();
@@ -1064,18 +1078,6 @@ var FsListComponent = (function () {
         core_1.Input(),
         __metadata("design:type", Object)
     ], FsListComponent.prototype, "config", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Object)
-    ], FsListComponent.prototype, "columns", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Boolean)
-    ], FsListComponent.prototype, "inlineFilters", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Array)
-    ], FsListComponent.prototype, "rows", void 0);
     __decorate([
         core_1.ContentChildren(directives_1.FsListColumnDirective),
         __metadata("design:type", core_1.QueryList),
@@ -1089,9 +1091,7 @@ var FsListComponent = (function () {
                 __webpack_require__("../src/app/components/list/list.component.scss"),
             ],
             changeDetection: core_1.ChangeDetectionStrategy.OnPush
-        }),
-        __metadata("design:paramtypes", [core_1.ChangeDetectorRef,
-            core_1.IterableDiffers])
+        })
     ], FsListComponent);
     return FsListComponent;
 }());
@@ -1837,6 +1837,7 @@ var FsListModel = (function (_super) {
         _this.loading = false;
         _this.hasFooter = false;
         _this._fromJSON(config);
+        _this.hasRowActions = _this.rowActions && _this.rowActions.length > 0;
         _this.watchFilters();
         _this.initPaging(config);
         _this.subscribe();
@@ -2605,7 +2606,7 @@ webpackEmptyAsyncContext.id = "../tools lazy recursive";
 /***/ "./app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>List Examples</h1>\n<div class=\"example\">\n    <fs-example title=\"Kitchen Sink\" componentName=\"kitchensink\">\n        <kitchensink></kitchensink>\n    </fs-example>\n</div>\n"
+module.exports = "\n\n<mat-tab-group>\n  <mat-tab label=\"Examples\">\n      <div class=\"example\">\n        <fs-example title=\"Kitchen Sink\" componentName=\"kitchensink\">\n            <kitchensink></kitchensink>\n        </fs-example>\n      </div>\n  </mat-tab>\n  <mat-tab label=\"Documentation\">\n    <iframe src=\"/documentation\"></iframe>\n  </mat-tab>\n</mat-tab-group>\n"
 
 /***/ }),
 
@@ -2706,21 +2707,25 @@ var KitchenSinkComponent = (function () {
                     click: function (event) {
                         console.log(event);
                     },
+                    icon: 'delete',
+                    primary: true,
                     label: 'Secondary Button'
                 }
             ],
             rowActions: [
                 {
                     click: function (event) {
-                        console.log(event);
+                        console.log('edit', event);
                     },
-                    icon: 'edit'
+                    icon: 'edit',
+                    label: 'Edit'
                 },
                 {
                     click: function (event) {
-                        console.log(event);
+                        console.log('delete', event);
                     },
-                    icon: 'delete'
+                    icon: 'delete',
+                    label: 'Remove'
                 }
             ],
             rowEvents: {

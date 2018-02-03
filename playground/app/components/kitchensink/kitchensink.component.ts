@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FsApi } from '@firestitch/api';
-import { FsListConfig } from '../../../../src/app/interfaces';
+import { FsListConfig } from '../../../../src';
 import 'rxjs/add/operator/map';
 
 @Component({

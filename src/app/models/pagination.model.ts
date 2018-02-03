@@ -1,5 +1,5 @@
 import { Alias, Model} from 'tsmodels';
-import { IPaging } from '../interfaces';
+import { FsPaging } from '../interfaces/listconfig.interface';
 import { Subject } from 'rxjs/Subject';
 
 export class Pagination extends Model {
@@ -17,7 +17,7 @@ export class Pagination extends Model {
   private _enabled = true;
   private _limits = [10, 25, 50, 100, 200];
 
-  constructor(config: IPaging | any = {}) {
+  constructor(config: FsPaging | any = {}) {
     super();
 
     this.updatePaging(config);
