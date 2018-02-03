@@ -1,9 +1,9 @@
 import { Column, SortingDirection } from './column.model';
-import { FsListConfig } from './list-config.model';
+import { FsListModel } from './list-config.model';
 import { Subject } from 'rxjs/Subject';
 
 export class Sorting {
-  public config: FsListConfig;
+  public config: FsListModel;
 
   public tableColumns: Column[];
   public sortingColumns: Column[] = [];

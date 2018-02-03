@@ -8,13 +8,14 @@ export interface IPaging {
   records?: number;
 }
 
-export interface IFsListConfig {
+export interface FsListConfig {
   paging?: IPaging;
   columnDefaults?: Object;
   filters?: Object[];
-  dataFn?: FsFetchFunction;
   rowActions?: Object[];
   actions?: Object[];
+  fetch?: Function;
+  rowEvents?: Object;
 }
 
 export interface FsFetchFunction {

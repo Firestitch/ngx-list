@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 
 import { FsListColumnDirective } from '../../directives';
-import { FsListConfig } from '../../models/list-config.model';
+import { FsListModel } from '../../models/list-config.model';
 
 
 @Component({
@@ -33,7 +33,7 @@ export class FsListComponent implements OnInit, DoCheck, OnDestroy {
   @Input() public rows: any[];
 
   public displayRows;
-  public listConfig: FsListConfig;
+  public listConfig: FsListModel;
   /**
    * Set columns to config
    * Create Column Model instances
@@ -57,10 +57,9 @@ export class FsListComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   public ngOnInit() {
-    this.listConfig = new FsListConfig(this.config);
+    this.listConfig = new FsListModel(this.config);
     this.listConfig.rows = this.rows;
 
-    debugger;
     if (!this.listConfig.filters || this.listConfig.filters.length === 0) {
       this.listConfig.load();
     }

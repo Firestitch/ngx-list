@@ -1,1 +1,0 @@
-[{"__symbolic":"module","version":4,"metadata":{},"exports":[{"from":"./body/row/cell"},{"from":"./list"},{"from":"./status"},{"from":"./body/row"},{"from":"../directives/column"},{"from":"./body"},{"from":"./head"},{"from":"./pagination"}]}]

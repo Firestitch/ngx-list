@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 
-export class FsListConfig extends Model {
+export class FsListModel extends Model {
   @Alias() public inlineFilters: any;
   @Alias() public actions: any;
   @Alias() public rowActions: any;
@@ -49,7 +49,7 @@ export class FsListConfig extends Model {
   }
 
   public static create(config) {
-    return new FsListConfig(config);
+    return new FsListModel(config);
   }
 
   public load() {
@@ -168,8 +168,9 @@ export class FsListConfig extends Model {
 
   private updateColspans(config, updateFlag) {
     this.columns.forEach((col, index) => {
+
       if (col[config].colspan !== void 0) {
-        const spanTo = index + +col[config].colspan - 1;
+        const spanTo = index + +col[config].colspan;
 
         if (!_isNumber(spanTo)) { return; }
         this.columns[index][updateFlag] = false;
