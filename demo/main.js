@@ -2606,7 +2606,7 @@ webpackEmptyAsyncContext.id = "../tools lazy recursive";
 /***/ "../tools/components/examples/examples.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"example-title\">{{title}}</div>\n<mat-tab-group>\n  <mat-tab label=\"Examples\">\n      <div class=\"examples-body\">\n        <ng-content></ng-content>\n      </div>\n  </mat-tab>\n  <mat-tab label=\"Docs\">\n    <iframe src=\"/docs\" class=\"iframe-example\"></iframe>\n  </mat-tab>\n</mat-tab-group>\n"
+module.exports = "<div class=\"example-title\">{{title}}</div>\n<mat-tab-group>\n  <mat-tab label=\"Examples\">\n      <div class=\"examples-body\">\n        <ng-content></ng-content>\n      </div>\n  </mat-tab>\n  <mat-tab label=\"Docs\">\n    <!-- <iframe src=\"/docs\" class=\"iframe-example\"></iframe> -->\n    <div class=\"iframe-container\">\n      <iframe class=\"iframe-example ng-star-inserted\" src=\"http://list.components.firestitch.com/docs\"></iframe>\n    </div>\n  </mat-tab>\n</mat-tab-group>\n"
 
 /***/ }),
 
