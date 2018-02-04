@@ -17,32 +17,26 @@ app-root {
   display: block;
 }
 
-.mat-tab-group,
-.mat-tab-body-wrapper {
-  height: 100%;
+fs-examples {
+  display: block;
 }
 
-h1 {
-  font-size: 20px;
+fs-example {
+  padding: 20px 0;
+  display: block;
 }
 
-.example {
-  padding: 20px 10px;
+.examples-body {
+  padding: 20px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
-.overview {
-  padding-bottom: 20px;
+fs-example:first-of-type {
+  padding-bottom: 0px;
 }
 
-fieldset {
-  margin: 0;
-  margin-top: 20px;
-  border: 1px solid #cfcfcf;
-  border-radius: 2px;
-  padding: 16px;
-}
-
-iframe {
+iframe.iframe-example {
   width: 100%;
   border: 0px;
   height: 100%;
@@ -53,6 +47,25 @@ iframe {
   top: 0;
   bottom: 0;
   width: 100%;
+}
+
+.mat-tab-group,
+.mat-tab-body-wrapper {
+  height: 100%;
+}
+
+fieldset {
+  margin: 0;
+  margin-top: 20px;
+  border: 1px solid #cfcfcf;
+  border-radius: 2px;
+  padding: 16px;
+}
+
+.example-title {
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 22px;
 }
 
 
