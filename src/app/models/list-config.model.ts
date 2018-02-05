@@ -8,6 +8,8 @@ import * as _isNumber from 'lodash/isNumber';
 import { Alias, Model} from 'tsmodels';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { FsListConfig } from '../interfaces/listconfig.interface';
+import { StyleConfig } from './styleConfig.model';
 
 
 export class FsListModel extends Model {
@@ -16,9 +18,8 @@ export class FsListModel extends Model {
   @Alias() public rowActions: any;
   @Alias() public rowEvents: any;
   @Alias() public columnTemplates: any;
-  @Alias('fetch') public fetchFn: any;
   @Alias() public filters = [];
-  @Alias('columnDefaults') private _columnDefaults;
+  @Alias('fetch') public fetchFn: any;
   @Alias('rows') private _rows: any;
 
   public filtersQuery: any;
@@ -34,10 +35,18 @@ export class FsListModel extends Model {
   public loading = false;
   public hasFooter = false;
 
-  constructor(config: any = {}) {
+  private _headerConfig: StyleConfig;
+  private _cellConfig: StyleConfig;
+  private _footerConfig: StyleConfig;
+
+  constructor(config: FsListConfig = {}) {
     super();
 
     this._fromJSON(config);
+
+    this._headerConfig = new StyleConfig(config.header);
+    this._cellConfig = new StyleConfig(config.cell);
+    this._footerConfig = new StyleConfig(config.footer);
 
     this.hasRowActions = this.rowActions && this.rowActions.length > 0;
     this.watchFilters();
@@ -101,8 +110,14 @@ export class FsListModel extends Model {
    * @param templates
    */
   public tranformTemplatesToColumns(templates) {
+    const defaultConfigs = {
+      header: this._headerConfig,
+      cell: this._cellConfig,
+      footer: this._footerConfig,
+    };
+
     templates.forEach((column) => {
-      const col = new Column(column, this._columnDefaults);
+      const col = new Column(column, defaultConfigs);
 
       if (col.sortable) { this.sorting.addSortableColumn(col); } // add column to sortable
       if (col.footerTemplate) { this.hasFooter = true; }

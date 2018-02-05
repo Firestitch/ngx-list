@@ -16,6 +16,24 @@ export interface FsListConfig {
   actions?: Object[];
   fetch?: Function;
   rowEvents?: Object;
+  header?: FsListHeaderConfig;
+  cell?: FsListCellConfig;
+  footer?: FsListFooterConfig;
+}
+
+export interface FsListHeaderConfig {
+  className?: string;
+  align?: string;
+}
+
+export interface FsListCellConfig {
+  className?: string;
+  align?: string;
+}
+
+export interface FsListFooterConfig {
+  className?: string;
+  align?: string;
 }
 
 // export interface FsFetchFunction {

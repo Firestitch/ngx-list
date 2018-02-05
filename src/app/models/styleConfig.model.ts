@@ -4,7 +4,7 @@ import * as _isString from 'lodash/isString';
 export class StyleConfig extends Model {
   @Alias() public colspan;
   @Alias() public align: string; // Can't be used in tempaltes!
-  @Alias() public styleClass: string | string[] = []; // Can't be used in tempaltes!
+  @Alias() public className: string | string[] = []; // Can't be used in tempaltes!
 
   public classesArray = []; // Can be used in tempaltes
 
@@ -18,7 +18,7 @@ export class StyleConfig extends Model {
    * Create static array of styles for using in templates
    */
   public updateClasesArray() {
-    this.classesArray = [].concat(this.styleClass, this.align);
+    this.classesArray = [].concat(this.className, this.align);
   }
 
   /**
@@ -50,17 +50,17 @@ export class StyleConfig extends Model {
   public mergeClassByPriority(prior1: StyleConfig, prior2: StyleConfig) {
     let targetValue = [];
 
-    if (_isString(this.styleClass)) {
-      targetValue.push(this.styleClass);
+    if (_isString(this.className)) {
+      targetValue.push(this.className);
     }
 
-    if (prior1.styleClass !== void 0) {
-      targetValue = this.mergeAnythingIntoArray(targetValue, prior1.styleClass);
-    } else if (prior2.styleClass !== void 0) {
-      targetValue = this.mergeAnythingIntoArray(targetValue, prior2.styleClass);
+    if (prior1.className !== void 0) {
+      targetValue = this.mergeAnythingIntoArray(targetValue, prior1.className);
+    } else if (prior2.className !== void 0) {
+      targetValue = this.mergeAnythingIntoArray(targetValue, prior2.className);
     }
 
-    this.styleClass = targetValue;
+    this.className = targetValue;
   }
 
   /**

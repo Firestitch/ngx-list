@@ -82,13 +82,13 @@ export class KitchenSinkComponent implements OnInit {
 
         }
       },
-      columnDefaults: {
-        headerClass: ['header-test-defaults-class'],
-        sortable: true,
-        headerAlign: 'left',
-        cellAlign: 'left',
-        cellClass: ['cell-test-defaults-class'],
-        colClass: ['col-test-class']
+      header: {
+        className: 'header-test-defaults-class',
+        align: 'left'
+      },
+      cell: {
+        className: 'cell-test-defaults-class',
+        align: 'left'
       },
       fetch: (query) => {
         query.count = 500;

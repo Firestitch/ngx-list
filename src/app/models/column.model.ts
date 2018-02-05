@@ -78,10 +78,6 @@ export class Column extends Model {
   public mergeWithColumnDefaults(defaults) {
     if (!_isObject(defaults)) { defaults = {} }
 
-    const defaultHeader = new StyleConfig({ align: defaults.headerAlign, styleClass: defaults.headerClass});
-    const defaultCell = new StyleConfig({ align: defaults.cellAlign, styleClass: defaults.cellClass});
-    const defaultFooter = new StyleConfig({ align: defaults.footerAlign, styleClass: defaults.footerClass});
-
     ALLOWED_DEFAULTS.forEach((key) => {
       switch (key) {
         case 'title': {
@@ -97,15 +93,15 @@ export class Column extends Model {
         } break;
 
         case 'class': {
-          this.headerConfigs.mergeClassByPriority(this.colStyles, defaultHeader);
-          this.cellConfigs.mergeClassByPriority(this.colStyles, defaultCell);
-          this.footerConfigs.mergeClassByPriority(this.colStyles, defaultFooter);
+          this.headerConfigs.mergeClassByPriority(this.colStyles, defaults.header);
+          this.cellConfigs.mergeClassByPriority(this.colStyles, defaults.cell);
+          this.footerConfigs.mergeClassByPriority(this.colStyles, defaults.footer);
         } break;
 
         case 'align': {
-          this.headerConfigs.mergeAlignByPriority(this.colStyles, defaultHeader);
-          this.cellConfigs.mergeAlignByPriority(this.colStyles, defaultCell);
-          this.footerConfigs.mergeAlignByPriority(this.colStyles, defaultFooter);
+          this.headerConfigs.mergeAlignByPriority(this.colStyles, defaults.header);
+          this.cellConfigs.mergeAlignByPriority(this.colStyles, defaults.cell);
+          this.footerConfigs.mergeAlignByPriority(this.colStyles, defaults.footer);
         } break;
       }
     });
