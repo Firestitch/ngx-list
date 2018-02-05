@@ -14,6 +14,7 @@ import {
 
 import { FsListColumnDirective } from '../../directives';
 import { FsListModel } from '../../models/list-config.model';
+import { FsListConfig } from '../../interfaces/listconfig.interface';
 
 
 @Component({
@@ -27,7 +28,7 @@ import { FsListModel } from '../../models/list-config.model';
 })
 
 export class FsListComponent implements OnInit, OnDestroy {
-  @Input() public config: any;
+  @Input() public config: FsListConfig;
   //@Input() public rows: any[];
 
   private displayRows;
@@ -80,5 +81,25 @@ export class FsListComponent implements OnInit, OnDestroy {
   public ngOnDestroy() {
     this.listConfig.data$.complete();
     this.listConfig.paging.pageChanged.complete();
+  }
+
+  public nextPage() {
+    this.listConfig.paging.goNext();
+  }
+
+  public prevPage() {
+    this.listConfig.paging.goPrev();
+  }
+
+  public firstPage() {
+    this.listConfig.paging.goFirst();
+  }
+
+  public lastPage() {
+    this.listConfig.paging.goLast();
+  }
+
+  public reload() {
+    this.listConfig.load();
   }
 }

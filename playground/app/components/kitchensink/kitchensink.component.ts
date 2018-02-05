@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FsApi } from '@firestitch/api';
 import { FsListConfig } from '../../../../src';
 import 'rxjs/add/operator/map';
+import { FsListComponent } from '../../../../src/app/components/list/list.component';
 
 @Component({
   selector: 'kitchensink',
@@ -11,6 +12,8 @@ import 'rxjs/add/operator/map';
 })
 export class KitchenSinkComponent implements OnInit {
 
+  @ViewChild('table')
+  public table: FsListComponent; // Controller fs-list
   public config: FsListConfig;
 
   constructor(private _fsApi: FsApi, private _router: Router) {}
