@@ -4,6 +4,5 @@ import { Directive, Input } from '@angular/core';
 export class FsListHeaderDirective {
   @Input() public colspan;
   @Input() public align: string;
-  @Input('class') public styleClass: string | string[];
-
+  @Input('class') public className: string | string[];
 }

@@ -50,14 +50,16 @@ export class StyleConfig extends Model {
   public mergeClassByPriority(prior1: StyleConfig, prior2: StyleConfig) {
     let targetValue = [];
 
-    if (_isString(this.className)) {
+    if (Array.isArray(this.className)) {
+      targetValue = targetValue.concat(this.className);
+    } else if (_isString(this.className)) {
       targetValue.push(this.className);
     }
 
     if (prior1.className !== void 0) {
-      targetValue = this.mergeAnythingIntoArray(targetValue, prior1.className);
+      this.mergeAnythingIntoArray(targetValue, prior1.className);
     } else if (prior2.className !== void 0) {
-      targetValue = this.mergeAnythingIntoArray(targetValue, prior2.className);
+      this.mergeAnythingIntoArray(targetValue, prior2.className);
     }
 
     this.className = targetValue;
@@ -73,9 +75,7 @@ export class StyleConfig extends Model {
     if (_isString(from)) {
       to.push(from as string);
     } else if (Array.isArray(from)) {
-      to = to.concat(from)
+      to.push(...from)
     }
-
-    return to;
   }
 }
