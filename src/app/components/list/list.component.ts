@@ -55,7 +55,7 @@ export class FsListComponent implements OnInit, OnDestroy {
     this.listConfig = new FsListModel(this.config);
     //this.listConfig.rows = this.rows;
 
-    if (!this.listConfig.filters || this.listConfig.filters.length === 0) {
+    if (!this.listConfig.filters || this.listConfig.filters.length === 0 && this.listConfig.initialFetch) {
       this.listConfig.load();
     }
 
@@ -99,7 +99,7 @@ export class FsListComponent implements OnInit, OnDestroy {
     this.listConfig.paging.goLast();
   }
 
-  public reload() {
+  public load() {
     this.listConfig.load();
   }
 }

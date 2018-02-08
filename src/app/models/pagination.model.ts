@@ -135,6 +135,10 @@ export class Pagination extends Model {
       to = this.pages;
     }
 
+    if (!this.pages || this.pages < 5) {
+      to = this.pages || 0;
+    }
+
     for (let i = from; i <= to; i++) {
       pagesArr.push(i);
     }

@@ -19,6 +19,7 @@ export class FsListModel extends Model {
   @Alias() public rowEvents: any;
   @Alias() public columnTemplates: any;
   @Alias() public filters = [];
+  // @Alias() public initialFetch = true; //TODO fixme
   @Alias('fetch') public fetchFn: any;
   @Alias('rows') private _rows: any;
 
@@ -34,6 +35,7 @@ export class FsListModel extends Model {
 
   public loading = false;
   public hasFooter = false;
+  public initialFetch = true;
 
   private _headerConfig: StyleConfig;
   private _cellConfig: StyleConfig;
@@ -43,6 +45,10 @@ export class FsListModel extends Model {
     super();
 
     this._fromJSON(config);
+
+    if (config.initialFetch === false) { //TODO fixme after tsmodel version update
+      this.initialFetch = false;
+    }
 
     this._headerConfig = new StyleConfig(config.header);
     this._cellConfig = new StyleConfig(config.cell);
@@ -169,7 +175,9 @@ export class FsListModel extends Model {
         inline: this.inlineFilters,
         init: (instance) => {
           this.filtersQuery = instance.gets({ flatten: true });
-          this.load();
+          if (this.initialFetch) {
+            this.load();
+          }
         },
         change: (query, instance) => {
           this.filtersQuery = instance.gets({ flatten: true });

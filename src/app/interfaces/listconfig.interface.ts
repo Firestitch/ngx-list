@@ -15,6 +15,7 @@ export interface FsListConfig {
   rowActions?: Object[];
   actions?: Object[];
   fetch?: Function;
+  initialFetch?: boolean;
   rowEvents?: Object;
   header?: FsListHeaderConfig;
   cell?: FsListCellConfig;
