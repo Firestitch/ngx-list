@@ -1,0 +1,21 @@
+<ng-container *ngFor="let column of columns">
+  <td fs-cell
+      *ngIf="!column.cellColspanned"
+      [column]="column"
+      [row]="row"
+      [rowIndex]="rowIndex"
+      [ngClass]="column.cellConfigs.classesArray"
+      [attr.colspan]="column.cellConfigs.colspan"
+      [attr.width]="column.width">
+  </td>
+</ng-container>
+<td *ngIf="rowActions?.length > 0" class="fs-list-col">
+  <button mat-icon-button [matMenuTriggerFor]="rowActionsRef">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #rowActionsRef>
+    <button mat-menu-item *ngFor="let action of rowActions" (click)="action.click(row, $event)">
+      <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
+    </button>
+  </mat-menu>
+</td>

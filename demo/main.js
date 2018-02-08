@@ -8,7 +8,7 @@ exports = module.exports = __webpack_require__("../node_modules/css-loader/lib/c
 
 
 // module
-exports.push([module.i, ".paging .pages {\n  text-align: center;\n  padding: 0;\n  margin: 0;\n}\n\n.paging .pages li {\n  display: inline-block;\n}\n\n.paging .pages li a {\n  display: inline-block;\n  padding: 16px;\n  text-align: center;\n  color: #333;\n  text-decoration: none;\n  font-size: 15px;\n  cursor: pointer;\n}\n\n.paging .pages li:not(.page) a {\n  font-size: 19px;\n}\n\n.paging .pages li.disabled a {\n  pointer-events: none;\n  cursor: default;\n  color: #ccc;\n}\n\n.paging .pages li.active a {\n  font-weight: bold;\n}\n\n.paging .records div {\n  margin-top: 10px;\n}\n\n", "", {"version":3,"sources":["C:/Projects/fs-list/src/app/components/pagination/C:/Projects/fs-list/src/app/components/pagination/src/app/components/pagination/pagination.component.scss","C:/Projects/fs-list/src/app/components/pagination/C:/Projects/fs-list/pagination.component.scss"],"names":[],"mappings":"AAEE;EACE,mBAAA;EACA,WAAA;EACA,UAAA;CCDH;;ADJD;EAQM,sBAAA;CCAL;;ADRD;EAWQ,sBAAA;EACA,cAAA;EACA,mBAAA;EACA,YAAA;EACA,sBAAA;EACA,gBAAA;EACA,gBAAA;CCCP;;ADEkB;EACX,gBAAA;CCCP;;ADEgB;EACT,qBAAA;EACA,gBAAA;EACA,YAAA;CCCP;;AD5BD;EA+BQ,kBAAA;CCCP;;ADhCD;EAsCM,iBAAA;CCFL","file":"pagination.component.scss","sourcesContent":[".paging {\r\n\r\n  .pages {\r\n    text-align: center;\r\n    padding: 0;\r\n    margin: 0;\r\n\r\n    li {\r\n      display: inline-block;\r\n\r\n      a {\r\n        display: inline-block;\r\n        padding: 16px;\r\n        text-align: center;\r\n        color: #333;\r\n        text-decoration: none;\r\n        font-size: 15px;\r\n        cursor: pointer;\r\n      }\r\n\r\n      &:not(.page) a {\r\n        font-size: 19px;\r\n      }\r\n\r\n      &.disabled a {\r\n        pointer-events: none;\r\n        cursor: default;\r\n        color: #ccc;\r\n      }\r\n\r\n      &.active a {\r\n        font-weight: bold;\r\n      }\r\n    }\r\n  }\r\n\r\n  .records {\r\n    div {\r\n      margin-top: 10px;\r\n    }\r\n  }\r\n\r\n  .limits {\r\n\r\n  }\r\n}\r\n",".paging .pages {\n  text-align: center;\n  padding: 0;\n  margin: 0;\n}\n\n.paging .pages li {\n  display: inline-block;\n}\n\n.paging .pages li a {\n  display: inline-block;\n  padding: 16px;\n  text-align: center;\n  color: #333;\n  text-decoration: none;\n  font-size: 15px;\n  cursor: pointer;\n}\n\n.paging .pages li:not(.page) a {\n  font-size: 19px;\n}\n\n.paging .pages li.disabled a {\n  pointer-events: none;\n  cursor: default;\n  color: #ccc;\n}\n\n.paging .pages li.active a {\n  font-weight: bold;\n}\n\n.paging .records div {\n  margin-top: 10px;\n}\n\n"],"sourceRoot":""}]);
+exports.push([module.i, ".paging .pages {\n  text-align: center;\n  padding: 0;\n  margin: 0;\n}\n\n.paging .pages li {\n  display: inline-block;\n}\n\n.paging .pages li a {\n  display: inline-block;\n  padding: 16px;\n  text-align: center;\n  color: #333;\n  text-decoration: none;\n  font-size: 15px;\n  cursor: pointer;\n}\n\n.paging .pages li:not(.page) a {\n  font-size: 19px;\n}\n\n.paging .pages li.disabled a {\n  pointer-events: none;\n  cursor: default;\n  color: #ccc;\n}\n\n.paging .pages li.active a {\n  font-weight: bold;\n}\n\n.paging .records div {\n  margin-top: 10px;\n}\n\n", "", {"version":3,"sources":["/Users/Basters/dev/firestitch/fs-list/src/app/components/pagination/src/app/components/pagination/pagination.component.scss","/Users/Basters/dev/firestitch/fs-list/pagination.component.scss"],"names":[],"mappings":"AAEE;EACE,mBAAA;EACA,WAAA;EACA,UAAA;CCDH;;ADJD;EAQM,sBAAA;CCAL;;ADRD;EAWQ,sBAAA;EACA,cAAA;EACA,mBAAA;EACA,YAAA;EACA,sBAAA;EACA,gBAAA;EACA,gBAAA;CCCP;;ADEkB;EACX,gBAAA;CCCP;;ADEgB;EACT,qBAAA;EACA,gBAAA;EACA,YAAA;CCCP;;AD5BD;EA+BQ,kBAAA;CCCP;;ADhCD;EAsCM,iBAAA;CCFL","file":"pagination.component.scss","sourcesContent":[".paging {\n\n  .pages {\n    text-align: center;\n    padding: 0;\n    margin: 0;\n\n    li {\n      display: inline-block;\n\n      a {\n        display: inline-block;\n        padding: 16px;\n        text-align: center;\n        color: #333;\n        text-decoration: none;\n        font-size: 15px;\n        cursor: pointer;\n      }\n\n      &:not(.page) a {\n        font-size: 19px;\n      }\n\n      &.disabled a {\n        pointer-events: none;\n        cursor: default;\n        color: #ccc;\n      }\n\n      &.active a {\n        font-weight: bold;\n      }\n    }\n  }\n\n  .records {\n    div {\n      margin-top: 10px;\n    }\n  }\n\n  .limits {\n\n  }\n}\n",".paging .pages {\n  text-align: center;\n  padding: 0;\n  margin: 0;\n}\n\n.paging .pages li {\n  display: inline-block;\n}\n\n.paging .pages li a {\n  display: inline-block;\n  padding: 16px;\n  text-align: center;\n  color: #333;\n  text-decoration: none;\n  font-size: 15px;\n  cursor: pointer;\n}\n\n.paging .pages li:not(.page) a {\n  font-size: 19px;\n}\n\n.paging .pages li.disabled a {\n  pointer-events: none;\n  cursor: default;\n  color: #ccc;\n}\n\n.paging .pages li.active a {\n  font-weight: bold;\n}\n\n.paging .records div {\n  margin-top: 10px;\n}\n\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -23,7 +23,7 @@ exports = module.exports = __webpack_require__("../node_modules/css-loader/lib/c
 
 
 // module
-exports.push([module.i, ".infinite-records {\n  color: #999;\n  font-size: 13px;\n  margin-left: 4px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: block;\n}\n\n.infinite-records a {\n  color: #546E7A;\n}\n\n.infinite-records .order-toggle {\n  cursor: pointer;\n  padding-left: 4px;\n}\n\n.infinite-records .saved-filters {\n  float: right;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n\n", "", {"version":3,"sources":["C:/Projects/fs-list/src/app/components/status/C:/Projects/fs-list/src/app/components/status/src/app/components/status/status.component.scss","C:/Projects/fs-list/src/app/components/status/C:/Projects/fs-list/status.component.scss"],"names":[],"mappings":"AAAA;EACE,YAAA;EACA,gBAAA;EACA,iBAAA;EACA,oBAAA;EACA,iBAAA;EACA,wBAAA;EACA,eAAA;CCCD;;ADRD;EAUG,eAAA;CCEF;;ADCC;EACE,gBAAA;EACA,kBAAA;CCEH;;ADjBD;EAmBI,aAAA;EACA,qBAAA;EAAA,qBAAA;EAAA,cAAA;CCEH","file":"status.component.scss","sourcesContent":[".infinite-records {\r\n  color: #999;\r\n  font-size: 13px;\r\n  margin-left: 4px;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\r\n  display: block;\r\n\r\n  a {\r\n   color: #546E7A;\r\n  }\r\n\r\n  .order-toggle {\r\n    cursor: pointer;\r\n    padding-left: 4px;\r\n  }\r\n\r\n  .saved-filters {\r\n    float: right;\r\n    display: flex;\r\n  }\r\n}\r\n",".infinite-records {\n  color: #999;\n  font-size: 13px;\n  margin-left: 4px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: block;\n}\n\n.infinite-records a {\n  color: #546E7A;\n}\n\n.infinite-records .order-toggle {\n  cursor: pointer;\n  padding-left: 4px;\n}\n\n.infinite-records .saved-filters {\n  float: right;\n  display: flex;\n}\n\n"],"sourceRoot":""}]);
+exports.push([module.i, ".infinite-records {\n  color: #999;\n  font-size: 13px;\n  margin-left: 4px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: block;\n}\n\n.infinite-records a {\n  color: #546E7A;\n}\n\n.infinite-records .order-toggle {\n  cursor: pointer;\n  padding-left: 4px;\n}\n\n.infinite-records .saved-filters {\n  float: right;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n\n", "", {"version":3,"sources":["/Users/Basters/dev/firestitch/fs-list/src/app/components/status/src/app/components/status/status.component.scss","/Users/Basters/dev/firestitch/fs-list/status.component.scss"],"names":[],"mappings":"AAAA;EACE,YAAA;EACA,gBAAA;EACA,iBAAA;EACA,oBAAA;EACA,iBAAA;EACA,wBAAA;EACA,eAAA;CCCD;;ADRD;EAUG,eAAA;CCEF;;ADCC;EACE,gBAAA;EACA,kBAAA;CCEH;;ADjBD;EAmBI,aAAA;EACA,qBAAA;EAAA,qBAAA;EAAA,cAAA;CCEH","file":"status.component.scss","sourcesContent":[".infinite-records {\n  color: #999;\n  font-size: 13px;\n  margin-left: 4px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: block;\n\n  a {\n   color: #546E7A;\n  }\n\n  .order-toggle {\n    cursor: pointer;\n    padding-left: 4px;\n  }\n\n  .saved-filters {\n    float: right;\n    display: flex;\n  }\n}\n",".infinite-records {\n  color: #999;\n  font-size: 13px;\n  margin-left: 4px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: block;\n}\n\n.infinite-records a {\n  color: #546E7A;\n}\n\n.infinite-records .order-toggle {\n  cursor: pointer;\n  padding-left: 4px;\n}\n\n.infinite-records .saved-filters {\n  float: right;\n  display: flex;\n}\n\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -38,7 +38,7 @@ exports = module.exports = __webpack_require__("../node_modules/css-loader/lib/c
 
 
 // module
-exports.push([module.i, ":host {\n  width: 100%;\n  display: block;\n}\n\n.fs-list-table {\n  display: table;\n  width: 100%;\n  border-collapse: collapse;\n}\n\n:host ::ng-deep .fs-filter {\n  margin-bottom: 0;\n}\n\n:host ::ng-deep .fs-filter .main-filter-bar {\n  overflow: hidden;\n}\n\n:host ::ng-deep .fs-list-body {\n  display: table-row-group;\n  position: relative;\n}\n\n:host ::ng-deep .fs-list-body.loading {\n  opacity: 0.4;\n}\n\n:host ::ng-deep .fs-list-body .fs-list-row:hover .fs-list-col {\n  background-color: #f6f6f6;\n}\n\n:host ::ng-deep .fs-list-body .fs-list-row:last-child .fs-list-col {\n  border-bottom: 2px solid #ddd;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row,\n:host ::ng-deep .fs-list-body .fs-list-row {\n  display: table-row;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row:nth-child(1) .fs-list-col,\n:host ::ng-deep .fs-list-body .fs-list-row:nth-child(1) .fs-list-col {\n  border-top: 0;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row:last-child .fs-list-col,\n:host ::ng-deep .fs-list-body .fs-list-row:last-child .fs-list-col {\n  border-bottom: 2px solid #ddd;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col {\n  display: table-cell;\n  border-top: 1px solid #ddd;\n  padding: 8px;\n  vertical-align: middle;\n  outline: none;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.left,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.left {\n  text-align: left;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.center,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.center {\n  text-align: center;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.right,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.right {\n  text-align: right;\n}\n\n:host ::ng-deep .fs-list-filters .fs-list-actions {\n  margin-left: 10px;\n}\n\n:host ::ng-deep .fs-list-filters .fs-list-actions .action-button mat-icon {\n  margin-right: 5px;\n}\n\n:host ::ng-deep .fs-list-filters .fs-list-actions .mat-button {\n  margin-top: 0;\n  margin-bottom: 0;\n  margin-right: 0;\n}\n\n:host ::ng-deep .fs-list-head {\n  display: table-header-group;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col {\n  border-bottom: 2px solid #ddd;\n  color: #999;\n  font-size: 14px;\n  padding: 8px;\n  font-weight: normal;\n  font-size: 13px;\n  color: #8f8f8f;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col.sorting {\n  cursor: pointer;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col.sorting:hover {\n  background-color: #F6F6F6;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col .wrap {\n  display: -webkit-inline-box;\n  display: -ms-inline-flexbox;\n  display: inline-flex;\n  vertical-align: middle;\n  white-space: nowrap;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col .wrap mat-icon {\n  font-size: 14px;\n  display: block;\n  height: 14px;\n  width: 14px;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col.sorting {\n  background-image: none;\n}\n\n:host ::ng-deep fs-list-status {\n  font-size: 13px;\n  color: #3a3a3a;\n  padding-bottom: 10px;\n  display: block;\n}\n\n:host ::ng-deep tfoot td {\n  padding: 8px;\n}\n\n", "", {"version":3,"sources":["C:/Projects/fs-list/src/app/components/list/C:/Projects/fs-list/src/app/components/list/src/app/components/list/list.component.scss","C:/Projects/fs-list/src/app/components/list/C:/Projects/fs-list/list.component.scss"],"names":[],"mappings":"AAAA;EACE,YAAA;EACA,eAAA;CCCD;;ADED;EACE,eAAA;EACA,YAAA;EACA,0BAAA;CCCD;;ADED;EAGI,iBAAA;CCDH;;ADFD;EAMM,iBAAA;CCAL;;ADND;EAWI,yBAAA;EACA,mBAAA;CCDH;;ADDC;EAKI,aAAA;CCAL;;ADfD;EAmBM,0BAAA;CCAL;;ADG2B;EACtB,8BAAA;CCAL;;ADKG;;EACE,mBAAA;CCDL;;AD5BD;;EAgCQ,cAAA;CCCP;;ADjCD;;EAmCQ,8BAAA;CCGP;;ADtCD;;EAoDQ,oBAAA;EAEA,2BAAA;EACA,aAAA;EACA,uBAAA;EACA,cAAA;CCVP;;AD/CD;;EAyCU,iBAAA;CCWT;;ADpDD;;EA6CU,mBAAA;CCYT;;ADnBK;;EAWI,kBAAA;CCaT;;ADCG;EACE,kBAAA;CCEL;;ADAoB;EACb,kBAAA;CCGP;;ADAK;EACE,cAAA;EACA,iBAAA;EACA,gBAAA;CCGP;;ADEC;EACE,4BAAA;CCCH;;ADhFD;EAkFM,8BAAA;EACA,YAAA;EACA,gBAAA;EACA,aAAA;EACA,oBAAA;EACA,gBAAA;EACA,eAAA;CCEL;;AD1FD;EA4FQ,gBAAA;CCEP;;AD9FD;EA8FU,0BAAA;CCIT;;ADlGD;EAmGQ,4BAAA;EAAA,4BAAA;EAAA,qBAAA;EACA,uBAAA;EACA,oBAAA;CCGP;;ADxGD;EAwGU,gBAAA;EACA,eAAA;EACA,aAAA;EACA,YAAA;CCIT;;AD/GD;EAgHQ,uBAAA;CCGP;;ADEC;EACE,gBAAA;EACA,eAAA;EACA,qBAAA;EACA,eAAA;CCCH;;AD1HD;EA6HI,aAAA;CCCH","file":"list.component.scss","sourcesContent":[":host {\n  width: 100%;\n  display: block;\n}\n\n.fs-list-table {\n  display: table;\n  width: 100%;\n  border-collapse: collapse;\n}\n\n:host ::ng-deep {\n\n  .fs-filter {\n    margin-bottom: 0;\n\n    .main-filter-bar {\n      overflow: hidden;\n    }\n  }\n\n  .fs-list-body {\n    display: table-row-group;\n    position: relative;\n\n    &.loading {\n      opacity: 0.4;\n    }\n\n    .fs-list-row:hover .fs-list-col {\n      background-color: #f6f6f6;\n    }\n\n    .fs-list-row:last-child .fs-list-col {\n      border-bottom: 2px solid #ddd;\n    }\n  }\n\n  .fs-list-head, .fs-list-body {\n    .fs-list-row {\n      display: table-row;\n\n      &:nth-child(1) .fs-list-col {\n        border-top: 0;\n      }\n      &:last-child .fs-list-col {\n        border-bottom: 2px solid #ddd;\n      }\n\n      .fs-list-col {\n\n        &.left {\n          text-align: left;\n        }\n\n        &.center {\n          text-align: center;\n        }\n\n        &.right {\n          text-align: right;\n        }\n\n        display: table-cell;\n\n        border-top: 1px solid #ddd;\n        padding: 8px;\n        vertical-align: middle;\n        outline: none;\n      }\n    }\n  }\n\n  .fs-list-filters {\n    .fs-list-actions {\n      margin-left: 10px;\n\n      .action-button mat-icon {\n        margin-right: 5px;\n      }\n\n      .mat-button {\n        margin-top: 0;\n        margin-bottom: 0;\n        margin-right: 0;\n      }\n    }\n  }\n\n  .fs-list-head {\n    display: table-header-group;\n\n    .fs-list-col {\n      border-bottom: 2px solid #ddd;\n      color: #999;\n      font-size: 14px;\n      padding: 8px;\n      font-weight: normal;\n      font-size: 13px;\n      color: rgba(143, 143, 143, 1);\n\n      &.sorting {\n\n        cursor: pointer;\n        &:hover {\n          background-color: #F6F6F6;\n        }\n      }\n\n      .wrap {\n        display: inline-flex;\n        vertical-align: middle;\n        white-space: nowrap;\n\n        mat-icon {\n          font-size: 14px;\n          display: block;\n          height: 14px;\n          width: 14px;\n        }\n      }\n\n      &.sorting {\n        background-image: none;\n      }\n    }\n  }\n\n  fs-list-status {\n    font-size: 13px;\n    color: rgb(58, 58, 58);\n    padding-bottom: 10px;\n    display: block;\n  }\n\n  tfoot td {\n    padding: 8px;\n  }\n}\n\n\n\n//    .material-icons {\n//      font-family: 'Material Icons';\n//      font-weight: normal;\n//      font-style: normal;\n//      line-height: 1;\n//      letter-spacing: normal;\n//      text-transform: none;\n//      display: inline-block;\n//      white-space: nowrap;\n//      word-wrap: normal;\n//      direction: ltr;\n//      -webkit-font-feature-settings: 'liga';\n//      -webkit-font-smoothing: antialiased;\n//    }\n",":host {\n  width: 100%;\n  display: block;\n}\n\n.fs-list-table {\n  display: table;\n  width: 100%;\n  border-collapse: collapse;\n}\n\n:host ::ng-deep .fs-filter {\n  margin-bottom: 0;\n}\n\n:host ::ng-deep .fs-filter .main-filter-bar {\n  overflow: hidden;\n}\n\n:host ::ng-deep .fs-list-body {\n  display: table-row-group;\n  position: relative;\n}\n\n:host ::ng-deep .fs-list-body.loading {\n  opacity: 0.4;\n}\n\n:host ::ng-deep .fs-list-body .fs-list-row:hover .fs-list-col {\n  background-color: #f6f6f6;\n}\n\n:host ::ng-deep .fs-list-body .fs-list-row:last-child .fs-list-col {\n  border-bottom: 2px solid #ddd;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row,\n:host ::ng-deep .fs-list-body .fs-list-row {\n  display: table-row;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row:nth-child(1) .fs-list-col,\n:host ::ng-deep .fs-list-body .fs-list-row:nth-child(1) .fs-list-col {\n  border-top: 0;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row:last-child .fs-list-col,\n:host ::ng-deep .fs-list-body .fs-list-row:last-child .fs-list-col {\n  border-bottom: 2px solid #ddd;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col {\n  display: table-cell;\n  border-top: 1px solid #ddd;\n  padding: 8px;\n  vertical-align: middle;\n  outline: none;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.left,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.left {\n  text-align: left;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.center,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.center {\n  text-align: center;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.right,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.right {\n  text-align: right;\n}\n\n:host ::ng-deep .fs-list-filters .fs-list-actions {\n  margin-left: 10px;\n}\n\n:host ::ng-deep .fs-list-filters .fs-list-actions .action-button mat-icon {\n  margin-right: 5px;\n}\n\n:host ::ng-deep .fs-list-filters .fs-list-actions .mat-button {\n  margin-top: 0;\n  margin-bottom: 0;\n  margin-right: 0;\n}\n\n:host ::ng-deep .fs-list-head {\n  display: table-header-group;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col {\n  border-bottom: 2px solid #ddd;\n  color: #999;\n  font-size: 14px;\n  padding: 8px;\n  font-weight: normal;\n  font-size: 13px;\n  color: #8f8f8f;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col.sorting {\n  cursor: pointer;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col.sorting:hover {\n  background-color: #F6F6F6;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col .wrap {\n  display: inline-flex;\n  vertical-align: middle;\n  white-space: nowrap;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col .wrap mat-icon {\n  font-size: 14px;\n  display: block;\n  height: 14px;\n  width: 14px;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col.sorting {\n  background-image: none;\n}\n\n:host ::ng-deep fs-list-status {\n  font-size: 13px;\n  color: #3a3a3a;\n  padding-bottom: 10px;\n  display: block;\n}\n\n:host ::ng-deep tfoot td {\n  padding: 8px;\n}\n\n"],"sourceRoot":""}]);
+exports.push([module.i, ":host {\n  width: 100%;\n  display: block;\n}\n\n.fs-list-table {\n  display: table;\n  width: 100%;\n  border-collapse: collapse;\n}\n\n:host ::ng-deep .fs-filter {\n  margin-bottom: 0;\n}\n\n:host ::ng-deep .fs-filter .main-filter-bar {\n  overflow: hidden;\n}\n\n:host ::ng-deep .fs-list-body {\n  display: table-row-group;\n  position: relative;\n}\n\n:host ::ng-deep .fs-list-body.loading {\n  opacity: 0.4;\n}\n\n:host ::ng-deep .fs-list-body .fs-list-row:hover .fs-list-col {\n  background-color: #f6f6f6;\n}\n\n:host ::ng-deep .fs-list-body .fs-list-row:last-child .fs-list-col {\n  border-bottom: 2px solid #ddd;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row,\n:host ::ng-deep .fs-list-body .fs-list-row {\n  display: table-row;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row:nth-child(1) .fs-list-col,\n:host ::ng-deep .fs-list-body .fs-list-row:nth-child(1) .fs-list-col {\n  border-top: 0;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row:last-child .fs-list-col,\n:host ::ng-deep .fs-list-body .fs-list-row:last-child .fs-list-col {\n  border-bottom: 2px solid #ddd;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col {\n  display: table-cell;\n  border-top: 1px solid #ddd;\n  padding: 8px;\n  vertical-align: middle;\n  outline: none;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.left,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.left {\n  text-align: left;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.center,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.center {\n  text-align: center;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.right,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.right {\n  text-align: right;\n}\n\n:host ::ng-deep .fs-list-filters .fs-list-actions {\n  margin-left: 10px;\n  float: right;\n}\n\n:host ::ng-deep .fs-list-filters .fs-list-actions .action-button mat-icon {\n  margin-right: 5px;\n}\n\n:host ::ng-deep .fs-list-filters .fs-list-actions .mat-button {\n  margin-top: 0;\n  margin-bottom: 0;\n  margin-right: 0;\n}\n\n:host ::ng-deep .fs-list-head {\n  display: table-header-group;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col {\n  border-bottom: 2px solid #ddd;\n  color: #999;\n  font-size: 14px;\n  padding: 8px;\n  font-weight: normal;\n  font-size: 13px;\n  color: #8f8f8f;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col.sorting {\n  cursor: pointer;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col.sorting:hover {\n  background-color: #F6F6F6;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col .wrap {\n  display: -webkit-inline-box;\n  display: -ms-inline-flexbox;\n  display: inline-flex;\n  vertical-align: middle;\n  white-space: nowrap;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col .wrap mat-icon {\n  font-size: 14px;\n  display: block;\n  height: 14px;\n  width: 14px;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col.sorting {\n  background-image: none;\n}\n\n:host ::ng-deep fs-list-status {\n  font-size: 13px;\n  color: #3a3a3a;\n  padding-bottom: 10px;\n  display: block;\n}\n\n:host ::ng-deep tfoot td {\n  padding: 8px;\n}\n\n", "", {"version":3,"sources":["/Users/Basters/dev/firestitch/fs-list/src/app/components/list/src/app/components/list/list.component.scss","/Users/Basters/dev/firestitch/fs-list/list.component.scss"],"names":[],"mappings":"AAAA;EACE,YAAA;EACA,eAAA;CCCD;;ADED;EACE,eAAA;EACA,YAAA;EACA,0BAAA;CCCD;;ADED;EAGI,iBAAA;CCDH;;ADGG;EACE,iBAAA;CCAL;;ADIC;EACE,yBAAA;EACA,mBAAA;CCDH;;ADXD;EAeM,aAAA;CCAL;;ADGsB;EACjB,0BAAA;CCAL;;ADnBD;EAuBM,8BAAA;CCAL;;ADvBD;;EA6BM,mBAAA;CCDL;;AD5BD;;EAgCQ,cAAA;CCCP;;ADCkB;;EACX,8BAAA;CCGP;;ADAK;;EAcE,oBAAA;EAEA,2BAAA;EACA,aAAA;EACA,uBAAA;EACA,cAAA;CCVP;;ADTK;;EAGI,iBAAA;CCWT;;ADdK;;EAOI,mBAAA;CCYT;;ADnBK;;EAWI,kBAAA;CCaT;;AD9DD;EAgEM,kBAAA;EACA,aAAA;CCEL;;ADAoB;EACb,kBAAA;CCGP;;ADAK;EACE,cAAA;EACA,iBAAA;EACA,gBAAA;CCGP;;ADEC;EACE,4BAAA;CCCH;;ADCG;EACE,8BAAA;EACA,YAAA;EACA,gBAAA;EACA,aAAA;EACA,oBAAA;EACA,gBAAA;EACA,eAAA;CCEL;;ADTG;EAWI,gBAAA;CCEP;;ADbG;EAaM,0BAAA;CCIT;;ADAK;EACE,4BAAA;EAAA,4BAAA;EAAA,qBAAA;EACA,uBAAA;EACA,oBAAA;CCGP;;ADDO;EACE,gBAAA;EACA,eAAA;EACA,aAAA;EACA,YAAA;CCIT;;ADhHD;EAiHQ,uBAAA;CCGP;;ADpHD;EAuHI,gBAAA;EACA,eAAA;EACA,qBAAA;EACA,eAAA;CCCH;;AD3HD;EA8HI,aAAA;CCCH","file":"list.component.scss","sourcesContent":[":host {\n  width: 100%;\n  display: block;\n}\n\n.fs-list-table {\n  display: table;\n  width: 100%;\n  border-collapse: collapse;\n}\n\n:host ::ng-deep {\n\n  .fs-filter {\n    margin-bottom: 0;\n\n    .main-filter-bar {\n      overflow: hidden;\n    }\n  }\n\n  .fs-list-body {\n    display: table-row-group;\n    position: relative;\n\n    &.loading {\n      opacity: 0.4;\n    }\n\n    .fs-list-row:hover .fs-list-col {\n      background-color: #f6f6f6;\n    }\n\n    .fs-list-row:last-child .fs-list-col {\n      border-bottom: 2px solid #ddd;\n    }\n  }\n\n  .fs-list-head, .fs-list-body {\n    .fs-list-row {\n      display: table-row;\n\n      &:nth-child(1) .fs-list-col {\n        border-top: 0;\n      }\n      &:last-child .fs-list-col {\n        border-bottom: 2px solid #ddd;\n      }\n\n      .fs-list-col {\n\n        &.left {\n          text-align: left;\n        }\n\n        &.center {\n          text-align: center;\n        }\n\n        &.right {\n          text-align: right;\n        }\n\n        display: table-cell;\n\n        border-top: 1px solid #ddd;\n        padding: 8px;\n        vertical-align: middle;\n        outline: none;\n      }\n    }\n  }\n\n  .fs-list-filters {\n    .fs-list-actions {\n      margin-left: 10px;\n      float: right;\n\n      .action-button mat-icon {\n        margin-right: 5px;\n      }\n\n      .mat-button {\n        margin-top: 0;\n        margin-bottom: 0;\n        margin-right: 0;\n      }\n    }\n  }\n\n  .fs-list-head {\n    display: table-header-group;\n\n    .fs-list-col {\n      border-bottom: 2px solid #ddd;\n      color: #999;\n      font-size: 14px;\n      padding: 8px;\n      font-weight: normal;\n      font-size: 13px;\n      color: rgba(143, 143, 143, 1);\n\n      &.sorting {\n\n        cursor: pointer;\n        &:hover {\n          background-color: #F6F6F6;\n        }\n      }\n\n      .wrap {\n        display: inline-flex;\n        vertical-align: middle;\n        white-space: nowrap;\n\n        mat-icon {\n          font-size: 14px;\n          display: block;\n          height: 14px;\n          width: 14px;\n        }\n      }\n\n      &.sorting {\n        background-image: none;\n      }\n    }\n  }\n\n  fs-list-status {\n    font-size: 13px;\n    color: rgb(58, 58, 58);\n    padding-bottom: 10px;\n    display: block;\n  }\n\n  tfoot td {\n    padding: 8px;\n  }\n}\n\n\n\n//    .material-icons {\n//      font-family: 'Material Icons';\n//      font-weight: normal;\n//      font-style: normal;\n//      line-height: 1;\n//      letter-spacing: normal;\n//      text-transform: none;\n//      display: inline-block;\n//      white-space: nowrap;\n//      word-wrap: normal;\n//      direction: ltr;\n//      -webkit-font-feature-settings: 'liga';\n//      -webkit-font-smoothing: antialiased;\n//    }\n",":host {\n  width: 100%;\n  display: block;\n}\n\n.fs-list-table {\n  display: table;\n  width: 100%;\n  border-collapse: collapse;\n}\n\n:host ::ng-deep .fs-filter {\n  margin-bottom: 0;\n}\n\n:host ::ng-deep .fs-filter .main-filter-bar {\n  overflow: hidden;\n}\n\n:host ::ng-deep .fs-list-body {\n  display: table-row-group;\n  position: relative;\n}\n\n:host ::ng-deep .fs-list-body.loading {\n  opacity: 0.4;\n}\n\n:host ::ng-deep .fs-list-body .fs-list-row:hover .fs-list-col {\n  background-color: #f6f6f6;\n}\n\n:host ::ng-deep .fs-list-body .fs-list-row:last-child .fs-list-col {\n  border-bottom: 2px solid #ddd;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row,\n:host ::ng-deep .fs-list-body .fs-list-row {\n  display: table-row;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row:nth-child(1) .fs-list-col,\n:host ::ng-deep .fs-list-body .fs-list-row:nth-child(1) .fs-list-col {\n  border-top: 0;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row:last-child .fs-list-col,\n:host ::ng-deep .fs-list-body .fs-list-row:last-child .fs-list-col {\n  border-bottom: 2px solid #ddd;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col {\n  display: table-cell;\n  border-top: 1px solid #ddd;\n  padding: 8px;\n  vertical-align: middle;\n  outline: none;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.left,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.left {\n  text-align: left;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.center,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.center {\n  text-align: center;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.right,\n:host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.right {\n  text-align: right;\n}\n\n:host ::ng-deep .fs-list-filters .fs-list-actions {\n  margin-left: 10px;\n  float: right;\n}\n\n:host ::ng-deep .fs-list-filters .fs-list-actions .action-button mat-icon {\n  margin-right: 5px;\n}\n\n:host ::ng-deep .fs-list-filters .fs-list-actions .mat-button {\n  margin-top: 0;\n  margin-bottom: 0;\n  margin-right: 0;\n}\n\n:host ::ng-deep .fs-list-head {\n  display: table-header-group;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col {\n  border-bottom: 2px solid #ddd;\n  color: #999;\n  font-size: 14px;\n  padding: 8px;\n  font-weight: normal;\n  font-size: 13px;\n  color: #8f8f8f;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col.sorting {\n  cursor: pointer;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col.sorting:hover {\n  background-color: #F6F6F6;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col .wrap {\n  display: inline-flex;\n  vertical-align: middle;\n  white-space: nowrap;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col .wrap mat-icon {\n  font-size: 14px;\n  display: block;\n  height: 14px;\n  width: 14px;\n}\n\n:host ::ng-deep .fs-list-head .fs-list-col.sorting {\n  background-image: none;\n}\n\n:host ::ng-deep fs-list-status {\n  font-size: 13px;\n  color: #3a3a3a;\n  padding-bottom: 10px;\n  display: block;\n}\n\n:host ::ng-deep tfoot td {\n  padding: 8px;\n}\n\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -309,7 +309,7 @@ webpackContext.id = "../node_modules/moment/locale recursive ^\\.\\/.*$";
 /***/ "../src/app/components/body/body.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<tr fs-list-row *ngFor=\"let row of rows; let i = index\"\r\n    [row]=\"row\"\r\n    [rowIndex]=\"i\"\r\n    [columns]=\"columns\"\r\n    [rowActions]=\"rowActions\">\r\n</tr>\r\n"
+module.exports = "<tr fs-list-row *ngFor=\"let row of rows; let i = index\"\n    [row]=\"row\"\n    [rowIndex]=\"i\"\n    [columns]=\"columns\"\n    [rowActions]=\"rowActions\">\n</tr>\n"
 
 /***/ }),
 
@@ -397,7 +397,7 @@ __export(__webpack_require__("../src/app/components/body/row/index.ts"));
 /***/ "../src/app/components/body/row/cell/cell.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<ng-template [ngTemplateOutlet]=\"column.rowTemplate || cell\" [ngTemplateOutletContext]=\"cellContext\"></ng-template>\r\n\r\n<ng-template #cell let-value=\"value\">\r\n  {{value}}\r\n</ng-template>\r\n"
+module.exports = "<ng-template [ngTemplateOutlet]=\"column.rowTemplate || cell\" [ngTemplateOutletContext]=\"cellContext\"></ng-template>\n\n<ng-template #cell let-value=\"value\">\n  {{value}}\n</ng-template>\n"
 
 /***/ }),
 
@@ -502,7 +502,7 @@ __export(__webpack_require__("../src/app/components/body/row/cell/index.ts"));
 /***/ "../src/app/components/body/row/row.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<ng-container *ngFor=\"let column of columns\">\r\n  <td fs-cell\r\n      *ngIf=\"!column.cellColspanned\"\r\n      [column]=\"column\"\r\n      [row]=\"row\"\r\n      [rowIndex]=\"rowIndex\"\r\n      [ngClass]=\"column.cellConfigs.classesArray\"\r\n      [attr.colspan]=\"column.cellConfigs.colspan\">\r\n  </td>\r\n</ng-container>\r\n<td *ngIf=\"rowActions?.length > 0\" class=\"fs-list-col\">\r\n  <button mat-icon-button [matMenuTriggerFor]=\"rowActionsRef\">\r\n    <mat-icon>more_vert</mat-icon>\r\n  </button>\r\n  <mat-menu #rowActionsRef>\r\n    <button mat-menu-item *ngFor=\"let action of rowActions\" (click)=\"action.click($event)\">\r\n      <mat-icon *ngIf=\"action.icon\">{{action.icon}}</mat-icon> {{action.label}}\r\n    </button>\r\n  </mat-menu>\r\n</td>\r\n"
+module.exports = "<ng-container *ngFor=\"let column of columns\">\n  <td fs-cell\n      *ngIf=\"!column.cellColspanned\"\n      [column]=\"column\"\n      [row]=\"row\"\n      [rowIndex]=\"rowIndex\"\n      [ngClass]=\"column.cellConfigs.classesArray\"\n      [attr.colspan]=\"column.cellConfigs.colspan\"\n      [attr.width]=\"column.width\">\n  </td>\n</ng-container>\n<td *ngIf=\"rowActions?.length > 0\" class=\"fs-list-col\">\n  <button mat-icon-button [matMenuTriggerFor]=\"rowActionsRef\">\n    <mat-icon>more_vert</mat-icon>\n  </button>\n  <mat-menu #rowActionsRef>\n    <button mat-menu-item *ngFor=\"let action of rowActions\" (click)=\"action.click(row, $event)\">\n      <mat-icon *ngIf=\"action.icon\">{{action.icon}}</mat-icon> {{action.label}}\n    </button>\n  </mat-menu>\n</td>\n"
 
 /***/ }),
 
@@ -579,7 +579,7 @@ exports.FsRowComponent = FsRowComponent;
 /***/ "../src/app/components/footer/footer-row/footer-cell/footer-cell.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<ng-template [ngTemplateOutlet]=\"template || cell\" [ngTemplateOutletContext]=\"cellContext\"></ng-template>\r\n\r\n<ng-template #cell let-value=\"value\">\r\n  {{value}}\r\n</ng-template>\r\n"
+module.exports = "<ng-template [ngTemplateOutlet]=\"column.footerTemplate || cell\" [ngTemplateOutletContext]=\"cellContext\"></ng-template>\n\n<ng-template #cell let-value=\"value\">\n  {{value}}\n</ng-template>\n"
 
 /***/ }),
 
@@ -647,7 +647,7 @@ __export(__webpack_require__("../src/app/components/footer/footer-row/footer-cel
 /***/ "../src/app/components/footer/footer-row/footer-row.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<ng-container *ngFor=\"let column of columns\">\r\n  <td fs-list-footer-cell\r\n      *ngIf=\"!column.footerColspanned\"\r\n      [column]=\"column\"\r\n      [row]=\"row\"\r\n      [rowIndex]=\"rowIndex\"\r\n      [ngClass]=\"column.footerConfigs.classesArray\"\r\n      [attr.colspan]=\"column.footerConfigs.colspan\">\r\n  </td>\r\n</ng-container>\r\n<td *ngIf=\"hasRowActions\" class=\"fs-list-col\"></td>\r\n"
+module.exports = "<ng-container *ngFor=\"let column of columns\">\n  <td fs-list-footer-cell\n      *ngIf=\"!column.footerColspanned\"\n      [column]=\"column\"\n      [row]=\"row\"\n      [rowIndex]=\"rowIndex\"\n      [ngClass]=\"column.footerConfigs.classesArray\"\n      [attr.colspan]=\"column.footerConfigs.colspan\"\n      [attr.width]=\"column.width\">\n  </td>\n</ng-container>\n<td *ngIf=\"hasRowActions\" class=\"fs-list-col\"></td>\n"
 
 /***/ }),
 
@@ -721,7 +721,7 @@ __export(__webpack_require__("../src/app/components/footer/footer-row/footer-cel
 /***/ "../src/app/components/footer/footer.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<tr fs-list-footer-row [columns]=\"columns\" [hasRowActions]=\"hasRowActions\"></tr>\r\n"
+module.exports = "<tr fs-list-footer-row [columns]=\"columns\" [hasRowActions]=\"hasRowActions\"></tr>\n"
 
 /***/ }),
 
@@ -795,7 +795,7 @@ __export(__webpack_require__("../src/app/components/footer/footer-row/index.ts")
 /***/ "../src/app/components/head/head-cell/head-cell.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"wrap\">\r\n    <span class=\"title\">\r\n      <ng-template [ngIf]=\"!column.headerTemplate\">{{column.title}}</ng-template>\r\n      <ng-template\r\n        [ngIf]=\"column.headerTemplate\"\r\n        [ngTemplateOutlet]=\"column.headerTemplate\"\r\n        [ngTemplateOutletContext]=\"cellContext\">\r\n      </ng-template>\r\n    </span>\r\n  <div class=\"direction\" *ngIf=\"column.ordered\" [ngSwitch]=\"column.sortingDirection\">\r\n    <mat-icon class=\"material-icons\" role=\"img\" aria-label=\"arrow_downward\" *ngSwitchCase=\"0\">arrow_downward</mat-icon>\r\n    <mat-icon class=\"material-icons\" role=\"img\" aria-label=\"arrow_upward\" *ngSwitchCase=\"1\">arrow_upward</mat-icon>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"wrap\">\n    <span class=\"title\">\n      <ng-template [ngIf]=\"!column.headerTemplate\">{{column.title}}</ng-template>\n      <ng-template\n        [ngIf]=\"column.headerTemplate\"\n        [ngTemplateOutlet]=\"column.headerTemplate\"\n        [ngTemplateOutletContext]=\"cellContext\">\n      </ng-template>\n    </span>\n  <div class=\"direction\" *ngIf=\"column.ordered\" [ngSwitch]=\"column.sortingDirection\">\n    <mat-icon class=\"material-icons\" role=\"img\" aria-label=\"arrow_downward\" *ngSwitchCase=\"0\">arrow_downward</mat-icon>\n    <mat-icon class=\"material-icons\" role=\"img\" aria-label=\"arrow_upward\" *ngSwitchCase=\"1\">arrow_upward</mat-icon>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -877,7 +877,7 @@ __export(__webpack_require__("../src/app/components/head/head-cell/head-cell.com
 /***/ "../src/app/components/head/head.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<tr class=\"fs-list-row\">\r\n  <th fs-head-cell *ngFor=\"let column of columns\"\r\n      (click)=\"sorting.sortBy(column)\"\r\n      [column]=\"column\"\r\n      [class.sorting]=\"column.sortable\"\r\n      [ngClass]=\"column.headerConfigs.classesArray\"\r\n      [attr.colspan]=\"column.headerConfigs.colspan\"></th>\r\n\r\n  <th *ngIf=\"hasRowActions\" class=\"fs-list-col\"></th>\r\n</tr>\r\n"
+module.exports = "<tr class=\"fs-list-row\">\n  <th fs-head-cell *ngFor=\"let column of columns\"\n      (click)=\"sorting.sortBy(column)\"\n      [column]=\"column\"\n      [class.sorting]=\"column.sortable\"\n      [ngClass]=\"column.headerConfigs.classesArray\"\n      [attr.colspan]=\"column.headerConfigs.colspan\"\n      [attr.width]=\"column.width\"></th>\n\n  <th *ngIf=\"hasRowActions\" class=\"fs-list-col\"></th>\n</tr>\n"
 
 /***/ }),
 
@@ -990,7 +990,7 @@ __export(__webpack_require__("../src/app/components/list/list.component.ts"));
 /***/ "../src/app/components/list/list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"fs-list-container\">\r\n  <div class=\"fs-list-filters\" fxLayoutRow>\r\n    <fs-filter *ngIf=\"listConfig.filterService.fsConfig.items.length\" [(filter)]=\"listConfig.filterService\" fxFlex></fs-filter>\r\n    <div class=\"fs-list-actions\" *ngIf=\"listConfig.actions?.length\">\r\n      <span *ngFor=\"let action of listConfig.actions\">\r\n          <button mat-raised-button\r\n                  (click)=\"action.click(action, $event)\"\r\n                  [ngClass]=\"{ 'mat-primary': action.primary }\">\r\n            <mat-icon *ngIf=\"action.icon\">{{action.icon}}</mat-icon> {{ action.label }}\r\n          </button>\r\n      </span>\r\n    </div>\r\n  </div>\r\n  <fs-list-status [dataChangedRef]=\"listConfig.data$\" [sorting]=\"listConfig.sorting\" [paging]=\"listConfig.paging\" *ngIf=\"listConfig.paging\"></fs-list-status>\r\n  <table class=\"fs-list-table\" role=\"grid\">\r\n    <thead fs-list-head\r\n      class=\"fs-list-head\"\r\n      role=\"rowgroup\"\r\n      [columns]=\"listConfig.columns\"\r\n      [sorting]=\"listConfig.sorting\"\r\n      [hasRowActions]=\"listConfig.hasRowActions\">\r\n    </thead>\r\n\r\n    <tbody fs-list-body\r\n      class=\"fs-list-body\"\r\n      role=\"rowgroup\"\r\n      [class.loading]=\"listConfig.loading\"\r\n      [rows]=\"displayRows\"\r\n      [rowActions]=\"listConfig.rowActions\"\r\n      [columns]=\"listConfig.columns\"\r\n      [hasFooter]=\"listConfig.hasFooter\">\r\n    </tbody>\r\n\r\n    <tfoot fs-list-footer\r\n           class=\"fs-list-footer\"\r\n           *ngIf=\"listConfig.hasFooter\"\r\n           [columns]=\"listConfig.columns\"\r\n           [hasRowActions]=\"listConfig.hasRowActions\">\r\n    </tfoot>\r\n  </table>\r\n\r\n  <fs-list-pagination\r\n    *ngIf=\"listConfig.paging.enabled\"\r\n    [dataChangedRef]=\"listConfig.data$\"\r\n    [pagination]=\"listConfig.paging\">\r\n  </fs-list-pagination>\r\n</div>\r\n"
+module.exports = "<div class=\"fs-list-container\">\n  <div class=\"fs-list-filters\" fxLayoutRow>\n    <fs-filter *ngIf=\"listConfig.filterService.fsConfig.items.length\" [(filter)]=\"listConfig.filterService\" fxFlex></fs-filter>\n    <div class=\"fs-list-actions\" *ngIf=\"listConfig.actions?.length\">\n      <span *ngFor=\"let action of listConfig.actions\">\n          <button mat-raised-button\n                  (click)=\"action.click(action, $event)\"\n                  [ngClass]=\"{ 'mat-primary': action.primary }\">\n            <mat-icon *ngIf=\"action.icon\">{{action.icon}}</mat-icon> {{ action.label }}\n          </button>\n      </span>\n    </div>\n  </div>\n  <fs-list-status [dataChangedRef]=\"listConfig.data$\" [sorting]=\"listConfig.sorting\" [paging]=\"listConfig.paging\" *ngIf=\"listConfig.paging\"></fs-list-status>\n  <table class=\"fs-list-table\" role=\"grid\">\n    <thead fs-list-head\n      class=\"fs-list-head\"\n      role=\"rowgroup\"\n      [columns]=\"listConfig.columns\"\n      [sorting]=\"listConfig.sorting\"\n      [hasRowActions]=\"listConfig.hasRowActions\">\n    </thead>\n\n    <tbody fs-list-body\n      class=\"fs-list-body\"\n      role=\"rowgroup\"\n      [class.loading]=\"listConfig.loading\"\n      [rows]=\"displayRows\"\n      [rowActions]=\"listConfig.rowActions\"\n      [columns]=\"listConfig.columns\"\n      [hasFooter]=\"listConfig.hasFooter\">\n    </tbody>\n\n    <tfoot fs-list-footer\n           class=\"fs-list-footer\"\n           *ngIf=\"listConfig.hasFooter\"\n           [columns]=\"listConfig.columns\"\n           [hasRowActions]=\"listConfig.hasRowActions\">\n    </tfoot>\n  </table>\n\n  <fs-list-pagination\n    *ngIf=\"listConfig.paging.enabled\"\n    [dataChangedRef]=\"listConfig.data$\"\n    [pagination]=\"listConfig.paging\">\n  </fs-list-pagination>\n</div>\n"
 
 /***/ }),
 
@@ -1052,7 +1052,7 @@ var FsListComponent = (function () {
         var _this = this;
         this.listConfig = new list_config_model_1.FsListModel(this.config);
         //this.listConfig.rows = this.rows;
-        if (!this.listConfig.filters || this.listConfig.filters.length === 0) {
+        if (!this.listConfig.filters || this.listConfig.filters.length === 0 && this.listConfig.initialFetch) {
             this.listConfig.load();
         }
         this.listConfig.data$.subscribe(function (rows) {
@@ -1073,6 +1073,21 @@ var FsListComponent = (function () {
     FsListComponent.prototype.ngOnDestroy = function () {
         this.listConfig.data$.complete();
         this.listConfig.paging.pageChanged.complete();
+    };
+    FsListComponent.prototype.nextPage = function () {
+        this.listConfig.paging.goNext();
+    };
+    FsListComponent.prototype.prevPage = function () {
+        this.listConfig.paging.goPrev();
+    };
+    FsListComponent.prototype.firstPage = function () {
+        this.listConfig.paging.goFirst();
+    };
+    FsListComponent.prototype.lastPage = function () {
+        this.listConfig.paging.goLast();
+    };
+    FsListComponent.prototype.load = function () {
+        this.listConfig.load();
     };
     __decorate([
         core_1.Input(),
@@ -1117,7 +1132,7 @@ __export(__webpack_require__("../src/app/components/pagination/pagination.compon
 /***/ "../src/app/components/pagination/pagination.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"paging\" fxLayout=\"row\" *ngIf=\"pagination?.pagesArray && pagination.pagesArray.length > 0\">\r\n  <div class=\"records\"></div>\r\n  <div fxFlex>\r\n    <ul class=\"pages\">\r\n      <li class=\"first\" [class.disabled]=\"!pagination.hasPrevPage\">\r\n        <a (click)=\"pagination.goFirst()\">&laquo;</a>\r\n      </li>\r\n      <li class=\"previous\" [class.disabled]=\"!pagination.hasPrevPage\">\r\n        <a (click)=\"pagination.goPrev()\">‹</a>\r\n      </li>\r\n      <li class=\"page\" *ngFor=\"let page of pagination.pagesArray;\"\r\n          [class.active]=\"pagination.isActive(page)\"\r\n      >\r\n        <a (click)=\"pagination.goToPage(page)\">{{ page }}</a>\r\n      </li>\r\n      <li class=\"next\" [class.disabled]=\"!pagination.hasNextPage\">\r\n        <a (click)=\"pagination.goNext()\">›</a>\r\n      </li>\r\n      <li class=\"last\" [class.disabled]=\"!pagination.hasNextPage\">\r\n        <a (click)=\"pagination.goLast()\">&raquo;</a>\r\n      </li>\r\n    </ul>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"paging\" fxLayout=\"row\" *ngIf=\"pagination?.pagesArray && pagination.pagesArray.length > 0\">\n  <div class=\"records\"></div>\n  <div fxFlex>\n    <ul class=\"pages\">\n      <li class=\"first\" [class.disabled]=\"!pagination.hasPrevPage\">\n        <a (click)=\"pagination.goFirst()\">&laquo;</a>\n      </li>\n      <li class=\"previous\" [class.disabled]=\"!pagination.hasPrevPage\">\n        <a (click)=\"pagination.goPrev()\">‹</a>\n      </li>\n      <li class=\"page\" *ngFor=\"let page of pagination.pagesArray;\"\n          [class.active]=\"pagination.isActive(page)\"\n      >\n        <a (click)=\"pagination.goToPage(page)\">{{ page }}</a>\n      </li>\n      <li class=\"next\" [class.disabled]=\"!pagination.hasNextPage\">\n        <a (click)=\"pagination.goNext()\">›</a>\n      </li>\n      <li class=\"last\" [class.disabled]=\"!pagination.hasNextPage\">\n        <a (click)=\"pagination.goLast()\">&raquo;</a>\n      </li>\n    </ul>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -1207,7 +1222,7 @@ __export(__webpack_require__("../src/app/components/status/status.component.ts")
 /***/ "../src/app/components/status/status.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"infinite-records\" fxLayout=\"row\" fxLayoutAlign=\"start center\">\r\n  Showing&nbsp;<a [matMenuTriggerFor]=\"limitsMenu\">{{paging.displayed}}</a>&nbsp;of {{paging.records}} results\r\n  <span *ngIf=\"sorting.sortingColumn\">&nbsp;ordered by\r\n    <a class=\"order-toggle\" [matMenuTriggerFor]=\"orderColumnsMenu\">{{sorting.sortingColumn.title}}</a>,\r\n    <a class=\"order-toggle\" [matMenuTriggerFor]=\"orderDirectionMenu\">{{sorting.sortingColumn.fullNameDirection}}</a></span>\r\n</div>\r\n\r\n<mat-menu #limitsMenu>\r\n  <button mat-menu-item *ngFor=\"let lim of paging.limits\" (click)=\"setLimit(lim)\"> {{lim}} </button>\r\n</mat-menu>\r\n\r\n<mat-menu #orderColumnsMenu>\r\n  <button mat-menu-item *ngFor=\"let column of sorting.sortingColumns\" (click)=\"setSortableColumn(column)\">{{column.title}}</button>\r\n</mat-menu>\r\n\r\n<mat-menu #orderDirectionMenu>\r\n  <button mat-menu-item (click)=\"setDirection(OrderDirection.asc)\"> ascending </button>\r\n  <button mat-menu-item (click)=\"setDirection(OrderDirection.desc)\"> descending </button>\r\n</mat-menu>\r\n"
+module.exports = "<div class=\"infinite-records\" fxLayout=\"row\" fxLayoutAlign=\"start center\">\n  Showing&nbsp;<a [matMenuTriggerFor]=\"limitsMenu\">{{paging.displayed}}</a>&nbsp;of {{paging.records}} results\n  <span *ngIf=\"sorting.sortingColumn\">&nbsp;ordered by\n    <a class=\"order-toggle\" [matMenuTriggerFor]=\"orderColumnsMenu\">{{sorting.sortingColumn.title}}</a>,\n    <a class=\"order-toggle\" [matMenuTriggerFor]=\"orderDirectionMenu\">{{sorting.sortingColumn.fullNameDirection}}</a></span>\n</div>\n\n<mat-menu #limitsMenu>\n  <button mat-menu-item *ngFor=\"let lim of paging.limits\" (click)=\"setLimit(lim)\"> {{lim}} </button>\n</mat-menu>\n\n<mat-menu #orderColumnsMenu>\n  <button mat-menu-item *ngFor=\"let column of sorting.sortingColumns\" (click)=\"setSortableColumn(column)\">{{column.title}}</button>\n</mat-menu>\n\n<mat-menu #orderDirectionMenu>\n  <button mat-menu-item (click)=\"setDirection(OrderDirection.asc)\"> ascending </button>\n  <button mat-menu-item (click)=\"setDirection(OrderDirection.desc)\"> descending </button>\n</mat-menu>\n"
 
 /***/ }),
 
@@ -1339,7 +1354,7 @@ var FsListCellDirective = (function () {
     __decorate([
         core_1.Input('class'),
         __metadata("design:type", Object)
-    ], FsListCellDirective.prototype, "styleClass", void 0);
+    ], FsListCellDirective.prototype, "className", void 0);
     FsListCellDirective = __decorate([
         core_1.Directive({ selector: '[fs-list-cell]' })
     ], FsListCellDirective);
@@ -1388,9 +1403,13 @@ var FsListColumnDirective = (function () {
         __metadata("design:type", String)
     ], FsListColumnDirective.prototype, "align", void 0);
     __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], FsListColumnDirective.prototype, "width", void 0);
+    __decorate([
         core_1.Input('class'),
         __metadata("design:type", Object)
-    ], FsListColumnDirective.prototype, "styleClass", void 0);
+    ], FsListColumnDirective.prototype, "className", void 0);
     __decorate([
         core_1.ContentChild(_1.FsListHeaderDirective, { read: core_1.TemplateRef }),
         __metadata("design:type", core_1.TemplateRef)
@@ -1471,7 +1490,7 @@ var FsListFooterDirective = (function () {
     __decorate([
         core_1.Input('class'),
         __metadata("design:type", Object)
-    ], FsListFooterDirective.prototype, "styleClass", void 0);
+    ], FsListFooterDirective.prototype, "className", void 0);
     FsListFooterDirective = __decorate([
         core_1.Directive({ selector: '[fs-list-footer]' })
     ], FsListFooterDirective);
@@ -1526,7 +1545,7 @@ var FsListHeaderDirective = (function () {
     __decorate([
         core_1.Input('class'),
         __metadata("design:type", Object)
-    ], FsListHeaderDirective.prototype, "styleClass", void 0);
+    ], FsListHeaderDirective.prototype, "className", void 0);
     FsListHeaderDirective = __decorate([
         core_1.Directive({ selector: '[fs-list-header]' })
     ], FsListHeaderDirective);
@@ -1584,6 +1603,63 @@ __export(__webpack_require__("../src/app/directives/index.ts"));
 
 /***/ }),
 
+/***/ "../src/app/models/action.model.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var tsmodels_1 = __webpack_require__("../node_modules/tsmodels/package/index.js");
+var Action = (function (_super) {
+    __extends(Action, _super);
+    function Action(config) {
+        if (config === void 0) { config = {}; }
+        var _this = _super.call(this) || this;
+        _this.primary = true; //TODO make it as @Alias after tsmodels release
+        if (config.primary === false) {
+            _this.primary = false;
+        }
+        _this._fromJSON(config);
+        return _this;
+    }
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", String)
+    ], Action.prototype, "icon", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", String)
+    ], Action.prototype, "label", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", Function)
+    ], Action.prototype, "click", void 0);
+    return Action;
+}(tsmodels_1.Model));
+exports.Action = Action;
+
+
+/***/ }),
+
 /***/ "../src/app/models/column.model.ts":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1609,7 +1685,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var tsmodels_1 = __webpack_require__("../node_modules/tsmodels/index.ts");
+var tsmodels_1 = __webpack_require__("../node_modules/tsmodels/package/index.js");
 var core_1 = __webpack_require__("../node_modules/@angular/core/esm2015/core.js");
 var _isObject = __webpack_require__("../node_modules/lodash/isObject.js");
 var _isBoolean = __webpack_require__("../node_modules/lodash/isBoolean.js");
@@ -1679,9 +1755,6 @@ var Column = (function (_super) {
         if (!_isObject(defaults)) {
             defaults = {};
         }
-        var defaultHeader = new styleConfig_model_1.StyleConfig({ align: defaults.headerAlign, styleClass: defaults.headerClass });
-        var defaultCell = new styleConfig_model_1.StyleConfig({ align: defaults.cellAlign, styleClass: defaults.cellClass });
-        var defaultFooter = new styleConfig_model_1.StyleConfig({ align: defaults.footerAlign, styleClass: defaults.footerClass });
         ALLOWED_DEFAULTS.forEach(function (key) {
             switch (key) {
                 case 'title':
@@ -1700,16 +1773,16 @@ var Column = (function (_super) {
                     break;
                 case 'class':
                     {
-                        _this.headerConfigs.mergeClassByPriority(_this.colStyles, defaultHeader);
-                        _this.cellConfigs.mergeClassByPriority(_this.colStyles, defaultCell);
-                        _this.footerConfigs.mergeClassByPriority(_this.colStyles, defaultFooter);
+                        _this.headerConfigs.mergeClassByPriority(_this.colStyles, defaults.header);
+                        _this.cellConfigs.mergeClassByPriority(_this.colStyles, defaults.cell);
+                        _this.footerConfigs.mergeClassByPriority(_this.colStyles, defaults.footer);
                     }
                     break;
                 case 'align':
                     {
-                        _this.headerConfigs.mergeAlignByPriority(_this.colStyles, defaultHeader);
-                        _this.cellConfigs.mergeAlignByPriority(_this.colStyles, defaultCell);
-                        _this.footerConfigs.mergeAlignByPriority(_this.colStyles, defaultFooter);
+                        _this.headerConfigs.mergeAlignByPriority(_this.colStyles, defaults.header);
+                        _this.cellConfigs.mergeAlignByPriority(_this.colStyles, defaults.cell);
+                        _this.footerConfigs.mergeAlignByPriority(_this.colStyles, defaults.footer);
                     }
                     break;
             }
@@ -1737,6 +1810,10 @@ var Column = (function (_super) {
         tsmodels_1.Alias(),
         __metadata("design:type", String)
     ], Column.prototype, "name", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", String)
+    ], Column.prototype, "width", void 0);
     __decorate([
         tsmodels_1.Alias(),
         __metadata("design:type", Boolean)
@@ -1815,14 +1892,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var filter_1 = __webpack_require__("../node_modules/@firestitch/filter/filter.umd.js");
+var filter_1 = __webpack_require__("../node_modules/@firestitch/filter/package/index.js");
 var column_model_1 = __webpack_require__("../src/app/models/column.model.ts");
 var pagination_model_1 = __webpack_require__("../src/app/models/pagination.model.ts");
 var sorting_model_1 = __webpack_require__("../src/app/models/sorting.model.ts");
 var _isNumber = __webpack_require__("../node_modules/lodash/isNumber.js");
-var tsmodels_1 = __webpack_require__("../node_modules/tsmodels/index.ts");
+var tsmodels_1 = __webpack_require__("../node_modules/tsmodels/package/index.js");
 var Observable_1 = __webpack_require__("../node_modules/rxjs/Observable.js");
 var BehaviorSubject_1 = __webpack_require__("../node_modules/rxjs/BehaviorSubject.js");
+var styleConfig_model_1 = __webpack_require__("../src/app/models/styleConfig.model.ts");
+var action_model_1 = __webpack_require__("../src/app/models/action.model.ts");
 var FsListModel = (function (_super) {
     __extends(FsListModel, _super);
     function FsListModel(config) {
@@ -1836,7 +1915,14 @@ var FsListModel = (function (_super) {
         _this.data$ = new BehaviorSubject_1.BehaviorSubject([]);
         _this.loading = false;
         _this.hasFooter = false;
+        _this.initialFetch = true;
         _this._fromJSON(config);
+        if (config.initialFetch === false) {
+            _this.initialFetch = false;
+        }
+        _this._headerConfig = new styleConfig_model_1.StyleConfig(config.header);
+        _this._cellConfig = new styleConfig_model_1.StyleConfig(config.cell);
+        _this._footerConfig = new styleConfig_model_1.StyleConfig(config.footer);
         _this.hasRowActions = _this.rowActions && _this.rowActions.length > 0;
         _this.watchFilters();
         _this.initPaging(config);
@@ -1898,8 +1984,13 @@ var FsListModel = (function (_super) {
      */
     FsListModel.prototype.tranformTemplatesToColumns = function (templates) {
         var _this = this;
+        var defaultConfigs = {
+            header: this._headerConfig,
+            cell: this._cellConfig,
+            footer: this._footerConfig,
+        };
         templates.forEach(function (column) {
-            var col = new column_model_1.Column(column, _this._columnDefaults);
+            var col = new column_model_1.Column(column, defaultConfigs);
             if (col.sortable) {
                 _this.sorting.addSortableColumn(col);
             } // add column to sortable
@@ -1951,7 +2042,9 @@ var FsListModel = (function (_super) {
                 inline: this.inlineFilters,
                 init: function (instance) {
                     _this.filtersQuery = instance.gets({ flatten: true });
-                    _this.load();
+                    if (_this.initialFetch) {
+                        _this.load();
+                    }
                 },
                 change: function (query, instance) {
                     _this.filtersQuery = instance.gets({ flatten: true });
@@ -1986,7 +2079,7 @@ var FsListModel = (function (_super) {
         __metadata("design:type", Object)
     ], FsListModel.prototype, "inlineFilters", void 0);
     __decorate([
-        tsmodels_1.Alias(),
+        tsmodels_1.Alias('actions', action_model_1.Action),
         __metadata("design:type", Object)
     ], FsListModel.prototype, "actions", void 0);
     __decorate([
@@ -2002,17 +2095,13 @@ var FsListModel = (function (_super) {
         __metadata("design:type", Object)
     ], FsListModel.prototype, "columnTemplates", void 0);
     __decorate([
-        tsmodels_1.Alias('fetch'),
-        __metadata("design:type", Object)
-    ], FsListModel.prototype, "fetchFn", void 0);
-    __decorate([
         tsmodels_1.Alias(),
         __metadata("design:type", Object)
     ], FsListModel.prototype, "filters", void 0);
     __decorate([
-        tsmodels_1.Alias('columnDefaults'),
+        tsmodels_1.Alias('fetch'),
         __metadata("design:type", Object)
-    ], FsListModel.prototype, "_columnDefaults", void 0);
+    ], FsListModel.prototype, "fetchFn", void 0);
     __decorate([
         tsmodels_1.Alias('rows'),
         __metadata("design:type", Object)
@@ -2049,7 +2138,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var tsmodels_1 = __webpack_require__("../node_modules/tsmodels/index.ts");
+var tsmodels_1 = __webpack_require__("../node_modules/tsmodels/package/index.js");
 var Subject_1 = __webpack_require__("../node_modules/rxjs/Subject.js");
 var Pagination = (function (_super) {
     __extends(Pagination, _super);
@@ -2188,6 +2277,9 @@ var Pagination = (function (_super) {
         else if (this.page > this.pages - MIDDLE + 1) {
             from = this.pages - MIDDLE - 1;
             to = this.pages;
+        }
+        if (!this.pages || this.pages < 5) {
+            to = this.pages || 0;
         }
         for (var i = from; i <= to; i++) {
             pagesArr.push(i);
@@ -2389,14 +2481,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var tsmodels_1 = __webpack_require__("../node_modules/tsmodels/index.ts");
+var tsmodels_1 = __webpack_require__("../node_modules/tsmodels/package/index.js");
 var _isString = __webpack_require__("../node_modules/lodash/isString.js");
 var StyleConfig = (function (_super) {
     __extends(StyleConfig, _super);
     function StyleConfig(config) {
         if (config === void 0) { config = {}; }
         var _this = _super.call(this) || this;
-        _this.styleClass = []; // Can't be used in tempaltes!
+        _this.className = []; // Can't be used in tempaltes!
         _this.classesArray = []; // Can be used in tempaltes
         _this._fromJSON(config);
         return _this;
@@ -2405,7 +2497,7 @@ var StyleConfig = (function (_super) {
      * Create static array of styles for using in templates
      */
     StyleConfig.prototype.updateClasesArray = function () {
-        this.classesArray = [].concat(this.styleClass, this.align);
+        this.classesArray = [].concat(this.className, this.align);
     };
     /**
      * Prioritized merge for align options
@@ -2434,16 +2526,19 @@ var StyleConfig = (function (_super) {
      */
     StyleConfig.prototype.mergeClassByPriority = function (prior1, prior2) {
         var targetValue = [];
-        if (_isString(this.styleClass)) {
-            targetValue.push(this.styleClass);
+        if (Array.isArray(this.className)) {
+            targetValue = targetValue.concat(this.className);
         }
-        if (prior1.styleClass !== void 0) {
-            targetValue = this.mergeAnythingIntoArray(targetValue, prior1.styleClass);
+        else if (_isString(this.className)) {
+            targetValue.push(this.className);
         }
-        else if (prior2.styleClass !== void 0) {
-            targetValue = this.mergeAnythingIntoArray(targetValue, prior2.styleClass);
+        if (prior1.className !== void 0) {
+            this.mergeAnythingIntoArray(targetValue, prior1.className);
         }
-        this.styleClass = targetValue;
+        else if (prior2.className !== void 0) {
+            this.mergeAnythingIntoArray(targetValue, prior2.className);
+        }
+        this.className = targetValue;
     };
     /**
      * Merge params into array
@@ -2456,9 +2551,8 @@ var StyleConfig = (function (_super) {
             to.push(from);
         }
         else if (Array.isArray(from)) {
-            to = to.concat(from);
+            to.push.apply(to, from);
         }
-        return to;
     };
     __decorate([
         tsmodels_1.Alias(),
@@ -2471,7 +2565,7 @@ var StyleConfig = (function (_super) {
     __decorate([
         tsmodels_1.Alias(),
         __metadata("design:type", Object)
-    ], StyleConfig.prototype, "styleClass", void 0);
+    ], StyleConfig.prototype, "className", void 0);
     return StyleConfig;
 }(tsmodels_1.Model));
 exports.StyleConfig = StyleConfig;
@@ -2498,7 +2592,7 @@ var core_1 = __webpack_require__("../node_modules/@angular/core/esm2015/core.js"
 var common_1 = __webpack_require__("../node_modules/@angular/common/esm2015/common.js");
 var material_1 = __webpack_require__("../node_modules/@angular/material/esm2015/material.js");
 var flex_layout_1 = __webpack_require__("../node_modules/@angular/flex-layout/esm2015/flex-layout.js");
-var filter_1 = __webpack_require__("../node_modules/@firestitch/filter/filter.umd.js");
+var filter_1 = __webpack_require__("../node_modules/@firestitch/filter/package/index.js");
 var components_1 = __webpack_require__("../src/app/components/index.ts");
 var directives_1 = __webpack_require__("../src/app/directives/index.ts");
 __export(__webpack_require__("../src/app/components/list/list.component.ts"));
@@ -2685,7 +2779,7 @@ exports.AppComponent = AppComponent;
 /***/ "./app/components/kitchensink/kitchensink.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<fs-list [config]=\"config\">\n\n  <fs-list-column>\n    <ng-template fs-list-header>\n      №\n    </ng-template>\n    <ng-template fs-list-cell let-index=\"index\">\n      {{index}}\n    </ng-template>\n    <ng-template fs-list-footer colspan=\"2\">\n      Footer with colspan 2 and left align\n    </ng-template>\n  </fs-list-column>\n\n  <fs-list-column name=\"name\" title=\"Name\" [sortable]=\"true\">\n    <ng-template fs-list-header>\n      <b>User</b> name\n    </ng-template>\n    <ng-template fs-list-cell let-value=\"value\" let-row=\"row\">\n      {{value}}\n      <mat-form-field>\n        <input matInput [(ngModel)]=\"row.guid\" (click)=\"onClick(row, $event)\">\n      </mat-form-field>\n    </ng-template>\n  </fs-list-column>\n\n  <fs-list-column name=\"guid\" title=\"GUID\" [sortable]=\"true\">\n    <ng-template fs-list-cell let-guid=\"value\" let-row=\"row\">\n      This row's guid is {{ row.guid }} ({{guid}}).\n    </ng-template>\n  </fs-list-column>\n\n  <fs-list-column title=\"Link\">\n    <ng-template fs-list-cell let-guid=\"value\" [class]=\"['myTestClass', 'myTestClass2']\">\n      <a routerLink=\"/welcome\">Simple Link</a>\n    </ng-template>\n    <ng-template fs-list-footer colspan=\"2\" align=\"right\">\n      Footer with colspan 2 and right align\n    </ng-template>\n  </fs-list-column>\n</fs-list>\n"
+module.exports = "<fs-list [config]=\"config\" #table>\n\n  <fs-list-column>\n    <ng-template fs-list-header>\n      №\n    </ng-template>\n    <ng-template fs-list-cell let-index=\"index\">\n      {{index}}\n    </ng-template>\n    <ng-template fs-list-footer colspan=\"2\">\n      Footer with colspan 2 and left align\n    </ng-template>\n  </fs-list-column>\n\n  <fs-list-column name=\"name\" title=\"Name\" [sortable]=\"true\">\n    <ng-template fs-list-header>\n      <b>User</b> name\n    </ng-template>\n    <ng-template fs-list-cell let-value=\"value\" let-row=\"row\">\n      {{value}}\n      <mat-form-field>\n        <input matInput [(ngModel)]=\"row.guid\" (click)=\"onClick(row, $event)\">\n      </mat-form-field>\n    </ng-template>\n  </fs-list-column>\n\n  <fs-list-column name=\"guid\" title=\"GUID\" [sortable]=\"true\">\n    <ng-template fs-list-cell let-guid=\"value\" let-row=\"row\">\n      This row's guid is {{ row.guid }} ({{guid}}).\n    </ng-template>\n  </fs-list-column>\n\n  <fs-list-column title=\"Link\">\n    <ng-template fs-list-cell let-guid=\"value\" [class]=\"['myTestClass', 'myTestClass2']\">\n      <a routerLink=\"/welcome\">Simple Link</a>\n    </ng-template>\n    <ng-template fs-list-footer colspan=\"2\" align=\"right\">\n      Footer with colspan 2 and right align\n    </ng-template>\n  </fs-list-column>\n</fs-list>\n"
 
 /***/ }),
 
@@ -2708,6 +2802,7 @@ var core_1 = __webpack_require__("../node_modules/@angular/core/esm2015/core.js"
 var router_1 = __webpack_require__("../node_modules/@angular/router/esm2015/router.js");
 var api_1 = __webpack_require__("../node_modules/@firestitch/api/api.umd.js");
 __webpack_require__("../node_modules/rxjs/add/operator/map.js");
+var list_component_1 = __webpack_require__("../src/app/components/list/list.component.ts");
 var KitchenSinkComponent = (function () {
     function KitchenSinkComponent(_fsApi, _router) {
         this._fsApi = _fsApi;
@@ -2751,21 +2846,21 @@ var KitchenSinkComponent = (function () {
                         console.log(event);
                     },
                     icon: 'delete',
-                    primary: true,
+                    primary: false,
                     label: 'Secondary Button'
                 }
             ],
             rowActions: [
                 {
-                    click: function (event) {
-                        console.log('edit', event);
+                    click: function (row, event) {
+                        console.log('edit', row, event);
                     },
                     icon: 'edit',
                     label: 'Edit'
                 },
                 {
-                    click: function (event) {
-                        console.log('delete', event);
+                    click: function (row, event) {
+                        console.log('delete', row, event);
                     },
                     icon: 'delete',
                     label: 'Remove'
@@ -2777,24 +2872,28 @@ var KitchenSinkComponent = (function () {
                 click: function (event) {
                 }
             },
-            columnDefaults: {
-                headerClass: ['header-test-defaults-class'],
-                sortable: true,
-                headerAlign: 'left',
-                cellAlign: 'left',
-                cellClass: ['cell-test-defaults-class'],
-                colClass: ['col-test-class']
+            header: {
+                className: 'header-test-defaults-class',
+                align: 'left'
+            },
+            cell: {
+                className: 'cell-test-defaults-class',
+                align: 'left'
             },
             fetch: function (query) {
                 query.count = 500;
                 return _this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
                     .map(function (response) { return ({ data: response.data.objects, paging: response.data.paging }); });
-            }
+            },
         };
     };
     KitchenSinkComponent.prototype.onClick = function (row, event) {
         console.log(row, event);
     };
+    __decorate([
+        core_1.ViewChild('table'),
+        __metadata("design:type", list_component_1.FsListComponent)
+    ], KitchenSinkComponent.prototype, "table", void 0);
     KitchenSinkComponent = __decorate([
         core_1.Component({
             selector: 'kitchensink',

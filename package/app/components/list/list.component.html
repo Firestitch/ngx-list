@@ -1,0 +1,47 @@
+<div class="fs-list-container">
+  <div class="fs-list-filters" fxLayoutRow>
+    <fs-filter *ngIf="listConfig.filterService.fsConfig.items.length" [(filter)]="listConfig.filterService" fxFlex></fs-filter>
+    <div class="fs-list-actions" *ngIf="listConfig.actions?.length">
+      <span *ngFor="let action of listConfig.actions">
+          <button mat-raised-button
+                  (click)="action.click(action, $event)"
+                  [ngClass]="{ 'mat-primary': action.primary }">
+            <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{ action.label }}
+          </button>
+      </span>
+    </div>
+  </div>
+  <fs-list-status [dataChangedRef]="listConfig.data$" [sorting]="listConfig.sorting" [paging]="listConfig.paging" *ngIf="listConfig.paging"></fs-list-status>
+  <table class="fs-list-table" role="grid">
+    <thead fs-list-head
+      class="fs-list-head"
+      role="rowgroup"
+      [columns]="listConfig.columns"
+      [sorting]="listConfig.sorting"
+      [hasRowActions]="listConfig.hasRowActions">
+    </thead>
+
+    <tbody fs-list-body
+      class="fs-list-body"
+      role="rowgroup"
+      [class.loading]="listConfig.loading"
+      [rows]="displayRows"
+      [rowActions]="listConfig.rowActions"
+      [columns]="listConfig.columns"
+      [hasFooter]="listConfig.hasFooter">
+    </tbody>
+
+    <tfoot fs-list-footer
+           class="fs-list-footer"
+           *ngIf="listConfig.hasFooter"
+           [columns]="listConfig.columns"
+           [hasRowActions]="listConfig.hasRowActions">
+    </tfoot>
+  </table>
+
+  <fs-list-pagination
+    *ngIf="listConfig.paging.enabled"
+    [dataChangedRef]="listConfig.data$"
+    [pagination]="listConfig.paging">
+  </fs-list-pagination>
+</div>

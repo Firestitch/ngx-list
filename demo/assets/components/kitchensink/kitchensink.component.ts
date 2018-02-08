@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FsApi } from '@firestitch/api';
 import { FsListConfig } from '../../../../src';
 import 'rxjs/add/operator/map';
+import { FsListComponent } from '../../../../src/app/components/list/list.component';
 
 @Component({
   selector: 'kitchensink',
@@ -11,6 +12,8 @@ import 'rxjs/add/operator/map';
 })
 export class KitchenSinkComponent implements OnInit {
 
+  @ViewChild('table')
+  public table: FsListComponent; // Controller fs-list
   public config: FsListConfig;
 
   constructor(private _fsApi: FsApi, private _router: Router) {}
@@ -53,21 +56,21 @@ export class KitchenSinkComponent implements OnInit {
             console.log(event);
           },
           icon: 'delete',
-          primary: true,
+          primary: false,
           label: 'Secondary Button'
         }
       ],
       rowActions: [
         {
-          click: (event) => {
-            console.log('edit', event);
+          click: (row, event) => {
+            console.log('edit', row, event);
           },
           icon: 'edit',
           label: 'Edit'
         },
         {
-          click: (event) => {
-            console.log('delete', event);
+          click: (row, event) => {
+            console.log('delete', row, event);
           },
           icon: 'delete',
           label: 'Remove'
@@ -82,19 +85,20 @@ export class KitchenSinkComponent implements OnInit {
 
         }
       },
-      columnDefaults: {
-        headerClass: ['header-test-defaults-class'],
-        sortable: true,
-        headerAlign: 'left',
-        cellAlign: 'left',
-        cellClass: ['cell-test-defaults-class'],
-        colClass: ['col-test-class']
+      header: {
+        className: 'header-test-defaults-class',
+        align: 'left'
+      },
+      cell: {
+        className: 'cell-test-defaults-class',
+        align: 'left'
       },
       fetch: (query) => {
         query.count = 500;
         return this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
           .map(response => ({ data: response.data.objects, paging: response.data.paging }));
-      }
+      },
+      // initialFetch: false,
     };
   }
 
