@@ -5,7 +5,8 @@
       [row]="row"
       [rowIndex]="rowIndex"
       [ngClass]="column.footerConfigs.classesArray"
-      [attr.colspan]="column.footerConfigs.colspan">
+      [attr.colspan]="column.footerConfigs.colspan"
+      [attr.width]="column.width">
   </td>
 </ng-container>
 <td *ngIf="hasRowActions" class="fs-list-col"></td>

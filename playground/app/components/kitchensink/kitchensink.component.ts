@@ -56,21 +56,21 @@ export class KitchenSinkComponent implements OnInit {
             console.log(event);
           },
           icon: 'delete',
-          primary: true,
+          primary: false,
           label: 'Secondary Button'
         }
       ],
       rowActions: [
         {
-          click: (event) => {
-            console.log('edit', event);
+          click: (row, event) => {
+            console.log('edit', row, event);
           },
           icon: 'edit',
           label: 'Edit'
         },
         {
-          click: (event) => {
-            console.log('delete', event);
+          click: (row, event) => {
+            console.log('delete', row, event);
           },
           icon: 'delete',
           label: 'Remove'

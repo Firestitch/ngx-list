@@ -4,7 +4,8 @@
       [column]="column"
       [class.sorting]="column.sortable"
       [ngClass]="column.headerConfigs.classesArray"
-      [attr.colspan]="column.headerConfigs.colspan"></th>
+      [attr.colspan]="column.headerConfigs.colspan"
+      [attr.width]="column.width"></th>
 
   <th *ngIf="hasRowActions" class="fs-list-col"></th>
 </tr>

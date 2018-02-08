@@ -10,11 +10,12 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FsListConfig } from '../interfaces/listconfig.interface';
 import { StyleConfig } from './styleConfig.model';
+import { Action } from './action.model';
 
 
 export class FsListModel extends Model {
   @Alias() public inlineFilters: any;
-  @Alias() public actions: any;
+  @Alias('actions', Action) public actions: any;
   @Alias() public rowActions: any;
   @Alias() public rowEvents: any;
   @Alias() public columnTemplates: any;

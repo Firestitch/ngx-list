@@ -11,6 +11,7 @@ export class FsListColumnDirective {
   @Input() public name: string;
   @Input() public sortable: boolean;
   @Input() public align: string;
+  @Input() public width: string;
   @Input('class') public className: string | string[];
 
   @ContentChild(FsListHeaderDirective, { read: TemplateRef })
