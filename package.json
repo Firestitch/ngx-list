@@ -119,6 +119,6 @@
     "tsmodels": "^0.2.7"
   },
   "dependencies": {
-    "tsmodels": "^0.3.0"
+    "tsmodels": "^0.3.1"
   }
 }
