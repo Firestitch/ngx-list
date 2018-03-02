@@ -49,6 +49,13 @@ export class KitchenSinkComponent implements OnInit {
           click: (event) => {
             console.log(event);
           },
+          label: 'Kebab only button',
+          menu: true
+        },
+        {
+          click: (event) => {
+            console.log(event);
+          },
           label: 'Primary Button'
         },
         {

@@ -1,0 +1,54 @@
+@import "variables";
+
+
+@mixin apply-to($ltgt, $device) {
+  $extrema: null;
+  $boundary-target: null;
+  $delta: null;
+
+  @if $ltgt == less-than {
+    $extrema: max;
+    $delta: -1;
+  } @else if $ltgt == greater-than {
+    $extrema: min;
+    $delta: +1;
+  }
+
+  @if $device == phone {
+    @if $ltgt == less-than {
+      $boundary-target: $phone-width-max;
+    } @else if $ltgt == greater-than {
+      $boundary-target: $tablet-width-min;
+    }
+  } @else if $device == tablet {
+    @if $ltgt == less-than {
+      $boundary-target: $tablet-width-min;
+    } @else if $ltgt == greater-than {
+      $boundary-target: $tablet-width-max;
+    }
+  } @else if $device == desktop {
+    $boundary-target: $desktop-width-min;
+  }
+
+  @media only screen and (#{$extrema}-width: $boundary-target) {
+    @content;
+  }
+}
+
+@mixin phone {
+  @media only screen and (max-width: #{$phone-width-max}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media only screen and (min-width: #{$tablet-width-min}) and (max-width: #{$tablet-width-max}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media only screen and (min-width: #{$desktop-width-min}) {
+    @content;
+  }
+}

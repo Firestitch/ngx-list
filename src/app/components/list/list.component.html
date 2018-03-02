@@ -2,13 +2,29 @@
   <div class="fs-list-filters" fxLayoutRow>
     <fs-filter *ngIf="listConfig.filterService.fsConfig.items.length" [(filter)]="listConfig.filterService" fxFlex></fs-filter>
     <div class="fs-list-actions" *ngIf="listConfig.actions?.length">
-      <span *ngFor="let action of listConfig.actions">
+      <span *ngFor="let action of listConfig.menuActions" class="action-button">
           <button mat-raised-button
                   (click)="action.click(action, $event)"
                   [ngClass]="{ 'mat-primary': action.primary }">
             <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{ action.label }}
           </button>
       </span>
+      <button mat-icon-button [matMenuTriggerFor]="rowActionsRef"
+              [ngClass]="{'hidden-mobile-menu-actions': !listConfig.kebabActions.length}">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #rowActionsRef>
+        <button class="hidden-mobile-menu-action"
+                mat-menu-item
+                *ngFor="let action of listConfig.menuActions"
+                (click)="action.click(row, $event)"
+        >
+          <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
+        </button>
+        <button mat-menu-item *ngFor="let action of listConfig.kebabActions" (click)="action.click(row, $event)">
+          <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
+        </button>
+      </mat-menu>
     </div>
   </div>
   <fs-list-status [dataChangedRef]="listConfig.data$" [sorting]="listConfig.sorting" [paging]="listConfig.paging" *ngIf="listConfig.paging"></fs-list-status>

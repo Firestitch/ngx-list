@@ -1,3 +1,5 @@
+@import "../../styles/mixins";
+
 :host {
   width: 100%;
   display: block;
@@ -70,21 +72,20 @@
       }
     }
   }
-
   .fs-list-filters {
     .fs-list-actions {
       margin-left: 10px;
       float: right;
+    }
 
-      .action-button mat-icon {
-        margin-right: 5px;
-      }
+    .action-button mat-icon {
+      margin-right: 5px;
+    }
 
-      .mat-button {
-        margin-top: 0;
-        margin-bottom: 0;
-        margin-right: 0;
-      }
+    .mat-button {
+      margin-top: 0;
+      margin-bottom: 0;
+      margin-right: 0;
     }
   }
 
@@ -139,7 +140,28 @@
   }
 }
 
+::ng-deep {
+  @include phone {
+    .fs-list-actions {
+      .action-button {
+        display: none;
+      }
+    }
+  }
 
+  @include apply-to(greater-than, phone) {
+
+    .fs-list-actions {
+      .hidden-mobile-menu-actions {
+        display: none !important;
+      }
+    }
+
+    .hidden-mobile-menu-action {
+      display: none !important;
+    }
+  }
+}
 
 //    .material-icons {
 //      font-family: 'Material Icons';

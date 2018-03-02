@@ -26,6 +26,8 @@ export class FsListModel extends Model {
 
   public filtersQuery: any;
   public hasRowActions;
+  public menuActions: Action[] = [];
+  public kebabActions: Action[] = [];
   public columns: Column[] = [];
   public persist: string;
   public paging = new Pagination();
@@ -44,7 +46,6 @@ export class FsListModel extends Model {
 
   constructor(config: FsListConfig = {}) {
     super();
-
     this._fromJSON(config);
 
     if (config.initialFetch === false) { //TODO fixme after tsmodel version update
@@ -54,6 +55,9 @@ export class FsListModel extends Model {
     this._headerConfig = new StyleConfig(config.header);
     this._cellConfig = new StyleConfig(config.cell);
     this._footerConfig = new StyleConfig(config.footer);
+
+    this.menuActions = this.actions.filter((action) => !action.menu);
+    this.kebabActions = this.actions.filter((action) => action.menu);
 
     this.hasRowActions = this.rowActions && this.rowActions.length > 0;
     this.watchFilters();
