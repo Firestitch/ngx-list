@@ -73,6 +73,20 @@
     }
   }
   .fs-list-filters {
+    display: flex;
+    flex-flow: row wrap;
+
+    .title {
+      align-self: center;
+      font-weight: 600;
+      font-size: 18px;
+      color: #212537;
+      margin-right: 10px;
+    }
+
+    .fs-list-filter {
+      flex: 100;
+    }
     .fs-list-actions {
       margin-left: 10px;
       float: right;
@@ -142,15 +156,30 @@
 
 ::ng-deep {
   @include phone {
+
+    .fs-list-filters {
+      flex-flow: row nowrap !important;
+    }
+
+    .title {
+      flex: 1 0;
+    }
     .fs-list-actions {
       .action-button {
         display: none;
       }
     }
+
+    .hidden-mobile {
+      display: none !important;
+    }
   }
 
   @include apply-to(greater-than, phone) {
 
+    .title {
+      flex: 1 0 100%;
+    }
     .fs-list-actions {
       .hidden-mobile-menu-actions {
         display: none !important;

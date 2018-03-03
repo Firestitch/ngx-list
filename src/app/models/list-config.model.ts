@@ -14,6 +14,7 @@ import { Action } from './action.model';
 
 
 export class FsListModel extends Model {
+  @Alias() public title: string;
   @Alias() public inlineFilters: any;
   @Alias('actions', Action) public actions: any;
   @Alias() public rowActions: any;
@@ -36,6 +37,9 @@ export class FsListModel extends Model {
 
   public data$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
 
+  public status = true;
+  public filterInput = true;
+
   public loading = false;
   public hasFooter = false;
   public initialFetch = true;
@@ -50,6 +54,12 @@ export class FsListModel extends Model {
 
     if (config.initialFetch === false) { //TODO fixme after tsmodel version update
       this.initialFetch = false;
+    }
+    if (config.status === false) {
+      this.status = false;
+    }
+    if (config.filterInput === false) {
+      this.filterInput = false;
     }
 
     this._headerConfig = new StyleConfig(config.header);

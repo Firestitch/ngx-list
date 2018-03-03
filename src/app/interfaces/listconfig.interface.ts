@@ -9,6 +9,9 @@ export interface FsPaging {
 }
 
 export interface FsListConfig {
+  title?: string;
+  status?: boolean;
+  filterInput?: boolean;
   paging?: FsPaging;
   columnDefaults?: Object;
   filters?: Object[];

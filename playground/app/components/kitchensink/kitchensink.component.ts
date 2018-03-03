@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import { FsApi } from '@firestitch/api';
 import { FsListConfig } from '../../../../src';
 import 'rxjs/add/operator/map';
-import { FsListComponent } from '../../../../src/app/components/list/list.component';
+import { FsListComponent } from '../../../../src/app/components/list';
+
 
 @Component({
   selector: 'kitchensink',
@@ -21,6 +22,9 @@ export class KitchenSinkComponent implements OnInit {
   public ngOnInit() {
 
     this.config = {
+      title: 'Events',
+      status: false,
+      filterInput: false,
       paging: {
         limits: [5, 15, 50, 150, 250, 500, 1000]
       },

@@ -11,10 +11,6 @@ export class Action extends Model {
   constructor(config: any = {}) {
     super();
 
-    if (config.primary === false) {
-      this.primary = false;
-    }
-
     this._fromJSON(config);
   }
 

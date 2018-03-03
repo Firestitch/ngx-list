@@ -3,13 +3,9 @@ import {
   OnInit,
   OnDestroy,
   Input,
-  DoCheck,
-  IterableDiffer,
   ContentChildren,
   QueryList,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  IterableDiffers,
 } from '@angular/core';
 
 import { FsListColumnDirective } from '../../directives';

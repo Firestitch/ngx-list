@@ -1,6 +1,17 @@
 <div class="fs-list-container">
-  <div class="fs-list-filters" fxLayoutRow>
-    <fs-filter *ngIf="listConfig.filterService.fsConfig.items.length" [(filter)]="listConfig.filterService" fxFlex></fs-filter>
+  <!-- Filters/actions -->
+  <div class="fs-list-filters" fxLayoutWrap fxLayoutRow>
+    <div class="title">{{listConfig.title}}</div>
+    <!-- Filters -->
+    <fs-filter
+      class="fs-list-filter"
+      [ngClass]="{'hidden-mobile': !listConfig.filterInput}"
+      *ngIf="listConfig.filterService.fsConfig.items.length"
+      [(filter)]="listConfig.filterService"
+    >
+    </fs-filter>
+
+    <!-- Actions -->
     <div class="fs-list-actions" *ngIf="listConfig.actions?.length">
       <span *ngFor="let action of listConfig.menuActions" class="action-button">
           <button mat-raised-button
@@ -26,8 +37,19 @@
         </button>
       </mat-menu>
     </div>
+    <!-- /Actions -->
   </div>
-  <fs-list-status [dataChangedRef]="listConfig.data$" [sorting]="listConfig.sorting" [paging]="listConfig.paging" *ngIf="listConfig.paging"></fs-list-status>
+
+  <!-- Status -->
+  <fs-list-status
+    [ngClass]="{'hidden-mobile': !listConfig.status}"
+    [dataChangedRef]="listConfig.data$"
+    [sorting]="listConfig.sorting"
+    [paging]="listConfig.paging"
+    *ngIf="listConfig.paging">
+  </fs-list-status>
+
+  <!-- Table implementation -->
   <table class="fs-list-table" role="grid">
     <thead fs-list-head
       class="fs-list-head"
