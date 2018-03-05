@@ -1,6 +1,9 @@
 <div class="fs-list-container">
   <!-- Filters/actions -->
-  <div class="fs-list-filters" fxLayoutWrap fxLayoutRow>
+  <div class="fs-list-filters"
+       [ngClass]="{'has-filters': listConfig.filterInput }"
+       fxLayoutWrap
+       fxLayoutRow>
     <div class="title">{{listConfig.title}}</div>
     <!-- Filters -->
     <fs-filter
@@ -13,13 +16,13 @@
 
     <!-- Actions -->
     <div class="fs-list-actions" *ngIf="listConfig.actions?.length">
-      <span *ngFor="let action of listConfig.menuActions" class="action-button">
-          <button mat-raised-button
-                  (click)="action.click(action, $event)"
-                  [ngClass]="{ 'mat-primary': action.primary }">
-            <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{ action.label }}
-          </button>
-      </span>
+        <span *ngFor="let action of listConfig.menuActions" class="action-button">
+            <button mat-raised-button
+                    (click)="action.click(action, $event)"
+                    [ngClass]="{ 'mat-primary': action.primary }">
+              <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{ action.label }}
+            </button>
+        </span>
       <button mat-icon-button [matMenuTriggerFor]="rowActionsRef"
               [ngClass]="{'hidden-mobile-menu-actions': !listConfig.kebabActions.length}">
         <mat-icon>more_vert</mat-icon>

@@ -76,6 +76,12 @@
     display: flex;
     flex-flow: row wrap;
 
+    &.has-filters {
+      .title {
+        flex: 1 0 100%;
+      }
+    }
+
     .title {
       align-self: center;
       font-weight: 600;
@@ -158,12 +164,20 @@
   @include phone {
 
     .fs-list-filters {
-      flex-flow: row nowrap !important;
+      //&.has-filters {
+      //  flex-flow: row wrap;
+      //}
+
+      &:not(.has-filters) {
+        flex-flow: row nowrap !important;
+
+        .title {
+          flex: 1 0;
+        }
+      }
     }
 
-    .title {
-      flex: 1 0;
-    }
+
     .fs-list-actions {
       .action-button {
         display: none;
@@ -177,9 +191,18 @@
 
   @include apply-to(greater-than, phone) {
 
-    .title {
-      flex: 1 0 100%;
+    .fs-list-filters {
+      .title {
+        flex: 1 0 100%
+      }
+      /*&:not(.has-filters) {
+
+        //.title {
+        //  flex: 1;
+        //}
+      }*/
     }
+
     .fs-list-actions {
       .hidden-mobile-menu-actions {
         display: none !important;
