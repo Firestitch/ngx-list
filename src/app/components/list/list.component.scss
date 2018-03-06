@@ -9,6 +9,7 @@
   display: table;
   width: 100%;
   border-collapse: collapse;
+  margin-top: 15px;
 }
 
 :host ::ng-deep {
@@ -76,9 +77,15 @@
     display: flex;
     flex-flow: row wrap;
 
+    .actions-container {
+      display: flex;
+      flex-flow: row nowrap;
+      flex: 1 1 100%;
+    }
+
     &.has-filters {
       .title {
-        flex: 1 0 100%;
+        flex: 1 1 100%;
       }
     }
 
@@ -161,22 +168,40 @@
 }
 
 ::ng-deep {
-  @include phone {
 
+  .hidden-mobile-menu-action {
+    display: none !important;
+  }
+
+  .hidden-mobile {
+    display: none !important;
+  }
+
+  @include phone {
     .fs-list-filters {
-      //&.has-filters {
-      //  flex-flow: row wrap;
-      //}
 
       &:not(.has-filters) {
         flex-flow: row nowrap !important;
 
-        .title {
-          flex: 1 0;
+        .filter-input {
+          display: none !important;
         }
       }
     }
 
+    .mat-form-field-infix {
+      min-width: 90px !important;
+      width: auto !important;
+    }
+
+    .fs-list-filters {
+      &.has-filters {
+        flex-flow: row wrap;
+      }
+    }
+  }
+
+  @include apply-to(less-than, tablet) {
 
     .fs-list-actions {
       .action-button {
@@ -184,33 +209,8 @@
       }
     }
 
-    .hidden-mobile {
-      display: none !important;
-    }
-  }
-
-  @include apply-to(greater-than, phone) {
-
-    .fs-list-filters {
-      .title {
-        flex: 1 0 100%
-      }
-      /*&:not(.has-filters) {
-
-        //.title {
-        //  flex: 1;
-        //}
-      }*/
-    }
-
-    .fs-list-actions {
-      .hidden-mobile-menu-actions {
-        display: none !important;
-      }
-    }
-
     .hidden-mobile-menu-action {
-      display: none !important;
+      display: block !important;
     }
   }
 }
