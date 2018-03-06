@@ -687,21 +687,19 @@
         <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;fs-list-container&quot;&gt;
   &lt;!-- Filters/actions --&gt;
   &lt;div class&#x3D;&quot;fs-list-filters&quot;
-       [ngClass]&#x3D;&quot;{&#x27;has-filters&#x27;: listConfig.filterInput }&quot;
-       fxLayoutWrap
-       fxLayoutRow&gt;
+       [ngClass]&#x3D;&quot;{&#x27;has-filters&#x27;: listConfig.filterInput }&quot;&gt;
     &lt;div class&#x3D;&quot;title&quot;&gt;{{listConfig.title}}&lt;/div&gt;
     &lt;!-- Filters --&gt;
-    &lt;fs-filter
-      class&#x3D;&quot;fs-list-filter&quot;
-      [ngClass]&#x3D;&quot;{&#x27;hidden-mobile&#x27;: !listConfig.filterInput}&quot;
-      *ngIf&#x3D;&quot;listConfig.filterService.fsConfig.items.length&quot;
-      [(filter)]&#x3D;&quot;listConfig.filterService&quot;
-    &gt;
-    &lt;/fs-filter&gt;
+    &lt;div class&#x3D;&quot;actions-container&quot;&gt;
+      &lt;fs-filter
+        class&#x3D;&quot;fs-list-filter&quot;
+        *ngIf&#x3D;&quot;listConfig.filterService.fsConfig.items.length&quot;
+        [(filter)]&#x3D;&quot;listConfig.filterService&quot;
+      &gt;
+      &lt;/fs-filter&gt;
 
-    &lt;!-- Actions --&gt;
-    &lt;div class&#x3D;&quot;fs-list-actions&quot; *ngIf&#x3D;&quot;listConfig.actions?.length&quot;&gt;
+      &lt;!-- Actions --&gt;
+      &lt;div class&#x3D;&quot;fs-list-actions&quot; *ngIf&#x3D;&quot;listConfig.actions?.length&quot;&gt;
         &lt;span *ngFor&#x3D;&quot;let action of listConfig.menuActions&quot; class&#x3D;&quot;action-button&quot;&gt;
             &lt;button mat-raised-button
                     (click)&#x3D;&quot;action.click(action, $event)&quot;
@@ -709,24 +707,25 @@
               &lt;mat-icon *ngIf&#x3D;&quot;action.icon&quot;&gt;{{action.icon}}&lt;/mat-icon&gt; {{ action.label }}
             &lt;/button&gt;
         &lt;/span&gt;
-      &lt;button mat-icon-button [matMenuTriggerFor]&#x3D;&quot;rowActionsRef&quot;
-              [ngClass]&#x3D;&quot;{&#x27;hidden-mobile-menu-actions&#x27;: !listConfig.kebabActions.length}&quot;&gt;
-        &lt;mat-icon&gt;more_vert&lt;/mat-icon&gt;
-      &lt;/button&gt;
-      &lt;mat-menu #rowActionsRef&gt;
-        &lt;button class&#x3D;&quot;hidden-mobile-menu-action&quot;
-                mat-menu-item
-                *ngFor&#x3D;&quot;let action of listConfig.menuActions&quot;
-                (click)&#x3D;&quot;action.click(row, $event)&quot;
-        &gt;
-          &lt;mat-icon *ngIf&#x3D;&quot;action.icon&quot;&gt;{{action.icon}}&lt;/mat-icon&gt; {{action.label}}
+        &lt;button mat-icon-button [matMenuTriggerFor]&#x3D;&quot;rowActionsRef&quot;
+                [ngClass]&#x3D;&quot;{&#x27;hidden-mobile-menu-actions&#x27;: !listConfig.kebabActions.length}&quot;&gt;
+          &lt;mat-icon&gt;more_vert&lt;/mat-icon&gt;
         &lt;/button&gt;
-        &lt;button mat-menu-item *ngFor&#x3D;&quot;let action of listConfig.kebabActions&quot; (click)&#x3D;&quot;action.click(row, $event)&quot;&gt;
-          &lt;mat-icon *ngIf&#x3D;&quot;action.icon&quot;&gt;{{action.icon}}&lt;/mat-icon&gt; {{action.label}}
-        &lt;/button&gt;
-      &lt;/mat-menu&gt;
+        &lt;mat-menu #rowActionsRef&gt;
+          &lt;button class&#x3D;&quot;hidden-mobile-menu-action&quot;
+                  mat-menu-item
+                  *ngFor&#x3D;&quot;let action of listConfig.menuActions&quot;
+                  (click)&#x3D;&quot;action.click(row, $event)&quot;
+          &gt;
+            &lt;mat-icon *ngIf&#x3D;&quot;action.icon&quot;&gt;{{action.icon}}&lt;/mat-icon&gt; {{action.label}}
+          &lt;/button&gt;
+          &lt;button mat-menu-item *ngFor&#x3D;&quot;let action of listConfig.kebabActions&quot; (click)&#x3D;&quot;action.click(row, $event)&quot;&gt;
+            &lt;mat-icon *ngIf&#x3D;&quot;action.icon&quot;&gt;{{action.icon}}&lt;/mat-icon&gt; {{action.label}}
+          &lt;/button&gt;
+        &lt;/mat-menu&gt;
+      &lt;/div&gt;
+      &lt;!-- /Actions --&gt;
     &lt;/div&gt;
-    &lt;!-- /Actions --&gt;
   &lt;/div&gt;
 
   &lt;!-- Status --&gt;
@@ -798,7 +797,7 @@
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="fs-list-container">  <!-- Filters/actions -->  <div class="fs-list-filters"       [ngClass]="{\'has-filters\': listConfig.filterInput }"       fxLayoutWrap       fxLayoutRow>    <div class="title">{{listConfig.title}}</div>    <!-- Filters -->    <fs-filter      class="fs-list-filter"      [ngClass]="{\'hidden-mobile\': !listConfig.filterInput}"      *ngIf="listConfig.filterService.fsConfig.items.length"      [(filter)]="listConfig.filterService"    >    </fs-filter>    <!-- Actions -->    <div class="fs-list-actions" *ngIf="listConfig.actions?.length">        <span *ngFor="let action of listConfig.menuActions" class="action-button">            <button mat-raised-button                    (click)="action.click(action, $event)"                    [ngClass]="{ \'mat-primary\': action.primary }">              <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{ action.label }}            </button>        </span>      <button mat-icon-button [matMenuTriggerFor]="rowActionsRef"              [ngClass]="{\'hidden-mobile-menu-actions\': !listConfig.kebabActions.length}">        <mat-icon>more_vert</mat-icon>      </button>      <mat-menu #rowActionsRef>        <button class="hidden-mobile-menu-action"                mat-menu-item                *ngFor="let action of listConfig.menuActions"                (click)="action.click(row, $event)"        >          <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}        </button>        <button mat-menu-item *ngFor="let action of listConfig.kebabActions" (click)="action.click(row, $event)">          <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}        </button>      </mat-menu>    </div>    <!-- /Actions -->  </div>  <!-- Status -->  <fs-list-status    [ngClass]="{\'hidden-mobile\': !listConfig.status}"    [dataChangedRef]="listConfig.data$"    [sorting]="listConfig.sorting"    [paging]="listConfig.paging"    *ngIf="listConfig.paging">  </fs-list-status>  <!-- Table implementation -->  <table class="fs-list-table" role="grid">    <thead fs-list-head      class="fs-list-head"      role="rowgroup"      [columns]="listConfig.columns"      [sorting]="listConfig.sorting"      [hasRowActions]="listConfig.hasRowActions">    </thead>    <tbody fs-list-body      class="fs-list-body"      role="rowgroup"      [class.loading]="listConfig.loading"      [rows]="displayRows"      [rowActions]="listConfig.rowActions"      [columns]="listConfig.columns"      [hasFooter]="listConfig.hasFooter">    </tbody>    <tfoot fs-list-footer           class="fs-list-footer"           *ngIf="listConfig.hasFooter"           [columns]="listConfig.columns"           [hasRowActions]="listConfig.hasRowActions">    </tfoot>  </table>  <fs-list-pagination    *ngIf="listConfig.paging.enabled"    [dataChangedRef]="listConfig.data$"    [pagination]="listConfig.paging">  </fs-list-pagination></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="fs-list-container">  <!-- Filters/actions -->  <div class="fs-list-filters"       [ngClass]="{\'has-filters\': listConfig.filterInput }">    <div class="title">{{listConfig.title}}</div>    <!-- Filters -->    <div class="actions-container">      <fs-filter        class="fs-list-filter"        *ngIf="listConfig.filterService.fsConfig.items.length"        [(filter)]="listConfig.filterService"      >      </fs-filter>      <!-- Actions -->      <div class="fs-list-actions" *ngIf="listConfig.actions?.length">        <span *ngFor="let action of listConfig.menuActions" class="action-button">            <button mat-raised-button                    (click)="action.click(action, $event)"                    [ngClass]="{ \'mat-primary\': action.primary }">              <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{ action.label }}            </button>        </span>        <button mat-icon-button [matMenuTriggerFor]="rowActionsRef"                [ngClass]="{\'hidden-mobile-menu-actions\': !listConfig.kebabActions.length}">          <mat-icon>more_vert</mat-icon>        </button>        <mat-menu #rowActionsRef>          <button class="hidden-mobile-menu-action"                  mat-menu-item                  *ngFor="let action of listConfig.menuActions"                  (click)="action.click(row, $event)"          >            <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}          </button>          <button mat-menu-item *ngFor="let action of listConfig.kebabActions" (click)="action.click(row, $event)">            <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}          </button>        </mat-menu>      </div>      <!-- /Actions -->    </div>  </div>  <!-- Status -->  <fs-list-status    [ngClass]="{\'hidden-mobile\': !listConfig.status}"    [dataChangedRef]="listConfig.data$"    [sorting]="listConfig.sorting"    [paging]="listConfig.paging"    *ngIf="listConfig.paging">  </fs-list-status>  <!-- Table implementation -->  <table class="fs-list-table" role="grid">    <thead fs-list-head      class="fs-list-head"      role="rowgroup"      [columns]="listConfig.columns"      [sorting]="listConfig.sorting"      [hasRowActions]="listConfig.hasRowActions">    </thead>    <tbody fs-list-body      class="fs-list-body"      role="rowgroup"      [class.loading]="listConfig.loading"      [rows]="displayRows"      [rowActions]="listConfig.rowActions"      [columns]="listConfig.columns"      [hasFooter]="listConfig.hasFooter">    </tbody>    <tfoot fs-list-footer           class="fs-list-footer"           *ngIf="listConfig.hasFooter"           [columns]="listConfig.columns"           [hasRowActions]="listConfig.hasRowActions">    </tfoot>  </table>  <fs-list-pagination    *ngIf="listConfig.paging.enabled"    [dataChangedRef]="listConfig.data$"    [pagination]="listConfig.paging">  </fs-list-pagination></div></div>'
     var COMPONENTS = [{'name': 'FsListComponent', 'selector': 'fs-list'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'FsListComponent'};
