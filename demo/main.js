@@ -2860,26 +2860,28 @@ var KitchenSinkComponent = (function () {
             paging: {
                 limits: [5, 15, 50, 150, 250, 500, 1000]
             },
+            /*
             filters: [
-                {
-                    name: 'keyword',
-                    type: 'text',
-                    label: 'Search'
-                },
-                {
-                    name: 'simple_select',
-                    type: 'select',
-                    label: 'Simple Select',
-                    values: function () {
-                        return [
-                            { name: 'All', value: '__all' },
-                            { name: 'Option 1', value: 1 },
-                            { name: 'Option 2', value: 2 },
-                            { name: 'Option 3', value: 3 }
-                        ];
-                    }
+              {
+                name: 'keyword',
+                type: 'text',
+                label: 'Search'
+              },
+              {
+                name: 'simple_select',
+                type: 'select',
+                label: 'Simple Select',
+                values: () => {
+                  return [
+                    { name: 'All', value: '__all' },
+                    { name: 'Option 1', value: 1 },
+                    { name: 'Option 2', value: 2 },
+                    { name: 'Option 3', value: 3 }
+                  ];
                 }
+              }
             ],
+            */
             actions: [
                 {
                     click: function (event) {
