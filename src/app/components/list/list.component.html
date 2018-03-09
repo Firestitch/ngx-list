@@ -7,21 +7,25 @@
     <div class="actions-container">
       <fs-filter
         class="fs-list-filter"
-        *ngIf="listConfig.filterService.fsConfig.items.length"
+        *ngIf="listConfig.filterService.fsConfig.items.length && !listConfig.reoderEnabled"
         [(filter)]="listConfig.filterService"
       >
       </fs-filter>
 
       <!-- Actions -->
       <div class="fs-list-actions" *ngIf="listConfig.actions?.length">
-        <span *ngFor="let action of listConfig.menuActions" class="action-button">
+        <ng-container *ngIf="!listConfig.reoderEnabled">
+          <span *ngFor="let action of listConfig.menuActions" class="action-button">
             <button mat-raised-button
                     (click)="action.click(action, $event)"
                     [ngClass]="{ 'mat-primary': action.primary }">
               <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{ action.label }}
             </button>
         </span>
-        <button mat-icon-button [matMenuTriggerFor]="rowActionsRef"
+        </ng-container>
+        <button mat-icon-button
+                *ngIf="!listConfig.reoderEnabled"
+                [matMenuTriggerFor]="rowActionsRef"
                 [ngClass]="{'hidden-mobile-menu-actions': !listConfig.kebabActions.length}">
           <mat-icon>more_vert</mat-icon>
         </button>
@@ -37,6 +41,10 @@
             <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
           </button>
         </mat-menu>
+
+        <button mat-button *ngIf="listConfig.reoderEnabled" (click)="finishReorder()">
+          Done
+        </button>
       </div>
       <!-- /Actions -->
     </div>

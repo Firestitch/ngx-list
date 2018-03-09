@@ -103,7 +103,7 @@ export class FsListComponent implements OnInit, OnDestroy {
     this.listConfig.reoderEnabled = true;
   }
 
-  public disableOrder() {
+  public finishReorder() {
     this.listConfig.reoderEnabled = false;
   }
 }

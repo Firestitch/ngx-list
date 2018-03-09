@@ -23,6 +23,7 @@ export class FsRowComponent implements DoCheck {
 
   @Input() public rowIndex: number;
   @Input() public columns: Column[];
+  @Input() public reorder = false;
 
   @Output() public startDragging = new EventEmitter();
   @Output() public stopDragging = new EventEmitter();

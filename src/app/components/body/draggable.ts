@@ -37,13 +37,17 @@ export class Draggable {
 
     this.zone.runOutsideAngular(() => {
       window.document.addEventListener('mousemove', this.dragElement.moveHandler);
+      window.document.addEventListener('touchmove', this.dragElement.moveHandler, {passive: false} as any);
       window.document.addEventListener('mouseup', this.dragElement.stopHandler);
+      window.document.addEventListener('touchend', this.dragElement.stopHandler);
+      window.document.addEventListener('touchcancel', this.dragElement.stopHandler);
     });
 
   }
 
 
   public dragTo(event) {
+    this.touchFix(event);
     const elemIndex = this.lookupElementUnder(event);
 
 
@@ -51,7 +55,7 @@ export class Draggable {
       this.swapWithIndex(elemIndex)
     }
 
-    this.dragElement.draggableEl.style.top = event.y - (this.dragElement.targetHeight / 2) + 'px';
+    this.dragElement.draggableEl.style.top = event.y || event.clientY - (this.dragElement.targetHeight / 2) + 'px';
   }
 
   public dragEnd() {
@@ -59,7 +63,10 @@ export class Draggable {
     window.document.body.classList.remove('reorder-in-progress');
     this.dragElement.draggableEl.remove();
     window.document.removeEventListener('mousemove', this.dragElement.moveHandler);
+    window.document.removeEventListener('touchmove', this.dragElement.moveHandler);
     window.document.removeEventListener('mouseup', this.dragElement.stopHandler);
+    window.document.removeEventListener('touchend', this.dragElement.stopHandler);
+    window.document.removeEventListener('touchcancel', this.dragElement.stopHandler);
   }
 
   private prepareElements() {
@@ -111,8 +118,8 @@ export class Draggable {
   }
 
   private lookupElementUnder(event) {
-    const top = event.y - (this.dragElement.targetHeight / 2);
-    const bottom = event.y + this.dragElement.targetHeight - (this.dragElement.targetHeight / 2);
+    const top = event.y || event.clientY - (this.dragElement.targetHeight / 2);
+    const bottom = event.y || event.clientY + this.dragElement.targetHeight - (this.dragElement.targetHeight / 2);
 
     let elemIndex = null;
 
@@ -148,5 +155,16 @@ export class Draggable {
     this.zone.run(() => {
       this.cdRef.markForCheck();
     })
+  }
+
+  private touchFix(e) {
+    if (!('clientX' in e) && !('clientY' in e)) {
+      const touches = e.touches || e.originalEvent.touches;
+      if (touches && touches.length) {
+        e.clientX = touches[0].clientX;
+        e.clientY = touches[0].clientY;
+      }
+      e.preventDefault();
+    }
   }
 }
