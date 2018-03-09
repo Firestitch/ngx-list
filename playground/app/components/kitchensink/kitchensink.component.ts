@@ -28,6 +28,7 @@ export class KitchenSinkComponent implements OnInit {
       paging: {
         limits: [5, 15, 50, 150, 250, 500, 1000]
       },
+      /*
       filters: [
         {
           name: 'keyword',
@@ -48,6 +49,7 @@ export class KitchenSinkComponent implements OnInit {
           }
         }
       ],
+      */
       actions: [
         {
           click: (event) => {
