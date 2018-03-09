@@ -25,6 +25,8 @@ export class Draggable {
   }
 
   public dragStart(event) {
+    window.document.body.classList.add('reorder-in-progress');
+
     this.dragElement.targetEl = event.target;
 
     this.prepareElements();
@@ -54,6 +56,7 @@ export class Draggable {
 
   public dragEnd() {
     this.dragElement.targetEl.classList.remove('draggable-elem');
+    window.document.body.classList.remove('reorder-in-progress');
     this.dragElement.draggableEl.remove();
     window.document.removeEventListener('mousemove', this.dragElement.moveHandler);
     window.document.removeEventListener('mouseup', this.dragElement.stopHandler);

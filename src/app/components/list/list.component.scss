@@ -194,6 +194,10 @@
 
 ::ng-deep {
 
+  .reorder-in-progress {
+    user-select: none;
+  }
+
   .draggable-elem {
     opacity: 0;
   }

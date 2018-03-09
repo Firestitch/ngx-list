@@ -64,10 +64,6 @@ export class FsBodyComponent implements OnInit, DoCheck {
     this.draggable.dragStart(event);
   }
 
-  public dragTo(event) {
-    this.draggable.dragTo(event);
-  }
-
   public dragEnd(event) {
     this.draggable.dragEnd(event);
   }
