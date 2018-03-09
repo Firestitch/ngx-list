@@ -35,11 +35,15 @@ var FsListModel = (function (_super) {
         if (config === void 0) { config = {}; }
         var _this = _super.call(this) || this;
         _this.filters = [];
+        _this.menuActions = [];
+        _this.kebabActions = [];
         _this.columns = [];
         _this.paging = new pagination_model_1.Pagination();
         _this.sorting = new sorting_model_1.Sorting(_this.columns);
         _this.filterService = new filter_1.FsFilter();
         _this.data$ = new BehaviorSubject_1.BehaviorSubject([]);
+        _this.status = true;
+        _this.filterInput = true;
         _this.loading = false;
         _this.hasFooter = false;
         _this.initialFetch = true;
@@ -47,9 +51,17 @@ var FsListModel = (function (_super) {
         if (config.initialFetch === false) {
             _this.initialFetch = false;
         }
+        if (config.status === false) {
+            _this.status = false;
+        }
+        if (config.filterInput === false) {
+            _this.filterInput = false;
+        }
         _this._headerConfig = new styleConfig_model_1.StyleConfig(config.header);
         _this._cellConfig = new styleConfig_model_1.StyleConfig(config.cell);
         _this._footerConfig = new styleConfig_model_1.StyleConfig(config.footer);
+        _this.menuActions = _this.actions.filter(function (action) { return !action.menu; });
+        _this.kebabActions = _this.actions.filter(function (action) { return action.menu; });
         _this.hasRowActions = _this.rowActions && _this.rowActions.length > 0;
         _this.watchFilters();
         _this.initPaging(config);
@@ -201,6 +213,10 @@ var FsListModel = (function (_super) {
             }
         });
     };
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", String)
+    ], FsListModel.prototype, "title", void 0);
     __decorate([
         tsmodels_1.Alias(),
         __metadata("design:type", Object)

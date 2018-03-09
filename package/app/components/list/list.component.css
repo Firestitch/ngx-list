@@ -5,7 +5,8 @@
 .fs-list-table {
   display: table;
   width: 100%;
-  border-collapse: collapse; }
+  border-collapse: collapse;
+  margin-top: 15px; }
 
 :host ::ng-deep .fs-filter {
   margin-bottom: 0; }
@@ -41,12 +42,29 @@
     :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.right, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.right {
       text-align: right; }
 
-:host ::ng-deep .fs-list-filters .fs-list-actions {
-  margin-left: 10px;
-  float: right; }
-  :host ::ng-deep .fs-list-filters .fs-list-actions .action-button mat-icon {
+:host ::ng-deep .fs-list-filters {
+  display: flex;
+  flex-flow: row wrap; }
+  :host ::ng-deep .fs-list-filters .actions-container {
+    display: flex;
+    flex-flow: row nowrap;
+    flex: 1 1 100%; }
+  :host ::ng-deep .fs-list-filters.has-filters .title {
+    flex: 1 1 100%; }
+  :host ::ng-deep .fs-list-filters .title {
+    align-self: center;
+    font-weight: 600;
+    font-size: 18px;
+    color: #212537;
+    margin-right: 10px; }
+  :host ::ng-deep .fs-list-filters .fs-list-filter {
+    flex: 100; }
+  :host ::ng-deep .fs-list-filters .fs-list-actions {
+    margin-left: 10px;
+    float: right; }
+  :host ::ng-deep .fs-list-filters .action-button mat-icon {
     margin-right: 5px; }
-  :host ::ng-deep .fs-list-filters .fs-list-actions .mat-button {
+  :host ::ng-deep .fs-list-filters .mat-button {
     margin-top: 0;
     margin-bottom: 0;
     margin-right: 0; }
@@ -85,3 +103,26 @@
 
 :host ::ng-deep tfoot td {
   padding: 8px; }
+
+::ng-deep .hidden-mobile-menu-action {
+  display: none !important; }
+
+::ng-deep .hidden-mobile {
+  display: none !important; }
+
+@media only screen and (max-width: 600px) {
+  ::ng-deep .fs-list-filters:not(.has-filters) {
+    flex-flow: row nowrap !important; }
+    ::ng-deep .fs-list-filters:not(.has-filters) .filter-input {
+      display: none !important; }
+  ::ng-deep .mat-form-field-infix {
+    min-width: 90px !important;
+    width: auto !important; }
+  ::ng-deep .fs-list-filters.has-filters {
+    flex-flow: row wrap; } }
+
+@media only screen and (max-width: 768px) {
+  ::ng-deep .fs-list-actions .action-button {
+    display: none; }
+  ::ng-deep .hidden-mobile-menu-action {
+    display: block !important; } }

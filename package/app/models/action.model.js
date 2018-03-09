@@ -26,12 +26,15 @@ var Action = (function (_super) {
         if (config === void 0) { config = {}; }
         var _this = _super.call(this) || this;
         _this.primary = true; //TODO make it as @Alias after tsmodels release
-        if (config.primary === false) {
-            _this.primary = false;
-        }
         _this._fromJSON(config);
         return _this;
     }
+    Action.prototype._fromJSON = function (value) {
+        _super.prototype._fromJSON.call(this, value);
+        if (value.primary === false) {
+            this.primary = false;
+        }
+    };
     __decorate([
         tsmodels_1.Alias(),
         __metadata("design:type", String)
@@ -40,6 +43,10 @@ var Action = (function (_super) {
         tsmodels_1.Alias(),
         __metadata("design:type", String)
     ], Action.prototype, "label", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", Boolean)
+    ], Action.prototype, "menu", void 0);
     __decorate([
         tsmodels_1.Alias(),
         __metadata("design:type", Function)

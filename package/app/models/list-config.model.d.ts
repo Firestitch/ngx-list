@@ -5,7 +5,9 @@ import { Sorting } from './sorting.model';
 import { Model } from 'tsmodels';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FsListConfig } from '../interfaces/listconfig.interface';
+import { Action } from './action.model';
 export declare class FsListModel extends Model {
+    title: string;
     inlineFilters: any;
     actions: any;
     rowActions: any;
@@ -16,12 +18,16 @@ export declare class FsListModel extends Model {
     private _rows;
     filtersQuery: any;
     hasRowActions: any;
+    menuActions: Action[];
+    kebabActions: Action[];
     columns: Column[];
     persist: string;
     paging: Pagination;
     sorting: Sorting;
     filterService: FsFilter;
     data$: BehaviorSubject<any>;
+    status: boolean;
+    filterInput: boolean;
     loading: boolean;
     hasFooter: boolean;
     initialFetch: boolean;
