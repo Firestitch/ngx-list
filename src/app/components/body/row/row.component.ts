@@ -1,11 +1,11 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, DoCheck,
-  HostBinding,
+  Component, DoCheck, ElementRef, EventEmitter,
+  HostBinding, HostListener,
   Input,
   KeyValueDiffer,
-  KeyValueDiffers,
+  KeyValueDiffers, Output,
 } from '@angular/core';
 import { Column } from '../../../models/column.model';
 
@@ -21,12 +21,20 @@ export class FsRowComponent implements DoCheck {
   @Input() public row: any;
   @Input() public rowActions = [];
 
-  @Input() rowIndex: number;
-  @Input() columns: Column[];
+  @Input() public rowIndex: number;
+  @Input() public columns: Column[];
+
+  @Output() public startDragging = new EventEmitter();
+  @Output() public stopDragging = new EventEmitter();
+
+  public mousedow(event) {
+    this.startDragging.emit({event: event, target: this.el.nativeElement})
+  }
 
   private _rowDiffer: KeyValueDiffer<{}, {}>;
 
-  constructor(private cdRef: ChangeDetectorRef,
+  constructor(private el: ElementRef,
+              private cdRef: ChangeDetectorRef,
               private differs: KeyValueDiffers) {
     this._rowDiffer = differs.find({}).create();
   }

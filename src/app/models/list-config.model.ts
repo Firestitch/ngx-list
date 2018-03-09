@@ -39,6 +39,7 @@ export class FsListModel extends Model {
 
   public status = true;
   public filterInput = true;
+  public reoderEnabled = false;
 
   public loading = false;
   public hasFooter = false;

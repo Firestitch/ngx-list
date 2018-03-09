@@ -1,7 +1,7 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, Input,
+  Component, ElementRef, Input,
   KeyValueDiffers,
 } from '@angular/core';
 import { FsRowComponent } from '../../body';
@@ -15,7 +15,8 @@ export class FsFooterRowComponent extends FsRowComponent {
   @Input() hasRowActions: boolean;
 
   constructor(cdRef: ChangeDetectorRef,
-              differs: KeyValueDiffers) {
-    super(cdRef, differs);
+              differs: KeyValueDiffers,
+              el: ElementRef) {
+    super(el, cdRef, differs);
   }
 }

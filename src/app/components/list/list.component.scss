@@ -35,13 +35,38 @@
     }
 
     .fs-list-row:last-child .fs-list-col {
-      border-bottom: 2px solid #ddd;
+
+    }
+
+    .fs-list-row {
+      &:hover {
+        .fs-list-col {
+          background-color: #f6f6f6;
+        }
+      }
+
+      &:last-child {
+        .fs-list-col {
+          border-bottom: 2px solid #ddd;
+        }
+      }
+
+      .fs-list-col {
+        &:last-child {
+          width: 1%;
+        }
+      }
     }
   }
 
   .fs-list-head, .fs-list-body {
     .fs-list-row {
       display: table-row;
+
+      &.draggable {
+        position: fixed;
+        z-index: 9999;
+      }
 
       &:nth-child(1) .fs-list-col {
         border-top: 0;
@@ -51,6 +76,13 @@
       }
 
       .fs-list-col {
+
+        display: table-cell;
+
+        border-top: 1px solid #ddd;
+        padding: 8px;
+        vertical-align: middle;
+        outline: none;
 
         &.left {
           text-align: left;
@@ -63,13 +95,6 @@
         &.right {
           text-align: right;
         }
-
-        display: table-cell;
-
-        border-top: 1px solid #ddd;
-        padding: 8px;
-        vertical-align: middle;
-        outline: none;
       }
     }
   }
@@ -168,6 +193,10 @@
 }
 
 ::ng-deep {
+
+  .draggable-elem {
+    opacity: 0;
+  }
 
   .hidden-mobile-menu-action {
     display: none !important;

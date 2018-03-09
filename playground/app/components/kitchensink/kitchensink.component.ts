@@ -51,7 +51,7 @@ export class KitchenSinkComponent implements OnInit {
       actions: [
         {
           click: (event) => {
-            console.log(event);
+            this.table.enableOrder();
           },
           label: 'Kebab only button',
           menu: true

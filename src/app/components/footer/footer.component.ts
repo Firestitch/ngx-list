@@ -1,9 +1,9 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, ElementRef,
   Input,
-  IterableDiffers
+  IterableDiffers, NgZone
 } from '@angular/core';
 import { FsBodyComponent } from '../body/body.component';
 
@@ -17,10 +17,12 @@ export class FsFooterComponent extends FsBodyComponent {
   @Input() hasRowActions: boolean;
 
   constructor(
+    el: ElementRef,
     cdRef: ChangeDetectorRef,
     differs: IterableDiffers,
+    zone: NgZone,
   ) {
-    super(cdRef, differs);
+    super(el, cdRef, differs, zone);
   }
 
 }

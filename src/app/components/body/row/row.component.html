@@ -1,3 +1,6 @@
+<td class="fs-list-col" (mousedown)="mousedow($event)">
+  <mat-icon (dragstart)="dragTo($event)">drag_handle</mat-icon>
+</td>
 <ng-container *ngFor="let column of columns">
   <td fs-cell
       *ngIf="!column.cellColspanned"

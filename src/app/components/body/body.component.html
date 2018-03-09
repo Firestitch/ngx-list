@@ -2,5 +2,7 @@
     [row]="row"
     [rowIndex]="i"
     [columns]="columns"
-    [rowActions]="rowActions">
+    [rowActions]="rowActions"
+    (startDragging)="dragStart($event)"
+    (stopDragging)="dragEnd($event)">
 </tr>
