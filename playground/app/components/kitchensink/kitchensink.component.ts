@@ -50,6 +50,11 @@ export class KitchenSinkComponent implements OnInit {
         }
       ],
       */
+      reorder: {
+        done: function (data) {
+          console.log(data);
+        }
+      },
       actions: [
         {
           click: (event) => {

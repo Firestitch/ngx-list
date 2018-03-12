@@ -56,7 +56,7 @@
     [dataChangedRef]="listConfig.data$"
     [sorting]="listConfig.sorting"
     [paging]="listConfig.paging"
-    *ngIf="listConfig.paging">
+    *ngIf="listConfig.paging && !listConfig.reoderEnabled">
   </fs-list-status>
 
   <!-- Table implementation -->

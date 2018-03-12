@@ -8,9 +8,10 @@ import * as _isNumber from 'lodash/isNumber';
 import { Alias, Model} from 'tsmodels';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { FsListConfig } from '../interfaces/listconfig.interface';
+import { FsListConfig } from '../interfaces';
 import { StyleConfig } from './styleConfig.model';
 import { Action } from './action.model';
+import { ReorderModel } from './reorder.model';
 
 
 export class FsListModel extends Model {
@@ -21,6 +22,7 @@ export class FsListModel extends Model {
   @Alias() public rowEvents: any;
   @Alias() public columnTemplates: any;
   @Alias() public filters = [];
+  @Alias('reorder', ReorderModel) public reoder;
   // @Alias() public initialFetch = true; //TODO fixme
   @Alias('fetch') public fetchFn: any;
   @Alias('rows') private _rows: any;
@@ -66,6 +68,18 @@ export class FsListModel extends Model {
     this._headerConfig = new StyleConfig(config.header);
     this._cellConfig = new StyleConfig(config.cell);
     this._footerConfig = new StyleConfig(config.footer);
+
+    if (this.reoder) {
+      const action = new Action({
+        label: this.reoder.label || 'Reorder',
+        menu: this.reoder.menu,
+        click: () => {
+          this.reoderEnabled = true
+        }
+      });
+
+      this.actions.push(action);
+    }
 
     this.menuActions = this.actions.filter((action) => !action.menu);
     this.kebabActions = this.actions.filter((action) => action.menu);
