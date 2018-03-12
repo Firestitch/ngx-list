@@ -121,6 +121,9 @@
                                     <a href="../interfaces/FsListHeaderConfig.html" >FsListHeaderConfig</a>
                                 </li>
                                 <li class="link">
+                                    <a href="../interfaces/FsListReorderConfig.html" >FsListReorderConfig</a>
+                                </li>
+                                <li class="link">
                                     <a href="../interfaces/FsPaging.html" >FsPaging</a>
                                 </li>
                         </ul>
@@ -245,6 +248,9 @@
                                            <a href="../interfaces/FsListHeaderConfig.html" >FsListHeaderConfig</a>
                                        </li>
                                        <li class="link">
+                                           <a href="../interfaces/FsListReorderConfig.html" >FsListReorderConfig</a>
+                                       </li>
+                                       <li class="link">
                                            <a href="../interfaces/FsPaging.html" >FsPaging</a>
                                        </li>
                                </ul>
@@ -354,12 +360,39 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#displayRows">displayRows</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#listConfig">listConfig</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
                         <h6><b>Methods</b></h6>
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
                         <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#enableOrder">enableOrder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#finishReorder">finishReorder</a>
+                            </li>
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#firstPage">firstPage</a>
@@ -438,6 +471,74 @@
             <h3 id="methods">
                 Methods
             </h3>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <a name="enableOrder"></a>
+                            <span class="name">
+                                <b>
+                                    <span class="modifier">Public</span>
+                                enableOrder
+                                </b>
+                                <a href="#enableOrder"><span class="fa fa-link"></span></a>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon fa fa-reset"></span>
+                            <code>enableOrder()</code>
+                        </td>
+                    </tr>
+    
+    
+    
+                    <tr>
+                        <td class="col-md-4">
+    
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <a name="finishReorder"></a>
+                            <span class="name">
+                                <b>
+                                    <span class="modifier">Public</span>
+                                finishReorder
+                                </b>
+                                <a href="#finishReorder"><span class="fa fa-link"></span></a>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon fa fa-reset"></span>
+                            <code>finishReorder()</code>
+                        </td>
+                    </tr>
+    
+    
+    
+                    <tr>
+                        <td class="col-md-4">
+    
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
             <table class="table table-sm table-bordered">
                 <tbody>
                     <tr>
@@ -678,6 +779,66 @@
             </table>
     </section>
 
+    <section>
+        
+            <h3 id="inputs">
+                Properties
+            </h3>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <a name="displayRows"></a>
+                            <span class="name">
+                                <b>
+                                    <span class="modifier">Public</span>
+                                displayRows
+                                </b>
+                                <a href="#displayRows"><span class="fa fa-link"></span></a>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-reset"></span><code>displayRows:     <code></code>
+    </code>
+                        </td>
+                    </tr>
+    
+    
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <a name="listConfig"></a>
+                            <span class="name">
+                                <b>
+                                    <span class="modifier">Public</span>
+                                listConfig
+                                </b>
+                                <a href="#listConfig"><span class="fa fa-link"></span></a>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-reset"></span><code>listConfig:     <code>FsListModel</code>
+    </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Type : </i>    <code>FsListModel</code>
+    
+                            </td>
+                        </tr>
+    
+    
+                </tbody>
+            </table>
+    </section>
 
 </div>
 
@@ -687,27 +848,31 @@
         <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;fs-list-container&quot;&gt;
   &lt;!-- Filters/actions --&gt;
   &lt;div class&#x3D;&quot;fs-list-filters&quot;
-       [ngClass]&#x3D;&quot;{&#x27;has-filters&#x27;: listConfig.filterInput }&quot;&gt;
+       [ngClass]&#x3D;&quot;{&#x27;has-filters&#x27;: listConfig.filterInput, &#x27;reorder&#x27;: listConfig.reoderEnabled }&quot;&gt;
     &lt;div class&#x3D;&quot;title&quot;&gt;{{listConfig.title}}&lt;/div&gt;
     &lt;!-- Filters --&gt;
     &lt;div class&#x3D;&quot;actions-container&quot;&gt;
       &lt;fs-filter
         class&#x3D;&quot;fs-list-filter&quot;
-        *ngIf&#x3D;&quot;listConfig.filterService.fsConfig.items.length&quot;
+        *ngIf&#x3D;&quot;listConfig.filterService.fsConfig.items.length &amp;&amp; !listConfig.reoderEnabled&quot;
         [(filter)]&#x3D;&quot;listConfig.filterService&quot;
       &gt;
       &lt;/fs-filter&gt;
 
       &lt;!-- Actions --&gt;
       &lt;div class&#x3D;&quot;fs-list-actions&quot; *ngIf&#x3D;&quot;listConfig.actions?.length&quot;&gt;
-        &lt;span *ngFor&#x3D;&quot;let action of listConfig.menuActions&quot; class&#x3D;&quot;action-button&quot;&gt;
+        &lt;ng-container *ngIf&#x3D;&quot;!listConfig.reoderEnabled&quot;&gt;
+          &lt;span *ngFor&#x3D;&quot;let action of listConfig.menuActions&quot; class&#x3D;&quot;action-button&quot;&gt;
             &lt;button mat-raised-button
                     (click)&#x3D;&quot;action.click(action, $event)&quot;
                     [ngClass]&#x3D;&quot;{ &#x27;mat-primary&#x27;: action.primary }&quot;&gt;
               &lt;mat-icon *ngIf&#x3D;&quot;action.icon&quot;&gt;{{action.icon}}&lt;/mat-icon&gt; {{ action.label }}
             &lt;/button&gt;
         &lt;/span&gt;
-        &lt;button mat-icon-button [matMenuTriggerFor]&#x3D;&quot;rowActionsRef&quot;
+        &lt;/ng-container&gt;
+        &lt;button mat-icon-button
+                *ngIf&#x3D;&quot;!listConfig.reoderEnabled&quot;
+                [matMenuTriggerFor]&#x3D;&quot;rowActionsRef&quot;
                 [ngClass]&#x3D;&quot;{&#x27;hidden-mobile-menu-actions&#x27;: !listConfig.kebabActions.length}&quot;&gt;
           &lt;mat-icon&gt;more_vert&lt;/mat-icon&gt;
         &lt;/button&gt;
@@ -723,6 +888,10 @@
             &lt;mat-icon *ngIf&#x3D;&quot;action.icon&quot;&gt;{{action.icon}}&lt;/mat-icon&gt; {{action.label}}
           &lt;/button&gt;
         &lt;/mat-menu&gt;
+
+        &lt;button mat-button color&#x3D;&quot;primary&quot; *ngIf&#x3D;&quot;listConfig.reoderEnabled&quot; (click)&#x3D;&quot;finishReorder()&quot;&gt;
+          DONE
+        &lt;/button&gt;
       &lt;/div&gt;
       &lt;!-- /Actions --&gt;
     &lt;/div&gt;
@@ -734,7 +903,7 @@
     [dataChangedRef]&#x3D;&quot;listConfig.data$&quot;
     [sorting]&#x3D;&quot;listConfig.sorting&quot;
     [paging]&#x3D;&quot;listConfig.paging&quot;
-    *ngIf&#x3D;&quot;listConfig.paging&quot;&gt;
+    *ngIf&#x3D;&quot;listConfig.paging &amp;&amp; !listConfig.reoderEnabled&quot;&gt;
   &lt;/fs-list-status&gt;
 
   &lt;!-- Table implementation --&gt;
@@ -744,7 +913,8 @@
       role&#x3D;&quot;rowgroup&quot;
       [columns]&#x3D;&quot;listConfig.columns&quot;
       [sorting]&#x3D;&quot;listConfig.sorting&quot;
-      [hasRowActions]&#x3D;&quot;listConfig.hasRowActions&quot;&gt;
+      [hasRowActions]&#x3D;&quot;listConfig.hasRowActions&quot;
+      [reorder]&#x3D;&quot;listConfig.reoderEnabled&quot;&gt;
     &lt;/thead&gt;
 
     &lt;tbody fs-list-body
@@ -754,7 +924,8 @@
       [rows]&#x3D;&quot;displayRows&quot;
       [rowActions]&#x3D;&quot;listConfig.rowActions&quot;
       [columns]&#x3D;&quot;listConfig.columns&quot;
-      [hasFooter]&#x3D;&quot;listConfig.hasFooter&quot;&gt;
+      [hasFooter]&#x3D;&quot;listConfig.hasFooter&quot;
+      [reorder]&#x3D;&quot;listConfig.reoderEnabled&quot;&gt;
     &lt;/tbody&gt;
 
     &lt;tfoot fs-list-footer
@@ -797,7 +968,7 @@
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="fs-list-container">  <!-- Filters/actions -->  <div class="fs-list-filters"       [ngClass]="{\'has-filters\': listConfig.filterInput }">    <div class="title">{{listConfig.title}}</div>    <!-- Filters -->    <div class="actions-container">      <fs-filter        class="fs-list-filter"        *ngIf="listConfig.filterService.fsConfig.items.length"        [(filter)]="listConfig.filterService"      >      </fs-filter>      <!-- Actions -->      <div class="fs-list-actions" *ngIf="listConfig.actions?.length">        <span *ngFor="let action of listConfig.menuActions" class="action-button">            <button mat-raised-button                    (click)="action.click(action, $event)"                    [ngClass]="{ \'mat-primary\': action.primary }">              <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{ action.label }}            </button>        </span>        <button mat-icon-button [matMenuTriggerFor]="rowActionsRef"                [ngClass]="{\'hidden-mobile-menu-actions\': !listConfig.kebabActions.length}">          <mat-icon>more_vert</mat-icon>        </button>        <mat-menu #rowActionsRef>          <button class="hidden-mobile-menu-action"                  mat-menu-item                  *ngFor="let action of listConfig.menuActions"                  (click)="action.click(row, $event)"          >            <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}          </button>          <button mat-menu-item *ngFor="let action of listConfig.kebabActions" (click)="action.click(row, $event)">            <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}          </button>        </mat-menu>      </div>      <!-- /Actions -->    </div>  </div>  <!-- Status -->  <fs-list-status    [ngClass]="{\'hidden-mobile\': !listConfig.status}"    [dataChangedRef]="listConfig.data$"    [sorting]="listConfig.sorting"    [paging]="listConfig.paging"    *ngIf="listConfig.paging">  </fs-list-status>  <!-- Table implementation -->  <table class="fs-list-table" role="grid">    <thead fs-list-head      class="fs-list-head"      role="rowgroup"      [columns]="listConfig.columns"      [sorting]="listConfig.sorting"      [hasRowActions]="listConfig.hasRowActions">    </thead>    <tbody fs-list-body      class="fs-list-body"      role="rowgroup"      [class.loading]="listConfig.loading"      [rows]="displayRows"      [rowActions]="listConfig.rowActions"      [columns]="listConfig.columns"      [hasFooter]="listConfig.hasFooter">    </tbody>    <tfoot fs-list-footer           class="fs-list-footer"           *ngIf="listConfig.hasFooter"           [columns]="listConfig.columns"           [hasRowActions]="listConfig.hasRowActions">    </tfoot>  </table>  <fs-list-pagination    *ngIf="listConfig.paging.enabled"    [dataChangedRef]="listConfig.data$"    [pagination]="listConfig.paging">  </fs-list-pagination></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="fs-list-container">  <!-- Filters/actions -->  <div class="fs-list-filters"       [ngClass]="{\'has-filters\': listConfig.filterInput, \'reorder\': listConfig.reoderEnabled }">    <div class="title">{{listConfig.title}}</div>    <!-- Filters -->    <div class="actions-container">      <fs-filter        class="fs-list-filter"        *ngIf="listConfig.filterService.fsConfig.items.length && !listConfig.reoderEnabled"        [(filter)]="listConfig.filterService"      >      </fs-filter>      <!-- Actions -->      <div class="fs-list-actions" *ngIf="listConfig.actions?.length">        <ng-container *ngIf="!listConfig.reoderEnabled">          <span *ngFor="let action of listConfig.menuActions" class="action-button">            <button mat-raised-button                    (click)="action.click(action, $event)"                    [ngClass]="{ \'mat-primary\': action.primary }">              <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{ action.label }}            </button>        </span>        </ng-container>        <button mat-icon-button                *ngIf="!listConfig.reoderEnabled"                [matMenuTriggerFor]="rowActionsRef"                [ngClass]="{\'hidden-mobile-menu-actions\': !listConfig.kebabActions.length}">          <mat-icon>more_vert</mat-icon>        </button>        <mat-menu #rowActionsRef>          <button class="hidden-mobile-menu-action"                  mat-menu-item                  *ngFor="let action of listConfig.menuActions"                  (click)="action.click(row, $event)"          >            <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}          </button>          <button mat-menu-item *ngFor="let action of listConfig.kebabActions" (click)="action.click(row, $event)">            <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}          </button>        </mat-menu>        <button mat-button color="primary" *ngIf="listConfig.reoderEnabled" (click)="finishReorder()">          DONE        </button>      </div>      <!-- /Actions -->    </div>  </div>  <!-- Status -->  <fs-list-status    [ngClass]="{\'hidden-mobile\': !listConfig.status}"    [dataChangedRef]="listConfig.data$"    [sorting]="listConfig.sorting"    [paging]="listConfig.paging"    *ngIf="listConfig.paging && !listConfig.reoderEnabled">  </fs-list-status>  <!-- Table implementation -->  <table class="fs-list-table" role="grid">    <thead fs-list-head      class="fs-list-head"      role="rowgroup"      [columns]="listConfig.columns"      [sorting]="listConfig.sorting"      [hasRowActions]="listConfig.hasRowActions"      [reorder]="listConfig.reoderEnabled">    </thead>    <tbody fs-list-body      class="fs-list-body"      role="rowgroup"      [class.loading]="listConfig.loading"      [rows]="displayRows"      [rowActions]="listConfig.rowActions"      [columns]="listConfig.columns"      [hasFooter]="listConfig.hasFooter"      [reorder]="listConfig.reoderEnabled">    </tbody>    <tfoot fs-list-footer           class="fs-list-footer"           *ngIf="listConfig.hasFooter"           [columns]="listConfig.columns"           [hasRowActions]="listConfig.hasRowActions">    </tfoot>  </table>  <fs-list-pagination    *ngIf="listConfig.paging.enabled"    [dataChangedRef]="listConfig.data$"    [pagination]="listConfig.paging">  </fs-list-pagination></div></div>'
     var COMPONENTS = [{'name': 'FsListComponent', 'selector': 'fs-list'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'FsListComponent'};
