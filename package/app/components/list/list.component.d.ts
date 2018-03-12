@@ -1,9 +1,10 @@
 import { OnInit, OnDestroy } from '@angular/core';
+import { FsListModel } from '../../models/list-config.model';
 import { FsListConfig } from '../../interfaces/listconfig.interface';
 export declare class FsListComponent implements OnInit, OnDestroy {
     config: FsListConfig;
-    private displayRows;
-    private listConfig;
+    displayRows: any;
+    listConfig: FsListModel;
     /**
      * Set columns to config
      * Create Column Model instances

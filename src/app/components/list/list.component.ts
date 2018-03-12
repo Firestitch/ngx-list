@@ -27,8 +27,8 @@ export class FsListComponent implements OnInit, OnDestroy {
   @Input() public config: FsListConfig;
   //@Input() public rows: any[];
 
-  private displayRows;
-  private listConfig: FsListModel;
+  public displayRows;
+  public listConfig: FsListModel;
   /**
    * Set columns to config
    * Create Column Model instances
