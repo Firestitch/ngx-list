@@ -1,7 +1,7 @@
 <div class="fs-list-container">
   <!-- Filters/actions -->
   <div class="fs-list-filters"
-       [ngClass]="{'has-filters': listConfig.filterInput }">
+       [ngClass]="{'has-filters': listConfig.filterInput, 'reorder': listConfig.reoderEnabled }">
     <div class="title">{{listConfig.title}}</div>
     <!-- Filters -->
     <div class="actions-container">
@@ -42,8 +42,8 @@
           </button>
         </mat-menu>
 
-        <button mat-button *ngIf="listConfig.reoderEnabled" (click)="finishReorder()">
-          Done
+        <button mat-button color="primary" *ngIf="listConfig.reoderEnabled" (click)="finishReorder()">
+          DONE
         </button>
       </div>
       <!-- /Actions -->

@@ -29,7 +29,7 @@
     &.loading {
       opacity: 0.4;
     }
-    
+
     .fs-list-col {
       &.sort-icon {
         cursor: move;
@@ -106,16 +106,20 @@
     display: flex;
     flex-flow: row wrap;
 
-    .actions-container {
-      display: flex;
-      flex-flow: row nowrap;
-      flex: 1 1 100%;
-    }
-
     &.has-filters {
       .title {
         flex: 1 1 100%;
       }
+    }
+
+    &.reorder {
+      flex-flow: row nowrap !important;
+    }
+
+    .actions-container {
+      display: flex;
+      flex-flow: row nowrap;
+      flex: 1 1 100%;
     }
 
     .title {
@@ -130,8 +134,7 @@
       flex: 100;
     }
     .fs-list-actions {
-      margin-left: 10px;
-      float: right;
+      margin-left: auto;
     }
 
     .action-button mat-icon {
