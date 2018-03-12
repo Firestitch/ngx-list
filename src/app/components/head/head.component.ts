@@ -19,6 +19,7 @@ export class FsHeadComponent implements OnInit {
   @Input() sorting: Sorting;
   @Input() columns: Column[];
   @Input() hasRowActions: boolean;
+  @Input() reorder: boolean;
 
   @ViewChild('rowsContainer', { read: ViewContainerRef }) rowsContainer;
 

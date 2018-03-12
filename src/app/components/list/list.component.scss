@@ -29,6 +29,12 @@
     &.loading {
       opacity: 0.4;
     }
+    
+    .fs-list-col {
+      &.sort-icon {
+        cursor: move;
+      }
+    }
 
     .fs-list-row:hover .fs-list-col {
       background-color: #f6f6f6;
@@ -50,12 +56,6 @@
           border-bottom: 2px solid #ddd;
         }
       }
-
-      .fs-list-col {
-        &:last-child {
-          width: 1%;
-        }
-      }
     }
   }
 
@@ -66,6 +66,10 @@
       &.draggable {
         position: fixed;
         z-index: 9999;
+
+        .fs-list-col {
+          background-color: #f6f6f6;
+        }
       }
 
       &:nth-child(1) .fs-list-col {
@@ -199,7 +203,7 @@
   }
 
   .draggable-elem {
-    opacity: 0;
+    opacity: 0.2;
   }
 
   .hidden-mobile-menu-action {

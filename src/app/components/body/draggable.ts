@@ -24,6 +24,10 @@ export class Draggable {
     this._rows = value;
   }
 
+  /**
+   * Prepare draggable elements and add events
+   * @param event
+   */
   public dragStart(event) {
     window.document.body.classList.add('reorder-in-progress');
 
@@ -46,6 +50,10 @@ export class Draggable {
   }
 
 
+  /**
+   * Move draggable elements and swap items
+   * @param event
+   */
   public dragTo(event) {
     this.touchFix(event);
     const elemIndex = this.lookupElementUnder(event);
@@ -55,9 +63,13 @@ export class Draggable {
       this.swapWithIndex(elemIndex)
     }
 
-    this.dragElement.draggableEl.style.top = event.y || event.clientY - (this.dragElement.targetHeight / 2) + 'px';
+    const topOffset = (event.y || event.clientY) - (this.dragElement.targetHeight / 2);
+    this.dragElement.draggableEl.style.top =  topOffset + 'px';
   }
 
+  /**
+   * Remove events and classes after drag finish
+   */
   public dragEnd() {
     this.dragElement.targetEl.classList.remove('draggable-elem');
     window.document.body.classList.remove('reorder-in-progress');
@@ -69,11 +81,17 @@ export class Draggable {
     window.document.removeEventListener('touchcancel', this.dragElement.stopHandler);
   }
 
+  /**
+   * looking row elements and save their dims
+   */
   private prepareElements() {
     this.lookupChildElements();
     this.calcElementsDimensions();
   }
 
+  /**
+   * Store child rows
+   */
   private lookupChildElements() {
     this.elements = Array.from(
       this.el.nativeElement.querySelectorAll('tr')
@@ -91,6 +109,9 @@ export class Draggable {
     }, []);
   }
 
+  /**
+   * Calc child rows sizes/offsets
+   */
   private calcElementsDimensions() {
     this.elements.forEach((el: any, index) => {
       const dims = el.target.getBoundingClientRect();
@@ -101,6 +122,10 @@ export class Draggable {
     });
   }
 
+  /**
+   * Init draggable element
+   * @param event
+   */
   private initDraggableElement(event) {
     const el = event.target.cloneNode(true);
     const data = event.target.getBoundingClientRect();
@@ -115,8 +140,15 @@ export class Draggable {
 
     this.dragElement.draggableEl = el;
     this.dragElement.targetHeight = data.height;
+
+    this.updateDraggableDims(event);
   }
 
+  /**
+   * Looking by stored row elemens for overlapped row
+   * @param event
+   * @returns {any}
+   */
   private lookupElementUnder(event) {
     const top = event.y || event.clientY - (this.dragElement.targetHeight / 2);
     const bottom = event.y || event.clientY + this.dragElement.targetHeight - (this.dragElement.targetHeight / 2);
@@ -137,6 +169,10 @@ export class Draggable {
     return elemIndex;
   }
 
+  /**
+   * Swap rows
+   * @param index
+   */
   private swapWithIndex(index) {
     const activeIndex = this.dragElement.activeIndex;
 
@@ -157,6 +193,25 @@ export class Draggable {
     })
   }
 
+  /**
+   * Update cell width for draggable elem
+   * @param event
+   */
+  private updateDraggableDims(event) {
+    const draggableCells: any = Array.from(this.dragElement.draggableEl.querySelectorAll('td'));
+
+    Array.from(
+      event.target.querySelectorAll('td')
+    ).forEach((elem: any, index) => {
+      const dims = elem.getBoundingClientRect();
+      draggableCells[index].style.width = dims.width + 'px';
+    });
+  }
+
+  /**
+   * Fix background when mobile
+   * @param e
+   */
   private touchFix(e) {
     if (!('clientX' in e) && !('clientY' in e)) {
       const touches = e.touches || e.originalEvent.touches;

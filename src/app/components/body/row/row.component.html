@@ -1,4 +1,4 @@
-<td class="fs-list-col" *ngIf="reorder" (mousedown)="mousedow($event)" (touchstart)="mousedow($event)">
+<td class="fs-list-col sort-icon" *ngIf="reorder" (mousedown)="mousedow($event)" (touchstart)="mousedow($event)">
   <mat-icon (dragstart)="dragTo($event)">drag_handle</mat-icon>
 </td>
 <ng-container *ngFor="let column of columns">
