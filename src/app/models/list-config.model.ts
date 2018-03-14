@@ -216,7 +216,6 @@ export class FsListModel extends Model {
       };
     }else {
       this.filtersQuery = {};
-      this.load();
     }
   }
 
