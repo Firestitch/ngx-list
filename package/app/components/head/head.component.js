@@ -34,6 +34,10 @@ var FsHeadComponent = (function () {
         __metadata("design:type", Boolean)
     ], FsHeadComponent.prototype, "hasRowActions", void 0);
     __decorate([
+        core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], FsHeadComponent.prototype, "reorder", void 0);
+    __decorate([
         core_1.ViewChild('rowsContainer', { read: core_1.ViewContainerRef }),
         __metadata("design:type", Object)
     ], FsHeadComponent.prototype, "rowsContainer", void 0);

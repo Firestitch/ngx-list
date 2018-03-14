@@ -18,6 +18,10 @@
   position: relative; }
   :host ::ng-deep .fs-list-body.loading {
     opacity: 0.4; }
+  :host ::ng-deep .fs-list-body .fs-list-col.sort-icon {
+    cursor: move; }
+  :host ::ng-deep .fs-list-body .fs-list-row:hover .fs-list-col {
+    background-color: #f6f6f6; }
   :host ::ng-deep .fs-list-body .fs-list-row:hover .fs-list-col {
     background-color: #f6f6f6; }
   :host ::ng-deep .fs-list-body .fs-list-row:last-child .fs-list-col {
@@ -25,6 +29,11 @@
 
 :host ::ng-deep .fs-list-head .fs-list-row, :host ::ng-deep .fs-list-body .fs-list-row {
   display: table-row; }
+  :host ::ng-deep .fs-list-head .fs-list-row.draggable, :host ::ng-deep .fs-list-body .fs-list-row.draggable {
+    position: fixed;
+    z-index: 9999; }
+    :host ::ng-deep .fs-list-head .fs-list-row.draggable .fs-list-col, :host ::ng-deep .fs-list-body .fs-list-row.draggable .fs-list-col {
+      background-color: #f6f6f6; }
   :host ::ng-deep .fs-list-head .fs-list-row:nth-child(1) .fs-list-col, :host ::ng-deep .fs-list-body .fs-list-row:nth-child(1) .fs-list-col {
     border-top: 0; }
   :host ::ng-deep .fs-list-head .fs-list-row:last-child .fs-list-col, :host ::ng-deep .fs-list-body .fs-list-row:last-child .fs-list-col {
@@ -45,11 +54,13 @@
 :host ::ng-deep .fs-list-filters {
   display: flex;
   flex-flow: row wrap; }
+  :host ::ng-deep .fs-list-filters.has-filters .title {
+    flex: 1 1 100%; }
+  :host ::ng-deep .fs-list-filters.reorder {
+    flex-flow: row nowrap !important; }
   :host ::ng-deep .fs-list-filters .actions-container {
     display: flex;
     flex-flow: row nowrap;
-    flex: 1 1 100%; }
-  :host ::ng-deep .fs-list-filters.has-filters .title {
     flex: 1 1 100%; }
   :host ::ng-deep .fs-list-filters .title {
     align-self: center;
@@ -60,8 +71,7 @@
   :host ::ng-deep .fs-list-filters .fs-list-filter {
     flex: 100; }
   :host ::ng-deep .fs-list-filters .fs-list-actions {
-    margin-left: 10px;
-    float: right; }
+    margin-left: auto; }
   :host ::ng-deep .fs-list-filters .action-button mat-icon {
     margin-right: 5px; }
   :host ::ng-deep .fs-list-filters .mat-button {
@@ -103,6 +113,12 @@
 
 :host ::ng-deep tfoot td {
   padding: 8px; }
+
+::ng-deep .reorder-in-progress {
+  user-select: none; }
+
+::ng-deep .draggable-elem {
+  opacity: 0.2; }
 
 ::ng-deep .hidden-mobile-menu-action {
   display: none !important; }

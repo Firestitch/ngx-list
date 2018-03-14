@@ -4,7 +4,7 @@ import { Pagination } from './pagination.model';
 import { Sorting } from './sorting.model';
 import { Model } from 'tsmodels';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { FsListConfig } from '../interfaces/listconfig.interface';
+import { FsListConfig } from '../interfaces';
 import { Action } from './action.model';
 export declare class FsListModel extends Model {
     title: string;
@@ -14,6 +14,7 @@ export declare class FsListModel extends Model {
     rowEvents: any;
     columnTemplates: any;
     filters: any[];
+    reoder: any;
     fetchFn: any;
     private _rows;
     filtersQuery: any;
@@ -28,6 +29,7 @@ export declare class FsListModel extends Model {
     data$: BehaviorSubject<any>;
     status: boolean;
     filterInput: boolean;
+    reoderEnabled: boolean;
     loading: boolean;
     hasFooter: boolean;
     initialFetch: boolean;

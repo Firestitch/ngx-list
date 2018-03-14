@@ -19,29 +19,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var body_component_1 = require("../body/body.component");
-var FsFooterComponent = (function (_super) {
-    __extends(FsFooterComponent, _super);
-    function FsFooterComponent(el, cdRef, differs, zone) {
-        return _super.call(this, el, cdRef, differs, zone) || this;
+var tsmodels_1 = require("tsmodels");
+var ReorderModel = (function (_super) {
+    __extends(ReorderModel, _super);
+    function ReorderModel(data) {
+        if (data === void 0) { data = {}; }
+        var _this = _super.call(this) || this;
+        _this._fromJSON(data);
+        return _this;
     }
+    ReorderModel.prototype._fromJSON = function (data) {
+        _super.prototype._fromJSON.call(this, data);
+        if (data.menu === void 0) {
+            this.menu = true;
+        }
+    };
     __decorate([
-        core_1.Input(),
+        tsmodels_1.Alias(),
+        __metadata("design:type", Function)
+    ], ReorderModel.prototype, "done", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", String)
+    ], ReorderModel.prototype, "label", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
         __metadata("design:type", Boolean)
-    ], FsFooterComponent.prototype, "hasRowActions", void 0);
-    FsFooterComponent = __decorate([
-        core_1.Component({
-            selector: '[fs-list-footer]',
-            templateUrl: 'footer.component.html',
-            changeDetection: core_1.ChangeDetectionStrategy.OnPush
-        }),
-        __metadata("design:paramtypes", [core_1.ElementRef,
-            core_1.ChangeDetectorRef,
-            core_1.IterableDiffers,
-            core_1.NgZone])
-    ], FsFooterComponent);
-    return FsFooterComponent;
-}(body_component_1.FsBodyComponent));
-exports.FsFooterComponent = FsFooterComponent;
-//# sourceMappingURL=footer.component.js.map
+    ], ReorderModel.prototype, "menu", void 0);
+    return ReorderModel;
+}(tsmodels_1.Model));
+exports.ReorderModel = ReorderModel;
+//# sourceMappingURL=reorder.model.js.map

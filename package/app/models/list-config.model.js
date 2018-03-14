@@ -29,6 +29,7 @@ var Observable_1 = require("rxjs/Observable");
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 var styleConfig_model_1 = require("./styleConfig.model");
 var action_model_1 = require("./action.model");
+var reorder_model_1 = require("./reorder.model");
 var FsListModel = (function (_super) {
     __extends(FsListModel, _super);
     function FsListModel(config) {
@@ -44,6 +45,7 @@ var FsListModel = (function (_super) {
         _this.data$ = new BehaviorSubject_1.BehaviorSubject([]);
         _this.status = true;
         _this.filterInput = true;
+        _this.reoderEnabled = false;
         _this.loading = false;
         _this.hasFooter = false;
         _this.initialFetch = true;
@@ -60,6 +62,16 @@ var FsListModel = (function (_super) {
         _this._headerConfig = new styleConfig_model_1.StyleConfig(config.header);
         _this._cellConfig = new styleConfig_model_1.StyleConfig(config.cell);
         _this._footerConfig = new styleConfig_model_1.StyleConfig(config.footer);
+        if (_this.reoder) {
+            var action = new action_model_1.Action({
+                label: _this.reoder.label || 'Reorder',
+                menu: _this.reoder.menu,
+                click: function () {
+                    _this.reoderEnabled = true;
+                }
+            });
+            _this.actions.push(action);
+        }
         _this.menuActions = _this.actions.filter(function (action) { return !action.menu; });
         _this.kebabActions = _this.actions.filter(function (action) { return action.menu; });
         _this.hasRowActions = _this.rowActions && _this.rowActions.length > 0;
@@ -193,7 +205,6 @@ var FsListModel = (function (_super) {
         }
         else {
             this.filtersQuery = {};
-            this.load();
         }
     };
     FsListModel.prototype.updateColspans = function (config, updateFlag) {
@@ -241,6 +252,10 @@ var FsListModel = (function (_super) {
         tsmodels_1.Alias(),
         __metadata("design:type", Object)
     ], FsListModel.prototype, "filters", void 0);
+    __decorate([
+        tsmodels_1.Alias('reorder', reorder_model_1.ReorderModel),
+        __metadata("design:type", Object)
+    ], FsListModel.prototype, "reoder", void 0);
     __decorate([
         tsmodels_1.Alias('fetch'),
         __metadata("design:type", Object)

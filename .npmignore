@@ -1,7 +1,6 @@
 # Node
 node_modules/*
 npm-debug.log
-docs/*
 # DO NOT IGNORE TYPESCRIPT FILES FOR NPM
 # TypeScript
 # *.js
@@ -12,7 +11,7 @@ docs/*
 .idea
 .project
 .settings
-.idea/*
+.idea/
 *.iml
 
 # VS Code
@@ -25,11 +24,17 @@ Desktop.ini
 # Mac
 .DS_Store
 **/.DS_Store
+.editorconfig
+.gitmodules
 
 # Ngc generated files
 **/*.ngfactory.ts
 
 # Library files
-src/*
-build/*
-demo/*
+src/
+build/
+demo/
+dll/
+docs/
+playground/
+tools/

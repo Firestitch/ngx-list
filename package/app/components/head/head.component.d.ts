@@ -6,6 +6,7 @@ export declare class FsHeadComponent implements OnInit {
     sorting: Sorting;
     columns: Column[];
     hasRowActions: boolean;
+    reorder: boolean;
     rowsContainer: any;
     constructor(cdRef: ChangeDetectorRef);
     ngOnInit(): void;

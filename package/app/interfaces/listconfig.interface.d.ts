@@ -20,6 +20,12 @@ export interface FsListConfig {
     header?: FsListHeaderConfig;
     cell?: FsListCellConfig;
     footer?: FsListFooterConfig;
+    reoder?: FsListReorderConfig;
+}
+export interface FsListReorderConfig {
+    done?: Function;
+    label?: string;
+    menu?: boolean;
 }
 export interface FsListHeaderConfig {
     className?: string;

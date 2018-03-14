@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, IterableDiffers } from '@angular/core';
+import { ChangeDetectorRef, ElementRef, IterableDiffers, NgZone } from '@angular/core';
 import { FsBodyComponent } from '../body/body.component';
 export declare class FsFooterComponent extends FsBodyComponent {
     hasRowActions: boolean;
-    constructor(cdRef: ChangeDetectorRef, differs: IterableDiffers);
+    constructor(el: ElementRef, cdRef: ChangeDetectorRef, differs: IterableDiffers, zone: NgZone);
 }
