@@ -25,12 +25,12 @@ export class KitchenSinkComponent implements OnInit {
 
     this.config = {
       title: 'Events',
-      status: false,
+      status: true,
       filterInput: true,
       paging: {
         limits: [5, 15, 50, 150, 250, 500, 1000]
       },
-      /*filters: [
+      filters: [
         {
           name: 'keyword',
           type: 'text',
@@ -49,7 +49,7 @@ export class KitchenSinkComponent implements OnInit {
             ];
           }
         }
-      ],*/
+      ],
       reorder: {
         done: function (data) {
           console.log(data);

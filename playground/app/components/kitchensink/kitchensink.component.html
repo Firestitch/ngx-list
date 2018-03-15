@@ -26,7 +26,7 @@
 
   <fs-list-column name="guid" title="GUID" [sortable]="true">
     <ng-template fs-list-cell let-guid="value" let-row="row">
-      This row's guid is {{ row.guid }} ({{guid}}).
+      {{ row.guid }}
     </ng-template>
   </fs-list-column>
 
