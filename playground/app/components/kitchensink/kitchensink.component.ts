@@ -85,9 +85,8 @@ export class KitchenSinkComponent implements OnInit {
           },
           menu: false,
           icon: 'done',
-          label: 'Accept',
           className: 'mat-warn',
-          type: ActionType.raised,
+          type: ActionType.icon,
         },
         {
           click: (row, event) => {
@@ -102,8 +101,10 @@ export class KitchenSinkComponent implements OnInit {
           click: (row, event) => {
             console.log('edit', row, event);
           },
+          //menu: false,
           icon: 'edit',
-          label: 'Edit'
+          label: 'Edit',
+          type: ActionType.basic
         },
         {
           click: (row, event) => {

@@ -91,7 +91,7 @@
         display: table-cell;
 
         border-top: 1px solid #ddd;
-        padding: 8px;
+        padding: 8px 12px;
         vertical-align: middle;
         outline: none;
 
@@ -102,9 +102,34 @@
         &.row-actions {
           width: 1%;
           white-space: nowrap;
+          padding-right: 0px;
 
           .row-inline-action {
-            margin-right: 5px;
+            margin-left: 10px;
+            &:first-child {
+              margin-left: 0;
+            }
+          }
+
+          .row-inline-action-icon,
+          .row-inline-action-fab,
+          .row-inline-action-mini-fab,
+          .row-menu-action {
+              width: 35px;
+              height: 35px;
+              display: inline-flex;
+              justify-content: center;
+              align-items: center;
+          }
+          
+          .row-inline-action-raised,
+          .row-inline-action-basic {
+              margin: 0 12px;
+
+              + .row-inline-action-raised,
+              + .row-inline-action-basic {
+                margin-left: 0;
+              }
           }
         }
 
