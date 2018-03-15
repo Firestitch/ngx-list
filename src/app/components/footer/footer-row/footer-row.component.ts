@@ -1,8 +1,11 @@
 import {
+  Component,
+  Input,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, ElementRef, Input,
+  ElementRef,
   KeyValueDiffers,
+  Renderer2,
 } from '@angular/core';
 import { FsRowComponent } from '../../body';
 
@@ -16,7 +19,8 @@ export class FsFooterRowComponent extends FsRowComponent {
 
   constructor(cdRef: ChangeDetectorRef,
               differs: KeyValueDiffers,
-              el: ElementRef) {
-    super(el, cdRef, differs);
+              el: ElementRef,
+              renderer: Renderer2) {
+    super(el, cdRef, differs, renderer);
   }
 }

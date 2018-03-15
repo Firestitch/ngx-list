@@ -96,11 +96,11 @@ export class KitchenSinkComponent implements OnInit {
       ],
       rowEvents:
       {
-        hover: function(event) {
-
+        mouseover: function(event) {
+          console.log('over', event);
         },
         click: function(event) {
-
+          console.log('click', event);
         }
       },
       header: {
