@@ -64,6 +64,9 @@ export class FsListModel extends Model {
     if (config.filterInput === false) {
       this.filterInput = false;
     }
+    if (!config.actions) {
+      this.actions = [];
+    }
 
     this._headerConfig = new StyleConfig(config.header);
     this._cellConfig = new StyleConfig(config.cell);
@@ -119,13 +122,19 @@ export class FsListModel extends Model {
 
     if (result instanceof Promise) {
       result.then(response => {
-        this.paging.updatePaging(response.paging);
+        if (response.paging) {
+          this.paging.updatePaging(response.paging);
+        }
+
         this.loading = false;
         this.data$.next(response.data);
       });
     } else if (result instanceof Observable) {
       result.subscribe(response => {
-        this.paging.updatePaging(response.paging);
+        if (response.paging) {
+          this.paging.updatePaging(response.paging);
+        }
+        
         this.loading = false;
         this.data$.next(response.data);
       });
