@@ -30,6 +30,7 @@ var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 var styleConfig_model_1 = require("./styleConfig.model");
 var action_model_1 = require("./action.model");
 var reorder_model_1 = require("./reorder.model");
+var row_action_model_1 = require("./row-action.model");
 var FsListModel = (function (_super) {
     __extends(FsListModel, _super);
     function FsListModel(config) {
@@ -58,6 +59,9 @@ var FsListModel = (function (_super) {
         }
         if (config.filterInput === false) {
             _this.filterInput = false;
+        }
+        if (!config.actions) {
+            _this.actions = [];
         }
         _this._headerConfig = new styleConfig_model_1.StyleConfig(config.header);
         _this._cellConfig = new styleConfig_model_1.StyleConfig(config.cell);
@@ -108,14 +112,18 @@ var FsListModel = (function (_super) {
         var result = this.fetchFn(query);
         if (result instanceof Promise) {
             result.then(function (response) {
-                _this.paging.updatePaging(response.paging);
+                if (response.paging) {
+                    _this.paging.updatePaging(response.paging);
+                }
                 _this.loading = false;
                 _this.data$.next(response.data);
             });
         }
         else if (result instanceof Observable_1.Observable) {
             result.subscribe(function (response) {
-                _this.paging.updatePaging(response.paging);
+                if (response.paging) {
+                    _this.paging.updatePaging(response.paging);
+                }
                 _this.loading = false;
                 _this.data$.next(response.data);
             });
@@ -234,11 +242,11 @@ var FsListModel = (function (_super) {
     ], FsListModel.prototype, "inlineFilters", void 0);
     __decorate([
         tsmodels_1.Alias('actions', action_model_1.Action),
-        __metadata("design:type", Object)
+        __metadata("design:type", Array)
     ], FsListModel.prototype, "actions", void 0);
     __decorate([
-        tsmodels_1.Alias(),
-        __metadata("design:type", Object)
+        tsmodels_1.Alias('rowActions', row_action_model_1.RowAction),
+        __metadata("design:type", Array)
     ], FsListModel.prototype, "rowActions", void 0);
     __decorate([
         tsmodels_1.Alias(),

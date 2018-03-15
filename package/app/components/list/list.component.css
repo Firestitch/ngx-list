@@ -2,6 +2,10 @@
   width: 100%;
   display: block; }
 
+.fs-list-container {
+  width: 100%;
+  overflow: auto; }
+
 .fs-list-table {
   display: table;
   width: 100%;
@@ -15,40 +19,48 @@
 
 :host ::ng-deep .fs-list-body {
   display: table-row-group;
-  position: relative; }
+  position: relative;
+  border-bottom: 2px solid #ddd; }
   :host ::ng-deep .fs-list-body.loading {
     opacity: 0.4; }
-  :host ::ng-deep .fs-list-body .fs-list-col.sort-icon {
-    cursor: move; }
+  :host ::ng-deep .fs-list-body .fs-list-col {
+    box-sizing: border-box; }
+    :host ::ng-deep .fs-list-body .fs-list-col.sort-icon {
+      cursor: move; }
   :host ::ng-deep .fs-list-body .fs-list-row:hover .fs-list-col {
     background-color: #f6f6f6; }
   :host ::ng-deep .fs-list-body .fs-list-row:hover .fs-list-col {
     background-color: #f6f6f6; }
-  :host ::ng-deep .fs-list-body .fs-list-row:last-child .fs-list-col {
-    border-bottom: 2px solid #ddd; }
 
-:host ::ng-deep .fs-list-head .fs-list-row, :host ::ng-deep .fs-list-body .fs-list-row {
+:host ::ng-deep .fs-list-head .fs-list-row, :host ::ng-deep .fs-list-body .fs-list-row, :host ::ng-deep .fs-list-footer .fs-list-row {
   display: table-row; }
-  :host ::ng-deep .fs-list-head .fs-list-row.draggable, :host ::ng-deep .fs-list-body .fs-list-row.draggable {
+  :host ::ng-deep .fs-list-head .fs-list-row.draggable, :host ::ng-deep .fs-list-body .fs-list-row.draggable, :host ::ng-deep .fs-list-footer .fs-list-row.draggable {
     position: fixed;
     z-index: 9999; }
-    :host ::ng-deep .fs-list-head .fs-list-row.draggable .fs-list-col, :host ::ng-deep .fs-list-body .fs-list-row.draggable .fs-list-col {
+    :host ::ng-deep .fs-list-head .fs-list-row.draggable .fs-list-col, :host ::ng-deep .fs-list-body .fs-list-row.draggable .fs-list-col, :host ::ng-deep .fs-list-footer .fs-list-row.draggable .fs-list-col {
       background-color: #f6f6f6; }
-  :host ::ng-deep .fs-list-head .fs-list-row:nth-child(1) .fs-list-col, :host ::ng-deep .fs-list-body .fs-list-row:nth-child(1) .fs-list-col {
+  :host ::ng-deep .fs-list-head .fs-list-row:nth-child(1) .fs-list-col, :host ::ng-deep .fs-list-body .fs-list-row:nth-child(1) .fs-list-col, :host ::ng-deep .fs-list-footer .fs-list-row:nth-child(1) .fs-list-col {
     border-top: 0; }
-  :host ::ng-deep .fs-list-head .fs-list-row:last-child .fs-list-col, :host ::ng-deep .fs-list-body .fs-list-row:last-child .fs-list-col {
+  :host ::ng-deep .fs-list-head .fs-list-row:last-child .fs-list-col, :host ::ng-deep .fs-list-body .fs-list-row:last-child .fs-list-col, :host ::ng-deep .fs-list-footer .fs-list-row:last-child .fs-list-col {
     border-bottom: 2px solid #ddd; }
-  :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col {
+  :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col, :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col {
     display: table-cell;
     border-top: 1px solid #ddd;
     padding: 8px;
     vertical-align: middle;
     outline: none; }
-    :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.left, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.left {
+    :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.drag-col, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.drag-col, :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col.drag-col {
+      width: 1%; }
+    :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.row-actions, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.row-actions, :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col.row-actions {
+      width: 1%;
+      white-space: nowrap; }
+      :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.row-actions .row-inline-action, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.row-actions .row-inline-action, :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col.row-actions .row-inline-action {
+        margin-right: 5px; }
+    :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.left, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.left, :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col.left {
       text-align: left; }
-    :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.center, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.center {
+    :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.center, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.center, :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col.center {
       text-align: center; }
-    :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.right, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.right {
+    :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.right, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.right, :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col.right {
       text-align: right; }
 
 :host ::ng-deep .fs-list-filters {
@@ -56,7 +68,7 @@
   flex-flow: row wrap; }
   :host ::ng-deep .fs-list-filters.has-filters .title {
     flex: 1 1 100%; }
-  :host ::ng-deep .fs-list-filters.reorder {
+  :host ::ng-deep .fs-list-filters.no-wrap {
     flex-flow: row nowrap !important; }
   :host ::ng-deep .fs-list-filters .actions-container {
     display: flex;
@@ -69,7 +81,8 @@
     color: #212537;
     margin-right: 10px; }
   :host ::ng-deep .fs-list-filters .fs-list-filter {
-    flex: 100; }
+    flex: 100;
+    margin-right: 10px; }
   :host ::ng-deep .fs-list-filters .fs-list-actions {
     margin-left: auto; }
   :host ::ng-deep .fs-list-filters .action-button mat-icon {

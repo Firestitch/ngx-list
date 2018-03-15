@@ -6,11 +6,12 @@ import { Model } from 'tsmodels';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FsListConfig } from '../interfaces';
 import { Action } from './action.model';
+import { RowAction } from './row-action.model';
 export declare class FsListModel extends Model {
     title: string;
     inlineFilters: any;
-    actions: any;
-    rowActions: any;
+    actions: Action[];
+    rowActions: RowAction[];
     rowEvents: any;
     columnTemplates: any;
     filters: any[];

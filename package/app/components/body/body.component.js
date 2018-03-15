@@ -21,6 +21,7 @@ var FsBodyComponent = (function () {
         this.columns = [];
         this.hasFooter = false;
         this.rowActions = [];
+        this.rowEvents = {};
         this.reorder = false;
         this._rowsDiffer = differs.find([]).create(null);
         this.draggable = new draggable_1.Draggable(this.el, this.cdRef, this.zone, this.rows);
@@ -55,6 +56,10 @@ var FsBodyComponent = (function () {
         core_1.Input(),
         __metadata("design:type", Object)
     ], FsBodyComponent.prototype, "rowActions", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], FsBodyComponent.prototype, "rowEvents", void 0);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)

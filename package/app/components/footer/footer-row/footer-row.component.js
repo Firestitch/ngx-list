@@ -23,8 +23,8 @@ var core_1 = require("@angular/core");
 var body_1 = require("../../body");
 var FsFooterRowComponent = (function (_super) {
     __extends(FsFooterRowComponent, _super);
-    function FsFooterRowComponent(cdRef, differs, el) {
-        return _super.call(this, el, cdRef, differs) || this;
+    function FsFooterRowComponent(cdRef, differs, el, renderer) {
+        return _super.call(this, el, cdRef, differs, renderer) || this;
     }
     __decorate([
         core_1.Input(),
@@ -38,7 +38,8 @@ var FsFooterRowComponent = (function (_super) {
         }),
         __metadata("design:paramtypes", [core_1.ChangeDetectorRef,
             core_1.KeyValueDiffers,
-            core_1.ElementRef])
+            core_1.ElementRef,
+            core_1.Renderer2])
     ], FsFooterRowComponent);
     return FsFooterRowComponent;
 }(body_1.FsRowComponent));

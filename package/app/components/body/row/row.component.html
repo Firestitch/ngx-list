@@ -1,4 +1,4 @@
-<td class="fs-list-col sort-icon" *ngIf="reorder" (mousedown)="mousedow($event)" (touchstart)="mousedow($event)">
+<td class="fs-list-col drag-col sort-icon" *ngIf="reorder" (mousedown)="mousedow($event)" (touchstart)="mousedow($event)">
   <mat-icon (dragstart)="dragTo($event)">drag_handle</mat-icon>
 </td>
 <ng-container *ngFor="let column of columns">
@@ -12,12 +12,67 @@
       [attr.width]="column.width">
   </td>
 </ng-container>
-<td *ngIf="rowActions?.length > 0" class="fs-list-col">
+<td *ngIf="rowActions?.length > 0" class="fs-list-col row-actions">
+  <ng-container *ngFor="let action of inlineRowActions" [ngSwitch]="action.type">
+    <!-- Basic button -->
+    <button class="row-inline-action"
+            *ngSwitchCase="0"
+            mat-button
+            (click)="action.click(row, $event)"
+            [ngClass]="action.classArray"
+    >
+      <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
+    </button>
+
+    <!-- Raised button -->
+    <button class="row-inline-action"
+            *ngSwitchCase="1"
+            mat-raised-button
+            (click)="action.click(row, $event)"
+            [ngClass]="action.classArray"
+    >
+      <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
+    </button>
+
+    <!-- Icon button -->
+    <button class="row-inline-action"
+            *ngSwitchCase="2"
+            mat-icon-button
+            (click)="action.click(row, $event)"
+            [ngClass]="action.classArray"
+    >
+      <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
+    </button>
+
+    <!-- Fab button -->
+    <button class="row-inline-action"
+            *ngSwitchCase="3"
+            mat-fab
+            (click)="action.click(row, $event)"
+            [ngClass]="action.classArray"
+    >
+      <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
+    </button>
+
+    <!-- Mini Fab button -->
+    <button class="row-inline-action"
+            *ngSwitchCase="4"
+            mat-mini-fab
+            (click)="action.click(row, $event)"
+            [ngClass]="action.classArray"
+    >
+      <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
+    </button>
+
+    <ng-template #buttonContent let-value="value">
+      <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
+    </ng-template>
+  </ng-container>
   <button mat-icon-button [matMenuTriggerFor]="rowActionsRef">
     <mat-icon>more_vert</mat-icon>
   </button>
   <mat-menu #rowActionsRef>
-    <button mat-menu-item *ngFor="let action of rowActions" (click)="action.click(row, $event)">
+    <button mat-menu-item *ngFor="let action of menuRowActions" (click)="action.click(row, $event)">
       <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
     </button>
   </mat-menu>

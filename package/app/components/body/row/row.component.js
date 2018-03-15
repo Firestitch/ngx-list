@@ -11,24 +11,61 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var FsRowComponent = (function () {
-    function FsRowComponent(el, cdRef, differs) {
-        this.el = el;
-        this.cdRef = cdRef;
-        this.differs = differs;
+    function FsRowComponent(_el, _cdRef, _differs, _renderer) {
+        this._el = _el;
+        this._cdRef = _cdRef;
+        this._differs = _differs;
+        this._renderer = _renderer;
         this.t = true;
         this.role = 'row';
         this.rowActions = [];
+        this.rowEvents = {};
         this.reorder = false;
         this.startDragging = new core_1.EventEmitter();
         this.stopDragging = new core_1.EventEmitter();
-        this._rowDiffer = differs.find({}).create();
+        this._eventListeners = [];
+        this._rowDiffer = _differs.find({}).create();
     }
-    FsRowComponent.prototype.mousedow = function (event) {
-        this.startDragging.emit({ event: event, target: this.el.nativeElement });
+    FsRowComponent.prototype.ngOnInit = function () {
+        this.initRowEvents();
+        this.menuRowActions = this.rowActions.filter(function (action) { return action.menu; });
+        this.inlineRowActions = this.rowActions.filter(function (action) { return !action.menu; });
     };
     FsRowComponent.prototype.ngDoCheck = function () {
         if (this._rowDiffer.diff(this.row)) {
-            this.cdRef.markForCheck();
+            this._cdRef.markForCheck();
+        }
+    };
+    FsRowComponent.prototype.ngOnDestroy = function () {
+        this._eventListeners.forEach(function (listener) { listener(); });
+    };
+    FsRowComponent.prototype.mousedow = function (event) {
+        if (this.reorder) {
+            this.startDragging.emit({ event: event, target: this._el.nativeElement });
+        }
+    };
+    /**
+     * Set event listeners for row
+     */
+    FsRowComponent.prototype.initRowEvents = function () {
+        var _this = this;
+        var _loop_1 = function (event_1) {
+            if (this_1.rowEvents.hasOwnProperty(event_1)) {
+                var listener = this_1._renderer.listen(this_1._el.nativeElement, event_1, function (evt) {
+                    if (!_this.reorder) {
+                        _this.rowEvents[event_1]({
+                            event: evt,
+                            row: _this.row,
+                            rowIndex: _this.rowIndex
+                        });
+                    }
+                });
+                this_1._eventListeners.push(listener);
+            }
+        };
+        var this_1 = this;
+        for (var event_1 in this.rowEvents) {
+            _loop_1(event_1);
         }
     };
     __decorate([
@@ -45,8 +82,12 @@ var FsRowComponent = (function () {
     ], FsRowComponent.prototype, "row", void 0);
     __decorate([
         core_1.Input(),
-        __metadata("design:type", Object)
+        __metadata("design:type", Array)
     ], FsRowComponent.prototype, "rowActions", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], FsRowComponent.prototype, "rowEvents", void 0);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Number)
@@ -75,7 +116,8 @@ var FsRowComponent = (function () {
         }),
         __metadata("design:paramtypes", [core_1.ElementRef,
             core_1.ChangeDetectorRef,
-            core_1.KeyValueDiffers])
+            core_1.KeyValueDiffers,
+            core_1.Renderer2])
     ], FsRowComponent);
     return FsRowComponent;
 }());

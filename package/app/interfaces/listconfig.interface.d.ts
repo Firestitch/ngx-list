@@ -9,7 +9,7 @@ export interface FsListConfig {
     title?: string;
     status?: boolean;
     filterInput?: boolean;
-    paging?: FsPaging;
+    paging?: FsPaging | false;
     columnDefaults?: Object;
     filters?: Object[];
     rowActions?: Object[];

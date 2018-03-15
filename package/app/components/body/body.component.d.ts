@@ -9,6 +9,7 @@ export declare class FsBodyComponent implements OnInit, DoCheck {
     columns: Column[];
     hasFooter: boolean;
     rowActions: any[];
+    rowEvents: {};
     reorder: boolean;
     rowsContainer: any;
     headerTemplate: TemplateRef<any>;
