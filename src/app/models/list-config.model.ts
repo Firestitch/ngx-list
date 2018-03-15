@@ -12,13 +12,14 @@ import { FsListConfig } from '../interfaces';
 import { StyleConfig } from './styleConfig.model';
 import { Action } from './action.model';
 import { ReorderModel } from './reorder.model';
+import { RowAction } from './row-action.model';
 
 
 export class FsListModel extends Model {
   @Alias() public title: string;
   @Alias() public inlineFilters: any;
-  @Alias('actions', Action) public actions: any;
-  @Alias() public rowActions: any;
+  @Alias('actions', Action) public actions: Action[];
+  @Alias('rowActions', RowAction) public rowActions: RowAction[];
   @Alias() public rowEvents: any;
   @Alias() public columnTemplates: any;
   @Alias() public filters = [];
@@ -134,7 +135,7 @@ export class FsListModel extends Model {
         if (response.paging) {
           this.paging.updatePaging(response.paging);
         }
-        
+
         this.loading = false;
         this.data$.next(response.data);
       });

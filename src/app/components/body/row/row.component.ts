@@ -16,6 +16,7 @@ import {
 } from '@angular/core';
 
 import { Column } from '../../../models';
+import { RowAction } from '../../../models/row-action.model';
 
 @Component({
   selector: '[fs-list-row]',
@@ -27,7 +28,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   @HostBinding('attr.role') role = 'row';
 
   @Input() public row: any;
-  @Input() public rowActions = [];
+  @Input() public rowActions: RowAction[] = [];
   @Input() public rowEvents = {};
 
   @Input() public rowIndex: number;
@@ -36,6 +37,9 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   @Output() public startDragging = new EventEmitter();
   @Output() public stopDragging = new EventEmitter();
+
+  public menuRowActions: RowAction[];
+  public inlineRowActions: RowAction[];
 
   private _rowDiffer: KeyValueDiffer<{}, {}>;
 
@@ -50,6 +54,8 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   public ngOnInit() {
     this.initRowEvents();
+    this.menuRowActions = this.rowActions.filter((action) => action.menu);
+    this.inlineRowActions = this.rowActions.filter((action) => !action.menu);
   }
 
   public ngDoCheck() {

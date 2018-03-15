@@ -2,8 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FsApi } from '@firestitch/api';
 import { FsListConfig } from '../../../../src';
-import 'rxjs/add/operator/map';
 import { FsListComponent } from '../../../../src/app/components/list';
+import { ActionType } from '../../../../src/app/models';
+
+import 'rxjs/add/operator/map';
 
 
 @Component({
@@ -77,6 +79,25 @@ export class KitchenSinkComponent implements OnInit {
         }
       ],
       rowActions: [
+        {
+          click: (row, event) => {
+            console.log('Accept', row, event);
+          },
+          menu: false,
+          icon: 'done',
+          label: 'Accept',
+          className: 'mat-warn',
+          type: ActionType.raised,
+        },
+        {
+          click: (row, event) => {
+            console.log('Cancel', row, event);
+          },
+          menu: false,
+          icon: 'clear',
+          label: 'Cancel',
+          type: ActionType.raised,
+        },
         {
           click: (row, event) => {
             console.log('edit', row, event);

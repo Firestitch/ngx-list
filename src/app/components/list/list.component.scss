@@ -97,6 +97,11 @@
 
         &.row-actions {
           width: 1%;
+          white-space: nowrap;
+
+          .row-inline-action {
+            margin-right: 5px;
+          }
         }
 
         &.left {
