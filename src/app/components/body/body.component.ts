@@ -28,6 +28,7 @@ export class FsBodyComponent implements OnInit, DoCheck {
   @Input() columns: Column[] = [];
   @Input() hasFooter = false;
   @Input() rowActions = [];
+  @Input() rowEvents = {};
   @Input() reorder = false;
 
   @ViewChild('rowsContainer', { read: ViewContainerRef }) rowsContainer;

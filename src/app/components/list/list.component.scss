@@ -5,6 +5,11 @@
   display: block;
 }
 
+.fs-list-container {
+  width: 100%;
+  overflow: auto;
+}
+
 .fs-list-table {
   display: table;
   width: 100%;
@@ -25,12 +30,15 @@
   .fs-list-body {
     display: table-row-group;
     position: relative;
+    border-bottom: 2px solid #ddd;
 
     &.loading {
       opacity: 0.4;
     }
 
     .fs-list-col {
+      box-sizing: border-box;
+
       &.sort-icon {
         cursor: move;
       }
@@ -50,18 +58,13 @@
           background-color: #f6f6f6;
         }
       }
-
-      &:last-child {
-        .fs-list-col {
-          border-bottom: 2px solid #ddd;
-        }
-      }
     }
   }
 
-  .fs-list-head, .fs-list-body {
+  .fs-list-head, .fs-list-body, .fs-list-footer {
     .fs-list-row {
       display: table-row;
+
 
       &.draggable {
         position: fixed;
@@ -88,6 +91,14 @@
         vertical-align: middle;
         outline: none;
 
+        &.drag-col {
+          width: 1%;
+        }
+
+        &.row-actions {
+          width: 1%;
+        }
+
         &.left {
           text-align: left;
         }
@@ -112,7 +123,7 @@
       }
     }
 
-    &.reorder {
+    &.no-wrap {
       flex-flow: row nowrap !important;
     }
 
@@ -132,6 +143,7 @@
 
     .fs-list-filter {
       flex: 100;
+      margin-right: 10px;
     }
     .fs-list-actions {
       margin-left: auto;

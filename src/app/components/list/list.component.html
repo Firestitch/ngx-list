@@ -1,7 +1,10 @@
 <div class="fs-list-container">
   <!-- Filters/actions -->
   <div class="fs-list-filters"
-       [ngClass]="{'has-filters': listConfig.filterInput, 'reorder': listConfig.reoderEnabled }">
+       [ngClass]="{
+         'has-filters': listConfig.filterInput,
+         'no-wrap': listConfig.reoderEnabled || !listConfig.filterService.fsConfig.items.length
+       }">
     <div class="title">{{listConfig.title}}</div>
     <!-- Filters -->
     <div class="actions-container">
@@ -60,34 +63,37 @@
   </fs-list-status>
 
   <!-- Table implementation -->
-  <table class="fs-list-table" role="grid">
-    <thead fs-list-head
-      class="fs-list-head"
-      role="rowgroup"
-      [columns]="listConfig.columns"
-      [sorting]="listConfig.sorting"
-      [hasRowActions]="listConfig.hasRowActions"
-      [reorder]="listConfig.reoderEnabled">
-    </thead>
+  <div class="fs-list-container">
+    <table class="fs-list-table" role="grid">
+      <thead fs-list-head
+             class="fs-list-head"
+             role="rowgroup"
+             [columns]="listConfig.columns"
+             [sorting]="listConfig.sorting"
+             [hasRowActions]="listConfig.hasRowActions"
+             [reorder]="listConfig.reoderEnabled">
+      </thead>
 
-    <tbody fs-list-body
-      class="fs-list-body"
-      role="rowgroup"
-      [class.loading]="listConfig.loading"
-      [rows]="displayRows"
-      [rowActions]="listConfig.rowActions"
-      [columns]="listConfig.columns"
-      [hasFooter]="listConfig.hasFooter"
-      [reorder]="listConfig.reoderEnabled">
-    </tbody>
+      <tbody fs-list-body
+             class="fs-list-body"
+             role="rowgroup"
+             [class.loading]="listConfig.loading"
+             [rows]="displayRows"
+             [rowActions]="listConfig.rowActions"
+             [rowEvents]="listConfig.rowEvents"
+             [columns]="listConfig.columns"
+             [hasFooter]="listConfig.hasFooter"
+             [reorder]="listConfig.reoderEnabled">
+      </tbody>
 
-    <tfoot fs-list-footer
-           class="fs-list-footer"
-           *ngIf="listConfig.hasFooter"
-           [columns]="listConfig.columns"
-           [hasRowActions]="listConfig.hasRowActions">
-    </tfoot>
-  </table>
+      <tfoot fs-list-footer
+             class="fs-list-footer"
+             *ngIf="listConfig.hasFooter"
+             [columns]="listConfig.columns"
+             [hasRowActions]="listConfig.hasRowActions">
+      </tfoot>
+    </table>
+  </div>
 
   <fs-list-pagination
     *ngIf="listConfig.paging.enabled"
