@@ -5,6 +5,11 @@
   display: block;
 }
 
+.fs-list-container {
+  width: 100%;
+  overflow: auto;
+}
+
 .fs-list-table {
   display: table;
   width: 100%;
