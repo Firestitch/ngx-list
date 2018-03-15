@@ -1,4 +1,4 @@
-<td class="fs-list-col sort-icon" *ngIf="reorder" (mousedown)="mousedow($event)" (touchstart)="mousedow($event)">
+<td class="fs-list-col drag-col sort-icon" *ngIf="reorder" (mousedown)="mousedow($event)" (touchstart)="mousedow($event)">
   <mat-icon (dragstart)="dragTo($event)">drag_handle</mat-icon>
 </td>
 <ng-container *ngFor="let column of columns">
@@ -12,7 +12,7 @@
       [attr.width]="column.width">
   </td>
 </ng-container>
-<td *ngIf="rowActions?.length > 0" class="fs-list-col">
+<td *ngIf="rowActions?.length > 0" class="fs-list-col row-actions">
   <button mat-icon-button [matMenuTriggerFor]="rowActionsRef">
     <mat-icon>more_vert</mat-icon>
   </button>

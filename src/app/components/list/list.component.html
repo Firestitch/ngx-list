@@ -1,7 +1,10 @@
 <div class="fs-list-container">
   <!-- Filters/actions -->
   <div class="fs-list-filters"
-       [ngClass]="{'has-filters': listConfig.filterInput, 'reorder': listConfig.reoderEnabled }">
+       [ngClass]="{
+         'has-filters': listConfig.filterInput,
+         'no-wrap': listConfig.reoderEnabled || !listConfig.filterService.fsConfig.items.length
+       }">
     <div class="title">{{listConfig.title}}</div>
     <!-- Filters -->
     <div class="actions-container">

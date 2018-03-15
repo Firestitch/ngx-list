@@ -24,12 +24,11 @@ export class KitchenSinkComponent implements OnInit {
     this.config = {
       title: 'Events',
       status: false,
-      filterInput: false,
+      filterInput: true,
       paging: {
         limits: [5, 15, 50, 150, 250, 500, 1000]
       },
-      /*
-      filters: [
+      /*filters: [
         {
           name: 'keyword',
           type: 'text',
@@ -48,8 +47,7 @@ export class KitchenSinkComponent implements OnInit {
             ];
           }
         }
-      ],
-      */
+      ],*/
       reorder: {
         done: function (data) {
           console.log(data);
@@ -97,10 +95,10 @@ export class KitchenSinkComponent implements OnInit {
       rowEvents:
       {
         mouseover: function(event) {
-          console.log('over', event);
+          // console.log('over', event);
         },
         click: function(event) {
-          console.log('click', event);
+          // console.log('click', event);
         }
       },
       header: {

@@ -159,8 +159,9 @@ export class Draggable {
       const el = this.elements[i];
 
       if (!el.active) {
-        if (top < el.center && el.index < this.dragElement.activeIndex
-          || bottom > el.center && el.index > this.dragElement.activeIndex) {
+        // 30 - it is offset from center
+        if (top < el.center + 30 && el.index < this.dragElement.activeIndex
+          || bottom > el.center - 30 && el.index > this.dragElement.activeIndex) {
           elemIndex = i;
         }
       }

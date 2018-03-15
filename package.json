@@ -113,7 +113,7 @@
     "zone.js": "^0.8.4"
   },
   "dependencies": {
-    "@firestitch/filter": "^0.1.11",
+    "@firestitch/filter": "^0.1.13",
     "lodash": "^4.17.5",
     "rxjs": "^5.1.0",
     "tsmodels": "^0.3.1",
