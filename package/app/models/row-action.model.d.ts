@@ -1,10 +1,10 @@
 import { Model } from 'tsmodels';
 export declare enum ActionType {
-    basic = 0,
-    raised = 1,
-    icon = 2,
-    fab = 3,
-    miniFab = 4,
+    basic = "basic",
+    raised = "raised",
+    icon = "icon",
+    fab = "fab",
+    miniFab = "mini-fab",
 }
 export declare class RowAction extends Model {
     icon: string;

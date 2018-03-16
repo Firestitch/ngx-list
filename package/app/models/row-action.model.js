@@ -22,11 +22,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tsmodels_1 = require("tsmodels");
 var ActionType;
 (function (ActionType) {
-    ActionType[ActionType["basic"] = 0] = "basic";
-    ActionType[ActionType["raised"] = 1] = "raised";
-    ActionType[ActionType["icon"] = 2] = "icon";
-    ActionType[ActionType["fab"] = 3] = "fab";
-    ActionType[ActionType["miniFab"] = 4] = "miniFab";
+    ActionType["basic"] = "basic";
+    ActionType["raised"] = "raised";
+    ActionType["icon"] = "icon";
+    ActionType["fab"] = "fab";
+    ActionType["miniFab"] = "mini-fab";
 })(ActionType = exports.ActionType || (exports.ActionType = {}));
 var RowAction = (function (_super) {
     __extends(RowAction, _super);
@@ -74,7 +74,7 @@ var RowAction = (function (_super) {
     ], RowAction.prototype, "className", void 0);
     __decorate([
         tsmodels_1.Alias(),
-        __metadata("design:type", Number)
+        __metadata("design:type", String)
     ], RowAction.prototype, "type", void 0);
     return RowAction;
 }(tsmodels_1.Model));

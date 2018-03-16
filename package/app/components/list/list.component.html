@@ -1,13 +1,13 @@
 <div class="fs-list-container">
-  <!-- Filters/actions -->
-  <div class="fs-list-filters"
+  <!-- Header -->
+  <div class="fs-list-header"
        [ngClass]="{
          'has-filters': listConfig.filterInput,
          'no-wrap': listConfig.reoderEnabled || !listConfig.filterService.fsConfig.items.length
        }">
     <div class="title">{{listConfig.title}}</div>
-    <!-- Filters -->
-    <div class="actions-container">
+    <!-- Filters/actions -->
+    <div class="fs-list-toolbar">
       <fs-filter
         class="fs-list-filter"
         *ngIf="listConfig.filterService.fsConfig.items.length && !listConfig.reoderEnabled"
@@ -63,7 +63,7 @@
   </fs-list-status>
 
   <!-- Table implementation -->
-  <div class="fs-list-container">
+  <div class="fs-list-table-container">
     <table class="fs-list-table" role="grid">
       <thead fs-list-head
              class="fs-list-head"

@@ -28,8 +28,10 @@ var FsRowComponent = (function () {
     }
     FsRowComponent.prototype.ngOnInit = function () {
         this.initRowEvents();
-        this.menuRowActions = this.rowActions.filter(function (action) { return action.menu; });
-        this.inlineRowActions = this.rowActions.filter(function (action) { return !action.menu; });
+        if (this.rowActions) {
+            this.menuRowActions = this.rowActions.filter(function (action) { return action.menu; });
+            this.inlineRowActions = this.rowActions.filter(function (action) { return !action.menu; });
+        }
     };
     FsRowComponent.prototype.ngDoCheck = function () {
         if (this._rowDiffer.diff(this.row)) {
