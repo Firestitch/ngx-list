@@ -152,7 +152,7 @@
     flex-flow: row wrap;
 
     &.has-filters {
-      .heading {
+      .heading-container {
         flex: 1 1 100%;
       }
     }
@@ -167,12 +167,26 @@
       flex: 1 1 100%;
     }
 
-    .heading {
+    .heading-container {
       align-self: center;
+      margin-right: 10px;
+      margin-bottom: 10px;
       font-weight: 600;
       font-size: 18px;
       color: #212537;
-      margin-right: 10px;
+    }
+
+    .heading {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .subheading {
+      display: block;
+      font-size: 14px;
+      margin-top: -10px;
+      color: #929292;
+      font-weight: 400;
     }
 
     .fs-list-filter {

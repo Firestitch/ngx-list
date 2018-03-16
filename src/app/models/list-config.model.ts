@@ -17,6 +17,7 @@ import { RowAction } from './row-action.model';
 
 export class FsListModel extends Model {
   @Alias() public heading: string;
+  @Alias() public subheading: string;
   @Alias() public inlineFilters: any;
   @Alias('actions', Action) public actions: Action[];
   @Alias('rowActions', RowAction) public rowActions: RowAction[];

@@ -5,7 +5,10 @@
          'has-filters': listConfig.filterInput,
          'no-wrap': listConfig.reoderEnabled || !listConfig.filterService.fsConfig.items.length
        }">
-    <div class="heading">{{listConfig.heading}}</div>
+    <div class="heading-container">
+      <h2 class="heading">{{listConfig.heading}}</h2>
+      <span class="subheading" *ngIf="listConfig.subheading">{{listConfig.subheading}}</span>
+    </div>
     <!-- Filters/actions -->
     <div class="fs-list-toolbar">
       <fs-filter

@@ -25,8 +25,9 @@ export class KitchenSinkComponent implements OnInit {
 
     this.config = {
       heading: 'Events',
+      subheading: 'Subheading',
       status: true,
-      filterInput: true,
+      filterInput: false,
       paging: {
         limits: [5, 15, 50, 150, 250, 500, 1000]
       },
