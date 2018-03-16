@@ -20,6 +20,7 @@
   <span *ngFor="let action of inlineRowActions"
         class="row-inline-action row-inline-action-{{action.type}}"
         [ngSwitch]="action.type"
+        [ngClass]="{'mobile-hide': action.menu === undefined}"
   >
     <!-- Basic button -->
     <button *ngSwitchCase="'basic'"

@@ -39,9 +39,5 @@ export class RowAction extends Model {
         return acc;
       }, []);
     }
-
-    if (value.menu === void 0) {
-      this.classArray.push('mobile-hide');
-    }
   }
 }

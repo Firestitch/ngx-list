@@ -312,7 +312,7 @@
     }
 
     .row-inline-action {
-      button.mobile-hide {
+      &.mobile-hide {
         display: none;
       }
     }
