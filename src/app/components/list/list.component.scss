@@ -65,6 +65,12 @@
     }
   }
 
+  .fs-list-head, .fs-list-body {
+    &:last-child .fs-list-col {
+      border-bottom: 2px solid #ddd;
+    }
+  }
+
   .fs-list-head, .fs-list-body, .fs-list-footer {
     .fs-list-row {
       display: table-row;
@@ -81,9 +87,6 @@
 
       &:nth-child(1) .fs-list-col {
         border-top: 0;
-      }
-      &:last-child .fs-list-col {
-        border-bottom: 2px solid #ddd;
       }
 
       .fs-list-col {
@@ -102,7 +105,7 @@
         &.row-actions {
           width: 1%;
           white-space: nowrap;
-          padding-right: 0px;
+          padding-right: 0;
 
           .row-inline-action {
             margin-left: 10px;
@@ -214,7 +217,6 @@
     .fs-list-col {
       border-bottom: 2px solid #ddd;
       color: #999;
-      font-size: 14px;
       padding: 8px;
       font-weight: normal;
       font-size: 13px;
