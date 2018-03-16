@@ -24,7 +24,7 @@ export class KitchenSinkComponent implements OnInit {
   public ngOnInit() {
 
     this.config = {
-      title: 'Events',
+      heading: 'Events',
       status: true,
       filterInput: true,
       paging: {
@@ -92,7 +92,6 @@ export class KitchenSinkComponent implements OnInit {
           click: (row, event) => {
             console.log('Cancel', row, event);
           },
-          menu: false,
           icon: 'clear',
           label: 'Cancel',
           type: ActionType.raised,
@@ -101,7 +100,7 @@ export class KitchenSinkComponent implements OnInit {
           click: (row, event) => {
             console.log('edit', row, event);
           },
-          //menu: false,
+          menu: true,
           icon: 'edit',
           label: 'Edit',
           type: ActionType.basic
@@ -110,6 +109,7 @@ export class KitchenSinkComponent implements OnInit {
           click: (row, event) => {
             console.log('delete', row, event);
           },
+          menu: true,
           icon: 'delete',
           label: 'Remove'
         }

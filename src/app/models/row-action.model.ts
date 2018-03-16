@@ -28,10 +28,6 @@ export class RowAction extends Model {
   public _fromJSON(value: any) {
     super._fromJSON(value);
 
-    if (value.menu === undefined) {
-      this.menu = true;
-    }
-
     if (value.type === undefined) {
       this.type = ActionType.basic;
     }
@@ -41,7 +37,11 @@ export class RowAction extends Model {
         acc.push(elem);
 
         return acc;
-      }, [])
+      }, []);
+    }
+
+    if (value.menu === void 0) {
+      this.classArray.push('mobile-hide');
     }
   }
 }

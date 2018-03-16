@@ -42,10 +42,6 @@
 
     .fs-list-col {
       box-sizing: border-box;
-
-      &.sort-icon {
-        cursor: move;
-      }
     }
 
     .fs-list-row:hover .fs-list-col {
@@ -61,6 +57,10 @@
         .fs-list-col {
           background-color: #f6f6f6;
         }
+      }
+
+      &.drag-row {
+        cursor: move;
       }
     }
   }
@@ -121,7 +121,7 @@
               justify-content: center;
               align-items: center;
           }
-          
+
           .row-inline-action-raised,
           .row-inline-action-basic {
               margin: 0 12px;
@@ -152,7 +152,7 @@
     flex-flow: row wrap;
 
     &.has-filters {
-      .title {
+      .heading {
         flex: 1 1 100%;
       }
     }
@@ -167,7 +167,7 @@
       flex: 1 1 100%;
     }
 
-    .title {
+    .heading {
       align-self: center;
       font-weight: 600;
       font-size: 18px;
@@ -295,6 +295,11 @@
       }
     }
 
+    .row-inline-action {
+      button.mobile-hide {
+        display: none;
+      }
+    }
     .hidden-mobile-menu-action {
       display: block !important;
     }

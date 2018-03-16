@@ -40,12 +40,13 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   public menuRowActions: RowAction[];
   public inlineRowActions: RowAction[];
+  public inlineToMenuRowActions: RowAction[];
 
   private _rowDiffer: KeyValueDiffer<{}, {}>;
 
   private _eventListeners = [];
 
-  constructor(private _el: ElementRef,
+  constructor(public el: ElementRef,
               private _cdRef: ChangeDetectorRef,
               private _differs: KeyValueDiffers,
               private _renderer: Renderer2) {
@@ -73,7 +74,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   public mousedow(event) {
     if (this.reorder) {
-      this.startDragging.emit({event: event, target: this._el.nativeElement})
+      this.startDragging.emit({event: event, target: this.el.nativeElement})
     }
   }
 
@@ -83,7 +84,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   private initRowEvents() {
     for (const event in this.rowEvents) {
       if (this.rowEvents.hasOwnProperty(event)) {
-        const listener = this._renderer.listen(this._el.nativeElement, event, (evt) => {
+        const listener = this._renderer.listen(this.el.nativeElement, event, (evt) => {
           if (!this.reorder) {
             this.rowEvents[event]({
               event: evt,

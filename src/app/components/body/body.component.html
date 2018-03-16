@@ -5,6 +5,6 @@
     [rowActions]="rowActions"
     [rowEvents]="rowEvents"
     [reorder]="reorder"
-    (startDragging)="dragStart($event)"
-    (stopDragging)="dragEnd($event)">
+    [ngClass]="{'drag-row': reorder}"
+    (mousedown)="dragStart($event, activeRow)" #activeRow>
 </tr>

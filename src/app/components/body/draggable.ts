@@ -29,6 +29,7 @@ export class Draggable {
    * @param event
    */
   public dragStart(event) {
+    debugger;
     window.document.body.classList.add('reorder-in-progress');
 
     this.dragElement.targetEl = event.target;
