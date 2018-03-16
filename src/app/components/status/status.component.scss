@@ -1,11 +1,10 @@
 .infinite-records {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   color: #999;
   font-size: 13px;
-  margin-left: 4px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
 
   a {
    color: #546E7A;

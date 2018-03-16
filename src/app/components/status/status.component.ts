@@ -23,7 +23,7 @@ export class FsStatusComponent implements OnInit {
   public ngOnInit() {
     this.dataChangedRef.subscribe(() => {
       this.cdRef.markForCheck();
-    })
+    });
   }
 
   public setDirection(direction: SortingDirection) {
