@@ -54,8 +54,11 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   public ngOnInit() {
     this.initRowEvents();
-    this.menuRowActions = this.rowActions.filter((action) => action.menu);
-    this.inlineRowActions = this.rowActions.filter((action) => !action.menu);
+
+    if (this.rowActions) {
+      this.menuRowActions = this.rowActions.filter((action) => action.menu);
+      this.inlineRowActions = this.rowActions.filter((action) => !action.menu);
+    }
   }
 
   public ngDoCheck() {
