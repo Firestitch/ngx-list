@@ -1,0 +1,11 @@
+<fs-list [config]="config" #table>
+
+  <fs-list-column>
+    <ng-template fs-list-header>
+      №
+    </ng-template>
+    <ng-template fs-list-cell let-index="index">
+      {{index}}
+    </ng-template>
+  </fs-list-column>
+</fs-list>

@@ -28,14 +28,14 @@
     <ng-template fs-list-cell let-guid="value" let-row="row">
       {{ row.guid }}
     </ng-template>
+    <ng-template fs-list-footer colspan="2" align="right">
+      Footer with colspan 2 and right align
+    </ng-template>
   </fs-list-column>
 
   <fs-list-column title="Link">
     <ng-template fs-list-cell let-guid="value" [class]="['myTestClass', 'myTestClass2']">
       <a routerLink="/welcome">Simple Link</a>
-    </ng-template>
-    <ng-template fs-list-footer colspan="2" align="right">
-      Footer with colspan 2 and right align
     </ng-template>
   </fs-list-column>
 </fs-list>

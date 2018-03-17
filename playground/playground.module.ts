@@ -9,6 +9,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { AppMaterialModule } from './app/material.module';
 import { KitchenSinkComponent } from './app/components/kitchensink/kitchensink.component';
+import { ActionsComponent } from './app/components/actions/actions.component';
+import { RowActionsComponent } from './app/components/row-actions/row-actions.component';
+import { FiltersComponent } from './app/components/filters/filters.component';
 import { FsExamplesComponent } from '../tools/components/examples/examples.component';
 import { FsExampleModule } from '@firestitch/example';
 import { FsApiModule } from '@firestitch/api';
@@ -34,7 +37,10 @@ import { RouterModule } from '@angular/router';
   declarations: [
     AppComponent,
     KitchenSinkComponent,
-    FsExamplesComponent
+    ActionsComponent,
+    RowActionsComponent,
+    FsExamplesComponent,
+    FiltersComponent
   ],
   providers: [
   ],
