@@ -30,6 +30,10 @@
     }
   }
 
+  .hidden {
+    display: none;
+  }
+
   .fs-list-body {
     display: table-row-group;
     position: relative;
@@ -315,6 +319,10 @@
   }
 
   @include apply-to(less-than, tablet) {
+
+    .show-mobile {
+      display: inline-block !important;
+    }
 
     .fs-list-actions {
       .action-button {

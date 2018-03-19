@@ -34,7 +34,10 @@
           <button mat-icon-button
                   *ngIf="!listConfig.reoderEnabled"
                   [matMenuTriggerFor]="rowActionsRef"
-                  [ngClass]="{'hidden-mobile-menu-actions': !listConfig.kebabActions.length}">
+                  [ngClass]="{
+                    'hidden': !listConfig.kebabActions.length,
+                    'show-mobile': !listConfig.kebabActions.length && listConfig.menuActions.length
+                  }">
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #rowActionsRef>
