@@ -1,5 +1,6 @@
 import { OnInit, DoCheck, ChangeDetectorRef, IterableDiffers, ElementRef, NgZone, TemplateRef } from '@angular/core';
 import { Column } from '../../models';
+import { FsRowComponent } from './row';
 export declare class FsBodyComponent implements OnInit, DoCheck {
     private el;
     private cdRef;
@@ -18,6 +19,5 @@ export declare class FsBodyComponent implements OnInit, DoCheck {
     constructor(el: ElementRef, cdRef: ChangeDetectorRef, differs: IterableDiffers, zone: NgZone);
     ngOnInit(): void;
     ngDoCheck(): void;
-    dragStart(event: any): void;
-    dragEnd(event: any): void;
+    dragStart(event: any, elemRef: FsRowComponent): void;
 }

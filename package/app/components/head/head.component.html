@@ -1,5 +1,4 @@
 <tr class="fs-list-row">
-  <th *ngIf="reorder" class="fs-list-col drag-col"></th>
   <th fs-head-cell *ngFor="let column of columns"
       (click)="sorting.sortBy(column)"
       [column]="column"
@@ -8,5 +7,9 @@
       [attr.colspan]="column.headerConfigs.colspan"
       [attr.width]="column.width"></th>
 
-  <th *ngIf="hasRowActions" class="fs-list-col row-actions"></th>
+  <!-- Drag -->
+  <th *ngIf="reorder" class="fs-list-col drag-col"></th>
+
+  <!-- Row Actions -->
+  <th *ngIf="hasRowActions && !reorder" class="fs-list-col row-actions"></th>
 </tr>

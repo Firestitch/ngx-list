@@ -235,7 +235,11 @@ var FsListModel = (function (_super) {
     __decorate([
         tsmodels_1.Alias(),
         __metadata("design:type", String)
-    ], FsListModel.prototype, "title", void 0);
+    ], FsListModel.prototype, "heading", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", String)
+    ], FsListModel.prototype, "subheading", void 0);
     __decorate([
         tsmodels_1.Alias(),
         __metadata("design:type", Object)

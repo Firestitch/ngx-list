@@ -1,4 +1,3 @@
-<td *ngIf="reorder" class="fs-list-col drag-col"></td>
 <ng-container *ngFor="let column of columns">
   <td fs-list-footer-cell
       *ngIf="!column.footerColspanned"
@@ -10,4 +9,9 @@
       [attr.width]="column.width">
   </td>
 </ng-container>
-<td *ngIf="hasRowActions" class="fs-list-col row-actions"></td>
+
+<!-- Drag -->
+<td *ngIf="hasRowActions && !reorder" class="fs-list-col row-actions"></td>
+
+<!-- Row Actions -->
+<td *ngIf="reorder" class="fs-list-col drag-col"></td>

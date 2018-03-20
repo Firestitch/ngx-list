@@ -34,11 +34,10 @@ var FsBodyComponent = (function () {
             this.cdRef.markForCheck();
         }
     };
-    FsBodyComponent.prototype.dragStart = function (event) {
-        this.draggable.dragStart(event);
-    };
-    FsBodyComponent.prototype.dragEnd = function (event) {
-        this.draggable.dragEnd(event);
+    FsBodyComponent.prototype.dragStart = function (event, elemRef) {
+        if (this.reorder) {
+            this.draggable.dragStart({ event: event, target: elemRef.el && elemRef.el.nativeElement });
+        }
     };
     __decorate([
         core_1.Input(),

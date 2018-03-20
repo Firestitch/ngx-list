@@ -39,9 +39,6 @@ var RowAction = (function (_super) {
     }
     RowAction.prototype._fromJSON = function (value) {
         _super.prototype._fromJSON.call(this, value);
-        if (value.menu === undefined) {
-            this.menu = true;
-        }
         if (value.type === undefined) {
             this.type = ActionType.basic;
         }

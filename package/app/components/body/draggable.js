@@ -28,6 +28,7 @@ var Draggable = (function () {
      */
     Draggable.prototype.dragStart = function (event) {
         var _this = this;
+        debugger;
         window.document.body.classList.add('reorder-in-progress');
         this.dragElement.targetEl = event.target;
         this.prepareElements();

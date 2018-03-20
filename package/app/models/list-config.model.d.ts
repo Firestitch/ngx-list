@@ -8,7 +8,8 @@ import { FsListConfig } from '../interfaces';
 import { Action } from './action.model';
 import { RowAction } from './row-action.model';
 export declare class FsListModel extends Model {
-    title: string;
+    heading: string;
+    subheading: string;
     inlineFilters: any;
     actions: Action[];
     rowActions: RowAction[];

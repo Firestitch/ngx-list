@@ -1,6 +1,3 @@
-<td class="fs-list-col drag-col sort-icon" *ngIf="reorder" (mousedown)="mousedow($event)" (touchstart)="mousedow($event)">
-  <mat-icon (dragstart)="dragTo($event)">drag_handle</mat-icon>
-</td>
 <ng-container *ngFor="let column of columns">
   <td fs-cell
       *ngIf="!column.cellColspanned"
@@ -12,8 +9,19 @@
       [attr.width]="column.width">
   </td>
 </ng-container>
-<td *ngIf="rowActions?.length > 0" class="fs-list-col row-actions">
-  <span *ngFor="let action of inlineRowActions" [ngSwitch]="action.type" class="row-inline-action row-inline-action-{{action.type}}">
+
+<!-- Drag -->
+<td class="fs-list-col drag-col" *ngIf="reorder">
+  <mat-icon>drag_handle</mat-icon>
+</td>
+
+<!-- Row Actions -->
+<td *ngIf="rowActions?.length > 0 && !reorder" class="fs-list-col row-actions">
+  <span *ngFor="let action of inlineRowActions"
+        class="row-inline-action row-inline-action-{{action.type}}"
+        [ngSwitch]="action.type"
+        [ngClass]="{'mobile-hide': action.menu === undefined}"
+  >
     <!-- Basic button -->
     <button *ngSwitchCase="'basic'"
             mat-button
@@ -63,12 +71,23 @@
       <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
     </ng-template>
   </span>
+
+  <!-- Menu -->
   <span class="row-menu-action" *ngIf="menuRowActions.length">
     <button mat-icon-button [matMenuTriggerFor]="rowActionsRef">
       <mat-icon>more_vert</mat-icon>
     </button>
   </span>
   <mat-menu #rowActionsRef>
+    <ng-container *ngFor="let action of inlineRowActions">
+      <button class="hidden-mobile-menu-action"
+              mat-menu-item
+              *ngIf="action.menu === undefined"
+              (click)="action.click(row, $event)"
+      >
+        <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
+      </button>
+    </ng-container>
     <button mat-menu-item *ngFor="let action of menuRowActions" (click)="action.click(row, $event)">
       <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
     </button>

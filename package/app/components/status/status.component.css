@@ -1,11 +1,10 @@
 .infinite-records {
-  color: #999;
-  font-size: 13px;
-  margin-left: 4px;
-  white-space: nowrap;
+  display: block;
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
-  display: block; }
+  color: #999;
+  font-size: 13px; }
   .infinite-records a {
     color: #546E7A; }
   .infinite-records .order-toggle {

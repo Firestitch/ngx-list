@@ -1,66 +1,76 @@
-<div class="fs-list-container">
+<div class="fs-list-container" [ngClass]="{ 'has-filter-input': listConfig.filterInput,
+                                            'has-filters': listConfig.filterService.fsConfig.items.length,
+                                            'has-heading': listConfig.heading,
+                                            'has-status': listConfig.status,
+                                            'has-actions': listConfig.actions.length }">
   <!-- Header -->
-  <div class="fs-list-header"
-       [ngClass]="{
-         'has-filters': listConfig.filterInput,
-         'no-wrap': listConfig.reoderEnabled || !listConfig.filterService.fsConfig.items.length
-       }">
-    <div class="title">{{listConfig.title}}</div>
-    <!-- Filters/actions -->
-    <div class="fs-list-toolbar">
-      <fs-filter
-        class="fs-list-filter"
-        *ngIf="listConfig.filterService.fsConfig.items.length && !listConfig.reoderEnabled"
-        [(filter)]="listConfig.filterService"
-      >
-      </fs-filter>
-
-      <!-- Actions -->
-      <div class="fs-list-actions" *ngIf="listConfig.actions?.length">
-        <ng-container *ngIf="!listConfig.reoderEnabled">
-          <span *ngFor="let action of listConfig.menuActions" class="action-button">
-            <button mat-raised-button
-                    (click)="action.click(action, $event)"
-                    [ngClass]="{ 'mat-primary': action.primary }">
-              <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{ action.label }}
-            </button>
-        </span>
-        </ng-container>
-        <button mat-icon-button
-                *ngIf="!listConfig.reoderEnabled"
-                [matMenuTriggerFor]="rowActionsRef"
-                [ngClass]="{'hidden-mobile-menu-actions': !listConfig.kebabActions.length}">
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #rowActionsRef>
-          <button class="hidden-mobile-menu-action"
-                  mat-menu-item
-                  *ngFor="let action of listConfig.menuActions"
-                  (click)="action.click(row, $event)"
-          >
-            <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
-          </button>
-          <button mat-menu-item *ngFor="let action of listConfig.kebabActions" (click)="action.click(row, $event)">
-            <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
-          </button>
-        </mat-menu>
-
-        <button mat-button color="primary" *ngIf="listConfig.reoderEnabled" (click)="finishReorder()">
-          DONE
-        </button>
+  <div class="fs-list-header-container">
+    <div class="fs-list-header"
+        [ngClass]="{ 'no-wrap': listConfig.reoderEnabled || !listConfig.filterService.fsConfig.items.length }">
+      <div class="heading-container">
+        <h2 class="heading">{{listConfig.heading}}</h2>
+        <span class="subheading" *ngIf="listConfig.subheading">{{listConfig.subheading}}</span>
       </div>
-      <!-- /Actions -->
+      <!-- Filters/actions -->
+      <div class="fs-list-toolbar">
+        <fs-filter
+          class="fs-list-filter"
+          *ngIf="listConfig.filterService.fsConfig.items.length && !listConfig.reoderEnabled"
+          [(filter)]="listConfig.filterService"
+        >
+        </fs-filter>
+
+        <!-- Actions -->
+        <div class="fs-list-actions" *ngIf="listConfig.actions?.length">
+          <ng-container *ngIf="!listConfig.reoderEnabled">
+            <span *ngFor="let action of listConfig.menuActions" class="action-button">
+              <button mat-raised-button
+                      (click)="action.click(action, $event)"
+                      [ngClass]="{ 'mat-primary': action.primary }">
+                <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{ action.label }}
+              </button>
+          </span>
+          </ng-container>
+          <button mat-icon-button
+                  *ngIf="!listConfig.reoderEnabled"
+                  [matMenuTriggerFor]="rowActionsRef"
+                  [ngClass]="{
+                    'hidden': !listConfig.kebabActions.length,
+                    'show-mobile': !listConfig.kebabActions.length && listConfig.menuActions.length
+                  }">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #rowActionsRef>
+            <button class="hidden-mobile-menu-action"
+                    mat-menu-item
+                    *ngFor="let action of listConfig.menuActions"
+                    (click)="action.click(row, $event)"
+            >
+              <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
+            </button>
+            <button mat-menu-item *ngFor="let action of listConfig.kebabActions" (click)="action.click(row, $event)">
+              <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
+            </button>
+          </mat-menu>
+
+          <button mat-button color="primary" *ngIf="listConfig.reoderEnabled" (click)="finishReorder()">
+            DONE
+          </button>
+        </div>
+        <!-- /Actions -->
+      </div>
     </div>
+
+    <!-- Status -->
+    <fs-list-status
+      [ngClass]="{'hidden-mobile': !listConfig.status}"
+      [dataChangedRef]="listConfig.data$"
+      [sorting]="listConfig.sorting"
+      [paging]="listConfig.paging"
+      *ngIf="listConfig.paging && !listConfig.reoderEnabled">
+    </fs-list-status>
   </div>
 
-  <!-- Status -->
-  <fs-list-status
-    [ngClass]="{'hidden-mobile': !listConfig.status}"
-    [dataChangedRef]="listConfig.data$"
-    [sorting]="listConfig.sorting"
-    [paging]="listConfig.paging"
-    *ngIf="listConfig.paging && !listConfig.reoderEnabled">
-  </fs-list-status>
 
   <!-- Table implementation -->
   <div class="fs-list-table-container">

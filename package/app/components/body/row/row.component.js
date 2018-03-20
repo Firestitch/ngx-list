@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var FsRowComponent = (function () {
-    function FsRowComponent(_el, _cdRef, _differs, _renderer) {
-        this._el = _el;
+    function FsRowComponent(el, _cdRef, _differs, _renderer) {
+        this.el = el;
         this._cdRef = _cdRef;
         this._differs = _differs;
         this._renderer = _renderer;
@@ -43,7 +43,7 @@ var FsRowComponent = (function () {
     };
     FsRowComponent.prototype.mousedow = function (event) {
         if (this.reorder) {
-            this.startDragging.emit({ event: event, target: this._el.nativeElement });
+            this.startDragging.emit({ event: event, target: this.el.nativeElement });
         }
     };
     /**
@@ -53,7 +53,7 @@ var FsRowComponent = (function () {
         var _this = this;
         var _loop_1 = function (event_1) {
             if (this_1.rowEvents.hasOwnProperty(event_1)) {
-                var listener = this_1._renderer.listen(this_1._el.nativeElement, event_1, function (evt) {
+                var listener = this_1._renderer.listen(this_1.el.nativeElement, event_1, function (evt) {
                     if (!_this.reorder) {
                         _this.rowEvents[event_1]({
                             event: evt,

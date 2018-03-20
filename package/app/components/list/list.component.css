@@ -12,13 +12,15 @@
 .fs-list-table {
   display: table;
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 15px; }
+  border-collapse: collapse; }
 
 :host ::ng-deep .fs-filter {
   margin-bottom: 0; }
   :host ::ng-deep .fs-filter .main-filter-bar {
     overflow: hidden; }
+
+:host ::ng-deep .hidden {
+  display: none; }
 
 :host ::ng-deep .fs-list-body {
   display: table-row-group;
@@ -28,12 +30,16 @@
     opacity: 0.4; }
   :host ::ng-deep .fs-list-body .fs-list-col {
     box-sizing: border-box; }
-    :host ::ng-deep .fs-list-body .fs-list-col.sort-icon {
-      cursor: move; }
   :host ::ng-deep .fs-list-body .fs-list-row:hover .fs-list-col {
     background-color: #f6f6f6; }
   :host ::ng-deep .fs-list-body .fs-list-row:hover .fs-list-col {
     background-color: #f6f6f6; }
+  :host ::ng-deep .fs-list-body .fs-list-row.drag-row {
+    cursor: move; }
+
+:host ::ng-deep .fs-list-head tr:last-child .fs-list-col,
+:host ::ng-deep .fs-list-body tr:last-child .fs-list-col {
+  border-bottom: 2px solid #ddd; }
 
 :host ::ng-deep .fs-list-head .fs-list-row, :host ::ng-deep .fs-list-body .fs-list-row, :host ::ng-deep .fs-list-footer .fs-list-row {
   display: table-row; }
@@ -44,8 +50,6 @@
       background-color: #f6f6f6; }
   :host ::ng-deep .fs-list-head .fs-list-row:nth-child(1) .fs-list-col, :host ::ng-deep .fs-list-body .fs-list-row:nth-child(1) .fs-list-col, :host ::ng-deep .fs-list-footer .fs-list-row:nth-child(1) .fs-list-col {
     border-top: 0; }
-  :host ::ng-deep .fs-list-head .fs-list-row:last-child .fs-list-col, :host ::ng-deep .fs-list-body .fs-list-row:last-child .fs-list-col, :host ::ng-deep .fs-list-footer .fs-list-row:last-child .fs-list-col {
-    border-bottom: 2px solid #ddd; }
   :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col, :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col {
     display: table-cell;
     border-top: 1px solid #ddd;
@@ -54,12 +58,15 @@
     outline: none; }
     :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.drag-col, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.drag-col, :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col.drag-col {
       width: 1%; }
+    :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col:first-child, :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col:last-child, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col:first-child, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col:last-child, :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col:first-child, :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col:last-child {
+      padding-left: 20px; }
     :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.row-actions, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.row-actions, :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col.row-actions {
       width: 1%;
       white-space: nowrap;
-      padding-right: 0px; }
+      padding-right: 10px;
+      overflow: hidden; }
       :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.row-actions .row-inline-action, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.row-actions .row-inline-action, :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col.row-actions .row-inline-action {
-        margin-left: 10px; }
+        margin-left: 12px; }
         :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.row-actions .row-inline-action:first-child, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.row-actions .row-inline-action:first-child, :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col.row-actions .row-inline-action:first-child {
           margin-left: 0; }
       :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.row-actions .row-inline-action-icon,
@@ -77,22 +84,6 @@
         display: inline-flex;
         justify-content: center;
         align-items: center; }
-      :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.row-actions .row-inline-action-raised,
-      :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.row-actions .row-inline-action-basic, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.row-actions .row-inline-action-raised,
-      :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.row-actions .row-inline-action-basic, :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col.row-actions .row-inline-action-raised,
-      :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col.row-actions .row-inline-action-basic {
-        margin: 0 12px; }
-        :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.row-actions .row-inline-action-raised + .row-inline-action-raised,
-        :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.row-actions .row-inline-action-raised + .row-inline-action-basic,
-        :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.row-actions .row-inline-action-basic + .row-inline-action-raised,
-        :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.row-actions .row-inline-action-basic + .row-inline-action-basic, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.row-actions .row-inline-action-raised + .row-inline-action-raised,
-        :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.row-actions .row-inline-action-raised + .row-inline-action-basic,
-        :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.row-actions .row-inline-action-basic + .row-inline-action-raised,
-        :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.row-actions .row-inline-action-basic + .row-inline-action-basic, :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col.row-actions .row-inline-action-raised + .row-inline-action-raised,
-        :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col.row-actions .row-inline-action-raised + .row-inline-action-basic,
-        :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col.row-actions .row-inline-action-basic + .row-inline-action-raised,
-        :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col.row-actions .row-inline-action-basic + .row-inline-action-basic {
-          margin-left: 0; }
     :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.left, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.left, :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col.left {
       text-align: left; }
     :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.center, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.center, :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col.center {
@@ -100,41 +91,60 @@
     :host ::ng-deep .fs-list-head .fs-list-row .fs-list-col.right, :host ::ng-deep .fs-list-body .fs-list-row .fs-list-col.right, :host ::ng-deep .fs-list-footer .fs-list-row .fs-list-col.right {
       text-align: right; }
 
+:host ::ng-deep .fs-list-header-container {
+  margin-bottom: 10px; }
+
 :host ::ng-deep .fs-list-header {
   display: flex;
   flex-flow: row wrap; }
-  :host ::ng-deep .fs-list-header.has-filters .title {
-    flex: 1 1 100%; }
   :host ::ng-deep .fs-list-header.no-wrap {
     flex-flow: row nowrap !important; }
   :host ::ng-deep .fs-list-header .fs-list-toolbar {
     display: flex;
     flex-flow: row nowrap;
     flex: 1 1 100%; }
-  :host ::ng-deep .fs-list-header .title {
+  :host ::ng-deep .fs-list-header .heading-container {
     align-self: center;
+    margin-right: 10px;
+    margin-bottom: 10px;
     font-weight: 600;
     font-size: 18px;
-    color: #212537;
-    margin-right: 10px; }
+    color: #212537; }
+  :host ::ng-deep .fs-list-header .heading {
+    margin-top: 0;
+    margin-bottom: 10px; }
+  :host ::ng-deep .fs-list-header .subheading {
+    display: block;
+    font-size: 14px;
+    margin-top: -10px;
+    color: #929292;
+    font-weight: 400; }
   :host ::ng-deep .fs-list-header .fs-list-filter {
     flex: 100;
     margin-right: 10px; }
   :host ::ng-deep .fs-list-header .fs-list-actions {
-    margin-left: auto; }
-  :host ::ng-deep .fs-list-header .action-button mat-icon {
-    margin-right: 5px; }
+    margin-left: auto;
+    white-space: nowrap; }
+  :host ::ng-deep .fs-list-header .action-button {
+    margin-left: 5px; }
+    :host ::ng-deep .fs-list-header .action-button:first-child {
+      margin-left: 0; }
   :host ::ng-deep .fs-list-header .mat-button {
     margin-top: 0;
     margin-bottom: 0;
     margin-right: 0; }
+
+:host ::ng-deep .fs-list-container.has-filter-input .heading-container {
+  flex: 1 1 100%; }
+
+:host ::ng-deep .fs-list-container:not(.has-filters):not(.has-actions):not(.has-heading) .fs-list-header-container {
+  display: none; }
 
 :host ::ng-deep .fs-list-head {
   display: table-header-group; }
   :host ::ng-deep .fs-list-head .fs-list-col {
     border-bottom: 2px solid #ddd;
     color: #999;
-    font-size: 14px;
     padding: 8px;
     font-weight: normal;
     font-size: 13px;
@@ -158,7 +168,6 @@
 :host ::ng-deep fs-list-status {
   font-size: 13px;
   color: #3a3a3a;
-  padding-bottom: 10px;
   display: block; }
 
 :host ::ng-deep tfoot td {
@@ -188,7 +197,11 @@
     flex-flow: row wrap; } }
 
 @media only screen and (max-width: 768px) {
+  ::ng-deep .show-mobile {
+    display: inline-block !important; }
   ::ng-deep .fs-list-actions .action-button {
+    display: none; }
+  ::ng-deep .row-inline-action.mobile-hide {
     display: none; }
   ::ng-deep .hidden-mobile-menu-action {
     display: block !important; } }

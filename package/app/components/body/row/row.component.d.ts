@@ -2,7 +2,7 @@ import { ChangeDetectorRef, ElementRef, EventEmitter, KeyValueDiffers, Renderer2
 import { Column } from '../../../models';
 import { RowAction } from '../../../models/row-action.model';
 export declare class FsRowComponent implements OnInit, DoCheck, OnDestroy {
-    private _el;
+    el: ElementRef;
     private _cdRef;
     private _differs;
     private _renderer;
@@ -18,9 +18,10 @@ export declare class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     stopDragging: EventEmitter<{}>;
     menuRowActions: RowAction[];
     inlineRowActions: RowAction[];
+    inlineToMenuRowActions: RowAction[];
     private _rowDiffer;
     private _eventListeners;
-    constructor(_el: ElementRef, _cdRef: ChangeDetectorRef, _differs: KeyValueDiffers, _renderer: Renderer2);
+    constructor(el: ElementRef, _cdRef: ChangeDetectorRef, _differs: KeyValueDiffers, _renderer: Renderer2);
     ngOnInit(): void;
     ngDoCheck(): void;
     ngOnDestroy(): void;
