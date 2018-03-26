@@ -23,7 +23,7 @@ export class ActionsComponent implements OnInit {
       actions: [
         {
           click: (event) => {
-            this.table.enableOrder();
+            // this.table.enableOrder();
           },
           label: 'Kebab only button',
           menu: true

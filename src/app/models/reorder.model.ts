@@ -1,6 +1,7 @@
 import { Alias, Model } from 'tsmodels';
 
 export class ReorderModel extends Model {
+  @Alias() start: Function;
   @Alias() done: Function;
   @Alias() label: string;
   @Alias() menu: boolean;

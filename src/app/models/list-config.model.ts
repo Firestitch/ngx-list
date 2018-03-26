@@ -79,7 +79,9 @@ export class FsListModel extends Model {
         label: this.reoder.label || 'Reorder',
         menu: this.reoder.menu,
         click: () => {
-          this.reoderEnabled = true
+          this.reoderEnabled = true;
+          // Fire callback that reorder was started
+          if (this.reoder.start) { this.reoder.start(); }
         }
       });
 

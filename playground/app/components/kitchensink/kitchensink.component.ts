@@ -52,6 +52,9 @@ export class KitchenSinkComponent implements OnInit {
         }
       ],
       reorder: {
+        start: () => {
+          console.log('reorder started');
+        },
         done: function (data) {
           console.log(data);
         }
@@ -59,7 +62,7 @@ export class KitchenSinkComponent implements OnInit {
       actions: [
         {
           click: (event) => {
-            this.table.enableOrder();
+            // this.table.enableOrder();
           },
           label: 'Kebab only button',
           menu: true

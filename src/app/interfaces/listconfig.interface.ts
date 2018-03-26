@@ -9,7 +9,8 @@ export interface FsPaging {
 }
 
 export interface FsListConfig {
-  title?: string;
+  heading?: string;
+  subheading?: string;
   status?: boolean;
   filterInput?: boolean;
   paging?: FsPaging | false;
@@ -23,10 +24,11 @@ export interface FsListConfig {
   header?: FsListHeaderConfig;
   cell?: FsListCellConfig;
   footer?: FsListFooterConfig;
-  reoder?: FsListReorderConfig;
+  reorder?: FsListReorderConfig;
 }
 
 export interface FsListReorderConfig {
+  start?: Function;
   done?: Function;
   label?: string;
   menu?: boolean;

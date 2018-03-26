@@ -99,12 +99,10 @@ export class FsListComponent implements OnInit, OnDestroy {
     this.listConfig.load();
   }
 
-  public enableOrder() {
-    this.listConfig.reoderEnabled = true;
-  }
-
   public finishReorder() {
     this.listConfig.reoderEnabled = false;
-    this.listConfig.reoder.done(this.displayRows);
+    if (this.listConfig.reoder.done) {
+      this.listConfig.reoder.done(this.displayRows);
+    }
   }
 }
