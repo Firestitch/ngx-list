@@ -37,6 +37,10 @@ var ReorderModel = (function (_super) {
     __decorate([
         tsmodels_1.Alias(),
         __metadata("design:type", Function)
+    ], ReorderModel.prototype, "start", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", Function)
     ], ReorderModel.prototype, "done", void 0);
     __decorate([
         tsmodels_1.Alias(),

@@ -74,12 +74,11 @@ var FsListComponent = (function () {
     FsListComponent.prototype.load = function () {
         this.listConfig.load();
     };
-    FsListComponent.prototype.enableOrder = function () {
-        this.listConfig.reoderEnabled = true;
-    };
     FsListComponent.prototype.finishReorder = function () {
         this.listConfig.reoderEnabled = false;
-        this.listConfig.reoder.done(this.displayRows);
+        if (this.listConfig.reoder.done) {
+            this.listConfig.reoder.done(this.displayRows);
+        }
     };
     __decorate([
         core_1.Input(),

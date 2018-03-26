@@ -72,6 +72,10 @@ var FsListModel = (function (_super) {
                 menu: _this.reoder.menu,
                 click: function () {
                     _this.reoderEnabled = true;
+                    // Fire callback that reorder was started
+                    if (_this.reoder.start) {
+                        _this.reoder.start();
+                    }
                 }
             });
             _this.actions.push(action);

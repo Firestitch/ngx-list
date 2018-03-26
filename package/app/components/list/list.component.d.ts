@@ -19,6 +19,5 @@ export declare class FsListComponent implements OnInit, OnDestroy {
     firstPage(): void;
     lastPage(): void;
     load(): void;
-    enableOrder(): void;
     finishReorder(): void;
 }
