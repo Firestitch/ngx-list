@@ -154,6 +154,7 @@
   .fs-list-header {
     display: flex;
     flex-flow: row wrap;
+    justify-content: space-between;
 
     &.no-wrap {
       flex-flow: row nowrap !important;
@@ -162,10 +163,10 @@
     .fs-list-toolbar {
       display: flex;
       flex-flow: row nowrap;
-      flex: 1 1 100%;
     }
 
     .heading-container {
+      width: 100%;
       align-self: center;
       margin-right: 10px;
       margin-bottom: 10px;
@@ -295,6 +296,18 @@
   }
 
   @include phone {
+
+    .fs-list-filter {
+      .inline-actions {
+        top: initial !important; // Cratch, but we need to change layout in fs-filter.
+        position: initial !important; // Cratch, but we need to change layout in fs-filter.
+
+        .action-filter {
+          margin-bottom: 0 !important;
+        }
+      }
+    }
+
     .fs-list-header {
 
       &:not(.has-filters) {
