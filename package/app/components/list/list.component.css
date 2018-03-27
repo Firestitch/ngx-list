@@ -96,14 +96,15 @@
 
 :host ::ng-deep .fs-list-header {
   display: flex;
-  flex-flow: row wrap; }
+  flex-flow: row wrap;
+  justify-content: space-between; }
   :host ::ng-deep .fs-list-header.no-wrap {
     flex-flow: row nowrap !important; }
   :host ::ng-deep .fs-list-header .fs-list-toolbar {
     display: flex;
-    flex-flow: row nowrap;
-    flex: 1 1 100%; }
+    flex-flow: row nowrap; }
   :host ::ng-deep .fs-list-header .heading-container {
+    width: 100%;
     align-self: center;
     margin-right: 10px;
     margin-bottom: 10px;
@@ -186,6 +187,11 @@
   display: none !important; }
 
 @media only screen and (max-width: 600px) {
+  ::ng-deep .fs-list-filter .inline-actions {
+    top: initial !important;
+    position: initial !important; }
+    ::ng-deep .fs-list-filter .inline-actions .action-filter {
+      margin-bottom: 0 !important; }
   ::ng-deep .fs-list-header:not(.has-filters) {
     flex-flow: row nowrap !important; }
     ::ng-deep .fs-list-header:not(.has-filters) .filter-input {
