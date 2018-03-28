@@ -24,14 +24,16 @@
         <div class="fs-list-actions" *ngIf="listConfig.actions?.length">
           <ng-container *ngIf="!listConfig.reoderEnabled">
             <span *ngFor="let action of listConfig.menuActions" class="action-button">
-              <button mat-raised-button
+              <button type="button"
+                      mat-raised-button
                       (click)="action.click(action, $event)"
                       [ngClass]="{ 'mat-primary': action.primary }">
                 <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{ action.label }}
               </button>
           </span>
           </ng-container>
-          <button mat-icon-button
+          <button type="button"
+                  mat-icon-button
                   *ngIf="!listConfig.reoderEnabled"
                   [matMenuTriggerFor]="rowActionsRef"
                   [ngClass]="{
@@ -41,19 +43,27 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #rowActionsRef>
-            <button class="hidden-mobile-menu-action"
+            <button type="button"
+                    class="hidden-mobile-menu-action"
                     mat-menu-item
                     *ngFor="let action of listConfig.menuActions"
                     (click)="action.click(row, $event)"
             >
               <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
             </button>
-            <button mat-menu-item *ngFor="let action of listConfig.kebabActions" (click)="action.click(row, $event)">
+            <button type="button"
+                    mat-menu-item
+                    *ngFor="let action of listConfig.kebabActions"
+                    (click)="action.click(row, $event)">
               <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
             </button>
           </mat-menu>
 
-          <button mat-button color="primary" *ngIf="listConfig.reoderEnabled" (click)="finishReorder()">
+          <button type="button"
+                  mat-button
+                  color="primary"
+                  *ngIf="listConfig.reoderEnabled"
+                  (click)="finishReorder()">
             DONE
           </button>
         </div>
