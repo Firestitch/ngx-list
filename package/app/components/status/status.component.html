@@ -12,14 +12,14 @@
 </div>
 
 <mat-menu #limitsMenu>
-  <button mat-menu-item *ngFor="let lim of paging.limits" (click)="setLimit(lim)"> {{lim}} </button>
+  <button type="button" mat-menu-item *ngFor="let lim of paging.limits" (click)="setLimit(lim)"> {{lim}} </button>
 </mat-menu>
 
 <mat-menu #orderColumnsMenu>
-  <button mat-menu-item *ngFor="let column of sorting.sortingColumns" (click)="setSortableColumn(column)">{{column.title}}</button>
+  <button type="button" mat-menu-item *ngFor="let column of sorting.sortingColumns" (click)="setSortableColumn(column)">{{column.title}}</button>
 </mat-menu>
 
 <mat-menu #orderDirectionMenu>
-  <button mat-menu-item (click)="setDirection(OrderDirection.asc)"> ascending </button>
-  <button mat-menu-item (click)="setDirection(OrderDirection.desc)"> descending </button>
+  <button type="button" mat-menu-item (click)="setDirection(OrderDirection.asc)"> ascending </button>
+  <button type="button" mat-menu-item (click)="setDirection(OrderDirection.desc)"> descending </button>
 </mat-menu>

@@ -23,7 +23,8 @@
         [ngClass]="{'mobile-hide': action.menu === undefined}"
   >
     <!-- Basic button -->
-    <button *ngSwitchCase="'basic'"
+    <button type="button"
+            *ngSwitchCase="'basic'"
             mat-button
             (click)="action.click(row, $event)"
             [ngClass]="action.classArray"
@@ -32,7 +33,8 @@
     </button>
 
     <!-- Raised button -->
-    <button *ngSwitchCase="'raised'"
+    <button type="button"
+            *ngSwitchCase="'raised'"
             mat-raised-button
             (click)="action.click(row, $event)"
             [ngClass]="action.classArray"
@@ -41,7 +43,8 @@
     </button>
 
     <!-- Icon button -->
-    <button *ngSwitchCase="'icon'"
+    <button type="button"
+            *ngSwitchCase="'icon'"
             mat-icon-button
             (click)="action.click(row, $event)"
             [ngClass]="action.classArray"
@@ -50,7 +53,8 @@
     </button>
 
     <!-- Fab button -->
-    <button *ngSwitchCase="'fab'"
+    <button type="button"
+            *ngSwitchCase="'fab'"
             mat-fab
             (click)="action.click(row, $event)"
             [ngClass]="action.classArray"
@@ -59,7 +63,8 @@
     </button>
 
     <!-- Mini Fab button -->
-    <button *ngSwitchCase="'mini-fab'"
+    <button type="button"
+            *ngSwitchCase="'mini-fab'"
             mat-mini-fab
             (click)="action.click(row, $event)"
             [ngClass]="action.classArray"
@@ -74,13 +79,13 @@
 
   <!-- Menu -->
   <span class="row-menu-action" *ngIf="menuRowActions.length">
-    <button mat-icon-button [matMenuTriggerFor]="rowActionsRef">
+    <button type="button" mat-icon-button [matMenuTriggerFor]="rowActionsRef">
       <mat-icon>more_vert</mat-icon>
     </button>
   </span>
   <mat-menu #rowActionsRef>
     <ng-container *ngFor="let action of inlineRowActions">
-      <button class="hidden-mobile-menu-action"
+      <button type="button" class="hidden-mobile-menu-action"
               mat-menu-item
               *ngIf="action.menu === undefined"
               (click)="action.click(row, $event)"
@@ -88,7 +93,7 @@
         <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
       </button>
     </ng-container>
-    <button mat-menu-item *ngFor="let action of menuRowActions" (click)="action.click(row, $event)">
+    <button type="button" mat-menu-item *ngFor="let action of menuRowActions" (click)="action.click(row, $event)">
       <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
     </button>
   </mat-menu>
