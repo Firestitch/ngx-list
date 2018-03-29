@@ -153,7 +153,7 @@
 
   .fs-list-header {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column wrap;
     justify-content: space-between;
 
     &.no-wrap {
@@ -166,8 +166,7 @@
     }
 
     .heading-container {
-      width: 100%;
-      align-self: center;
+      align-self: left;
       margin-right: 10px;
       margin-bottom: 10px;
       font-weight: 600;
