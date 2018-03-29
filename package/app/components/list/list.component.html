@@ -7,8 +7,8 @@
   <div class="fs-list-header-container">
     <div class="fs-list-header"
         [ngClass]="{ 'no-wrap': listConfig.reoderEnabled || !listConfig.filterService.fsConfig.items.length }">
-      <div class="heading-container">
-        <h2 class="heading">{{listConfig.heading}}</h2>
+      <div class="heading-container" *ngIf="listConfig.heading || listConfig.subheading">
+        <h2 class="heading" *ngIf="listConfig.heading">{{listConfig.heading}}</h2>
         <span class="subheading" *ngIf="listConfig.subheading">{{listConfig.subheading}}</span>
       </div>
       <!-- Filters/actions -->
