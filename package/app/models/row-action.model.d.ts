@@ -13,6 +13,7 @@ export declare class RowAction extends Model {
     click: Function;
     className: string;
     type: ActionType;
+    show: Function;
     classArray: string[];
     constructor(config?: any);
     _fromJSON(value: any): void;

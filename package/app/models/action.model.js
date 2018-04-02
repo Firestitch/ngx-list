@@ -34,6 +34,9 @@ var Action = (function (_super) {
         if (value.primary === false) {
             this.primary = false;
         }
+        if (value.click === void 0) {
+            this.click = function () { };
+        }
     };
     __decorate([
         tsmodels_1.Alias(),

@@ -39,8 +39,14 @@ var RowAction = (function (_super) {
     }
     RowAction.prototype._fromJSON = function (value) {
         _super.prototype._fromJSON.call(this, value);
-        if (value.type === undefined) {
+        if (value.type === void 0) {
             this.type = ActionType.basic;
+        }
+        if (value.click === void 0) {
+            this.click = function () { return true; };
+        }
+        if (value.show === void 0) {
+            this.show = function () { return true; };
         }
         if (this.className) {
             this.classArray = this.className.split(' ').reduce(function (acc, elem) {
@@ -73,6 +79,10 @@ var RowAction = (function (_super) {
         tsmodels_1.Alias(),
         __metadata("design:type", String)
     ], RowAction.prototype, "type", void 0);
+    __decorate([
+        tsmodels_1.Alias(),
+        __metadata("design:type", Function)
+    ], RowAction.prototype, "show", void 0);
     return RowAction;
 }(tsmodels_1.Model));
 exports.RowAction = RowAction;
