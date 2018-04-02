@@ -115,6 +115,8 @@
 
           .row-inline-action {
             margin-left: 12px;
+            display: inline-block;
+
             &:first-child {
               margin-left: 0;
             }
@@ -125,8 +127,6 @@
           .row-inline-action-mini-fab,
           .row-menu-action {
               width: 35px;
-              height: 35px;
-              display: inline-flex;
               justify-content: center;
               align-items: center;
           }

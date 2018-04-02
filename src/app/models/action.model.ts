@@ -20,5 +20,9 @@ export class Action extends Model {
     if (value.primary === false) {
       this.primary = false;
     }
+
+    if (value.click === void 0) {
+      this.click = () => { }
+    }
   }
 }

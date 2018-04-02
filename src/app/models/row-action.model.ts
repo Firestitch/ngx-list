@@ -16,6 +16,7 @@ export class RowAction extends Model {
   @Alias() public click: Function;
   @Alias() public className: string;
   @Alias() public type: ActionType;
+  @Alias() public show: Function;
 
   public classArray: string[] = [];
 
@@ -28,8 +29,16 @@ export class RowAction extends Model {
   public _fromJSON(value: any) {
     super._fromJSON(value);
 
-    if (value.type === undefined) {
+    if (value.type === void 0) {
       this.type = ActionType.basic;
+    }
+
+    if (value.click === void 0) {
+      this.click = () => { return true; }
+    }
+
+    if (value.show === void 0) {
+      this.show = () => { return true; }
     }
 
     if (this.className) {
