@@ -108,6 +108,9 @@ export class KitchenSinkComponent implements OnInit {
           click: (row, event) => {
             console.log('edit', row, event);
           },
+          show: (row) => {
+            return row.show;
+          },
           menu: true,
           icon: 'edit',
           label: 'Edit',

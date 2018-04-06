@@ -20,6 +20,8 @@ export class RowAction extends Model {
 
   public classArray: string[] = [];
 
+  public isShown = true;
+
   constructor(config: any = {}) {
     super();
 
@@ -37,16 +39,18 @@ export class RowAction extends Model {
       this.click = () => { return true; }
     }
 
-    if (value.show === void 0) {
-      this.show = () => { return true; }
-    }
-
     if (this.className) {
       this.classArray = this.className.split(' ').reduce((acc, elem) => {
         acc.push(elem);
 
         return acc;
       }, []);
+    }
+  }
+
+  public checkShowStatus(row) {
+    if (this.show) {
+      this.isShown = this.show(row);
     }
   }
 }

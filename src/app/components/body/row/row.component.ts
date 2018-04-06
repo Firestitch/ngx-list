@@ -64,6 +64,10 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   public ngDoCheck() {
     if (this._rowDiffer.diff(this.row)) {
+      if (this.rowActions) {
+        this.rowActions.forEach((action) => action.checkShowStatus(this.row));
+      }
+      
       this._cdRef.markForCheck();
     }
   }

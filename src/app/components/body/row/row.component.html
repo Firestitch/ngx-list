@@ -21,7 +21,7 @@
         class="row-inline-action row-inline-action-{{action.type}}"
         [ngClass]="{'mobile-hide': action.menu === undefined}"
   >
-    <ng-container *ngIf="action.show(row)" [ngSwitch]="action.type">
+    <ng-container *ngIf="action.isShown" [ngSwitch]="action.type">
       <!-- Basic button -->
       <button type="button"
               *ngSwitchCase="'basic'"
@@ -88,14 +88,16 @@
     <ng-container *ngFor="let action of inlineRowActions">
       <button type="button" class="hidden-mobile-menu-action"
               mat-menu-item
-              *ngIf="action.menu === undefined"
+              *ngIf="action.menu === undefined && action.isShown"
               (click)="action.click(row, $event)"
       >
         <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
       </button>
     </ng-container>
-    <button type="button" mat-menu-item *ngFor="let action of menuRowActions" (click)="action.click(row, $event)">
-      <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
-    </button>
+    <ng-container *ngFor="let action of menuRowActions">
+      <button type="button" mat-menu-item *ngIf="action.isShown" (click)="action.click(row, $event)">
+        <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
+      </button>
+    </ng-container>
   </mat-menu>
 </td>
