@@ -89,6 +89,9 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     for (const event in this.rowEvents) {
       if (this.rowEvents.hasOwnProperty(event)) {
         const listener = this._renderer.listen(this.el.nativeElement, event, (evt) => {
+          evt.preventDefault();
+          evt.stopPropagation();
+
           if (!this.reorder) {
             this.rowEvents[event]({
               event: evt,

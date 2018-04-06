@@ -131,7 +131,7 @@ export class KitchenSinkComponent implements OnInit {
           // console.log('over', event);
         },
         click: function(event) {
-          // console.log('click', event);
+          console.log('row click', event);
         }
       },
       header: {

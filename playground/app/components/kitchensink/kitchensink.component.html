@@ -19,7 +19,7 @@
     <ng-template fs-list-cell let-value="value" let-row="row">
       {{value}}
       <mat-form-field>
-        <input matInput [(ngModel)]="row.guid" (click)="onClick(row, $event)">
+        <input matInput [(ngModel)]="row.guid" (click)="$event.stopPropagation(); onClick(row, $event)">
       </mat-form-field>
     </ng-template>
   </fs-list-column>

@@ -1,6 +1,6 @@
 <tr class="fs-list-row">
   <th fs-head-cell *ngFor="let column of columns"
-      (click)="sorting.sortBy(column)"
+      (click)="$event.stopPropagation(); sorting.sortBy(column)"
       [column]="column"
       [class.sorting]="column.sortable"
       [ngClass]="column.headerConfigs.classesArray"
