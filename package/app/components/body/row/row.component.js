@@ -34,7 +34,11 @@ var FsRowComponent = (function () {
         }
     };
     FsRowComponent.prototype.ngDoCheck = function () {
+        var _this = this;
         if (this._rowDiffer.diff(this.row)) {
+            if (this.rowActions) {
+                this.rowActions.forEach(function (action) { return action.checkShowStatus(_this.row); });
+            }
             this._cdRef.markForCheck();
         }
     };

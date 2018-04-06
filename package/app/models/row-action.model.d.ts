@@ -15,6 +15,8 @@ export declare class RowAction extends Model {
     type: ActionType;
     show: Function;
     classArray: string[];
+    isShown: boolean;
     constructor(config?: any);
     _fromJSON(value: any): void;
+    checkShowStatus(row: any): void;
 }

@@ -34,6 +34,7 @@ var RowAction = (function (_super) {
         if (config === void 0) { config = {}; }
         var _this = _super.call(this) || this;
         _this.classArray = [];
+        _this.isShown = true;
         _this._fromJSON(config);
         return _this;
     }
@@ -45,14 +46,16 @@ var RowAction = (function (_super) {
         if (value.click === void 0) {
             this.click = function () { return true; };
         }
-        if (value.show === void 0) {
-            this.show = function () { return true; };
-        }
         if (this.className) {
             this.classArray = this.className.split(' ').reduce(function (acc, elem) {
                 acc.push(elem);
                 return acc;
             }, []);
+        }
+    };
+    RowAction.prototype.checkShowStatus = function (row) {
+        if (this.show) {
+            this.isShown = this.show(row);
         }
     };
     __decorate([

@@ -67,7 +67,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
       if (this.rowActions) {
         this.rowActions.forEach((action) => action.checkShowStatus(this.row));
       }
-      
+
       this._cdRef.markForCheck();
     }
   }
