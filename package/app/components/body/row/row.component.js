@@ -58,6 +58,8 @@ var FsRowComponent = (function () {
         var _loop_1 = function (event_1) {
             if (this_1.rowEvents.hasOwnProperty(event_1)) {
                 var listener = this_1._renderer.listen(this_1.el.nativeElement, event_1, function (evt) {
+                    evt.preventDefault();
+                    evt.stopPropagation();
                     if (!_this.reorder) {
                         _this.rowEvents[event_1]({
                             event: evt,
