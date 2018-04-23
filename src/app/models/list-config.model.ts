@@ -57,7 +57,7 @@ export class FsListModel extends Model {
     super();
     this._fromJSON(config);
 
-    if (config.initialFetch === false) { //TODO fixme after tsmodel version update
+    if (config.initialFetch === false) { // TODO fixme after tsmodel version update
       this.initialFetch = false;
     }
     if (config.status === false) {
@@ -227,7 +227,7 @@ export class FsListModel extends Model {
           this.load();
         }
       };
-    }else {
+    } else {
       this.filtersQuery = {};
     }
   }
