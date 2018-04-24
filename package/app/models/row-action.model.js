@@ -39,13 +39,15 @@ var RowAction = (function (_super) {
         return _this;
     }
     RowAction.prototype._fromJSON = function (value) {
+        var _this = this;
         _super.prototype._fromJSON.call(this, value);
         if (value.type === void 0) {
             this.type = ActionType.basic;
         }
-        if (value.click === void 0) {
-            this.click = function () { return true; };
-        }
+        value.click = function (row, event, rowActionsRef) {
+            if (rowActionsRef === void 0) { rowActionsRef = null; }
+            _this.clickEvent(row, event, rowActionsRef, value);
+        };
         if (this.className) {
             this.classArray = this.className.split(' ').reduce(function (acc, elem) {
                 acc.push(elem);
@@ -56,6 +58,18 @@ var RowAction = (function (_super) {
     RowAction.prototype.checkShowStatus = function (row) {
         if (this.show) {
             this.isShown = this.show(row);
+        }
+    };
+    RowAction.prototype.clickEvent = function (row, event, rowActionsRef, value) {
+        // Stop event propagation for parent
+        event.stopPropagation();
+        // Close menu
+        if (rowActionsRef) {
+            rowActionsRef.close.emit();
+        }
+        if (value.click) {
+            // Fire passed callback
+            value.click(row, event);
         }
     };
     __decorate([

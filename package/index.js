@@ -624,7 +624,7 @@ __export(__webpack_require__("./app/components/body/row/cell/index.ts"));
 /***/ "./app/components/body/row/row.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<ng-container *ngFor=\"let column of columns\">\n  <td fs-cell\n      *ngIf=\"!column.cellColspanned\"\n      [column]=\"column\"\n      [row]=\"row\"\n      [rowIndex]=\"rowIndex\"\n      [ngClass]=\"column.cellConfigs.classesArray\"\n      [attr.colspan]=\"column.cellConfigs.colspan\"\n      [attr.width]=\"column.width\">\n  </td>\n</ng-container>\n\n<!-- Drag -->\n<td class=\"fs-list-col drag-col\" *ngIf=\"reorder\">\n  <mat-icon>drag_handle</mat-icon>\n</td>\n\n<!-- Row Actions -->\n<td *ngIf=\"rowActions?.length > 0 && !reorder\" class=\"fs-list-col row-actions\">\n  <span *ngFor=\"let action of inlineRowActions\"\n        class=\"row-inline-action row-inline-action-{{action.type}}\"\n        [ngClass]=\"{'mobile-hide': action.menu === undefined}\"\n  >\n    <ng-container *ngIf=\"action.isShown\" [ngSwitch]=\"action.type\">\n      <!-- Basic button -->\n      <button type=\"button\"\n              *ngSwitchCase=\"'basic'\"\n              mat-button\n              (click)=\"$event.stopPropagation(); action.click(row, $event)\"\n              [ngClass]=\"action.classArray\"\n      >\n        <ng-template [ngTemplateOutlet]=\"buttonContent\"></ng-template>\n      </button>\n\n        <!-- Raised button -->\n      <button type=\"button\"\n              *ngSwitchCase=\"'raised'\"\n              mat-raised-button\n              (click)=\"$event.stopPropagation(); action.click(row, $event)\"\n              [ngClass]=\"action.classArray\"\n      >\n        <ng-template [ngTemplateOutlet]=\"buttonContent\"></ng-template>\n      </button>\n\n        <!-- Icon button -->\n      <button type=\"button\"\n              *ngSwitchCase=\"'icon'\"\n              mat-icon-button\n              (click)=\"$event.stopPropagation(); action.click(row, $event)\"\n              [ngClass]=\"action.classArray\"\n      >\n        <ng-template [ngTemplateOutlet]=\"buttonContent\"></ng-template>\n      </button>\n\n        <!-- Fab button -->\n      <button type=\"button\"\n              *ngSwitchCase=\"'fab'\"\n              mat-fab\n              (click)=\"$event.stopPropagation(); action.click(row, $event)\"\n              [ngClass]=\"action.classArray\"\n      >\n        <ng-template [ngTemplateOutlet]=\"buttonContent\"></ng-template>\n      </button>\n\n        <!-- Mini Fab button -->\n      <button type=\"button\"\n              *ngSwitchCase=\"'mini-fab'\"\n              mat-mini-fab\n              (click)=\"$event.stopPropagation(); action.click(row, $event)\"\n              [ngClass]=\"action.classArray\"\n      >\n        <ng-template [ngTemplateOutlet]=\"buttonContent\"></ng-template>\n      </button>\n\n      <ng-template #buttonContent let-value=\"value\">\n        <mat-icon *ngIf=\"action.icon\">{{action.icon}}</mat-icon> {{action.label}}\n      </ng-template>\n    </ng-container>\n  </span>\n\n  <!-- Menu -->\n  <span class=\"row-menu-action\" *ngIf=\"menuRowActions.length\" (click)=\"$event.stopPropagation();\">\n    <button type=\"button\" mat-icon-button [matMenuTriggerFor]=\"rowActionsRef\">\n      <mat-icon>more_vert</mat-icon>\n    </button>\n  </span>\n  <mat-menu #rowActionsRef>\n    <ng-container *ngFor=\"let action of inlineRowActions\">\n      <button type=\"button\" class=\"hidden-mobile-menu-action\"\n              mat-menu-item\n              *ngIf=\"action.menu === undefined && action.isShown\"\n              (click)=\"$event.stopPropagation(); action.click(row, $event)\"\n      >\n        <mat-icon *ngIf=\"action.icon\">{{action.icon}}</mat-icon> {{action.label}}\n      </button>\n    </ng-container>\n    <ng-container *ngFor=\"let action of menuRowActions\">\n      <button type=\"button\" mat-menu-item *ngIf=\"action.isShown\" (click)=\"$event.stopPropagation();  action.click(row, $event)\">\n        <mat-icon *ngIf=\"action.icon\">{{action.icon}}</mat-icon> {{action.label}}\n      </button>\n    </ng-container>\n  </mat-menu>\n</td>\n"
+module.exports = "<ng-container *ngFor=\"let column of columns\">\n  <td fs-cell\n      *ngIf=\"!column.cellColspanned\"\n      [column]=\"column\"\n      [row]=\"row\"\n      [rowIndex]=\"rowIndex\"\n      [ngClass]=\"column.cellConfigs.classesArray\"\n      [attr.colspan]=\"column.cellConfigs.colspan\"\n      [attr.width]=\"column.width\">\n  </td>\n</ng-container>\n\n<!-- Drag -->\n<td class=\"fs-list-col drag-col\" *ngIf=\"reorder\">\n  <mat-icon>drag_handle</mat-icon>\n</td>\n\n<!-- Row Actions -->\n<td *ngIf=\"rowActions?.length > 0 && !reorder\" class=\"fs-list-col row-actions\">\n  <span *ngFor=\"let action of inlineRowActions\"\n        class=\"row-inline-action row-inline-action-{{action.type}}\"\n        [ngClass]=\"{'mobile-hide': action.menu === undefined}\"\n  >\n    <ng-container *ngIf=\"action.isShown\" [ngSwitch]=\"action.type\">\n      <!-- Basic button -->\n      <button type=\"button\"\n              *ngSwitchCase=\"'basic'\"\n              mat-button\n              (click)=\"action.click(row, $event)\"\n              [ngClass]=\"action.classArray\"\n      >\n        <ng-template [ngTemplateOutlet]=\"buttonContent\"></ng-template>\n      </button>\n\n        <!-- Raised button -->\n      <button type=\"button\"\n              *ngSwitchCase=\"'raised'\"\n              mat-raised-button\n              (click)=\"action.click(row, $event)\"\n              [ngClass]=\"action.classArray\"\n      >\n        <ng-template [ngTemplateOutlet]=\"buttonContent\"></ng-template>\n      </button>\n\n        <!-- Icon button -->\n      <button type=\"button\"\n              *ngSwitchCase=\"'icon'\"\n              mat-icon-button\n              (click)=\"action.click(row, $event)\"\n              [ngClass]=\"action.classArray\"\n      >\n        <ng-template [ngTemplateOutlet]=\"buttonContent\"></ng-template>\n      </button>\n\n        <!-- Fab button -->\n      <button type=\"button\"\n              *ngSwitchCase=\"'fab'\"\n              mat-fab\n              (click)=\"action.click(row, $event)\"\n              [ngClass]=\"action.classArray\"\n      >\n        <ng-template [ngTemplateOutlet]=\"buttonContent\"></ng-template>\n      </button>\n\n        <!-- Mini Fab button -->\n      <button type=\"button\"\n              *ngSwitchCase=\"'mini-fab'\"\n              mat-mini-fab\n              (click)=\"action.click(row, $event)\"\n              [ngClass]=\"action.classArray\"\n      >\n        <ng-template [ngTemplateOutlet]=\"buttonContent\"></ng-template>\n      </button>\n\n      <ng-template #buttonContent let-value=\"value\">\n        <mat-icon *ngIf=\"action.icon\">{{action.icon}}</mat-icon> {{action.label}}\n      </ng-template>\n    </ng-container>\n  </span>\n\n  <!-- Menu -->\n  <span class=\"row-menu-action\" *ngIf=\"menuRowActions.length\" (click)=\"$event.stopPropagation();\">\n    <button type=\"button\" mat-icon-button [matMenuTriggerFor]=\"rowActionsRef\">\n      <mat-icon>more_vert</mat-icon>\n    </button>\n  </span>\n  <mat-menu #rowActionsRef>\n    <ng-container *ngFor=\"let action of inlineRowActions\">\n      <button type=\"button\" class=\"hidden-mobile-menu-action\"\n              mat-menu-item\n              *ngIf=\"action.menu === undefined && action.isShown\"\n              (click)=\"action.click(row, $event)\"\n      >\n        <mat-icon *ngIf=\"action.icon\">{{action.icon}}</mat-icon> {{action.label}}\n      </button>\n    </ng-container>\n    <ng-container *ngFor=\"let action of menuRowActions\">\n      <button type=\"button\" mat-menu-item *ngIf=\"action.isShown\" (click)=\"action.click(row, $event, rowActionsRef);\">\n        <mat-icon *ngIf=\"action.icon\">{{action.icon}}</mat-icon> {{action.label}}\n      </button>\n    </ng-container>\n  </mat-menu>\n</td>\n"
 
 /***/ }),
 
@@ -2760,13 +2760,15 @@ var RowAction = (function (_super) {
         return _this;
     }
     RowAction.prototype._fromJSON = function (value) {
+        var _this = this;
         _super.prototype._fromJSON.call(this, value);
         if (value.type === void 0) {
             this.type = ActionType.basic;
         }
-        if (value.click === void 0) {
-            this.click = function () { return true; };
-        }
+        value.click = function (row, event, rowActionsRef) {
+            if (rowActionsRef === void 0) { rowActionsRef = null; }
+            _this.clickEvent(row, event, rowActionsRef, value);
+        };
         if (this.className) {
             this.classArray = this.className.split(' ').reduce(function (acc, elem) {
                 acc.push(elem);
@@ -2777,6 +2779,18 @@ var RowAction = (function (_super) {
     RowAction.prototype.checkShowStatus = function (row) {
         if (this.show) {
             this.isShown = this.show(row);
+        }
+    };
+    RowAction.prototype.clickEvent = function (row, event, rowActionsRef, value) {
+        // Stop event propagation for parent
+        event.stopPropagation();
+        // Close menu
+        if (rowActionsRef) {
+            rowActionsRef.close.emit();
+        }
+        if (value.click) {
+            // Fire passed callback
+            value.click(row, event);
         }
     };
     __decorate([

@@ -18,7 +18,6 @@ export declare class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     stopDragging: EventEmitter<{}>;
     menuRowActions: RowAction[];
     inlineRowActions: RowAction[];
-    inlineToMenuRowActions: RowAction[];
     private _rowDiffer;
     private _eventListeners;
     constructor(el: ElementRef, _cdRef: ChangeDetectorRef, _differs: KeyValueDiffers, _renderer: Renderer2);
