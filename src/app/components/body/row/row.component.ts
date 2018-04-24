@@ -40,7 +40,6 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   public menuRowActions: RowAction[];
   public inlineRowActions: RowAction[];
-  public inlineToMenuRowActions: RowAction[];
 
   private _rowDiffer: KeyValueDiffer<{}, {}>;
 

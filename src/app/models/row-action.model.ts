@@ -35,9 +35,9 @@ export class RowAction extends Model {
       this.type = ActionType.basic;
     }
 
-    if (value.click === void 0) {
-      this.click = () => { return true; }
-    }
+    value.click = (row, event, rowActionsRef = null) => {
+      this.clickEvent(row, event, rowActionsRef, value)
+    };
 
     if (this.className) {
       this.classArray = this.className.split(' ').reduce((acc, elem) => {
@@ -51,6 +51,21 @@ export class RowAction extends Model {
   public checkShowStatus(row) {
     if (this.show) {
       this.isShown = this.show(row);
+    }
+  }
+
+  private clickEvent(row, event, rowActionsRef, value) {
+    // Stop event propagation for parent
+    event.stopPropagation();
+
+    // Close menu
+    if (rowActionsRef) {
+      rowActionsRef.close.emit();
+    }
+
+    if (value.click) {
+      // Fire passed callback
+      value.click(row, event);
     }
   }
 }
