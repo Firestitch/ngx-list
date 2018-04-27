@@ -9,8 +9,8 @@ import {
 } from '@angular/core';
 
 import { FsListColumnDirective } from '../../directives';
-import { FsListModel } from '../../models/list-config.model';
-import { FsListConfig } from '../../interfaces/listconfig.interface';
+import { FsListModel } from '../../models';
+import { FsListConfig } from '../../interfaces';
 
 
 @Component({
@@ -25,7 +25,6 @@ import { FsListConfig } from '../../interfaces/listconfig.interface';
 
 export class FsListComponent implements OnInit, OnDestroy {
   @Input() public config: FsListConfig;
-  //@Input() public rows: any[];
 
   public displayRows;
   public listConfig: FsListModel;
@@ -40,39 +39,17 @@ export class FsListComponent implements OnInit, OnDestroy {
     this.listConfig.tranformTemplatesToColumns(val);
   }
 
-  //private _rowsDiffer: IterableDiffer<any[]>;
-
-  // constructor(private cdRef: ChangeDetectorRef,
-  //             private differs: IterableDiffers) {
-  //   this._rowsDiffer = differs.find([]).create(null);
-  // }
-
   public ngOnInit() {
     this.listConfig = new FsListModel(this.config);
-    //this.listConfig.rows = this.rows;
 
     if (!this.listConfig.filters || this.listConfig.filters.length === 0 && this.listConfig.initialFetch) {
-      this.listConfig.load();
+      this.listConfig.load$.next();
     }
 
     this.listConfig.data$.subscribe((rows) => {
       this.displayRows = rows;
     });
   }
-
-  //public ngDoCheck() {
-    // const rowsDiffer = this._rowsDiffer.diff(this.rows);
-    // const displayRowsDiffer = this._rowsDiffer.diff(this.displayRows);
-
-    // if (rowsDiffer || displayRowsDiffer) {
-    //   this.cdRef.markForCheck();
-    // }
-
-    // if (this.listConfig.paging.manual && rowsDiffer) {
-    //   this.listConfig.paging.updatePagingManual(this.rows);
-    //   this.listConfig.paging.pageChanged.next();
-    // }
-  //}
 
   public ngOnDestroy() {
     this.listConfig.data$.complete();
@@ -96,7 +73,7 @@ export class FsListComponent implements OnInit, OnDestroy {
   }
 
   public load() {
-    this.listConfig.load();
+    this.listConfig.load$.next();
   }
 
   public finishReorder() {

@@ -26,6 +26,7 @@ export interface FsListConfig {
   footer?: FsListFooterConfig;
   reorder?: FsListReorderConfig;
   sorts?: FsListSortsConfig[];
+  sort?: string;
 }
 
 export interface FsListReorderConfig {

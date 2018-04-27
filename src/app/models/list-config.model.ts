@@ -13,6 +13,8 @@ import { StyleConfig } from './styleConfig.model';
 import { Action } from './action.model';
 import { ReorderModel } from './reorder.model';
 import { RowAction } from './row-action.model';
+import { Subject } from 'rxjs/Subject';
+import { debounceTime } from 'rxjs/operators';
 
 
 export class FsListModel extends Model {
@@ -39,6 +41,7 @@ export class FsListModel extends Model {
   public sorting = new Sorting(this.columns);
   public filterService = new FsFilter();
 
+  public load$ = new Subject();
   public data$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
 
   public status = true;
@@ -53,7 +56,7 @@ export class FsListModel extends Model {
   private _cellConfig: StyleConfig;
   private _footerConfig: StyleConfig;
 
-  constructor(config: FsListConfig = {}) {
+  constructor(private config: FsListConfig = {}) {
     super();
     this._fromJSON(config);
 
@@ -72,6 +75,7 @@ export class FsListModel extends Model {
     if (config.sorts) {
       this.sorting.initFakeColumns(config.sorts);
     }
+
 
     this._headerConfig = new StyleConfig(config.header);
     this._cellConfig = new StyleConfig(config.cell);
@@ -106,22 +110,6 @@ export class FsListModel extends Model {
 
   public static create(config) {
     return new FsListModel(config);
-  }
-
-  public load() {
-    this.loading = true;
-
-    const query = Object.assign({}, this.filtersQuery, this.paging.query);
-
-    if (this.sorting.sortingColumn) {
-      Object.assign(query, { order: `${this.sorting.sortingColumn.name},${this.sorting.sortingColumn.direction}`})
-    }
-
-    if (this.fetchFn) {
-      this.loadRemote(query);
-    } else if (Array.isArray(this._rows)) {
-      this.loadLocal();
-    }
   }
 
   public loadRemote(query) {
@@ -180,6 +168,14 @@ export class FsListModel extends Model {
     this.updateColspans('headerConfigs', 'headerColspanned');
     this.updateColspans('cellConfigs', 'cellColspanned');
     this.updateColspans('footerConfigs', 'footerColspanned');
+
+    // Set sortBy default column
+    this.sorting.initialSortBy(this.config.sort);
+
+    // // Start fetch request
+    // if (!this.filters || this.filters.length === 0 && this.initialFetch) {
+    //   this.load();
+    // }
   }
 
   /**
@@ -202,12 +198,37 @@ export class FsListModel extends Model {
    */
   private subscribe() {
     this.paging.pageChanged.subscribe(() => {
-      this.load();
+      this.load$.next();
     });
 
     this.sorting.sortingChanged.subscribe(() => {
-      this.load();
-    })
+      this.load$.next();
+    });
+
+    this.subscribeToOnLoad();
+  }
+
+  /**
+   * Subscribe to load$ event with debounce
+   */
+  private subscribeToOnLoad() {
+    this.load$
+      .pipe(debounceTime(50))
+      .subscribe(() => {
+        this.loading = true;
+
+        const query = Object.assign({}, this.filtersQuery, this.paging.query);
+
+        if (this.sorting.sortingColumn) {
+          Object.assign(query, { order: `${this.sorting.sortingColumn.name},${this.sorting.sortingColumn.direction}`})
+        }
+
+        if (this.fetchFn) {
+          this.loadRemote(query);
+        } else if (Array.isArray(this._rows)) {
+          this.loadLocal();
+        }
+      });
   }
 
   /**
@@ -222,12 +243,12 @@ export class FsListModel extends Model {
         init: (instance) => {
           this.filtersQuery = instance.gets({ flatten: true });
           if (this.initialFetch) {
-            this.load();
+            this.load$.next();
           }
         },
         change: (query, instance) => {
           this.filtersQuery = instance.gets({ flatten: true });
-          this.load();
+          this.load$.next();
         }
       };
     } else {

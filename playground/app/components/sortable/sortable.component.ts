@@ -3,7 +3,6 @@ import { FsApi } from '@firestitch/api';
 import 'rxjs/add/operator/map';
 
 import { FsListComponent, FsListConfig } from '../../../../src';
-import { ActionType } from '../../../../src/app/models';
 
 
 @Component({
@@ -22,8 +21,8 @@ export class SortableComponent implements OnInit {
   public ngOnInit() {
 
     this.config = {
-      heading: 'Events',
-      subheading: 'Subheading',
+      heading: 'Sortable',
+      subheading: 'Has default sort by last login',
       status: true,
       filterInput: false,
       sorts: [
@@ -32,6 +31,7 @@ export class SortableComponent implements OnInit {
           value: 'last_login',
         },
       ],
+      sort: 'last_login,desc',
       paging: {
         limits: [5, 15, 50, 150, 250, 500, 1000]
       },

@@ -1,7 +1,7 @@
 import { Column, SortingDirection } from './column.model';
 import { FsListModel } from './list-config.model';
 import { Subject } from 'rxjs/Subject';
-
+import * as isString from 'lodash/isString';
 
 export class Sorting {
   public config: FsListModel;
@@ -71,6 +71,10 @@ export class Sorting {
     this.sortingChanged.next();
   }
 
+  /**
+   * Init fake columns for sorting
+   * @param columns
+   */
   public initFakeColumns(columns) {
     columns.forEach((column) => {
       const fakeColumn = new Column({
@@ -81,5 +85,44 @@ export class Sorting {
 
       this.fakeSortingColumns.push(fakeColumn);
     });
+  }
+
+  /**
+   * Set initial sorting
+   * @param {string} sort
+   */
+  public initialSortBy(sort: string) {
+    if (!sort || !isString(sort)) {
+      this.sortByFirstSortbale();
+      return;
+    }
+
+    const [columnName, columnDirection] = sort.split(',')
+      .map(str => str.trim());
+
+    const column =
+      this.sortingColumns.find(col => col.name === columnName && col.sortable) ||
+      this.fakeSortingColumns.find(col => col.name === columnName && col.sortable);
+
+    if (!column) { return; }
+
+    this.sortBy(column, false);
+
+    this.setSortDirection((columnDirection === 'asc')
+      ? SortingDirection.asc
+      : SortingDirection.desc);
+  }
+
+  /**
+   * Sort by first of available sorting columns
+   */
+  public sortByFirstSortbale() {
+    const column =
+      this.sortingColumns.find(col => col.sortable);
+
+    if (!column) { return; }
+
+    this.sortBy(column, false);
+    this.setSortDirection(SortingDirection.asc);
   }
 }
