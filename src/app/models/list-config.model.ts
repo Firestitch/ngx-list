@@ -69,6 +69,9 @@ export class FsListModel extends Model {
     if (!config.actions) {
       this.actions = [];
     }
+    if (config.sorts) {
+      this.sorting.initFakeColumns(config.sorts);
+    }
 
     this._headerConfig = new StyleConfig(config.header);
     this._cellConfig = new StyleConfig(config.cell);

@@ -30,9 +30,9 @@ export class StyleConfig extends Model {
     let targetValue = this.align;
 
     if (targetValue === void 0) {
-      if (prior1.align !== void 0) {
+      if (prior1 && prior1.align !== void 0) {
         targetValue = prior1.align;
-      } else if (prior2.align !== void 0) {
+      } else if (prior2 && prior2.align !== void 0) {
         targetValue = prior2.align;
       } else {
         targetValue = 'left';
@@ -56,9 +56,9 @@ export class StyleConfig extends Model {
       targetValue.push(this.className);
     }
 
-    if (prior1.className !== void 0) {
+    if (prior1 && prior1.className !== void 0) {
       this.mergeAnythingIntoArray(targetValue, prior1.className);
-    } else if (prior2.className !== void 0) {
+    } else if (prior2 && prior2.className !== void 0) {
       this.mergeAnythingIntoArray(targetValue, prior2.className);
     }
 

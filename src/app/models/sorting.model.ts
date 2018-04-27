@@ -2,11 +2,13 @@ import { Column, SortingDirection } from './column.model';
 import { FsListModel } from './list-config.model';
 import { Subject } from 'rxjs/Subject';
 
+
 export class Sorting {
   public config: FsListModel;
 
   public tableColumns: Column[];
   public sortingColumns: Column[] = [];
+  public fakeSortingColumns: Column[] = [];
   public sortingColumn: Column;
 
   public sortingChanged = new Subject();
@@ -67,5 +69,17 @@ export class Sorting {
 
     this.sortingColumn = column;
     this.sortingChanged.next();
+  }
+
+  public initFakeColumns(columns) {
+    columns.forEach((column) => {
+      const fakeColumn = new Column({
+        title: column.name,
+        name: column.value,
+        sortable: true
+      });
+
+      this.fakeSortingColumns.push(fakeColumn);
+    });
   }
 }
