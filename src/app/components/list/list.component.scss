@@ -220,6 +220,14 @@
       }
     }
 
+    &:not(.has-filters) {
+      .fs-list-header {
+        .fs-list-toolbar {
+          margin-left: auto;
+        }
+      }
+    }
+
     &:not(.has-filters):not(.has-actions):not(.has-heading)  {
       .fs-list-header-container {
         display: none;
