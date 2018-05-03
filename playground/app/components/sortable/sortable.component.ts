@@ -36,7 +36,8 @@ export class SortableComponent implements OnInit {
         limits: [5, 15, 50, 150, 250, 500, 1000]
       },
       fetch: (query) => {
-        query.count = 500;
+        query.count = 3;
+        query.limit = 3;
         return this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
           .map(response => ({ data: response.data.objects, paging: response.data.paging }));
       },

@@ -7,35 +7,17 @@
     <ng-template fs-list-cell let-index="index">
       {{index}}
     </ng-template>
-    <ng-template fs-list-footer colspan="2">
-      Footer with colspan 2 and left align
-    </ng-template>
   </fs-list-column>
 
   <fs-list-column name="name" title="Name" [sortable]="true">
-    <ng-template fs-list-header>
-      <b>User</b> name
-    </ng-template>
     <ng-template fs-list-cell let-value="value" let-row="row">
       {{value}}
-      <mat-form-field>
-        <input matInput [(ngModel)]="row.guid" (click)="$event.stopPropagation(); onClick(row, $event)">
-      </mat-form-field>
     </ng-template>
   </fs-list-column>
 
   <fs-list-column name="guid" title="GUID" [sortable]="true">
     <ng-template fs-list-cell let-guid="value" let-row="row">
       {{ row.guid }}
-    </ng-template>
-    <ng-template fs-list-footer colspan="2" align="right">
-      Footer with colspan 2 and right align
-    </ng-template>
-  </fs-list-column>
-
-  <fs-list-column title="Link">
-    <ng-template fs-list-cell let-guid="value" [class]="['myTestClass', 'myTestClass2']">
-      <a routerLink="/welcome">Simple Link</a>
     </ng-template>
   </fs-list-column>
 </fs-list>
