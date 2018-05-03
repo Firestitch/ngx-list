@@ -60,7 +60,7 @@ export class Sorting {
         return true;
       }
     } else {
-      this.tableColumns
+      [...this.fakeSortingColumns, ...this.sortingColumns]
         .filter((col) => col.ordered)
         .map((col) => col.ordered = false);
 
