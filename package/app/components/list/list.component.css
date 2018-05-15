@@ -136,6 +136,9 @@
 :host ::ng-deep .fs-list-container.has-filter-input .heading-container {
   flex: 1 1 100%; }
 
+:host ::ng-deep .fs-list-container:not(.has-filters) .fs-list-header .fs-list-toolbar {
+  margin-left: auto; }
+
 :host ::ng-deep .fs-list-container:not(.has-filters):not(.has-actions):not(.has-heading) .fs-list-header-container {
   display: none; }
 
@@ -161,6 +164,8 @@
         display: block;
         height: 14px;
         width: 14px; }
+      :host ::ng-deep .fs-list-head .fs-list-col .wrap .direction {
+        margin-left: 5px; }
     :host ::ng-deep .fs-list-head .fs-list-col.sorting {
       background-image: none; }
 

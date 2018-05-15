@@ -5,6 +5,7 @@ export declare class Sorting {
     config: FsListModel;
     tableColumns: Column[];
     sortingColumns: Column[];
+    fakeSortingColumns: Column[];
     sortingColumn: Column;
     sortingChanged: Subject<{}>;
     constructor(columns: any);
@@ -20,4 +21,18 @@ export declare class Sorting {
      * @param doubleSelectBehaviour - when user click twice on same param
      */
     sortBy(column: Column, doubleSelectBehaviour?: boolean): boolean;
+    /**
+     * Init fake columns for sorting
+     * @param columns
+     */
+    initFakeColumns(columns: any): void;
+    /**
+     * Set initial sorting
+     * @param {string} sort
+     */
+    initialSortBy(sort: string): void;
+    /**
+     * Sort by first of available sorting columns
+     */
+    sortByFirstSortbale(): void;
 }

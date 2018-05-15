@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var directives_1 = require("../../directives");
-var list_config_model_1 = require("../../models/list-config.model");
+var models_1 = require("../../models");
 var FsListComponent = (function () {
     function FsListComponent() {
     }
@@ -28,33 +28,16 @@ var FsListComponent = (function () {
         enumerable: true,
         configurable: true
     });
-    //private _rowsDiffer: IterableDiffer<any[]>;
-    // constructor(private cdRef: ChangeDetectorRef,
-    //             private differs: IterableDiffers) {
-    //   this._rowsDiffer = differs.find([]).create(null);
-    // }
     FsListComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.listConfig = new list_config_model_1.FsListModel(this.config);
-        //this.listConfig.rows = this.rows;
+        this.listConfig = new models_1.FsListModel(this.config);
         if (!this.listConfig.filters || this.listConfig.filters.length === 0 && this.listConfig.initialFetch) {
-            this.listConfig.load();
+            this.listConfig.load$.next();
         }
         this.listConfig.data$.subscribe(function (rows) {
             _this.displayRows = rows;
         });
     };
-    //public ngDoCheck() {
-    // const rowsDiffer = this._rowsDiffer.diff(this.rows);
-    // const displayRowsDiffer = this._rowsDiffer.diff(this.displayRows);
-    // if (rowsDiffer || displayRowsDiffer) {
-    //   this.cdRef.markForCheck();
-    // }
-    // if (this.listConfig.paging.manual && rowsDiffer) {
-    //   this.listConfig.paging.updatePagingManual(this.rows);
-    //   this.listConfig.paging.pageChanged.next();
-    // }
-    //}
     FsListComponent.prototype.ngOnDestroy = function () {
         this.listConfig.data$.complete();
         this.listConfig.paging.pageChanged.complete();
@@ -72,7 +55,7 @@ var FsListComponent = (function () {
         this.listConfig.paging.goLast();
     };
     FsListComponent.prototype.load = function () {
-        this.listConfig.load();
+        this.listConfig.load$.next();
     };
     FsListComponent.prototype.finishReorder = function () {
         this.listConfig.reoderEnabled = false;

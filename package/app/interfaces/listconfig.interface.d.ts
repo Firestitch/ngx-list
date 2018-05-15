@@ -22,6 +22,8 @@ export interface FsListConfig {
     cell?: FsListCellConfig;
     footer?: FsListFooterConfig;
     reorder?: FsListReorderConfig;
+    sorts?: FsListSortsConfig[];
+    sort?: string;
 }
 export interface FsListReorderConfig {
     start?: Function;
@@ -40,4 +42,8 @@ export interface FsListCellConfig {
 export interface FsListFooterConfig {
     className?: string;
     align?: string;
+}
+export interface FsListSortsConfig {
+    name: string;
+    value: string;
 }

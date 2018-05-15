@@ -31,11 +31,14 @@ var styleConfig_model_1 = require("./styleConfig.model");
 var action_model_1 = require("./action.model");
 var reorder_model_1 = require("./reorder.model");
 var row_action_model_1 = require("./row-action.model");
+var Subject_1 = require("rxjs/Subject");
+var operators_1 = require("rxjs/operators");
 var FsListModel = (function (_super) {
     __extends(FsListModel, _super);
     function FsListModel(config) {
         if (config === void 0) { config = {}; }
         var _this = _super.call(this) || this;
+        _this.config = config;
         _this.filters = [];
         _this.menuActions = [];
         _this.kebabActions = [];
@@ -43,6 +46,7 @@ var FsListModel = (function (_super) {
         _this.paging = new pagination_model_1.Pagination();
         _this.sorting = new sorting_model_1.Sorting(_this.columns);
         _this.filterService = new filter_1.FsFilter();
+        _this.load$ = new Subject_1.Subject();
         _this.data$ = new BehaviorSubject_1.BehaviorSubject([]);
         _this.status = true;
         _this.filterInput = true;
@@ -62,6 +66,9 @@ var FsListModel = (function (_super) {
         }
         if (!config.actions) {
             _this.actions = [];
+        }
+        if (config.sorts) {
+            _this.sorting.initFakeColumns(config.sorts);
         }
         _this._headerConfig = new styleConfig_model_1.StyleConfig(config.header);
         _this._cellConfig = new styleConfig_model_1.StyleConfig(config.cell);
@@ -97,19 +104,6 @@ var FsListModel = (function (_super) {
     });
     FsListModel.create = function (config) {
         return new FsListModel(config);
-    };
-    FsListModel.prototype.load = function () {
-        this.loading = true;
-        var query = Object.assign({}, this.filtersQuery, this.paging.query);
-        if (this.sorting.sortingColumn) {
-            Object.assign(query, { order: this.sorting.sortingColumn.name + "," + this.sorting.sortingColumn.direction });
-        }
-        if (this.fetchFn) {
-            this.loadRemote(query);
-        }
-        else if (Array.isArray(this._rows)) {
-            this.loadLocal();
-        }
     };
     FsListModel.prototype.loadRemote = function (query) {
         var _this = this;
@@ -165,6 +159,12 @@ var FsListModel = (function (_super) {
         this.updateColspans('headerConfigs', 'headerColspanned');
         this.updateColspans('cellConfigs', 'cellColspanned');
         this.updateColspans('footerConfigs', 'footerColspanned');
+        // Set sortBy default column
+        this.sorting.initialSortBy(this.config.sort);
+        // // Start fetch request
+        // if (!this.filters || this.filters.length === 0 && this.initialFetch) {
+        //   this.load();
+        // }
     };
     /**
      * Init paging
@@ -187,10 +187,32 @@ var FsListModel = (function (_super) {
     FsListModel.prototype.subscribe = function () {
         var _this = this;
         this.paging.pageChanged.subscribe(function () {
-            _this.load();
+            _this.load$.next();
         });
         this.sorting.sortingChanged.subscribe(function () {
-            _this.load();
+            _this.load$.next();
+        });
+        this.subscribeToOnLoad();
+    };
+    /**
+     * Subscribe to load$ event with debounce
+     */
+    FsListModel.prototype.subscribeToOnLoad = function () {
+        var _this = this;
+        this.load$
+            .pipe(operators_1.debounceTime(50))
+            .subscribe(function () {
+            _this.loading = true;
+            var query = Object.assign({}, _this.filtersQuery, _this.paging.query);
+            if (_this.sorting.sortingColumn) {
+                Object.assign(query, { order: _this.sorting.sortingColumn.name + "," + _this.sorting.sortingColumn.direction });
+            }
+            if (_this.fetchFn) {
+                _this.loadRemote(query);
+            }
+            else if (Array.isArray(_this._rows)) {
+                _this.loadLocal();
+            }
         });
     };
     /**
@@ -206,12 +228,12 @@ var FsListModel = (function (_super) {
                 init: function (instance) {
                     _this.filtersQuery = instance.gets({ flatten: true });
                     if (_this.initialFetch) {
-                        _this.load();
+                        _this.load$.next();
                     }
                 },
                 change: function (query, instance) {
                     _this.filtersQuery = instance.gets({ flatten: true });
-                    _this.load();
+                    _this.load$.next();
                 }
             };
         }

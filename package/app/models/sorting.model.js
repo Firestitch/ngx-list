@@ -2,9 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var column_model_1 = require("./column.model");
 var Subject_1 = require("rxjs/Subject");
+var isString = require("lodash/isString");
 var Sorting = (function () {
     function Sorting(columns) {
         this.sortingColumns = [];
+        this.fakeSortingColumns = [];
         this.sortingChanged = new Subject_1.Subject();
         this.tableColumns = columns;
     }
@@ -49,13 +51,59 @@ var Sorting = (function () {
             }
         }
         else {
-            this.tableColumns
-                .filter(function (col) { return col.ordered; })
+            this.fakeSortingColumns.concat(this.sortingColumns).filter(function (col) { return col.ordered; })
                 .map(function (col) { return col.ordered = false; });
             column.ordered = true;
         }
         this.sortingColumn = column;
         this.sortingChanged.next();
+    };
+    /**
+     * Init fake columns for sorting
+     * @param columns
+     */
+    Sorting.prototype.initFakeColumns = function (columns) {
+        var _this = this;
+        columns.forEach(function (column) {
+            var fakeColumn = new column_model_1.Column({
+                title: column.name,
+                name: column.value,
+                sortable: true
+            });
+            _this.fakeSortingColumns.push(fakeColumn);
+        });
+    };
+    /**
+     * Set initial sorting
+     * @param {string} sort
+     */
+    Sorting.prototype.initialSortBy = function (sort) {
+        if (!sort || !isString(sort)) {
+            this.sortByFirstSortbale();
+            return;
+        }
+        var _a = sort.split(',')
+            .map(function (str) { return str.trim(); }), columnName = _a[0], columnDirection = _a[1];
+        var column = this.sortingColumns.find(function (col) { return col.name === columnName && col.sortable; }) ||
+            this.fakeSortingColumns.find(function (col) { return col.name === columnName && col.sortable; });
+        if (!column) {
+            return;
+        }
+        this.sortBy(column, false);
+        this.setSortDirection((columnDirection === 'asc')
+            ? column_model_1.SortingDirection.asc
+            : column_model_1.SortingDirection.desc);
+    };
+    /**
+     * Sort by first of available sorting columns
+     */
+    Sorting.prototype.sortByFirstSortbale = function () {
+        var column = this.sortingColumns.find(function (col) { return col.sortable; });
+        if (!column) {
+            return;
+        }
+        this.sortBy(column, false);
+        this.setSortDirection(column_model_1.SortingDirection.asc);
     };
     return Sorting;
 }());

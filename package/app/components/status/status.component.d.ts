@@ -1,7 +1,5 @@
 import { ChangeDetectorRef, OnInit } from '@angular/core';
-import { SortingDirection } from '../../models/column.model';
-import { Pagination } from '../../models/pagination.model';
-import { Sorting } from '../../models/sorting.model';
+import { SortingDirection, Pagination, Sorting } from '../../models';
 export declare class FsStatusComponent implements OnInit {
     private cdRef;
     paging: Pagination;

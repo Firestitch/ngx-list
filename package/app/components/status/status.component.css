@@ -8,8 +8,7 @@
   .infinite-records a {
     color: #546E7A; }
   .infinite-records .order-toggle {
-    cursor: pointer;
-    padding-left: 4px; }
+    cursor: pointer; }
   .infinite-records .saved-filters {
     float: right;
     display: flex; }

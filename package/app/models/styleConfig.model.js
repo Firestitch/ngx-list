@@ -45,10 +45,10 @@ var StyleConfig = (function (_super) {
     StyleConfig.prototype.mergeAlignByPriority = function (prior1, prior2) {
         var targetValue = this.align;
         if (targetValue === void 0) {
-            if (prior1.align !== void 0) {
+            if (prior1 && prior1.align !== void 0) {
                 targetValue = prior1.align;
             }
-            else if (prior2.align !== void 0) {
+            else if (prior2 && prior2.align !== void 0) {
                 targetValue = prior2.align;
             }
             else {
@@ -70,10 +70,10 @@ var StyleConfig = (function (_super) {
         else if (_isString(this.className)) {
             targetValue.push(this.className);
         }
-        if (prior1.className !== void 0) {
+        if (prior1 && prior1.className !== void 0) {
             this.mergeAnythingIntoArray(targetValue, prior1.className);
         }
-        else if (prior2.className !== void 0) {
+        else if (prior2 && prior2.className !== void 0) {
             this.mergeAnythingIntoArray(targetValue, prior2.className);
         }
         this.className = targetValue;

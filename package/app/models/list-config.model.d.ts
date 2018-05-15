@@ -7,7 +7,9 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FsListConfig } from '../interfaces';
 import { Action } from './action.model';
 import { RowAction } from './row-action.model';
+import { Subject } from 'rxjs/Subject';
 export declare class FsListModel extends Model {
+    private config;
     heading: string;
     subheading: string;
     inlineFilters: any;
@@ -28,6 +30,7 @@ export declare class FsListModel extends Model {
     paging: Pagination;
     sorting: Sorting;
     filterService: FsFilter;
+    load$: Subject<{}>;
     data$: BehaviorSubject<any>;
     status: boolean;
     filterInput: boolean;
@@ -41,7 +44,6 @@ export declare class FsListModel extends Model {
     constructor(config?: FsListConfig);
     rows: any;
     static create(config: any): FsListModel;
-    load(): void;
     loadRemote(query: any): void;
     loadLocal(): void;
     /**
@@ -58,6 +60,10 @@ export declare class FsListModel extends Model {
      * Watch page changes
      */
     private subscribe();
+    /**
+     * Subscribe to load$ event with debounce
+     */
+    private subscribeToOnLoad();
     /**
      * Update and watch filter changes
      */

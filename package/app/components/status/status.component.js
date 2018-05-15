@@ -10,13 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var column_model_1 = require("../../models/column.model");
-var pagination_model_1 = require("../../models/pagination.model");
-var sorting_model_1 = require("../../models/sorting.model");
+var models_1 = require("../../models");
 var FsStatusComponent = (function () {
     function FsStatusComponent(cdRef) {
         this.cdRef = cdRef;
-        this.OrderDirection = column_model_1.SortingDirection;
+        this.OrderDirection = models_1.SortingDirection;
     }
     FsStatusComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -35,11 +33,11 @@ var FsStatusComponent = (function () {
     };
     __decorate([
         core_1.Input(),
-        __metadata("design:type", pagination_model_1.Pagination)
+        __metadata("design:type", models_1.Pagination)
     ], FsStatusComponent.prototype, "paging", void 0);
     __decorate([
         core_1.Input(),
-        __metadata("design:type", sorting_model_1.Sorting)
+        __metadata("design:type", models_1.Sorting)
     ], FsStatusComponent.prototype, "sorting", void 0);
     __decorate([
         core_1.Input(),
