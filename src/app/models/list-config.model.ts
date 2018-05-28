@@ -12,7 +12,6 @@ import { FsListConfig } from '../interfaces';
 import { StyleConfig } from './styleConfig.model';
 import { Action } from './action.model';
 import { ReorderModel } from './reorder.model';
-import { RowAction } from './row-action.model';
 import { Subject } from 'rxjs/Subject';
 import { debounceTime } from 'rxjs/operators';
 
@@ -22,7 +21,7 @@ export class FsListModel extends Model {
   @Alias() public subheading: string;
   @Alias() public inlineFilters: any;
   @Alias('actions', Action) public actions: Action[];
-  @Alias('rowActions', RowAction) public rowActions: RowAction[];
+  @Alias('rowActions') public rowActionsRaw: any[];
   @Alias() public rowEvents: any;
   @Alias() public columnTemplates: any;
   @Alias() public filters = [];
@@ -98,7 +97,7 @@ export class FsListModel extends Model {
     this.menuActions = this.actions.filter((action) => !action.menu);
     this.kebabActions = this.actions.filter((action) => action.menu);
 
-    this.hasRowActions = this.rowActions && this.rowActions.length > 0;
+    this.hasRowActions = this.rowActionsRaw && this.rowActionsRaw.length > 0;
     this.watchFilters();
     this.initPaging(config);
     this.subscribe();

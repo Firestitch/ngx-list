@@ -28,7 +28,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   @HostBinding('attr.role') role = 'row';
 
   @Input() public row: any;
-  @Input() public rowActions: RowAction[] = [];
+  @Input() public rowActionsRaw: any [] = [];
   @Input() public rowEvents = {};
 
   @Input() public rowIndex: number;
@@ -38,6 +38,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   @Output() public startDragging = new EventEmitter();
   @Output() public stopDragging = new EventEmitter();
 
+  public rowActions: RowAction[];
   public menuRowActions: RowAction[];
   public inlineRowActions: RowAction[];
 
@@ -55,7 +56,9 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   public ngOnInit() {
     this.initRowEvents();
 
-    if (this.rowActions) {
+    if (this.rowActionsRaw) {
+      this.rowActions = this.rowActionsRaw.map((action) => new RowAction(action));
+
       this.menuRowActions = this.rowActions.filter((action) => action.menu);
       this.inlineRowActions = this.rowActions.filter((action) => !action.menu);
     }

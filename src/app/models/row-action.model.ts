@@ -35,8 +35,10 @@ export class RowAction extends Model {
       this.type = ActionType.basic;
     }
 
+    // Re-assign click function
+    const clickFn = value.click;
     value.click = (row, event, rowActionsRef = null) => {
-      this.clickEvent(row, event, rowActionsRef, value)
+      this.clickEvent(row, event, rowActionsRef, clickFn)
     };
 
     if (this.className) {
@@ -54,7 +56,7 @@ export class RowAction extends Model {
     }
   }
 
-  private clickEvent(row, event, rowActionsRef, value) {
+  private clickEvent(row, event, rowActionsRef, clickFn) {
     // Stop event propagation for parent
     event.stopPropagation();
 
@@ -63,9 +65,9 @@ export class RowAction extends Model {
       rowActionsRef.close.emit();
     }
 
-    if (value.click) {
+    if (clickFn) {
       // Fire passed callback
-      value.click(row, event);
+      clickFn(row, event);
     }
   }
 }
