@@ -20,7 +20,7 @@ var FsBodyComponent = (function () {
         this.zone = zone;
         this.columns = [];
         this.hasFooter = false;
-        this.rowActions = [];
+        this.rowActionsRaw = [];
         this.rowEvents = {};
         this.reorder = false;
         this._rowsDiffer = differs.find([]).create(null);
@@ -53,8 +53,8 @@ var FsBodyComponent = (function () {
     ], FsBodyComponent.prototype, "hasFooter", void 0);
     __decorate([
         core_1.Input(),
-        __metadata("design:type", Object)
-    ], FsBodyComponent.prototype, "rowActions", void 0);
+        __metadata("design:type", Array)
+    ], FsBodyComponent.prototype, "rowActionsRaw", void 0);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)

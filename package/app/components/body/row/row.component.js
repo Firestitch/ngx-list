@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var row_action_model_1 = require("../../../models/row-action.model");
 var FsRowComponent = (function () {
     function FsRowComponent(el, _cdRef, _differs, _renderer) {
         this.el = el;
@@ -18,7 +19,7 @@ var FsRowComponent = (function () {
         this._renderer = _renderer;
         this.t = true;
         this.role = 'row';
-        this.rowActions = [];
+        this.rowActionsRaw = [];
         this.rowEvents = {};
         this.reorder = false;
         this.startDragging = new core_1.EventEmitter();
@@ -28,7 +29,8 @@ var FsRowComponent = (function () {
     }
     FsRowComponent.prototype.ngOnInit = function () {
         this.initRowEvents();
-        if (this.rowActions) {
+        if (this.rowActionsRaw) {
+            this.rowActions = this.rowActionsRaw.map(function (action) { return new row_action_model_1.RowAction(action); });
             this.menuRowActions = this.rowActions.filter(function (action) { return action.menu; });
             this.inlineRowActions = this.rowActions.filter(function (action) { return !action.menu; });
         }
@@ -91,7 +93,7 @@ var FsRowComponent = (function () {
     __decorate([
         core_1.Input(),
         __metadata("design:type", Array)
-    ], FsRowComponent.prototype, "rowActions", void 0);
+    ], FsRowComponent.prototype, "rowActionsRaw", void 0);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)

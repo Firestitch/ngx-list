@@ -44,9 +44,11 @@ var RowAction = (function (_super) {
         if (value.type === void 0) {
             this.type = ActionType.basic;
         }
+        // Re-assign click function
+        var clickFn = value.click;
         value.click = function (row, event, rowActionsRef) {
             if (rowActionsRef === void 0) { rowActionsRef = null; }
-            _this.clickEvent(row, event, rowActionsRef, value);
+            _this.clickEvent(row, event, rowActionsRef, clickFn);
         };
         if (this.className) {
             this.classArray = this.className.split(' ').reduce(function (acc, elem) {
@@ -60,16 +62,16 @@ var RowAction = (function (_super) {
             this.isShown = this.show(row);
         }
     };
-    RowAction.prototype.clickEvent = function (row, event, rowActionsRef, value) {
+    RowAction.prototype.clickEvent = function (row, event, rowActionsRef, clickFn) {
         // Stop event propagation for parent
         event.stopPropagation();
         // Close menu
         if (rowActionsRef) {
             rowActionsRef.close.emit();
         }
-        if (value.click) {
+        if (clickFn) {
             // Fire passed callback
-            value.click(row, event);
+            clickFn(row, event);
         }
     };
     __decorate([

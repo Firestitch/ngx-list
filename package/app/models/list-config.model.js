@@ -30,7 +30,6 @@ var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 var styleConfig_model_1 = require("./styleConfig.model");
 var action_model_1 = require("./action.model");
 var reorder_model_1 = require("./reorder.model");
-var row_action_model_1 = require("./row-action.model");
 var Subject_1 = require("rxjs/Subject");
 var operators_1 = require("rxjs/operators");
 var FsListModel = (function (_super) {
@@ -89,7 +88,7 @@ var FsListModel = (function (_super) {
         }
         _this.menuActions = _this.actions.filter(function (action) { return !action.menu; });
         _this.kebabActions = _this.actions.filter(function (action) { return action.menu; });
-        _this.hasRowActions = _this.rowActions && _this.rowActions.length > 0;
+        _this.hasRowActions = _this.rowActionsRaw && _this.rowActionsRaw.length > 0;
         _this.watchFilters();
         _this.initPaging(config);
         _this.subscribe();
@@ -275,9 +274,9 @@ var FsListModel = (function (_super) {
         __metadata("design:type", Array)
     ], FsListModel.prototype, "actions", void 0);
     __decorate([
-        tsmodels_1.Alias('rowActions', row_action_model_1.RowAction),
+        tsmodels_1.Alias('rowActions'),
         __metadata("design:type", Array)
-    ], FsListModel.prototype, "rowActions", void 0);
+    ], FsListModel.prototype, "rowActionsRaw", void 0);
     __decorate([
         tsmodels_1.Alias(),
         __metadata("design:type", Object)

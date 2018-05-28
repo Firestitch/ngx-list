@@ -19,5 +19,5 @@ export declare class RowAction extends Model {
     constructor(config?: any);
     _fromJSON(value: any): void;
     checkShowStatus(row: any): void;
-    private clickEvent(row, event, rowActionsRef, value);
+    private clickEvent(row, event, rowActionsRef, clickFn);
 }

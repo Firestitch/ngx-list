@@ -9,13 +9,14 @@ export declare class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     t: boolean;
     role: string;
     row: any;
-    rowActions: RowAction[];
+    rowActionsRaw: any[];
     rowEvents: {};
     rowIndex: number;
     columns: Column[];
     reorder: boolean;
     startDragging: EventEmitter<{}>;
     stopDragging: EventEmitter<{}>;
+    rowActions: RowAction[];
     menuRowActions: RowAction[];
     inlineRowActions: RowAction[];
     private _rowDiffer;
