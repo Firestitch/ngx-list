@@ -40,3 +40,5 @@ Desktop.ini
 /build
 /dll
 /demo
+/*.code-workspace
+/package
