@@ -25,6 +25,7 @@ export class RowActionsComponent implements OnInit {
           click: (row, event) => {
             console.log('Done Click', row, event);
           },
+          show: (row) => row.name !== 'Object 2',
           menu: false,
           icon: 'done',
           className: 'mat-warn',
