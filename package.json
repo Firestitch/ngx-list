@@ -42,7 +42,7 @@
     "@firestitch/api": "^0.1.13",
     "@firestitch/common": "^0.2.25",
     "@firestitch/datepicker": "^0.3.1",
-    "@firestitch/example": "^0.2.20",
+    "@firestitch/example": "^0.2.21",
     "@firestitch/filter": "^0.1.29",
     "@firestitch/iframe": "^0.1.5",
     "@firestitch/store": "^0.1.6",
