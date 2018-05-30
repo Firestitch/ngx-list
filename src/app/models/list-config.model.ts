@@ -52,6 +52,8 @@ export class FsListModel extends Model {
   public hasFooter = false;
   public initialFetch = true;
 
+  public theadClass = '';
+
   private _headerConfig: StyleConfig;
   private _cellConfig: StyleConfig;
   private _footerConfig: StyleConfig;
@@ -166,6 +168,8 @@ export class FsListModel extends Model {
 
       this.columns.push(col);
     });
+
+    this.theadClass = this.hasHeader ? 'has-header' : '';
 
     this.updateColspans('headerConfigs', 'headerColspanned');
     this.updateColspans('cellConfigs', 'cellColspanned');
