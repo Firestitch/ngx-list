@@ -88,6 +88,7 @@
       <thead fs-list-head
              class="fs-list-head"
              role="rowgroup"
+             *ngIf="listConfig.hasHeader"
              [columns]="listConfig.columns"
              [sorting]="listConfig.sorting"
              [hasRowActions]="listConfig.hasRowActions"

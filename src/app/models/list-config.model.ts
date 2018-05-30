@@ -48,6 +48,7 @@ export class FsListModel extends Model {
   public reoderEnabled = false;
 
   public loading = false;
+  public hasHeader = false;
   public hasFooter = false;
   public initialFetch = true;
 
@@ -155,10 +156,12 @@ export class FsListModel extends Model {
       footer: this._footerConfig,
     };
 
+
     templates.forEach((column) => {
       const col = new Column(column, defaultConfigs);
 
       if (col.sortable) { this.sorting.addSortableColumn(col); } // add column to sortable
+      if (col.headerTemplate) { this.hasHeader = true; }
       if (col.footerTemplate) { this.hasFooter = true; }
 
       this.columns.push(col);
