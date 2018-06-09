@@ -17,6 +17,7 @@ import { ActionsComponent } from './app/components/actions/actions.component';
 import { RowActionsComponent } from './app/components/row-actions/row-actions.component';
 import { FiltersComponent } from './app/components/filters/filters.component';
 import { SortableComponent } from './app/components/sortable/sortable.component';
+import { FiltersExtendedComponent } from './app/components/filters-extended/filters-extended.component';
 
 @NgModule({
   bootstrap: [ AppComponent ],
@@ -41,6 +42,7 @@ import { SortableComponent } from './app/components/sortable/sortable.component'
     ActionsComponent,
     RowActionsComponent,
     FiltersComponent,
+    FiltersExtendedComponent,
     SortableComponent,
   ],
   providers: [

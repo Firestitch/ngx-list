@@ -27,7 +27,10 @@ export class Sorting {
   public setSortDirection(direction) {
     if (this.sortingColumn && this.sortingColumn.sortingDirection !== direction) {
       this.sortingColumn.sortingDirection = direction;
-      this.sortingChanged.next();
+      this.sortingChanged.next({
+        sortBy: this.sortingColumn.name,
+        sortDirection: this.sortingColumn.direction
+      });
     }
   }
 
@@ -47,7 +50,10 @@ export class Sorting {
       this.sortingColumn = void 0;
       column.ordered = false;
 
-      this.sortingChanged.next();
+      this.sortingChanged.next({
+        sortBy: this.sortingColumn.name,
+        sortDirection: this.sortingColumn.direction
+      });
 
       return true;
     }
@@ -68,7 +74,10 @@ export class Sorting {
     }
 
     this.sortingColumn = column;
-    this.sortingChanged.next();
+    this.sortingChanged.next({
+      sortBy: this.sortingColumn.name,
+      sortDirection: this.sortingColumn.direction
+    });
   }
 
   /**

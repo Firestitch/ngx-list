@@ -6,6 +6,7 @@ import { FsListComponent } from '../../../../src/app/components/list';
 import { ActionType } from '../../../../src/app/models';
 
 import 'rxjs/add/operator/map';
+import { ItemType } from '@firestitch/filter/models/fs-filter-item';
 
 
 @Component({
@@ -49,6 +50,34 @@ export class KitchenSinkComponent implements OnInit {
               { name: 'Option 3', value: 3 }
             ];
           }
+        },
+        {
+          name: 'range',
+          type: ItemType.range,
+          label: 'Range',
+          placeholder: ['Min', 'Max']
+        },
+        {
+          name: 'date',
+          type: ItemType.date,
+          label: 'Date'
+        },
+        {
+          name: 'checkbox',
+          type: ItemType.checkbox,
+          label: 'Checkbox'
+        },
+        {
+          name: 'state',
+          type: ItemType.select,
+          label: 'Status',
+          multiple: true,
+          values: [
+            { name: 'Active', value: 'active' },
+            { name: 'Pending', value: 'pending' },
+            { name: 'Deleted', value: 'deleted' }
+          ],
+          isolate: { label: 'Show Deleted', value: 'deleted' }
         }
       ],
       reorder: {

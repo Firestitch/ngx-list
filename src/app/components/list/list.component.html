@@ -1,12 +1,12 @@
 <div class="fs-list-container" [ngClass]="{ 'has-filter-input': listConfig.filterInput,
-                                            'has-filters': listConfig.filterService.fsConfig.items.length,
+                                            'has-filters': listConfig.filterConfig?.items.length,
                                             'has-heading': listConfig.heading,
                                             'has-status': listConfig.status,
                                             'has-actions': listConfig.actions.length }">
   <!-- Header -->
   <div class="fs-list-header-container">
     <div class="fs-list-header"
-        [ngClass]="{ 'no-wrap': listConfig.reoderEnabled || !listConfig.filterService.fsConfig.items.length }">
+        [ngClass]="{ 'no-wrap': listConfig.reoderEnabled || !listConfig.filterConfig?.items.length }">
       <div class="heading-container" *ngIf="listConfig.heading || listConfig.subheading">
         <h2 class="heading" *ngIf="listConfig.heading">{{listConfig.heading}}</h2>
         <span class="subheading" *ngIf="listConfig.subheading">{{listConfig.subheading}}</span>
@@ -15,8 +15,11 @@
       <div class="fs-list-toolbar">
         <fs-filter
           class="fs-list-filter"
-          [hidden]="!listConfig.filterService.fsConfig.items.length || listConfig.reoderEnabled"
-          [(filter)]="listConfig.filterService"
+          *ngIf="listConfig.filterConfig"
+          [hidden]="!listConfig.filterConfig?.items.length || listConfig.reoderEnabled"
+          [filter]="listConfig.filterConfig"
+          [sortUpdate]="listConfig?.sorting?.sortingChanged"
+          [showSortBy]="!listConfig.status"
         >
         </fs-filter>
 

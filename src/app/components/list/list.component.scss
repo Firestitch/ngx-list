@@ -307,7 +307,6 @@
   }
 
   @include phone {
-
     .fs-list-filter {
       .inline-actions {
         top: initial !important; // Cratch, but we need to change layout in fs-filter.
@@ -320,7 +319,9 @@
     }
 
     .fs-list-header {
-
+      .fs-list-toolbar {
+        margin-left: auto;
+      }
       &:not(.has-filters) {
         flex-flow: row nowrap !important;
 

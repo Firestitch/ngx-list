@@ -1,0 +1,29 @@
+<fs-list [config]="config" #table>
+
+  <fs-list-column>
+    <ng-template fs-list-header>
+      №
+    </ng-template>
+    <ng-template fs-list-cell let-index="index">
+      {{index}}
+    </ng-template>
+  </fs-list-column>
+
+  <fs-list-column name="name" title="Name" [sortable]="true">
+    <ng-template fs-list-header>
+      <b>User</b> name
+    </ng-template>
+    <ng-template fs-list-cell let-value="value" let-row="row">
+      {{value}}
+      <mat-form-field>
+        <input matInput [(ngModel)]="row.guid" (click)="$event.stopPropagation(); onClick(row, $event)">
+      </mat-form-field>
+    </ng-template>
+  </fs-list-column>
+
+  <fs-list-column name="guid" title="GUID" [sortable]="true">
+    <ng-template fs-list-cell let-guid="value" let-row="row">
+      {{ row.guid }}
+    </ng-template>
+  </fs-list-column>
+</fs-list>

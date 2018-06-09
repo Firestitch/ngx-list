@@ -1,6 +1,6 @@
-import { FsFilter } from '@firestitch/filter';
+// import { FsFilter } from '@firestitch/filter';
 
-import { Column } from './column.model';
+import { Column, SortingDirection } from './column.model';
 import { Pagination } from './pagination.model';
 import { Sorting } from './sorting.model';
 
@@ -38,7 +38,8 @@ export class FsListModel extends Model {
   public persist: string;
   public paging = new Pagination();
   public sorting = new Sorting(this.columns);
-  public filterService = new FsFilter();
+  // public filterService = new FsFilter();
+  public filterConfig = null;
 
   public load$ = new Subject();
   public data$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
@@ -99,7 +100,6 @@ export class FsListModel extends Model {
     this.kebabActions = this.actions.filter((action) => action.menu);
 
     this.hasRowActions = this.rowActionsRaw && this.rowActionsRaw.length > 0;
-    this.watchFilters();
     this.initPaging(config);
     this.subscribe();
   }
@@ -174,10 +174,7 @@ export class FsListModel extends Model {
     // Set sortBy default column
     this.sorting.initialSortBy(this.config.sort);
 
-    // // Start fetch request
-    // if (!this.filters || this.filters.length === 0 && this.initialFetch) {
-    //   this.load();
-    // }
+    this.watchFilters();
   }
 
   /**
@@ -238,10 +235,29 @@ export class FsListModel extends Model {
    */
   private watchFilters() {
     if (this.filters && this.filters.length) {
-      this.filterService.fsConfig = {
+
+      const sortingValues =
+        [
+          ...this.sorting.sortingColumns,
+          ...this.sorting.fakeSortingColumns
+        ].reduce((acc, column) => {
+
+          const sortingItem = {
+            name: column.title,
+            value: column.name,
+            default: this.sorting.sortingColumn && this.sorting.sortingColumn.name === column.name
+          };
+
+          acc.push(sortingItem);
+          return acc;
+      }, []);
+
+      this.filterConfig = {
         persist: this.persist,
-        items: this.filters,
+        items: this.filters || [],
         inline: this.inlineFilters,
+        sorting: sortingValues,
+        sortingDirection: (this.sorting.sortingColumn && this.sorting.sortingColumn.direction) || 'asc',
         init: (instance) => {
           this.filtersQuery = instance.gets({ flatten: true });
           if (this.initialFetch) {
@@ -251,6 +267,16 @@ export class FsListModel extends Model {
         change: (query, instance) => {
           this.filtersQuery = instance.gets({ flatten: true });
           this.load$.next();
+        },
+        sortChange: (instance) => {
+          const sorting = instance.getSorting();
+          const targetColumn = this.columns.find((column) => column.name === sorting.sortBy);
+          if (targetColumn) {
+            this.sorting.sortBy(targetColumn, false);
+
+            const sortDirection = sorting.sortDirection === 'asc' ? SortingDirection.asc : SortingDirection.desc;
+            this.sorting.setSortDirection(sortDirection);
+          }
         }
       };
     } else {
