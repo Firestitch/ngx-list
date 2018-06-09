@@ -238,6 +238,14 @@
   .fs-list-head {
     display: table-header-group;
 
+    &:not(.has-header) .fs-list-row .fs-list-col {
+      padding: 0;
+
+      .wrap {
+        display: none;
+      }
+    }
+
     .fs-list-col {
       border-bottom: 2px solid #ddd;
       color: #999;
