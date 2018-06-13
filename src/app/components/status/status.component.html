@@ -1,17 +1,22 @@
 <div class="infinite-records" fxLayout="row" fxLayoutAlign="start center" *ngIf="paging.enabled">
   Showing&nbsp;<a [matMenuTriggerFor]="limitsMenu">{{ paging.displayed }}</a>&nbsp;of {{ paging.records }} results
-  <span *ngIf="sorting.sortingColumn">
-    &nbsp;sorted by
-    <a class="order-toggle" [matMenuTriggerFor]="orderColumnsMenu">{{ sorting.sortingColumn.title }}</a>,
-    <a class="order-toggle" [matMenuTriggerFor]="orderDirectionMenu">{{ sorting.sortingColumn.fullNameDirection }}</a>
-  </span>
+  <ng-container *ngTemplateOutlet="sortedBy"></ng-container>
 </div>
 
 <div class="infinite-records" fxLayout="row" fxLayoutAlign="start center" *ngIf="!paging.enabled && paging.displayed > 0">
   Showing&nbsp;
   <span *ngIf="paging.displayed == 1">{{ paging.displayed }} result</span>
   <span *ngIf="paging.displayed > 1">{{ paging.displayed }} results</span>
+  <ng-container *ngTemplateOutlet="sortedBy"></ng-container>
 </div>
+
+<ng-template #sortedBy>
+  <span *ngIf="sorting.sortingColumn">
+    &nbsp;sorted by
+    <a class="order-toggle" [matMenuTriggerFor]="orderColumnsMenu">{{ sorting.sortingColumn.title }}</a>,
+    <a class="order-toggle" [matMenuTriggerFor]="orderDirectionMenu">{{ sorting.sortingColumn.fullNameDirection }}</a>
+  </span>
+</ng-template>
 
 <mat-menu #limitsMenu>
   <button type="button" mat-menu-item *ngFor="let lim of paging.limits" (click)="setLimit(lim)"> {{ lim }} </button>

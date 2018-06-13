@@ -20,6 +20,13 @@ export class FiltersComponent implements OnInit {
   public ngOnInit() {
 
     this.config = {
+      heading: 'Filters',
+      initialFetch: true,
+      subheading: 'With title and status',
+      paging: {
+        limits: [5, 15, 50]
+      },
+      status: true,
       filters: [
         {
           name: 'keyword',
@@ -45,9 +52,7 @@ export class FiltersComponent implements OnInit {
         query.limit = 3;
         return this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
           .map(response => ({ data: response.data.objects, paging: response.data.paging }));
-      },
-      paging: false,
-      status: false
+      }
     };
   }
 }

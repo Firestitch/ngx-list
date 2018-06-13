@@ -27,8 +27,8 @@ export class KitchenSinkComponent implements OnInit {
     this.config = {
       heading: 'Events',
       subheading: 'Subheading',
-      status: true,
-      filterInput: false,
+      status: false,
+      filterInput: true,
       paging: {
         limits: [5, 15, 50, 150, 250, 500, 1000]
       },
@@ -176,7 +176,6 @@ export class KitchenSinkComponent implements OnInit {
         return this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
           .map(response => ({ data: response.data.objects, paging: response.data.paging }));
       },
-      // initialFetch: false,
     };
   }
 

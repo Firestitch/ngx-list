@@ -233,6 +233,23 @@
         display: none;
       }
     }
+
+    // We need to put everything at the same row if we don't have input
+    &:not(.has-filter-input) {
+      &.has-heading {
+        .fs-list-header {
+          flex-flow: row nowrap !important;
+        }
+      }
+    }
+
+    &:not(.has-status) {
+      .fs-filter {
+        .sort {
+          display: table-row-group !important;
+        }
+      }
+    }
   }
 
   .fs-list-head {
@@ -335,6 +352,13 @@
 
         .filter-input {
           display: none !important;
+        }
+
+        .active-filters-counter {
+          display: none;
+          &.with-input {
+            display: inherit !important;
+          }
         }
       }
     }

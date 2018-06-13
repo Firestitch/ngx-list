@@ -20,6 +20,10 @@ export class FiltersExtendedComponent implements OnInit {
   public ngOnInit() {
 
     this.config = {
+      heading: 'Filters extended',
+      subheading: 'With heading but without search input and status',
+      status: false,
+      filterInput: false,
       sorts: [
         {
           name: 'Last Login',
