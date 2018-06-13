@@ -220,6 +220,15 @@
       }
     }
 
+    &:not(.has-filter-input) {
+      .active-filters-counter {
+        display: none;
+        &.with-input {
+          display: inherit !important;
+        }
+      }
+    }
+
     &:not(.has-filters) {
       .fs-list-header {
         .fs-list-toolbar {
