@@ -1,4 +1,4 @@
-import { Alias, Model} from 'tsmodels';
+import { Alias, Model } from 'tsmodels';
 import { FsPaging } from '../interfaces/listconfig.interface';
 import { Subject } from 'rxjs/Subject';
 
@@ -136,6 +136,7 @@ export class Pagination extends Model {
     }
 
     if (!this.pages || this.pages < 5) {
+      from = 1;
       to = this.pages || 0;
     }
 

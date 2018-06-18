@@ -189,12 +189,6 @@
       font-weight: 400;
     }
 
-    .filter-input {
-      .mat-form-field-wrapper {
-        padding: 0 !important;
-      }
-    }
-
     .fs-list-filter {
       flex: 100;
 
@@ -378,6 +372,13 @@
       .fs-list-toolbar {
         margin-left: auto;
       }
+
+      .filter-input {
+        .mat-form-field-wrapper {
+          padding: 0 !important;
+        }
+      }
+
       &:not(.has-filters) {
         flex-flow: row nowrap !important;
 
