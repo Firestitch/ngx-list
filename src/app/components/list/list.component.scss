@@ -24,6 +24,7 @@
 
   .fs-filter {
     margin-bottom: 0;
+    position: initial !important;
 
     .main-filter-bar {
       overflow: hidden;
@@ -155,6 +156,7 @@
     display: flex;
     flex-flow: column wrap;
     justify-content: space-between;
+    position: relative;
 
     &.no-wrap {
       flex-flow: row nowrap !important;
@@ -189,7 +191,12 @@
 
     .fs-list-filter {
       flex: 100;
-      margin-right: 10px;
+
+      .no-input {
+        .main-filter-bar {
+          //position: initial !important;
+        }
+      }
     }
     .fs-list-actions {
       margin-left: auto;
@@ -252,13 +259,18 @@
       }
     }
 
-    &:not(.has-status) {
+    &.has-actions {
+      .fs-list-filter {
+        margin-right: 10px;
+      }
+    }
+    /*&:not(.has-status) {
       .fs-filter {
         .sort {
           display: table-row-group !important;
         }
       }
-    }
+    }*/
   }
 
   .fs-list-head {
@@ -364,7 +376,11 @@
         flex-flow: row nowrap !important;
 
         .filter-input {
-          display: none !important;
+          .mat-input-prefix,
+          .mat-input-infix,
+          .mat-input-underline {
+            display: none !important;
+          }
         }
 
         .active-filters-counter {
