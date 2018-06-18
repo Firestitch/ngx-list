@@ -189,6 +189,12 @@
       font-weight: 400;
     }
 
+    .filter-input {
+      .mat-form-field-wrapper {
+        padding: 0 !important;
+      }
+    }
+
     .fs-list-filter {
       flex: 100;
 
