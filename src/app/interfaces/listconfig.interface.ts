@@ -19,6 +19,7 @@ export interface FsListConfig {
   rowActions?: Object[];
   actions?: Object[];
   fetch?: Function;
+  scrollable?: FsListScrollableConfig | boolean;
   initialFetch?: boolean;
   rowEvents?: Object;
   header?: FsListHeaderConfig;
@@ -54,6 +55,12 @@ export interface FsListFooterConfig {
 export interface FsListSortsConfig {
   name: string;
   value: string;
+}
+
+export interface FsListScrollableConfig {
+  height: string;
+  activationDown: number;
+  loaderDiametr: number;
 }
 
 // export interface FsFetchFunction {

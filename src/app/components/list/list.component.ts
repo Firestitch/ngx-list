@@ -5,7 +5,8 @@ import {
   Input,
   ContentChildren,
   QueryList,
-  ChangeDetectionStrategy,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 
 import { FsListColumnDirective } from '../../directives';
@@ -18,16 +19,15 @@ import { FsListConfig } from '../../interfaces';
   templateUrl: 'list.component.html',
   styleUrls: [
     './list.component.scss',
-  ],
-
-  changeDetection: ChangeDetectionStrategy.OnPush
+  ]
 })
 
 export class FsListComponent implements OnInit, OnDestroy {
   @Input() public config: FsListConfig;
 
-  public displayRows;
+  public displayRows = [];
   public listConfig: FsListModel;
+  @ViewChild('scrollable', { read: ElementRef }) public scrl;
   /**
    * Set columns to config
    * Create Column Model instances
@@ -40,6 +40,7 @@ export class FsListComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+
     this.listConfig = new FsListModel(this.config);
 
     if (!this.listConfig.filters || this.listConfig.filters.length === 0 && this.listConfig.initialFetch) {
@@ -47,7 +48,11 @@ export class FsListComponent implements OnInit, OnDestroy {
     }
 
     this.listConfig.data$.subscribe((rows) => {
-      this.displayRows = rows;
+      if (this.listConfig.scrollable) {
+        this.displayRows.push(...rows);
+      } else {
+        this.displayRows = rows;
+      }
     });
   }
 

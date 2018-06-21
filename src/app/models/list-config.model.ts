@@ -25,6 +25,7 @@ export class FsListModel extends Model {
   @Alias() public rowEvents: any;
   @Alias() public columnTemplates: any;
   @Alias() public filters = [];
+  @Alias() public scrollable = false;
   @Alias('reorder', ReorderModel) public reoder;
   // @Alias() public initialFetch = true; //TODO fixme
   @Alias('fetch') public fetchFn: any;
@@ -49,6 +50,7 @@ export class FsListModel extends Model {
   public reoderEnabled = false;
 
   public loading = false;
+
   public hasHeader = false;
   public hasFooter = false;
   public initialFetch = true;
@@ -117,13 +119,15 @@ export class FsListModel extends Model {
   public loadRemote(query) {
     const result: any = this.fetchFn(query);
 
+    console.log('started');
+
     if (result instanceof Promise) {
       result.then(response => {
         if (response.paging) {
           this.paging.updatePaging(response.paging);
         }
 
-        this.loading = false;
+        // this.loading = false;
         this.data$.next(response.data);
       });
     } else if (result instanceof Observable) {
@@ -133,6 +137,7 @@ export class FsListModel extends Model {
         }
 
         this.loading = false;
+        console.log('ended');
         this.data$.next(response.data);
       });
     }
@@ -144,7 +149,7 @@ export class FsListModel extends Model {
     const to = (this.paging.page === 1) ? this.paging.limit : this.paging.limit * this.paging.page;
     const sliceOfRows = this._rows.slice(from, to);
     this.data$.next(sliceOfRows);
-    this.loading = false;
+    // this.loading = false;
   }
 
   /**

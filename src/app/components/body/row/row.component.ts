@@ -13,6 +13,8 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  AfterViewInit,
+  ViewChild, ViewChildren,
 } from '@angular/core';
 
 import { Column } from '../../../models';
@@ -37,6 +39,8 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   @Output() public startDragging = new EventEmitter();
   @Output() public stopDragging = new EventEmitter();
+
+  @ViewChildren('td') public cellRefs;
 
   public rowActions: RowAction[];
   public menuRowActions: RowAction[];

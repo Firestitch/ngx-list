@@ -81,13 +81,29 @@
       [dataChangedRef]="listConfig.data$"
       [sorting]="listConfig.sorting"
       [paging]="listConfig.paging"
-      *ngIf="listConfig.paging && !listConfig.reoderEnabled">
+      *ngIf="listConfig.paging && !listConfig.reoderEnabled && !listConfig.scrollable">
     </fs-list-status>
   </div>
 
 
   <!-- Table implementation -->
-  <div class="fs-list-table-container">
+  <div class="fs-list-table-container scrollable"
+       *ngIf="listConfig.scrollable"
+       fs-scroll
+       [style.height]="listConfig.scrollable?.height || 'auto'"
+       [(loading)]="listConfig.loading"
+       [activationDown]="listConfig.scrollable?.activationDown || 85"
+       [loaderDiametr]="listConfig.scrollable?.loaderDiametr || 25"
+       (scrolledDown)="nextPage()">
+    <ng-template [ngTemplateOutlet]="table"></ng-template>
+  </div>
+
+  <div class="fs-list-table-container"
+       *ngIf="!listConfig.scrollable">
+    <ng-template [ngTemplateOutlet]="table"></ng-template>
+  </div>
+
+  <ng-template #table>
     <table class="fs-list-table" role="grid">
       <thead fs-list-head
              class="fs-list-head"
@@ -118,10 +134,10 @@
              [hasRowActions]="listConfig.hasRowActions">
       </tfoot>
     </table>
-  </div>
+  </ng-template>
 
   <fs-list-pagination
-    *ngIf="listConfig.paging.enabled"
+    *ngIf="listConfig.paging.enabled && !listConfig.scrollable"
     [dataChangedRef]="listConfig.data$"
     [pagination]="listConfig.paging">
   </fs-list-pagination>

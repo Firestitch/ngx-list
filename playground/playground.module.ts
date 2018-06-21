@@ -9,6 +9,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { FsExampleModule } from '@firestitch/example';
 import { FsApiModule } from '@firestitch/api';
+import { FsBadgeModule } from '@firestitch/badge';
+import { FsDateModule } from '@firestitch/date';
 
 import { FsListModule } from '../src';
 import { AppMaterialModule } from './app/material.module';
@@ -18,6 +20,8 @@ import { RowActionsComponent } from './app/components/row-actions/row-actions.co
 import { FiltersComponent } from './app/components/filters/filters.component';
 import { SortableComponent } from './app/components/sortable/sortable.component';
 import { FiltersExtendedComponent } from './app/components/filters-extended/filters-extended.component';
+import { InfinityScrollComponent } from './app/components/infinity-scroll/infinity-scroll.component';
+
 
 @NgModule({
   bootstrap: [ AppComponent ],
@@ -30,8 +34,10 @@ import { FiltersExtendedComponent } from './app/components/filters-extended/filt
     FlexLayoutModule,
     FsExampleModule,
     FsApiModule,
+    FsBadgeModule,
+    FsDateModule,
     RouterModule.forRoot([
-      { path: '', component: AppComponent}
+      { path: '', component: AppComponent },
     ])
   ],
   entryComponents: [
@@ -44,6 +50,7 @@ import { FiltersExtendedComponent } from './app/components/filters-extended/filt
     FiltersComponent,
     FiltersExtendedComponent,
     SortableComponent,
+    InfinityScrollComponent,
   ],
   providers: [
   ],

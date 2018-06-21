@@ -1,37 +1,53 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FsApi } from '@firestitch/api';
-import { ItemType } from '@firestitch/filter';
-
 import { FsListConfig } from '../../../../src';
 import { FsListComponent } from '../../../../src/app/components/list';
 import { ActionType } from '../../../../src/app/models';
 
 import 'rxjs/add/operator/map';
+import { ItemType } from '@firestitch/filter/models/fs-filter-item';
 
 
 @Component({
-  selector: 'kitchensink',
-  templateUrl: 'kitchensink.component.html',
+  selector: 'infinity-scroll',
+  templateUrl: 'infinity-scroll.component.html',
   styles: []
 })
-export class KitchenSinkComponent implements OnInit {
+export class InfinityScrollComponent implements OnInit {
 
   @ViewChild('table')
   public table: FsListComponent; // Controller fs-list
   public config: FsListConfig;
+
+  public avatars = [
+    'http://api.randomuser.me/portraits/women/77.jpg',
+    'http://api.randomuser.me/portraits/men/38.jpg',
+    'http://api.randomuser.me/portraits/men/91.jpg',
+    'http://api.randomuser.me/portraits/men/74.jpg',
+    'http://api.randomuser.me/portraits/women/85.jpg',
+  ];
+
+  public roles = [
+    {value: 'admin', viewValue: 'Admin'},
+    {value: 'moderator', viewValue: 'Moderator'},
+    {value: 'user', viewValue: 'User'}
+  ];
 
   constructor(private _fsApi: FsApi, private _router: Router) {}
 
   public ngOnInit() {
 
     this.config = {
-      heading: 'Events',
-      subheading: 'Subheading',
-      status: false,
-      filterInput: true,
+      heading: 'Infinity Scroll',
       paging: {
-        limits: [5, 15, 50, 150, 250, 500, 1000]
+        limits: [30, 50, 150]
+      },
+      scrollable: {
+        height: '400px',
+        activationDown: 85,
+        loaderDiametr: 25,
+
       },
       filters: [
         {
@@ -81,37 +97,6 @@ export class KitchenSinkComponent implements OnInit {
           isolate: { label: 'Show Deleted', value: 'deleted' }
         }
       ],
-      reorder: {
-        start: () => {
-          console.log('reorder started');
-        },
-        done: function (data) {
-          console.log(data);
-        }
-      },
-      actions: [
-        {
-          click: (event) => {
-            // this.table.enableOrder();
-          },
-          label: 'Kebab only button',
-          menu: true
-        },
-        {
-          click: (event) => {
-            console.log(event);
-          },
-          label: 'Primary Button'
-        },
-        {
-          click: (event) => {
-            console.log(event);
-          },
-          icon: 'delete',
-          primary: false,
-          label: 'Secondary Button'
-        }
-      ],
       rowActions: [
         {
           click: (row, event) => {
@@ -155,32 +140,29 @@ export class KitchenSinkComponent implements OnInit {
           label: 'Remove'
         }
       ],
-      rowEvents:
-      {
-        mouseover: function(event) {
-          // console.log('over', event);
-        },
-        click: function(event) {
-          console.log('row click', event);
-        }
-      },
-      header: {
-        className: 'header-test-defaults-class',
-        align: 'left'
-      },
-      cell: {
-        className: 'cell-test-defaults-class',
-        align: 'left'
-      },
       fetch: (query) => {
         query.count = 500;
         return this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
-          .map(response => ({ data: response.data.objects, paging: response.data.paging }));
+          .map(response => {
+            response.data.objects.forEach((obj) => {
+              obj.avatar = this.avatars[this.randomInteger(0, 4)]
+            });
+
+            console.log(response.data.objects);
+
+            return { data: response.data.objects, paging: response.data.paging };
+          });
       },
     };
   }
 
   public onClick(row, event) {
     console.log(row, event);
+  }
+
+  private randomInteger(min, max) {
+    let rand = min - 0.5 + Math.random() * (max - min + 1);
+    rand = Math.round(rand);
+    return rand;
   }
 }
