@@ -6,5 +6,7 @@
     [rowEvents]="rowEvents"
     [reorder]="reorder"
     [ngClass]="{'drag-row': reorder}"
-    (mousedown)="dragStart($event, activeRow)" #activeRow>
+    (mousedown)="dragStart($event, activeRow)"
+    (touchstart)="dragStart($event, activeRow)"
+    #activeRow>
 </tr>

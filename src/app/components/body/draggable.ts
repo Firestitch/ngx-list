@@ -150,9 +150,8 @@ export class Draggable {
    * @returns {any}
    */
   private lookupElementUnder(event) {
-    const top = event.y || event.clientY - (this.dragElement.targetHeight / 2);
-    const bottom = event.y || event.clientY + this.dragElement.targetHeight - (this.dragElement.targetHeight / 2);
-
+    const top = event.y || event.clientY;
+    const bottom = event.y || event.clientY;
     let elemIndex = null;
 
     for (let i = 0; i < this.elements.length; i++) {
