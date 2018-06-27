@@ -1,6 +1,6 @@
 {
   "name": "@firestitch/list",
-  "version": "0.1.54",
+  "version": "0.1.55",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/fs-list"
@@ -45,7 +45,7 @@
     "@firestitch/date": "^0.1.19",
     "@firestitch/datepicker": "^0.3.1",
     "@firestitch/example": "^0.2.21",
-    "@firestitch/filter": "^0.2.12",
+    "@firestitch/filter": "^0.2.13",
     "@firestitch/iframe": "^0.1.5",
     "@firestitch/scroll": "^0.1.0",
     "@firestitch/store": "^0.1.6",
