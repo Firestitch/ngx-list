@@ -92,12 +92,12 @@
   <!-- Table implementation -->
   <div class="fs-list-table-container scrollable"
        *ngIf="listConfig.scrollable"
-       fs-scroll
+       fsScroll
        [style.height]="listConfig.scrollable?.height || 'auto'"
-       [(loading)]="listConfig.loading"
+       [(isLoading)]="listConfig.loading"
        [activationDown]="listConfig.scrollable?.activationDown || 85"
        [loaderDiametr]="listConfig.scrollable?.loaderDiametr || 25"
-       (scrolledDown)="nextPage()">
+       (load)="nextPage()">
     <ng-template [ngTemplateOutlet]="table"></ng-template>
   </div>
 
