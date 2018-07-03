@@ -31,7 +31,7 @@
               <button type="button"
                       mat-raised-button
                       (click)="action.click(action, $event)"
-                      [ngClass]="{ 'mat-primary': action.primary }">
+                      [ngClass]="action.classArray">
                 <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{ action.label }}
               </button>
           </span>
@@ -52,13 +52,16 @@
                     mat-menu-item
                     *ngFor="let action of listConfig.menuActions"
                     (click)="action.click(row, $event)"
+                    [ngClass]="action.classArray"
             >
               <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
             </button>
             <button type="button"
                     mat-menu-item
                     *ngFor="let action of listConfig.kebabActions"
-                    (click)="action.click(row, $event)">
+                    (click)="action.click(row, $event)"
+                    [ngClass]="action.classArray"
+            >
               <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
             </button>
           </mat-menu>

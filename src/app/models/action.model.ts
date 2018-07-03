@@ -6,7 +6,10 @@ export class Action extends Model {
   @Alias() public icon: string;
   @Alias() public label: string;
   @Alias() public menu: boolean;
+  @Alias() public className: string;
   @Alias() public click: Function;
+
+  public classArray: string[] = [];
 
   constructor(config: any = {}) {
     super();
@@ -23,6 +26,18 @@ export class Action extends Model {
 
     if (value.click === void 0) {
       this.click = () => { }
+    }
+
+    if (this.className) {
+      this.classArray = this.className.split(' ').reduce((acc, elem) => {
+        acc.push(elem);
+
+        return acc;
+      }, []);
+    }
+
+    if (this.primary) {
+      this.classArray.push('mat-primary');
     }
   }
 }
