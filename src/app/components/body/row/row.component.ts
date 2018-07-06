@@ -13,12 +13,11 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  AfterViewInit,
-  ViewChild, ViewChildren,
+  ViewChildren,
 } from '@angular/core';
 
-import { Column } from '../../../models';
-import { RowAction } from '../../../models/row-action.model';
+import { Column, RowAction } from '../../../models';
+
 
 @Component({
   selector: '[fs-list-row]',
@@ -64,7 +63,6 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     if (this.rowIndex % 2 !== 0) cls += ' fs-list-row-odd';
     if (this.rowIndex % 2 === 0) cls += ' fs-list-row-even';
 
-    console.log('rowCLS', this.rowClass);
     if (this.rowClass) {
       const resultClass = this.rowClass(this.row);
 
