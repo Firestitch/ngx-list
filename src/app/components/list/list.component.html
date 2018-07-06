@@ -84,7 +84,11 @@
       [dataChangedRef]="listConfig.data$"
       [sorting]="listConfig.sorting"
       [paging]="listConfig.paging"
-      *ngIf="listConfig.paging && !listConfig.reoderEnabled && !listConfig.scrollable">
+      *ngIf="
+      listConfig.paging &&
+      !listConfig.reoderEnabled &&
+      !listConfig.scrollable &&
+      (displayRows.length > 0 && !listConfig.loading)">
     </fs-list-status>
   </div>
 
@@ -107,7 +111,7 @@
   </div>
 
   <ng-template #table>
-    <table class="fs-list-table" role="grid">
+    <table class="fs-list-table" role="grid" *ngIf="displayRows.length > 0 && !listConfig.loading">
       <thead fs-list-head
              class="fs-list-head"
              role="rowgroup"
@@ -141,8 +145,17 @@
   </ng-template>
 
   <fs-list-pagination
-    *ngIf="listConfig.paging.enabled && !listConfig.scrollable"
+    *ngIf="listConfig.paging.enabled && !listConfig.scrollable && (displayRows.length > 0 && !listConfig.loading)"
     [dataChangedRef]="listConfig.data$"
     [pagination]="listConfig.paging">
   </fs-list-pagination>
+
+  <div class="fs-list-no-results" *ngIf="displayRows.length === 0 && !listConfig.loading">
+    <ng-template [ngIf]="!listConfig?.noResults?.message">
+      No Results Found
+    </ng-template>
+    <ng-template [ngIf]="listConfig?.noResults?.message">
+      {{ listConfig.noResults.message }}
+    </ng-template>
+  </div>
 </div>

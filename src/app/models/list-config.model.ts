@@ -31,7 +31,7 @@ export class FsListModel extends Model {
   // @Alias() public initialFetch = true; //TODO fixme
   @Alias('fetch') public fetchFn: any;
   @Alias('rows') private _rows: any;
-
+  @Alias() public noResults;
   public filtersQuery: any;
   public hasRowActions;
   public menuActions: Action[] = [];
@@ -120,8 +120,6 @@ export class FsListModel extends Model {
   public loadRemote(query) {
     const result: any = this.fetchFn(query);
 
-    console.log('started');
-
     if (result instanceof Promise) {
       result.then(response => {
         if (response.paging) {
@@ -138,7 +136,6 @@ export class FsListModel extends Model {
         }
 
         this.loading = false;
-        console.log('ended');
         this.data$.next(response.data);
       });
     }

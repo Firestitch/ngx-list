@@ -20,6 +20,12 @@
   border-collapse: collapse;
 }
 
+.fs-list-no-results {
+  text-align: center;
+  font-size: larger;
+  color: #999;
+}
+
 :host ::ng-deep {
 
   .fs-filter {
