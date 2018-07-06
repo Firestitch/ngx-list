@@ -22,6 +22,7 @@ export class FsListModel extends Model {
   @Alias() public inlineFilters: any;
   @Alias('actions', Action) public actions: Action[];
   @Alias('rowActions') public rowActionsRaw: any[];
+  @Alias('rowClass') public rowClass;
   @Alias() public rowEvents: any;
   @Alias() public columnTemplates: any;
   @Alias() public filters = [];

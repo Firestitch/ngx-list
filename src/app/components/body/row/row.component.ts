@@ -26,12 +26,12 @@ import { RowAction } from '../../../models/row-action.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
-  @HostBinding('class.fs-list-row') t = true;
   @HostBinding('attr.role') role = 'row';
 
   @Input() public row: any;
   @Input() public rowActionsRaw: any [] = [];
   @Input() public rowEvents = {};
+  @Input() rowClass;
 
   @Input() public rowIndex: number;
   @Input() public columns: Column[];
@@ -55,6 +55,30 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
               private _differs: KeyValueDiffers,
               private _renderer: Renderer2) {
     this._rowDiffer = _differs.find({}).create();
+  }
+
+  @HostBinding('class')
+  get rowCssClass() {
+    let cls = 'fs-list-row';
+
+    if (this.rowIndex % 2 !== 0) cls += ' fs-list-row-odd';
+    if (this.rowIndex % 2 === 0) cls += ' fs-list-row-even';
+
+    console.log('rowCLS', this.rowClass);
+    if (this.rowClass) {
+      const resultClass = this.rowClass(this.row);
+
+      if (typeof resultClass === 'string') {
+        cls += ` ${resultClass}`;
+      } else if (typeof resultClass === 'object') {
+        const keys = Object.keys(resultClass);
+        for (const k of keys) {
+          if (resultClass[k] === true) cls += ` ${k}`;
+        }
+      }
+    }
+
+    return cls;
   }
 
   public ngOnInit() {

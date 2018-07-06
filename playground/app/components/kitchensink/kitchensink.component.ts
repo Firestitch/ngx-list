@@ -155,6 +155,9 @@ export class KitchenSinkComponent implements OnInit {
           label: 'Remove'
         }
       ],
+      rowClass: (row) => {
+        return 'custom-row-class';
+      },
       rowEvents:
       {
         mouseover: function(event) {

@@ -17,6 +17,7 @@ export interface FsListConfig {
   columnDefaults?: Object;
   filters?: Object[];
   rowActions?: Object[];
+  rowClass?: Function;
   actions?: Object[];
   fetch?: Function;
   scrollable?: FsListScrollableConfig | boolean;
