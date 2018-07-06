@@ -6,9 +6,11 @@ import {
   ContentChildren,
   QueryList,
   ViewChild,
-  ElementRef,
+  ElementRef, Inject,
 } from '@angular/core';
+import * as _cloneDeep from 'lodash/cloneDeep';
 
+import { FS_LIST_DEFAULT_CONFIG } from '../../../fslist.providers';
 import { FsListColumnDirective } from '../../directives';
 import { FsListModel } from '../../models';
 import { FsListConfig } from '../../interfaces';
@@ -39,9 +41,13 @@ export class FsListComponent implements OnInit, OnDestroy {
     this.listConfig.tranformTemplatesToColumns(val);
   }
 
-  public ngOnInit() {
+  constructor(@Inject(FS_LIST_DEFAULT_CONFIG) private _defaultOptions) {
+  }
 
-    this.listConfig = new FsListModel(this.config);
+  public ngOnInit() {
+    const defaultOpts = _cloneDeep(this._defaultOptions);
+    const listConfig = Object.assign(defaultOpts, this.config);
+    this.listConfig = new FsListModel(listConfig);
 
     if (!this.listConfig.filters || this.listConfig.filters.length === 0 && this.listConfig.initialFetch) {
       this.listConfig.load$.next();

@@ -25,6 +25,8 @@ import {
   FsListHeaderDirective,
   FsListFooterDirective,
 } from './app/directives';
+import { FS_LIST_DEFAULT_CONFIG } from './fslist.providers';
+import { FsListConfig } from './app/interfaces';
 
 export * from './app/components/list/list.component';
 
@@ -75,11 +77,14 @@ export * from './app/components/list/list.component';
   ]
 })
 export class FsListModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(config: FsListConfig = {}): ModuleWithProviders {
     return {
       ngModule: FsListModule,
       providers: [
-        FsListComponent
+        {
+          provide: FS_LIST_DEFAULT_CONFIG,
+          useValue: config || {}
+        }
       ]
     };
   }

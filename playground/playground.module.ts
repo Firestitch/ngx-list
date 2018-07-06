@@ -27,7 +27,7 @@ import { InfinityScrollComponent } from './app/components/infinity-scroll/infini
   bootstrap: [ AppComponent ],
   imports: [
     BrowserModule,
-    FsListModule,
+    FsListModule.forRoot(),
     BrowserAnimationsModule,
     AppMaterialModule,
     FormsModule,
