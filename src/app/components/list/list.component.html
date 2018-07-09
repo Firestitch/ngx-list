@@ -98,7 +98,7 @@
        *ngIf="listConfig.scrollable"
        fsScroll
        [style.height]="listConfig.scrollable?.height || 'auto'"
-       [(isLoading)]="listConfig.loading"
+       [(loading)]="listConfig.loading"
        [activationDown]="listConfig.scrollable?.activationDown || 85"
        [loaderDiametr]="listConfig.scrollable?.loaderDiametr || 25"
        (load)="nextPage()">
