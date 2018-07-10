@@ -15,14 +15,17 @@ import { FsListModule } from '../src';
 import { AppMaterialModule } from './app/material.module';
 
 import { AppComponent } from './app/app.component';
-import { KitchenSinkComponent } from './app/components/kitchensink/kitchensink.component';
-import { ActionsComponent } from './app/components/actions/actions.component';
-import { RowActionsComponent } from './app/components/row-actions/row-actions.component';
-import { FiltersComponent } from './app/components/filters/filters.component';
-import { SortableComponent } from './app/components/sortable/sortable.component';
-import { FiltersExtendedComponent } from './app/components/filters-extended/filters-extended.component';
-import { InfinityScrollComponent } from './app/components/infinity-scroll/infinity-scroll.component';
 
+import {  ExamplesComponent,
+          KitchenSinkComponent,
+          ActionsComponent,
+          RowActionsComponent,
+          FiltersComponent,
+          SortableComponent,
+          FiltersExtendedComponent,
+          InfinityScrollComponent,
+          NoResultsComponent
+         } from './app/components';
 
 @NgModule({
   bootstrap: [ AppComponent ],
@@ -38,13 +41,15 @@ import { InfinityScrollComponent } from './app/components/infinity-scroll/infini
     FsBadgeModule,
     FsDateModule,
     RouterModule.forRoot([
-      { path: '', component: AppComponent },
+      { path: '', component: ExamplesComponent },
+      { path: 'noresults', component: NoResultsComponent },
     ])
   ],
   entryComponents: [
   ],
   declarations: [
     AppComponent,
+    ExamplesComponent,
     KitchenSinkComponent,
     ActionsComponent,
     RowActionsComponent,
@@ -52,6 +57,7 @@ import { InfinityScrollComponent } from './app/components/infinity-scroll/infini
     FiltersExtendedComponent,
     SortableComponent,
     InfinityScrollComponent,
+    NoResultsComponent
   ],
   providers: [
   ],
