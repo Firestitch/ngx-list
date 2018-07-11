@@ -93,4 +93,12 @@ export class FsListComponent implements OnInit, OnDestroy {
       this.listConfig.reoder.done(this.displayRows);
     }
   }
+
+  public nextInfinityPage() {
+    if (this.listConfig.paging.hasNextPage) {
+      this.nextPage();
+    } else {
+      this.listConfig.loading = false;
+    }
+  }
 }

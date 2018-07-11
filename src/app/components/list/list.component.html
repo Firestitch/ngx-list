@@ -88,7 +88,7 @@
       listConfig.paging &&
       !listConfig.reoderEnabled &&
       !listConfig.scrollable &&
-      (displayRows.length > 0 && !listConfig.loading)">
+      displayRows.length > 0">
     </fs-list-status>
   </div>
 
@@ -101,7 +101,7 @@
        [(loading)]="listConfig.loading"
        [activationDown]="listConfig.scrollable?.activationDown || 85"
        [loaderDiametr]="listConfig.scrollable?.loaderDiametr || 25"
-       (load)="nextPage()">
+       (load)="nextInfinityPage()">
     <ng-template [ngTemplateOutlet]="table"></ng-template>
   </div>
 
@@ -111,7 +111,7 @@
   </div>
 
   <ng-template #table>
-    <table class="fs-list-table" role="grid" *ngIf="displayRows.length > 0 && !listConfig.loading">
+    <table class="fs-list-table" role="grid" *ngIf="displayRows.length > 0">
       <thead fs-list-head
              class="fs-list-head"
              role="rowgroup"
@@ -145,7 +145,7 @@
   </ng-template>
 
   <fs-list-pagination
-    *ngIf="listConfig.paging.enabled && !listConfig.scrollable && (displayRows.length > 0 && !listConfig.loading)"
+    *ngIf="listConfig.paging.enabled && !listConfig.scrollable && displayRows.length > 0"
     [dataChangedRef]="listConfig.data$"
     [pagination]="listConfig.paging">
   </fs-list-pagination>
