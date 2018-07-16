@@ -51,8 +51,8 @@ export class Sorting {
       column.ordered = false;
 
       this.sortingChanged.next({
-        sortBy: this.sortingColumn.name,
-        sortDirection: this.sortingColumn.direction
+        sortBy: (this.sortingColumn && this.sortingColumn.name) || void 0,
+        sortDirection: (this.sortingColumn && this.sortingColumn.direction) || void 0
       });
 
       return true;
