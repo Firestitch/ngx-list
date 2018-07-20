@@ -1,19 +1,21 @@
 // import { FsFilter } from '@firestitch/filter';
 
+import * as _isNumber from 'lodash/isNumber';
+import { Alias, Model} from 'tsmodels';
+
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
+import { debounceTime } from 'rxjs/operators';
+
 import { Column, SortingDirection } from './column.model';
 import { Pagination } from './pagination.model';
 import { Sorting } from './sorting.model';
 
-import * as _isNumber from 'lodash/isNumber';
-import { Alias, Model} from 'tsmodels';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { FsListConfig } from '../interfaces';
+import { FsListConfig, FsListScrollableConfig } from '../interfaces';
 import { StyleConfig } from './styleConfig.model';
 import { Action } from './action.model';
 import { ReorderModel } from './reorder.model';
-import { Subject } from 'rxjs/Subject';
-import { debounceTime } from 'rxjs/operators';
 
 
 export class FsListModel extends Model {
@@ -26,7 +28,7 @@ export class FsListModel extends Model {
   @Alias() public rowEvents: any;
   @Alias() public columnTemplates: any;
   @Alias() public filters = [];
-  @Alias() public scrollable = false;
+  @Alias() public scrollable: FsListScrollableConfig | false = false;
   @Alias('reorder', ReorderModel) public reoder;
   // @Alias() public initialFetch = true; //TODO fixme
   @Alias('fetch') public fetchFn: any;

@@ -44,7 +44,7 @@ export class InfinityScrollComponent implements OnInit {
         limits: [30, 50, 150]
       },
       scrollable: {
-        height: '400px',
+        name: 'infinity-example',
         activationDown: 85,
         loaderDiametr: 25,
 
@@ -141,7 +141,7 @@ export class InfinityScrollComponent implements OnInit {
         }
       ],
       fetch: (query) => {
-        query.count = 500;
+        query.count = 120;
         return this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
           .map(response => {
             response.data.objects.forEach((obj) => {

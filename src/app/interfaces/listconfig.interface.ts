@@ -59,9 +59,9 @@ export interface FsListSortsConfig {
 }
 
 export interface FsListScrollableConfig {
-  height: string;
-  activationDown: number;
-  loaderDiametr: number;
+  name: string;
+  activationDown?: number;
+  loaderDiametr?: number;
 }
 
 // export interface FsFetchFunction {

@@ -6,8 +6,11 @@ import {
   ContentChildren,
   QueryList,
   ViewChild,
-  ElementRef, Inject,
+  ElementRef, Inject, ChangeDetectorRef,
 } from '@angular/core';
+import { FsScrollService } from '@firestitch/scroll';
+import { FsScrollInstance } from '@firestitch/scroll/classes';
+
 import * as _cloneDeep from 'lodash/cloneDeep';
 
 import { FS_LIST_DEFAULT_CONFIG } from '../../../fslist.providers';
@@ -29,7 +32,7 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   public displayRows = [];
   public listConfig: FsListModel;
-  @ViewChild('scrollable', { read: ElementRef }) public scrl;
+
   /**
    * Set columns to config
    * Create Column Model instances
@@ -41,7 +44,8 @@ export class FsListComponent implements OnInit, OnDestroy {
     this.listConfig.tranformTemplatesToColumns(val);
   }
 
-  constructor(@Inject(FS_LIST_DEFAULT_CONFIG) private _defaultOptions) {
+  constructor(@Inject(FS_LIST_DEFAULT_CONFIG) private _defaultOptions,
+              private scroll: FsScrollService, private _ch: ChangeDetectorRef) {
   }
 
   public ngOnInit() {
@@ -98,7 +102,13 @@ export class FsListComponent implements OnInit, OnDestroy {
     if (this.listConfig.paging.hasNextPage) {
       this.nextPage();
     } else {
-      this.listConfig.loading = false;
+      if (this.listConfig.scrollable) {
+        this.scroll
+          .component(this.listConfig.scrollable.name)
+          .subscribe((instance: FsScrollInstance) => {
+            instance.loading = false;
+          });
+      }
     }
   }
 }

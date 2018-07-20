@@ -10,6 +10,7 @@ import { FsExampleModule } from '@firestitch/example';
 import { FsApiModule } from '@firestitch/api';
 import { FsBadgeModule } from '@firestitch/badge';
 import { FsDateModule } from '@firestitch/date';
+import { FsScrollModule } from '@firestitch/scroll';
 
 import { FsListModule } from '../src';
 import { AppMaterialModule } from './app/material.module';
@@ -27,11 +28,13 @@ import {  ExamplesComponent,
           NoResultsComponent
          } from './app/components';
 
+
 @NgModule({
   bootstrap: [ AppComponent ],
   imports: [
     BrowserModule,
     FsListModule.forRoot(),
+    FsScrollModule.forRoot(),
     BrowserAnimationsModule,
     AppMaterialModule,
     FormsModule,

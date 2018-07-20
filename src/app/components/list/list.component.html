@@ -1,12 +1,34 @@
-<div class="fs-list-container" [ngClass]="{ 'has-filter-input': listConfig.filterInput,
-                                            'has-filters': listConfig.filterConfig?.items.length,
-                                            'has-heading': listConfig.heading,
-                                            'has-status': listConfig.status,
-                                            'has-actions': listConfig.actions.length }">
+<div class="fs-list-container"
+     *ngIf="listConfig.scrollable"
+     [fsScroll]="listConfig.scrollable.name"
+     [activationDown]="listConfig.scrollable.activationDown || 85"
+     [loaderDiametr]="listConfig.scrollable.loaderDiametr || 25"
+     [completed]="!listConfig.paging.hasNextPage"
+     [loading]="listConfig.loading"
+     (load)="nextInfinityPage()"
+     [ngClass]="{ 'has-filter-input': listConfig.filterInput,
+                  'has-filters': listConfig.filterConfig?.items.length,
+                  'has-heading': listConfig.heading,
+                  'has-status': listConfig.status,
+                  'has-actions': listConfig.actions.length }">
+  <ng-template [ngTemplateOutlet]="listContainerContent"></ng-template>
+</div>
+
+<div class="fs-list-container"
+     *ngIf="!listConfig.scrollable"
+     [ngClass]="{ 'has-filter-input': listConfig.filterInput,
+                  'has-filters': listConfig.filterConfig?.items.length,
+                  'has-heading': listConfig.heading,
+                  'has-status': listConfig.status,
+                  'has-actions': listConfig.actions.length }">
+  <ng-template [ngTemplateOutlet]="listContainerContent"></ng-template>
+</div>
+
+<ng-template #listContainerContent>
   <!-- Header -->
   <div class="fs-list-header-container">
     <div class="fs-list-header"
-        [ngClass]="{ 'no-wrap': listConfig.reoderEnabled || !listConfig.filterConfig?.items.length }">
+         [ngClass]="{ 'no-wrap': listConfig.reoderEnabled || !listConfig.filterConfig?.items.length }">
       <div class="heading-container" *ngIf="listConfig.heading || listConfig.subheading">
         <h2 class="heading" *ngIf="listConfig.heading">{{listConfig.heading}}</h2>
         <span class="subheading" *ngIf="listConfig.subheading">{{listConfig.subheading}}</span>
@@ -94,23 +116,7 @@
 
 
   <!-- Table implementation -->
-  <div class="fs-list-table-container scrollable"
-       *ngIf="listConfig.scrollable"
-       fsScroll
-       [style.height]="listConfig.scrollable?.height || 'auto'"
-       [(loading)]="listConfig.loading"
-       [activationDown]="listConfig.scrollable?.activationDown || 85"
-       [loaderDiametr]="listConfig.scrollable?.loaderDiametr || 25"
-       (load)="nextInfinityPage()">
-    <ng-template [ngTemplateOutlet]="table"></ng-template>
-  </div>
-
-  <div class="fs-list-table-container"
-       *ngIf="!listConfig.scrollable">
-    <ng-template [ngTemplateOutlet]="table"></ng-template>
-  </div>
-
-  <ng-template #table>
+  <div class="fs-list-table-container">
     <table class="fs-list-table" role="grid" *ngIf="displayRows.length > 0">
       <thead fs-list-head
              class="fs-list-head"
@@ -142,7 +148,7 @@
              [hasRowActions]="listConfig.hasRowActions">
       </tfoot>
     </table>
-  </ng-template>
+  </div>
 
   <fs-list-pagination
     *ngIf="listConfig.paging.enabled && !listConfig.scrollable && displayRows.length > 0"
@@ -158,4 +164,5 @@
       {{ listConfig.noResults.message }}
     </ng-template>
   </div>
-</div>
+</ng-template>
+
