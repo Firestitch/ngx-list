@@ -1,4 +1,5 @@
 // import { FsFilter } from '@firestitch/filter';
+import { ItemType } from '@firestitch/filter';
 
 import * as _isNumber from 'lodash/isNumber';
 import { Alias, Model} from 'tsmodels';
@@ -16,7 +17,9 @@ import { FsListConfig, FsListScrollableConfig } from '../interfaces';
 import { StyleConfig } from './styleConfig.model';
 import { Action } from './action.model';
 import { ReorderModel } from './reorder.model';
+import { RowAction } from './row-action.model';
 
+const SHOW_DELETED_FILTERS_KEY = '$$_show_deleted_$$';
 
 export class FsListModel extends Model {
   @Alias() public heading: string;
@@ -26,6 +29,7 @@ export class FsListModel extends Model {
   @Alias('rowActions') public rowActionsRaw: any[];
   @Alias('rowClass') public rowClass;
   @Alias() public rowEvents: any;
+  @Alias() public restore: any;
   @Alias() public columnTemplates: any;
   @Alias() public filters = [];
   @Alias() public scrollable: FsListScrollableConfig | false = false;
@@ -38,6 +42,7 @@ export class FsListModel extends Model {
   public hasRowActions;
   public menuActions: Action[] = [];
   public kebabActions: Action[] = [];
+  public restoreAction: Action;
   public columns: Column[] = [];
   public persist: string;
   public paging = new Pagination();
@@ -51,6 +56,7 @@ export class FsListModel extends Model {
   public status = true;
   public filterInput = true;
   public reoderEnabled = false;
+  public restoreMode = false;
 
   public loading = false;
 
@@ -84,7 +90,6 @@ export class FsListModel extends Model {
       this.sorting.initFakeColumns(config.sorts);
     }
 
-
     this._headerConfig = new StyleConfig(config.header);
     this._cellConfig = new StyleConfig(config.cell);
     this._footerConfig = new StyleConfig(config.footer);
@@ -105,6 +110,28 @@ export class FsListModel extends Model {
 
     this.menuActions = this.actions.filter((action) => !action.menu);
     this.kebabActions = this.actions.filter((action) => action.menu);
+
+    // Restore
+    if (this.restore) {
+      const restoreAction = new RowAction({
+        label: this.restore.menuLabel || 'Restore',
+        menu: true,
+        click: this.restore.click,
+        restore: true
+      });
+
+      if (!this.rowActionsRaw) {
+        this.rowActionsRaw = [];
+      }
+
+      this.rowActionsRaw.push(restoreAction);
+
+      this.filters.push({
+        name: SHOW_DELETED_FILTERS_KEY,
+        type: ItemType.checkbox,
+        label: this.restore.filterLabel || 'Show Deleted'
+      })
+    }
 
     this.hasRowActions = this.rowActionsRaw && this.rowActionsRaw.length > 0;
     this.initPaging(config);
@@ -275,6 +302,22 @@ export class FsListModel extends Model {
         },
         change: (query, instance) => {
           this.filtersQuery = instance.gets({ flatten: true });
+
+          this.restoreMode = false;
+
+          // Restore option
+          if (this.restore && this.filtersQuery[SHOW_DELETED_FILTERS_KEY]) {
+            delete this.filtersQuery[SHOW_DELETED_FILTERS_KEY];
+
+            Object.assign(this.filtersQuery, this.restore.query);
+
+            this.restoreMode = true;
+
+            if (this.restore.reload) {
+              this.paging.page = 1;
+            }
+          }
+
           this.load$.next();
         },
         sortChange: (instance) => {

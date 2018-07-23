@@ -17,6 +17,7 @@ export class RowAction extends Model {
   @Alias() public className: string;
   @Alias() public type: ActionType;
   @Alias() public show: Function;
+  @Alias() public restore: boolean;
 
   public classArray: string[] = [];
 

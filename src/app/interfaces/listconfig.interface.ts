@@ -29,6 +29,7 @@ export interface FsListConfig {
   reorder?: FsListReorderConfig;
   sorts?: FsListSortsConfig[];
   sort?: string;
+  restore?: FsListRestoreConfig;
 }
 
 export interface FsListReorderConfig {
@@ -64,6 +65,13 @@ export interface FsListScrollableConfig {
   loaderDiametr?: number;
 }
 
+export interface FsListRestoreConfig {
+  query?: any;
+  filterLabel?: string;
+  menuLabel?: string;
+  click?: Function;
+  reload?: boolean;
+}
 // export interface FsFetchFunction {
 //   <T>(query: any): Observable<T> | Promise<T>
 // }

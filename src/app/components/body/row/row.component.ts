@@ -35,6 +35,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   @Input() public rowIndex: number;
   @Input() public columns: Column[];
   @Input() public reorder = false;
+  @Input() restoreMode = false;
 
   @Output() public startDragging = new EventEmitter();
   @Output() public stopDragging = new EventEmitter();
@@ -44,6 +45,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   public rowActions: RowAction[];
   public menuRowActions: RowAction[];
   public inlineRowActions: RowAction[];
+  public restoreAction: RowAction;
 
   private _rowDiffer: KeyValueDiffer<{}, {}>;
 
@@ -85,8 +87,9 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     if (this.rowActionsRaw) {
       this.rowActions = this.rowActionsRaw.map((action) => new RowAction(action));
 
-      this.menuRowActions = this.rowActions.filter((action) => action.menu);
-      this.inlineRowActions = this.rowActions.filter((action) => !action.menu);
+      this.menuRowActions = this.rowActions.filter((action) => action.menu && !action.restore);
+      this.inlineRowActions = this.rowActions.filter((action) => !action.menu && !action.restore);
+      this.restoreAction = this.rowActions.find((action) => action.restore);
     }
   }
 

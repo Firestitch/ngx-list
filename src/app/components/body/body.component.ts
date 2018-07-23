@@ -31,6 +31,7 @@ export class FsBodyComponent implements OnInit, DoCheck {
   @Input() rowEvents = {};
   @Input() rowClass;
   @Input() reorder = false;
+  @Input() restoreMode = false;
 
   @ViewChild('rowsContainer', { read: ViewContainerRef }) rowsContainer;
   @ContentChild(FsRowComponent, { read: TemplateRef })

@@ -27,6 +27,7 @@ import {  ExamplesComponent,
           InfinityScrollComponent,
           NoResultsComponent
          } from './app/components';
+import { RestoreComponent } from './app/components/restore/restore.component';
 
 
 @NgModule({
@@ -60,6 +61,7 @@ import {  ExamplesComponent,
     FiltersExtendedComponent,
     SortableComponent,
     InfinityScrollComponent,
+    RestoreComponent,
     NoResultsComponent
   ],
   providers: [
