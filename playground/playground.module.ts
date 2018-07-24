@@ -34,7 +34,17 @@ import { RestoreComponent } from './app/components/restore/restore.component';
   bootstrap: [ AppComponent ],
   imports: [
     BrowserModule,
-    FsListModule.forRoot(),
+    FsListModule.forRoot({
+      restore: {
+        query: { state: 'deleted' },
+        filterLabel: 'Show Deleted',
+        menuLabel: 'Restore',
+        click: (row, event) => {
+          console.log('Restore', row, event);
+        },
+        reload: true,
+      },
+    }),
     FsScrollModule.forRoot(),
     BrowserAnimationsModule,
     AppMaterialModule,

@@ -42,7 +42,6 @@ export class FsListModel extends Model {
   public hasRowActions;
   public menuActions: Action[] = [];
   public kebabActions: Action[] = [];
-  public restoreAction: Action;
   public columns: Column[] = [];
   public persist: string;
   public paging = new Pagination();
@@ -125,6 +124,10 @@ export class FsListModel extends Model {
       }
 
       this.rowActionsRaw.push(restoreAction);
+
+      if (!this.filters) {
+        this.filters = [];
+      }
 
       this.filters.push({
         name: SHOW_DELETED_FILTERS_KEY,
