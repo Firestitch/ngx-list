@@ -1,8 +1,7 @@
-// import { FsFilter } from '@firestitch/filter';
 import { ItemType } from '@firestitch/filter';
 
 import * as _isNumber from 'lodash/isNumber';
-import { Alias, Model} from 'tsmodels';
+import { Alias, Model } from 'tsmodels';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -38,15 +37,19 @@ export class FsListModel extends Model {
   @Alias('fetch') public fetchFn: any;
   @Alias('rows') private _rows: any;
   @Alias() public noResults;
+
+
   public filtersQuery: any;
+
   public hasRowActions;
   public menuActions: Action[] = [];
   public kebabActions: Action[] = [];
+
   public columns: Column[] = [];
   public persist: string;
   public paging = new Pagination();
   public sorting = new Sorting(this.columns);
-  // public filterService = new FsFilter();
+
   public filterConfig = null;
 
   public load$ = new Subject();
@@ -65,78 +68,27 @@ export class FsListModel extends Model {
 
   public theadClass = '';
 
-  private _headerConfig: StyleConfig;
-  private _cellConfig: StyleConfig;
-  private _footerConfig: StyleConfig;
+  private readonly _headerConfig: StyleConfig;
+  private readonly _cellConfig: StyleConfig;
+  private readonly _footerConfig: StyleConfig;
 
   constructor(private config: FsListConfig = {}) {
     super();
     this._fromJSON(config);
 
-    if (config.initialFetch === false) { // TODO fixme after tsmodel version update
-      this.initialFetch = false;
-    }
-    if (config.status === false) {
-      this.status = false;
-    }
-    if (config.filterInput === false) {
-      this.filterInput = false;
-    }
-    if (!config.actions) {
-      this.actions = [];
-    }
-    if (config.sorts) {
-      this.sorting.initFakeColumns(config.sorts);
-    }
+    this.initDefaultOptions(config);
 
     this._headerConfig = new StyleConfig(config.header);
     this._cellConfig = new StyleConfig(config.cell);
     this._footerConfig = new StyleConfig(config.footer);
 
-    if (this.reoder) {
-      const action = new Action({
-        label: this.reoder.label || 'Reorder',
-        menu: this.reoder.menu,
-        click: () => {
-          this.reoderEnabled = true;
-          // Fire callback that reorder was started
-          if (this.reoder.start) { this.reoder.start(); }
-        }
-      });
-
-      this.actions.push(action);
-    }
+    this.initReoder();
+    this.initRestore();
 
     this.menuActions = this.actions.filter((action) => !action.menu);
     this.kebabActions = this.actions.filter((action) => action.menu);
-
-    // Restore
-    if (this.restore) {
-      const restoreAction = new RowAction({
-        label: this.restore.menuLabel || 'Restore',
-        menu: true,
-        click: this.restore.click,
-        restore: true
-      });
-
-      if (!this.rowActionsRaw) {
-        this.rowActionsRaw = [];
-      }
-
-      this.rowActionsRaw.push(restoreAction);
-
-      if (!this.filters) {
-        this.filters = [];
-      }
-
-      this.filters.push({
-        name: SHOW_DELETED_FILTERS_KEY,
-        type: ItemType.checkbox,
-        label: this.restore.filterLabel || 'Show Deleted'
-      })
-    }
-
     this.hasRowActions = this.rowActionsRaw && this.rowActionsRaw.length > 0;
+
     this.initPaging(config);
     this.subscribe();
   }
@@ -197,9 +149,15 @@ export class FsListModel extends Model {
     templates.forEach((column) => {
       const col = new Column(column, defaultConfigs);
 
-      if (col.sortable) { this.sorting.addSortableColumn(col); } // add column to sortable
-      if (col.headerTemplate) { this.hasHeader = true; }
-      if (col.footerTemplate) { this.hasFooter = true; }
+      if (col.sortable) {
+        this.sorting.addSortableColumn(col);
+      } // add column to sortable
+      if (col.headerTemplate) {
+        this.hasHeader = true;
+      }
+      if (col.footerTemplate) {
+        this.hasFooter = true;
+      }
 
       this.columns.push(col);
     });
@@ -214,6 +172,85 @@ export class FsListModel extends Model {
     this.sorting.initialSortBy(this.config.sort);
 
     this.watchFilters();
+  }
+
+  /************************************************************************/
+  /**************************** INITIALIZING ******************************/
+
+  /************************************************************************/
+
+  /**
+   * Just init options by default it it wasn't specified
+   * @param config
+   */
+  private initDefaultOptions(config) {
+    if (config.initialFetch === false) { // TODO fixme after tsmodel version update
+      this.initialFetch = false;
+    }
+    if (config.status === false) {
+      this.status = false;
+    }
+    if (config.filterInput === false) {
+      this.filterInput = false;
+    }
+    if (!config.actions) {
+      this.actions = [];
+    }
+    if (config.sorts) {
+      this.sorting.initFakeColumns(config.sorts);
+    }
+  }
+
+  /**
+   * Init reorder action button (must be on first place)
+   */
+  private initReoder() {
+    if (this.reoder) {
+      const action = new Action({
+        label: this.reoder.label || 'Reorder',
+        menu: this.reoder.menu,
+        click: () => {
+          this.reoderEnabled = true;
+          // Fire callback that reorder was started
+          if (this.reoder.start) {
+            this.reoder.start();
+          }
+        }
+      });
+
+      this.actions.push(action);
+    }
+  }
+
+  /**
+   * Init restore row action and append Show Deleted option into filters
+   */
+  private initRestore() {
+    if (this.restore) {
+      const restoreAction = new RowAction({
+        label: this.restore.menuLabel || 'Restore',
+        menu: true,
+        click: this.restore.click,
+        restore: true
+      });
+
+      if (!this.rowActionsRaw) {
+        this.rowActionsRaw = [];
+      }
+
+      this.rowActionsRaw.push(restoreAction);
+
+      if (!this.filters) {
+        this.filters = [];
+      }
+
+      this.filters.push({
+        name: SHOW_DELETED_FILTERS_KEY,
+        type: ItemType.checkbox,
+        label: this.restore.filterLabel || 'Show Deleted'
+      })
+    }
+
   }
 
   /**
@@ -258,7 +295,7 @@ export class FsListModel extends Model {
         const query = Object.assign({}, this.filtersQuery, this.paging.query);
 
         if (this.sorting.sortingColumn) {
-          Object.assign(query, { order: `${this.sorting.sortingColumn.name},${this.sorting.sortingColumn.direction}`})
+          Object.assign(query, { order: `${this.sorting.sortingColumn.name},${this.sorting.sortingColumn.direction}` })
         }
 
         if (this.fetchFn) {
@@ -275,6 +312,8 @@ export class FsListModel extends Model {
   private watchFilters() {
     if (this.filters && this.filters.length) {
 
+      // Merge sorting and fake sorting cols
+      // Fake sorting cols it's cols which don't represented in table cols, like abstract cols
       const sortingValues =
         [
           ...this.sorting.sortingColumns,
@@ -289,53 +328,71 @@ export class FsListModel extends Model {
 
           acc.push(sortingItem);
           return acc;
-      }, []);
+        }, []);
 
+      // Config
       this.filterConfig = {
         persist: this.persist,
         items: this.filters || [],
         inline: this.inlineFilters,
         sorting: sortingValues,
         sortingDirection: (this.sorting.sortingColumn && this.sorting.sortingColumn.direction) || 'asc',
-        init: (instance) => {
-          this.filtersQuery = instance.gets({ flatten: true });
-          if (this.initialFetch) {
-            this.load$.next();
-          }
-        },
-        change: (query, instance) => {
-          this.filtersQuery = instance.gets({ flatten: true });
-
-          this.restoreMode = false;
-
-          // Restore option
-          if (this.restore && this.filtersQuery[SHOW_DELETED_FILTERS_KEY]) {
-            delete this.filtersQuery[SHOW_DELETED_FILTERS_KEY];
-
-            Object.assign(this.filtersQuery, this.restore.query);
-
-            this.restoreMode = true;
-
-            if (this.restore.reload) {
-              this.paging.page = 1;
-            }
-          }
-
-          this.load$.next();
-        },
-        sortChange: (instance) => {
-          const sorting = instance.getSorting();
-          const targetColumn = this.columns.find((column) => column.name === sorting.sortBy);
-          if (targetColumn) {
-            this.sorting.sortBy(targetColumn, false);
-
-            const sortDirection = sorting.sortDirection === 'asc' ? SortingDirection.asc : SortingDirection.desc;
-            this.sorting.setSortDirection(sortDirection);
-          }
-        }
+        init: this.filterInit.bind(this),
+        change: this.filterChange.bind(this),
+        sortChange: this.filterSort.bind(this),
       };
     } else {
       this.filtersQuery = {};
+    }
+  }
+
+  /**
+   * Callback when Filter has been initialized
+   * @param instance
+   */
+  private filterInit(instance) {
+    this.filtersQuery = instance.gets({ flatten: true });
+    if (this.initialFetch) {
+      this.load$.next();
+    }
+  }
+
+  /**
+   * Callback when Filter has been changed
+   * @param query
+   * @param instance
+   */
+  private filterChange(query, instance) {
+    this.filtersQuery = instance.gets({ flatten: true });
+
+    this.restoreMode = false;
+
+    // Restore option
+    if (this.restore && this.filtersQuery[SHOW_DELETED_FILTERS_KEY]) {
+      delete this.filtersQuery[SHOW_DELETED_FILTERS_KEY];
+
+      Object.assign(this.filtersQuery, this.restore.query);
+
+      this.restoreMode = true;
+
+      if (this.restore.reload) {
+        this.paging.page = 1;
+      }
+    }
+
+    this.load$.next();
+  }
+
+  // Callback when Filter sort has been changed
+  private filterSort(instance) {
+    const sorting = instance.getSorting();
+    const targetColumn = this.columns.find((column) => column.name === sorting.sortBy);
+
+    if (targetColumn) {
+      this.sorting.sortBy(targetColumn, false);
+
+      const sortDirection = sorting.sortDirection === 'asc' ? SortingDirection.asc : SortingDirection.desc;
+      this.sorting.setSortDirection(sortDirection);
     }
   }
 
@@ -345,7 +402,9 @@ export class FsListModel extends Model {
       if (col[config].colspan !== void 0) {
         const spanTo = index + +col[config].colspan;
 
-        if (!_isNumber(spanTo)) { return; }
+        if (!_isNumber(spanTo)) {
+          return;
+        }
         this.columns[index][updateFlag] = false;
 
         for (let i = index + 1; i < spanTo; i++) {
