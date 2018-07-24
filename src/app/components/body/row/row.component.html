@@ -22,57 +22,62 @@
           class="row-inline-action row-inline-action-{{action.type}}"
           [ngClass]="{'mobile-hide': action.menu === undefined}"
     >
-    <ng-container *ngIf="action.isShown" [ngSwitch]="action.type">
-      <!-- Basic button -->
-      <button type="button"
-              *ngSwitchCase="'basic'"
-              mat-button
-              [ngClass]="action.classArray"
-      >
-        <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
-      </button>
+      <ng-container *ngIf="action.isShown" [ngSwitch]="action.type">
+        <!-- Basic button -->
+        <button type="button"
+                *ngSwitchCase="'basic'"
+                mat-button
+                (click)="action.click(row, $event)"
+                [ngClass]="action.classArray"
+        >
+          <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
+        </button>
 
-      <!-- Raised button -->
-      <button type="button"
-              *ngSwitchCase="'raised'"
-              mat-raised-button
-              [ngClass]="action.classArray"
-      >
-        <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
-      </button>
+        <!-- Raised button -->
+        <button type="button"
+                *ngSwitchCase="'raised'"
+                mat-raised-button
+                (click)="action.click(row, $event)"
+                [ngClass]="action.classArray"
+        >
+          <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
+        </button>
 
-      <!-- Icon button -->
-      <button type="button"
-              *ngSwitchCase="'icon'"
-              mat-icon-button
-              [ngClass]="action.classArray"
-      >
-        <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
-      </button>
+        <!-- Icon button -->
+        <button type="button"
+                *ngSwitchCase="'icon'"
+                mat-icon-button
+                (click)="action.click(row, $event)"
+                [ngClass]="action.classArray"
+        >
+          <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
+        </button>
 
-      <!-- Fab button -->
-      <button type="button"
-              *ngSwitchCase="'fab'"
-              mat-fab
-              [ngClass]="action.classArray"
-      >
-        <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
-      </button>
+        <!-- Fab button -->
+        <button type="button"
+                *ngSwitchCase="'fab'"
+                mat-fab
+                (click)="action.click(row, $event)"
+                [ngClass]="action.classArray"
+        >
+          <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
+        </button>
 
-      <!-- Mini Fab button -->
-      <button type="button"
-              *ngSwitchCase="'mini-fab'"
-              mat-mini-fab
-              [ngClass]="action.classArray"
-      >
-        <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
-      </button>
+        <!-- Mini Fab button -->
+        <button type="button"
+                *ngSwitchCase="'mini-fab'"
+                mat-mini-fab
+                (click)="action.click(row, $event)"
+                [ngClass]="action.classArray"
+        >
+          <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
+        </button>
 
-      <ng-template #buttonContent let-value="value">
-        <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
-      </ng-template>
-    </ng-container>
-  </span>
+        <ng-template #buttonContent let-value="value">
+          <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
+        </ng-template>
+      </ng-container>
+    </span>
   </ng-template>
 
   <!-- Menu -->
@@ -91,21 +96,26 @@
                 mat-menu-item
                 *ngIf="action.menu === undefined && action.isShown"
         >
-          <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
+          <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon>
+          {{action.label}}
         </button>
       </ng-container>
 
       <ng-container *ngFor="let action of menuRowActions">
-        <button type="button" mat-menu-item *ngIf="action.isShown" (click)="action.click(row, $event, rowActionsRef);">
-          <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
+        <button type="button" mat-menu-item *ngIf="action.isShown"
+                (click)="action.click(row, $event, rowActionsRef);">
+          <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon>
+          {{action.label}}
         </button>
       </ng-container>
     </ng-template>
 
     <!-- Case when we have restore mode enabled and must hide menu actions -->
     <ng-container *ngIf="restoreMode && restoreAction">
-      <button type="button" mat-menu-item (click)="restoreAction.click(row, $event, rowActionsRef);">
-        <mat-icon *ngIf="restoreAction.icon">{{restoreAction.icon}}</mat-icon> {{restoreAction.label}}
+      <button type="button" mat-menu-item
+              (click)="restoreAction.click(row, $event, rowActionsRef);">
+        <mat-icon *ngIf="restoreAction.icon">{{restoreAction.icon}}</mat-icon>
+        {{restoreAction.label}}
       </button>
     </ng-container>
   </mat-menu>
