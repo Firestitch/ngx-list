@@ -20,14 +20,6 @@ export class InfinityScrollComponent implements OnInit {
   public table: FsListComponent; // Controller fs-list
   public config: FsListConfig;
 
-  public avatars = [
-    'http://api.randomuser.me/portraits/women/77.jpg',
-    'http://api.randomuser.me/portraits/men/38.jpg',
-    'http://api.randomuser.me/portraits/men/91.jpg',
-    'http://api.randomuser.me/portraits/men/74.jpg',
-    'http://api.randomuser.me/portraits/women/85.jpg',
-  ];
-
   public roles = [
     {value: 'admin', viewValue: 'Admin'},
     {value: 'moderator', viewValue: 'Moderator'},
@@ -44,10 +36,7 @@ export class InfinityScrollComponent implements OnInit {
         limits: [30, 50, 150]
       },
       scrollable: {
-        name: 'infinity-example',
-        activationDown: 85,
-        loaderDiametr: 25,
-
+        name: 'list-scroll'
       },
       filters: [
         {
@@ -141,14 +130,15 @@ export class InfinityScrollComponent implements OnInit {
         }
       ],
       fetch: (query) => {
-        query.count = 120;
+        query.count = 12;
+        query.limit = 3;
+        const genders = ['men', 'women'];
         return this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
           .map(response => {
             response.data.objects.forEach((obj) => {
-              obj.avatar = this.avatars[this.randomInteger(0, 4)]
+              const gender = genders[this.randomInteger(0, 1)];
+              obj.avatar = 'http://api.randomuser.me/portraits/' + gender + '/' + this.randomInteger(1, 99) + '.jpg';
             });
-
-            console.log(response.data.objects);
 
             return { data: response.data.objects, paging: response.data.paging };
           });

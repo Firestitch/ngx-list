@@ -30,6 +30,7 @@ export interface FsListConfig {
   sorts?: FsListSortsConfig[];
   sort?: string;
   restore?: FsListRestoreConfig;
+  noResults?: FsListNoResultsConfig
 }
 
 export interface FsListReorderConfig {
@@ -72,6 +73,8 @@ export interface FsListRestoreConfig {
   click?: Function;
   reload?: boolean;
 }
-// export interface FsFetchFunction {
-//   <T>(query: any): Observable<T> | Promise<T>
-// }
+
+
+export interface FsListNoResultsConfig {
+  message?: string;
+}

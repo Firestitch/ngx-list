@@ -1,6 +1,6 @@
 export * from './action.model';
 export * from './column.model';
-export * from './list-config.model';
+export * from './list.model';
 export * from './pagination.model';
 export * from './reorder.model';
 export * from './row-action.model';

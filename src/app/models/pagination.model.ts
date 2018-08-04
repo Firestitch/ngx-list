@@ -9,7 +9,7 @@ export class Pagination extends Model {
   @Alias() public pages = 0; // Total pages
   @Alias() public records: number;
   @Alias() public manual = false;
-  public page = 1; // Active page
+  public page = 0; // Active page
 
   public pageChanged = new Subject();
   public pagesArray = [];
@@ -88,7 +88,7 @@ export class Pagination extends Model {
    * @returns {boolean}
    */
   get hasNextPage() {
-    return this.page < this.pages && this.pages > 1;
+    return !this.page || (this.page < this.pages && this.pages > 1);
   }
 
   /**
@@ -198,7 +198,7 @@ export class Pagination extends Model {
    * Go to next page
    */
   public goNext() {
-    if (this.page < this.pages) {
+    if (this.hasNextPage) {
       this.page++;
       this.pageChanged.next(this.page);
     }

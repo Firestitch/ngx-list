@@ -1,10 +1,10 @@
 import { Column, SortingDirection } from './column.model';
-import { FsListModel } from './list-config.model';
+import { List } from './list.model';
 import { Subject } from 'rxjs/Subject';
 import * as isString from 'lodash/isString';
 
 export class Sorting {
-  public config: FsListModel;
+  public config: List;
 
   public tableColumns: Column[];
   public sortingColumns: Column[] = [];

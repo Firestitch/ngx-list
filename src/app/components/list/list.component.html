@@ -1,26 +1,9 @@
 <div class="fs-list-container"
-     *ngIf="listConfig.scrollable"
-     [fsScroll]="listConfig.scrollable.name"
-     [activationDown]="listConfig.scrollable.activationDown || 85"
-     [loaderDiametr]="listConfig.scrollable.loaderDiametr || 25"
-     [completed]="!listConfig.paging.hasNextPage"
-     [loading]="listConfig.loading"
-     (load)="nextInfinityPage()"
-     [ngClass]="{ 'has-filter-input': listConfig.filterInput,
-                  'has-filters': listConfig.filterConfig?.items.length,
-                  'has-heading': listConfig.heading,
-                  'has-status': listConfig.status,
-                  'has-actions': listConfig.actions.length }">
-  <ng-template [ngTemplateOutlet]="listContainerContent"></ng-template>
-</div>
-
-<div class="fs-list-container"
-     *ngIf="!listConfig.scrollable"
-     [ngClass]="{ 'has-filter-input': listConfig.filterInput,
-                  'has-filters': listConfig.filterConfig?.items.length,
-                  'has-heading': listConfig.heading,
-                  'has-status': listConfig.status,
-                  'has-actions': listConfig.actions.length }">
+     [ngClass]="{ 'has-filter-input': list.filterInput,
+                  'has-filters': list.filterConfig?.items.length,
+                  'has-heading': list.heading,
+                  'has-status': list.status,
+                  'has-actions': list.actions.length }">
   <ng-template [ngTemplateOutlet]="listContainerContent"></ng-template>
 </div>
 
@@ -28,28 +11,28 @@
   <!-- Header -->
   <div class="fs-list-header-container">
     <div class="fs-list-header"
-         [ngClass]="{ 'no-wrap': listConfig.reoderEnabled || !listConfig.filterConfig?.items.length }">
-      <div class="heading-container" *ngIf="listConfig.heading || listConfig.subheading">
-        <h2 class="heading" *ngIf="listConfig.heading">{{listConfig.heading}}</h2>
-        <span class="subheading" *ngIf="listConfig.subheading">{{listConfig.subheading}}</span>
+         [ngClass]="{ 'no-wrap': list.reoderEnabled || !list.filterConfig?.items.length }">
+      <div class="heading-container" *ngIf="list.heading || list.subheading">
+        <h2 class="heading" *ngIf="list.heading">{{list.heading}}</h2>
+        <span class="subheading" *ngIf="list.subheading">{{list.subheading}}</span>
       </div>
       <!-- Filters/actions -->
       <div class="fs-list-toolbar">
         <fs-filter
           class="fs-list-filter"
-          *ngIf="listConfig.filterConfig"
-          [hidden]="!listConfig.filterConfig?.items.length || listConfig.reoderEnabled"
-          [filter]="listConfig.filterConfig"
-          [sortUpdate]="listConfig?.sorting?.sortingChanged"
-          [showSortBy]="!listConfig.status"
-          [showFilterInput]="listConfig.filterInput"
+          *ngIf="list.filterConfig"
+          [hidden]="!list.filterConfig?.items.length || list.reoderEnabled"
+          [filter]="list.filterConfig"
+          [sortUpdate]="list?.sorting?.sortingChanged"
+          [showSortBy]="!list.status"
+          [showFilterInput]="list.filterInput"
         >
         </fs-filter>
 
         <!-- Actions -->
-        <div class="fs-list-actions" *ngIf="listConfig.actions?.length">
-          <ng-container *ngIf="!listConfig.reoderEnabled">
-            <span *ngFor="let action of listConfig.menuActions" class="action-button">
+        <div class="fs-list-actions" *ngIf="list.actions?.length">
+          <ng-container *ngIf="!list.reoderEnabled">
+            <span *ngFor="let action of list.menuActions" class="action-button">
               <button type="button"
                       mat-raised-button
                       (click)="action.click(action, $event)"
@@ -60,11 +43,11 @@
           </ng-container>
           <button type="button"
                   mat-icon-button
-                  *ngIf="!listConfig.reoderEnabled"
+                  *ngIf="!list.reoderEnabled"
                   [matMenuTriggerFor]="rowActionsRef"
                   [ngClass]="{
-                    'hidden': !listConfig.kebabActions.length,
-                    'show-mobile': !listConfig.kebabActions.length && listConfig.menuActions.length
+                    'hidden': !list.kebabActions.length,
+                    'show-mobile': !list.kebabActions.length && list.menuActions.length
                   }">
             <mat-icon>more_vert</mat-icon>
           </button>
@@ -72,7 +55,7 @@
             <button type="button"
                     class="hidden-mobile-menu-action"
                     mat-menu-item
-                    *ngFor="let action of listConfig.menuActions"
+                    *ngFor="let action of list.menuActions"
                     (click)="action.click(row, $event)"
                     [ngClass]="action.classArray"
             >
@@ -80,7 +63,7 @@
             </button>
             <button type="button"
                     mat-menu-item
-                    *ngFor="let action of listConfig.kebabActions"
+                    *ngFor="let action of list.kebabActions"
                     (click)="action.click(row, $event)"
                     [ngClass]="action.classArray"
             >
@@ -91,7 +74,7 @@
           <button type="button"
                   mat-button
                   color="primary"
-                  *ngIf="listConfig.reoderEnabled"
+                  *ngIf="list.reoderEnabled"
                   (click)="finishReorder()">
             DONE
           </button>
@@ -102,69 +85,64 @@
 
     <!-- Status -->
     <fs-list-status
-      [ngClass]="{'hidden-mobile': !listConfig.status}"
-      [dataChangedRef]="listConfig.data$"
-      [sorting]="listConfig.sorting"
-      [paging]="listConfig.paging"
+      [ngClass]="{'hidden-mobile': !list.status}"
+      [dataChangedRef]="list.data$"
+      [sorting]="list.sorting"
+      [paging]="list.paging"
       *ngIf="
-      listConfig.paging &&
-      !listConfig.reoderEnabled &&
-      !listConfig.scrollable &&
-      displayRows.length > 0">
+      list.paging &&
+      !list.reoderEnabled &&
+      !list.scrollable &&
+      list.data.length > 0">
     </fs-list-status>
   </div>
 
 
   <!-- Table implementation -->
   <div class="fs-list-table-container">
-    <table class="fs-list-table" role="grid" *ngIf="displayRows.length > 0">
+    <table class="fs-list-table" role="grid" *ngIf="list.data.length > 0">
       <thead fs-list-head
              class="fs-list-head"
              role="rowgroup"
-             [ngClass]="listConfig.theadClass"
-             [columns]="listConfig.columns"
-             [sorting]="listConfig.sorting"
-             [hasRowActions]="listConfig.hasRowActions"
-             [reorder]="listConfig.reoderEnabled">
+             [ngClass]="list.theadClass"
+             [columns]="list.columns"
+             [sorting]="list.sorting"
+             [hasRowActions]="list.hasRowActions"
+             [reorder]="list.reoderEnabled">
       </thead>
 
       <tbody fs-list-body
              class="fs-list-body"
              role="rowgroup"
-             [class.loading]="listConfig.loading"
-             [rows]="displayRows"
-             [rowActionsRaw]="listConfig.rowActionsRaw"
-             [rowEvents]="listConfig.rowEvents"
-             [rowClass]="listConfig.rowClass"
-             [columns]="listConfig.columns"
-             [hasFooter]="listConfig.hasFooter"
-             [reorder]="listConfig.reoderEnabled"
-             [restoreMode]="listConfig.restoreMode"
+             [class.loading]="list.loading"
+             [rows]="list.data"
+             [rowActionsRaw]="list.rowActionsRaw"
+             [rowEvents]="list.rowEvents"
+             [rowClass]="list.rowClass"
+             [columns]="list.columns"
+             [hasFooter]="list.hasFooter"
+             [reorder]="list.reoderEnabled"
+             [restoreMode]="list.restoreMode"
       >
       </tbody>
 
       <tfoot fs-list-footer
              class="fs-list-footer"
-             *ngIf="listConfig.hasFooter"
-             [columns]="listConfig.columns"
-             [hasRowActions]="listConfig.hasRowActions">
+             *ngIf="list.hasFooter"
+             [columns]="list.columns"
+             [hasRowActions]="list.hasRowActions">
       </tfoot>
     </table>
   </div>
 
   <fs-list-pagination
-    *ngIf="listConfig.paging.enabled && !listConfig.scrollable && displayRows.length > 0"
-    [dataChangedRef]="listConfig.data$"
-    [pagination]="listConfig.paging">
+    *ngIf="list.paging.enabled && !list.scrollable && list.data.length > 0"
+    [dataChangedRef]="list.data$"
+    [pagination]="list.paging">
   </fs-list-pagination>
 
-  <div class="fs-list-no-results" *ngIf="displayRows.length === 0 && !listConfig.loading">
-    <ng-template [ngIf]="!listConfig?.noResults?.message">
-      No Results Found
-    </ng-template>
-    <ng-template [ngIf]="listConfig?.noResults?.message">
-      {{ listConfig.noResults.message }}
-    </ng-template>
+  <div class="fs-list-no-results" *ngIf="list.data.length === 0 && !list.loading && list.config.noResults.message">
+    {{ list.config.noResults.message }}
   </div>
 </ng-template>
 

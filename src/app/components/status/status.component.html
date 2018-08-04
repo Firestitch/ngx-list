@@ -1,5 +1,5 @@
 <div class="infinite-records" fxLayout="row" fxLayoutAlign="start center" *ngIf="paging.enabled">
-  Showing&nbsp;<a [matMenuTriggerFor]="limitsMenu">{{ paging.displayed }}</a>&nbsp;of {{ paging.records }} results
+  Showing&nbsp;<a href [matMenuTriggerFor]="limitsMenu">{{ paging.displayed }}</a>&nbsp;of {{ paging.records }} results
   <ng-container *ngTemplateOutlet="sortedBy"></ng-container>
 </div>
 
@@ -13,8 +13,8 @@
 <ng-template #sortedBy>
   <span *ngIf="sorting.sortingColumn">
     &nbsp;sorted by
-    <a class="order-toggle" [matMenuTriggerFor]="orderColumnsMenu">{{ sorting.sortingColumn.title }}</a>,
-    <a class="order-toggle" [matMenuTriggerFor]="orderDirectionMenu">{{ sorting.sortingColumn.fullNameDirection }}</a>
+    <a href class="order-toggle" [matMenuTriggerFor]="orderColumnsMenu">{{ sorting.sortingColumn.title }}</a>,
+    <a href class="order-toggle" [matMenuTriggerFor]="orderDirectionMenu">{{ sorting.sortingColumn.fullNameDirection }}</a>
   </span>
 </ng-template>
 

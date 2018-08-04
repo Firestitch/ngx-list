@@ -4,6 +4,8 @@ import { MatButtonModule, MatIconModule, MatMenuModule, MatProgressSpinnerModule
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FsFilterModule } from '@firestitch/filter';
 import { FsScrollModule } from '@firestitch/scroll';
+import { merge } from 'lodash';
+
 
 import {
   FsCellComponent,
@@ -83,7 +85,7 @@ export class FsListModule {
       providers: [
         {
           provide: FS_LIST_DEFAULT_CONFIG,
-          useValue: config || {}
+          useValue: merge({ noResults: { message: 'No Results Found' } }, config)
         }
       ]
     };
