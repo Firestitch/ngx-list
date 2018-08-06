@@ -81,4 +81,12 @@ export class FsListComponent implements OnInit, OnDestroy {
       this.list.reoder.done(this.list.data);
     }
   }
+
+  public setHeading(heading: string) {
+    this.list.heading = heading;
+  }
+
+  public setSubheading(subheading: string) {
+    this.list.subheading = subheading;
+  }
 }
