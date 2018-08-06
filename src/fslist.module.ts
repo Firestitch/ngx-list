@@ -27,7 +27,7 @@ import {
   FsListHeaderDirective,
   FsListFooterDirective,
 } from './app/directives';
-import { FS_LIST_DEFAULT_CONFIG } from './fslist.providers';
+import { FS_LIST_DEFAULT_CONFIG, FS_LIST_CONFIG } from './fslist.providers';
 import { FsListConfig } from './app/interfaces';
 
 export * from './app/components/list/list.component';
@@ -83,11 +83,17 @@ export class FsListModule {
     return {
       ngModule: FsListModule,
       providers: [
+        { provide: FS_LIST_CONFIG, useValue: config },
         {
           provide: FS_LIST_DEFAULT_CONFIG,
-          useValue: merge({ noResults: { message: 'No Results Found' } }, config)
+          useFactory: FsListConfigFactory,
+          deps: [FS_LIST_CONFIG]
         }
       ]
     };
   }
+}
+
+export function FsListConfigFactory(config: FsListConfig) {
+  return merge({ noResults: { message: 'No Results Found' }}, config);
 }

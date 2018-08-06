@@ -43,8 +43,7 @@ export class FsListComponent implements OnInit, OnDestroy {
   }
 
   constructor(@Inject(FS_LIST_DEFAULT_CONFIG) private _defaultOptions,
-              private fsScroll: FsScrollService, private _ch: ChangeDetectorRef) {
-  }
+              private fsScroll: FsScrollService, private _ch: ChangeDetectorRef) {}
 
   public ngOnInit() {
     const defaultOpts = _cloneDeep(this._defaultOptions);
