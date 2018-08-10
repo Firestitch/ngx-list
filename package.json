@@ -1,6 +1,6 @@
 {
   "name": "@firestitch/list",
-  "version": "0.1.85",
+  "version": "0.1.86",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/fs-list"
@@ -85,6 +85,7 @@
     "moment": "^2.22.1",
     "moment-range": "^4.0.1",
     "moment-timezone": "^0.5.17",
+    "node-dir": "^0.1.17",
     "node-sass": "^4.5.2",
     "node-sass-tilde-importer": "^1.0.2",
     "npm-run-all": "^4.1.2",

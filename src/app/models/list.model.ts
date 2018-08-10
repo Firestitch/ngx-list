@@ -5,9 +5,9 @@ import * as _isNumber from 'lodash/isNumber';
 import { Alias, Model } from 'tsmodels';
 
 import { Subscription } from 'rxjs';
-import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { fromPromise } from 'rxjs/observable/fromPromise';
+import { debounceTime, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { Column, SortingDirection } from './column.model';
 import { Pagination } from './pagination.model';
@@ -132,15 +132,7 @@ export class List extends Model {
   public fetchRemote(query) {
     const result: any = this.fetchFn(query);
 
-    if (result instanceof Promise) {
-      result.then(response => {
-        this.completeFetch(response);
-      });
-    } else if (result instanceof Observable) {
-      result.subscribe(response => {
-        this.completeFetch(response);
-      });
-    }
+    return result instanceof Promise ? fromPromise(result) : result;
   }
 
   // public loadLocal() {
@@ -315,7 +307,7 @@ export class List extends Model {
       this.fetch$.next();
     });
 
-    this.subscribeToOnLoad();
+    this.listenFetch();
   }
 
   public destroy() {
@@ -334,26 +326,34 @@ export class List extends Model {
   /**
    * Subscribe to fetch$ event with debounce
    */
-  private subscribeToOnLoad() {
+  private listenFetch() {
     this.fetch$
       .pipe(
         debounceTime(50),
+        tap(() => {
+          this.loading = true;
+        }),
+        map(() => {
+          const query = Object.assign({}, this.filtersQuery, this.paging.query);
+
+          if (this.sorting.sortingColumn) {
+            Object.assign(query, { order: `${this.sorting.sortingColumn.name},${this.sorting.sortingColumn.direction}` })
+          }
+
+          return query;
+        }),
+        switchMap((query) => {
+          return this.fetchRemote(query);
+        }),
         takeUntil(this.onDestroy$),
       )
-      .subscribe(() => {
-        this.loading = true;
-
-        const query = Object.assign({}, this.filtersQuery, this.paging.query);
-
-        if (this.sorting.sortingColumn) {
-          Object.assign(query, { order: `${this.sorting.sortingColumn.name},${this.sorting.sortingColumn.direction}` })
-        }
-
-        if (this.fetchFn) {
-          this.fetchRemote(query);
-        } else {
-          console.warn('No fetch function supplied');
-        }
+      .subscribe((response) => {
+        this.completeFetch(response);
+        // if (this.fetchFn) {
+        //
+        // } else {
+        //   console.warn('No fetch function supplied');
+        // }
       });
   }
 
@@ -455,6 +455,7 @@ export class List extends Model {
    * @param instance
    */
   private filterChange(query, instance) {
+
     this.filtersQuery = instance.gets({ flatten: true });
 
     this.restoreMode = false;
@@ -476,6 +477,7 @@ export class List extends Model {
 
     if (this.fsScrollInstance) {
       this.data = [];
+      this.paging.page = 1;
       this.fsScrollInstance.reload();
     } else {
       this.fetch$.next();
@@ -484,6 +486,7 @@ export class List extends Model {
 
   // Callback when Filter sort has been changed
   private filterSort(instance) {
+
     const sorting = instance.getSorting();
     const targetColumn = this.columns.find((column) => column.name === sorting.sortBy);
 
