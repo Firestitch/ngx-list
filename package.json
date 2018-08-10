@@ -1,6 +1,6 @@
 {
   "name": "@firestitch/list",
-  "version": "0.1.83",
+  "version": "0.1.84",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/fs-list"
@@ -86,6 +86,7 @@
     "moment-range": "^4.0.1",
     "moment-timezone": "^0.5.17",
     "node-sass": "^4.5.2",
+    "node-sass-tilde-importer": "^1.0.2",
     "npm-run-all": "^4.1.2",
     "postcss-cssnext": "^3.1.0",
     "postcss-flexbugs-fixes": "^3.3.0",
@@ -120,5 +121,6 @@
     "rxjs": ">=5.5.7",
     "tsmodels": ">=0.3.1",
     "zone.js": ">=0.8.4"
-  }
+  },
+  "dependencies": {}
 }

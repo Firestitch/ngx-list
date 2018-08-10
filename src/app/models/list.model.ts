@@ -1,11 +1,13 @@
 import { ItemType } from '@firestitch/filter';
-import * as isObject from 'lodash/isObject';
+import { FsScrollService } from '@firestitch/scroll';
+import { FsScrollInstance } from '@firestitch/scroll/classes';
 import * as _isNumber from 'lodash/isNumber';
 import { Alias, Model } from 'tsmodels';
 
+import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 
 import { Column, SortingDirection } from './column.model';
 import { Pagination } from './pagination.model';
@@ -16,9 +18,6 @@ import { StyleConfig } from './styleConfig.model';
 import { Action } from './action.model';
 import { ReorderModel } from './reorder.model';
 import { RowAction } from './row-action.model';
-import { FsScrollService } from '@firestitch/scroll';
-import { FsScrollInstance } from '@firestitch/scroll/classes';
-import { Subscription } from '../../../node_modules/rxjs/Subscription';
 
 const SHOW_DELETED_FILTERS_KEY = '$$_show_deleted_$$';
 
@@ -39,7 +38,7 @@ export class List extends Model {
   @Alias('fetch') public fetchFn: any;
   // @Alias('rows') private _rows: any;
 
-
+  public operation: Operation;
   public filtersQuery: any;
 
   public hasRowActions;
@@ -71,6 +70,8 @@ export class List extends Model {
   public theadClass = '';
   public fsScrollInstance: FsScrollInstance;
 
+  public onDestroy$ = new Subject();
+
   private readonly _headerConfig: StyleConfig;
   private readonly _cellConfig: StyleConfig;
   private readonly _footerConfig: StyleConfig;
@@ -99,32 +100,29 @@ export class List extends Model {
 
     this.data$.subscribe((rows) => {
       if (this.scrollable) {
-        this.data.push(...rows);
+        switch (this.operation) {
+          case Operation.filter:
+          case Operation.reload:
+          case Operation.sort: {
+            this.data = rows;
+          } break;
+
+          default: {
+            this.data.push(...rows);
+          }
+        }
       } else {
         this.data = rows;
       }
+
+      this.operation = Operation.idle;
     });
 
-    if (this.scrollable) {
-      this.fsScroll
-        .component(this.scrollable.name)
-        .subscribe((fsScrollInstance: FsScrollInstance) => {
-          this.fsScrollInstance = fsScrollInstance;
-          this._fsScrollSubscription = fsScrollInstance.subscribe(() => {
-
-            if (this.paging.hasNextPage) {
-              fsScrollInstance.loading();
-              this.paging.goNext();
-            }
-          });
-
-          this.data$.subscribe(() => {
-            fsScrollInstance.loaded();
-          });
-        });
-    } else if (this.initialFetch) {
+    if (this.initialFetch) {
+      this.operation = Operation.load;
       this.fetch$.next();
     }
+
   }
 
   // set rows(value) {
@@ -134,32 +132,15 @@ export class List extends Model {
   public fetchRemote(query) {
     const result: any = this.fetchFn(query);
 
-    Observable.create((observer) => {
-
-      if (result instanceof Promise) {
-        result.then(response => {
-          observer.next(response);
-          observer.complete();
-        });
-      } else if (result instanceof Observable) {
-        result.subscribe(response => {
-          observer.next(response);
-          observer.complete();
-        });
-      }
-    })
-    .subscribe((response) => {
-      if (!this.paging.page) {
-        this.paging.page = 1;
-      }
-
-      if (response.paging) {
-        this.paging.updatePaging(response.paging);
-      }
-
-      this.loading = false;
-      this.data$.next(response.data);
-    });
+    if (result instanceof Promise) {
+      result.then(response => {
+        this.completeFetch(response);
+      });
+    } else if (result instanceof Observable) {
+      result.subscribe(response => {
+        this.completeFetch(response);
+      });
+    }
   }
 
   // public loadLocal() {
@@ -207,7 +188,9 @@ export class List extends Model {
     // Set sortBy default column
     this.sorting.initialSortBy(this.config.sort);
 
-    this.watchFilters();
+    this.initFilters();
+    this.initInfinityScroll();
+
   }
 
   /************************************************************************/
@@ -306,12 +289,14 @@ export class List extends Model {
 
   public reload() {
     this.loading = true;
+
+    this.operation = Operation.reload;
+    this.paging.page = 1;
+
     if (this.fsScrollInstance) {
       this.data = [];
-      this.paging.page = 0;
       this.fsScrollInstance.reload();
     } else {
-      this.paging.page = 1;
       this.fetch$.next();
     }
   }
@@ -321,10 +306,12 @@ export class List extends Model {
    */
   public subscribe() {
     this.paging.pageChanged.subscribe(() => {
+      this.operation = Operation.pageChange;
       this.fetch$.next();
     });
 
     this.sorting.sortingChanged.subscribe(() => {
+      this.operation = Operation.sort;
       this.fetch$.next();
     });
 
@@ -336,8 +323,12 @@ export class List extends Model {
       this._fsScrollSubscription.unsubscribe();
     }
 
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+
     this.data$.complete();
     this.paging.pageChanged.complete();
+    this.sorting.sortingChanged.complete();
   }
 
   /**
@@ -345,7 +336,10 @@ export class List extends Model {
    */
   private subscribeToOnLoad() {
     this.fetch$
-      .pipe(debounceTime(50))
+      .pipe(
+        debounceTime(50),
+        takeUntil(this.onDestroy$),
+      )
       .subscribe(() => {
         this.loading = true;
 
@@ -363,10 +357,53 @@ export class List extends Model {
       });
   }
 
+  private initInfinityScroll() {
+    if (this.scrollable) {
+      this.fsScroll
+        .component(this.scrollable.name)
+        .pipe(
+          takeUntil(this.onDestroy$)
+        )
+        .subscribe((fsScrollInstance: FsScrollInstance) => {
+          this.fsScrollInstance = fsScrollInstance;
+          this._fsScrollSubscription = fsScrollInstance
+            .subscribe(() => {
+              let startLoading = false;
+
+              // Initial loading if initialFetch equals false
+              if (!this.initialFetch
+                && !this.paging.initialized
+                && this.operation !== Operation.reload) {
+
+                this.operation = Operation.load;
+                startLoading = true;
+
+              } else if (this.operation === Operation.reload || this.operation === Operation.filter) {
+                startLoading = true;
+              } else if (this.paging.initialized && this.paging.hasNextPage) {
+                // Loading if content has been scrolled
+                startLoading = true;
+                this.operation = Operation.load;
+                this.paging.goNext();
+              }
+
+              if (startLoading) {
+                this.fetch$.next();
+                fsScrollInstance.loading();
+              }
+          });
+
+          this.data$.subscribe(() => {
+            fsScrollInstance.loaded();
+          });
+        });
+    }
+  }
+
   /**
    * Update and watch filter changes
    */
-  private watchFilters() {
+  private initFilters() {
     if (this.filters && this.filters.length) {
 
       // Merge sorting and fake sorting cols
@@ -410,9 +447,6 @@ export class List extends Model {
    */
   private filterInit(instance) {
     this.filtersQuery = instance.gets({ flatten: true });
-    if (this.initialFetch) {
-      this.fetch$.next();
-    }
   }
 
   /**
@@ -438,7 +472,14 @@ export class List extends Model {
       }
     }
 
-    this.fetch$.next();
+    this.operation = Operation.filter;
+
+    if (this.fsScrollInstance) {
+      this.data = [];
+      this.fsScrollInstance.reload();
+    } else {
+      this.fetch$.next();
+    }
   }
 
   // Callback when Filter sort has been changed
@@ -474,4 +515,26 @@ export class List extends Model {
     })
   }
 
+  private completeFetch(response) {
+    if (!this.paging.page) {
+      this.paging.page = 1;
+    }
+
+    if (response.paging) {
+      this.paging.updatePaging(response.paging);
+    }
+
+    this.loading = false;
+    this.data$.next(response.data);
+  }
+
+}
+
+export enum Operation {
+  idle,
+  load,
+  reload,
+  filter,
+  sort,
+  pageChange,
 }
