@@ -64,6 +64,7 @@ export interface FsListScrollableConfig {
   name: string;
   activationDown?: number;
   loaderDiametr?: number;
+  status?: boolean;
 }
 
 export interface FsListRestoreConfig {
