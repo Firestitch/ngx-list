@@ -12,7 +12,7 @@ import {
   IterableDiffers,
   ElementRef,
   NgZone,
-  TemplateRef
+  TemplateRef,
 } from '@angular/core';
 import { Column } from '../../models';
 import { FsRowComponent } from './row';
@@ -38,6 +38,7 @@ export class FsBodyComponent implements OnInit, DoCheck {
   headerTemplate: TemplateRef<any>;
 
   public draggable;
+  public dragStartFn = this.dragStart.bind(this);
 
   private _rowsDiffer: IterableDiffer<any[]>;
 
@@ -65,7 +66,11 @@ export class FsBodyComponent implements OnInit, DoCheck {
 
   public dragStart(event, elemRef: FsRowComponent) {
     if (this.reorder) {
+      event.preventDefault();
+      event.stopPropagation();
       this.draggable.dragStart({ event: event, target: elemRef.el && elemRef.el.nativeElement});
     }
+
+    return true;
   }
 }

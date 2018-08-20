@@ -8,7 +8,7 @@
     [reorder]="reorder"
     [restoreMode]="restoreMode"
     [ngClass]="{'drag-row': reorder}"
-    (mousedown)="dragStart($event, activeRow)"
-    (touchstart)="dragStart($event, activeRow)"
+    [dragStart]="dragStartFn"
+    [activeRow]="activeRow"
     #activeRow>
 </tr>

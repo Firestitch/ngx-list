@@ -8,10 +8,13 @@ export class Draggable {
     targetHeight: null,
     activeIndex: null,
     moveHandler: this.dragTo.bind(this),
-    stopHandler: this.dragEnd.bind(this)
+    stopHandler: this.dragEnd.bind(this),
+    windowMoveHandler: () => {},
   };
 
   public elements;
+
+  public dragging = false;
 
   constructor(private el: ElementRef,
               private cdRef: ChangeDetectorRef,
@@ -29,6 +32,14 @@ export class Draggable {
    * @param event
    */
   public dragStart(event) {
+    if (this.dragging) {
+      event.preventDefault();
+      event.stopPropagation();
+      return
+    }
+
+    this.dragging = true;
+
     window.document.body.classList.add('reorder-in-progress');
 
     this.dragElement.targetEl = event.target;
@@ -40,6 +51,7 @@ export class Draggable {
     this.dragElement.targetEl.classList.add('draggable-elem');
 
     this.zone.runOutsideAngular(() => {
+      window.addEventListener( 'touchmove', this.dragElement.windowMoveHandler);
       window.document.addEventListener('mousemove', this.dragElement.moveHandler);
       window.document.addEventListener('touchmove', this.dragElement.moveHandler, {passive: false} as any);
       window.document.addEventListener('mouseup', this.dragElement.stopHandler);
@@ -71,9 +83,12 @@ export class Draggable {
    * Remove events and classes after drag finish
    */
   public dragEnd() {
+    this.dragging = false;
+
     this.dragElement.targetEl.classList.remove('draggable-elem');
     window.document.body.classList.remove('reorder-in-progress');
     this.dragElement.draggableEl.remove();
+    window.removeEventListener( 'touchmove', this.dragElement.windowMoveHandler);
     window.document.removeEventListener('mousemove', this.dragElement.moveHandler);
     window.document.removeEventListener('touchmove', this.dragElement.moveHandler);
     window.document.removeEventListener('mouseup', this.dragElement.stopHandler);
@@ -219,6 +234,7 @@ export class Draggable {
         e.clientX = touches[0].clientX;
         e.clientY = touches[0].clientY;
       }
+
       e.preventDefault();
     }
   }

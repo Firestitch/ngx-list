@@ -11,7 +11,11 @@
 </ng-container>
 
 <!-- Drag -->
-<td class="fs-list-col drag-col" *ngIf="reorder">
+<td class="fs-list-col drag-col"
+    *ngIf="reorder"
+    (mousedown)="dragStart($event, activeRow)"
+    (touchstart)="dragStart($event, activeRow)"
+>
   <mat-icon>drag_handle</mat-icon>
 </td>
 

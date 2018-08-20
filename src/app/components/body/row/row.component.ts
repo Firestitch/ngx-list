@@ -13,7 +13,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChildren,
+  ViewChildren, TemplateRef,
 } from '@angular/core';
 
 import { Column, RowAction } from '../../../models';
@@ -30,12 +30,15 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   @Input() public row: any;
   @Input() public rowActionsRaw: any [] = [];
   @Input() public rowEvents = {};
-  @Input() rowClass;
+  @Input() public rowClass;
 
   @Input() public rowIndex: number;
   @Input() public columns: Column[];
   @Input() public reorder = false;
-  @Input() restoreMode = false;
+  @Input() public restoreMode = false;
+
+  @Input() public dragStart: any;
+  @Input() public activeRow: TemplateRef<any>;
 
   @Output() public startDragging = new EventEmitter();
   @Output() public stopDragging = new EventEmitter();
