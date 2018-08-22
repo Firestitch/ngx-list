@@ -304,6 +304,7 @@ export class List extends Model {
 
     this.sorting.sortingChanged.subscribe(() => {
       this.operation = Operation.sort;
+      this.paging.page = 1;
       this.fetch$.next();
     });
 
