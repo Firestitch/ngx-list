@@ -25,6 +25,7 @@ import {  ExamplesComponent,
           SortableComponent,
           FiltersExtendedComponent,
           InfinityScrollComponent,
+          PagingComponent,
           NoResultsComponent
          } from './app/components';
 import { RestoreComponent } from './app/components/restore/restore.component';
@@ -47,6 +48,7 @@ import { RestoreComponent } from './app/components/restore/restore.component';
     RouterModule.forRoot([
       { path: '', component: ExamplesComponent },
       { path: 'noresults', component: NoResultsComponent },
+      { path: 'paging', component: PagingComponent },
     ])
   ],
   entryComponents: [
@@ -62,7 +64,8 @@ import { RestoreComponent } from './app/components/restore/restore.component';
     SortableComponent,
     InfinityScrollComponent,
     RestoreComponent,
-    NoResultsComponent
+    NoResultsComponent,
+    PagingComponent
   ],
   providers: [
   ],

@@ -446,8 +446,8 @@ export class List extends Model {
    * Callback when Filter has been initialized
    * @param instance
    */
-  private filterInit(instance) {
-    this.filtersQuery = instance.gets({ flatten: true });
+  private filterInit(filters) {
+    this.filtersQuery = filters;
   }
 
   /**
