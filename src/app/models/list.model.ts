@@ -7,7 +7,8 @@ import { Alias, Model } from 'tsmodels';
 import { Subscription } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
 import { fromPromise } from 'rxjs/observable/fromPromise';
-import { debounceTime, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { never } from 'rxjs/observable/never';
+import { catchError, debounceTime, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { Column, SortingDirection } from './column.model';
 import { Pagination } from './pagination.model';
@@ -305,7 +306,14 @@ export class List extends Model {
     this.sorting.sortingChanged.subscribe(() => {
       this.operation = Operation.sort;
       this.paging.page = 1;
-      this.fetch$.next();
+
+      if (this.fsScrollInstance) {
+        this.data = [];
+        this.fsScrollInstance.reload();
+      } else {
+        this.fetch$.next();
+      }
+
     });
 
     this.listenFetch();
@@ -347,6 +355,9 @@ export class List extends Model {
           return this.fetchRemote(query);
         }),
         takeUntil(this.onDestroy$),
+        catchError((error, source$) => {
+          return source$;
+        })
       )
       .subscribe((response) => {
         this.completeFetch(response);
@@ -379,7 +390,11 @@ export class List extends Model {
                 this.operation = Operation.load;
                 startLoading = true;
 
-              } else if (this.operation === Operation.reload || this.operation === Operation.filter) {
+              } else if (
+                this.operation === Operation.reload ||
+                this.operation === Operation.filter ||
+                this.operation === Operation.sort
+              ) {
                 startLoading = true;
               } else if (this.paging.initialized && this.paging.hasNextPage) {
                 // Loading if content has been scrolled
