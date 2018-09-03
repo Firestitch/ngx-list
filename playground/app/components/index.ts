@@ -7,3 +7,4 @@ export * from './row-actions';
 export * from './sortable';
 export * from './no-results';
 export * from './examples';
+export * from './paging';
