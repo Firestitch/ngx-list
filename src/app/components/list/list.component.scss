@@ -238,7 +238,13 @@
     &:not(.has-filter-input) {
       &.has-heading {
         .fs-list-header {
+          position: relative;
           flex-flow: row nowrap !important;
+
+          .fs-filter .menu-filter {
+            position: initial;
+          }
+          
         }
       }
     }
