@@ -190,12 +190,6 @@
 
     .fs-list-filter {
       flex: 100;
-
-      .no-input {
-        .main-filter-bar {
-          //position: initial !important;
-        }
-      }
     }
     .fs-list-actions {
       margin-left: auto;
@@ -223,15 +217,6 @@
     &.has-filter-input {
       .heading-container {
         flex: 1 1 100%;
-      }
-    }
-
-    &:not(.has-filter-input) {
-      .active-filters-counter {
-        display: none;
-        &.with-input {
-          display: inherit !important;
-        }
       }
     }
 
@@ -263,13 +248,6 @@
         margin-right: 10px;
       }
     }
-    /*&:not(.has-status) {
-      .fs-filter {
-        .sort {
-          display: table-row-group !important;
-        }
-      }
-    }*/
   }
 
   .fs-list-head {
@@ -388,18 +366,7 @@
             display: none !important;
           }
         }
-
-        .active-filters-counter {
-          display: none;
-          &.with-input {
-            display: inherit !important;
-          }
-        }
       }
-    }
-
-    .mat-form-field-underline {
-
     }
 
     .fs-list-header {

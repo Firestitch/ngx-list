@@ -1,6 +1,6 @@
 {
   "name": "@firestitch/list",
-  "version": "0.1.91",
+  "version": "0.1.93",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/fs-list"
@@ -45,7 +45,7 @@
     "@firestitch/date": "^0.1.19",
     "@firestitch/datepicker": "^0.3.1",
     "@firestitch/example": "^0.2.21",
-    "@firestitch/filter": "^0.2.25",
+    "@firestitch/filter": "^0.2.27",
     "@firestitch/iframe": "^0.1.5",
     "@firestitch/scroll": "^0.1.15",
     "@firestitch/store": "^0.1.6",
@@ -116,7 +116,7 @@
     "zone.js": "^0.8.4"
   },
   "peerDependencies": {
-    "@firestitch/filter": ">=0.2.25",
+    "@firestitch/filter": ">=0.2.27",
     "@firestitch/scroll": ">=0.1.15",
     "lodash": ">=4.17.5",
     "rxjs": ">=5.5.7",
