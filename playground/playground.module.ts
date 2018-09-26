@@ -19,6 +19,7 @@ import { AppComponent } from './app/app.component';
 
 import {  ExamplesComponent,
           KitchenSinkComponent,
+          ReorderComponent,
           ActionsComponent,
           RowActionsComponent,
           FiltersComponent,
@@ -57,6 +58,7 @@ import { RestoreComponent } from './app/components/restore/restore.component';
     AppComponent,
     ExamplesComponent,
     KitchenSinkComponent,
+    ReorderComponent,
     ActionsComponent,
     RowActionsComponent,
     FiltersComponent,
