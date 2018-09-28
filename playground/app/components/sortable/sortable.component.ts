@@ -22,7 +22,6 @@ export class SortableComponent implements OnInit {
 
     this.config = {
       heading: 'Sortable',
-      subheading: 'Has default sort by last login',
       status: true,
       filterInput: false,
       sorts: [

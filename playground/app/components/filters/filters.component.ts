@@ -22,7 +22,6 @@ export class FiltersComponent implements OnInit {
     this.config = {
       heading: 'Filters',
       initialFetch: true,
-      subheading: 'With title and status',
       paging: {
         limits: [5, 15, 50]
       },

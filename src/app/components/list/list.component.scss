@@ -97,17 +97,13 @@
         display: table-cell;
 
         border-top: 1px solid #ddd;
-        padding: 8px 12px;
+        padding: 8px;
         vertical-align: middle;
         outline: none;
+        word-break: break-all;
 
         &.drag-col {
           width: 1%;
-        }
-
-        &:first-child,
-        &:last-child {
-          padding-left: 20px;
         }
 
         &.row-actions {
@@ -166,6 +162,7 @@
     .fs-list-toolbar {
       display: flex;
       flex-flow: row nowrap;
+      width: 100%;
     }
 
     .heading-container {
@@ -214,38 +211,9 @@
 
   .fs-list-container {
 
-    &.has-filter-input {
-      .heading-container {
-        flex: 1 1 100%;
-      }
-    }
-
-    &:not(.has-filters) {
-      .fs-list-header {
-        .fs-list-toolbar {
-          margin-left: auto;
-        }
-      }
-    }
-
     &:not(.has-filters):not(.has-actions):not(.has-heading)  {
       .fs-list-header-container {
         display: none;
-      }
-    }
-
-    // We need to put everything at the same row if we don't have input
-    &:not(.has-filter-input) {
-      &.has-heading {
-        .fs-list-header {
-          position: relative;
-          flex-flow: row nowrap !important;
-
-          .fs-filter .menu-filter {
-            position: initial;
-          }
-          
-        }
       }
     }
 
@@ -344,33 +312,13 @@
         .action-filter {
           margin-bottom: 0 !important;
         }
-
-        .action-clear {
-          display: none;
-        }
       }
     }
 
     .fs-list-header {
-      .fs-list-toolbar {
-        margin-left: auto;
-      }
-
       .filter-input {
         .mat-form-field-wrapper {
           padding: 0 !important;
-        }
-      }
-
-      &:not(.has-filters) {
-        flex-flow: row nowrap !important;
-
-        .filter-input {
-          .mat-input-prefix,
-          .mat-input-infix,
-          .mat-input-underline {
-            display: none !important;
-          }
         }
       }
     }

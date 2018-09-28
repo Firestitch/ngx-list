@@ -26,7 +26,7 @@ export class KitchenSinkComponent implements OnInit {
   public ngOnInit() {
 
     this.config = {
-      heading: 'Events',
+      heading: 'Kitchen Sink',
       subheading: 'Subheading',
       status: false,
       filterInput: true,
@@ -125,15 +125,7 @@ export class KitchenSinkComponent implements OnInit {
           className: 'mat-warn',
           type: ActionType.icon,
         },
-        {
-          click: (row, event) => {
-            row.show = !row.show;
-            console.log('Cancel', row, event);
-          },
-          icon: 'clear',
-          label: 'Cancel',
-          type: ActionType.raised,
-        },
+
         {
           click: (row, event) => {
             console.log('edit', row, event);

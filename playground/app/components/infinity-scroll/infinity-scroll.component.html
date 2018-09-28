@@ -20,18 +20,6 @@
         </ng-template>
       </fs-list-column>
 
-      <fs-list-column name="role" title="Role">
-        <ng-template fs-list-cell>
-          <mat-form-field>
-            <mat-select placeholder="Select role">
-              <mat-option *ngFor="let role of roles" [value]="role.value">
-                {{ role.viewValue }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </ng-template>
-      </fs-list-column>
-
       <fs-list-column name="Birth Day" title="Birth day">
         <ng-template fs-list-cell let-value="value">
           {{ value | fsDateFormat:'full-day-date' }}
