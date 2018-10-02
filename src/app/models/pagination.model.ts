@@ -123,17 +123,17 @@ export class Pagination extends Model {
    * Update pages array with new pages count
    */
   public updatePagesArray() {
-    const MIDDLE = 3;
+    const MIDDLE = 2;
     const pagesArr = [];
 
     let from = 0;
     let to = 0;
     if (this.page < MIDDLE) {
-      from = MIDDLE - 2;
-      to = MIDDLE + 2;
+      from = MIDDLE - 1;
+      to = MIDDLE + 1;
     } else if (this.page >= MIDDLE && this.page <= this.pages - MIDDLE + 1) {
-      from = this.page - 2;
-      to = this.page + 2;
+      from = this.page - 1;
+      to = this.page + 1;
     } else if (this.page > this.pages - MIDDLE + 1) {
       from = this.pages - MIDDLE - 1;
       to = this.pages;
