@@ -162,7 +162,7 @@ export class List extends Model {
       if (col.sortable) {
         this.sorting.addSortableColumn(col);
       } // add column to sortable
-      if (col.headerTemplate) {
+      if (col.headerTemplate || col.title) {
         this.hasHeader = true;
       }
       if (col.footerTemplate) {
