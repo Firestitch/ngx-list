@@ -1,5 +1,5 @@
 <div class="infinite-records" fxLayout="row" fxLayoutAlign="start center" *ngIf="paging.enabled">
-  Showing&nbsp;<a [matMenuTriggerFor]="limitsMenu">{{ paging.displayed }}</a>&nbsp;of {{ paging.records }} results
+  Showing&nbsp;<a [fsMenuTriggerFor]="limitsMenu">{{ paging.displayed }}</a>&nbsp;of {{ paging.records }} results
   <ng-container *ngTemplateOutlet="sortedBy"></ng-container>
 </div>
 
@@ -13,21 +13,48 @@
 <ng-template #sortedBy>
   <span *ngIf="sorting.sortingColumn">
     &nbsp;sorted by
-    <a class="order-toggle" [matMenuTriggerFor]="orderColumnsMenu">{{ sorting.sortingColumn.title }}</a>,
-    <a class="order-toggle" [matMenuTriggerFor]="orderDirectionMenu">{{ sorting.sortingColumn.fullNameDirection }}</a>
+    <a class="order-toggle" [fsMenuTriggerFor]="orderColumnsMenu">{{ sorting.sortingColumn.title }}</a>,
+    <a class="order-toggle" [fsMenuTriggerFor]="orderDirectionMenu">{{ sorting.sortingColumn.fullNameDirection }}</a>
   </span>
 </ng-template>
 
-<mat-menu #limitsMenu>
-  <button type="button" mat-menu-item *ngFor="let lim of paging.limits" (click)="setLimit(lim)"> {{ lim }} </button>
-</mat-menu>
+<fs-menu #limitsMenu>
+  <ng-template
+    ngFor
+    let-limit
+    [ngForOf]="paging.limits"
+  >
+    <ng-template fs-menu-item (click)="setLimit(limit)">
+      {{ limit }}
+    </ng-template>
+  </ng-template>
+</fs-menu>
 
-<mat-menu #orderColumnsMenu>
-  <button type="button" mat-menu-item *ngFor="let column of sorting.sortingColumns" (click)="setSortableColumn(column)">{{column.title}}</button>
-  <button type="button" mat-menu-item *ngFor="let column of sorting.fakeSortingColumns" (click)="setSortableColumn(column)">{{column.title}}</button>
-</mat-menu>
+<fs-menu #orderColumnsMenu>
+  <!-- Real sorting columns -->
+  <ng-template
+    ngFor
+    let-column
+    [ngForOf]="sorting.sortingColumns"
+  >
+    <ng-template fs-menu-item (click)="setSortableColumn(column)">
+      {{ column.title }}
+    </ng-template>
+  </ng-template>
 
-<mat-menu #orderDirectionMenu>
-  <button type="button" mat-menu-item (click)="setDirection(OrderDirection.asc)"> ascending </button>
-  <button type="button" mat-menu-item (click)="setDirection(OrderDirection.desc)"> descending </button>
-</mat-menu>
+  <!-- Fake sorting columns -->
+  <ng-template
+    ngFor
+    let-column
+    [ngForOf]="sorting.fakeSortingColumns"
+  >
+    <ng-template fs-menu-item (click)="setSortableColumn(column)">
+      {{ column.title }}
+    </ng-template>
+  </ng-template>
+</fs-menu>
+
+<fs-menu #orderDirectionMenu>
+  <ng-template fs-menu-item (click)="setDirection(OrderDirection.asc)"> ascending </ng-template>
+  <ng-template fs-menu-item (click)="setDirection(OrderDirection.desc)"> descending </ng-template>
+</fs-menu>

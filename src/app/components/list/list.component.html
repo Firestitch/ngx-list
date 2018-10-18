@@ -44,32 +44,40 @@
           <button type="button"
                   mat-icon-button
                   *ngIf="!list.reoderEnabled"
-                  [matMenuTriggerFor]="rowActionsRef"
+                  [fsMenuTriggerFor]="rowActionsRef"
                   [ngClass]="{
                     'hidden': !list.kebabActions.length,
                     'show-mobile': !list.kebabActions.length && list.menuActions.length
                   }">
             <mat-icon>more_vert</mat-icon>
           </button>
-          <mat-menu #rowActionsRef>
-            <button type="button"
-                    class="hidden-mobile-menu-action"
-                    mat-menu-item
-                    *ngFor="let action of list.menuActions"
-                    (click)="action.click(row, $event)"
-                    [ngClass]="action.classArray"
+          <fs-menu #rowActionsRef>
+            <ng-template ngFor
+                         let-action
+                         [ngForOf]="list.menuActions"
             >
-              <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
-            </button>
-            <button type="button"
-                    mat-menu-item
-                    *ngFor="let action of list.kebabActions"
-                    (click)="action.click(row, $event)"
-                    [ngClass]="action.classArray"
+              <ng-template fs-menu-item
+                           class="hidden-mobile-menu-action"
+                           (click)="action.click(row, $event)"
+                           [hidden]="show"
+                           [fsClass]="action.classArray"
+              >
+                <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
+              </ng-template>
+            </ng-template>
+            <ng-template ngFor
+                         let-action
+                         [ngForOf]="list.kebabActions"
             >
-              <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
-            </button>
-          </mat-menu>
+              <ng-template fs-menu-item
+                           (click)="action.click(row, $event)"
+                           [hidden]="show"
+                           [fsClass]="action.classArray"
+              >
+                <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
+              </ng-template>
+            </ng-template>
+          </fs-menu>
 
           <button type="button"
                   mat-button

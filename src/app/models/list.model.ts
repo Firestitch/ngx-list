@@ -7,7 +7,6 @@ import { Alias, Model } from 'tsmodels';
 import { Subscription } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
 import { fromPromise } from 'rxjs/observable/fromPromise';
-import { never } from 'rxjs/observable/never';
 import { catchError, debounceTime, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { Column, SortingDirection } from './column.model';

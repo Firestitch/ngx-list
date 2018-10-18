@@ -85,42 +85,36 @@
   </ng-template>
 
   <!-- Menu -->
-  <span class="row-menu-action"
-        *ngIf="menuRowActions.length || (restoreMode && restoreAction)"
-        (click)="$event.stopPropagation();">
-    <button type="button" mat-icon-button [matMenuTriggerFor]="rowActionsRef">
-      <mat-icon>more_vert</mat-icon>
-    </button>
-  </span>
-  <mat-menu #rowActionsRef>
+  <fs-menu class="row-menu-action"
+           *ngIf="menuRowActions.length || (restoreMode && restoreAction)"
+           (click)="$event.stopPropagation();">
     <!-- Case when we have usual menu actions -->
     <ng-template [ngIf]="!restoreMode || (restoreMode && !restoreAction)">
       <ng-container *ngFor="let action of inlineRowActions">
-        <button type="button" class="hidden-mobile-menu-action"
-                mat-menu-item
-                *ngIf="action.menu === undefined && action.isShown"
-        >
+        <ng-template class="hidden-mobile-menu-action"
+                     fs-menu-item
+                     [hidden]="action.menu !== undefined && !action.isShown">
           <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon>
           {{action.label}}
-        </button>
+        </ng-template>
       </ng-container>
 
       <ng-container *ngFor="let action of menuRowActions">
-        <button type="button" mat-menu-item *ngIf="action.isShown"
-                (click)="action.click(row, $event, rowActionsRef);">
+        <ng-template fs-menu-item
+                     [hidden]="!action.isShown"
+                     (click)="action.click(row, $event, rowActionsRef);">
           <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon>
           {{action.label}}
-        </button>
+        </ng-template>
       </ng-container>
     </ng-template>
 
     <!-- Case when we have restore mode enabled and must hide menu actions -->
     <ng-container *ngIf="restoreMode && restoreAction">
-      <button type="button" mat-menu-item
-              (click)="restoreAction.click(row, $event, rowActionsRef);">
+      <ng-template fs-menu-item (click)="restoreAction.click(row, $event, rowActionsRef);">
         <mat-icon *ngIf="restoreAction.icon">{{restoreAction.icon}}</mat-icon>
         {{restoreAction.label}}
-      </button>
+      </ng-template>
     </ng-container>
-  </mat-menu>
+  </fs-menu>
 </td>

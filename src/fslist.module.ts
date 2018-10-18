@@ -2,8 +2,11 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule, MatIconModule, MatMenuModule, MatProgressSpinnerModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
+
 import { FsFilterModule } from '@firestitch/filter';
 import { FsScrollModule } from '@firestitch/scroll';
+import { FsMenuModule } from '@firestitch/menu';
+
 import { merge } from 'lodash';
 
 
@@ -41,6 +44,7 @@ export * from './app/components/list/list.component';
     MatMenuModule,
     MatProgressSpinnerModule,
     FsFilterModule,
+    FsMenuModule,
     FlexLayoutModule,
     FsScrollModule,
   ],

@@ -1,6 +1,6 @@
 {
   "name": "@firestitch/list",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/fs-list"
@@ -124,7 +124,7 @@
     "zone.js": ">=0.8.4"
   },
   "dependencies": {
-    "@firestitch/menu": "^0.1.0",
+    "@firestitch/menu": "^0.1.1",
     "rxjs-compat": "^6.3.3"
   }
 }
