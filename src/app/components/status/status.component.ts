@@ -30,7 +30,7 @@ export class FsStatusComponent implements OnInit {
   }
 
   public setSortableColumn(column) {
-    this.sorting.sortBy(column, false);
+    this.sorting.sortBy(column);
   }
 
   public setLimit(limit) {

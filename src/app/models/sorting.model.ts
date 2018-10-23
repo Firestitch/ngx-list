@@ -37,34 +37,16 @@ export class Sorting {
   /**
    * Sort By
    * @param column
-   * @param doubleSelectBehaviour - when user click twice on same param
    */
-  public sortBy(column: Column, doubleSelectBehaviour = true) {
+  public sortBy(column: Column) {
     // Can't do sort by non sortable column
     if (!column.sortable) {
       return false;
     }
 
-    // If column was ordered and sort direction was desc then cancel sorting
-    if (column.ordered && (column.sortingDirection === SortingDirection.desc && doubleSelectBehaviour)) {
-      this.sortingColumn = void 0;
-      column.ordered = false;
-
-      this.sortingChanged.next({
-        sortBy: (this.sortingColumn && this.sortingColumn.name) || void 0,
-        sortDirection: (this.sortingColumn && this.sortingColumn.direction) || void 0
-      });
-
-      return true;
-    }
-
     // Column was ordered before
     if (column.ordered) {
-      if (doubleSelectBehaviour) {
-        column.changeDirection();
-      } else {
-        return true;
-      }
+      column.changeDirection();
     } else {
       [...this.fakeSortingColumns, ...this.sortingColumns]
         .filter((col) => col.ordered)
@@ -115,7 +97,7 @@ export class Sorting {
 
     if (!column) { return; }
 
-    this.sortBy(column, false);
+    this.sortBy(column);
 
     this.setSortDirection((columnDirection === 'asc')
       ? SortingDirection.asc
@@ -131,7 +113,7 @@ export class Sorting {
 
     if (!column) { return; }
 
-    this.sortBy(column, false);
+    this.sortBy(column);
     this.setSortDirection(SortingDirection.asc);
   }
 }

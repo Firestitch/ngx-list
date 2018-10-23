@@ -345,7 +345,10 @@ export class List extends Model {
           const query = Object.assign({}, this.filtersQuery, this.paging.query);
 
           if (this.sorting.sortingColumn) {
-            Object.assign(query, { order: `${this.sorting.sortingColumn.name},${this.sorting.sortingColumn.direction}` })
+            Object.assign(
+              query,
+              { order: `${this.sorting.sortingColumn.name},${this.sorting.sortingColumn.direction}` }
+            )
           }
 
           return query;
@@ -506,7 +509,7 @@ export class List extends Model {
     const targetColumn = this.columns.find((column) => column.name === sorting.sortBy);
 
     if (targetColumn) {
-      this.sorting.sortBy(targetColumn, false);
+      this.sorting.sortBy(targetColumn);
 
       const sortDirection = sorting.sortDirection === 'asc' ? SortingDirection.asc : SortingDirection.desc;
       this.sorting.setSortDirection(sortDirection);
