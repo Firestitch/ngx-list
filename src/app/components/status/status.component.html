@@ -18,7 +18,7 @@
   </span>
 </ng-template>
 
-<fs-menu #limitsMenu>
+<fs-menu [hidden]="!paging.enabled" #limitsMenu>
   <ng-template
     ngFor
     let-limit
@@ -30,7 +30,7 @@
   </ng-template>
 </fs-menu>
 
-<fs-menu #orderColumnsMenu>
+<fs-menu [hidden]="!sorting.sortingColumn" #orderColumnsMenu>
   <!-- Real sorting columns -->
   <ng-template
     ngFor
@@ -54,7 +54,7 @@
   </ng-template>
 </fs-menu>
 
-<fs-menu #orderDirectionMenu>
+<fs-menu [hidden]="!sorting.sortingColumn" #orderDirectionMenu>
   <ng-template fs-menu-item (click)="setDirection(OrderDirection.asc)"> ascending </ng-template>
   <ng-template fs-menu-item (click)="setDirection(OrderDirection.desc)"> descending </ng-template>
 </fs-menu>
