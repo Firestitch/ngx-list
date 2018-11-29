@@ -6,9 +6,10 @@ import {
   ContentChildren,
   QueryList,
   ViewChild,
-  ElementRef, Inject, ChangeDetectorRef,
+  Inject,
 } from '@angular/core';
 import { FsScrollService } from '@firestitch/scroll';
+import { FilterComponent } from '@firestitch/filter';
 
 import * as _cloneDeep from 'lodash/cloneDeep';
 
@@ -31,6 +32,8 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   public list: List;
 
+  @ViewChild('filter') private _filter: FilterComponent;
+
   /**
    * Set columns to config
    * Create Column Model instances
@@ -42,8 +45,14 @@ export class FsListComponent implements OnInit, OnDestroy {
     this.list.tranformTemplatesToColumns(val);
   }
 
-  constructor(@Inject(FS_LIST_DEFAULT_CONFIG) private _defaultOptions,
-              private fsScroll: FsScrollService, private _ch: ChangeDetectorRef) {}
+  constructor(
+    @Inject(FS_LIST_DEFAULT_CONFIG) private _defaultOptions,
+    private fsScroll: FsScrollService,
+  ) {}
+
+  get filter() {
+    return this._filter;
+  }
 
   public ngOnInit() {
     const defaultOpts = _cloneDeep(this._defaultOptions);

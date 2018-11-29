@@ -19,6 +19,7 @@
       <!-- Filters/actions -->
       <div class="fs-list-toolbar">
         <fs-filter
+          #filter
           class="fs-list-filter"
           *ngIf="list.filterConfig"
           [hidden]="!list.filterConfig?.items.length || list.reoderEnabled"
