@@ -1,4 +1,5 @@
 import './../tools/assets/playground.scss';
+import './styles.scss';
 
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -11,6 +12,8 @@ import { FsApiModule } from '@firestitch/api';
 import { FsBadgeModule } from '@firestitch/badge';
 import { FsDateModule } from '@firestitch/date';
 import { FsScrollModule } from '@firestitch/scroll';
+import { FsMessageModule } from '@firestitch/message';
+import { ToastrModule } from 'ngx-toastr';
 
 import { FsListModule } from '../src';
 import { AppMaterialModule } from './app/material.module';
@@ -42,7 +45,9 @@ import { RestoreComponent } from './app/components/restore/restore.component';
     AppMaterialModule,
     FormsModule,
     FlexLayoutModule,
-    FsExampleModule,
+    FsExampleModule.forRoot(),
+    FsMessageModule.forRoot(),
+    ToastrModule.forRoot({ preventDuplicates: true }),
     FsApiModule,
     FsBadgeModule,
     FsDateModule,
