@@ -13,6 +13,7 @@ import { FsBadgeModule } from '@firestitch/badge';
 import { FsDateModule } from '@firestitch/date';
 import { FsScrollModule } from '@firestitch/scroll';
 import { FsMessageModule } from '@firestitch/message';
+import { FsSelectionModule } from '@firestitch/selection';
 import { ToastrModule } from 'ngx-toastr';
 
 import { FsListModule } from '../src';
@@ -20,18 +21,21 @@ import { AppMaterialModule } from './app/material.module';
 
 import { AppComponent } from './app/app.component';
 
-import {  ExamplesComponent,
-          KitchenSinkComponent,
-          ReorderComponent,
-          ActionsComponent,
-          RowActionsComponent,
-          FiltersComponent,
-          SortableComponent,
-          FiltersExtendedComponent,
-          InfinityScrollComponent,
-          PagingComponent,
-          NoResultsComponent
-         } from './app/components';
+import {
+  ExamplesComponent,
+  KitchenSinkComponent,
+  ReorderComponent,
+  ActionsComponent,
+  RowActionsComponent,
+  FiltersComponent,
+  SortableComponent,
+  FiltersExtendedComponent,
+  InfinityScrollComponent,
+  PagingComponent,
+  NoResultsComponent,
+  SelectionComponent,
+} from './app/components';
+
 import { RestoreComponent } from './app/components/restore/restore.component';
 
 
@@ -47,6 +51,7 @@ import { RestoreComponent } from './app/components/restore/restore.component';
     FlexLayoutModule,
     FsExampleModule.forRoot(),
     FsMessageModule.forRoot(),
+    FsSelectionModule.forRoot(),
     ToastrModule.forRoot({ preventDuplicates: true }),
     FsApiModule,
     FsBadgeModule,
@@ -72,7 +77,8 @@ import { RestoreComponent } from './app/components/restore/restore.component';
     InfinityScrollComponent,
     RestoreComponent,
     NoResultsComponent,
-    PagingComponent
+    PagingComponent,
+    SelectionComponent,
   ],
   providers: [
   ],

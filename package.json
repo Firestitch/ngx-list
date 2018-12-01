@@ -49,6 +49,7 @@
     "@firestitch/iframe": "^0.1.5",
     "@firestitch/message": "^0.1.22",
     "@firestitch/scroll": "^0.1.15",
+    "@firestitch/selection": "^0.1.0",
     "@firestitch/store": "^0.1.6",
     "@types/jasmine": "2.5.53",
     "@types/node": "^6.0.99",
