@@ -1,4 +1,6 @@
 //import { Observable } from 'rxjs/Observable';
+import { SelectionDialogActionCallbackParams } from '@firestitch/selection'
+import { Observable } from 'rxjs';
 
 export interface FsPaging {
   limits?: number[];
@@ -21,6 +23,7 @@ export interface FsListConfig {
   actions?: Object[];
   fetch?: Function;
   scrollable?: FsListScrollableConfig | boolean;
+  selection?: FsListSelectionConfig;
   initialFetch?: boolean;
   rowEvents?: Object;
   header?: FsListHeaderConfig;
@@ -79,3 +82,15 @@ export interface FsListRestoreConfig {
 export interface FsListNoResultsConfig {
   message?: string;
 }
+
+export interface FsListSelectionConfig {
+  actions?: any[];
+  onAction?: (action: OnActionCallbackParams) => Observable<boolean>;
+  onSelectAll?: () => void;
+  onCancel?: () => void;
+}
+
+interface OnActionCallbackParams extends SelectionDialogActionCallbackParams {
+  selectedRows: any[];
+}
+

@@ -15,8 +15,12 @@ import {
   Output,
   ViewChildren, TemplateRef,
 } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material';
 
-import { Column, RowAction } from '../../../models';
+import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
+
+import { Column, RowAction, Selection, SelectionChangeType } from '../../../models';
 
 
 @Component({
@@ -34,6 +38,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   @Input() public rowIndex: number;
   @Input() public columns: Column[];
+  @Input() public selection: Selection;
   @Input() public reorder = false;
   @Input() public restoreMode = false;
 
@@ -49,10 +54,13 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   public menuRowActions: RowAction[];
   public inlineRowActions: RowAction[];
   public restoreAction: RowAction;
+  public selected = false;
 
   private _rowDiffer: KeyValueDiffer<{}, {}>;
 
   private _eventListeners = [];
+
+  private _destroy$ = new Subject();
 
   constructor(public el: ElementRef,
               private _cdRef: ChangeDetectorRef,
@@ -86,6 +94,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   public ngOnInit() {
     this.initRowEvents();
+    this.initSelection();
 
     if (this.rowActionsRaw) {
       this.rowActions = this.rowActionsRaw.map((action) => new RowAction(action));
@@ -107,13 +116,27 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   public ngOnDestroy() {
-    this._eventListeners.forEach((listener) => { listener() })
+    this._eventListeners.forEach((listener) => { listener() });
+
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
   public mousedow(event) {
     if (this.reorder) {
       this.startDragging.emit({event: event, target: this.el.nativeElement})
     }
+  }
+
+  /**
+   * Select row by checkbox
+   * @param event
+   */
+  public selectRow(event: MatCheckboxChange) {
+    this.selected = event.checked;
+
+    this.selection.rowSelectionChange(this.row, event.checked);
+    this._cdRef.markForCheck();
   }
 
   /**
@@ -137,6 +160,31 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
         this._eventListeners.push(listener);
       }
+    }
+  }
+
+  /**
+   * Subscribe to selection change events
+   */
+  private initSelection() {
+    if (this.selection) {
+      this.selection.selectionChange$
+        .pipe(
+          // Would like to respond only when checkbox on top is changed
+          // or was clicked "Select All" in selection dialog
+          filter(({type}) => {
+            return type === SelectionChangeType.visibleRowsSelectionChanged
+              || type === SelectionChangeType.selectedAll;
+          }),
+          takeUntil(this._destroy$),
+        )
+        .subscribe(({type: type, payload: status}) => {
+          this.selected = status;
+
+          this.selection.rowSelectionChange(this.row, this.selected);
+
+          this._cdRef.markForCheck();
+        });
     }
   }
 }

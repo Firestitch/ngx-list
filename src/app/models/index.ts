@@ -6,3 +6,4 @@ export * from './reorder.model';
 export * from './row-action.model';
 export * from './sorting.model';
 export * from './styleConfig.model';
+export * from './selection.model';

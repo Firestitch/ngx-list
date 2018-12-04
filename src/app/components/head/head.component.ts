@@ -5,30 +5,85 @@ import {
   Input,
   OnInit,
   ViewChild,
-  ViewContainerRef,
+  ViewContainerRef, OnDestroy,
 } from '@angular/core';
-import { Sorting } from '../../models/sorting.model';
+import { MatCheckboxChange } from '@angular/material';
+
+import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
+
+import { Sorting, Selection, SelectionChangeType } from '../../models';
 import { Column } from '../../index';
+
 
 @Component({
   selector: '[fs-list-head]',
   templateUrl: 'head.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FsHeadComponent implements OnInit {
+export class FsHeadComponent implements OnInit, OnDestroy {
   @Input() sorting: Sorting;
   @Input() columns: Column[];
   @Input() hasRowActions: boolean;
-  @Input() reorder: boolean;
+  @Input() reorder = false;
+  @Input() selection: Selection;
 
   @ViewChild('rowsContainer', { read: ViewContainerRef }) rowsContainer;
 
-  constructor(private cdRef: ChangeDetectorRef) {
-  }
+  public selectedAll = false;
+
+  private _destroy$ = new Subject();
+
+  constructor(private cdRef: ChangeDetectorRef) {}
 
   public ngOnInit() {
-    this.sorting.sortingChanged.subscribe(() => {
+    this.initSorting();
+    this.initSelection();
+  }
+
+  public ngOnDestroy() {
+    this._destroy$.next();
+    this._destroy$.complete();
+  }
+
+  /**
+   * Select All Visible Rows
+   * @param event
+   */
+  public selectAll(event: MatCheckboxChange) {
+    this.selection.selectAllVisibleRows(event.checked);
+  }
+
+  /**
+   * Subscribe to sorting change
+   */
+  private initSorting() {
+    this.sorting.sortingChanged
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe(() => {
       this.cdRef.markForCheck();
-    })
+    });
+  }
+
+  /**
+   * Subscribe to selection change
+   */
+  private initSelection() {
+    if (this.selection) {
+      this.selection.selectionChange$
+        .pipe(
+          filter(
+            ({type}) => type === SelectionChangeType.rowSelected
+          ),
+          takeUntil(this._destroy$),
+        )
+        .subscribe(({type, payload: status}) => {
+          this.selectedAll = status;
+
+          this.cdRef.markForCheck();
+        });
+    }
   }
 }

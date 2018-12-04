@@ -1,1 +1,5 @@
 @import "~ngx-toastr/toastr.css";
+@import "~@firestitch/selection/styles.scss";
+@import '~@angular/material/theming';
+
+@include fs-selection($mat-blue);

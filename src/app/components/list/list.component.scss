@@ -241,6 +241,11 @@
       font-size: 13px;
       color: rgba(143, 143, 143, 1);
 
+      &.fs-list-col-selection {
+        width: 30px;
+        text-align: left;
+      }
+
       &.sorting {
 
         cursor: pointer;
