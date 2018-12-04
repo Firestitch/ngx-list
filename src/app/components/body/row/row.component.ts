@@ -18,7 +18,7 @@ import {
 import { MatCheckboxChange } from '@angular/material';
 
 import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 
 import { Column, RowAction, Selection, SelectionChangeType } from '../../../models';
 
@@ -176,7 +176,6 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
             return type === SelectionChangeType.visibleRowsSelectionChanged
               || type === SelectionChangeType.selectedAll;
           }),
-          takeUntil(this._destroy$),
         )
         .subscribe(({type: type, payload: status}) => {
           this.selected = status;

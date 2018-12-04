@@ -240,12 +240,22 @@ export class List extends Model {
       this._fsScrollSubscription.unsubscribe();
     }
 
+    if (this.paging) {
+      this.paging.destroy();
+    }
+
+    if (this.sorting) {
+      this.sorting.destroy();
+    }
+
+    if (this.selection) {
+      this.selection.destroy();
+    }
+
     this.onDestroy$.next();
     this.onDestroy$.complete();
 
     this.data$.complete();
-    this.paging.pageChanged.complete();
-    this.sorting.sortingChanged.complete();
   }
 
   /**

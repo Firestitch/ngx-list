@@ -38,6 +38,7 @@ export class Selection {
   private _visibleRecordsCount = 0;
   private _totalRecordsCount = 0;
 
+  private _onDestroy = new Subject();
 
   constructor(config: FsListSelectionConfig = {}, private _selectionDialog: SelectionDialog) {
     this.actions = config.actions ? [...config.actions] : [];
@@ -47,7 +48,7 @@ export class Selection {
   }
 
   get selectionChange$() {
-    return this._selectionChange.asObservable();
+    return this._selectionChange.pipe(takeUntil(this._onDestroy));
   }
 
   /**
@@ -132,6 +133,21 @@ export class Selection {
     if (this.selectionDialogRef) {
       this.selectionDialogRef.updateAllCount(this._totalRecordsCount);
     }
+  }
+
+  public destroy() {
+    this.selectedRows.clear();
+    this.actions = null;
+    this.onActionFn = null;
+    this.onSelectAllFn = null;
+    this.onCancelFn = null;
+
+    this.selectionDialogRef = null;
+
+    this._onDestroy.next();
+    this._onDestroy.complete();
+
+    this._selectionChange.complete();
   }
 
   /**
