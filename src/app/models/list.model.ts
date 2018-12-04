@@ -592,15 +592,20 @@ export class List extends Model {
       this.paging.updatePaging(response.paging);
     }
 
-    if (this.paging.enabled) {
-      this.selection.updateVisibleRecordsCount(this.paging.limit);
-      this.selection.updateTotalRecordsCount(this.paging.records);
-    } else {
-      const count = response.paging && response.paging.records
-        || Array.isArray(response.data) && response.data.length;
+    // Update selection params
+    if (this.selection) {
 
-      this.selection.updateVisibleRecordsCount(count);
-      this.selection.updateTotalRecordsCount(count);
+      if (this.paging.enabled) {
+        this.selection.updateVisibleRecordsCount(this.paging.limit);
+        this.selection.updateTotalRecordsCount(this.paging.records);
+      } else {
+        const count = response.paging && response.paging.records
+          || Array.isArray(response.data) && response.data.length;
+
+        this.selection.updateVisibleRecordsCount(count);
+        this.selection.updateTotalRecordsCount(count);
+      }
+
     }
 
     this.loading = false;
