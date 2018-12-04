@@ -24,7 +24,7 @@
           *ngIf="list.filterConfig"
           [hidden]="!list.filterConfig?.items.length || list.reoderEnabled"
           [filter]="list.filterConfig"
-          [sortUpdate]="list?.sorting?.sortingChanged"
+          [sortUpdate]="list?.sorting?._sortingChanged"
           [showSortBy]="!list.status"
           [showFilterInput]="list.filterInput"
         >
@@ -108,7 +108,7 @@
 
 
   <!-- Table implementation -->
-  <div class="fs-list-table-container">
+  <div class="fs-list-table-container" *ngIf="list.initialized">
     <table class="fs-list-table" role="grid" *ngIf="list.data.length > 0">
       <thead fs-list-head
              class="fs-list-head"
@@ -116,8 +116,10 @@
              [ngClass]="list.theadClass"
              [columns]="list.columns"
              [sorting]="list.sorting"
+             [selection]="list.selection"
              [hasRowActions]="list.hasRowActions"
-             [reorder]="list.reoderEnabled">
+             [reorder]="list.reoderEnabled"
+      >
       </thead>
 
       <tbody fs-list-body
@@ -132,6 +134,7 @@
              [hasFooter]="list.hasFooter"
              [reorder]="list.reoderEnabled"
              [restoreMode]="list.restoreMode"
+             [selection]="list.selection"
       >
       </tbody>
 
@@ -139,6 +142,7 @@
              class="fs-list-footer"
              *ngIf="list.hasFooter"
              [columns]="list.columns"
+             [selection]="list.selection"
              [hasRowActions]="list.hasRowActions">
       </tfoot>
     </table>

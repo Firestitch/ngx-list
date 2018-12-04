@@ -14,7 +14,8 @@ import {
   NgZone,
   TemplateRef,
 } from '@angular/core';
-import { Column } from '../../models';
+
+import { Column, Selection } from '../../models';
 import { FsRowComponent } from './row';
 import { Draggable } from './draggable';
 
@@ -31,6 +32,7 @@ export class FsBodyComponent implements OnInit, DoCheck {
   @Input() rowEvents = {};
   @Input() rowClass;
   @Input() reorder = false;
+  @Input() selection: Selection;
   @Input() restoreMode = false;
 
   @ViewChild('rowsContainer', { read: ViewContainerRef }) rowsContainer;

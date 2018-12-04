@@ -1,7 +1,11 @@
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+import * as isString from 'lodash/isString';
+
 import { Column, SortingDirection } from './column.model';
 import { List } from './list.model';
-import { Subject } from 'rxjs/Subject';
-import * as isString from 'lodash/isString';
+
 
 export class Sorting {
   public config: List;
@@ -11,10 +15,15 @@ export class Sorting {
   public fakeSortingColumns: Column[] = [];
   public sortingColumn: Column;
 
-  public sortingChanged = new Subject();
+  private _sortingChanged = new Subject();
+  private _onDestroy = new Subject();
 
   constructor(columns) {
     this.tableColumns = columns;
+  }
+
+  get sortingChanged() {
+    return this._sortingChanged.pipe(takeUntil(this._onDestroy));
   }
 
   public addSortableColumn(column: Column) {
@@ -27,7 +36,7 @@ export class Sorting {
   public setSortDirection(direction) {
     if (this.sortingColumn && this.sortingColumn.sortingDirection !== direction) {
       this.sortingColumn.sortingDirection = direction;
-      this.sortingChanged.next({
+      this._sortingChanged.next({
         sortBy: this.sortingColumn.name,
         sortDirection: this.sortingColumn.direction
       });
@@ -56,7 +65,7 @@ export class Sorting {
     }
 
     this.sortingColumn = column;
-    this.sortingChanged.next({
+    this._sortingChanged.next({
       sortBy: this.sortingColumn.name,
       sortDirection: this.sortingColumn.direction
     });
@@ -115,5 +124,13 @@ export class Sorting {
 
     this.sortBy(column);
     this.setSortDirection(SortingDirection.asc);
+  }
+
+  /**
+   * Destroy
+   */
+  public destroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
   }
 }

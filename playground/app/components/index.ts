@@ -9,3 +9,4 @@ export * from './no-results';
 export * from './examples';
 export * from './paging';
 export * from './reorder';
+export * from './selection';

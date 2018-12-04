@@ -1,11 +1,12 @@
 import { ItemType } from '@firestitch/filter';
 import { FsScrollService } from '@firestitch/scroll';
 import { FsScrollInstance } from '@firestitch/scroll/classes';
+import { SelectionDialog } from '@firestitch/selection';
+
 import * as _isNumber from 'lodash/isNumber';
 import { Alias, Model } from 'tsmodels';
 
-import { Subscription } from 'rxjs';
-import { Subject } from 'rxjs/Subject';
+import { Subject, Subscription } from 'rxjs';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import { catchError, debounceTime, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
@@ -13,13 +14,15 @@ import { Column, SortingDirection } from './column.model';
 import { Pagination } from './pagination.model';
 import { Sorting } from './sorting.model';
 
-import { FsListConfig, FsListScrollableConfig } from '../interfaces';
+import { FsListConfig, FsListScrollableConfig, FsListSelectionConfig, FsPaging } from '../interfaces';
 import { StyleConfig } from './styleConfig.model';
 import { Action } from './action.model';
 import { ReorderModel } from './reorder.model';
 import { RowAction } from './row-action.model';
+import { Selection } from './selection.model';
 
 const SHOW_DELETED_FILTERS_KEY = '$$_show_deleted_$$';
+
 
 export class List extends Model {
   @Alias() public heading: string;
@@ -38,6 +41,8 @@ export class List extends Model {
   @Alias('fetch') public fetchFn: any;
   // @Alias('rows') private _rows: any;
 
+  public initialized = false;
+
   public operation: Operation;
   public filtersQuery: any;
 
@@ -49,6 +54,7 @@ export class List extends Model {
   public persist: string;
   public paging = new Pagination();
   public sorting = new Sorting(this.columns);
+  public selection: Selection;
 
   public filterConfig = null;
 
@@ -78,25 +84,23 @@ export class List extends Model {
 
   private _fsScrollSubscription: Subscription;
 
-  constructor(private config: FsListConfig = {}, private fsScroll: FsScrollService) {
+  constructor(
+    private config: FsListConfig = {},
+    private fsScroll: FsScrollService,
+    private selectionDialog: SelectionDialog,
+  ) {
     super();
     this._fromJSON(config);
 
-    this.initDefaultOptions(config);
+    this.initialize(config);
 
     this._headerConfig = new StyleConfig(config.header);
     this._cellConfig = new StyleConfig(config.cell);
     this._footerConfig = new StyleConfig(config.footer);
 
-    this.initReoder();
-    this.initRestore();
-
-    this.menuActions = this.actions.filter((action) => !action.menu);
-    this.kebabActions = this.actions.filter((action) => action.menu);
-    this.hasRowActions = this.rowActionsRaw && this.rowActionsRaw.length > 0;
-
-    this.initPaging(config);
     this.subscribe();
+
+    this.initialized = true;
 
     this.data$.subscribe((rows) => {
       if (this.scrollable) {
@@ -185,10 +189,87 @@ export class List extends Model {
 
   }
 
-  /************************************************************************/
-  /**************************** INITIALIZING ******************************/
+  public reload() {
+    this.loading = true;
 
-  /************************************************************************/
+    this.operation = Operation.reload;
+    this.paging.page = 1;
+
+    if (this.fsScrollInstance) {
+      this.data = [];
+      this.fsScrollInstance.reload();
+    } else {
+      this.fetch$.next();
+    }
+  }
+
+  /**
+   * Watch page changes
+   */
+  public subscribe() {
+    this.paging.pageChanged.subscribe(() => {
+      this.operation = Operation.pageChange;
+
+      if (this.selection) {
+        this.selection.updateVisibleRecordsCount(this.paging.limit);
+        this.selection.updateTotalRecordsCount(this.paging.records);
+        this.selection.selectAllVisibleRows(false);
+      }
+
+      this.fetch$.next();
+    });
+
+    this.sorting.sortingChanged.subscribe(() => {
+      this.operation = Operation.sort;
+      this.paging.page = 1;
+
+      if (this.fsScrollInstance) {
+        this.data = [];
+        this.fsScrollInstance.reload();
+      } else {
+        this.fetch$.next();
+      }
+
+    });
+
+    this.listenFetch();
+  }
+
+  public destroy() {
+    if (this._fsScrollSubscription) {
+      this._fsScrollSubscription.unsubscribe();
+    }
+
+    if (this.paging) {
+      this.paging.destroy();
+    }
+
+    if (this.sorting) {
+      this.sorting.destroy();
+    }
+
+    if (this.selection) {
+      this.selection.destroy();
+    }
+
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+
+    this.data$.complete();
+  }
+
+  /**
+   * Do initialization of table
+   * @param config
+   */
+  private initialize(config: FsListConfig) {
+    this.initDefaultOptions(config);
+    this.initReoder();
+    this.initRestore();
+    this.initActions();
+    this.initPaging(config.paging);
+    this.initSelection(config.selection, this.selectionDialog);
+  }
 
   /**
    * Just init options by default it it wasn't specified
@@ -266,69 +347,35 @@ export class List extends Model {
 
   /**
    * Init paging
-   * @param config
+   * @param pagingConfig
    */
-  private initPaging(config) {
-    if (config.paging) {
-      this.paging.manual = config.paging.manual;
-      if (config.paging.limits) {
-        this.paging.limits = config.paging.limits
+  private initPaging(pagingConfig: FsPaging | false) {
+    if (pagingConfig) {
+      // this.paging.manual = pagingConfig.manual;
+      if (pagingConfig.limits) {
+        this.paging.limits = pagingConfig.limits
       }
-    } else if (config.paging === false) {
+    } else if (pagingConfig === false) {
       this.paging.enabled = false;
     }
   }
 
-  public reload() {
-    this.loading = true;
-
-    this.operation = Operation.reload;
-    this.paging.page = 1;
-
-    if (this.fsScrollInstance) {
-      this.data = [];
-      this.fsScrollInstance.reload();
-    } else {
-      this.fetch$.next();
-    }
-  }
-
   /**
-   * Watch page changes
+   * Split actions by categories
    */
-  public subscribe() {
-    this.paging.pageChanged.subscribe(() => {
-      this.operation = Operation.pageChange;
-      this.fetch$.next();
-    });
-
-    this.sorting.sortingChanged.subscribe(() => {
-      this.operation = Operation.sort;
-      this.paging.page = 1;
-
-      if (this.fsScrollInstance) {
-        this.data = [];
-        this.fsScrollInstance.reload();
-      } else {
-        this.fetch$.next();
-      }
-
-    });
-
-    this.listenFetch();
+  private initActions() {
+    this.menuActions = this.actions.filter((action) => !action.menu);
+    this.kebabActions = this.actions.filter((action) => action.menu);
+    this.hasRowActions = this.rowActionsRaw && this.rowActionsRaw.length > 0;
   }
 
-  public destroy() {
-    if (this._fsScrollSubscription) {
-      this._fsScrollSubscription.unsubscribe();
+  private initSelection(
+    selectionConfig: FsListSelectionConfig,
+    selectionDialog: SelectionDialog,
+  ) {
+    if (selectionConfig) {
+      this.selection = new Selection(selectionConfig, selectionDialog);
     }
-
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
-
-    this.data$.complete();
-    this.paging.pageChanged.complete();
-    this.sorting.sortingChanged.complete();
   }
 
   /**
@@ -461,7 +508,7 @@ export class List extends Model {
 
   /**
    * Callback when Filter has been initialized
-   * @param instance
+   * @param filters
    */
   private filterInit(filters) {
     this.filtersQuery = filters;
@@ -543,6 +590,22 @@ export class List extends Model {
 
     if (response.paging) {
       this.paging.updatePaging(response.paging);
+    }
+
+    // Update selection params
+    if (this.selection) {
+
+      if (this.paging.enabled) {
+        this.selection.updateVisibleRecordsCount(this.paging.limit);
+        this.selection.updateTotalRecordsCount(this.paging.records);
+      } else {
+        const count = response.paging && response.paging.records
+          || Array.isArray(response.data) && response.data.length;
+
+        this.selection.updateVisibleRecordsCount(count);
+        this.selection.updateTotalRecordsCount(count);
+      }
+
     }
 
     this.loading = false;

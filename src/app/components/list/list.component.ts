@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { FsScrollService } from '@firestitch/scroll';
 import { FilterComponent } from '@firestitch/filter';
+import { SelectionDialog } from '@firestitch/selection';
 
 import * as _cloneDeep from 'lodash/cloneDeep';
 
@@ -48,6 +49,7 @@ export class FsListComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(FS_LIST_DEFAULT_CONFIG) private _defaultOptions,
     private fsScroll: FsScrollService,
+    private selectionDialog: SelectionDialog,
   ) {}
 
   get filter() {
@@ -57,7 +59,7 @@ export class FsListComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     const defaultOpts = _cloneDeep(this._defaultOptions);
     const listConfig = Object.assign(defaultOpts, this.config);
-    this.list = new List(listConfig, this.fsScroll);
+    this.list = new List(listConfig, this.fsScroll, this.selectionDialog);
   }
 
   public ngOnDestroy() {

@@ -1,6 +1,7 @@
 import { Alias, Model } from 'tsmodels';
 import { Subject } from 'rxjs/Subject';
 import { FsPaging } from '../interfaces';
+import { takeUntil } from 'rxjs/operators';
 
 
 export class Pagination extends Model {
@@ -9,11 +10,14 @@ export class Pagination extends Model {
   @Alias() public pages = 0; // Total pages
   @Alias() public records: number;
   @Alias() public manual = false;
+
   public page = 1; // Active page
 
-  public pageChanged = new Subject();
   public pagesArray = [];
   public displayed = 0;
+
+  private _pageChanged = new Subject();
+  private _onDestroy = new Subject();
 
   private _enabled = true;
   private _limits = [10, 25, 50, 100, 200];
@@ -22,6 +26,13 @@ export class Pagination extends Model {
     super();
 
     this.updatePaging(config);
+  }
+
+  /**
+   * Fire if page was changed
+   */
+  get pageChanged() {
+    return this._pageChanged.pipe(takeUntil(this._onDestroy));
   }
 
   /**
@@ -170,7 +181,7 @@ export class Pagination extends Model {
   public setLimit(limit) {
     this.limit = limit;
     this.resetPaging();
-    this.pageChanged.next();
+    this._pageChanged.next();
   }
 
   /**
@@ -189,7 +200,7 @@ export class Pagination extends Model {
   public goToPage(page) {
     if (page >= 1 && page <= this.pages && this.page !== page) {
       this.page = page;
-      this.pageChanged.next(page);
+      this._pageChanged.next(page);
     }
   }
 
@@ -203,7 +214,7 @@ export class Pagination extends Model {
   public goNext() {
     if (this.hasNextPage) {
       this.page++;
-      this.pageChanged.next(this.page);
+      this._pageChanged.next(this.page);
     }
   }
 
@@ -213,7 +224,7 @@ export class Pagination extends Model {
   public goFirst() {
     if (this.page > 1) {
       this.page = 1;
-      this.pageChanged.next(this.page);
+      this._pageChanged.next(this.page);
     }
   }
 
@@ -223,7 +234,7 @@ export class Pagination extends Model {
   public goPrev() {
     if (this.page > 1) {
       this.page--;
-      this.pageChanged.next(this.page);
+      this._pageChanged.next(this.page);
     }
   }
 
@@ -233,7 +244,15 @@ export class Pagination extends Model {
   public goLast() {
     if (this.page < this.pages) {
       this.page = this.pages;
-      this.pageChanged.next(this.page);
+      this._pageChanged.next(this.page);
     }
+  }
+
+  /**
+   * Destroy
+   */
+  public destroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
   }
 }

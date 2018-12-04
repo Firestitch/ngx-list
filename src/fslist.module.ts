@@ -1,6 +1,12 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule, MatIconModule, MatMenuModule, MatProgressSpinnerModule } from '@angular/material';
+import {
+  MatButtonModule,
+  MatCheckboxModule,
+  MatIconModule,
+  MatMenuModule,
+  MatProgressSpinnerModule
+} from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { FsFilterModule } from '@firestitch/filter';
@@ -43,6 +49,7 @@ export * from './app/components/list/list.component';
     MatIconModule,
     MatMenuModule,
     MatProgressSpinnerModule,
+    MatCheckboxModule,
     FsFilterModule,
     FsMenuModule,
     FlexLayoutModule,
