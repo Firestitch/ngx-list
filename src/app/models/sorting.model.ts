@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import * as isString from 'lodash/isString';
@@ -6,6 +6,10 @@ import * as isString from 'lodash/isString';
 import { Column, SortingDirection } from './column.model';
 import { List } from './list.model';
 
+export interface SortingChangeEvent {
+  sortBy: string;
+  sortDirection: string;
+}
 
 export class Sorting {
   public config: List;
@@ -15,14 +19,14 @@ export class Sorting {
   public fakeSortingColumns: Column[] = [];
   public sortingColumn: Column;
 
-  private _sortingChanged = new Subject();
+  private _sortingChanged = new Subject<SortingChangeEvent>();
   private _onDestroy = new Subject();
 
   constructor(columns) {
     this.tableColumns = columns;
   }
 
-  get sortingChanged() {
+  get sortingChanged(): Observable<SortingChangeEvent> {
     return this._sortingChanged.pipe(takeUntil(this._onDestroy));
   }
 

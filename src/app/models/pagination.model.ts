@@ -1,7 +1,7 @@
 import { Alias, Model } from 'tsmodels';
-import { Subject } from 'rxjs/Subject';
-import { FsPaging } from '../interfaces';
+import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { FsPaging } from '../interfaces';
 
 
 export class Pagination extends Model {
@@ -16,7 +16,7 @@ export class Pagination extends Model {
   public pagesArray = [];
   public displayed = 0;
 
-  private _pageChanged = new Subject();
+  private _pageChanged = new Subject<number | null>();
   private _onDestroy = new Subject();
 
   private _enabled = true;
@@ -31,7 +31,7 @@ export class Pagination extends Model {
   /**
    * Fire if page was changed
    */
-  get pageChanged() {
+  get pageChanged(): Observable<number | null> {
     return this._pageChanged.pipe(takeUntil(this._onDestroy));
   }
 
