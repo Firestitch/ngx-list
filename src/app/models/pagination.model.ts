@@ -12,9 +12,12 @@ export class Pagination extends Model {
   @Alias() public manual = false;
 
   public page = 1; // Active page
+  public offset = 0;
 
   public pagesArray = [];
   public displayed = 0;
+
+  private _deletedRows = 0;
 
   private _pageChanged = new Subject<number | null>();
   private _onDestroy = new Subject();
@@ -80,9 +83,19 @@ export class Pagination extends Model {
    * @returns {{page: number; limit: number}}
    */
   get query() {
+    const page = this.page - 1 || 0;
+    const limit = this.limit || 5;
+
     return {
-      page: this.page || 1,
-      limit: this.limit || 10,
+      offset: page * limit,
+      limit: limit,
+    }
+  }
+
+  get loadDeletedOffsetQuery() {
+    return {
+      offset: this.limit * this.page - this._deletedRows,
+      limit: this._deletedRows
     }
   }
 
@@ -94,7 +107,8 @@ export class Pagination extends Model {
    * @returns {boolean}
    */
   get hasPrevPage() {
-    return this.page > 1 && this.pages > 1;
+    // return this.page > 1 && this.pages > 1;
+    return this.limit + this.offset > this.limit && this.records > 1;
   }
 
   /**
@@ -102,16 +116,25 @@ export class Pagination extends Model {
    * @returns {boolean}
    */
   get hasNextPage() { // Need to check if pages === page && page === 1
-    return this.page < this.pages && this.pages > 1;
+    // return this.page < this.pages && this.pages > 1;
+    return this.limit + this.offset < this.records && this.records > 1;
   }
 
   /**
    * Update paging config and all related fields
    * @param config
+   * @param loadMore
    */
-  public updatePaging(config) {
-    this._fromJSON(config);
+  public updatePaging(config, loadMore = false) {
+    if (!loadMore) {
+      this._fromJSON(config)
+    } else {
+      this.records = config.records;
 
+      this._deletedRows = 0;
+    }
+
+    this.updateTotalPages();
     this.updatePagesArray();
     this.updateDisplayed();
   }
@@ -200,12 +223,16 @@ export class Pagination extends Model {
   public goToPage(page) {
     if (page >= 1 && page <= this.pages && this.page !== page) {
       this.page = page;
+
+      this.updateOffset();
+
       this._pageChanged.next(page);
     }
   }
 
   public resetPaging() {
     this.page = 1;
+    this.offset = 0;
   }
 
   /**
@@ -214,6 +241,9 @@ export class Pagination extends Model {
   public goNext() {
     if (this.hasNextPage) {
       this.page++;
+
+      this.updateOffset();
+
       this._pageChanged.next(this.page);
     }
   }
@@ -224,6 +254,9 @@ export class Pagination extends Model {
   public goFirst() {
     if (this.page > 1) {
       this.page = 1;
+
+      this.updateOffset();
+
       this._pageChanged.next(this.page);
     }
   }
@@ -234,6 +267,9 @@ export class Pagination extends Model {
   public goPrev() {
     if (this.page > 1) {
       this.page--;
+
+      this.updateOffset();
+
       this._pageChanged.next(this.page);
     }
   }
@@ -244,8 +280,19 @@ export class Pagination extends Model {
   public goLast() {
     if (this.page < this.pages) {
       this.page = this.pages;
+
+      this.updateOffset();
+
       this._pageChanged.next(this.page);
     }
+  }
+
+  /**
+   * Update count of deleted rows. This count will be applied for offset calc
+   * @param count
+   */
+  public deleteRows(count: number) {
+    this._deletedRows += count;
   }
 
   /**
@@ -254,5 +301,13 @@ export class Pagination extends Model {
   public destroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
+  }
+
+  private updateOffset() {
+    this.offset = this.limit * this.page;
+  }
+
+  private updateTotalPages() {
+    this.pages = Math.ceil(this.records / this.limit);
   }
 }

@@ -37,7 +37,7 @@
         <button type="button"
                 *ngSwitchCase="'basic'"
                 mat-button
-                (click)="action.click(row, $event)"
+                (click)="actionClick(action, row, $event)"
                 [ngClass]="action.classArray"
         >
           <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
@@ -47,7 +47,7 @@
         <button type="button"
                 *ngSwitchCase="'raised'"
                 mat-raised-button
-                (click)="action.click(row, $event)"
+                (click)="actionClick(action, row, $event)"
                 [ngClass]="action.classArray"
         >
           <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
@@ -57,7 +57,7 @@
         <button type="button"
                 *ngSwitchCase="'icon'"
                 mat-icon-button
-                (click)="action.click(row, $event)"
+                (click)="actionClick(action, row, $event)"
                 [ngClass]="action.classArray"
         >
           <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
@@ -67,7 +67,7 @@
         <button type="button"
                 *ngSwitchCase="'fab'"
                 mat-fab
-                (click)="action.click(row, $event)"
+                (click)="actionClick(action, row, $event)"
                 [ngClass]="action.classArray"
         >
           <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
@@ -77,7 +77,7 @@
         <button type="button"
                 *ngSwitchCase="'mini-fab'"
                 mat-mini-fab
-                (click)="action.click(row, $event)"
+                (click)="actionClick(action, row, $event)"
                 [ngClass]="action.classArray"
         >
           <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
@@ -108,7 +108,7 @@
       <ng-container *ngFor="let action of menuRowActions">
         <ng-template fs-menu-item
                      [hidden]="!action.isShown"
-                     (click)="action.click(row, $event, rowActionsRef);">
+                     (click)="actionClick(action, row, $event);">
           <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon>
           {{action.label}}
         </ng-template>
@@ -117,7 +117,7 @@
 
     <!-- Case when we have restore mode enabled and must hide menu actions -->
     <ng-container *ngIf="restoreMode && restoreAction">
-      <ng-template fs-menu-item (click)="restoreAction.click(row, $event, rowActionsRef);">
+      <ng-template fs-menu-item (click)="actionClick(restoreAction, row, $event)">
         <mat-icon *ngIf="restoreAction.icon">{{restoreAction.icon}}</mat-icon>
         {{restoreAction.label}}
       </ng-template>

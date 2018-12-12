@@ -12,6 +12,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FsFilterModule } from '@firestitch/filter';
 import { FsScrollModule } from '@firestitch/scroll';
 import { FsMenuModule } from '@firestitch/menu';
+import { FsPromptModule } from '@firestitch/prompt';
 
 import { merge } from 'lodash';
 
@@ -54,6 +55,7 @@ export * from './app/components/list/list.component';
     FsMenuModule,
     FlexLayoutModule,
     FsScrollModule,
+    FsPromptModule,
   ],
   declarations: [
     // Components

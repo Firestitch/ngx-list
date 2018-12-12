@@ -12,15 +12,21 @@ import {
   KeyValueDiffer,
   OnDestroy,
   OnInit,
-  Output,
   ViewChildren, TemplateRef,
 } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material';
 
-import { Subject } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { FsPrompt } from '@firestitch/prompt';
 
-import { Column, RowAction, Selection, SelectionChangeType } from '../../../models';
+import { Observable, Subject } from 'rxjs';
+import { filter, take, takeUntil } from 'rxjs/operators';
+
+import {
+  Column,
+  RowAction,
+  Selection,
+  SelectionChangeType
+} from '../../../models';
 
 
 @Component({
@@ -45,8 +51,10 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   @Input() public dragStart: any;
   @Input() public activeRow: TemplateRef<any>;
 
-  @Output() public startDragging = new EventEmitter();
-  @Output() public stopDragging = new EventEmitter();
+  @Input() public rowRemoved: EventEmitter<any>;
+
+  // @Output() public startDragging = new EventEmitter();
+  // @Output() public stopDragging = new EventEmitter();
 
   @ViewChildren('td') public cellRefs;
 
@@ -63,6 +71,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   private _destroy$ = new Subject();
 
   constructor(public el: ElementRef,
+              private _fsPrompt: FsPrompt,
               private _cdRef: ChangeDetectorRef,
               private _differs: KeyValueDiffers,
               private _renderer: Renderer2) {
@@ -122,9 +131,21 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     this._destroy$.complete();
   }
 
-  public mousedow(event) {
-    if (this.reorder) {
-      this.startDragging.emit({event: event, target: this.el.nativeElement})
+  public actionClick(action: RowAction, row: any, event: any) {
+    if (action.remove) {
+      this._fsPrompt.confirm({
+        title: action.remove.title,
+        template: action.remove.template,
+      }).pipe(
+        take(1),
+        takeUntil(this._destroy$),
+      ).subscribe({
+          next: () => {
+            this.removeAction(action, row, event);
+          }
+        })
+    } else {
+      action.click(row, event);
     }
   }
 
@@ -183,6 +204,27 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
           this.selection.rowSelectionChange(this.row, this.selected);
 
           this._cdRef.markForCheck();
+        });
+    }
+  }
+
+  /**
+   * Emit that some row must be removed
+   * @param action
+   * @param row
+   * @param event
+   */
+  private removeAction(action, row, event) {
+    const removeObservable = action.click(row, event);
+
+    if (removeObservable && removeObservable instanceof Observable) {
+      removeObservable
+        .pipe(
+          take(1),
+          takeUntil(this._destroy$),
+        )
+        .subscribe(() => {
+          this.rowRemoved.emit(row);
         });
     }
   }

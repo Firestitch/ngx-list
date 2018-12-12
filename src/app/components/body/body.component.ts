@@ -13,6 +13,7 @@ import {
   ElementRef,
   NgZone,
   TemplateRef,
+  EventEmitter,
 } from '@angular/core';
 
 import { Column, Selection } from '../../models';
@@ -34,6 +35,7 @@ export class FsBodyComponent implements OnInit, DoCheck {
   @Input() reorder = false;
   @Input() selection: Selection;
   @Input() restoreMode = false;
+  @Input() rowRemoved: EventEmitter<any>;
 
   @ViewChild('rowsContainer', { read: ViewContainerRef }) rowsContainer;
   @ContentChild(FsRowComponent, { read: TemplateRef })

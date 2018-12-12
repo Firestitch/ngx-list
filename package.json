@@ -48,6 +48,7 @@
     "@firestitch/filter": "^0.3.5",
     "@firestitch/iframe": "^0.1.5",
     "@firestitch/message": "^0.1.22",
+    "@firestitch/prompt": "^0.1.2",
     "@firestitch/scroll": "^0.1.15",
     "@firestitch/selection": "^0.1.1",
     "@firestitch/store": "^0.1.6",

@@ -14,7 +14,13 @@ import { Column, SortingDirection } from './column.model';
 import { Pagination } from './pagination.model';
 import { Sorting } from './sorting.model';
 
-import { FsListConfig, FsListScrollableConfig, FsListSelectionConfig, FsPaging } from '../interfaces';
+import {
+  FsListConfig,
+  FsListFetchSubscription,
+  FsListScrollableConfig,
+  FsListSelectionConfig,
+  FsPaging
+} from '../interfaces';
 import { StyleConfig } from './styleConfig.model';
 import { Action } from './action.model';
 import { ReorderModel } from './reorder.model';
@@ -58,7 +64,7 @@ export class List extends Model {
 
   public filterConfig = null;
 
-  public fetch$ = new Subject();
+  public fetch$ = new Subject<FsListFetchSubscription | void>();
   public data$: Subject<any> = new Subject<any>();
   public data = [];
 
@@ -108,7 +114,7 @@ export class List extends Model {
           case Operation.filter:
           case Operation.reload:
           case Operation.sort: {
-            this.data = rows;
+            this.data = [...rows];
           } break;
 
           default: {
@@ -116,7 +122,11 @@ export class List extends Model {
           }
         }
       } else {
-        this.data = rows;
+        if (this.operation === Operation.loadMore) {
+          this.data.push(...rows);
+        } else {
+          this.data = [...rows];
+        }
       }
 
       this.operation = Operation.idle;
@@ -233,6 +243,39 @@ export class List extends Model {
     });
 
     this.listenFetch();
+  }
+
+  public deleteRows(rows: any, trackBy?: (row: any) => boolean) {
+
+    let deletedCount = 0;
+
+    if (Array.isArray(rows)) {
+
+      rows.forEach((item) => {
+        if (this.deleteRow(item, trackBy)) {
+          deletedCount++;
+        }
+      });
+    } else {
+      if (this.deleteRow(rows, trackBy)) {
+        deletedCount++;
+      }
+    }
+
+    if (deletedCount > 0) {
+      /**
+       * Ex: if list has 3 pages and on third page you have only one item. And you just deleted this item.
+       * You must go to second page.
+       */
+      if (this.data.length === 0) {
+        this.paging.goToPage(this.paging.pages - 1 || 1);
+      } else {
+        this.operation = Operation.loadMore;
+
+        this.paging.deleteRows(deletedCount);
+        this.fetch$.next( { loadOffset: true})
+      }
+    }
   }
 
   public destroy() {
@@ -388,13 +431,17 @@ export class List extends Model {
         tap(() => {
           this.loading = true;
         }),
-        map(() => {
-          const query = Object.assign({}, this.filtersQuery, this.paging.query);
+        map((params: FsListFetchSubscription) => {
+          const query = params && params.loadOffset
+            ? Object.assign({}, this.filtersQuery, this.paging.loadDeletedOffsetQuery)
+            : Object.assign({}, this.filtersQuery, this.paging.query);
 
           if (this.sorting.sortingColumn) {
             Object.assign(
               query,
-              { order: `${this.sorting.sortingColumn.name},${this.sorting.sortingColumn.direction}` }
+              {
+                order: `${this.sorting.sortingColumn.name},${this.sorting.sortingColumn.direction}`
+              }
             )
           }
 
@@ -589,7 +636,10 @@ export class List extends Model {
     }
 
     if (response.paging) {
-      this.paging.updatePaging(response.paging);
+      this.paging.updatePaging(
+        response.paging,
+        this.operation === Operation.loadMore
+      );
     }
 
     // Update selection params
@@ -612,6 +662,24 @@ export class List extends Model {
     this.data$.next(response.data);
   }
 
+  /**
+   * Remove row from
+   * @param row
+   * @param trackBy
+   */
+  private deleteRow(row: any, trackBy: (row: any) => boolean = (dataItem) => dataItem === row) {
+    const targetIndex = this.data.findIndex(trackBy);
+
+    if (targetIndex !== -1) {
+      this.data.splice(targetIndex, 1);
+
+      return true;
+    }
+
+    return false;
+  }
+
+
 }
 
 export enum Operation {
@@ -621,4 +689,5 @@ export enum Operation {
   filter,
   sort,
   pageChange,
+  loadMore,
 }

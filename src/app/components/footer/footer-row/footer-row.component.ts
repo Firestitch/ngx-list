@@ -7,6 +7,9 @@ import {
   KeyValueDiffers,
   Renderer2,
 } from '@angular/core';
+
+import { FsPrompt } from '@firestitch/prompt';
+
 import { FsRowComponent } from '../../body';
 
 @Component({
@@ -18,9 +21,10 @@ export class FsFooterRowComponent extends FsRowComponent {
   @Input() hasRowActions: boolean;
 
   constructor(cdRef: ChangeDetectorRef,
+              fsPrompt: FsPrompt,
               differs: KeyValueDiffers,
               el: ElementRef,
               renderer: Renderer2) {
-    super(el, cdRef, differs, renderer);
+    super(el, fsPrompt, cdRef, differs, renderer);
   }
 }

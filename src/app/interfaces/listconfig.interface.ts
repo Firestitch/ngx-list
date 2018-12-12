@@ -90,7 +90,10 @@ export interface FsListSelectionConfig {
   onCancel?: () => void;
 }
 
+export interface FsListFetchSubscription {
+  loadOffset?: boolean;
+}
+
 interface OnActionCallbackParams extends SelectionDialogActionCallbackParams {
   selectedRows: any[];
 }
-

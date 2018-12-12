@@ -13,6 +13,7 @@ export class RowAction extends Model {
   @Alias() public icon: string;
   @Alias() public label: string;
   @Alias() public menu: boolean;
+  @Alias() public remove: { title: string; template: string; };
   @Alias() public click: Function;
   @Alias() public className: string;
   @Alias() public type: ActionType;
@@ -39,7 +40,7 @@ export class RowAction extends Model {
     // Re-assign click function
     const clickFn = value.click;
     value.click = (row, event, rowActionsRef = null) => {
-      this.clickEvent(row, event, rowActionsRef, clickFn)
+      return this.clickEvent(row, event, rowActionsRef, clickFn);
     };
 
     if (this.className) {
@@ -68,7 +69,7 @@ export class RowAction extends Model {
 
     if (clickFn) {
       // Fire passed callback
-      clickFn(row, event);
+      return clickFn(row, event);
     }
   }
 }
