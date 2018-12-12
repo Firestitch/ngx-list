@@ -100,7 +100,7 @@ export class FsListComponent implements OnInit, OnDestroy {
     this.list.reload();
   }
 
-  public deleteRows(rows, trackBy?: (row: any) => boolean) {
+  public deleteRows(rows, trackBy?: (targetRow: any, listRow: any) => boolean) {
     this.list.deleteRows(rows, trackBy);
   }
 

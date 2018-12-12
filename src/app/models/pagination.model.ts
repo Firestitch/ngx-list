@@ -108,7 +108,7 @@ export class Pagination extends Model {
    */
   get hasPrevPage() {
     // return this.page > 1 && this.pages > 1;
-    return this.limit + this.offset > this.limit && this.records > 1;
+    return this.offset > this.limit && this.records > 1;
   }
 
   /**
@@ -117,7 +117,7 @@ export class Pagination extends Model {
    */
   get hasNextPage() { // Need to check if pages === page && page === 1
     // return this.page < this.pages && this.pages > 1;
-    return this.limit + this.offset < this.records && this.records > 1;
+    return this.offset < this.records && this.records > 1;
   }
 
   /**

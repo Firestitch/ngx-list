@@ -245,7 +245,7 @@ export class List extends Model {
     this.listenFetch();
   }
 
-  public deleteRows(rows: any, trackBy?: (row: any) => boolean) {
+  public deleteRows(rows: any, trackBy?: (targetRow: any, listRow: any) => boolean) {
 
     let deletedCount = 0;
 
@@ -664,11 +664,17 @@ export class List extends Model {
 
   /**
    * Remove row from
-   * @param row
+   * @param targetRow
    * @param trackBy
    */
-  private deleteRow(row: any, trackBy: (row: any) => boolean = (dataItem) => dataItem === row) {
-    const targetIndex = this.data.findIndex(trackBy);
+  private deleteRow(targetRow: any, trackBy?: (targetRow: any, listRow: any) => boolean) {
+    if (!trackBy === void 0) {
+      trackBy = (row, target) => {
+        return row === target;
+      }
+    }
+
+    const targetIndex = this.data.findIndex((listRow) => trackBy(targetRow, listRow));
 
     if (targetIndex !== -1) {
       this.data.splice(targetIndex, 1);
