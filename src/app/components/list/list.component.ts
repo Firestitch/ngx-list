@@ -17,6 +17,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import * as _cloneDeep from 'lodash/cloneDeep';
+import * as _mergeWith from 'lodash/mergeWith';
 
 import { FS_LIST_DEFAULT_CONFIG } from '../../../fslist.providers';
 import { FsListColumnDirective } from '../../directives';
@@ -67,7 +68,7 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     const defaultOpts = _cloneDeep(this._defaultOptions);
-    const listConfig = Object.assign(defaultOpts, this.config);
+    const listConfig = _mergeWith(defaultOpts, this.config, this._configMergeCustomizer);
     this.list = new List(listConfig, this.fsScroll, this.selectionDialog);
 
     this.subscribeToRemoveRow();
@@ -125,5 +126,11 @@ export class FsListComponent implements OnInit, OnDestroy {
       .subscribe((row) => {
         this.list.deleteRows(row);
       })
+  }
+
+  private _configMergeCustomizer(objValue: any, srcValue: any) {
+    if (Array.isArray(objValue)) {
+      return objValue;
+    }
   }
 }

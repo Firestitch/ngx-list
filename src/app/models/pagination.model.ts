@@ -1,7 +1,13 @@
 import { Alias, Model } from 'tsmodels';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FsPaging } from '../interfaces';
+import { FsPaging, QueryOffsetStrategy, QueryPageStrategy } from '../interfaces';
+
+
+export enum PaginationStrategy {
+  Page = 'page',
+  Offset = 'offset',
+}
 
 
 export class Pagination extends Model {
@@ -17,6 +23,7 @@ export class Pagination extends Model {
   public pagesArray = [];
   public displayed = 0;
 
+  private _strategy: PaginationStrategy;
   private _deletedRows = 0;
 
   private _pageChanged = new Subject<number | null>();
@@ -80,18 +87,17 @@ export class Pagination extends Model {
 
   /**
    * Get query for request
-   * @returns {{page: number; limit: number}}
+   * @returns {}
    */
   get query() {
-    const page = this.page - 1 || 0;
-    const limit = this.limit || 5;
-
-    return {
-      offset: page * limit,
-      limit: limit,
-    }
+    return this._strategy === PaginationStrategy.Page
+      ? this._queryPageStrategy
+      : this._queryOffsetStrategy;
   }
 
+  /**
+   * Get query for load only count of deleted rows
+   */
   get loadDeletedOffsetQuery() {
     return {
       offset: this.limit * this.page - this._deletedRows,
@@ -102,21 +108,101 @@ export class Pagination extends Model {
   get initialized() {
     return !!this.pages;
   }
+
+  get strategy() {
+    return this._strategy;
+  }
+
+  /**
+   * Check if pagination in Page Strategy Mode
+   */
+  get hasPageStrategy() {
+    return this.strategy === PaginationStrategy.Page
+  }
+
+  /**
+   * Check if pagination in Offset Strategy Mode
+   */
+  get hasOffsetStrategy() {
+    return this.strategy === PaginationStrategy.Offset
+  }
+
   /**
    * If prev page can be activated
+   *
    * @returns {boolean}
    */
   get hasPrevPage() {
-    // return this.page > 1 && this.pages > 1;
-    return this.offset > this.limit && this.records > 1;
+    return this._strategy === PaginationStrategy.Page
+      ? this._hasPrevPagePageStrategy
+      : this._hasPrevPageOffsetStrategy;
   }
 
   /**
    * If next page can be activated
+   *
    * @returns {boolean}
    */
   get hasNextPage() { // Need to check if pages === page && page === 1
-    // return this.page < this.pages && this.pages > 1;
+    return this._strategy === PaginationStrategy.Page
+      ? this._hasNextPagePageStrategy
+      : this._hasNextPageOffsetStrategy;
+  }
+
+  /**
+   * Query for Page Strategy
+   * @private
+   */
+  private get _queryPageStrategy(): QueryPageStrategy {
+    return {
+      page: this.page || 1,
+      limit: this.limit || 10,
+    }
+  }
+
+  /**
+   * Query for Offset Strategy
+   * @private
+   */
+  private get _queryOffsetStrategy(): QueryOffsetStrategy {
+    const page = this.page - 1 || 0;
+    const limit = this.limit || 5;
+
+    return {
+      offset: page * limit,
+      limit: limit,
+    }
+  }
+
+  /**
+   * If pagination has prev page when Page Strategy
+   * @private
+   */
+  private get _hasPrevPagePageStrategy(): boolean {
+    return this.page > 1 && this.pages > 1;
+  }
+
+  /**
+   * If pagination has prev page when Offset Strategy
+   * @private
+   */
+  private get _hasPrevPageOffsetStrategy(): boolean {
+    return this.offset > this.limit && this.records > 1;
+  }
+
+  /**
+   * If pagination has next page when Page Strategy
+   * @private
+   */
+  private get _hasNextPagePageStrategy(): boolean {
+    return this.page < this.pages && this.pages > 1;
+  }
+
+  /**
+   * If pagination has next page when Offset Strategy
+   * @private
+   */
+  private get _hasNextPageOffsetStrategy(): boolean {
     return this.offset < this.records && this.records > 1;
   }
 
@@ -139,11 +225,15 @@ export class Pagination extends Model {
     this.updateDisplayed();
   }
 
+  public updatePagingStrategy(strategy: PaginationStrategy) {
+    this._strategy = (strategy === void 0) ? PaginationStrategy.Page : strategy;
+  }
+
   /**
    * Update paging when data source not remove
    * @param {any[]} rows
    */
-  public updatePagingManual(rows: any[]) {
+  /*public updatePagingManual(rows: any[]) {
     if (Array.isArray(rows) && rows.length > 0) {
       this.records = rows.length;
       this.pages = Math.ceil(rows.length / this.limit);
@@ -151,7 +241,7 @@ export class Pagination extends Model {
 
     this.updatePagesArray();
     this.updateDisplayed();
-  }
+  }*/
 
   /**
    * Update pages array with new pages count
@@ -230,6 +320,9 @@ export class Pagination extends Model {
     }
   }
 
+  /**
+   * Reset paging like it was just initialized
+   */
   public resetPaging() {
     this.page = 1;
     this.offset = 0;
@@ -303,10 +396,16 @@ export class Pagination extends Model {
     this._onDestroy.complete();
   }
 
+  /**
+   * Calc and update offset
+   */
   private updateOffset() {
     this.offset = this.limit * this.page;
   }
 
+  /**
+   * Calc and update total count of pages
+   */
   private updateTotalPages() {
     this.pages = Math.ceil(this.records / this.limit);
   }

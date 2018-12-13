@@ -11,7 +11,7 @@ import { fromPromise } from 'rxjs/observable/fromPromise';
 import { catchError, debounceTime, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { Column, SortingDirection } from './column.model';
-import { Pagination } from './pagination.model';
+import { Pagination, PaginationStrategy } from './pagination.model';
 import { Sorting } from './sorting.model';
 
 import {
@@ -270,10 +270,13 @@ export class List extends Model {
       if (this.data.length === 0) {
         this.paging.goToPage(this.paging.pages - 1 || 1);
       } else {
-        this.operation = Operation.loadMore;
+        // Suitable only for offset strategy because will be loaded more lines
+        if (this.paging.hasOffsetStrategy) {
+          this.operation = Operation.loadMore;
 
-        this.paging.deleteRows(deletedCount);
-        this.fetch$.next( { loadOffset: true})
+          this.paging.deleteRows(deletedCount);
+          this.fetch$.next( { loadOffset: true})
+        }
       }
     }
   }
@@ -398,6 +401,9 @@ export class List extends Model {
       if (pagingConfig.limits) {
         this.paging.limits = pagingConfig.limits
       }
+
+      this.paging.updatePagingStrategy(pagingConfig.strategy);
+
     } else if (pagingConfig === false) {
       this.paging.enabled = false;
     }
@@ -432,7 +438,7 @@ export class List extends Model {
           this.loading = true;
         }),
         map((params: FsListFetchSubscription) => {
-          const query = params && params.loadOffset
+          const query = this.paging.hasOffsetStrategy && params && params.loadOffset
             ? Object.assign({}, this.filtersQuery, this.paging.loadDeletedOffsetQuery)
             : Object.assign({}, this.filtersQuery, this.paging.query);
 
