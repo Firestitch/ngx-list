@@ -23,7 +23,7 @@ export class Pagination extends Model {
   public pagesArray = [];
   public displayed = 0;
 
-  private _strategy: PaginationStrategy;
+  private _strategy: PaginationStrategy = PaginationStrategy.Page;
   private _deletedRows = 0;
 
   private _pageChanged = new Subject<number | null>();
@@ -225,7 +225,7 @@ export class Pagination extends Model {
     this.updateDisplayed();
   }
 
-  public updatePagingStrategy(strategy: PaginationStrategy) {
+  public updatePagingStrategy(strategy?: PaginationStrategy) {
     this._strategy = (strategy === void 0) ? PaginationStrategy.Page : strategy;
   }
 
@@ -386,6 +386,12 @@ export class Pagination extends Model {
    */
   public deleteRows(count: number) {
     this._deletedRows += count;
+  }
+
+  public updatePagination() {
+    this.updateTotalPages();
+    this.updatePagesArray();
+    this.updateDisplayed();
   }
 
   /**

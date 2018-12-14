@@ -6,12 +6,11 @@ import { SelectionDialog } from '@firestitch/selection';
 import * as _isNumber from 'lodash/isNumber';
 import { Alias, Model } from 'tsmodels';
 
-import { Subject, Subscription } from 'rxjs';
-import { fromPromise } from 'rxjs/observable/fromPromise';
+import { Subject, Subscription, from } from 'rxjs';
 import { catchError, debounceTime, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { Column, SortingDirection } from './column.model';
-import { Pagination, PaginationStrategy } from './pagination.model';
+import { Pagination } from './pagination.model';
 import { Sorting } from './sorting.model';
 
 import {
@@ -146,7 +145,7 @@ export class List extends Model {
   public fetchRemote(query) {
     const result: any = this.fetchFn(query);
 
-    return result instanceof Promise ? fromPromise(result) : result;
+    return result instanceof Promise ? from(result) : result;
   }
 
   // public loadLocal() {
@@ -262,20 +261,19 @@ export class List extends Model {
       }
     }
 
-    if (deletedCount > 0) {
-      /**
-       * Ex: if list has 3 pages and on third page you have only one item. And you just deleted this item.
-       * You must go to second page.
-       */
-      if (this.data.length === 0) {
-        this.paging.goToPage(this.paging.pages - 1 || 1);
+    if (this.paging.enabled && deletedCount > 0) {
+
+      if (this.paging.hasPageStrategy) {
+        this.noDataPaginationUpdate(deletedCount);
       } else {
-        // Suitable only for offset strategy because will be loaded more lines
-        if (this.paging.hasOffsetStrategy) {
+        // Fetch more if has something for fetch
+        if (this.data.length || this.paging.hasNextPage) {
           this.operation = Operation.loadMore;
 
           this.paging.deleteRows(deletedCount);
-          this.fetch$.next( { loadOffset: true})
+          this.fetch$.next( { loadOffset: true});
+        } else {
+          this.noDataPaginationUpdate(deletedCount);
         }
       }
     }
@@ -674,7 +672,7 @@ export class List extends Model {
    * @param trackBy
    */
   private deleteRow(targetRow: any, trackBy?: (targetRow: any, listRow: any) => boolean) {
-    if (!trackBy === void 0) {
+    if (trackBy === void 0) {
       trackBy = (row, target) => {
         return row === target;
       }
@@ -691,7 +689,26 @@ export class List extends Model {
     return false;
   }
 
+  /**
+   * Will do some actions if you removed item and item was last on his own page
+   *
+   * Ex: if list has 3 pages and on third page you have only one item. And you just deleted this item.
+   * You must go to second page, but if it was last page and you can't go back -> just reload
+   *
+   * @param deletedCount
+   */
+  private noDataPaginationUpdate(deletedCount) {
+    if (this.data.length === 0) {
+      if (this.paging.page > 1) {
+        this.paging.goToPage(this.paging.page - 1 || 1);
+      } else {
+        this.reload();
+      }
+    }
 
+    this.paging.records -= deletedCount;
+    this.paging.updatePagination();
+  }
 }
 
 export enum Operation {
