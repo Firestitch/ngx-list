@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FsApi } from '@firestitch/api';
 import { ItemType } from '@firestitch/filter';
 
-import { FsListConfig } from '../../../../src';
+import { FsListConfig, PaginationStrategy } from '../../../../src';
 import { FsListComponent } from '../../../../src/app/components/list';
 import { ActionType } from '../../../../src/app/models';
 
@@ -31,7 +31,8 @@ export class KitchenSinkComponent implements OnInit {
       status: false,
       filterInput: true,
       paging: {
-        limits: [5, 15, 50, 150, 250, 500, 1000]
+        limits: [5, 15, 50, 150, 250, 500, 1000],
+        strategy: PaginationStrategy.Page,
       },
       filters: [
         {

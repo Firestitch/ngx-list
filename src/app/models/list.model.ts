@@ -6,15 +6,20 @@ import { SelectionDialog } from '@firestitch/selection';
 import * as _isNumber from 'lodash/isNumber';
 import { Alias, Model } from 'tsmodels';
 
-import { Subject, Subscription } from 'rxjs';
-import { fromPromise } from 'rxjs/observable/fromPromise';
+import { Subject, Subscription, from } from 'rxjs';
 import { catchError, debounceTime, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { Column, SortingDirection } from './column.model';
 import { Pagination } from './pagination.model';
 import { Sorting } from './sorting.model';
 
-import { FsListConfig, FsListScrollableConfig, FsListSelectionConfig, FsPaging } from '../interfaces';
+import {
+  FsListConfig,
+  FsListFetchSubscription,
+  FsListScrollableConfig,
+  FsListSelectionConfig,
+  FsPaging
+} from '../interfaces';
 import { StyleConfig } from './styleConfig.model';
 import { Action } from './action.model';
 import { ReorderModel } from './reorder.model';
@@ -58,7 +63,7 @@ export class List extends Model {
 
   public filterConfig = null;
 
-  public fetch$ = new Subject();
+  public fetch$ = new Subject<FsListFetchSubscription | void>();
   public data$: Subject<any> = new Subject<any>();
   public data = [];
 
@@ -108,7 +113,7 @@ export class List extends Model {
           case Operation.filter:
           case Operation.reload:
           case Operation.sort: {
-            this.data = rows;
+            this.data = [...rows];
           } break;
 
           default: {
@@ -116,7 +121,11 @@ export class List extends Model {
           }
         }
       } else {
-        this.data = rows;
+        if (this.operation === Operation.loadMore) {
+          this.data.push(...rows);
+        } else {
+          this.data = [...rows];
+        }
       }
 
       this.operation = Operation.idle;
@@ -136,7 +145,7 @@ export class List extends Model {
   public fetchRemote(query) {
     const result: any = this.fetchFn(query);
 
-    return result instanceof Promise ? fromPromise(result) : result;
+    return result instanceof Promise ? from(result) : result;
   }
 
   // public loadLocal() {
@@ -233,6 +242,41 @@ export class List extends Model {
     });
 
     this.listenFetch();
+  }
+
+  public deleteRows(rows: any, trackBy?: (targetRow: any, listRow: any) => boolean) {
+
+    let deletedCount = 0;
+
+    if (Array.isArray(rows)) {
+
+      rows.forEach((item) => {
+        if (this.deleteRow(item, trackBy)) {
+          deletedCount++;
+        }
+      });
+    } else {
+      if (this.deleteRow(rows, trackBy)) {
+        deletedCount++;
+      }
+    }
+
+    if (this.paging.enabled && deletedCount > 0) {
+
+      if (this.paging.hasPageStrategy) {
+        this.noDataPaginationUpdate(deletedCount);
+      } else {
+        // Fetch more if has something for fetch
+        if (this.data.length || this.paging.hasNextPage) {
+          this.operation = Operation.loadMore;
+
+          this.paging.deleteRows(deletedCount);
+          this.fetch$.next( { loadOffset: true});
+        } else {
+          this.noDataPaginationUpdate(deletedCount);
+        }
+      }
+    }
   }
 
   public destroy() {
@@ -355,6 +399,9 @@ export class List extends Model {
       if (pagingConfig.limits) {
         this.paging.limits = pagingConfig.limits
       }
+
+      this.paging.updatePagingStrategy(pagingConfig.strategy);
+
     } else if (pagingConfig === false) {
       this.paging.enabled = false;
     }
@@ -388,13 +435,17 @@ export class List extends Model {
         tap(() => {
           this.loading = true;
         }),
-        map(() => {
-          const query = Object.assign({}, this.filtersQuery, this.paging.query);
+        map((params: FsListFetchSubscription) => {
+          const query = this.paging.hasOffsetStrategy && params && params.loadOffset
+            ? Object.assign({}, this.filtersQuery, this.paging.loadDeletedOffsetQuery)
+            : Object.assign({}, this.filtersQuery, this.paging.query);
 
           if (this.sorting.sortingColumn) {
             Object.assign(
               query,
-              { order: `${this.sorting.sortingColumn.name},${this.sorting.sortingColumn.direction}` }
+              {
+                order: `${this.sorting.sortingColumn.name},${this.sorting.sortingColumn.direction}`
+              }
             )
           }
 
@@ -589,7 +640,10 @@ export class List extends Model {
     }
 
     if (response.paging) {
-      this.paging.updatePaging(response.paging);
+      this.paging.updatePaging(
+        response.paging,
+        this.operation === Operation.loadMore
+      );
     }
 
     // Update selection params
@@ -612,6 +666,49 @@ export class List extends Model {
     this.data$.next(response.data);
   }
 
+  /**
+   * Remove row from
+   * @param targetRow
+   * @param trackBy
+   */
+  private deleteRow(targetRow: any, trackBy?: (targetRow: any, listRow: any) => boolean) {
+    if (trackBy === void 0) {
+      trackBy = (row, target) => {
+        return row === target;
+      }
+    }
+
+    const targetIndex = this.data.findIndex((listRow) => trackBy(targetRow, listRow));
+
+    if (targetIndex !== -1) {
+      this.data.splice(targetIndex, 1);
+
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Will do some actions if you removed item and item was last on his own page
+   *
+   * Ex: if list has 3 pages and on third page you have only one item. And you just deleted this item.
+   * You must go to second page, but if it was last page and you can't go back -> just reload
+   *
+   * @param deletedCount
+   */
+  private noDataPaginationUpdate(deletedCount) {
+    if (this.data.length === 0) {
+      if (this.paging.page > 1) {
+        this.paging.goToPage(this.paging.page - 1 || 1);
+      } else {
+        this.reload();
+      }
+    }
+
+    this.paging.records -= deletedCount;
+    this.paging.updatePagination();
+  }
 }
 
 export enum Operation {
@@ -621,4 +718,5 @@ export enum Operation {
   filter,
   sort,
   pageChange,
+  loadMore,
 }

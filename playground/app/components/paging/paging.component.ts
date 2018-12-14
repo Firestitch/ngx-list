@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { FsListComponent, FsListConfig } from '../../../../src';
+import { FsListConfig, PaginationStrategy } from '../../../../src';
 
 
 @Component({
@@ -23,8 +23,11 @@ export class PagingComponent implements OnInit {
           name: 'keyword',
           type: 'text',
           label: 'Search'
-        }
+        },
       ],
+      paging: {
+        strategy: PaginationStrategy.Page,
+      },
       heading: 'No Results',
       fetch: (query) => {
         return Observable.create(observer => {

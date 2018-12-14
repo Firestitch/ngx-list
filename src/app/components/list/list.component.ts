@@ -4,15 +4,20 @@ import {
   OnDestroy,
   Input,
   ContentChildren,
-  QueryList,
   ViewChild,
   Inject,
+  QueryList,
+  EventEmitter,
 } from '@angular/core';
 import { FsScrollService } from '@firestitch/scroll';
 import { FilterComponent } from '@firestitch/filter';
 import { SelectionDialog } from '@firestitch/selection';
 
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import * as _cloneDeep from 'lodash/cloneDeep';
+import * as _mergeWith from 'lodash/mergeWith';
 
 import { FS_LIST_DEFAULT_CONFIG } from '../../../fslist.providers';
 import { FsListColumnDirective } from '../../directives';
@@ -32,6 +37,11 @@ export class FsListComponent implements OnInit, OnDestroy {
   @Input() public config: FsListConfig;
 
   public list: List;
+
+  // Event will fired if action remove: true will clicked
+  public rowRemoved = new EventEmitter();
+
+  private _destroy = new Subject();
 
   @ViewChild('filter') private _filter: FilterComponent;
 
@@ -58,12 +68,17 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     const defaultOpts = _cloneDeep(this._defaultOptions);
-    const listConfig = Object.assign(defaultOpts, this.config);
+    const listConfig = _mergeWith(defaultOpts, this.config, this._configMergeCustomizer);
     this.list = new List(listConfig, this.fsScroll, this.selectionDialog);
+
+    this.subscribeToRemoveRow();
   }
 
   public ngOnDestroy() {
     this.list.destroy();
+
+    this._destroy.next();
+    this._destroy.complete();
   }
 
   public nextPage() {
@@ -86,6 +101,10 @@ export class FsListComponent implements OnInit, OnDestroy {
     this.list.reload();
   }
 
+  public deleteRows(rows, trackBy?: (targetRow: any, listRow: any) => boolean) {
+    this.list.deleteRows(rows, trackBy);
+  }
+
   public finishReorder() {
     this.list.reoderEnabled = false;
     if (this.list.reoder.done) {
@@ -99,5 +118,19 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   public setSubheading(subheading: string) {
     this.list.subheading = subheading;
+  }
+
+  private subscribeToRemoveRow() {
+    this.rowRemoved
+      .pipe(takeUntil(this._destroy))
+      .subscribe((row) => {
+        this.list.deleteRows(row);
+      })
+  }
+
+  private _configMergeCustomizer(objValue: any, srcValue: any) {
+    if (Array.isArray(objValue)) {
+      return objValue;
+    }
   }
 }
