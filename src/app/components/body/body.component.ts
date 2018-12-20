@@ -1,22 +1,27 @@
 import {
-  Component,
-  Input,
-  ViewChild,
-  OnInit,
-  DoCheck,
-  IterableDiffer,
-  ContentChild,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  ViewContainerRef,
-  IterableDiffers,
+  Component,
+  ContentChild,
+  DoCheck,
   ElementRef,
-  NgZone,
-  TemplateRef,
   EventEmitter,
+  Input,
+  Output,
+  IterableDiffer,
+  IterableDiffers,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
 
-import { Column, Selection } from '../../models';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+import { Column, ReorderPosition, ReorderStrategy, Selection } from '../../models';
 import { FsRowComponent } from './row';
 import { Draggable } from './draggable';
 
@@ -25,17 +30,21 @@ import { Draggable } from './draggable';
   templateUrl: 'body.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FsBodyComponent implements OnInit, DoCheck {
+export class FsBodyComponent implements OnInit, DoCheck, OnDestroy {
   @Input() rows;
   @Input() columns: Column[] = [];
   @Input() hasFooter = false;
   @Input() rowActionsRaw: any[] = [];
   @Input() rowEvents = {};
   @Input() rowClass;
-  @Input() reorder = false;
+  @Input() reorderEnabled: boolean;
+  @Input() reorderPosition: ReorderPosition;
+  @Input() reorderStrategy: ReorderStrategy;
   @Input() selection: Selection;
   @Input() restoreMode = false;
   @Input() rowRemoved: EventEmitter<any>;
+
+  @Output() reorderChanged = new EventEmitter<boolean>();
 
   @ViewChild('rowsContainer', { read: ViewContainerRef }) rowsContainer;
   @ContentChild(FsRowComponent, { read: TemplateRef })
@@ -46,6 +55,8 @@ export class FsBodyComponent implements OnInit, DoCheck {
 
   private _rowsDiffer: IterableDiffer<any[]>;
 
+  private _destroy$ = new Subject();
+
   constructor(
     private el: ElementRef,
     private cdRef: ChangeDetectorRef,
@@ -53,28 +64,63 @@ export class FsBodyComponent implements OnInit, DoCheck {
     private zone: NgZone,
   ) {
     this._rowsDiffer = differs.find([]).create(null);
-    this.draggable = new Draggable(this.el, this.cdRef, this.zone, this.rows);
   }
 
   public ngOnInit() {
+    this._initDraggableElement();
   }
 
   public ngDoCheck() {
     if (this._rowsDiffer.diff(this.rows)) {
 
-      this.draggable.rows = this.rows;
+      if (this.draggable) {
+        this.draggable.rows = this.rows;
+      }
 
       this.cdRef.markForCheck();
     }
   }
 
+  public ngOnDestroy() {
+    if (this.draggable) {
+      this.draggable.destroy();
+    }
+
+    this._destroy$.next();
+    this._destroy$.complete();
+  }
+
   public dragStart(event, elemRef: FsRowComponent) {
-    if (this.reorder) {
+    if (this.reorderEnabled) {
       event.preventDefault();
       event.stopPropagation();
       this.draggable.dragStart({ event: event, target: elemRef.el && elemRef.el.nativeElement});
     }
 
     return true;
+  }
+
+  private _initDraggableElement() {
+    this.draggable = new Draggable(this.el, this.cdRef, this.zone, this.rows);
+
+    // In case when drag always enabled we should fire dragStart/dragEnd events for every drag/drop
+    if (this.reorderStrategy === ReorderStrategy.Always) {
+      this.draggable.dragStart$
+        .pipe(
+          takeUntil(this._destroy$),
+        )
+        .subscribe(() => {
+          this.reorderChanged.next(true);
+        });
+
+
+      this.draggable.dragEnd$
+        .pipe(
+          takeUntil(this._destroy$),
+        )
+        .subscribe(() => {
+          this.reorderChanged.next(false);
+        });
+    }
   }
 }

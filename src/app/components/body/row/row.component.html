@@ -1,9 +1,20 @@
+<!-- Drag -->
+<td class="fs-list-col drag-col"
+    *ngIf="reorderEnabled && reorderPosition === ReorderPosition.Left"
+    (mousedown)="dragStart($event, activeRow)"
+    (touchstart)="dragStart($event, activeRow)"
+>
+  <mat-icon>drag_handle</mat-icon>
+</td>
+
+<!-- Selection -->
 <ng-container *ngIf="selection">
   <td class="fs-list-col fs-list-col-selection">
     <mat-checkbox (change)="selectRow($event)" [checked]="selected"></mat-checkbox>
   </td>
 </ng-container>
 
+<!-- Content -->
 <ng-container *ngFor="let column of columns">
   <td fs-cell
       *ngIf="!column.cellColspanned"
@@ -18,7 +29,7 @@
 
 <!-- Drag -->
 <td class="fs-list-col drag-col"
-    *ngIf="reorder"
+    *ngIf="reorderEnabled && reorderPosition === ReorderPosition.Right"
     (mousedown)="dragStart($event, activeRow)"
     (touchstart)="dragStart($event, activeRow)"
 >

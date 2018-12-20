@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { SelectionDialogActionCallbackParams } from '@firestitch/selection'
 
-import { PaginationStrategy } from '../models';
+import { PaginationStrategy, ReorderPosition, ReorderStrategy } from '../models';
 
 export interface FsPaging {
   limits?: number[];
@@ -41,6 +41,8 @@ export interface FsListConfig {
 export interface FsListReorderConfig {
   start?: Function;
   done?: Function;
+  position?: ReorderPosition;
+  strategy?: ReorderStrategy;
   label?: string;
   menu?: boolean;
 }

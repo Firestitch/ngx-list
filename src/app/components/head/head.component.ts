@@ -12,7 +12,7 @@ import { MatCheckboxChange } from '@angular/material';
 import { Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { Sorting, Selection, SelectionChangeType } from '../../models';
+import { Sorting, Selection, SelectionChangeType, ReorderModel, ReorderPosition } from '../../models';
 import { Column } from '../../index';
 
 
@@ -25,12 +25,14 @@ export class FsHeadComponent implements OnInit, OnDestroy {
   @Input() sorting: Sorting;
   @Input() columns: Column[];
   @Input() hasRowActions: boolean;
-  @Input() reorder = false;
+  @Input() reorderEnabled: boolean;
+  @Input() reorderPosition: ReorderPosition;
   @Input() selection: Selection;
 
   @ViewChild('rowsContainer', { read: ViewContainerRef }) rowsContainer;
 
   public selectedAll = false;
+  public readonly ReorderPosition = ReorderPosition;
 
   private _destroy$ = new Subject();
 

@@ -11,7 +11,7 @@
   <!-- Header -->
   <div class="fs-list-header-container">
     <div class="fs-list-header"
-         [ngClass]="{ 'no-wrap': list.reoderEnabled || !list.filterConfig?.items.length }">
+         [ngClass]="{ 'no-wrap': list.reorder?.enabled || !list.filterConfig?.items.length }">
       <div class="heading-container">
         <h2 class="heading" *ngIf="list.heading">{{list.heading}}</h2>
         <span class="subheading" *ngIf="list.subheading">{{list.subheading}}</span>
@@ -83,8 +83,8 @@
           <button type="button"
                   mat-button
                   color="primary"
-                  *ngIf="list.reoderEnabled"
-                  (click)="finishReorder()">
+                  *ngIf="list.reorder?.enabled"
+                  (click)="list.reorder.finishReorder()">
             DONE
           </button>
         </div>
@@ -100,7 +100,7 @@
       [paging]="list.paging"
       *ngIf="
       list.paging &&
-      !list.reoderEnabled &&
+      !list.reorder?.enabled &&
       ((list.scrollable && list.scrollable.status) || !list.scrollable) &&
       list.data.length > 0">
     </fs-list-status>
@@ -118,7 +118,8 @@
              [sorting]="list.sorting"
              [selection]="list.selection"
              [hasRowActions]="list.hasRowActions"
-             [reorder]="list.reoderEnabled"
+             [reorderEnabled]="list.reorder?.enabled"
+             [reorderPosition]="list.reorder?.position"
       >
       </thead>
 
@@ -132,7 +133,10 @@
              [rowClass]="list.rowClass"
              [columns]="list.columns"
              [hasFooter]="list.hasFooter"
-             [reorder]="list.reoderEnabled"
+             [reorderEnabled]="list.reorder?.enabled"
+             [reorderPosition]="list.reorder?.position"
+             [reorderStrategy]="list.reorder?.strategy"
+             (reorderChanged)="list.reorder?.reorderChanged($event)"
              [restoreMode]="list.restoreMode"
              [selection]="list.selection"
              [rowRemoved]="rowRemoved"

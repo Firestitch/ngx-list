@@ -1,8 +1,13 @@
 <tr class="fs-list-row">
+  <!-- Drag -->
+  <th *ngIf="reorderEnabled && reorderPosition === ReorderPosition.Left" class="fs-list-col drag-col"></th>
+
+  <!-- Selection -->
   <th *ngIf="selection" class="fs-list-col fs-list-col-selection">
     <mat-checkbox (change)="selectAll($event)" [checked]="selectedAll"></mat-checkbox>
   </th>
 
+  <!-- Content -->
   <th fs-head-cell *ngFor="let column of columns"
       (click)="$event.stopPropagation(); sorting.sortBy(column)"
       [column]="column"
@@ -12,8 +17,8 @@
       [attr.width]="column.width"></th>
 
   <!-- Drag -->
-  <th *ngIf="reorder" class="fs-list-col drag-col"></th>
+  <th *ngIf="reorderEnabled && reorderPosition === ReorderPosition.Right" class="fs-list-col drag-col"></th>
 
   <!-- Row Actions -->
-  <th *ngIf="hasRowActions && !reorder" class="fs-list-col row-actions"></th>
+  <th *ngIf="hasRowActions && !reorderEnabled" class="fs-list-col row-actions"></th>
 </tr>

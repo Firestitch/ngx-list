@@ -6,7 +6,7 @@ import { SelectionDialog } from '@firestitch/selection';
 import * as _isNumber from 'lodash/isNumber';
 import { Alias, Model } from 'tsmodels';
 
-import { Subject, Subscription, from } from 'rxjs';
+import { from, Subject, Subscription } from 'rxjs';
 import { catchError, debounceTime, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { Column, SortingDirection } from './column.model';
@@ -22,7 +22,7 @@ import {
 } from '../interfaces';
 import { StyleConfig } from './styleConfig.model';
 import { Action } from './action.model';
-import { ReorderModel } from './reorder.model';
+import { ReorderModel, ReorderStrategy } from './reorder.model';
 import { RowAction } from './row-action.model';
 import { Selection } from './selection.model';
 
@@ -41,7 +41,7 @@ export class List extends Model {
   @Alias() public columnTemplates: any;
   @Alias() public filters = [];
   @Alias() public scrollable: FsListScrollableConfig | false = false;
-  @Alias('reorder', ReorderModel) public reoder;
+  public reorder: ReorderModel;
   // @Alias() public initialFetch = true; //TODO fixme
   @Alias('fetch') public fetchFn: any;
   // @Alias('rows') private _rows: any;
@@ -69,7 +69,6 @@ export class List extends Model {
 
   public status = true;
   public filterInput = true;
-  public reoderEnabled = false;
   public restoreMode = false;
 
   public loading = false;
@@ -308,7 +307,7 @@ export class List extends Model {
    */
   private initialize(config: FsListConfig) {
     this.initDefaultOptions(config);
-    this.initReoder();
+    this.initReoder(config);
     this.initRestore();
     this.initActions();
     this.initPaging(config.paging);
@@ -340,21 +339,21 @@ export class List extends Model {
   /**
    * Init reorder action button (must be on first place)
    */
-  private initReoder() {
-    if (this.reoder) {
-      const action = new Action({
-        label: this.reoder.label || 'Reorder',
-        menu: this.reoder.menu,
-        click: () => {
-          this.reoderEnabled = true;
-          // Fire callback that reorder was started
-          if (this.reoder.start) {
-            this.reoder.start();
-          }
-        }
-      });
+  private initReoder(config) {
+    if (config.reorder) {
+      this.reorder = new ReorderModel(this, config.reorder);
 
-      this.actions.push(action);
+      if (this.reorder.strategy === ReorderStrategy.Manual) {
+        const action = new Action({
+          label: this.reorder.label || 'Reorder',
+          menu: this.reorder.menu,
+          click: () => {
+            this.reorder.enabled = true;
+          }
+        });
+
+        this.actions.push(action);
+      }
     }
   }
 

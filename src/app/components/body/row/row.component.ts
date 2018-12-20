@@ -11,6 +11,7 @@ import {
   Input,
   KeyValueDiffer,
   OnDestroy,
+  OnChanges,
   OnInit,
   ViewChildren, TemplateRef,
 } from '@angular/core';
@@ -23,6 +24,7 @@ import { filter, take, takeUntil } from 'rxjs/operators';
 
 import {
   Column,
+  ReorderPosition,
   RowAction,
   Selection,
   SelectionChangeType
@@ -45,7 +47,8 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   @Input() public rowIndex: number;
   @Input() public columns: Column[];
   @Input() public selection: Selection;
-  @Input() public reorder = false;
+  @Input() public reorderEnabled: boolean;
+  @Input() public reorderPosition: ReorderPosition;
   @Input() public restoreMode = false;
 
   @Input() public dragStart: any;
@@ -57,6 +60,8 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   // @Output() public stopDragging = new EventEmitter();
 
   @ViewChildren('td') public cellRefs;
+
+  public readonly ReorderPosition = ReorderPosition;
 
   public rowActions: RowAction[];
   public menuRowActions: RowAction[];
@@ -170,7 +175,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
           evt.preventDefault();
           evt.stopPropagation();
 
-          if (!this.reorder) {
+          if (!this.reorderEnabled) {
             this.rowEvents[event]({
               event: evt,
               row: this.row,

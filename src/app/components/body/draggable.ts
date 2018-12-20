@@ -1,4 +1,7 @@
 import { ChangeDetectorRef, ElementRef, NgZone } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 
 export class Draggable {
 
@@ -16,11 +19,23 @@ export class Draggable {
 
   public dragging = false;
 
+  private _dragStart$ = new Subject();
+  private _dragEnd$ = new Subject();
+  private _destroy$ = new Subject();
+
   constructor(private el: ElementRef,
               private cdRef: ChangeDetectorRef,
               private zone: NgZone,
               private _rows: any[]) {
 
+  }
+
+  get dragStart$() {
+    return this._dragStart$.pipe(takeUntil(this._destroy$));
+  }
+
+  get dragEnd$() {
+    return this._dragEnd$.pipe(takeUntil(this._destroy$));
   }
 
   set rows(value) {
@@ -59,6 +74,8 @@ export class Draggable {
       window.document.addEventListener('touchcancel', this.dragElement.stopHandler);
     });
 
+    this._dragStart$.next();
+
   }
 
 
@@ -94,6 +111,15 @@ export class Draggable {
     window.document.removeEventListener('mouseup', this.dragElement.stopHandler);
     window.document.removeEventListener('touchend', this.dragElement.stopHandler);
     window.document.removeEventListener('touchcancel', this.dragElement.stopHandler);
+    this._dragEnd$.next();
+  }
+
+  /**
+   * Destroy
+   */
+  public destroy() {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
   /**
