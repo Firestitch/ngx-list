@@ -35,7 +35,7 @@
             <span *ngFor="let action of list.menuActions" class="action-button">
               <button type="button"
                       mat-raised-button
-                      (click)="action.click(action, $event)"
+                      (click)="action.click($event)"
                       [ngClass]="action.classArray">
                 <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{ action.label }}
               </button>

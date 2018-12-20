@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
 import { SelectionDialogActionCallbackParams } from '@firestitch/selection'
+import { FilterConfigItem } from '@firestitch/filter';
 
 import { ActionType, PaginationStrategy, ReorderPosition, ReorderStrategy } from '../models';
 
@@ -19,15 +20,15 @@ export interface FsListConfig {
   filterInput?: boolean;
   paging?: FsPaging | false;
   columnDefaults?: Object;
-  filters?: Object[];
+  filters?: FilterConfigItem[];
   rowActions?: FsListRowAction[];
-  rowClass?: Function;
-  actions?: Object[];
-  fetch?: Function;
+  rowClass?: (row: any) => string;
+  actions?: FsListAction[];
+  fetch?: (query: any) => Observable<any>;
   scrollable?: FsListScrollableConfig | boolean;
   selection?: FsListSelectionConfig;
   initialFetch?: boolean;
-  rowEvents?: Object;
+  rowEvents?: { [name: string]: (event) => void };
   header?: FsListHeaderConfig;
   cell?: FsListCellConfig;
   footer?: FsListFooterConfig;
@@ -97,6 +98,15 @@ export interface FsListSelectionConfig {
 
 export interface FsListFetchSubscription {
   loadOffset?: boolean;
+}
+
+export interface FsListAction {
+  primary?: boolean;
+  icon?: string;
+  label?: string;
+  menu?: boolean;
+  className?: string;
+  click?: (event) => void;
 }
 
 export interface FsListRowAction {
