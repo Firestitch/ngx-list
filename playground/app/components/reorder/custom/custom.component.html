@@ -1,0 +1,30 @@
+<div class="custom-reorder">
+  <button mat-button color="primary" (click)="reorderStart()">Start Reorder</button>
+  <button mat-button (click)="reorderEnd()">Finish Reorder</button>
+</div>
+<fs-list [config]="config" #table>
+
+  <fs-list-column>
+    <ng-template fs-list-header>
+      №
+    </ng-template>
+    <ng-template fs-list-cell let-index="index">
+      {{ index }}
+    </ng-template>
+  </fs-list-column>
+
+  <fs-list-column name="name" title="Name">
+    <ng-template fs-list-header>
+      <b>User</b> name
+    </ng-template>
+    <ng-template fs-list-cell let-value="value" let-row="row">
+      {{ value }}
+    </ng-template>
+  </fs-list-column>
+
+  <fs-list-column name="guid" title="GUID">
+    <ng-template fs-list-cell let-guid="value" let-row="row">
+      {{ row.guid }}
+    </ng-template>
+  </fs-list-column>
+</fs-list>

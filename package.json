@@ -44,7 +44,7 @@
     "@firestitch/common": "^0.2.25",
     "@firestitch/date": "^0.1.19",
     "@firestitch/datepicker": "^0.3.1",
-    "@firestitch/example": "^0.4.0",
+    "@firestitch/example": "^0.4.1",
     "@firestitch/filter": "^0.3.5",
     "@firestitch/iframe": "^0.1.5",
     "@firestitch/message": "^0.1.22",
