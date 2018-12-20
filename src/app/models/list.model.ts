@@ -422,6 +422,10 @@ export class List extends Model {
         this.paging.limits = pagingConfig.limits
       }
 
+      if (pagingConfig.limit) {
+        this.paging.limit = pagingConfig.limit;
+      }
+
       this.paging.updatePagingStrategy(pagingConfig.strategy);
 
     } else if (pagingConfig === false) {
