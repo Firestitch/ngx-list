@@ -37,6 +37,10 @@ export class RowAction extends Model {
       this.type = ActionType.basic;
     }
 
+    if (this.menu === void 0) {
+      this.menu = true;
+    }
+
     // Re-assign click function
     const clickFn = value.click;
     value.click = (row, event, rowActionsRef = null) => {
