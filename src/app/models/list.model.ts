@@ -4,6 +4,7 @@ import { FsScrollInstance } from '@firestitch/scroll/classes';
 import { SelectionDialog } from '@firestitch/selection';
 
 import * as _isNumber from 'lodash/isNumber';
+import * as _merge from 'lodash/merge';
 import { Alias, Model } from 'tsmodels';
 
 import { from, Subject, Subscription } from 'rxjs';
@@ -14,9 +15,11 @@ import { Pagination } from './pagination.model';
 import { Sorting } from './sorting.model';
 
 import {
+  FsAbstractRow,
   FsListConfig,
   FsListFetchSubscription,
   FsListNoResultsConfig,
+  FsListRestoreConfig,
   FsListScrollableConfig,
   FsListSelectionConfig,
   FsPaging
@@ -38,7 +41,7 @@ export class List extends Model {
   @Alias('rowActions') public rowActionsRaw: any[];
   @Alias('rowClass') public rowClass;
   @Alias() public rowEvents: any;
-  @Alias() public restore: any;
+  @Alias() public restore: FsListRestoreConfig;
   @Alias() public columnTemplates: any;
   @Alias() public filters = [];
   @Alias() public scrollable: FsListScrollableConfig | false = false;
@@ -245,12 +248,28 @@ export class List extends Model {
     this.listenFetch();
   }
 
-  public deleteRows(rows: any, trackBy?: (targetRow: any, listRow: any) => boolean) {
+  public updateData(
+    rows: FsAbstractRow | FsAbstractRow[],
+    trackBy?: (listRow: FsAbstractRow, targetRow?: FsAbstractRow) => boolean
+  ) {
+
+    if (Array.isArray(rows)) {
+      rows.forEach((item) => {
+        this.updateRow(item, trackBy)
+      });
+    } else {
+      this.updateRow(rows, trackBy)
+    }
+  }
+
+  public deleteData(
+    rows: FsAbstractRow | FsAbstractRow[],
+    trackBy?: (listRow: FsAbstractRow, targetRow?: FsAbstractRow) => boolean
+  ) {
 
     let deletedCount = 0;
 
     if (Array.isArray(rows)) {
-
       rows.forEach((item) => {
         if (this.deleteRow(item, trackBy)) {
           deletedCount++;
@@ -381,11 +400,13 @@ export class List extends Model {
         this.filters = [];
       }
 
-      this.filters.push({
-        name: SHOW_DELETED_FILTERS_KEY,
-        type: ItemType.checkbox,
-        label: this.restore.filterLabel || 'Show Deleted'
-      })
+      if (this.restore.filter) {
+        this.filters.push({
+          name: SHOW_DELETED_FILTERS_KEY,
+          type: ItemType.checkbox,
+          label: this.restore.filterLabel || 'Show Deleted'
+        });
+      }
     }
 
   }
@@ -667,19 +688,45 @@ export class List extends Model {
     this.data$.next(response.data);
   }
 
-  /**
-   * Remove row from
-   * @param targetRow
-   * @param trackBy
-   */
-  private deleteRow(targetRow: any, trackBy?: (targetRow: any, listRow: any) => boolean) {
+  private updateRow(
+    targetRow: FsAbstractRow,
+    trackBy?: (listRow: FsAbstractRow, targetRow?: FsAbstractRow) => boolean) {
+
     if (trackBy === void 0) {
       trackBy = (row, target) => {
         return row === target;
       }
     }
 
-    const targetIndex = this.data.findIndex((listRow) => trackBy(targetRow, listRow));
+    const targetIndex = this.data.findIndex((listRow) => trackBy(listRow, targetRow));
+
+    if (targetIndex !== -1) {
+      const updateTarget = this.data[targetIndex];
+
+      this.data[targetIndex] = _merge({}, _merge(updateTarget, targetRow));
+
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Remove row from
+   * @param targetRow
+   * @param trackBy
+   */
+  private deleteRow(
+    targetRow: FsAbstractRow,
+    trackBy?: (listRow: FsAbstractRow, targetRow?: FsAbstractRow) => boolean
+  ) {
+    if (trackBy === void 0) {
+      trackBy = (row, target) => {
+        return row === target;
+      }
+    }
+
+    const targetIndex = this.data.findIndex((listRow) => trackBy(listRow, targetRow));
 
     if (targetIndex !== -1) {
       this.data.splice(targetIndex, 1);

@@ -144,6 +144,10 @@ export class KitchenSinkComponent implements OnInit {
             console.log('delete', row, event);
           },
           menu: true,
+          remove: {
+            title: 'Confirm',
+            template: 'Are you sure you would like to delete this record?',
+          },
           icon: 'delete',
           label: 'Remove'
         }

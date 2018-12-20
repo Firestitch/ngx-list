@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { SelectionDialogActionCallbackParams } from '@firestitch/selection'
 
-import { PaginationStrategy, ReorderPosition, ReorderStrategy } from '../models';
+import { ActionType, PaginationStrategy, ReorderPosition, ReorderStrategy } from '../models';
 
 export interface FsPaging {
   limits?: number[];
@@ -20,7 +20,7 @@ export interface FsListConfig {
   paging?: FsPaging | false;
   columnDefaults?: Object;
   filters?: Object[];
-  rowActions?: Object[];
+  rowActions?: FsListRowAction[];
   rowClass?: Function;
   actions?: Object[];
   fetch?: Function;
@@ -76,6 +76,7 @@ export interface FsListScrollableConfig {
 
 export interface FsListRestoreConfig {
   query?: any;
+  filter?: boolean;
   filterLabel?: string;
   menuLabel?: string;
   click?: Function;
@@ -96,6 +97,22 @@ export interface FsListSelectionConfig {
 
 export interface FsListFetchSubscription {
   loadOffset?: boolean;
+}
+
+export interface FsListRowAction {
+  label?: string;
+  type?: ActionType;
+  className?: string;
+  icon?: string;
+  menu?: boolean;
+  click?: (row, event) => void;
+  show?: (row) => boolean;
+  remove?: { title?: string; template?: string; } | boolean;
+  restore?: boolean;
+}
+
+export interface FsAbstractRow {
+  [name: string]: any;
 }
 
 interface OnActionCallbackParams extends SelectionDialogActionCallbackParams {

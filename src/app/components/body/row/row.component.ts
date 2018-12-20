@@ -140,17 +140,22 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   public actionClick(action: RowAction, row: any, event: any) {
     if (action.remove) {
-      this._fsPrompt.confirm({
-        title: action.remove.title,
-        template: action.remove.template,
-      }).pipe(
-        take(1),
-        takeUntil(this._destroy$),
-      ).subscribe({
+      if (typeof action.remove === 'boolean') {
+        this.removeAction(action, row, event);
+      } else {
+        this._fsPrompt.confirm({
+          title: action.remove.title,
+          template: action.remove.template,
+        }).pipe(
+          take(1),
+          takeUntil(this._destroy$),
+        ).subscribe({
           next: () => {
             this.removeAction(action, row, event);
-          }
+          },
+          error: () => {},
         })
+      }
     } else {
       action.click(row, event);
     }

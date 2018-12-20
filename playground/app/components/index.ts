@@ -10,3 +10,4 @@ export * from './examples';
 export * from './paging';
 export * from './reorder';
 export * from './selection';
+export * from './remove';
