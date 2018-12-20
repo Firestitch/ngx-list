@@ -83,7 +83,7 @@
           <button type="button"
                   mat-button
                   color="primary"
-                  *ngIf="list.reorder?.enabled"
+                  *ngIf="list.reorder?.enabled && list.reorder?.strategy === ReorderStrategy.Manual"
                   (click)="list.reorder.finishReorder()">
             DONE
           </button>

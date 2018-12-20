@@ -21,7 +21,7 @@ import * as _mergeWith from 'lodash/mergeWith';
 
 import { FS_LIST_DEFAULT_CONFIG } from '../../../fslist.providers';
 import { FsListColumnDirective } from '../../directives';
-import { List } from '../../models';
+import { List, ReorderStrategy } from '../../models';
 import { FsListConfig } from '../../interfaces';
 
 
@@ -40,6 +40,8 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   // Event will fired if action remove: true will clicked
   public rowRemoved = new EventEmitter();
+
+  public readonly ReorderStrategy = ReorderStrategy;
 
   private _destroy = new Subject();
 
