@@ -47,9 +47,9 @@ export class RemoveConfirmComponent implements OnInit {
           }
         },
         {
-          label: 'Delete Row (Object 2)',
+          label: 'Remove Row (Object 2)',
           click: () => {
-            this.table.deleteData(
+            this.table.removeData(
               { name: 'Object 2' },
               (listRow: any, targetRow: any) => {
                 return listRow.name === targetRow.name;
@@ -61,8 +61,8 @@ export class RemoveConfirmComponent implements OnInit {
       rowActions: [
         {
           click: (row, event) => {
-            alert('Deleted');
-            console.log('delete', row, event);
+            alert('Removed');
+            console.log('remove', row, event);
 
             // If Observable will be returnet List will wait till it isn't completed
             return of()
@@ -70,7 +70,6 @@ export class RemoveConfirmComponent implements OnInit {
                 delay(2000),
               )
           },
-          menu: true,
           remove: {
             title: 'Confirm',
             template: 'Are you sure you would like to delete this record?',

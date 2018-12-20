@@ -24,7 +24,7 @@ export class Pagination extends Model {
   public displayed = 0;
 
   private _strategy: PaginationStrategy = PaginationStrategy.Page;
-  private _deletedRows = 0;
+  private _removedRows = 0;
 
   private _pageChanged = new Subject<number | null>();
   private _onDestroy = new Subject();
@@ -100,8 +100,8 @@ export class Pagination extends Model {
    */
   get loadDeletedOffsetQuery() {
     return {
-      offset: this.limit * this.page - this._deletedRows,
-      limit: this._deletedRows
+      offset: this.limit * this.page - this._removedRows,
+      limit: this._removedRows
     }
   }
 
@@ -217,7 +217,7 @@ export class Pagination extends Model {
     } else {
       this.records = config.records;
 
-      this._deletedRows = 0;
+      this._removedRows = 0;
     }
 
     this.updateTotalPages();
@@ -384,8 +384,8 @@ export class Pagination extends Model {
    * Update count of deleted rows. This count will be applied for offset calc
    * @param count
    */
-  public deleteRows(count: number) {
-    this._deletedRows += count;
+  public removeRows(count: number) {
+    this._removedRows += count;
   }
 
   public updatePagination() {

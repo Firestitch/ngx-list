@@ -262,38 +262,38 @@ export class List extends Model {
     }
   }
 
-  public deleteData(
+  public removeData(
     rows: FsAbstractRow | FsAbstractRow[],
     trackBy?: (listRow: FsAbstractRow, targetRow?: FsAbstractRow) => boolean
   ) {
 
-    let deletedCount = 0;
+    let removedCount = 0;
 
     if (Array.isArray(rows)) {
       rows.forEach((item) => {
-        if (this.deleteRow(item, trackBy)) {
-          deletedCount++;
+        if (this.removeRow(item, trackBy)) {
+          removedCount++;
         }
       });
     } else {
-      if (this.deleteRow(rows, trackBy)) {
-        deletedCount++;
+      if (this.removeRow(rows, trackBy)) {
+        removedCount++;
       }
     }
 
-    if (this.paging.enabled && deletedCount > 0) {
+    if (this.paging.enabled && removedCount > 0) {
 
       if (this.paging.hasPageStrategy) {
-        this.noDataPaginationUpdate(deletedCount);
+        this.noDataPaginationUpdate(removedCount);
       } else {
         // Fetch more if has something for fetch
         if (this.data.length || this.paging.hasNextPage) {
           this.operation = Operation.loadMore;
 
-          this.paging.deleteRows(deletedCount);
+          this.paging.removeRows(removedCount);
           this.fetch$.next( { loadOffset: true});
         } else {
-          this.noDataPaginationUpdate(deletedCount);
+          this.noDataPaginationUpdate(removedCount);
         }
       }
     }
@@ -716,7 +716,7 @@ export class List extends Model {
    * @param targetRow
    * @param trackBy
    */
-  private deleteRow(
+  private removeRow(
     targetRow: FsAbstractRow,
     trackBy?: (listRow: FsAbstractRow, targetRow?: FsAbstractRow) => boolean
   ) {

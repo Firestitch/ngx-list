@@ -110,11 +110,11 @@ export class FsListComponent implements OnInit, OnDestroy {
     this.list.updateData(rows, trackBy);
   }
 
-  public deleteData(
+  public removeData(
     rows: FsAbstractRow | FsAbstractRow[],
     trackBy?: (listRow: FsAbstractRow, deleteRow?: FsAbstractRow) => boolean
   ) {
-    this.list.deleteData(rows, trackBy);
+    this.list.removeData(rows, trackBy);
   }
 
   public setHeading(heading: string) {
@@ -137,7 +137,7 @@ export class FsListComponent implements OnInit, OnDestroy {
     this.rowRemoved
       .pipe(takeUntil(this._destroy))
       .subscribe((row) => {
-        this.list.deleteData(row);
+        this.list.removeData(row);
       })
   }
 
