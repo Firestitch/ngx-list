@@ -11,7 +11,7 @@
   <!-- Header -->
   <div class="fs-list-header-container">
     <div class="fs-list-header"
-         [ngClass]="{ 'no-wrap': list.reorder?.enabled || !list.filterConfig?.items.length }">
+         [ngClass]="{ 'no-wrap': list.reorder?.manualReorderActivated || !list.filterConfig?.items.length }">
       <div class="heading-container">
         <h2 class="heading" *ngIf="list.heading">{{list.heading}}</h2>
         <span class="subheading" *ngIf="list.subheading">{{list.subheading}}</span>
@@ -19,12 +19,11 @@
       <!-- Filters/actions -->
       <div class="fs-list-toolbar">
         <fs-filter
-          #filter
           class="fs-list-filter"
           *ngIf="list.filterConfig"
-          [hidden]="!list.filterConfig?.items.length || list.reoderEnabled"
+          [hidden]="!list.filterConfig?.items.length || list.reorder?.manualReorderActivated"
           [filter]="list.filterConfig"
-          [sortUpdate]="list?.sorting?._sortingChanged"
+          [sortUpdate]="list?.sorting?.sortingChanged"
           [showSortBy]="!list.status"
           [showFilterInput]="list.filterInput"
         >
@@ -32,7 +31,7 @@
 
         <!-- Actions -->
         <div class="fs-list-actions" *ngIf="list.actions?.length">
-          <ng-container *ngIf="!list.reoderEnabled">
+          <ng-container *ngIf="!list.reorder?.manualReorderActivated">
             <span *ngFor="let action of list.menuActions" class="action-button">
               <button type="button"
                       mat-raised-button
@@ -42,9 +41,10 @@
               </button>
           </span>
           </ng-container>
+
           <button type="button"
                   mat-icon-button
-                  *ngIf="!list.reoderEnabled"
+                  *ngIf="!list.reorder?.manualReorderActivated"
                   [fsMenuTriggerFor]="rowActionsRef"
                   [ngClass]="{
                     'hidden': !list.kebabActions.length,
@@ -59,8 +59,7 @@
             >
               <ng-template fs-menu-item
                            class="hidden-mobile-menu-action"
-                           (click)="action.click(row, $event)"
-                           [hidden]="show"
+                           (click)="action.click($event)"
                            [fsClass]="action.classArray"
               >
                 <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
@@ -71,8 +70,7 @@
                          [ngForOf]="list.kebabActions"
             >
               <ng-template fs-menu-item
-                           (click)="action.click(row, $event)"
-                           [hidden]="show"
+                           (click)="action.click($event)"
                            [fsClass]="action.classArray"
               >
                 <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
@@ -83,7 +81,7 @@
           <button type="button"
                   mat-button
                   color="primary"
-                  *ngIf="list.reorder?.enabled && list.reorder?.strategy === ReorderStrategy.Manual"
+                  *ngIf="list.reorder?.manualReorderActivated"
                   (click)="list.reorder.finishReorder()">
             DONE
           </button>
@@ -120,6 +118,7 @@
              [hasRowActions]="list.hasRowActions"
              [reorderEnabled]="list.reorder?.enabled"
              [reorderPosition]="list.reorder?.position"
+             [reorderStrategy]="list.reorder?.strategy"
       >
       </thead>
 
@@ -148,6 +147,8 @@
              *ngIf="list.hasFooter"
              [columns]="list.columns"
              [selection]="list.selection"
+             [reorderEnabled]="list.reorder?.enabled"
+             [reorderPosition]="list.reorder?.position"
              [hasRowActions]="list.hasRowActions">
       </tfoot>
     </table>
@@ -159,8 +160,8 @@
     [pagination]="list.paging">
   </fs-list-pagination>
 
-  <div class="fs-list-no-results" *ngIf="list.data.length === 0 && !list.loading && list.config.noResults.message">
-    {{ list.config.noResults.message }}
+  <div class="fs-list-no-results" *ngIf="list.data.length === 0 && !list.loading && list.noResults?.message">
+    {{ list.noResults?.message }}
   </div>
 </ng-template>
 

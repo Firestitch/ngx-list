@@ -34,6 +34,10 @@ export class ReorderModel extends Model {
     return this._enabled;
   }
 
+  get manualReorderActivated() {
+    return this.enabled && this.strategy === ReorderStrategy.Manual
+  }
+
   set enabled(value) {
     this._enabled = value;
 

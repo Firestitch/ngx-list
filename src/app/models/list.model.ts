@@ -16,6 +16,7 @@ import { Sorting } from './sorting.model';
 import {
   FsListConfig,
   FsListFetchSubscription,
+  FsListNoResultsConfig,
   FsListScrollableConfig,
   FsListSelectionConfig,
   FsPaging
@@ -41,6 +42,7 @@ export class List extends Model {
   @Alias() public columnTemplates: any;
   @Alias() public filters = [];
   @Alias() public scrollable: FsListScrollableConfig | false = false;
+  @Alias() public noResults: FsListNoResultsConfig;
   public reorder: ReorderModel;
   // @Alias() public initialFetch = true; //TODO fixme
   @Alias('fetch') public fetchFn: any;

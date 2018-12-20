@@ -1,3 +1,5 @@
+<td *ngIf="reorderEnabled && reorderPosition === ReorderPosition.Left" class="fs-list-col drag-col"></td>
+
 <td *ngIf="selection" class="fs-list-col fs-list-col-selection"></td>
 <ng-container *ngFor="let column of columns">
   <td fs-list-footer-cell
@@ -12,7 +14,7 @@
 </ng-container>
 
 <!-- Drag -->
-<td *ngIf="hasRowActions && !reorder" class="fs-list-col row-actions"></td>
+<td *ngIf="hasRowActions && !reorderEnabled" class="fs-list-col row-actions"></td>
 
 <!-- Row Actions -->
-<td *ngIf="reorder" class="fs-list-col drag-col"></td>
+<td *ngIf="!(reorderEnabled && reorderStrategy === ReorderStrategy.Manual)" class="fs-list-col drag-col"></td>

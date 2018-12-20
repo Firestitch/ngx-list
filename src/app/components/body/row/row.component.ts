@@ -24,7 +24,7 @@ import { filter, take, takeUntil } from 'rxjs/operators';
 
 import {
   Column,
-  ReorderPosition,
+  ReorderPosition, ReorderStrategy,
   RowAction,
   Selection,
   SelectionChangeType
@@ -48,6 +48,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   @Input() public columns: Column[];
   @Input() public selection: Selection;
   @Input() public reorderEnabled: boolean;
+  @Input() public reorderStrategy: ReorderStrategy;
   @Input() public reorderPosition: ReorderPosition;
   @Input() public restoreMode = false;
 
@@ -62,6 +63,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   @ViewChildren('td') public cellRefs;
 
   public readonly ReorderPosition = ReorderPosition;
+  public readonly ReorderStrategy = ReorderStrategy;
 
   public rowActions: RowAction[];
   public menuRowActions: RowAction[];

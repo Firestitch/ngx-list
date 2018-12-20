@@ -20,5 +20,5 @@
   <th *ngIf="reorderEnabled && reorderPosition === ReorderPosition.Right" class="fs-list-col drag-col"></th>
 
   <!-- Row Actions -->
-  <th *ngIf="hasRowActions && !reorderEnabled" class="fs-list-col row-actions"></th>
+  <th *ngIf="hasRowActions && !(reorderEnabled && reorderStrategy === ReorderStrategy.Manual)" class="fs-list-col row-actions"></th>
 </tr>
