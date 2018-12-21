@@ -9,8 +9,8 @@ import * as _isFunction from 'lodash/isFunction';
 import * as _isObject from 'lodash/isObject';
 import { Alias, Model } from 'tsmodels';
 
-import { from, Subject, Subscription } from 'rxjs';
-import { catchError, debounceTime, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { from, Observable, Subject, Subscription } from 'rxjs';
+import { catchError, debounceTime, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { Column, SortingDirection } from './column.model';
 import { Pagination } from './pagination.model';
@@ -389,7 +389,7 @@ export class List extends Model {
       const restoreAction = new RowAction({
         label: this.restore.menuLabel || 'Restore',
         menu: true,
-        click: this.restore.click,
+        click: () => { this.restoreClick(this.restore.click) }, // TODO fix me, move to special file
         restore: true
       });
 
@@ -759,6 +759,29 @@ export class List extends Model {
 
     this.paging.records -= deletedCount;
     this.paging.updatePagination();
+  }
+
+  /**
+   * Temporary solution, will do auto subscribe if was returned Observable.
+   *
+   * TODO: MOVE THIS PEACE OF CODE TO SPECIAL PLACE
+   *
+   * @param restoreClickCallback
+   */
+  private restoreClick(restoreClickCallback) {
+    const restoreClickResult = restoreClickCallback();
+
+    if (restoreClickResult instanceof Observable) {
+      restoreClickResult
+        .pipe(
+          take(1),
+          takeUntil(this.onDestroy$),
+        )
+        .subscribe({
+          next: () => this.reload(),
+          error: () => {},
+        })
+    }
   }
 }
 

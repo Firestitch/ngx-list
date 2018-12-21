@@ -80,7 +80,7 @@ export interface FsListRestoreConfig {
   filter?: boolean;
   filterLabel?: string;
   menuLabel?: string;
-  click?: Function;
+  click?: (row: FsListAbstractRow, event?: any) => void | Observable<any>;
   reload?: boolean;
 }
 
