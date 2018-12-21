@@ -266,7 +266,6 @@ export class List extends Model {
   }
 
   public removeData(data: FsListAbstractRow | FsListAbstractRow[] | FsListTrackByFn) {
-    debugger;
     let removedCount = 0;
 
     const defaultTrackBy = (row, target) => {
@@ -404,7 +403,7 @@ export class List extends Model {
         this.filters = [];
       }
 
-      if (this.restore.filter) {
+      if (this.restore.filter !== false) {
         this.filters.push({
           name: SHOW_DELETED_FILTERS_KEY,
           type: ItemType.checkbox,
@@ -615,7 +614,7 @@ export class List extends Model {
       this.restoreMode = true;
 
       if (this.restore.reload) {
-        this.paging.page = 1;
+        this.reload();
       }
     }
 
