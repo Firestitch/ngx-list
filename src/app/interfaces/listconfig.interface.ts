@@ -121,8 +121,12 @@ export interface FsListRowAction {
   restore?: boolean;
 }
 
-export interface FsAbstractRow {
+export interface FsListAbstractRow {
   [name: string]: any;
+}
+
+export interface FsListTrackByFn {
+  (listRow: FsListAbstractRow, targetRow?: FsListAbstractRow): boolean
 }
 
 interface OnActionCallbackParams extends SelectionDialogActionCallbackParams {

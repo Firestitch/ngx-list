@@ -50,9 +50,8 @@ export class RemoveSimpleComponent implements OnInit {
           label: 'Remove Row (Object 2)',
           click: () => {
             this.table.removeData(
-              { name: 'Object 2' },
-              (listRow: any, targetRow: any) => {
-                return listRow.name === targetRow.name;
+              (listRow: any) => {
+                return listRow.name === 'Object 2';
               }
             );
           }
@@ -61,11 +60,9 @@ export class RemoveSimpleComponent implements OnInit {
       rowActions: [
         {
           click: (row, event) => {
-            console.log('remove', row, event);
-            alert('Removed');
 
             // If Observable will be returnet List will wait till it isn't completed
-            return of()
+            return of(1)
               .pipe(
                 delay(2000),
               )

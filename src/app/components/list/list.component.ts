@@ -22,7 +22,7 @@ import * as _mergeWith from 'lodash/mergeWith';
 import { FS_LIST_DEFAULT_CONFIG } from '../../../fslist.providers';
 import { FsListColumnDirective } from '../../directives';
 import { List, ReorderStrategy } from '../../models';
-import { FsAbstractRow, FsListConfig } from '../../interfaces';
+import { FsListAbstractRow, FsListConfig, FsListTrackByFn } from '../../interfaces';
 
 
 @Component({
@@ -104,17 +104,14 @@ export class FsListComponent implements OnInit, OnDestroy {
   }
 
   public updateData(
-    rows: FsAbstractRow | FsAbstractRow[],
-    trackBy?: (listRow: FsAbstractRow, updateRow?: FsAbstractRow) => boolean
+    rows: FsListAbstractRow | FsListAbstractRow[],
+    trackBy?: (listRow: FsListAbstractRow, updateRow?: FsListAbstractRow) => boolean
   ) {
     this.list.updateData(rows, trackBy);
   }
 
-  public removeData(
-    rows: FsAbstractRow | FsAbstractRow[],
-    trackBy?: (listRow: FsAbstractRow, deleteRow?: FsAbstractRow) => boolean
-  ) {
-    this.list.removeData(rows, trackBy);
+  public removeData(data: FsListAbstractRow | FsListAbstractRow[] | FsListTrackByFn) {
+    this.list.removeData(data);
   }
 
   public setHeading(heading: string) {

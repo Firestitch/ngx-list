@@ -5,6 +5,8 @@ import { SelectionDialog } from '@firestitch/selection';
 
 import * as _isNumber from 'lodash/isNumber';
 import * as _merge from 'lodash/merge';
+import * as _isFunction from 'lodash/isFunction';
+import * as _isObject from 'lodash/isObject';
 import { Alias, Model } from 'tsmodels';
 
 import { from, Subject, Subscription } from 'rxjs';
@@ -15,13 +17,14 @@ import { Pagination } from './pagination.model';
 import { Sorting } from './sorting.model';
 
 import {
-  FsAbstractRow,
+  FsListAbstractRow,
   FsListConfig,
   FsListFetchSubscription,
   FsListNoResultsConfig,
   FsListRestoreConfig,
   FsListScrollableConfig,
   FsListSelectionConfig,
+  FsListTrackByFn,
   FsPaging
 } from '../interfaces';
 import { StyleConfig } from './styleConfig.model';
@@ -249,8 +252,8 @@ export class List extends Model {
   }
 
   public updateData(
-    rows: FsAbstractRow | FsAbstractRow[],
-    trackBy?: (listRow: FsAbstractRow, targetRow?: FsAbstractRow) => boolean
+    rows: FsListAbstractRow | FsListAbstractRow[],
+    trackBy?: (listRow: FsListAbstractRow, targetRow?: FsListAbstractRow) => boolean
   ) {
 
     if (Array.isArray(rows)) {
@@ -262,23 +265,24 @@ export class List extends Model {
     }
   }
 
-  public removeData(
-    rows: FsAbstractRow | FsAbstractRow[],
-    trackBy?: (listRow: FsAbstractRow, targetRow?: FsAbstractRow) => boolean
-  ) {
-
+  public removeData(data: FsListAbstractRow | FsListAbstractRow[] | FsListTrackByFn) {
+    debugger;
     let removedCount = 0;
 
-    if (Array.isArray(rows)) {
-      rows.forEach((item) => {
-        if (this.removeRow(item, trackBy)) {
-          removedCount++;
-        }
+    const defaultTrackBy = (row, target) => {
+      return row === target;
+    };
+
+    if (Array.isArray(data)) {
+      //
+      data.forEach((item) => {
+        removedCount = this.removeRow(item, defaultTrackBy);
       });
-    } else {
-      if (this.removeRow(rows, trackBy)) {
-        removedCount++;
-      }
+    } else if (_isFunction(data)) {
+      //
+      removedCount = this.removeRow(null, (data as FsListTrackByFn));
+    } else if (_isObject(data)) {
+      removedCount = this.removeRow(data, defaultTrackBy);
     }
 
     if (this.paging.enabled && removedCount > 0) {
@@ -693,8 +697,8 @@ export class List extends Model {
   }
 
   private updateRow(
-    targetRow: FsAbstractRow,
-    trackBy?: (listRow: FsAbstractRow, targetRow?: FsAbstractRow) => boolean) {
+    targetRow: FsListAbstractRow,
+    trackBy?: (listRow: FsListAbstractRow, targetRow?: FsListAbstractRow) => boolean) {
 
     if (trackBy === void 0) {
       trackBy = (row, target) => {
@@ -721,24 +725,20 @@ export class List extends Model {
    * @param trackBy
    */
   private removeRow(
-    targetRow: FsAbstractRow,
-    trackBy?: (listRow: FsAbstractRow, targetRow?: FsAbstractRow) => boolean
+    targetRow: FsListAbstractRow | null,
+    trackBy?: FsListTrackByFn
   ) {
-    if (trackBy === void 0) {
-      trackBy = (row, target) => {
-        return row === target;
+
+    let removedCounter = 0;
+
+    this.data.forEach((listRow, index) => {
+      if (trackBy(listRow, targetRow)) {
+        this.data.splice(index, 1);
+        removedCounter++;
       }
-    }
+    });
 
-    const targetIndex = this.data.findIndex((listRow) => trackBy(listRow, targetRow));
-
-    if (targetIndex !== -1) {
-      this.data.splice(targetIndex, 1);
-
-      return true;
-    }
-
-    return false;
+    return removedCounter;
   }
 
   /**

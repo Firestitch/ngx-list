@@ -4,7 +4,7 @@ import { FsApi } from '@firestitch/api';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
-import { FsListConfig, PaginationStrategy } from '../../../../../src';
+import { FsListAbstractRow, FsListConfig, PaginationStrategy } from '../../../../../src';
 import { FsListComponent } from '../../../../../src/app/components/list';
 
 import 'rxjs/add/operator/map';
@@ -27,7 +27,7 @@ export class RemoveConfirmComponent implements OnInit {
 
     this.config = {
       heading: 'Remove',
-      subheading: 'Remove action with list integrated confirmation',
+      subheading: 'Remove action with list integrated confirmation or click on row for delete',
       status: false,
       filterInput: true,
       paging: {
@@ -40,7 +40,7 @@ export class RemoveConfirmComponent implements OnInit {
           click: () => {
             this.table.updateData(
               { name: 'Object 3 Updated' },
-              (listRow: any) => {
+              (listRow: FsListAbstractRow) => {
                 return listRow.name === 'Object 3';
               }
             );
@@ -50,22 +50,23 @@ export class RemoveConfirmComponent implements OnInit {
           label: 'Remove Row (Object 2)',
           click: () => {
             this.table.removeData(
-              { name: 'Object 2' },
-              (listRow: any, targetRow: any) => {
-                return listRow.name === targetRow.name;
+              (listRow: FsListAbstractRow) => {
+                return listRow.name === 'Object 2';
               }
             );
           }
         }
       ],
+      rowEvents: {
+        click: ({ row }) => {
+          this.table.removeData([row]);
+        }
+      },
       rowActions: [
         {
           click: (row, event) => {
-            alert('Removed');
-            console.log('remove', row, event);
-
             // If Observable will be returnet List will wait till it isn't completed
-            return of()
+            return of(1)
               .pipe(
                 delay(2000),
               )
