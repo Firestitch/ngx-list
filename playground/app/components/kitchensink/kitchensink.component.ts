@@ -86,7 +86,7 @@ export class KitchenSinkComponent implements OnInit {
         start: () => {
           console.log('reorder started');
         },
-        done: function (data) {
+        done: (data) => {
           console.log(data);
         }
       },
@@ -157,10 +157,10 @@ export class KitchenSinkComponent implements OnInit {
       },
       rowEvents:
       {
-        mouseover: function(event) {
+        mouseover: (event) => {
           // console.log('over', event);
         },
-        click: function(event) {
+        click: (event) => {
           console.log('row click', event);
         }
       },

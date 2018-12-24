@@ -39,7 +39,7 @@ export class CustomReorderComponent implements OnInit {
         start: () => {
           console.log('reorder started');
         },
-        done: function (data) {
+        done: (data) => {
           console.log('reorder finished', data);
         }
       },
