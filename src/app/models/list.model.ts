@@ -25,6 +25,7 @@ import {
   FsListScrollableConfig,
   FsListSelectionConfig,
   FsListTrackByFn,
+  FsListTrackByTargetRowFn,
   FsPaging
 } from '../interfaces';
 import { StyleConfig } from './styleConfig.model';
@@ -251,9 +252,17 @@ export class List extends Model {
     this.listenFetch();
   }
 
+  public getData(trackBy: FsListTrackByFn) {
+    return this.data.filter(trackBy);
+  }
+
+  public hasData(trackBy: FsListTrackByFn) {
+    return this.data.some(trackBy);
+  }
+
   public updateData(
     rows: FsListAbstractRow | FsListAbstractRow[],
-    trackBy?: (listRow: FsListAbstractRow, targetRow?: FsListAbstractRow) => boolean
+    trackBy?: FsListTrackByTargetRowFn,
   ) {
 
     if (Array.isArray(rows)) {
@@ -265,7 +274,7 @@ export class List extends Model {
     }
   }
 
-  public removeData(data: FsListAbstractRow | FsListAbstractRow[] | FsListTrackByFn) {
+  public removeData(data: FsListAbstractRow | FsListAbstractRow[] | FsListTrackByTargetRowFn) {
     let removedCount = 0;
 
     const defaultTrackBy = (row, target) => {
@@ -279,7 +288,7 @@ export class List extends Model {
       });
     } else if (_isFunction(data)) {
       //
-      removedCount = this.removeRow(null, (data as FsListTrackByFn));
+      removedCount = this.removeRow(null, (data as FsListTrackByTargetRowFn));
     } else if (_isObject(data)) {
       removedCount = this.removeRow(data, defaultTrackBy);
     }
@@ -725,7 +734,7 @@ export class List extends Model {
    */
   private removeRow(
     targetRow: FsListAbstractRow | null,
-    trackBy?: FsListTrackByFn
+    trackBy?: FsListTrackByTargetRowFn
   ) {
 
     let removedCounter = 0;

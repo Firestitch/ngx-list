@@ -126,6 +126,10 @@ export interface FsListAbstractRow {
 }
 
 export interface FsListTrackByFn {
+  (row: FsListAbstractRow, index?: number): boolean
+}
+
+export interface FsListTrackByTargetRowFn {
   (listRow: FsListAbstractRow, targetRow?: FsListAbstractRow): boolean
 }
 
