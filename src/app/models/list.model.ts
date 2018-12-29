@@ -263,18 +263,24 @@ export class List extends Model {
   public updateData(
     rows: FsListAbstractRow | FsListAbstractRow[],
     trackBy?: FsListTrackByTargetRowFn,
-  ) {
+  ): boolean {
 
     if (Array.isArray(rows)) {
+      let updateSuccess = false;
+
       rows.forEach((item) => {
-        this.updateRow(item, trackBy)
+        if (this.updateRow(item, trackBy)) {
+          updateSuccess = true;
+        }
       });
+
+      return updateSuccess;
     } else {
-      this.updateRow(rows, trackBy)
+      return this.updateRow(rows, trackBy)
     }
   }
 
-  public removeData(data: FsListAbstractRow | FsListAbstractRow[] | FsListTrackByTargetRowFn) {
+  public removeData(data: FsListAbstractRow | FsListAbstractRow[] | FsListTrackByTargetRowFn): boolean {
     let removedCount = 0;
 
     const defaultTrackBy = (row, target) => {
@@ -293,6 +299,7 @@ export class List extends Model {
       removedCount = this.removeRow(data, defaultTrackBy);
     }
 
+    // TODO move to method
     if (this.paging.enabled && removedCount > 0) {
 
       if (this.paging.hasPageStrategy) {
@@ -309,6 +316,8 @@ export class List extends Model {
         }
       }
     }
+
+    return !!removedCount;
   }
 
   public destroy() {

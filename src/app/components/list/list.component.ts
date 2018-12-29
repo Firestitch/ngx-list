@@ -114,12 +114,12 @@ export class FsListComponent implements OnInit, OnDestroy {
   public updateData(
     rows: FsListAbstractRow | FsListAbstractRow[],
     trackBy?: FsListTrackByTargetRowFn
-  ) {
-    this.list.updateData(rows, trackBy);
+  ): boolean {
+    return this.list.updateData(rows, trackBy);
   }
 
-  public removeData(data: FsListAbstractRow | FsListAbstractRow[] | FsListTrackByTargetRowFn) {
-    this.list.removeData(data);
+  public removeData(data: FsListAbstractRow | FsListAbstractRow[] | FsListTrackByTargetRowFn): boolean {
+    return this.list.removeData(data);
   }
 
   public setHeading(heading: string) {
