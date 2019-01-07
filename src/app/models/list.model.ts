@@ -407,7 +407,7 @@ export class List extends Model {
       const restoreAction = new RowAction({
         label: this.restore.menuLabel || 'Restore',
         menu: true,
-        click: () => { this.restoreClick(this.restore.click) }, // TODO fix me, move to special file
+        click: (row, event) => { this.restoreClick(this.restore.click, row) }, // TODO fix me, move to special file
         restore: true
       });
 
@@ -785,9 +785,10 @@ export class List extends Model {
    * TODO: MOVE THIS PEACE OF CODE TO SPECIAL PLACE
    *
    * @param restoreClickCallback
+   * @param row
    */
-  private restoreClick(restoreClickCallback) {
-    const restoreClickResult = restoreClickCallback();
+  private restoreClick(restoreClickCallback, row) {
+    const restoreClickResult = restoreClickCallback(row);
 
     if (restoreClickResult instanceof Observable) {
       restoreClickResult
