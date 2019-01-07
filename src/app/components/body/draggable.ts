@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, ElementRef, NgZone } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 
@@ -19,8 +19,8 @@ export class Draggable {
 
   public dragging = false;
 
-  private _dragStart$ = new Subject();
-  private _dragEnd$ = new Subject();
+  private _dragStart$ = new Subject<void>();
+  private _dragEnd$ = new Subject<void>();
   private _destroy$ = new Subject();
 
   constructor(private el: ElementRef,
@@ -30,11 +30,11 @@ export class Draggable {
 
   }
 
-  get dragStart$() {
+  get dragStart$(): Observable<void> {
     return this._dragStart$.pipe(takeUntil(this._destroy$));
   }
 
-  get dragEnd$() {
+  get dragEnd$(): Observable<void> {
     return this._dragEnd$.pipe(takeUntil(this._destroy$));
   }
 
