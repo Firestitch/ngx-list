@@ -98,7 +98,7 @@
       [paging]="list.paging"
       *ngIf="
       list.paging &&
-      !list.reorder?.enabled &&
+      (!list.reorder?.enabled || list.reorder?.status) &&
       ((list.scrollable && list.scrollable.status) || !list.scrollable) &&
       list.data.length > 0">
     </fs-list-status>

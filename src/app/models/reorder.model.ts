@@ -17,6 +17,7 @@ export enum ReorderStrategy {
 export class ReorderModel extends Model {
   @Alias() public start: Function;
   @Alias() public done: Function;
+  @Alias() public status: boolean;
   @Alias() public label: string;
   @Alias() public menu: boolean;
   @Alias() public position: ReorderPosition;
@@ -67,6 +68,10 @@ export class ReorderModel extends Model {
       this.strategy = ReorderStrategy.Manual;
     } else if (data.strategy === ReorderStrategy.Always) {
       this.enabled = true;
+    }
+
+    if (data.status === void 0) {
+      this.status = true;
     }
   }
 
