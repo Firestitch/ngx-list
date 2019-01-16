@@ -77,7 +77,7 @@ export interface FsListScrollableConfig {
 
 export interface FsListRestoreConfig {
   query?: any;
-  filter?: boolean;
+  filter?: boolean | string;
   filterLabel?: string;
   menuLabel?: string;
   click?: (row: FsListAbstractRow, event?: any) => void | Observable<any>;
