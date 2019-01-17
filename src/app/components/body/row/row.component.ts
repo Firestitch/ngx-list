@@ -115,9 +115,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     if (this.rowActionsRaw) {
       this.rowActions = this.rowActionsRaw.map((action) => new RowAction(action));
 
-      this.menuRowActions = this.rowActions.filter((action) => action.menu && !action.restore);
-      this.inlineRowActions = this.rowActions.filter((action) => !action.menu && !action.restore);
-      this.restoreAction = this.rowActions.find((action) => action.restore);
+      this.filterActionsByCategories();
     }
   }
 
@@ -125,6 +123,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     if (this._rowDiffer.diff(this.row)) {
       if (this.rowActions) {
         this.rowActions.forEach((action) => action.checkShowStatus(this.row));
+        this.filterActionsByCategories();
       }
 
       this._cdRef.markForCheck();
@@ -239,5 +238,24 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
           this.rowRemoved.emit(row);
         });
     }
+  }
+
+  private filterActionsByCategories() {
+    this.menuRowActions = [];
+    this.inlineRowActions = [];
+    this.restoreAction = null;
+
+    this.rowActions.forEach((action) => {
+
+      if (!action.isShown) { return }
+
+      if (action.menu && !action.restore) {
+        this.menuRowActions.push(action);
+      } else if (!action.menu && !action.restore) {
+        this.inlineRowActions.push(action);
+      } else if (action.restore) {
+        this.restoreAction = action;
+      }
+    });
   }
 }
