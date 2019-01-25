@@ -142,6 +142,9 @@ export class Selection {
     this.onSelectAllFn = null;
     this.onCancelFn = null;
 
+    if (this.selectionDialogRef) {
+      this.selectionDialogRef.close();
+    }
     this.selectionDialogRef = null;
 
     this._onDestroy.next();
