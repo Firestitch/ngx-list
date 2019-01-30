@@ -777,6 +777,11 @@ export class List extends Model {
 
     this.paging.records -= deletedCount;
     this.paging.updatePagination();
+
+    if (this.data.length && this.selection) {
+      this.selection.updateVisibleRecordsCount(this.data.length);
+      this.selection.updateTotalRecordsCount(this.paging.records);
+    }
   }
 
   /**

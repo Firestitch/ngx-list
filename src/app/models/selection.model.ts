@@ -120,6 +120,7 @@ export class Selection {
   public updateVisibleRecordsCount(count: number) {
     this._visibleRecordsCount = count;
 
+    this._updateSelectedAllStatus();
     // this._updateSelectionStatus();
   }
 
