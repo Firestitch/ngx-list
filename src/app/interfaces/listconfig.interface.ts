@@ -2,7 +2,8 @@ import { Observable } from 'rxjs';
 import { SelectionDialogActionCallbackParams } from '@firestitch/selection'
 import { FilterConfigItem } from '@firestitch/filter';
 
-import { ActionType, PaginationStrategy, ReorderPosition, ReorderStrategy } from '../models';
+import { PaginationStrategy, ReorderPosition, ReorderStrategy } from '../models';
+import { ActionType } from '../enums/button-type.enum';
 
 export interface FsPaging {
   limits?: number[];
@@ -107,6 +108,7 @@ export interface FsListAction {
   menu?: boolean;
   className?: string;
   click?: (event) => void;
+  type?: ActionType;
 }
 
 export interface FsListRowAction {

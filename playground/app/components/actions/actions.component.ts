@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FsApi } from '@firestitch/api';
-import { FsListComponent, FsListConfig } from '../../../../src';
-import { ActionType } from '../../../../src/app/models';
+import { ActionType, FsListComponent, FsListConfig } from '../../../../src';
 import 'rxjs/add/operator/map';
 
 @Component({
@@ -32,7 +31,24 @@ export class ActionsComponent implements OnInit {
           click: (event) => {
             console.log(event);
           },
-          label: 'Primary Button!',
+          label: 'Basic Primary',
+          menu: false,
+          type: ActionType.Basic,
+        },
+        {
+          click: (event) => {
+            console.log(event);
+          },
+          label: 'Basic Secondary',
+          menu: false,
+          primary: false,
+          type: ActionType.Basic,
+        },
+        {
+          click: (event) => {
+            console.log(event);
+          },
+          label: 'Primary Button',
           menu: false
         },
         {
@@ -42,7 +58,16 @@ export class ActionsComponent implements OnInit {
           icon: 'delete',
           primary: false,
           label: 'Secondary Button'
-        }
+        },
+        {
+          click: (event) => {
+            console.log(event);
+          },
+          className: 'mat-accent',
+          icon: 'favorite',
+          menu: false,
+          type: ActionType.Icon,
+        },
       ],
       fetch: (query) => {
         query.count = 3;

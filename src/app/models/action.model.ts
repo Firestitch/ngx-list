@@ -1,4 +1,5 @@
 import { Alias, Model } from 'tsmodels';
+import { ActionType } from '../enums/button-type.enum';
 
 export class Action extends Model {
 
@@ -8,6 +9,7 @@ export class Action extends Model {
   @Alias() public menu: boolean;
   @Alias() public className: string;
   @Alias() public click: Function;
+  @Alias() public type: ActionType;
 
   public classArray: string[] = [];
 

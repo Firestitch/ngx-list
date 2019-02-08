@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FsApi } from '@firestitch/api';
 import { FsListComponent, FsListConfig } from '../../../../src';
-import { ActionType } from '../../../../src/app/models';
 import 'rxjs/add/operator/map';
 
 @Component({

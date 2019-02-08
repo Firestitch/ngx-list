@@ -39,6 +39,7 @@ import {
 } from './app/directives';
 import { FS_LIST_DEFAULT_CONFIG, FS_LIST_CONFIG } from './fslist.providers';
 import { FsListConfig } from './app/interfaces';
+import { FsActionsComponent } from './app/components/actions/actions.component';
 
 export * from './app/components/list/list.component';
 
@@ -64,9 +65,10 @@ export * from './app/components/list/list.component';
     FsCellComponent,
     FsFooterRowComponent,
     FsFooterCellComponent,
+    FsStatusComponent,
 
     // Internal Components
-    FsStatusComponent,
+    FsActionsComponent,
     FsHeadComponent,
     FsHeadCellComponent,
     FsBodyComponent,

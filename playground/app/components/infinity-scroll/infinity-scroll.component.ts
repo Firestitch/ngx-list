@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FsApi } from '@firestitch/api';
-import { FsListConfig } from '../../../../src';
+import { FsListConfig, ActionType } from '../../../../src';
 import { FsListComponent } from '../../../../src/app/components/list';
-import { ActionType } from '../../../../src/app/models';
 
 import 'rxjs/add/operator/map';
 import { ItemType } from '@firestitch/filter/models/fs-filter-item';
@@ -97,7 +96,7 @@ export class InfinityScrollComponent implements OnInit {
           menu: false,
           icon: 'done',
           className: 'mat-warn',
-          type: ActionType.icon,
+          type: ActionType.Icon,
         },
         {
           click: (row, event) => {
@@ -106,7 +105,7 @@ export class InfinityScrollComponent implements OnInit {
           },
           icon: 'clear',
           label: 'Cancel',
-          type: ActionType.raised,
+          type: ActionType.Raised,
         },
         {
           click: (row, event) => {
@@ -118,7 +117,7 @@ export class InfinityScrollComponent implements OnInit {
           menu: true,
           icon: 'edit',
           label: 'Edit',
-          type: ActionType.basic
+          type: ActionType.Basic
         },
         {
           click: (row, event) => {

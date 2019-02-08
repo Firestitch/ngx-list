@@ -2,9 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FsApi } from '@firestitch/api';
 
-import { FsListConfig } from '../../../../src';
+import { FsListConfig, ActionType } from '../../../../src';
 import { FsListComponent } from '../../../../src/app/components/list';
-import { ActionType } from '../../../../src/app/models';
 
 import 'rxjs/add/operator/map';
 
@@ -47,7 +46,7 @@ export class RestoreComponent implements OnInit {
           },
           menu: true,
           label: 'Delete',
-          type: ActionType.basic,
+          type: ActionType.Basic,
         }
       ],
       filters: [

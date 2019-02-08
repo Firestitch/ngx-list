@@ -1,12 +1,5 @@
 import { Alias, Model } from 'tsmodels';
-
-export enum ActionType {
-  basic = 'basic',
-  raised = 'raised',
-  icon = 'icon',
-  fab = 'fab',
-  miniFab = 'mini-fab'
-}
+import { ActionType } from '../enums/button-type.enum';
 
 export class RowAction extends Model {
 
@@ -34,7 +27,7 @@ export class RowAction extends Model {
     super._fromJSON(value);
 
     if (value.type === void 0) {
-      this.type = ActionType.basic;
+      this.type = ActionType.Basic;
     }
 
     if (this.menu === void 0) {

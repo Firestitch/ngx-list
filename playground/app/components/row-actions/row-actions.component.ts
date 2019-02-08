@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FsApi } from '@firestitch/api';
-import { FsListComponent, FsListConfig } from '../../../../src';
-import { ActionType } from '../../../../src/app/models';
+import { FsListComponent, FsListConfig, ActionType } from '../../../../src';
 import 'rxjs/add/operator/map';
 
 @Component({
@@ -29,7 +28,7 @@ export class RowActionsComponent implements OnInit {
           menu: false,
           icon: 'done',
           className: 'mat-warn',
-          type: ActionType.icon,
+          type: ActionType.Icon,
         },
         {
           click: (row, event) => {
@@ -37,7 +36,7 @@ export class RowActionsComponent implements OnInit {
           },
           menu: false,
           icon: 'settings',
-          type: ActionType.miniFab,
+          type: ActionType.MiniFab,
         },
         {
           click: (row, event) => {
@@ -45,7 +44,7 @@ export class RowActionsComponent implements OnInit {
           },
           icon: 'clear',
           label: 'Cancel',
-          type: ActionType.raised,
+          type: ActionType.Raised,
         },
         {
           click: (row, event) => {
@@ -54,7 +53,7 @@ export class RowActionsComponent implements OnInit {
           menu: true,
           icon: 'edit',
           label: 'Edit',
-          type: ActionType.basic
+          type: ActionType.Basic
         },
         {
           click: (row, event) => {

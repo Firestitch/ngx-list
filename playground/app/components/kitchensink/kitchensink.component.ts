@@ -3,9 +3,8 @@ import { Router } from '@angular/router';
 import { FsApi } from '@firestitch/api';
 import { ItemType } from '@firestitch/filter';
 
-import { FsListConfig, PaginationStrategy } from '../../../../src';
+import { ActionType, FsListConfig, PaginationStrategy } from '../../../../src';
 import { FsListComponent } from '../../../../src/app/components/list';
-import { ActionType } from '../../../../src/app/models';
 
 import 'rxjs/add/operator/map';
 
@@ -124,7 +123,7 @@ export class KitchenSinkComponent implements OnInit {
           menu: false,
           icon: 'done',
           className: 'mat-warn',
-          type: ActionType.icon,
+          type: ActionType.Icon,
         },
 
         {
@@ -137,7 +136,7 @@ export class KitchenSinkComponent implements OnInit {
           menu: true,
           icon: 'edit',
           label: 'Edit',
-          type: ActionType.basic
+          type: ActionType.Basic
         },
         {
           click: (row, event) => {

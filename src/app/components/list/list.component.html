@@ -31,62 +31,14 @@
         </fs-filter>
 
         <!-- Actions -->
-        <div class="fs-list-actions" *ngIf="list.actions?.length">
-          <ng-container *ngIf="!list.reorder?.manualReorderActivated">
-            <span *ngFor="let action of list.menuActions" class="action-button">
-              <button type="button"
-                      mat-raised-button
-                      (click)="action.click($event)"
-                      [ngClass]="action.classArray">
-                <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{ action.label }}
-              </button>
-          </span>
-          </ng-container>
-
-          <button type="button"
-                  mat-icon-button
-                  *ngIf="!list.reorder?.manualReorderActivated"
-                  [fsMenuTriggerFor]="rowActionsRef"
-                  [ngClass]="{
-                    'hidden': !list.kebabActions.length,
-                    'show-mobile': !list.kebabActions.length && list.menuActions.length
-                  }">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <fs-menu #rowActionsRef>
-            <ng-template ngFor
-                         let-action
-                         [ngForOf]="list.menuActions"
-            >
-              <ng-template fs-menu-item
-                           class="hidden-mobile-menu-action"
-                           (click)="action.click($event)"
-                           [fsClass]="action.classArray"
-              >
-                <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
-              </ng-template>
-            </ng-template>
-            <ng-template ngFor
-                         let-action
-                         [ngForOf]="list.kebabActions"
-            >
-              <ng-template fs-menu-item
-                           (click)="action.click($event)"
-                           [fsClass]="action.classArray"
-              >
-                <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
-              </ng-template>
-            </ng-template>
-          </fs-menu>
-
-          <button type="button"
-                  mat-button
-                  color="primary"
-                  *ngIf="list.reorder?.manualReorderActivated"
-                  (click)="list.reorder.finishReorder()">
-            DONE
-          </button>
-        </div>
+        <fs-list-actions
+          class="fs-list-actions"
+          *ngIf="list.actions?.length"
+          [menuActions]="list.menuActions"
+          [kebabActions]="list.kebabActions"
+          [manualReorderActivated]="list.reorder?.manualReorderActivated"
+          (reorderFinished)="list.reorder.finishReorder()"
+        ></fs-list-actions>
         <!-- /Actions -->
       </div>
     </div>
