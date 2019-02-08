@@ -22,6 +22,7 @@ export class Action extends Model {
 
     if (value.primary === false) {
       this.primary = false;
+      this.classArray = [];
     }
 
     if (value.click === void 0) {
