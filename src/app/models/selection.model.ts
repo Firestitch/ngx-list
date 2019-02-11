@@ -57,11 +57,13 @@ export class Selection {
    * @param checked
    */
   public rowSelectionChange(row, checked) {
-    if (checked) {
-      this.selectedRows.add(row);
-      this.openDialog();
-    } else {
-      this.selectedRows.delete(row);
+    if (row) {
+      if (checked) {
+        this.selectedRows.add(row);
+        this.openDialog();
+      } else {
+        this.selectedRows.delete(row);
+      }
     }
 
     // Do update of _selectedAllVisible flag
@@ -120,8 +122,11 @@ export class Selection {
   public updateVisibleRecordsCount(count: number) {
     this._visibleRecordsCount = count;
 
+    if (this.selectionDialogRef) {
+      this.selectionDialogRef.updateSelected(this._visibleRecordsCount);
+    }
+
     this._updateSelectedAllStatus();
-    // this._updateSelectionStatus();
   }
 
   /**
@@ -134,6 +139,16 @@ export class Selection {
     if (this.selectionDialogRef) {
       this.selectionDialogRef.updateAllCount(this._totalRecordsCount);
     }
+  }
+
+  /**
+   * Method will be called from List for remove row if it was selected
+   *
+   * BUT methods for update visible and etc. will be called a bit later
+   * @param row
+   */
+  public removeRow(row) {
+    this.selectedRows.delete(row);
   }
 
   public destroy() {

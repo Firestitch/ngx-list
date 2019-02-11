@@ -11,7 +11,6 @@ import {
   Input,
   KeyValueDiffer,
   OnDestroy,
-  OnChanges,
   OnInit,
   ViewChildren, TemplateRef,
 } from '@angular/core';
@@ -208,6 +207,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
             return type === SelectionChangeType.visibleRowsSelectionChanged
               || type === SelectionChangeType.selectedAll;
           }),
+          takeUntil(this._destroy$),
         )
         .subscribe(({type: type, payload: status}) => {
           this.selected = status;
