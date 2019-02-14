@@ -280,11 +280,19 @@ export class Pagination extends Model {
    * Update dispayed records counter
    */
   public updateDisplayed() {
-    if (this.records > this.limit) {
-      this.displayed = this.limit;
-    } else {
-      this.displayed = this.records;
-    }
+    this.displayed = this.getVisibleRecords();
+  }
+
+  /**
+   * Return count of records that could be shown on page
+   */
+  public getVisibleRecords() {
+    debugger;
+    const diff = this.records - this.offset;
+
+    return diff < this.limit
+      ? diff
+      : this.limit;
   }
 
   /**
@@ -406,7 +414,7 @@ export class Pagination extends Model {
    * Calc and update offset
    */
   private updateOffset() {
-    this.offset = this.limit * this.page;
+    this.offset = this.limit * (this.page - 1);
   }
 
   /**

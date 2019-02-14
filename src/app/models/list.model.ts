@@ -228,7 +228,7 @@ export class List extends Model {
       this.operation = Operation.pageChange;
 
       if (this.selection) {
-        this.selection.updateVisibleRecordsCount(this.getVisibleRecords(this.paging));
+        this.selection.updateVisibleRecordsCount(this.paging.getVisibleRecords());
         this.selection.updateTotalRecordsCount(this.paging.records);
         this.selection.selectAllVisibleRows(false);
       }
@@ -697,7 +697,7 @@ export class List extends Model {
     if (this.selection) {
 
       if (this.paging.enabled) {
-        this.selection.updateVisibleRecordsCount(this.getVisibleRecords(this.paging));
+        this.selection.updateVisibleRecordsCount(this.paging.getVisibleRecords());
         this.selection.updateTotalRecordsCount(this.paging.records);
       } else {
         const count = response.paging && response.paging.records
@@ -807,16 +807,6 @@ export class List extends Model {
           error: () => {},
         })
     }
-  }
-
-  /**
-   * Return count of records that could be shown on page
-   * @param paging
-   */
-  private getVisibleRecords(paging) {
-    return paging.records < paging.limit
-      ? this.paging.records
-      : this.paging.limit;
   }
 }
 
