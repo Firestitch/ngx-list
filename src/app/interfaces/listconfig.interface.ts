@@ -2,8 +2,10 @@ import { Observable } from 'rxjs';
 import { SelectionDialogActionCallbackParams } from '@firestitch/selection'
 import { FilterConfigItem } from '@firestitch/filter';
 
-import { PaginationStrategy, ReorderPosition, ReorderStrategy } from '../models';
 import { ActionType } from '../enums/button-type.enum';
+import { PaginationStrategy } from '../models/pagination.model';
+import { ReorderPosition, ReorderStrategy } from '../models/reorder.model';
+
 
 export interface FsPaging {
   limits?: number[];

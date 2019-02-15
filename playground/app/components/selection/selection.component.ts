@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { FsApi } from '@firestitch/api';
+import { FsListConfig, FsListComponent } from '@firestitch/list';
 
 import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
-
-import { FsListConfig } from '../../../../src';
-import { FsListComponent } from '../../../../src/app/components/list';
 
 
 @Component({

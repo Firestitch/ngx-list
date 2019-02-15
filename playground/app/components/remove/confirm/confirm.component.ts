@@ -1,13 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { FsApi } from '@firestitch/api';
+import { FsListAbstractRow, FsListConfig, PaginationStrategy, FsListComponent } from '@firestitch/list';
 
 import { of } from 'rxjs';
-import { delay } from 'rxjs/operators';
-
-import { FsListAbstractRow, FsListConfig, PaginationStrategy } from '../../../../../src';
-import { FsListComponent } from '../../../../../src/app/components/list';
-
-import 'rxjs/add/operator/map';
+import { delay, map } from 'rxjs/operators';
 
 
 @Component({
@@ -82,7 +79,9 @@ export class RemoveConfirmComponent implements OnInit {
       fetch: (query) => {
         query.count = 500;
         return this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
-          .map(response => ({ data: response.data.objects, paging: response.data.paging }));
+          .pipe(
+            map(response => ({ data: response.data.objects, paging: response.data.paging })),
+          );
       },
     };
   }

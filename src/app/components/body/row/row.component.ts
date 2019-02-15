@@ -21,13 +21,10 @@ import { FsPrompt } from '@firestitch/prompt';
 import { Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 
-import {
-  Column,
-  ReorderPosition, ReorderStrategy,
-  RowAction,
-  Selection,
-  SelectionChangeType
-} from '../../../models';
+import { Column } from '../../../models/column.model';
+import { ReorderPosition, ReorderStrategy } from '../../../models/reorder.model';
+import { Selection, SelectionChangeType } from '../../../models/selection.model';
+import { RowAction } from '../../../models/row-action.model';
 
 
 @Component({

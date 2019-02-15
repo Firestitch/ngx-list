@@ -12,8 +12,10 @@ import { MatCheckboxChange } from '@angular/material';
 import { Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { Sorting, Selection, SelectionChangeType, ReorderPosition, ReorderStrategy } from '../../models';
-import { Column } from '../../index';
+import { Sorting } from '../../models/sorting.model';
+import { Column } from '../../models/column.model';
+import { ReorderPosition, ReorderStrategy } from '../../models/reorder.model';
+import { Selection, SelectionChangeType } from '../../models/selection.model';
 
 
 @Component({

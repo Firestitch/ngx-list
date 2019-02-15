@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+
 import { FsApi } from '@firestitch/api';
+import { FsListConfig, ReorderPosition, ReorderStrategy } from '@firestitch/list';
 
-import { FsListConfig, ReorderPosition, ReorderStrategy } from '../../../../../src';
-
-import 'rxjs/add/operator/map';
+import { map } from 'rxjs/operators';
 
 
 @Component({
@@ -34,7 +34,9 @@ export class AlwaysReorderComponent implements OnInit {
       },
       fetch: query => {
         return this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
-          .map(response => ({ data: response.data.objects, paging: response.data.paging }));
+          .pipe(
+            map(response => ({ data: response.data.objects, paging: response.data.paging }))
+          );
       }
     };
   }

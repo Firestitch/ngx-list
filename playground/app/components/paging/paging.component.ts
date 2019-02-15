@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
-import { FsListConfig, PaginationStrategy } from '../../../../src';
+import { FsListConfig, PaginationStrategy } from '@firestitch/list';
 
 
 @Component({
@@ -30,7 +30,7 @@ export class PagingComponent implements OnInit {
       },
       heading: 'No Results',
       fetch: (query) => {
-        return Observable.create(observer => {
+        return new Observable(observer => {
           observer.next({ data: [{ guid: 'sss'}], paging: {} });
           observer.complete();
       });

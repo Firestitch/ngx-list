@@ -1,5 +1,5 @@
 import { Alias, Model } from 'tsmodels';
-import * as _isString from 'lodash/isString';
+import { isString } from 'lodash-es';
 
 export class StyleConfig extends Model {
   @Alias() public colspan;
@@ -23,8 +23,8 @@ export class StyleConfig extends Model {
 
   /**
    * Prioritized merge for align options
-   * @param {StyleConfig} prior1
-   * @param {StyleConfig} prior2
+   * @param prior1
+   * @param prior2
    */
   public mergeAlignByPriority(prior1: StyleConfig, prior2: StyleConfig) {
     let targetValue = this.align;
@@ -44,15 +44,15 @@ export class StyleConfig extends Model {
 
   /**
    * Prioritized merge for class options
-   * @param {StyleConfig} prior1
-   * @param {StyleConfig} prior2
+   * @param prior1
+   * @param prior2
    */
   public mergeClassByPriority(prior1: StyleConfig, prior2: StyleConfig) {
     let targetValue = [];
 
     if (Array.isArray(this.className)) {
       targetValue = targetValue.concat(this.className);
-    } else if (_isString(this.className)) {
+    } else if (isString(this.className)) {
       targetValue.push(this.className);
     }
 
@@ -67,12 +67,11 @@ export class StyleConfig extends Model {
 
   /**
    * Merge params into array
-   * @param {string[]} to
-   * @param {string | string[]} from
-   * @returns {string[]}
+   * @param to
+   * @param from
    */
   private mergeAnythingIntoArray(to: string[], from: string | string[]) {
-    if (_isString(from)) {
+    if (isString(from)) {
       to.push(from as string);
     } else if (Array.isArray(from)) {
       to.push(...from)

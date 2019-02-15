@@ -1,4 +1,3 @@
-
 export interface CellConfig {
   colspan?: string;
   align?: string;

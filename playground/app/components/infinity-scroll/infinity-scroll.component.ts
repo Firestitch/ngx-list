@@ -1,11 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FsApi } from '@firestitch/api';
-import { FsListConfig, ActionType } from '../../../../src';
-import { FsListComponent } from '../../../../src/app/components/list';
-
-import 'rxjs/add/operator/map';
-import { ItemType } from '@firestitch/filter/models/fs-filter-item';
+import { FsListConfig, ActionType, FsListComponent } from '@firestitch/list';
+import { ItemType } from '@firestitch/filter';
+import { map } from 'rxjs/operators';
 
 
 @Component({
@@ -133,14 +131,16 @@ export class InfinityScrollComponent implements OnInit {
         query.limit = 3;
         const genders = ['men', 'women'];
         return this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
-          .map(response => {
-            response.data.objects.forEach((obj) => {
-              const gender = genders[this.randomInteger(0, 1)];
-              obj.avatar = 'http://api.randomuser.me/portraits/' + gender + '/' + this.randomInteger(1, 99) + '.jpg';
-            });
+          .pipe(
+            map(response => {
+              response.data.objects.forEach((obj) => {
+                const gender = genders[this.randomInteger(0, 1)];
+                obj.avatar = 'http://api.randomuser.me/portraits/' + gender + '/' + this.randomInteger(1, 99) + '.jpg';
+              });
 
-            return { data: response.data.objects, paging: response.data.paging };
-          });
+              return { data: response.data.objects, paging: response.data.paging };
+            }),
+          );
       },
     };
   }

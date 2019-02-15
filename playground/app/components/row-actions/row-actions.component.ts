@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FsApi } from '@firestitch/api';
-import { FsListComponent, FsListConfig, ActionType } from '../../../../src';
-import 'rxjs/add/operator/map';
+import { FsListComponent, FsListConfig, ActionType } from '@firestitch/list';
+
+import { map } from 'rxjs/operators';
+
 
 @Component({
   selector: 'row-actions',
@@ -68,7 +70,9 @@ export class RowActionsComponent implements OnInit {
         query.count = 3;
         query.limit = 3;
         return this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
-          .map(response => ({ data: response.data.objects, paging: response.data.paging }));
+          .pipe(
+            map(response => ({ data: response.data.objects, paging: response.data.paging }))
+          );
       },
       paging: false,
       status: false

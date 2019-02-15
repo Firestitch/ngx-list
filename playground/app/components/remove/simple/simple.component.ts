@@ -1,13 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { FsApi } from '@firestitch/api';
+import { FsListConfig, PaginationStrategy, FsListComponent } from '@firestitch/list';
 
-import { FsListConfig, PaginationStrategy } from '../../../../../src';
-import { FsListComponent } from '../../../../../src/app/components/list';
-
-import 'rxjs/add/operator/map';
 import { of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { delay, map } from 'rxjs/operators';
 
 
 @Component({
@@ -75,7 +71,9 @@ export class RemoveSimpleComponent implements OnInit {
       fetch: (query) => {
         query.count = 500;
         return this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
-          .map(response => ({ data: response.data.objects, paging: response.data.paging }));
+          .pipe(
+            map(response => ({ data: response.data.objects, paging: response.data.paging }))
+          );
       },
     };
 

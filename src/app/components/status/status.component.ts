@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { SortingDirection, Pagination, Sorting } from '../../models';
+
+import { Pagination } from '../../models/pagination.model';
+import { Sorting } from '../../models/sorting.model';
+import { SortingDirection } from '../../models/column.model';
 
 
 @Component({

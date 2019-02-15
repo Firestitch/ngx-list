@@ -47,9 +47,8 @@ export class Pagination extends Model {
 
   /**
    * Get enabled
-   * @returns {boolean}
    */
-  get enabled() {
+  get enabled(): boolean {
     return this._enabled;
   }
 
@@ -64,9 +63,8 @@ export class Pagination extends Model {
 
   /**
    * Get Limits
-   * @returns {number[]}
    */
-  get limits() {
+  get limits(): number[] {
     return this._limits;
   }
 
@@ -87,7 +85,6 @@ export class Pagination extends Model {
 
   /**
    * Get query for request
-   * @returns {}
    */
   get query() {
     return this._strategy === PaginationStrategy.Page
@@ -130,9 +127,8 @@ export class Pagination extends Model {
   /**
    * If prev page can be activated
    *
-   * @returns {boolean}
    */
-  get hasPrevPage() {
+  get hasPrevPage(): boolean {
     return this._strategy === PaginationStrategy.Page
       ? this._hasPrevPagePageStrategy
       : this._hasPrevPageOffsetStrategy;
@@ -140,10 +136,8 @@ export class Pagination extends Model {
 
   /**
    * If next page can be activated
-   *
-   * @returns {boolean}
    */
-  get hasNextPage() { // Need to check if pages === page && page === 1
+  get hasNextPage(): boolean { // Need to check if pages === page && page === 1
     return this._strategy === PaginationStrategy.Page
       ? this._hasNextPagePageStrategy
       : this._hasNextPageOffsetStrategy;
@@ -151,7 +145,6 @@ export class Pagination extends Model {
 
   /**
    * Query for Page Strategy
-   * @private
    */
   private get _queryPageStrategy(): QueryPageStrategy {
     return {
@@ -162,7 +155,6 @@ export class Pagination extends Model {
 
   /**
    * Query for Offset Strategy
-   * @private
    */
   private get _queryOffsetStrategy(): QueryOffsetStrategy {
     const page = this.page - 1 || 0;
@@ -176,7 +168,6 @@ export class Pagination extends Model {
 
   /**
    * If pagination has prev page when Page Strategy
-   * @private
    */
   private get _hasPrevPagePageStrategy(): boolean {
     return this.page > 1 && this.pages > 1;
@@ -184,7 +175,6 @@ export class Pagination extends Model {
 
   /**
    * If pagination has prev page when Offset Strategy
-   * @private
    */
   private get _hasPrevPageOffsetStrategy(): boolean {
     return this.offset > this.limit && this.records > 1;
@@ -192,7 +182,6 @@ export class Pagination extends Model {
 
   /**
    * If pagination has next page when Page Strategy
-   * @private
    */
   private get _hasNextPagePageStrategy(): boolean {
     return this.page < this.pages && this.pages > 1;
@@ -200,7 +189,6 @@ export class Pagination extends Model {
 
   /**
    * If pagination has next page when Offset Strategy
-   * @private
    */
   private get _hasNextPageOffsetStrategy(): boolean {
     return this.offset < this.records && this.records > 1;
@@ -287,7 +275,6 @@ export class Pagination extends Model {
    * Return count of records that could be shown on page
    */
   public getVisibleRecords() {
-    debugger;
     const diff = this.records - this.offset;
 
     return diff < this.limit
@@ -308,9 +295,8 @@ export class Pagination extends Model {
   /**
    * If page is activate page
    * @param page
-   * @returns {boolean}
    */
-  public isActive(page) {
+  public isActive(page): boolean {
     return page === this.page;
   }
 

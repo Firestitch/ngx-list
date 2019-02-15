@@ -14,34 +14,30 @@ import { FsScrollModule } from '@firestitch/scroll';
 import { FsMenuModule } from '@firestitch/menu';
 import { FsPromptModule } from '@firestitch/prompt';
 
-import { merge } from 'lodash';
+import { merge } from 'lodash-es';
 
+// Components
+import { FsListComponent } from './components/list/list.component';
+import { FsBodyComponent } from './components/body/body.component';
+import { FsRowComponent } from './components/body/row/row.component';
+import { FsCellComponent } from './components/body/row/cell/cell.component';
+import { FsHeadComponent } from './components/head/head.component';
+import { FsHeadCellComponent } from './components/head/head-cell/head-cell.component';
+import { FsFooterComponent } from './components/footer/footer.component';
+import { FsFooterRowComponent } from './components/footer/footer-row/footer-row.component';
+import { FsFooterCellComponent } from './components/footer/footer-row/footer-cell/footer-cell.component';
+import { FsStatusComponent } from './components/status/status.component';
+import { FsActionsComponent } from './components/actions/actions.component';
+import { FsPaginationComponent } from './components/pagination/pagination.component';
 
-import {
-  FsCellComponent,
-  FsListComponent,
-  FsStatusComponent,
-  FsRowComponent,
-  FsBodyComponent,
-  FsHeadCellComponent,
-  FsHeadComponent,
-  FsPaginationComponent,
-  FsFooterComponent,
-  FsFooterRowComponent,
-  FsFooterCellComponent,
-} from './app/components';
+// Directives
+import { FsListFooterDirective } from './directives/footer/footer.directive';
+import { FsListColumnDirective } from './directives/column/column.directive';
+import { FsListCellDirective } from './directives/cell/row.directive';
+import { FsListHeaderDirective } from './directives/header/header.directive';
 
-import {
-  FsListColumnDirective,
-  FsListCellDirective,
-  FsListHeaderDirective,
-  FsListFooterDirective,
-} from './app/directives';
-import { FS_LIST_DEFAULT_CONFIG, FS_LIST_CONFIG } from './fslist.providers';
-import { FsListConfig } from './app/interfaces';
-import { FsActionsComponent } from './app/components/actions/actions.component';
-
-export * from './app/components/list/list.component';
+import { FS_LIST_DEFAULT_CONFIG, FS_LIST_CONFIG } from './fs-list.providers';
+import { FsListConfig } from './interfaces';
 
 
 @NgModule({

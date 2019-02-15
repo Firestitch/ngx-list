@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { FsApi } from '@firestitch/api';
+import { FsListConfig, ActionType, FsListComponent } from '@firestitch/list';
 
-import { FsListConfig, ActionType } from '../../../../src';
-import { FsListComponent } from '../../../../src/app/components/list';
-
-import 'rxjs/add/operator/map';
+import { map } from 'rxjs/operators';
 
 
 @Component({
@@ -59,7 +58,9 @@ export class RestoreComponent implements OnInit {
       fetch: (query) => {
         query.count = 500;
         return this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
-          .map(response => ({ data: response.data.objects, paging: response.data.paging }));
+          .pipe(
+            map(response => ({ data: response.data.objects, paging: response.data.paging })),
+          );
       },
     };
   }

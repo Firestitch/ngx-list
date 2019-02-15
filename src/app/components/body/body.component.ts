@@ -21,8 +21,11 @@ import {
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { Column, ReorderPosition, ReorderStrategy, Selection } from '../../models';
-import { FsRowComponent } from './row';
+import { Column } from '../../models/column.model';
+import { ReorderPosition, ReorderStrategy } from '../../models/reorder.model';
+import { Selection } from '../../models/selection.model';
+
+import { FsRowComponent } from './row/row.component';
 import { Draggable } from './draggable';
 
 @Component({

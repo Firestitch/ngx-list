@@ -1,1 +1,1 @@
-export * from './restore.component.component';
+export * from './restore.component';

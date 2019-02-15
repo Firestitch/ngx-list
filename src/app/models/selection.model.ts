@@ -171,7 +171,6 @@ export class Selection {
 
   /**
    * Subscribe to selectionRef events
-   * @private
    */
   private _subscribeToSelection() {
     if (this.onActionFn) {
@@ -191,7 +190,6 @@ export class Selection {
   /**
    * If some action was clicked on selection ref dialog
    * @param data
-   * @private
    */
   private _onActionActions(data) {
     // Execute callback
@@ -221,7 +219,6 @@ export class Selection {
 
   /**
    * If cancel was clicked on selection ref dialog
-   * @private
    */
   private _onCancelActions() {
     this.selectAllVisibleRows(false);
@@ -236,7 +233,6 @@ export class Selection {
   /**
    * If "Select All" action was clicked on selection ref dialog
    * @param data
-   * @private
    */
   private _onSelectAllActions(data) {
     this._selectedAll = data;
@@ -248,7 +244,6 @@ export class Selection {
 
   /**
    * Update in Dialog Ref how much rows was selected
-   * @private
    */
   private _updateSelectionRefSelected() {
     if (this.selectionDialogRef) {
@@ -263,7 +258,6 @@ export class Selection {
    * Dialog Ref must know about it
    *
    * @param status
-   * @private
    */
   private _updateSelectionRefSelectedAll(status: boolean) {
     if (this.selectionDialogRef) {
@@ -273,7 +267,6 @@ export class Selection {
 
   /**
    * Check if all visible rows was checked and send event to main header checkbox
-   * @private
    */
   private _updateSelectedAllStatus() {
     this._selectedAllVisible = this.selectedRows.size === this._visibleRecordsCount;
@@ -283,7 +276,6 @@ export class Selection {
 
   /**
    * If select all checkbox in header was changed
-   * @private
    */
   private _visibleRowsSelectionChanged() {
     this._selectionChangeEvent(
@@ -296,7 +288,6 @@ export class Selection {
    * Method constructor for events
    * @param type
    * @param payload
-   * @private
    */
   private _selectionChangeEvent(type: SelectionChangeType, payload) {
     this._selectionChange.next({

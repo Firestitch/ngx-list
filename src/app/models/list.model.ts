@@ -1,12 +1,8 @@
 import { ItemType } from '@firestitch/filter';
-import { FsScrollService } from '@firestitch/scroll';
-import { FsScrollInstance } from '@firestitch/scroll/classes';
+import { FsScrollService, FsScrollInstance } from '@firestitch/scroll';
 import { SelectionDialog } from '@firestitch/selection';
 
-import * as _isNumber from 'lodash/isNumber';
-import * as _merge from 'lodash/merge';
-import * as _isFunction from 'lodash/isFunction';
-import * as _isObject from 'lodash/isObject';
+import { isNumber, merge, isFunction, isObject } from 'lodash-es';
 import { Alias, Model } from 'tsmodels';
 
 import { from, Observable, Subject, Subscription } from 'rxjs';
@@ -16,6 +12,7 @@ import { Column, SortingDirection } from './column.model';
 import { Pagination } from './pagination.model';
 import { Sorting } from './sorting.model';
 
+// Interfaces
 import {
   FsListAbstractRow,
   FsListConfig,
@@ -292,10 +289,10 @@ export class List extends Model {
       data.forEach((item) => {
         removedCount = this.removeRow(item, defaultTrackBy);
       });
-    } else if (_isFunction(data)) {
+    } else if (isFunction(data)) {
       //
       removedCount = this.removeRow(null, (data as FsListTrackByTargetRowFn));
-    } else if (_isObject(data)) {
+    } else if (isObject(data)) {
       removedCount = this.removeRow(data, defaultTrackBy);
     }
 
@@ -667,7 +664,7 @@ export class List extends Model {
       if (col[config].colspan !== void 0) {
         const spanTo = index + +col[config].colspan;
 
-        if (!_isNumber(spanTo)) {
+        if (!isNumber(spanTo)) {
           return;
         }
         this.columns[index][updateFlag] = false;
@@ -728,7 +725,7 @@ export class List extends Model {
     if (targetIndex !== -1) {
       const updateTarget = this.data[targetIndex];
 
-      this.data[targetIndex] = _merge({}, _merge(updateTarget, targetRow));
+      this.data[targetIndex] = merge({}, merge(updateTarget, targetRow));
 
       return true;
     }

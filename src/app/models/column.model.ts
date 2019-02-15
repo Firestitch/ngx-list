@@ -1,7 +1,7 @@
 import { Alias, Model } from 'tsmodels';
 import { TemplateRef } from '@angular/core';
-import * as _isObject from 'lodash/isObject';
-import * as _isBoolean from 'lodash/isBoolean';
+import { isObject, isBoolean } from 'lodash-es';
+
 import { StyleConfig } from './styleConfig.model';
 
 export enum SortingDirection {
@@ -77,7 +77,7 @@ export class Column extends Model {
    * @param defaults
    */
   public mergeWithColumnDefaults(defaults) {
-    if (!_isObject(defaults)) { defaults = {} }
+    if (!isObject(defaults)) { defaults = {} }
 
     ALLOWED_DEFAULTS.forEach((key) => {
       switch (key) {
@@ -86,7 +86,7 @@ export class Column extends Model {
         } break;
 
         case 'sortable': {
-          if (_isBoolean(defaults.sortable)) {
+          if (isBoolean(defaults.sortable)) {
             if (this.sortable === void 0) {
               this.sortable = defaults.sortable;
             }

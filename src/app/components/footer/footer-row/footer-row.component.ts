@@ -9,8 +9,8 @@ import {
 } from '@angular/core';
 
 import { FsPrompt } from '@firestitch/prompt';
+import { FsRowComponent } from '../../body/row/row.component';
 
-import { FsRowComponent } from '../../body';
 
 @Component({
   selector: '[fs-list-footer-row]',

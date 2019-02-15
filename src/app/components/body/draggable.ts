@@ -188,7 +188,6 @@ export class Draggable {
   /**
    * Looking by stored row elemens for overlapped row
    * @param event
-   * @returns {any}
    */
   private lookupElementUnder(event) {
     const top = event.y || event.clientY;

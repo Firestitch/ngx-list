@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { Action } from '../../models';
+import { Action } from '../../models/action.model';
 
 
 @Component({

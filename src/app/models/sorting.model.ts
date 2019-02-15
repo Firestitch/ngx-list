@@ -1,7 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import * as isString from 'lodash/isString';
+import { isString } from 'lodash-es';
 
 import { Column, SortingDirection } from './column.model';
 import { List } from './list.model';
@@ -93,7 +93,7 @@ export class Sorting {
 
   /**
    * Set initial sorting
-   * @param {string} sort
+   * @param sort
    */
   public initialSortBy(sort: string) {
     if (!sort || !isString(sort)) {

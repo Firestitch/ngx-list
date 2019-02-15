@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FsCellComponent } from '../../../body';
+import { FsCellComponent } from '../../../body/row/cell/cell.component';
+
 
 @Component({
   selector: '[fs-list-footer-cell]',

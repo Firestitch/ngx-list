@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
-import { FsListComponent, FsListConfig } from '../../../../src';
+import { FsListConfig } from '@firestitch/list';
 
 
 @Component({
@@ -27,7 +27,7 @@ export class NoResultsComponent implements OnInit {
       ],
       heading: 'No Results',
       fetch: (query) => {
-        return Observable.create(observer => {
+        return new Observable(observer => {
           observer.next({ data: [], paging: {} });
           observer.complete();
       });

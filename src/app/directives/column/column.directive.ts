@@ -1,7 +1,12 @@
 import { ContentChild, Directive, Input, TemplateRef } from '@angular/core';
-import { FsListCellDirective, FsListHeaderDirective } from '../';
+
+// Directives
+import { FsListHeaderDirective } from '../header/header.directive';
+import { FsListCellDirective } from '../cell/row.directive';
+import { FsListFooterDirective } from '../footer/footer.directive';
+
 import { CellConfig } from '../../interfaces';
-import { FsListFooterDirective } from '../footer';
+
 
 @Directive({
   selector: 'fs-list-column'

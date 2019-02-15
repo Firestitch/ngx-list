@@ -1,6 +1,3 @@
-import './../tools/assets/playground.scss';
-import './styles.scss';
-
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -16,10 +13,11 @@ import { FsMessageModule } from '@firestitch/message';
 import { FsSelectionModule } from '@firestitch/selection';
 import { ToastrModule } from 'ngx-toastr';
 
-import { FsListModule } from '../src';
-import { AppMaterialModule } from './app/material.module';
+import { FsListModule } from '@firestitch/list';
 
-import { AppComponent } from './app/app.component';
+import { AppMaterialModule } from './material.module';
+
+import { AppComponent } from './app.component';
 
 import {
   ExamplesComponent,
@@ -38,9 +36,10 @@ import {
   PagingComponent,
   NoResultsComponent,
   SelectionComponent,
-} from './app/components';
+} from './components';
 
-import { RestoreComponent } from './app/components/restore/restore.component';
+import { RestoreComponent } from './components/restore/restore.component';
+import { FsPromptModule } from '@firestitch/prompt';
 
 
 @NgModule({
@@ -57,6 +56,7 @@ import { RestoreComponent } from './app/components/restore/restore.component';
     FsMessageModule.forRoot(),
     FsSelectionModule.forRoot(),
     ToastrModule.forRoot({ preventDuplicates: true }),
+    FsPromptModule.forRoot(),
     FsApiModule,
     FsBadgeModule,
     FsDateModule,

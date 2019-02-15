@@ -16,12 +16,14 @@ import { SelectionDialog } from '@firestitch/selection';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import * as _cloneDeep from 'lodash/cloneDeep';
-import * as _mergeWith from 'lodash/mergeWith';
+import { cloneDeep, mergeWith } from 'lodash-es';
 
-import { FS_LIST_DEFAULT_CONFIG } from '../../../fslist.providers';
-import { FsListColumnDirective } from '../../directives';
-import { List, ReorderStrategy } from '../../models';
+import { List } from '../../models/list.model';
+import { ReorderStrategy } from '../../models/reorder.model';
+
+import { FsListColumnDirective } from '../../directives/column/column.directive';
+import { FS_LIST_DEFAULT_CONFIG } from '../../fs-list.providers';
+
 import { FsListAbstractRow, FsListConfig, FsListTrackByFn, FsListTrackByTargetRowFn } from '../../interfaces';
 
 
@@ -51,7 +53,7 @@ export class FsListComponent implements OnInit, OnDestroy {
    * Set columns to config
    * Create Column Model instances
    *
-   * @param {QueryList<FsListColumnDirective>} val
+   * @param val
    */
   @ContentChildren(FsListColumnDirective)
   private set columnTemplates(val: QueryList<FsListColumnDirective>) {
@@ -69,8 +71,8 @@ export class FsListComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    const defaultOpts = _cloneDeep(this._defaultOptions);
-    const listConfig = _mergeWith(defaultOpts, this.config, this._configMergeCustomizer);
+    const defaultOpts = cloneDeep(this._defaultOptions);
+    const listConfig = mergeWith(defaultOpts, this.config, this._configMergeCustomizer);
     this.list = new List(listConfig, this.fsScroll, this.selectionDialog);
 
     this.subscribeToRemoveRow();
