@@ -1,7 +1,7 @@
 {
   "name": "@firestitch/list",
   "title": "List",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-list"
@@ -54,7 +54,7 @@
     "@firestitch/message": "^0.2.0",
     "@firestitch/prompt": "^0.2.0",
     "@firestitch/scroll": "^0.2.0",
-    "@firestitch/selection": "^0.2.0",
+    "@firestitch/selection": "^0.2.2",
     "@firestitch/store": "^0.2.0",
     "codelyzer": "^4.5.0",
     "cpx": "^1.5.0",
@@ -73,13 +73,13 @@
     "webpack-dev-server": "^3.1.14",
     "zone.js": "^0.8.29"
   },
-  "peerDependencies": {},
-  "dependencies": {
+  "peerDependencies": {
     "lodash-es": "^4.17.11",
     "@firestitch/prompt": "^0.2.0",
     "@firestitch/scroll": "^0.2.0",
-    "@firestitch/selection": "^0.2.0",
+    "@firestitch/selection": "^0.2.2",
     "@firestitch/filter": "^0.4.0",
-    "@firestitch/menu": "^0.2.0"
+    "@firestitch/menu": "^0.2.0",
+    "@firestitch/common": "^0.5.1"
   }
 }
