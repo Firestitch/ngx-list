@@ -287,7 +287,6 @@ export class Pagination extends Model {
    * Return count of records that could be shown on page
    */
   public getVisibleRecords() {
-    debugger;
     const diff = this.records - this.offset;
 
     return diff < this.limit
