@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { FsApi } from '@firestitch/api';
-import { FsListConfig, FsListComponent } from '@firestitch/list';
+import { FsListComponent, FsListConfig } from '@firestitch/list';
+import { SelectionActionType } from '@firestitch/selection';
 
 import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
@@ -30,37 +31,24 @@ export class SelectionComponent implements OnInit {
       selection: {
         actions: [
           {
-            tooltip: 'Delete',
+            type: SelectionActionType.Action,
             value: 'delete',
-            icon: 'delete'
+            label: 'Delete'
           },
           {
-            icon: 'more_vert',
+            type: SelectionActionType.Select,
+            label: 'Change Status To',
             options: [
               {
-                name: 'Move to Section',
-                value: 'move',
-                options: [
-                  {
-                    name: 'Section A',
-                    value: 'sectiona'
-                  },
-                  {
-                    name: 'Section B',
-                    value: 'sectionb'
-                  },
-                  {
-                    name: 'Section C',
-                    value: 'sectionc'
-                  }
-                ]
+                name: 'TODO',
+                value: '1'
               },
               {
-                name: 'Archive',
-                value: 'archive',
+                name: 'Done',
+                value: '2'
               }
             ]
-          }
+          },
         ],
         onAction: (action) => {
 

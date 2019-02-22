@@ -38,7 +38,7 @@ export class Selection {
   private _visibleRecordsCount = 0;
   private _totalRecordsCount = 0;
 
-  private _onDestroy = new Subject();
+  private _destroy$ = new Subject();
 
   constructor(config: FsListSelectionConfig = {}, private _selectionDialog: SelectionDialog) {
     this.actions = config.actions ? [...config.actions] : [];
@@ -48,7 +48,7 @@ export class Selection {
   }
 
   get selectionChange$() {
-    return this._selectionChange.pipe(takeUntil(this._onDestroy));
+    return this._selectionChange.pipe(takeUntil(this._destroy$));
   }
 
   /**
@@ -163,8 +163,8 @@ export class Selection {
     }
     this.selectionDialogRef = null;
 
-    this._onDestroy.next();
-    this._onDestroy.complete();
+    this._destroy$.next();
+    this._destroy$.complete();
 
     this._selectionChange.complete();
   }
@@ -174,15 +174,24 @@ export class Selection {
    */
   private _subscribeToSelection() {
     if (this.onActionFn) {
-      this.selectionDialogRef.onAction()
+      this.selectionDialogRef.actionSelected$()
+        .pipe(
+          takeUntil(this._destroy$)
+        )
         .subscribe((data) => this._onActionActions(data));
     }
 
-    this.selectionDialogRef.onCancel()
+    this.selectionDialogRef.cancelled$()
+      .pipe(
+        takeUntil(this._destroy$)
+      )
       .subscribe(() => this._onCancelActions());
 
     if (this.onSelectAllFn) {
-      this.selectionDialogRef.onSelectAll()
+      this.selectionDialogRef.allSelected$()
+        .pipe(
+          takeUntil(this._destroy$)
+        )
         .subscribe((data) => this._onSelectAllActions(data))
     }
   }
@@ -204,6 +213,7 @@ export class Selection {
       // Subscribe and whait why it resolved
       result.pipe(
         take(1),
+        takeUntil(this._destroy$),
       ).subscribe(() => {
 
         // Close dialog

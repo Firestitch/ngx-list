@@ -1,5 +1,8 @@
 import { Observable } from 'rxjs';
-import { SelectionDialogActionCallbackParams } from '@firestitch/selection'
+import {
+  SelectionDialogActionCallbackParams,
+  SelectionDialogConfigAction
+} from '@firestitch/selection'
 import { FilterConfigItem } from '@firestitch/filter';
 
 import { ActionType } from '../enums/button-type.enum';
@@ -93,7 +96,7 @@ export interface FsListNoResultsConfig {
 }
 
 export interface FsListSelectionConfig {
-  actions?: any[];
+  actions?: SelectionDialogConfigAction[];
   onAction?: (action: OnActionCallbackParams) => Observable<boolean>;
   onSelectAll?: () => void;
   onCancel?: () => void;
