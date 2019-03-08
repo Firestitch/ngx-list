@@ -5,6 +5,7 @@ import { FsApi } from '@firestitch/api';
 import { FsListConfig, ActionType, FsListComponent } from '@firestitch/list';
 
 import { map } from 'rxjs/operators';
+import { ItemType } from '@firestitch/filter';
 
 
 @Component({
@@ -51,7 +52,7 @@ export class RestoreComponent implements OnInit {
       filters: [
         {
           name: 'keyword',
-          type: 'text',
+          type: ItemType.Text,
           label: 'Search'
         }
       ],

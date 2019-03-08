@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { FsListConfig } from '@firestitch/list';
+import { ItemType } from '@firestitch/filter';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class NoResultsComponent implements OnInit {
       filters: [
         {
           name: 'keyword',
-          type: 'text',
+          type: ItemType.Text,
           label: 'Search'
         }
       ],

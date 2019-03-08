@@ -7,6 +7,7 @@ import { SelectionActionType } from '@firestitch/selection';
 
 import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
+import { ItemType } from '@firestitch/filter';
 
 
 @Component({
@@ -69,7 +70,7 @@ export class SelectionComponent implements OnInit {
       filters: [
         {
           name: 'keyword',
-          type: 'text',
+          type: ItemType.Text,
           label: 'Search'
         },
       ],

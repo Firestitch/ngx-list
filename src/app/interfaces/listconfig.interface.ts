@@ -3,7 +3,7 @@ import {
   SelectionDialogActionCallbackParams,
   SelectionDialogConfigAction
 } from '@firestitch/selection'
-import { FilterConfigItem } from '@firestitch/filter';
+import { IFilterConfigItem } from '@firestitch/filter';
 
 import { ActionType } from '../enums/button-type.enum';
 import { PaginationStrategy } from '../models/pagination.model';
@@ -26,7 +26,7 @@ export interface FsListConfig {
   filterInput?: boolean;
   paging?: FsPaging | false;
   columnDefaults?: Object;
-  filters?: FilterConfigItem[];
+  filters?: IFilterConfigItem[];
   rowActions?: FsListRowAction[];
   rowClass?: (row: any) => string;
   actions?: FsListAction[];

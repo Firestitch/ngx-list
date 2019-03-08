@@ -34,12 +34,12 @@ export class KitchenSinkComponent implements OnInit {
       filters: [
         {
           name: 'keyword',
-          type: 'text',
+          type: ItemType.Text,
           label: 'Search'
         },
         {
           name: 'simple_select',
-          type: 'select',
+          type: ItemType.Select,
           label: 'Simple Select',
           values: () => {
             return [
@@ -52,23 +52,23 @@ export class KitchenSinkComponent implements OnInit {
         },
         {
           name: 'range',
-          type: ItemType.range,
+          type: ItemType.Range,
           label: 'Range',
           placeholder: ['Min', 'Max']
         },
         {
           name: 'date',
-          type: ItemType.date,
+          type: ItemType.Date,
           label: 'Date'
         },
         {
           name: 'checkbox',
-          type: ItemType.checkbox,
+          type: ItemType.Checkbox,
           label: 'Checkbox'
         },
         {
           name: 'state',
-          type: ItemType.select,
+          type: ItemType.Select,
           label: 'Status',
           multiple: true,
           values: [

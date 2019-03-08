@@ -421,7 +421,7 @@ export class List extends Model {
       if (this.restore.filter !== false) {
         this.filters.push({
           name: SHOW_DELETED_FILTERS_KEY,
-          type: ItemType.checkbox,
+          type: ItemType.Checkbox,
           label: this.restore.filterLabel || 'Show Deleted'
         });
       }

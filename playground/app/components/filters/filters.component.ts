@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FsApi } from '@firestitch/api';
 import { FsListComponent, FsListConfig } from '@firestitch/list';
 import { map } from 'rxjs/operators';
+import { ItemType } from '@firestitch/filter';
 
 
 @Component({
@@ -29,12 +30,12 @@ export class FiltersComponent implements OnInit {
       filters: [
         {
           name: 'keyword',
-          type: 'text',
+          type: ItemType.Text,
           label: 'Search'
         },
         {
           name: 'simple_select',
-          type: 'select',
+          type: ItemType.Select,
           label: 'Simple Select',
           values: () => {
             return [
