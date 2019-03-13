@@ -36,6 +36,7 @@ import {
   PagingComponent,
   NoResultsComponent,
   SelectionComponent,
+  AgoComponent,
 } from './components';
 
 import { RestoreComponent } from './components/restore/restore.component';
@@ -87,6 +88,7 @@ import { FsPromptModule } from '@firestitch/prompt';
     NoResultsComponent,
     PagingComponent,
     SelectionComponent,
+    AgoComponent
   ],
   providers: [
   ],
