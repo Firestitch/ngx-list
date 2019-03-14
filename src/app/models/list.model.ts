@@ -748,7 +748,11 @@ export class List extends Model {
     this.data.forEach((listRow, index) => {
       if (trackBy(listRow, targetRow)) {
         this.data.splice(index, 1);
-        this.selection.removeRow(listRow);
+
+        if (this.selection) {
+          this.selection.removeRow(listRow);
+        }
+
         removedCounter++;
       }
     });
