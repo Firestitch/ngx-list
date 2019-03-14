@@ -214,15 +214,18 @@ export class Selection {
       result.pipe(
         take(1),
         takeUntil(this._destroy$),
-      ).subscribe(() => {
+      ).subscribe({
+        next: () => {
 
-        // Close dialog
-        if (this.selectionDialogRef) {
-          this.selectionDialogRef.close();
-        }
+          // Close dialog
+          if (this.selectionDialogRef) {
+            this.selectionDialogRef.close();
+          }
 
-        // Uncheck all visible rows
-        this.selectAllVisibleRows(false);
+          // Uncheck all visible rows
+          this.selectAllVisibleRows(false);
+        },
+        error: () => {}
       });
     }
   }
