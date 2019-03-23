@@ -15,7 +15,7 @@
 </ng-container>
 
 <!-- Content -->
-<ng-container *ngFor="let column of columns">
+<ng-container *ngFor="let column of columns; trackBy: trackByFn">
   <td fs-cell
       *ngIf="!column.cellColspanned"
       [column]="column"
@@ -39,7 +39,7 @@
 <!-- Row Actions -->
 <td *ngIf="rowActions?.length > 0 && !(reorderEnabled && reorderStrategy === ReorderStrategy.Manual)" class="fs-list-col row-actions">
   <ng-template [ngIf]="!restoreMode || (restoreMode && !restoreAction)">
-    <span *ngFor="let action of inlineRowActions"
+    <span *ngFor="let action of inlineRowActions; trackBy: trackByFn"
           class="row-inline-action row-inline-action-{{action.type}}"
           [ngClass]="{'mobile-hide': action.menu === undefined}"
     >
@@ -107,7 +107,7 @@
            (click)="$event.stopPropagation();">
     <!-- Case when we have usual menu actions -->
     <ng-template [ngIf]="!restoreMode || (restoreMode && !restoreAction)">
-      <ng-container *ngFor="let action of inlineRowActions">
+      <ng-container *ngFor="let action of inlineRowActions; trackBy: trackByFn">
         <ng-template class="hidden-mobile-menu-action"
                      fs-menu-item
                      [hidden]="action.menu !== undefined && !action.isShown">
@@ -116,7 +116,7 @@
         </ng-template>
       </ng-container>
 
-      <ng-container *ngFor="let action of menuRowActions">
+      <ng-container *ngFor="let action of menuRowActions; trackBy: trackByFn">
         <ng-template fs-menu-item
                      [hidden]="!action.isShown"
                      (click)="actionClick(action, row, $event);">

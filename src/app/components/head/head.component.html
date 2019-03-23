@@ -8,7 +8,7 @@
   </th>
 
   <!-- Content -->
-  <th fs-head-cell *ngFor="let column of columns"
+  <th fs-head-cell *ngFor="let column of columns; trackBy: trackByFn"
       (click)="$event.stopPropagation(); sorting.sortBy(column)"
       [column]="column"
       [class.sorting]="column.sortable"

@@ -168,6 +168,14 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   /**
+   * Track By for improve change detection
+   * @param index
+   */
+  public trackByFn(index) {
+    return index;
+  }
+
+  /**
    * Set event listeners for row
    */
   private initRowEvents() {

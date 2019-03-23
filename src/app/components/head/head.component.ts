@@ -61,6 +61,14 @@ export class FsHeadComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Track By for improve change detection
+   * @param index
+   */
+  public trackByFn(index) {
+    return index;
+  }
+
+  /**
    * Subscribe to sorting change
    */
   private initSorting() {

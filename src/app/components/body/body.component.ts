@@ -103,6 +103,16 @@ export class FsBodyComponent implements OnInit, DoCheck, OnDestroy {
     return true;
   }
 
+  /**
+   * Track By for improve change detection
+   * @param index
+   * @param item
+   */
+  public trackByFn(index, item) {
+    // TODO improve with track by id
+    return index;
+  }
+
   private _initDraggableElement() {
     this.draggable = new Draggable(this.el, this.cdRef, this.zone, this.rows);
 
