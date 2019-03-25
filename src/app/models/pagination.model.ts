@@ -12,7 +12,7 @@ export enum PaginationStrategy {
 
 export class Pagination extends Model {
 
-  @Alias() public limit = 5;
+  @Alias() public limit = 25;
   @Alias() public pages = 0; // Total pages
   @Alias() public records: number;
   @Alias() public manual = false;
@@ -141,6 +141,14 @@ export class Pagination extends Model {
     return this._strategy === PaginationStrategy.Page
       ? this._hasNextPagePageStrategy
       : this._hasNextPageOffsetStrategy;
+  }
+
+  public _fromJSON(value): void {
+    super._fromJSON(value);
+
+    if (!value.limit) {
+      this.limit = 25;
+    }
   }
 
   /**
