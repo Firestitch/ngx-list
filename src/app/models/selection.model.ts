@@ -357,7 +357,6 @@ export class Selection {
    * Get row identified by trackBy path
    *
    * @param row
-   * @private
    */
   private _rowIdentifier(row) {
     return _get(row, this._trackBy)
@@ -365,8 +364,6 @@ export class Selection {
 
   /**
    * Reset selection
-   *
-   * @private
    */
   private _resetSelection() {
     this._selectedAll = false;
