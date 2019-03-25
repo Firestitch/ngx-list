@@ -21,6 +21,7 @@ export interface FsPaging {
 
 export interface FsListConfig {
   heading?: string;
+  trackBy?: string;
   subheading?: string;
   status?: boolean;
   filterInput?: boolean;

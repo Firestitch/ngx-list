@@ -46,21 +46,21 @@
     <!-- Status -->
     <fs-list-status
       [ngClass]="{'hidden-mobile': !list.status}"
-      [dataChangedRef]="list.data$"
+      [dataChangedRef]="list.dataChange$"
       [sorting]="list.sorting"
       [paging]="list.paging"
       *ngIf="
       list.paging &&
       (!list.reorder?.enabled || list.reorder?.status) &&
       ((list.scrollable && list.scrollable.status) || !list.scrollable) &&
-      list.data.length > 0">
+      (list.data$ | async).length > 0">
     </fs-list-status>
   </div>
 
 
   <!-- Table implementation -->
   <div class="fs-list-table-container" *ngIf="list.initialized">
-    <table class="fs-list-table" role="grid" *ngIf="list.data.length > 0">
+    <table class="fs-list-table" role="grid" *ngIf="(list.data$ | async).length > 0">
       <thead fs-list-head
              class="fs-list-head"
              role="rowgroup"
@@ -79,7 +79,7 @@
              class="fs-list-body"
              role="rowgroup"
              [class.loading]="list.loading"
-             [rows]="list.data"
+             [rows]="list.data$ | async"
              [rowActionsRaw]="list.rowActionsRaw"
              [rowEvents]="list.rowEvents"
              [rowClass]="list.rowClass"
@@ -108,12 +108,12 @@
   </div>
 
   <fs-list-pagination
-    *ngIf="list.paging.enabled && !list.scrollable && list.data.length > 0"
-    [dataChangedRef]="list.data$"
+    *ngIf="list.paging.enabled && !list.scrollable && (list.data$ | async).length > 0"
+    [dataChangedRef]="list.dataChange$"
     [pagination]="list.paging">
   </fs-list-pagination>
 
-  <div class="fs-list-no-results" *ngIf="list.data.length === 0 && !list.loading && list.noResults?.message">
+  <div class="fs-list-no-results" *ngIf="(list.data$ | async).length === 0 && !list.loading && list.noResults?.message">
     {{ list.noResults?.message }}
   </div>
 </ng-template>

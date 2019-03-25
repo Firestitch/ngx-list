@@ -27,6 +27,7 @@ export class SelectionComponent implements OnInit {
 
     this.config = {
       heading: 'Selection',
+      trackBy: 'name',
       status: true,
       filterInput: true,
       selection: {

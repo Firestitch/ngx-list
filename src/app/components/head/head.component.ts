@@ -10,7 +10,7 @@ import {
 import { MatCheckboxChange } from '@angular/material';
 
 import { Subject } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { Sorting } from '../../models/sorting.model';
 import { Column } from '../../models/column.model';
@@ -86,8 +86,13 @@ export class FsHeadComponent implements OnInit, OnDestroy {
       this.selection.selectionChange$
         .pipe(
           filter(
-            ({type}) => type === SelectionChangeType.rowSelected
+            ({type}) => (
+              type === SelectionChangeType.AllVisibleSelectionChange
+              || type === SelectionChangeType.SelectedAll
+              || type === SelectionChangeType.RowSelectionChange
+            )
           ),
+          takeUntil(this._destroy$),
         )
         .subscribe(({type, payload: status}) => {
           this.selectedAll = status;

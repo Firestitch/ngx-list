@@ -1,14 +1,15 @@
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+import { get as _get } from 'lodash-es';
 import { SelectionDialog, SelectionRef } from '@firestitch/selection';
 
 import { FsListSelectionConfig } from '../interfaces';
-import { take, takeUntil } from 'rxjs/operators';
 
 
 export enum SelectionChangeType {
-  visibleRowsSelectionChanged = 1,
-  rowSelected = 2,
-  selectedAll = 3,
+  AllVisibleSelectionChange = 'AllVisibleSelectionChange',
+  RowSelectionChange = 'RowSelectionChange',
+  SelectedAll = 'SelectedAll',
 }
 
 
@@ -21,11 +22,12 @@ export class Selection {
   public onCancelFn;
 
   // Store for selected visible rows
-  public selectedRows = new Set();
+  public selectedRows = new Map();
 
   // Reference to selection dialog
   public selectionDialogRef: SelectionRef = null;
 
+  private _rowsData$: BehaviorSubject<any[]>;
   private _selectionChange = new Subject<{ type: SelectionChangeType, payload: any }>();
 
   // Selected only visible rows (ex.: selected only limited 15 rows when we have pagination)
@@ -35,20 +37,33 @@ export class Selection {
   // or count of visible records is equal to total and all visible rows was selected
   private _selectedAll = false;
 
+  private _selectedRecords = 0;
   private _visibleRecordsCount = 0;
   private _totalRecordsCount = 0;
 
   private _destroy$ = new Subject();
 
-  constructor(config: FsListSelectionConfig = {}, private _selectionDialog: SelectionDialog) {
+  constructor(
+    config: FsListSelectionConfig = {},
+    private _trackBy: string,
+    private _selectionDialog: SelectionDialog
+  ) {
     this.actions = config.actions ? [...config.actions] : [];
     this.onActionFn = config.onAction;
     this.onSelectAllFn = config.onSelectAll;
     this.onCancelFn = config.onCancel;
   }
 
+  get selectedAll() {
+    return this._selectedAll;
+  }
+
   get selectionChange$() {
     return this._selectionChange.pipe(takeUntil(this._destroy$));
+  }
+
+  public setRowsData(data: BehaviorSubject<any[]>) {
+    this._rowsData$ = data;
   }
 
   /**
@@ -58,30 +73,20 @@ export class Selection {
    */
   public rowSelectionChange(row, checked) {
     if (row) {
+      const identifier = this._rowIdentifier(row);
+
       if (checked) {
-        this.selectedRows.add(row);
+        this.selectedRows.set(identifier, row);
+        this._selectedRecords++;
         this.openDialog();
       } else {
-        this.selectedRows.delete(row);
+        this.selectedRows.delete(identifier);
+        this._selectedRecords--;
       }
     }
 
-    // Do update of _selectedAllVisible flag
-    this._updateSelectedAllStatus();
-
-    // When selectedAll in selectionDialogRef must be shown 'all' instead of number of selected
-    if (this._selectedAll) {
-      const allVisibleSelected = this._visibleRecordsCount === this.selectedRows.size;
-
-      this._updateSelectionRefSelectedAll(allVisibleSelected);
-
-      // In case when we need to show number of selected instead of 'all'
-      if (!allVisibleSelected) {
-        this._updateSelectionRefSelected();
-      }
-    } else {
-      this._updateSelectionRefSelected();
-    }
+    this._updateSelectionRefSelected();
+    this._updateSelectedVisibleStatus();
   }
 
   /**
@@ -89,16 +94,33 @@ export class Selection {
    * @param checked
    */
   public selectAllVisibleRows(checked) {
+    this.openDialog();
+
     this._selectedAllVisible = checked;
+
+    if (checked) {
+      this._rowsData$.getValue().forEach((row) => {
+        const identifier = this._rowIdentifier(row);
+        this.selectedRows.set(identifier, row);
+      });
+
+      this._selectedRecords = this._rowsData$.getValue().length;
+    } else {
+      this._rowsData$.getValue().forEach((row) => {
+        const identifier = this._rowIdentifier(row);
+        this.selectedRows.delete(identifier);
+      });
+
+      this._selectedRecords = 0;
+    }
 
     // Fire an event that all visible selection was changed
     this._visibleRowsSelectionChanged();
+    this._updateSelectionRefSelected();
+  }
 
-    if (!checked) {
-      this.selectedRows.clear();
-    } else {
-      this.openDialog();
-    }
+  public isRowSelected(row) {
+    return this.selectedRows.has(this._rowIdentifier(row)) || this.selectedAll;
   }
 
   /**
@@ -121,12 +143,6 @@ export class Selection {
    */
   public updateVisibleRecordsCount(count: number) {
     this._visibleRecordsCount = count;
-
-    if (this.selectionDialogRef) {
-      this.selectionDialogRef.updateSelected(this._visibleRecordsCount);
-    }
-
-    this._updateSelectedAllStatus();
   }
 
   /**
@@ -141,6 +157,26 @@ export class Selection {
     }
   }
 
+  public pageChanged(isOffsetStrategy) {
+    if (this._selectedAll) {
+      if (!isOffsetStrategy) {
+        this._resetSelection();
+      }
+    } else {
+      this._selectedRecords = 0;
+      this._rowsData$.getValue().forEach((row) => {
+        const identified = this._rowIdentifier(row);
+
+        if (this.selectedRows.has(identified)) {
+          this._selectedRecords++;
+        }
+      });
+
+      this._updateSelectionRefSelected();
+      this._updateSelectedVisibleStatus();
+    }
+  }
+
   /**
    * Method will be called from List for remove row if it was selected
    *
@@ -148,11 +184,15 @@ export class Selection {
    * @param row
    */
   public removeRow(row) {
-    this.selectedRows.delete(row);
+    this.selectedRows.delete(this._rowIdentifier(row));
+
+    this._updateSelectionRefSelected();
+    this._updateSelectionRefSelectedAll();
   }
 
   public destroy() {
-    this.selectedRows.clear();
+    this._resetSelection();
+
     this.actions = null;
     this.onActionFn = null;
     this.onSelectAllFn = null;
@@ -245,14 +285,16 @@ export class Selection {
 
   /**
    * If "Select All" action was clicked on selection ref dialog
-   * @param data
+   * @param flag
    */
-  private _onSelectAllActions(data) {
-    this._selectedAll = data;
+  private _onSelectAllActions(flag) {
+    this._selectedAll = flag;
+    this.selectionDialogRef.updateSelected(this._totalRecordsCount);
 
-    this._selectionChangeEvent(SelectionChangeType.selectedAll, this._selectedAll);
+    this._selectionChangeEvent(SelectionChangeType.SelectedAll, this._selectedAll);
+    this._updateSelectionRefSelectedAll();
 
-    this.onSelectAllFn(data);
+    this.onSelectAllFn(flag);
   }
 
   /**
@@ -270,21 +312,23 @@ export class Selection {
    * Ex.: Was clicked "Select All" in Dialog and after that some checkbox was unchecked
    * Dialog Ref must know about it
    *
-   * @param status
    */
-  private _updateSelectionRefSelectedAll(status: boolean) {
+  private _updateSelectionRefSelectedAll() {
     if (this.selectionDialogRef) {
-      this.selectionDialogRef.updateSelectedAllStatus(status);
+      this.selectionDialogRef.updateSelectedAllStatus(this._selectedAll);
     }
   }
 
   /**
    * Check if all visible rows was checked and send event to main header checkbox
    */
-  private _updateSelectedAllStatus() {
-    this._selectedAllVisible = this.selectedRows.size === this._visibleRecordsCount;
+  private _updateSelectedVisibleStatus() {
+    this._selectedAllVisible = this._selectedRecords === this._visibleRecordsCount;
 
-    this._selectionChangeEvent(SelectionChangeType.rowSelected, this._selectedAllVisible);
+    this._selectionChangeEvent(
+      SelectionChangeType.RowSelectionChange,
+      this._selectedAllVisible
+    );
   }
 
   /**
@@ -292,7 +336,7 @@ export class Selection {
    */
   private _visibleRowsSelectionChanged() {
     this._selectionChangeEvent(
-      SelectionChangeType.visibleRowsSelectionChanged,
+      SelectionChangeType.AllVisibleSelectionChange,
       this._selectedAllVisible
     );
   }
@@ -307,5 +351,32 @@ export class Selection {
       type: type,
       payload: payload
     });
+  }
+
+  /**
+   * Get row identified by trackBy path
+   *
+   * @param row
+   * @private
+   */
+  private _rowIdentifier(row) {
+    return _get(row, this._trackBy)
+  }
+
+  /**
+   * Reset selection
+   *
+   * @private
+   */
+  private _resetSelection() {
+    this._selectedAll = false;
+    this._selectedAllVisible = false;
+    this._visibleRecordsCount = 0;
+    this._selectedRecords = 0;
+    this.selectedRows.clear();
+
+    this._updateSelectionRefSelected();
+    this._updateSelectionRefSelectedAll();
+    this._visibleRowsSelectionChanged();
   }
 }

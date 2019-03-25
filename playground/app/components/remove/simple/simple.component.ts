@@ -26,6 +26,9 @@ export class RemoveSimpleComponent implements OnInit {
       subheading: 'Remove action without confirmation',
       status: false,
       filterInput: true,
+      trackBy: 'name',
+      selection: {
+      },
       paging: {
         limits: [5, 15, 50],
         strategy: PaginationStrategy.Page,

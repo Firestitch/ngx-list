@@ -5,8 +5,17 @@ import { SelectionDialog } from '@firestitch/selection';
 import { isNumber, merge, isFunction, isObject } from 'lodash-es';
 import { Alias, Model } from 'tsmodels';
 
-import { from, Observable, Subject, Subscription } from 'rxjs';
-import { catchError, debounceTime, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, from, Observable, Subject, Subscription } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  map,
+  shareReplay,
+  switchMap,
+  take,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
 
 import { Column, SortingDirection } from './column.model';
 import { Pagination } from './pagination.model';
@@ -36,6 +45,7 @@ const SHOW_DELETED_FILTERS_KEY = '$$_show_deleted_$$';
 
 export class List extends Model {
   @Alias() public heading: string;
+  @Alias() public trackBy: string;
   @Alias() public subheading: string;
   @Alias() public inlineFilters: any;
   @Alias('actions', Action) public actions: Action[];
@@ -70,8 +80,7 @@ export class List extends Model {
   public filterConfig = null;
 
   public fetch$ = new Subject<FsListFetchSubscription | void>();
-  public data$: Subject<any> = new Subject<any>();
-  public data = [];
+  public dataChange$: Subject<any> = new Subject<any>();
 
   public status = true;
   public filterInput = true;
@@ -88,6 +97,7 @@ export class List extends Model {
 
   public onDestroy$ = new Subject();
 
+  private readonly _data$ = new BehaviorSubject<any[]>([]);
   private readonly _headerConfig: StyleConfig;
   private readonly _cellConfig: StyleConfig;
   private readonly _footerConfig: StyleConfig;
@@ -112,24 +122,24 @@ export class List extends Model {
 
     this.initialized = true;
 
-    this.data$.subscribe((rows) => {
+    this.dataChange$.subscribe((rows) => {
       if (this.scrollable) {
         switch (this.operation) {
           case Operation.filter:
           case Operation.reload:
           case Operation.sort: {
-            this.data = [...rows];
+            this._data$.next([...rows]);
           } break;
 
           default: {
-            this.data.push(...rows);
+            this._data$.next([ ...this.data, ...rows ]);
           }
         }
       } else {
         if (this.operation === Operation.loadMore) {
-          this.data.push(...rows);
+          this._data$.next([ ...this.data, ...rows ]);
         } else {
-          this.data = [...rows];
+          this._data$.next([...rows]);
         }
       }
 
@@ -141,6 +151,16 @@ export class List extends Model {
       this.fetch$.next();
     }
 
+  }
+
+  get data$() {
+    return this._data$.pipe(
+      shareReplay(1),
+    )
+  }
+
+  get data() {
+    return this._data$.getValue();
   }
 
   // set rows(value) {
@@ -210,7 +230,7 @@ export class List extends Model {
     this.paging.page = 1;
 
     if (this.fsScrollInstance) {
-      this.data = [];
+      this._data$.next([]);
       this.fsScrollInstance.reload();
     } else {
       this.fetch$.next();
@@ -227,7 +247,7 @@ export class List extends Model {
       if (this.selection) {
         this.selection.updateVisibleRecordsCount(this.paging.getVisibleRecords());
         this.selection.updateTotalRecordsCount(this.paging.records);
-        this.selection.selectAllVisibleRows(false);
+        this.selection.pageChanged(this.paging.hasOffsetStrategy);
       }
 
       this.fetch$.next();
@@ -238,7 +258,7 @@ export class List extends Model {
       this.paging.page = 1;
 
       if (this.fsScrollInstance) {
-        this.data = [];
+        this._data$.next([]);
         this.fsScrollInstance.reload();
       } else {
         this.fetch$.next();
@@ -337,7 +357,7 @@ export class List extends Model {
     this.onDestroy$.next();
     this.onDestroy$.complete();
 
-    this.data$.complete();
+    this.dataChange$.complete();
   }
 
   /**
@@ -372,6 +392,9 @@ export class List extends Model {
     }
     if (config.sorts) {
       this.sorting.initFakeColumns(config.sorts);
+    }
+    if (!config.trackBy) {
+      this.trackBy = 'id';
     }
   }
 
@@ -465,7 +488,8 @@ export class List extends Model {
     selectionDialog: SelectionDialog,
   ) {
     if (selectionConfig) {
-      this.selection = new Selection(selectionConfig, selectionDialog);
+      this.selection = new Selection(selectionConfig, this.trackBy, selectionDialog);
+      this.selection.setRowsData(this._data$);
     }
   }
 
@@ -553,7 +577,7 @@ export class List extends Model {
               }
           });
 
-          this.data$.subscribe(() => {
+          this.dataChange$.subscribe(() => {
             fsScrollInstance.loaded();
           });
         });
@@ -636,7 +660,7 @@ export class List extends Model {
     this.operation = Operation.filter;
 
     if (this.fsScrollInstance) {
-      this.data = [];
+      this._data$.next([]);
       this.paging.page = 1;
       this.fsScrollInstance.reload();
     } else {
@@ -694,6 +718,7 @@ export class List extends Model {
     if (this.selection) {
 
       if (this.paging.enabled) {
+        // this.selection.pageChanged();
         this.selection.updateVisibleRecordsCount(this.paging.getVisibleRecords());
         this.selection.updateTotalRecordsCount(this.paging.records);
       } else {
@@ -707,7 +732,7 @@ export class List extends Model {
     }
 
     this.loading = false;
-    this.data$.next(response.data);
+    this.dataChange$.next(response.data);
   }
 
   private updateRow(

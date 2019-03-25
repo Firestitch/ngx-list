@@ -12,7 +12,8 @@ import {
   KeyValueDiffer,
   OnDestroy,
   OnInit,
-  ViewChildren, TemplateRef,
+  ViewChildren,
+  TemplateRef,
 } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material';
 
@@ -204,20 +205,21 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
    */
   private initSelection() {
     if (this.selection) {
+
+      this.selected = this.selection.isRowSelected(this.row);
+
       this.selection.selectionChange$
         .pipe(
           // Would like to respond only when checkbox on top is changed
           // or was clicked "Select All" in selection dialog
           filter(({type}) => {
-            return type === SelectionChangeType.visibleRowsSelectionChanged
-              || type === SelectionChangeType.selectedAll;
+            return type === SelectionChangeType.AllVisibleSelectionChange
+              || type === SelectionChangeType.SelectedAll;
           }),
           takeUntil(this._destroy$),
         )
         .subscribe(({type: type, payload: status}) => {
           this.selected = status;
-
-          this.selection.rowSelectionChange(this.row, this.selected);
 
           this._cdRef.markForCheck();
         });
