@@ -33,7 +33,8 @@ export class InfinityScrollComponent implements OnInit {
         limits: [30, 50, 150]
       },
       scrollable: {
-        name: 'list-scroll'
+        name: 'list-scroll',
+        status: true,
       },
       filters: [
         {

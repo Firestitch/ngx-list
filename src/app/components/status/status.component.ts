@@ -17,6 +17,7 @@ export class FsStatusComponent implements OnInit {
   @Input() public paging: Pagination;
   @Input() public sorting: Sorting;
   @Input() public dataChangedRef;
+  @Input() public scrollable;
 
   public OrderDirection = SortingDirection;
   constructor(private cdRef: ChangeDetectorRef) {
