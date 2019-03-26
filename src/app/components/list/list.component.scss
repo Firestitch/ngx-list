@@ -103,6 +103,7 @@
 
         &.drag-col {
           width: 1%;
+          cursor: grab;
         }
 
         &.row-actions {
@@ -250,7 +251,6 @@
       &.fs-list-col-selection {
         width: 30px;
         text-align: left;
-        cursor: grab;
       }
 
       &.sorting {
