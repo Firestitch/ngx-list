@@ -51,7 +51,7 @@
     "@firestitch/date": "^7.0.5",
     "@firestitch/datepicker": "^7.0.0",
     "@firestitch/example": "^7.0.0",
-    "@firestitch/filter": "^7.0.5",
+    "@firestitch/filter": "^7.0.6",
     "@firestitch/iframe": "^0.2.0",
     "@firestitch/label": "^7.0.0",
     "@firestitch/menu": "^7.0.0",
