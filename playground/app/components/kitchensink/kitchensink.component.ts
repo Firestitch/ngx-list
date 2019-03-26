@@ -25,7 +25,8 @@ export class KitchenSinkComponent implements OnInit {
     this.config = {
       heading: 'Kitchen Sink',
       subheading: 'Subheading',
-      status: false,
+      status: true,
+      chips: true,
       filterInput: true,
       paging: {
         limits: [5, 15, 50, 150, 250, 500, 1000],

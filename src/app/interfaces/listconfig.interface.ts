@@ -24,6 +24,7 @@ export interface FsListConfig {
   trackBy?: string;
   subheading?: string;
   status?: boolean;
+  chips?: boolean;
   filterInput?: boolean;
   paging?: FsPaging | false;
   columnDefaults?: Object;

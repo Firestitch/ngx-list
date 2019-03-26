@@ -83,6 +83,7 @@ export class List extends Model {
   public dataChange$: Subject<any> = new Subject<any>();
 
   public status = true;
+  public chips = false;
   public filterInput = true;
   public restoreMode = false;
 
@@ -384,6 +385,9 @@ export class List extends Model {
     if (config.status === false) {
       this.status = false;
     }
+    if (config.chips) {
+      this.chips = config.chips;
+    }
     if (config.filterInput === false) {
       this.filterInput = false;
     }
@@ -614,6 +618,7 @@ export class List extends Model {
         items: this.filters || [],
         inline: this.inlineFilters,
         sorting: sortingValues,
+        chips: this.chips,
         sortingDirection: (this.sorting.sortingColumn && this.sorting.sortingColumn.direction) || 'asc',
         init: this.filterInit.bind(this),
         change: this.filterChange.bind(this),
