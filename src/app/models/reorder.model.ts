@@ -108,7 +108,7 @@ export class ReorderModel extends Model {
    */
   public reorderFinished() {
     if (this.done) {
-      this.done(this._list.data$);
+      this.done(this._list.data);
     }
   }
 }
