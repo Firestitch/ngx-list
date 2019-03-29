@@ -243,7 +243,7 @@ export class Selection {
   private _onActionActions(data) {
     // Execute callback
     const result = this.onActionFn({
-      selectedRows: Array.from(this.selectedRows).map((row) => { return {...row}}),
+      selectedRows: Array.from(this.selectedRows.values()).map((row) => { return {...row}}),
       ...data
     });
 
