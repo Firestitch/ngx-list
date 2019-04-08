@@ -596,7 +596,7 @@ export class List extends Model {
 
       // Merge sorting and fake sorting cols
       // Fake sorting cols it's cols which don't represented in table cols, like abstract cols
-      const sortingValues =
+      const sortValues =
         [
           ...this.sorting.sortingColumns,
           ...this.sorting.fakeSortingColumns
@@ -612,12 +612,17 @@ export class List extends Model {
           return acc;
         }, []);
 
+      const sortConfig = this.sorting.sortingColumn
+        ? { value: this.sorting.sortingColumn.name, direction: this.sorting.sortingColumn.direction}
+        : null;
+
       // Config
       this.filterConfig = {
         persist: this.persist,
         items: this.filters || [],
         inline: this.inlineFilters,
-        sorting: sortingValues,
+        sorts: sortValues,
+        sort: sortConfig,
         chips: this.chips,
         sortingDirection: (this.sorting.sortingColumn && this.sorting.sortingColumn.direction) || 'asc',
         init: this.filterInit.bind(this),
@@ -640,12 +645,12 @@ export class List extends Model {
 
   /**
    * Callback when Filter has been changed
-   * @param query
-   * @param instance
+   * @param filterQuery
+   * @param filterSort
    */
-  private filterChange(query, instance) {
+  private filterChange(filterQuery, filterSort) {
 
-    this.filtersQuery = instance.gets({ flatten: true });
+    this.filtersQuery = filterQuery;
 
     this.restoreMode = false;
 
@@ -674,16 +679,20 @@ export class List extends Model {
   }
 
   // Callback when Filter sort has been changed
-  private filterSort(instance) {
+  private filterSort(filterQuery, filterSort) {
+    if (filterSort) {
+      const targetColumn = this.columns.find((column) => column.name === filterSort.sortBy);
 
-    const sorting = instance.getSorting();
-    const targetColumn = this.columns.find((column) => column.name === sorting.sortBy);
+      if (targetColumn) {
+        this.sorting.sortBy(targetColumn);
 
-    if (targetColumn) {
-      this.sorting.sortBy(targetColumn);
-
-      const sortDirection = sorting.sortDirection === 'asc' ? SortingDirection.asc : SortingDirection.desc;
-      this.sorting.setSortDirection(sortDirection);
+        const sortDirection = filterSort.sortDirection === 'asc' ? SortingDirection.asc : SortingDirection.desc;
+        this.sorting.setSortDirection(sortDirection);
+      }
+    } else {
+      // FIXME need to be refactored...
+      this.sorting.sortingColumn = void 0;
+      this.reload();
     }
   }
 
