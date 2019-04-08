@@ -39,6 +39,7 @@ import { Action } from './action.model';
 import { ReorderModel, ReorderStrategy } from './reorder.model';
 import { RowAction } from './row-action.model';
 import { Selection } from './selection.model';
+import { FilterConfig } from '@firestitch/filter';
 
 const SHOW_DELETED_FILTERS_KEY = '$$_show_deleted_$$';
 
@@ -77,7 +78,7 @@ export class List extends Model {
   public sorting = new Sorting(this.columns);
   public selection: Selection;
 
-  public filterConfig = null;
+  public filterConfig: FilterConfig = null;
 
   public fetch$ = new Subject<FsListFetchSubscription | void>();
   public dataChange$: Subject<any> = new Subject<any>();
@@ -624,7 +625,6 @@ export class List extends Model {
         sorts: sortValues,
         sort: sortConfig,
         chips: this.chips,
-        sortingDirection: (this.sorting.sortingColumn && this.sorting.sortingColumn.direction) || 'asc',
         init: this.filterInit.bind(this),
         change: this.filterChange.bind(this),
         reload: this.reload.bind(this),
@@ -681,12 +681,12 @@ export class List extends Model {
   // Callback when Filter sort has been changed
   private filterSort(filterQuery, filterSort) {
     if (filterSort) {
-      const targetColumn = this.columns.find((column) => column.name === filterSort.sortBy);
+      const targetColumn = this.columns.find((column) => column.name === filterSort.value);
 
       if (targetColumn) {
         this.sorting.sortBy(targetColumn);
 
-        const sortDirection = filterSort.sortDirection === 'asc' ? SortingDirection.asc : SortingDirection.desc;
+        const sortDirection = filterSort.direction === 'asc' ? SortingDirection.asc : SortingDirection.desc;
         this.sorting.setSortDirection(sortDirection);
       }
     } else {
