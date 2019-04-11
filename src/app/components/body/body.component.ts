@@ -123,7 +123,9 @@ export class FsBodyComponent implements OnInit, DoCheck, OnDestroy {
           takeUntil(this._destroy$),
         )
         .subscribe(() => {
-          this.reorderChanged.next(true);
+          this.zone.run(() => {
+            this.reorderChanged.next(true);
+          });
         });
 
 
@@ -132,7 +134,9 @@ export class FsBodyComponent implements OnInit, DoCheck, OnDestroy {
           takeUntil(this._destroy$),
         )
         .subscribe(() => {
-          this.reorderChanged.next(false);
+          this.zone.run(() => {
+            this.reorderChanged.next(false);
+          });
         });
     }
   }

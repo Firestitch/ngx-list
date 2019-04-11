@@ -185,7 +185,7 @@ export class Pagination extends Model {
    * If pagination has prev page when Offset Strategy
    */
   private get _hasPrevPageOffsetStrategy(): boolean {
-    return this.offset > this.limit && this.records > 1;
+    return this.offset >= this.limit && this.records > 1;
   }
 
   /**
