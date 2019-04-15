@@ -246,10 +246,14 @@ export class List extends Model {
     this.paging.pageChanged.subscribe(() => {
       this.operation = Operation.pageChange;
 
-      if (this.selection) {
-        this.selection.updateVisibleRecordsCount(this.paging.getVisibleRecords());
-        this.selection.updateTotalRecordsCount(this.paging.records);
-        this.selection.pageChanged(this.paging.hasOffsetStrategy);
+      if (this.paging.hasOffsetStrategy) {
+        this.paging.updatePagination();
+
+        if (this.selection) {
+          this.selection.updateVisibleRecordsCount(this.paging.getVisibleRecords());
+          this.selection.updateTotalRecordsCount(this.paging.records);
+          this.selection.pageChanged(this.scrollable);
+        }
       }
 
       this.fetch$.next();
@@ -722,17 +726,23 @@ export class List extends Model {
     }
 
     if (response.paging) {
+      const displayed = (Array.isArray(response.data) && response.data.length) || 0;
       this.paging.updatePaging(
         response.paging,
+        displayed,
         this.operation === Operation.loadMore
       );
     }
+
+    /// must be before selection, because seletion use records
+    this.dataChange$.next(response.data);
+    ///
 
     // Update selection params
     if (this.selection) {
 
       if (this.paging.enabled) {
-        // this.selection.pageChanged();
+        this.selection.pageChanged(this.scrollable);
         this.selection.updateVisibleRecordsCount(this.paging.getVisibleRecords());
         this.selection.updateTotalRecordsCount(this.paging.records);
       } else {
@@ -746,7 +756,6 @@ export class List extends Model {
     }
 
     this.loading = false;
-    this.dataChange$.next(response.data);
   }
 
   private updateRow(

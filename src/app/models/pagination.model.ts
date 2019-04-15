@@ -205,20 +205,23 @@ export class Pagination extends Model {
   /**
    * Update paging config and all related fields
    * @param config
+   * @param displayed
    * @param loadMore
    */
-  public updatePaging(config, loadMore = false) {
+  public updatePaging(config, displayed = 0, loadMore = false) {
     if (!loadMore) {
       this._fromJSON(config)
     } else {
       this.records = config.records;
-
       this._removedRows = 0;
     }
 
+     this.displayed = displayed;
+
+
     this.updateTotalPages();
     this.updatePagesArray();
-    this.updateDisplayed();
+    // this.updateDisplayed();
   }
 
   public updatePagingStrategy(strategy?: PaginationStrategy) {
@@ -275,19 +278,25 @@ export class Pagination extends Model {
   /**
    * Update dispayed records counter
    */
-  public updateDisplayed() {
-    this.displayed = this.getVisibleRecords();
-  }
+  // public updateDisplayed() {
+  //   this.displayed = this.getVisibleRecords();
+  // }
 
   /**
    * Return count of records that could be shown on page
    */
-  public getVisibleRecords() {
-    const diff = this.records - this.offset;
+  // public getVisibleRecords() {
+  //   const diff = this.hasOffsetStrategy
+  //     ? this.records - this.offset
+  //     : this.limit;
+  //
+  //   return diff < this.limit
+  //     ? diff
+  //     : this.displayed;
+  // }
 
-    return diff < this.limit
-      ? diff
-      : this.limit;
+  public getVisibleRecords() {
+    return this.displayed;
   }
 
   /**
@@ -393,7 +402,7 @@ export class Pagination extends Model {
   public updatePagination() {
     this.updateTotalPages();
     this.updatePagesArray();
-    this.updateDisplayed();
+    // this.updateDisplayed();
   }
 
   /**

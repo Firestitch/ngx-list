@@ -157,9 +157,9 @@ export class Selection {
     }
   }
 
-  public pageChanged(isOffsetStrategy) {
+  public pageChanged(infinityScrollEnabled) {
     if (this._selectedAll) {
-      if (!isOffsetStrategy) {
+      if (!infinityScrollEnabled) {
         this._resetSelection();
       }
     } else {
@@ -323,7 +323,7 @@ export class Selection {
    * Check if all visible rows was checked and send event to main header checkbox
    */
   private _updateSelectedVisibleStatus() {
-    this._selectedAllVisible = this._selectedRecords === this._visibleRecordsCount;
+    this._selectedAllVisible = this._selectedRecords !== 0 && this._selectedRecords === this._visibleRecordsCount;
 
     this._selectionChangeEvent(
       SelectionChangeType.RowSelectionChange,
