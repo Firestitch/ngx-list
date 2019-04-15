@@ -60,7 +60,7 @@
     "@firestitch/scroll": "^7.0.0",
     "@firestitch/clear": "^7.1.0",
     "@firestitch/selectbutton": "^0.2.1",
-    "@firestitch/selection": "^7.0.2",
+    "@firestitch/selection": "^7.0.3",
     "@firestitch/store": "^0.2.0",
     "codelyzer": "^4.5.0",
     "cpx": "^1.5.0",
