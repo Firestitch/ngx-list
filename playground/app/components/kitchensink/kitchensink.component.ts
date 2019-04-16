@@ -5,6 +5,8 @@ import { ItemType } from '@firestitch/filter';
 import { ActionType, FsListConfig, PaginationStrategy, FsListComponent } from '@firestitch/list';
 
 import { map } from 'rxjs/operators';
+import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
+import { ApiStrategy } from '../../services/api-strategy.service';
 
 
 @Component({
@@ -12,13 +14,18 @@ import { map } from 'rxjs/operators';
   templateUrl: 'kitchensink.component.html',
   styles: []
 })
-export class KitchenSinkComponent implements OnInit {
+export class KitchenSinkComponent extends StrategyBaseComponent implements OnInit {
 
   @ViewChild('table')
   public table: FsListComponent; // Controller fs-list
   public config: FsListConfig;
 
-  constructor(private _fsApi: FsApi, private _router: Router) {}
+  constructor(
+    protected _apiStrategy: ApiStrategy,
+    private _fsApi: FsApi,
+  ) {
+    super(_apiStrategy);
+  }
 
   public ngOnInit() {
 

@@ -5,6 +5,8 @@ import { FsListAbstractRow, FsListConfig, PaginationStrategy, FsListComponent } 
 
 import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
+import { ApiStrategy } from '../../../services/api-strategy.service';
+import { StrategyBaseComponent } from '../../examples/strategy-base/strategy-base.component';
 
 
 @Component({
@@ -12,13 +14,18 @@ import { delay, map } from 'rxjs/operators';
   templateUrl: 'confirm.component.html',
   styles: []
 })
-export class RemoveConfirmComponent implements OnInit {
+export class RemoveConfirmComponent extends StrategyBaseComponent implements OnInit {
 
   @ViewChild('table')
   public table: FsListComponent; // Controller fs-list
   public config: FsListConfig;
 
-  constructor(private _fsApi: FsApi) {}
+  constructor(
+    protected _apiStrategy: ApiStrategy,
+    private _fsApi: FsApi
+  ) {
+    super(_apiStrategy);
+  }
 
   public ngOnInit() {
 

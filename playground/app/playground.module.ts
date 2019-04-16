@@ -14,6 +14,7 @@ import { FsSelectionModule } from '@firestitch/selection';
 import { ToastrModule } from 'ngx-toastr';
 
 import { FsListModule } from '@firestitch/list';
+import { FsPromptModule } from '@firestitch/prompt';
 
 import { AppMaterialModule } from './material.module';
 
@@ -37,10 +38,10 @@ import {
   NoResultsComponent,
   SelectionComponent,
   AgoComponent,
+  GlobalStrategyComponent,
 } from './components';
 
 import { RestoreComponent } from './components/restore/restore.component';
-import { FsPromptModule } from '@firestitch/prompt';
 
 
 @NgModule({
@@ -88,7 +89,8 @@ import { FsPromptModule } from '@firestitch/prompt';
     NoResultsComponent,
     PagingComponent,
     SelectionComponent,
-    AgoComponent
+    AgoComponent,
+    GlobalStrategyComponent,
   ],
   providers: [
   ],

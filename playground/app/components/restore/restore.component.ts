@@ -6,6 +6,8 @@ import { FsListConfig, ActionType, FsListComponent } from '@firestitch/list';
 
 import { map } from 'rxjs/operators';
 import { ItemType } from '@firestitch/filter';
+import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
+import { ApiStrategy } from '../../services/api-strategy.service';
 
 
 @Component({
@@ -13,13 +15,19 @@ import { ItemType } from '@firestitch/filter';
   templateUrl: 'restore.component.html',
   styles: []
 })
-export class RestoreComponent implements OnInit {
+export class RestoreComponent extends StrategyBaseComponent implements OnInit {
 
   @ViewChild('table')
   public table: FsListComponent; // Controller fs-list
   public config: FsListConfig;
 
-  constructor(private _fsApi: FsApi, private _router: Router) {}
+  constructor(
+    protected _apiStrategy: ApiStrategy,
+    private _fsApi: FsApi,
+    private _router: Router
+  ) {
+    super(_apiStrategy);
+  }
 
   public ngOnInit() {
 

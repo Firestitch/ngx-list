@@ -9,19 +9,28 @@ import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 import { ItemType } from '@firestitch/filter';
 
+import { ApiStrategy } from '../../services/api-strategy.service';
+import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
+
 
 @Component({
   selector: 'selection',
   templateUrl: 'selection.component.html',
   styles: []
 })
-export class SelectionComponent implements OnInit {
+export class SelectionComponent extends StrategyBaseComponent implements OnInit {
 
   @ViewChild('table')
   public table: FsListComponent; // Controller fs-list
   public config: FsListConfig;
 
-  constructor(private _fsApi: FsApi, private _router: Router) {}
+  constructor(
+    protected _apiStrategy: ApiStrategy,
+    private _fsApi: FsApi,
+    private _router: Router,
+  ) {
+    super(_apiStrategy);
+  }
 
   public ngOnInit() {
 

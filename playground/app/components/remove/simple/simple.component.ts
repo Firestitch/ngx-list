@@ -4,6 +4,8 @@ import { FsListConfig, PaginationStrategy, FsListComponent } from '@firestitch/l
 
 import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
+import { ApiStrategy } from '../../../services/api-strategy.service';
+import { StrategyBaseComponent } from '../../examples/strategy-base/strategy-base.component';
 
 
 @Component({
@@ -11,13 +13,18 @@ import { delay, map } from 'rxjs/operators';
   templateUrl: 'simple.component.html',
   styles: []
 })
-export class RemoveSimpleComponent implements OnInit {
+export class RemoveSimpleComponent extends StrategyBaseComponent implements OnInit {
 
   @ViewChild('table')
   public table: FsListComponent; // Controller fs-list
   public config: FsListConfig;
 
-  constructor(private _fsApi: FsApi) {}
+  constructor(
+    protected _apiStrategy: ApiStrategy,
+    private _fsApi: FsApi
+  ) {
+    super(_apiStrategy);
+  }
 
   public ngOnInit() {
 

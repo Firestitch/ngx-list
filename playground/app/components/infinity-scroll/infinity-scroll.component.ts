@@ -4,6 +4,8 @@ import { FsApi } from '@firestitch/api';
 import { FsListConfig, ActionType, FsListComponent } from '@firestitch/list';
 import { ItemType } from '@firestitch/filter';
 import { map } from 'rxjs/operators';
+import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
+import { ApiStrategy } from '../../services/api-strategy.service';
 
 
 @Component({
@@ -11,7 +13,7 @@ import { map } from 'rxjs/operators';
   templateUrl: 'infinity-scroll.component.html',
   styles: []
 })
-export class InfinityScrollComponent implements OnInit {
+export class InfinityScrollComponent extends StrategyBaseComponent implements OnInit {
 
   @ViewChild('table')
   public table: FsListComponent; // Controller fs-list
@@ -23,7 +25,12 @@ export class InfinityScrollComponent implements OnInit {
     {value: 'user', viewValue: 'User'}
   ];
 
-  constructor(private _fsApi: FsApi, private _router: Router) {}
+  constructor(
+    protected _apiStrategy: ApiStrategy,
+    private _fsApi: FsApi,
+  ) {
+    super(_apiStrategy);
+  }
 
   public ngOnInit() {
 
