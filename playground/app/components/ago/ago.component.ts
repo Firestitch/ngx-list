@@ -1,14 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 
-import { FsApi } from '@firestitch/api';
 import { FsListComponent, FsListConfig } from '@firestitch/list';
-import { SelectionActionType } from '@firestitch/selection';
 
 import { of } from 'rxjs';
-import { delay, map } from 'rxjs/operators';
-import { ItemType } from '@firestitch/filter';
 
+import {
+  addMonths,
+  addYears,
+  subDays,
+  subHours,
+  subMinutes,
+  subMonths,
+  subYears
+} from 'date-fns';
 
 @Component({
   selector: 'ago',
@@ -21,32 +25,54 @@ export class AgoComponent implements OnInit {
   public table: FsListComponent; // Controller fs-list
   public config: FsListConfig;
 
-  constructor(private _fsApi: FsApi, private _router: Router) {}
+  public date = new Date();
+  public dataArray = [
+    {
+      name: '1 year ago',
+      time: subYears(this.date, 1)
+    },
+    {
+      name: '1 month ago',
+      time: subMonths(this.date, 1)
+    },
+    {
+      name: '1 hour ago',
+      time: subHours(this.date, 1)
+    },
+    {
+      name: '1 day ago',
+      time: subDays(this.date, 1)
+    },
+    {
+      name: '1 minute ago',
+      time: subMinutes(this.date, 1)
+    },
+    {
+      name: 'Now',
+      time: this.date
+    },
+    {
+      name: '1 month from now',
+      time: addMonths(this.date, 1)
+    },
+    {
+      name: '1 year from now',
+      time: addYears(this.date, 1)
+    }
+  ];
+
+  constructor() {}
 
   public ngOnInit() {
 
     this.config = {
       heading: 'Ago',
-      status: true,
-      filterInput: true,
-      paging: {
-        limits: [5, 15, 50]
-      },
-      filters: [
-        {
-          name: 'keyword',
-          type: ItemType.Text,
-          label: 'Search'
-        },
-      ],
-      fetch: (query) => {
-        query.count = 500;
-        return this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
-          .pipe(
-            map((response) => {
-              return { data: response.data.objects, paging: response.data.paging }
-            })
-          );
+      status: false,
+      filterInput: false,
+      paging: false,
+      filters: [],
+      fetch: () => {
+        return of({ data: this.dataArray })
       },
     };
   }
