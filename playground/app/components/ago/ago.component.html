@@ -1,32 +1,14 @@
 <fs-list [config]="config" #table>
 
-  <fs-list-column>
-    <ng-template fs-list-header>
-      №
-    </ng-template>
-    <ng-template fs-list-cell let-index="index">
-      {{index}}
-    </ng-template>
-  </fs-list-column>
-
-  <fs-list-column name="name" title="Name" [sortable]="true">
-    <ng-template fs-list-header>
-      <b>User</b> name
-    </ng-template>
+  <fs-list-column name="name" title="Name">
     <ng-template fs-list-cell let-value="value" let-row="row">
-      {{value}}
+      {{ value }}
     </ng-template>
   </fs-list-column>
 
-  <fs-list-column name="guid" title="GUID" [sortable]="true">
-    <ng-template fs-list-cell let-guid="value" let-row="row">
-      {{ row.guid }}
-    </ng-template>
-  </fs-list-column>
-
-  <fs-list-column name="guid" title="Last Sing-In" [sortable]="true">
-    <ng-template fs-list-cell let-guid="value" let-row="row">
-      <fs-date-ago [date]="row.signin_date"></fs-date-ago>
+  <fs-list-column name="guid" title="Last Sign-In">
+    <ng-template fs-list-cell let-row="row">
+      <fs-date-ago [date]="row.time"></fs-date-ago>
     </ng-template>
   </fs-list-column>
 </fs-list>
