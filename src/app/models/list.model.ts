@@ -548,6 +548,12 @@ export class List extends Model {
 
   private initInfinityScroll() {
     if (this.scrollable) {
+      // Scrollable status by default
+      if (this.scrollable.status === void 0) {
+        this.scrollable.status = true;
+      }
+
+
       this.fsScroll
         .component(this.scrollable.name)
         .pipe(
