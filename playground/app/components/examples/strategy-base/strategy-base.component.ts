@@ -3,7 +3,8 @@ import { ApiStrategy } from '../../../services/api-strategy.service';
 
 
 @Component({
-  selector: 'app-strategy-base'
+  selector: 'app-strategy-base',
+  template: '',
 })
 export class StrategyBaseComponent {
   public showList = true;

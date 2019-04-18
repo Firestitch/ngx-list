@@ -42,6 +42,7 @@ import {
 } from './components';
 
 import { RestoreComponent } from './components/restore/restore.component';
+import { StrategyBaseComponent } from './components/examples/strategy-base/strategy-base.component';
 
 
 @NgModule({
@@ -91,6 +92,7 @@ import { RestoreComponent } from './components/restore/restore.component';
     SelectionComponent,
     AgoComponent,
     GlobalStrategyComponent,
+    StrategyBaseComponent,
   ],
   providers: [
   ],
