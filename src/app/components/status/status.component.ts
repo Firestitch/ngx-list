@@ -30,7 +30,7 @@ export class FsStatusComponent implements OnInit {
   }
 
   public setDirection(direction: SortingDirection) {
-    this.sorting.setSortDirection(direction);
+    this.sorting.sortDirection(direction);
   }
 
   public setSortableColumn(column) {

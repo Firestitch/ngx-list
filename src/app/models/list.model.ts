@@ -702,7 +702,7 @@ export class List extends Model {
         this.sorting.sortBy(targetColumn);
 
         const sortDirection = filterSort.direction === 'asc' ? SortingDirection.asc : SortingDirection.desc;
-        this.sorting.setSortDirection(sortDirection);
+        this.sorting.sortDirection(sortDirection);
       }
     } else {
       // FIXME need to be refactored...

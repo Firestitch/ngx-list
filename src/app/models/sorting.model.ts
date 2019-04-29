@@ -37,9 +37,10 @@ export class Sorting {
    * Set Sortable Direction
    * @param direction
    */
-  public setSortDirection(direction) {
+  public sortDirection(direction) {
     if (this.sortingColumn && this.sortingColumn.sortingDirection !== direction) {
-      this.sortingColumn.sortingDirection = direction;
+      this._setSortingDirection(direction);
+
       this._sortingChanged.next({
         sortBy: this.sortingColumn.name,
         sortDirection: this.sortingColumn.direction
@@ -52,23 +53,9 @@ export class Sorting {
    * @param column
    */
   public sortBy(column: Column) {
-    // Can't do sort by non sortable column
-    if (!column.sortable) {
-      return false;
-    }
 
-    // Column was ordered before
-    if (column.ordered) {
-      column.changeDirection();
-    } else {
-      [...this.fakeSortingColumns, ...this.sortingColumns]
-        .filter((col) => col.ordered)
-        .map((col) => col.ordered = false);
+    this._setSortingColumn(column);
 
-      column.ordered = true;
-    }
-
-    this.sortingColumn = column;
     this._sortingChanged.next({
       sortBy: this.sortingColumn.name,
       sortDirection: this.sortingColumn.direction
@@ -110,11 +97,12 @@ export class Sorting {
 
     if (!column) { return; }
 
-    this.sortBy(column);
+    this._setSortingColumn(column);
 
-    this.setSortDirection((columnDirection === 'asc')
+    const direction = (columnDirection === 'asc')
       ? SortingDirection.asc
-      : SortingDirection.desc);
+      : SortingDirection.desc;
+    this._setSortingDirection(direction);
   }
 
   /**
@@ -127,7 +115,7 @@ export class Sorting {
     if (!column) { return; }
 
     this.sortBy(column);
-    this.setSortDirection(SortingDirection.asc);
+    this.sortDirection(SortingDirection.asc);
   }
 
   /**
@@ -136,5 +124,29 @@ export class Sorting {
   public destroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
+  }
+
+  private _setSortingColumn(column) {
+    // Can't do sort by non sortable column
+    if (!column.sortable) {
+      return false;
+    }
+
+    // Column was ordered before
+    if (column.ordered) {
+      column.changeDirection();
+    } else {
+      [...this.fakeSortingColumns, ...this.sortingColumns]
+        .filter((col) => col.ordered)
+        .map((col) => col.ordered = false);
+
+      column.ordered = true;
+    }
+
+    this.sortingColumn = column;
+  }
+
+  private _setSortingDirection(direction) {
+    this.sortingColumn.sortingDirection = direction;
   }
 }
