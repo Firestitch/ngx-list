@@ -11,6 +11,8 @@ import { FsDateModule } from '@firestitch/date';
 import { FsScrollModule } from '@firestitch/scroll';
 import { FsMessageModule } from '@firestitch/message';
 import { FsSelectionModule } from '@firestitch/selection';
+import { FsModelChangeModule } from '@firestitch/model-change';
+import { FsLabelModule } from '@firestitch/label';
 import { ToastrModule } from 'ngx-toastr';
 
 import { FsListModule } from '@firestitch/list';
@@ -43,6 +45,8 @@ import {
 
 import { RestoreComponent } from './components/restore/restore.component';
 import { StrategyBaseComponent } from './components/examples/strategy-base/strategy-base.component';
+import { ConfigureComponent } from './components/configure';
+import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material';
 
 
 @NgModule({
@@ -55,6 +59,7 @@ import { StrategyBaseComponent } from './components/examples/strategy-base/strat
     AppMaterialModule,
     FormsModule,
     FlexLayoutModule,
+    FsLabelModule,
     FsExampleModule.forRoot(),
     FsMessageModule.forRoot(),
     FsSelectionModule.forRoot(),
@@ -63,6 +68,7 @@ import { StrategyBaseComponent } from './components/examples/strategy-base/strat
     FsApiModule,
     FsBadgeModule,
     FsDateModule,
+    FsModelChangeModule,
     RouterModule.forRoot([
       { path: '', component: ExamplesComponent },
       { path: 'noresults', component: NoResultsComponent },
@@ -70,6 +76,7 @@ import { StrategyBaseComponent } from './components/examples/strategy-base/strat
     ])
   ],
   entryComponents: [
+    ConfigureComponent
   ],
   declarations: [
     AppComponent,
@@ -93,8 +100,10 @@ import { StrategyBaseComponent } from './components/examples/strategy-base/strat
     AgoComponent,
     GlobalStrategyComponent,
     StrategyBaseComponent,
+    ConfigureComponent
   ],
   providers: [
+    { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: {float: 'always'} }
   ],
 
 })
