@@ -26,6 +26,7 @@ export interface FsListConfig {
   status?: boolean;
   chips?: boolean;
   filterInput?: boolean;
+  queryParam?: boolean;
   paging?: FsPaging | false;
   columnDefaults?: Object;
   filters?: IFilterConfigItem[];

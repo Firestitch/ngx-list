@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { FsApi } from '@firestitch/api';
 import { ItemType } from '@firestitch/filter';
 import { ActionType, FsListConfig, PaginationStrategy, FsListComponent } from '@firestitch/list';
+import { nameValue } from '@firestitch/common';
 
+import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
 import { ApiStrategy } from '../../services/api-strategy.service';
 
@@ -19,6 +21,16 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
   @ViewChild('table')
   public table: FsListComponent; // Controller fs-list
   public config: FsListConfig;
+
+  public weekdays = [
+    { id: 1, name: 'Monday' },
+    { id: 2, name: 'Tuesday' },
+    { id: 3, name: 'Wednesday' },
+    { id: 4, name: 'Thursday' },
+    { id: 5, name: 'Friday' },
+    { id: 6, name: 'Saturday' },
+    { id: 7, name: 'Sunday' },
+  ];
 
   constructor(
     protected _apiStrategy: ApiStrategy,
@@ -35,6 +47,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
       status: true,
       chips: true,
       filterInput: true,
+      queryParam: true,
       paging: {
         limits: [5, 15, 50, 150, 250, 500, 1000],
         strategy: PaginationStrategy.Page,
@@ -73,6 +86,18 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           name: 'checkbox',
           type: ItemType.Checkbox,
           label: 'Checkbox'
+        },
+        {
+          name: 'days_chips',
+          label: 'Weekdays',
+          type: ItemType.Chips,
+          multiple: true,
+          values: (keyword) => {
+            return new BehaviorSubject(this.weekdays)
+              .pipe(
+                map((weekdays) => nameValue(weekdays, 'name', 'id')),
+              )
+          }
         },
         {
           name: 'state',

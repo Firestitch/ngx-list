@@ -86,6 +86,7 @@ export class List extends Model {
   public status = true;
   public chips = false;
   public filterInput = true;
+  public queryParam = false;
   public restoreMode = false;
 
   public loading = false;
@@ -396,6 +397,9 @@ export class List extends Model {
     if (config.filterInput === false) {
       this.filterInput = false;
     }
+    if (config.queryParam) {
+      this.queryParam = true;
+    }
     if (!config.actions) {
       this.actions = [];
     }
@@ -632,6 +636,7 @@ export class List extends Model {
         persist: this.persist,
         items: this.filters || [],
         inline: this.inlineFilters,
+        queryParam: this.queryParam,
         sorts: sortValues,
         sort: sortConfig,
         chips: this.chips,

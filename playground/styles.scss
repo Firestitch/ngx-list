@@ -1,6 +1,8 @@
 @import '../tools/assets/playground.scss';
 @import "~@firestitch/message/styles";
 @import "~@firestitch/selection/styles.scss";
+@import "~@firestitch/chip/styles";
 @import '~@angular/material/theming';
 
 @include fs-selection($mat-blue);
+@include fs-chip($mat-blue);
