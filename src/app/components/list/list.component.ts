@@ -36,9 +36,24 @@ import { FsListAbstractRow, FsListConfig, FsListTrackByFn, FsListTrackByTargetRo
 })
 
 export class FsListComponent implements OnInit, OnDestroy {
-  @Input() public config: FsListConfig;
+
+  @Input('config') set config(config: FsListConfig) {
+
+    if (this.list) {
+      this.list.destroy();
+    }
+
+    const defaultOpts = cloneDeep(this._defaultOptions);
+    const listConfig = mergeWith(defaultOpts, config, this._configMergeCustomizer);
+    this.list = new List(listConfig, this.fsScroll, this.selectionDialog);
+
+    if (this.listColumnDirectives) {
+      this.list.tranformTemplatesToColumns(this.listColumnDirectives);
+    }
+  }
 
   public list: List;
+  private listColumnDirectives: QueryList<FsListColumnDirective>;
 
   // Event will fired if action remove: true will clicked
   public rowRemoved = new EventEmitter();
@@ -56,8 +71,11 @@ export class FsListComponent implements OnInit, OnDestroy {
    * @param val
    */
   @ContentChildren(FsListColumnDirective)
-  private set columnTemplates(val: QueryList<FsListColumnDirective>) {
-    this.list.tranformTemplatesToColumns(val);
+  private set columnTemplates(listColumnDirectives: QueryList<FsListColumnDirective>) {
+    this.listColumnDirectives = listColumnDirectives;
+    if (this.list) {
+      this.list.tranformTemplatesToColumns(listColumnDirectives);
+    }
   }
 
   constructor(
@@ -71,10 +89,6 @@ export class FsListComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    const defaultOpts = cloneDeep(this._defaultOptions);
-    const listConfig = mergeWith(defaultOpts, this.config, this._configMergeCustomizer);
-    this.list = new List(listConfig, this.fsScroll, this.selectionDialog);
-
     this.subscribeToRemoveRow();
   }
 

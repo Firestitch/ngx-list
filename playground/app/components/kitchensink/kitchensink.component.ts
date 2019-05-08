@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterContentInit } from '@angular/core';
 import { FsApi } from '@firestitch/api';
 import { ItemType } from '@firestitch/filter';
 import { ActionType, FsListConfig, PaginationStrategy, FsListComponent } from '@firestitch/list';
@@ -9,6 +9,9 @@ import { map } from 'rxjs/operators';
 
 import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
 import { ApiStrategy } from '../../services/api-strategy.service';
+import { FsExampleComponent } from '@firestitch/example';
+import { ConfigureComponent } from '../configure';
+import { cloneDeep } from 'lodash-es';
 
 
 @Component({
@@ -16,10 +19,10 @@ import { ApiStrategy } from '../../services/api-strategy.service';
   templateUrl: 'kitchensink.component.html',
   styles: []
 })
-export class KitchenSinkComponent extends StrategyBaseComponent implements OnInit {
+export class KitchenSinkComponent extends StrategyBaseComponent implements OnInit, AfterContentInit {
 
-  @ViewChild('table')
-  public table: FsListComponent; // Controller fs-list
+  @ViewChild('list')
+  public list: FsListComponent; // Controller fs-list
   public config: FsListConfig;
 
   public weekdays = [
@@ -35,8 +38,9 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
   constructor(
     protected _apiStrategy: ApiStrategy,
     private _fsApi: FsApi,
-  ) {
+    private example: FsExampleComponent) {
     super(_apiStrategy);
+
   }
 
   public ngOnInit() {
@@ -123,7 +127,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
       actions: [
         {
           click: (event) => {
-            // this.table.enableOrder();
+            // this.list.enableOrder();
           },
           label: 'Kebab only button',
           menu: true
@@ -210,6 +214,14 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           );
       },
     };
+  }
+
+  ngAfterContentInit() {
+    this.example.setConfigureComponent(ConfigureComponent, {
+      config: this.config,
+      list: this.list,
+      defaultConfig: cloneDeep(this.config)
+    });
   }
 
   public onClick(row, event) {
