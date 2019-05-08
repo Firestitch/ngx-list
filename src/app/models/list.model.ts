@@ -684,9 +684,11 @@ export class List extends Model {
 
     this.operation = Operation.filter;
 
+    // Reset paging for request with correct offset
+    this.paging.resetPaging();
+
     if (this.fsScrollInstance) {
       this._data$.next([]);
-      this.paging.page = 1;
       this.fsScrollInstance.reload();
     } else {
       this.fetch$.next();
