@@ -35,7 +35,7 @@ export class ConfigureComponent {
         this.config.paging = this.defaultConfig.paging;
       }
 
-      this.config.paging.strategy = this.config.paging.strategy;
+      this.config.paging.strategy = pagingStrategy;
     }
 
     this.reload();
