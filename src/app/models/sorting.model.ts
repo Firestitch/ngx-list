@@ -53,13 +53,14 @@ export class Sorting {
    * @param column
    */
   public sortBy(column: Column) {
+    if (column.sortable) {
+      this._setSortingColumn(column);
 
-    this._setSortingColumn(column);
-
-    this._sortingChanged.next({
-      sortBy: this.sortingColumn.name,
-      sortDirection: this.sortingColumn.direction
-    });
+      this._sortingChanged.next({
+        sortBy: this.sortingColumn.name,
+        sortDirection: this.sortingColumn.direction
+      });
+    }
   }
 
   /**
