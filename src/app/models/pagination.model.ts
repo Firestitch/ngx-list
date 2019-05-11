@@ -210,13 +210,17 @@ export class Pagination extends Model {
    */
   public updatePaging(config, displayed = 0, loadMore = false) {
     if (!loadMore) {
-      this._fromJSON(config)
+      this._fromJSON(config);
+      this.displayed = displayed;
     } else {
       this.records = config.records;
+
+      if (this.records < this.displayed) {
+        this.displayed = this.records;
+      }
+
       this._removedRows = 0;
     }
-
-     this.displayed = displayed;
 
 
     this.updateTotalPages();

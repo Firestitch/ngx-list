@@ -1,7 +1,13 @@
 import { Component, OnInit, ViewChild, AfterContentInit } from '@angular/core';
 import { FsApi } from '@firestitch/api';
 import { ItemType } from '@firestitch/filter';
-import { ActionType, FsListConfig, PaginationStrategy, FsListComponent } from '@firestitch/list';
+import {
+  ActionType,
+  FsListConfig,
+  PaginationStrategy,
+  FsListComponent,
+  FsListAbstractRow
+} from '@firestitch/list';
 import { nameValue } from '@firestitch/common';
 
 import { BehaviorSubject } from 'rxjs';
@@ -176,6 +182,11 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
         {
           click: (row, event) => {
             console.log('delete', row, event);
+            this.list.removeData(
+              (listRow: FsListAbstractRow) => {
+                return listRow.name === row.name;
+              }
+            );
           },
           menu: true,
           remove: {

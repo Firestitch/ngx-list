@@ -37,7 +37,8 @@ import { FsListAbstractRow, FsListConfig, FsListTrackByFn, FsListTrackByTargetRo
 
 export class FsListComponent implements OnInit, OnDestroy {
 
-  @Input('config') set config(config: FsListConfig) {
+  @Input('config')
+  set config(config: FsListConfig) {
 
     if (this.list) {
       this.list.destroy();
