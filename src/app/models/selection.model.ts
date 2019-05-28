@@ -80,6 +80,10 @@ export class Selection {
         this._selectedRecords++;
         this.openDialog();
       } else {
+        if (this._selectedAll) {
+          this._selectedAll = false;
+        }
+
         this.selectedRows.delete(identifier);
         this._selectedRecords--;
       }
@@ -289,6 +293,9 @@ export class Selection {
    */
   private _onSelectAllActions(flag) {
     this._selectedAll = flag;
+
+    this.selectAllVisibleRows(flag);
+
     this.selectionDialogRef.updateSelected(this._totalRecordsCount);
 
     this._selectionChangeEvent(SelectionChangeType.SelectedAll, this._selectedAll);
