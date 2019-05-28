@@ -9,114 +9,116 @@
 </div>
 
 <ng-template #listContainerContent>
-  <!-- Header -->
-  <div class="fs-list-header-container">
-    <div class="fs-list-header"
-         [ngClass]="{ 'no-wrap': list.reorder?.manualReorderActivated || !list.filterConfig?.items.length }">
-      <div class="heading-container">
-        <h2 class="heading" *ngIf="list.heading">{{list.heading}}</h2>
-        <span class="subheading" *ngIf="list.subheading">{{list.subheading}}</span>
-      </div>
-      <!-- Filters/actions -->
-      <div class="fs-list-toolbar">
-        <fs-filter
-          #filter
-          class="fs-list-filter"
-          *ngIf="list.filterConfig"
-          [hidden]="!list.filterConfig?.items.length || list.reorder?.manualReorderActivated"
-          [filter]="list.filterConfig"
-          [sortUpdate]="list?.sorting?.sortingChanged"
-          [showSortBy]="!list.status"
-          [showFilterInput]="list.filterInput"
-        >
-        </fs-filter>
+  <ng-container *ngIf="list.data$ | async as listData">
+    <!-- Header -->
+    <div class="fs-list-header-container">
+      <div class="fs-list-header"
+           [ngClass]="{ 'no-wrap': list.reorder?.manualReorderActivated || !list.filterConfig?.items.length }">
+        <div class="heading-container">
+          <h2 class="heading" *ngIf="list.heading">{{list.heading}}</h2>
+          <span class="subheading" *ngIf="list.subheading">{{list.subheading}}</span>
+        </div>
+        <!-- Filters/actions -->
+        <div class="fs-list-toolbar">
+          <fs-filter
+            #filter
+            class="fs-list-filter"
+            *ngIf="list.filterConfig"
+            [hidden]="!list.filterConfig?.items.length || list.reorder?.manualReorderActivated"
+            [filter]="list.filterConfig"
+            [sortUpdate]="list?.sorting?.sortingChanged"
+            [showSortBy]="!list.status"
+            [showFilterInput]="list.filterInput"
+          >
+          </fs-filter>
 
-        <!-- Actions -->
-        <fs-list-actions
-          class="fs-list-actions"
-          *ngIf="list.actions?.length"
-          [menuActions]="list.menuActions"
-          [kebabActions]="list.kebabActions"
-          [manualReorderActivated]="list.reorder?.manualReorderActivated"
-          (reorderFinished)="list.reorder.finishReorder()"
-        ></fs-list-actions>
-        <!-- /Actions -->
+          <!-- Actions -->
+          <fs-list-actions
+            class="fs-list-actions"
+            *ngIf="list.actions?.length"
+            [menuActions]="list.menuActions"
+            [kebabActions]="list.kebabActions"
+            [manualReorderActivated]="list.reorder?.manualReorderActivated"
+            (reorderFinished)="list.reorder.finishReorder()"
+          ></fs-list-actions>
+          <!-- /Actions -->
+        </div>
       </div>
-    </div>
 
-    <!-- Status -->
-    <fs-list-status
-      [ngClass]="{ 'hidden-mobile': !list.status }"
-      [dataChangedRef]="list.dataChange$"
-      [sorting]="list.sorting"
-      [paging]="list.paging"
-      [scrollable]="list.scrollable"
-      *ngIf="
+      <!-- Status -->
+      <fs-list-status
+        [ngClass]="{ 'hidden-mobile': !list.status }"
+        [dataChangedRef]="list.dataChange$"
+        [sorting]="list.sorting"
+        [paging]="list.paging"
+        [scrollable]="list.scrollable"
+        *ngIf="
       list.paging &&
       (!list.reorder?.enabled || list.reorder?.status) &&
       ((list.scrollable && list.scrollable.status) || !list.scrollable) &&
-      (list.data$ | async).length > 0">
-    </fs-list-status>
-  </div>
+      listData.length > 0">
+      </fs-list-status>
+    </div>
 
 
-  <!-- Table implementation -->
-  <div class="fs-list-table-container" *ngIf="list.initialized">
-    <table class="fs-list-table" role="grid" *ngIf="(list.data$ | async).length > 0">
-      <thead fs-list-head
-             class="fs-list-head"
-             role="rowgroup"
-             [ngClass]="list.theadClass"
-             [columns]="list.columns"
-             [sorting]="list.sorting"
-             [selection]="list.selection"
-             [hasRowActions]="list.hasRowActions"
-             [reorderEnabled]="list.reorder?.enabled"
-             [reorderPosition]="list.reorder?.position"
-             [reorderStrategy]="list.reorder?.strategy"
-      >
-      </thead>
+    <!-- Table implementation -->
+    <div class="fs-list-table-container" *ngIf="list.initialized">
+      <table class="fs-list-table" role="grid" *ngIf="listData.length > 0">
+        <thead fs-list-head
+               class="fs-list-head"
+               role="rowgroup"
+               [ngClass]="list.theadClass"
+               [columns]="list.columns"
+               [sorting]="list.sorting"
+               [selection]="list.selection"
+               [hasRowActions]="list.hasRowActions"
+               [reorderEnabled]="list.reorder?.enabled"
+               [reorderPosition]="list.reorder?.position"
+               [reorderStrategy]="list.reorder?.strategy"
+        >
+        </thead>
 
-      <tbody fs-list-body
-             class="fs-list-body"
-             role="rowgroup"
-             [class.loading]="list.loading"
-             [rows]="list.data$ | async"
-             [rowActionsRaw]="list.rowActionsRaw"
-             [rowEvents]="list.rowEvents"
-             [rowClass]="list.rowClass"
-             [columns]="list.columns"
-             [hasFooter]="list.hasFooter"
-             [reorderEnabled]="list.reorder?.enabled"
-             [reorderPosition]="list.reorder?.position"
-             [reorderStrategy]="list.reorder?.strategy"
-             (reorderChanged)="list.reorder?.reorderChanged($event)"
-             [restoreMode]="list.restoreMode"
-             [selection]="list.selection"
-             [rowRemoved]="rowRemoved"
-      >
-      </tbody>
+        <tbody fs-list-body
+               class="fs-list-body"
+               role="rowgroup"
+               [class.loading]="list.loading"
+               [rows]="listData"
+               [rowActionsRaw]="list.rowActionsRaw"
+               [rowEvents]="list.rowEvents"
+               [rowClass]="list.rowClass"
+               [columns]="list.columns"
+               [hasFooter]="list.hasFooter"
+               [reorderEnabled]="list.reorder?.enabled"
+               [reorderPosition]="list.reorder?.position"
+               [reorderStrategy]="list.reorder?.strategy"
+               (reorderChanged)="list.reorder?.reorderChanged($event)"
+               [restoreMode]="list.restoreMode"
+               [selection]="list.selection"
+               [rowRemoved]="rowRemoved"
+        >
+        </tbody>
 
-      <tfoot fs-list-footer
-             class="fs-list-footer"
-             *ngIf="list.hasFooter"
-             [columns]="list.columns"
-             [selection]="list.selection"
-             [reorderEnabled]="list.reorder?.enabled"
-             [reorderPosition]="list.reorder?.position"
-             [hasRowActions]="list.hasRowActions">
-      </tfoot>
-    </table>
-  </div>
+        <tfoot fs-list-footer
+               class="fs-list-footer"
+               *ngIf="list.hasFooter"
+               [columns]="list.columns"
+               [selection]="list.selection"
+               [reorderEnabled]="list.reorder?.enabled"
+               [reorderPosition]="list.reorder?.position"
+               [hasRowActions]="list.hasRowActions">
+        </tfoot>
+      </table>
+    </div>
 
-  <fs-list-pagination
-    *ngIf="list.paging.enabled && !list.scrollable && (list.data$ | async).length > 0"
-    [dataChangedRef]="list.dataChange$"
-    [pagination]="list.paging">
-  </fs-list-pagination>
+    <fs-list-pagination
+      *ngIf="list.paging.enabled && !list.scrollable && listData.length > 0"
+      [dataChangedRef]="list.dataChange$"
+      [pagination]="list.paging">
+    </fs-list-pagination>
 
-  <div class="fs-list-no-results" *ngIf="(list.data$ | async).length === 0 && !list.loading && list.noResults?.message">
-    {{ list.noResults?.message }}
-  </div>
+    <div class="fs-list-no-results" *ngIf="listData.length === 0 && !list.loading && list.noResults?.message">
+      {{ list.noResults?.message }}
+    </div>
+  </ng-container>
 </ng-template>
 
