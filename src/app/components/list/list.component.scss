@@ -106,7 +106,10 @@
         outline: none;
 
         &.drag-col {
-          width: 1%;
+          // Percentage width doesn't work on IOS
+          // width: 1%;
+          width: 24px;
+          text-align: center;
           cursor: grab;
         }
 
