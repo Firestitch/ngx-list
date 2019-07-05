@@ -40,6 +40,7 @@ import { ReorderModel, ReorderStrategy } from './reorder.model';
 import { RowAction } from './row-action.model';
 import { Selection } from './selection.model';
 import { FilterConfig } from '@firestitch/filter';
+import { ColumnsController } from '../classes/columns-controller';
 
 const SHOW_DELETED_FILTERS_KEY = '$$_show_deleted_$$';
 
@@ -71,11 +72,10 @@ export class List extends Model {
   public hasRowActions;
   public menuActions: Action[] = [];
   public kebabActions: Action[] = [];
-
-  public columns: Column[] = [];
+  public columns = new ColumnsController();
   public persist: string;
   public paging = new Pagination();
-  public sorting = new Sorting(this.columns);
+  public sorting = new Sorting([]);
   public selection: Selection;
 
   public filterConfig: FilterConfig = null;
@@ -91,11 +91,8 @@ export class List extends Model {
 
   public loading = false;
 
-  public hasHeader = false;
-  public hasFooter = false;
   public initialFetch = true;
 
-  public theadClass = '';
   public fsScrollInstance: FsScrollInstance;
 
   public onDestroy$ = new Subject();
@@ -195,35 +192,14 @@ export class List extends Model {
       footer: this._footerConfig,
     };
 
-
-    templates.forEach((column) => {
-      const col = new Column(column, defaultConfigs);
-
-      if (col.sortable) {
-        this.sorting.addSortableColumn(col);
-      } // add column to sortable
-      if (col.headerTemplate || col.title) {
-        this.hasHeader = true;
-      }
-      if (col.footerTemplate) {
-        this.hasFooter = true;
-      }
-
-      this.columns.push(col);
-    });
-
-    this.theadClass = this.hasHeader ? 'has-header' : '';
-
-    this.updateColspans('headerConfigs', 'headerColspanned');
-    this.updateColspans('cellConfigs', 'cellColspanned');
-    this.updateColspans('footerConfigs', 'footerColspanned');
+    this.columns.setDefaults(defaultConfigs);
+    this.columns.initializeColumns(templates);
 
     // Set sortBy default column
     this.sorting.initialSortBy(this.config.sort);
 
     this.initFilters();
     this.initInfinityScroll();
-
   }
 
   public reload() {
@@ -361,6 +337,8 @@ export class List extends Model {
       this.selection.destroy();
     }
 
+    this.columns.destroy();
+
     this.onDestroy$.next();
     this.onDestroy$.complete();
 
@@ -372,6 +350,7 @@ export class List extends Model {
    * @param config
    */
   private initialize(config: FsListConfig) {
+    this.columns.initConfig(config.column);
     this.initDefaultOptions(config);
     this.initReoder(config);
     this.initRestore();
@@ -526,6 +505,15 @@ export class List extends Model {
               query,
               {
                 order: `${this.sorting.sortingColumn.name},${this.sorting.sortingColumn.direction}`
+              }
+            )
+          }
+
+          if (this.columns.configured) {
+            Object.assign(
+              query,
+              {
+                columns: this.columns.visibleColumnsNames,
               }
             )
           }
@@ -698,7 +686,8 @@ export class List extends Model {
   // Callback when Filter sort has been changed
   private filterSort(filterQuery, filterSort) {
     if (filterSort) {
-      const targetColumn = this.columns.find((column) => column.name === filterSort.value);
+      const targetColumn = this.columns.visibleColumns
+        .find((column) => column.name === filterSort.value);
 
       if (targetColumn) {
         this.sorting.sortBy(targetColumn);
@@ -711,26 +700,6 @@ export class List extends Model {
       this.sorting.sortingColumn = void 0;
       this.reload();
     }
-  }
-
-  private updateColspans(config, updateFlag) {
-    this.columns.forEach((col, index) => {
-
-      if (col[config].colspan !== void 0) {
-        const spanTo = index + +col[config].colspan;
-
-        if (!isNumber(spanTo)) {
-          return;
-        }
-        this.columns[index][updateFlag] = false;
-
-        for (let i = index + 1; i < spanTo; i++) {
-          if (this.columns[i]) {
-            this.columns[i][updateFlag] = true;
-          }
-        }
-      }
-    })
   }
 
   private completeFetch(response) {

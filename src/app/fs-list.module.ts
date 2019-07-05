@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {
   MatButtonModule,
   MatCheckboxModule,
+  MatDialogModule,
   MatIconModule,
   MatMenuModule,
   MatProgressSpinnerModule
@@ -29,6 +30,7 @@ import { FsFooterCellComponent } from './components/footer/footer-row/footer-cel
 import { FsStatusComponent } from './components/status/status.component';
 import { FsActionsComponent } from './components/actions/actions.component';
 import { FsPaginationComponent } from './components/pagination/pagination.component';
+import { CustomizeColsDialogComponent } from './components/customize-cols/customize-cols.component';
 
 // Directives
 import { FsListFooterDirective } from './directives/footer/footer.directive';
@@ -53,6 +55,7 @@ import { FsListConfig } from './interfaces';
     FlexLayoutModule,
     FsScrollModule,
     FsPromptModule,
+    MatDialogModule,
   ],
   declarations: [
     // Components
@@ -76,6 +79,13 @@ import { FsListConfig } from './interfaces';
     FsListCellDirective,
     FsListHeaderDirective,
     FsListFooterDirective,
+
+    // Dialog
+    CustomizeColsDialogComponent,
+  ],
+  entryComponents: [
+    // Dialog
+    CustomizeColsDialogComponent,
   ],
   providers: [
   ],

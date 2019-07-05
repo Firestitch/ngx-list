@@ -3,10 +3,11 @@ import { ActionType } from '../enums/button-type.enum';
 
 export class Action extends Model {
 
-  public primary = true; //TODO make it as @Alias after tsmodels release
+  public primary = true; // TODO make it as @Alias after tsmodels release
   @Alias() public icon: string;
   @Alias() public label: string;
   @Alias() public menu: boolean;
+  @Alias() public customize: boolean;
   @Alias() public className: string;
   @Alias() public click: Function;
   @Alias() public type: ActionType;

@@ -59,15 +59,14 @@
       </fs-list-status>
     </div>
 
-
     <!-- Table implementation -->
     <div class="fs-list-table-container" *ngIf="list.initialized">
       <table class="fs-list-table" role="grid" *ngIf="listData.length > 0">
         <thead fs-list-head
                class="fs-list-head"
                role="rowgroup"
-               [ngClass]="list.theadClass"
-               [columns]="list.columns"
+               [ngClass]="list.columns.theadClass"
+               [columns]="list.columns.visibleColumns"
                [sorting]="list.sorting"
                [selection]="list.selection"
                [hasRowActions]="list.hasRowActions"
@@ -85,8 +84,8 @@
                [rowActionsRaw]="list.rowActionsRaw"
                [rowEvents]="list.rowEvents"
                [rowClass]="list.rowClass"
-               [columns]="list.columns"
-               [hasFooter]="list.hasFooter"
+               [columns]="list.columns.visibleColumns"
+               [hasFooter]="list.columns.hasFooter"
                [reorderEnabled]="list.reorder?.enabled"
                [reorderPosition]="list.reorder?.position"
                [reorderStrategy]="list.reorder?.strategy"
@@ -99,8 +98,8 @@
 
         <tfoot fs-list-footer
                class="fs-list-footer"
-               *ngIf="list.hasFooter"
-               [columns]="list.columns"
+               *ngIf="list.columns.hasFooter"
+               [columns]="list.columns.visibleColumns"
                [selection]="list.selection"
                [reorderEnabled]="list.reorder?.enabled"
                [reorderPosition]="list.reorder?.position"

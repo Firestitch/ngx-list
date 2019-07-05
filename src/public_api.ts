@@ -60,7 +60,11 @@ export {
   FsListRowAction,
   FsListTrackByFn,
   FsListTrackByTargetRowFn,
-  FsPaging
+  FsPaging,
+  FsListColumnLoadFn,
+  FsListColumnChangeFn,
+  FsListColumn,
+  FsListColumnConfig,
 } from './app/interfaces/listconfig.interface';
 export { QueryOffsetStrategy, QueryPageStrategy } from './app/interfaces/pagination.interface';
 

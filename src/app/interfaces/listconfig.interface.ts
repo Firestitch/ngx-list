@@ -25,6 +25,7 @@ export interface FsListConfig {
   subheading?: string;
   status?: boolean;
   chips?: boolean;
+  column?: FsListColumnConfig;
   filterInput?: boolean;
   queryParam?: boolean;
   paging?: FsPaging | false;
@@ -117,6 +118,7 @@ export interface FsListAction {
   className?: string;
   click?: (event) => void;
   type?: ActionType;
+  customize?: boolean;
 }
 
 export interface FsListRowAction {
@@ -141,6 +143,24 @@ export interface FsListTrackByFn {
 
 export interface FsListTrackByTargetRowFn {
   (listRow: FsListAbstractRow, targetRow?: FsListAbstractRow): boolean
+}
+
+export interface FsListColumnLoadFn {
+  (): Observable<FsListColumn[]>;
+}
+
+export interface FsListColumnChangeFn {
+  (listColumns: FsListColumn[]): void;
+}
+
+export interface FsListColumnConfig {
+  load?: FsListColumnLoadFn;
+  change?: FsListColumnChangeFn;
+}
+
+export interface FsListColumn {
+  name: string;
+  show: boolean;
 }
 
 interface OnActionCallbackParams extends SelectionDialogActionCallbackParams {

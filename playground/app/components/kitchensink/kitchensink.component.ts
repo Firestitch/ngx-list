@@ -10,7 +10,7 @@ import {
 } from '@firestitch/list';
 import { nameValue } from '@firestitch/common';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
@@ -61,6 +61,19 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
       paging: {
         limits: [5, 15, 50, 150, 250, 500, 1000],
         strategy: PaginationStrategy.Page,
+      },
+      column: {
+        load: () => {
+          return of([
+            {
+              name: 'name',
+              show: true,
+            }
+          ]);
+        },
+        change: (columns) => {
+          console.log('Column changed ', columns);
+        }
       },
       filters: [
         {
@@ -131,6 +144,10 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
         }
       },
       actions: [
+        {
+          label: 'Customize',
+          customize: true
+        },
         {
           click: (event) => {
             // this.list.enableOrder();

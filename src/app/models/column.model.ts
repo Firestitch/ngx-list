@@ -19,6 +19,7 @@ const ALLOWED_DEFAULTS = [
 export class Column extends Model {
   @Alias() public title: string;
   @Alias() public name: string;
+  @Alias() public show: boolean;
   @Alias() public width: string;
   @Alias() public sortable: boolean;
   @Alias() public headerTemplate: TemplateRef<any>;

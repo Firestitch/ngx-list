@@ -9,6 +9,7 @@ import {
   QueryList,
   EventEmitter,
 } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { FsScrollService } from '@firestitch/scroll';
 import { FilterComponent } from '@firestitch/filter';
 import { SelectionDialog } from '@firestitch/selection';
@@ -25,6 +26,7 @@ import { FsListColumnDirective } from '../../directives/column/column.directive'
 import { FS_LIST_DEFAULT_CONFIG } from '../../fs-list.providers';
 
 import { FsListAbstractRow, FsListConfig, FsListTrackByFn, FsListTrackByTargetRowFn } from '../../interfaces';
+import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.component';
 
 
 @Component({
@@ -83,6 +85,7 @@ export class FsListComponent implements OnInit, OnDestroy {
     @Inject(FS_LIST_DEFAULT_CONFIG) private _defaultOptions,
     private fsScroll: FsScrollService,
     private selectionDialog: SelectionDialog,
+    private dialog: MatDialog,
   ) {}
 
   get filter() {
@@ -91,6 +94,7 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.subscribeToRemoveRow();
+    this.initCustomizableAction();
   }
 
   public ngOnDestroy() {
@@ -153,6 +157,32 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   public reorderFinish() {
     this.list.reorder.enabled = false;
+  }
+
+  private initCustomizableAction() {
+    const customizableAction = this.list.actions
+      .find((action) => action.customize);
+
+    if (customizableAction) {
+      customizableAction.click = () => {
+        const dialogRef = this.dialog.open(CustomizeColsDialogComponent, {
+          data: {
+            columns: this.list.columns.columnsForDialog,
+          },
+        });
+
+        dialogRef.afterClosed()
+          .pipe(
+            takeUntil(this._destroy),
+          )
+          .subscribe((data) => {
+            if (data) {
+              this.list.columns.updateVisibilityForCols(data);
+              this.list.columns.saveChangesRemote()
+            }
+          })
+      }
+    }
   }
 
   private subscribeToRemoveRow() {
