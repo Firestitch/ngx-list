@@ -21,7 +21,10 @@
     </ng-template>
   </fs-list-column>
 
-  <fs-list-column name="guid" title="GUID" [sortable]="true">
+  <fs-list-column name="guid" [sortable]="true">
+    <ng-template fs-list-header>
+      My GUID
+    </ng-template>
     <ng-template fs-list-cell let-guid="value" let-row="row">
       {{ row.guid }}
     </ng-template>
