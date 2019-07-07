@@ -6,8 +6,8 @@ import {
 import { IFilterConfigItem } from '@firestitch/filter';
 
 import { ActionType } from '../enums/button-type.enum';
-import { PaginationStrategy } from '../models/pagination.model';
 import { ReorderPosition, ReorderStrategy } from '../models/reorder.model';
+import { PaginationStrategy } from '../enums/pagination-strategy.enum';
 
 
 export interface FsPaging {
@@ -17,6 +17,7 @@ export interface FsPaging {
   pages?: number;
   records?: number;
   strategy?: PaginationStrategy;
+  loadMore?: string | boolean;
 }
 
 export interface FsListConfig {

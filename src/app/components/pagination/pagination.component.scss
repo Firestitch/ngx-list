@@ -47,6 +47,11 @@
   }
 }
 
+.fs-list-load-more button {
+  width: 100%;
+  margin-top: 10px;
+}
+
 @include phone {
   .paging .pages li a {
     padding: 16px 10px;

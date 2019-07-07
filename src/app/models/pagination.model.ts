@@ -2,12 +2,7 @@ import { Alias, Model } from 'tsmodels';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FsPaging, QueryOffsetStrategy, QueryPageStrategy } from '../interfaces';
-
-
-export enum PaginationStrategy {
-  Page = 'page',
-  Offset = 'offset',
-}
+import { PaginationStrategy } from '../enums/pagination-strategy.enum';
 
 
 export class Pagination extends Model {
@@ -30,6 +25,8 @@ export class Pagination extends Model {
   private _onDestroy = new Subject();
 
   private _enabled = true;
+  private _loadMoreEnabled = false;
+  private _loadMoreText = 'Load More';
   private _limits = [10, 25, 50, 100, 200];
 
   constructor(config: FsPaging | any = {}) {
@@ -141,6 +138,14 @@ export class Pagination extends Model {
     return this._strategy === PaginationStrategy.Page
       ? this._hasNextPagePageStrategy
       : this._hasNextPageOffsetStrategy;
+  }
+
+  get loadMoreEnabled(): boolean {
+    return this._loadMoreEnabled;
+  }
+
+  get loadMoreText(): string {
+    return this._loadMoreText;
   }
 
   public _fromJSON(value): void {
@@ -277,6 +282,14 @@ export class Pagination extends Model {
 
     this.pagesArray = Object.assign([], pagesArr);
 
+  }
+
+  public setLoadMore(config: boolean | string) {
+    this._loadMoreEnabled = !!config;
+
+    if (this._loadMoreEnabled && typeof config === 'string') {
+      this._loadMoreText = config;
+    }
   }
 
   /**

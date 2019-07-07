@@ -14,6 +14,7 @@ export class ConfigureComponent {
   public list: FsListComponent;
   public paginationStrategy = PaginationStrategy;
   public pagingStrategy = false;
+  public loadMoreEnabled = false;
 
   constructor(public drawer: DrawerRef<ConfigureComponent>,
               @Inject(DRAWER_DATA) public data: any) {
@@ -21,6 +22,8 @@ export class ConfigureComponent {
     this.defaultConfig = data.defaultConfig;
     this.list = data.list;
     this.pagingStrategy = this.config.paging.strategy;
+
+    this.loadMoreEnabled = !!this.config.loadMore;
   }
 
   reload() {
@@ -37,6 +40,12 @@ export class ConfigureComponent {
 
       this.config.paging.strategy = pagingStrategy;
     }
+
+    this.reload();
+  }
+
+  loadMore(event) {
+    this.config.paging.loadMore = event.checked;
 
     this.reload();
   }

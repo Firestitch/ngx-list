@@ -17,7 +17,7 @@ import {
   tap
 } from 'rxjs/operators';
 
-import { Column, SortingDirection } from './column.model';
+import { SortingDirection } from './column.model';
 import { Pagination } from './pagination.model';
 import { Sorting } from './sorting.model';
 
@@ -136,7 +136,7 @@ export class List extends Model {
           }
         }
       } else {
-        if (this.operation === Operation.loadMore) {
+        if (this.operation === Operation.loadMore || this.paging.loadMoreEnabled) {
           this._data$.next([ ...this.data, ...rows ]);
         } else {
           this._data$.next([...rows]);
@@ -229,7 +229,7 @@ export class List extends Model {
         if (this.selection) {
           this.selection.updateVisibleRecordsCount(this.paging.getVisibleRecords());
           this.selection.updateTotalRecordsCount(this.paging.records);
-          this.selection.pageChanged(this.scrollable);
+          this.selection.pageChanged(this.scrollable || this.paging.loadMoreEnabled);
         }
       }
 
@@ -457,6 +457,10 @@ export class List extends Model {
 
       if (pagingConfig.limit) {
         this.paging.limit = pagingConfig.limit;
+      }
+
+      if (!!pagingConfig.loadMore) {
+        this.paging.setLoadMore(pagingConfig.loadMore);
       }
 
       this.paging.updatePagingStrategy(pagingConfig.strategy);
@@ -724,7 +728,7 @@ export class List extends Model {
     if (this.selection) {
 
       if (this.paging.enabled) {
-        this.selection.pageChanged(this.scrollable);
+        this.selection.pageChanged(this.scrollable || this.paging.loadMoreEnabled);
         this.selection.updateVisibleRecordsCount(this.paging.getVisibleRecords());
         this.selection.updateTotalRecordsCount(this.paging.records);
       } else {

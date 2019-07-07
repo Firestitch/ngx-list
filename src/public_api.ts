@@ -34,7 +34,7 @@ export { FsListHeaderDirective } from './app/directives/header/header.directive'
 export { Action } from './app/models/action.model';
 export { Column, SortingDirection } from './app/models/column.model';
 export { List } from './app/models/list.model';
-export { Pagination, PaginationStrategy } from './app/models/pagination.model';
+export { Pagination } from './app/models/pagination.model';
 export { ReorderStrategy, ReorderPosition, ReorderModel } from './app/models/reorder.model';
 export { RowAction } from './app/models/row-action.model';
 export { Selection, SelectionChangeType } from './app/models/selection.model';
@@ -70,4 +70,4 @@ export { QueryOffsetStrategy, QueryPageStrategy } from './app/interfaces/paginat
 
 // Enums
 export { ActionType } from './app/enums/button-type.enum';
-
+export { PaginationStrategy } from './app/enums/pagination-strategy.enum';
