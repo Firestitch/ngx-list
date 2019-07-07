@@ -229,7 +229,7 @@ export class List extends Model {
         if (this.selection) {
           this.selection.updateVisibleRecordsCount(this.paging.getVisibleRecords());
           this.selection.updateTotalRecordsCount(this.paging.records);
-          this.selection.pageChanged(this.scrollable || this.paging.loadMoreEnabled);
+          this.selection.pageChanged(this.scrollable);
         }
       }
 
@@ -728,7 +728,7 @@ export class List extends Model {
     if (this.selection) {
 
       if (this.paging.enabled) {
-        this.selection.pageChanged(this.scrollable || this.paging.loadMoreEnabled);
+        this.selection.pageChanged(this.scrollable);
         this.selection.updateVisibleRecordsCount(this.paging.getVisibleRecords());
         this.selection.updateTotalRecordsCount(this.paging.records);
       } else {
