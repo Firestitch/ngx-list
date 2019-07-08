@@ -118,7 +118,7 @@
 
       <ng-container *ngFor="let action of menuRowActions; trackBy: trackByFn">
         <ng-container *ngIf="action.isGroup else simpleMenuItem">
-          <fs-menu-item [label]="action.label">
+          <fs-menu-group [label]="action.label">
             <ng-container *ngFor="let subAction of action.rowActions">
               <ng-template fs-menu-item
                            [hidden]="!subAction.isShown"
@@ -127,7 +127,7 @@
                 {{subAction.label}}
               </ng-template>
             </ng-container>
-          </fs-menu-item>
+          </fs-menu-group>
         </ng-container>
         <ng-template #simpleMenuItem>
           <ng-template fs-menu-item
