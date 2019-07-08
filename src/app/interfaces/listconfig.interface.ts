@@ -32,7 +32,7 @@ export interface FsListConfig {
   paging?: FsPaging | false;
   columnDefaults?: Object;
   filters?: IFilterConfigItem[];
-  rowActions?: FsListRowAction[];
+  rowActions?: (FsListRowActionGroup | FsListRowAction)[] ;
   rowClass?: (row: any) => string;
   actions?: FsListAction[];
   fetch?: (query: any) => Observable<any>;
@@ -120,6 +120,11 @@ export interface FsListAction {
   click?: (event) => void;
   type?: ActionType;
   customize?: boolean;
+}
+
+export interface FsListRowActionGroup {
+  label?: string;
+  rowActions: FsListRowAction[]
 }
 
 export interface FsListRowAction {

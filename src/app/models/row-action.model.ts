@@ -1,5 +1,6 @@
 import { Alias, Model } from 'tsmodels';
 import { ActionType } from '../enums/button-type.enum';
+import { FsListRowAction } from '../interfaces/listconfig.interface';
 
 export class RowAction extends Model {
 
@@ -12,15 +13,26 @@ export class RowAction extends Model {
   @Alias() public type: ActionType;
   @Alias() public show: Function;
   @Alias() public restore: boolean;
+  @Alias('rowActions', RowAction) public rowActions: RowAction[];
 
   public classArray: string[] = [];
 
   public isShown = true;
 
+  private _isGroup = false;
+
   constructor(config: any = {}) {
     super();
 
     this._fromJSON(config);
+
+    if (Array.isArray(this.rowActions)) {
+      this._isGroup = true;
+    }
+  }
+
+  get isGroup() {
+    return this._isGroup;
   }
 
   public _fromJSON(value: any) {
