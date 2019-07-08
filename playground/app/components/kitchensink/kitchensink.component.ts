@@ -170,49 +170,112 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           label: 'Secondary Button'
         }
       ],
+      // rowActions: [
+      //   {
+      //     click: (row, event) => {
+      //       console.log('Accept', row, event);
+      //     },
+      //     show: (row) => {
+      //       return row.show;
+      //     },
+      //     menu: false,
+      //     icon: 'done',
+      //     className: 'mat-warn',
+      //     type: ActionType.Icon,
+      //   },
+      //
+      //   {
+      //     click: (row, event) => {
+      //       console.log('edit', row, event);
+      //     },
+      //     show: (row) => {
+      //       return row.show;
+      //     },
+      //     menu: true,
+      //     icon: 'edit',
+      //     label: 'Edit',
+      //     type: ActionType.Basic
+      //   },
+      //   {
+      //     click: (row, event) => {
+      //       console.log('delete', row, event);
+      //       this.list.removeData(
+      //         (listRow: FsListAbstractRow) => {
+      //           return listRow.name === row.name;
+      //         }
+      //       );
+      //     },
+      //     menu: true,
+      //     remove: {
+      //       title: 'Confirm',
+      //       template: 'Are you sure you would like to delete this record?',
+      //     },
+      //     icon: 'delete',
+      //     label: 'Remove'
+      //   }
+      // ],
       rowActions: [
         {
           click: (row, event) => {
-            console.log('Accept', row, event);
-          },
-          show: (row) => {
-            return row.show;
-          },
-          menu: false,
-          icon: 'done',
-          className: 'mat-warn',
-          type: ActionType.Icon,
-        },
 
-        {
-          click: (row, event) => {
-            console.log('edit', row, event);
-          },
-          show: (row) => {
-            return row.show;
           },
           menu: true,
-          icon: 'edit',
-          label: 'Edit',
-          type: ActionType.Basic
+          label: 'Go to Project'
         },
         {
-          click: (row, event) => {
-            console.log('delete', row, event);
-            this.list.removeData(
-              (listRow: FsListAbstractRow) => {
-                return listRow.name === row.name;
-              }
-            );
-          },
-          menu: true,
-          remove: {
-            title: 'Confirm',
-            template: 'Are you sure you would like to delete this record?',
-          },
-          icon: 'delete',
-          label: 'Remove'
+          label: 'Group 1',
+          rowActions: [
+            {
+              click: (row, event) => {
+
+              },
+              menu: true,
+              icon: 'edit',
+              label: 'Edit'
+            },
+            {
+              click: (row, event) => {
+                console.log('delete', row, event);
+                this.list.removeData(
+                  (listRow: FsListAbstractRow) => {
+                    return listRow.name === row.name;
+                  }
+                );
+              },
+              menu: true,
+              remove: {
+                title: 'Confirm',
+                template: 'Are you sure you would like to delete this record?',
+              },
+              icon: 'delete',
+              label: 'Remove'
+            },
+          ]
+        },
+        {
+          label: 'View Donations',
+          rowActions: [
+            {
+              click: (row, event) => {
+
+              },
+              label: 'All'
+            },
+            {
+              click: (row, event) => {
+
+              },
+              label: 'Complete'
+            },
+            {
+              click: (row, event) => {
+
+              },
+              label: 'Overdue'
+            },
+          ]
         }
+
       ],
       rowClass: (row) => {
         return 'custom-row-class';
