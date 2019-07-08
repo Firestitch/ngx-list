@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
   templateUrl: 'customize-cols.component.html',
+  styleUrls: ['customize-cols.component.scss']
 })
 export class CustomizeColsDialogComponent {
   public columns = [];

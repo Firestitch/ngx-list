@@ -12,18 +12,18 @@
     </ng-template>
   </fs-list-column>
 
-  <fs-list-column name="name" title="Name" [sortable]="true">
+  <fs-list-column name="name" [sortable]="true">
     <ng-template fs-list-header>
-      <b>User</b> name
+      User Name
     </ng-template>
     <ng-template fs-list-cell let-value="value" let-row="row">
       {{value}}
     </ng-template>
   </fs-list-column>
 
-  <fs-list-column name="guid" [sortable]="true">
+  <fs-list-column name="guid" title="GUID" [sortable]="true">
     <ng-template fs-list-header>
-      My GUID
+      <b>GUID</b>
     </ng-template>
     <ng-template fs-list-cell let-guid="value" let-row="row">
       {{ row.guid }}
