@@ -45,7 +45,7 @@ export class ConfigureComponent {
   }
 
   loadMore(event) {
-    this.config.paging.loadMoreOffsetStrategy = event.checked;
+    this.config.paging.loadMore = event.checked ? {} : null;
 
     this.reload();
   }
