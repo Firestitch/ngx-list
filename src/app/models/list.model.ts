@@ -25,7 +25,7 @@ import { Sorting } from './sorting.model';
 import {
   FsListAbstractRow,
   FsListConfig,
-  FsListFetchSubscription,
+  FsListFetchSubscription, FsListLoadMoreConfig,
   FsListNoResultsConfig,
   FsListRestoreConfig,
   FsListScrollableConfig,
@@ -355,7 +355,7 @@ export class List extends Model {
     this.initReoder(config);
     this.initRestore();
     this.initActions();
-    this.initPaging(config.paging);
+    this.initPaging(config.paging, config.loadMore);
     this.initSelection(config.selection, this.selectionDialog);
   }
 
@@ -447,8 +447,9 @@ export class List extends Model {
   /**
    * Init paging
    * @param pagingConfig
+   * @param loadMore
    */
-  private initPaging(pagingConfig: FsPaging | false) {
+  private initPaging(pagingConfig: FsPaging | false, loadMore: FsListLoadMoreConfig) {
     if (pagingConfig) {
       // this.paging.manual = pagingConfig.manual;
       if (pagingConfig.limits) {
@@ -459,8 +460,8 @@ export class List extends Model {
         this.paging.limit = pagingConfig.limit;
       }
 
-      if (!!pagingConfig.loadMore) {
-        this.paging.setLoadMore(pagingConfig.loadMore);
+      if (!!loadMore) {
+        this.paging.setLoadMore(loadMore);
       }
 
       this.paging.updatePagingStrategy(pagingConfig.strategy);

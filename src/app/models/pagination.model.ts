@@ -1,7 +1,12 @@
 import { Alias, Model } from 'tsmodels';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FsPaging, QueryOffsetStrategy, QueryPageStrategy } from '../interfaces';
+import {
+  FsListLoadMoreConfig,
+  FsPaging,
+  QueryOffsetStrategy,
+  QueryPageStrategy
+} from '../interfaces';
 import { PaginationStrategy } from '../enums/pagination-strategy.enum';
 
 
@@ -284,11 +289,11 @@ export class Pagination extends Model {
 
   }
 
-  public setLoadMore(config: boolean | string) {
+  public setLoadMore(config: FsListLoadMoreConfig) {
     this._loadMoreEnabled = !!config;
 
-    if (this._loadMoreEnabled && typeof config === 'string') {
-      this._loadMoreText = config;
+    if (this._loadMoreEnabled && config.label) {
+      this._loadMoreText = config.label;
     }
   }
 

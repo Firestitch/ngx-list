@@ -17,7 +17,6 @@ export interface FsPaging {
   pages?: number;
   records?: number;
   strategy?: PaginationStrategy;
-  loadMore?: string | boolean;
 }
 
 export interface FsListConfig {
@@ -30,6 +29,7 @@ export interface FsListConfig {
   filterInput?: boolean;
   queryParam?: boolean;
   paging?: FsPaging | false;
+  loadMore?: FsListLoadMoreConfig;
   columnDefaults?: Object;
   filters?: IFilterConfigItem[];
   rowActions?: (FsListRowActionGroup | FsListRowAction)[] ;
@@ -48,6 +48,10 @@ export interface FsListConfig {
   sort?: string;
   restore?: FsListRestoreConfig;
   noResults?: FsListNoResultsConfig
+}
+
+export interface FsListLoadMoreConfig {
+  label?: string;
 }
 
 export interface FsListReorderConfig {
