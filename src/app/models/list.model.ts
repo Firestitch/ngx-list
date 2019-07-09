@@ -455,7 +455,7 @@ export class List extends Model {
    * @param pagingConfig
    * @param loadMore
    */
-  private initPaging(pagingConfig: FsPaging | false, loadMore: FsListLoadMoreConfig) {
+  private initPaging(pagingConfig: FsPaging | false, loadMore: FsListLoadMoreConfig | boolean) {
     if (pagingConfig) {
       // this.paging.manual = pagingConfig.manual;
       if (pagingConfig.limits) {

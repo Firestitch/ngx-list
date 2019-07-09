@@ -29,7 +29,7 @@ export interface FsListConfig {
   filterInput?: boolean;
   queryParam?: boolean;
   paging?: FsPaging | false;
-  loadMore?: FsListLoadMoreConfig;
+  loadMore?: FsListLoadMoreConfig | boolean;
   columnDefaults?: Object;
   filters?: IFilterConfigItem[];
   rowActions?: (FsListRowActionGroup | FsListRowAction)[] ;

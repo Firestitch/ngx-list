@@ -60,8 +60,9 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
       queryParam: true,
       paging: {
         limits: [5, 15, 50, 150, 250, 500, 1000],
-        strategy: PaginationStrategy.Page
+        strategy: PaginationStrategy.Page,
       },
+      loadMore: true,
       column: {
         load: () => {
           return of([

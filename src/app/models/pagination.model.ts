@@ -1,6 +1,7 @@
 import { Alias, Model } from 'tsmodels';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { isObject } from 'lodash-es';
 import {
   FsListLoadMoreConfig,
   FsPaging,
@@ -291,11 +292,11 @@ export class Pagination extends Model {
 
   }
 
-  public setLoadMore(config: FsListLoadMoreConfig) {
+  public setLoadMore(config: FsListLoadMoreConfig | boolean) {
     this._loadMoreEnabled = !!config;
 
-    if (this._loadMoreEnabled && config.label) {
-      this._loadMoreText = config.label;
+    if (this._loadMoreEnabled && isObject(config) && (config as FsListLoadMoreConfig).label) {
+      this._loadMoreText = (config as FsListLoadMoreConfig).label;
     }
   }
 
