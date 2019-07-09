@@ -23,7 +23,7 @@ export class ConfigureComponent {
     this.list = data.list;
     this.pagingStrategy = this.config.paging.strategy;
 
-    this.loadMoreEnabled = !!this.config.loadMore;
+    this.loadMoreEnabled = !!this.config.loadMoreOffsetStrategy;
   }
 
   reload() {
@@ -45,7 +45,7 @@ export class ConfigureComponent {
   }
 
   loadMore(event) {
-    this.config.paging.loadMore = event.checked;
+    this.config.paging.loadMoreOffsetStrategy = event.checked;
 
     this.reload();
   }

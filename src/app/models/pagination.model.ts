@@ -4,10 +4,12 @@ import { takeUntil } from 'rxjs/operators';
 import {
   FsListLoadMoreConfig,
   FsPaging,
+  PageChange,
   QueryOffsetStrategy,
-  QueryPageStrategy
+  QueryPageStrategy,
 } from '../interfaces';
 import { PaginationStrategy } from '../enums/pagination-strategy.enum';
+import { PageChangeType } from '../enums/page-change-type.enum';
 
 
 export class Pagination extends Model {
@@ -26,7 +28,7 @@ export class Pagination extends Model {
   private _strategy: PaginationStrategy = PaginationStrategy.Page;
   private _removedRows = 0;
 
-  private _pageChanged = new Subject<number | null>();
+  private _pageChanged = new Subject<PageChange>();
   private _onDestroy = new Subject();
 
   private _enabled = true;
@@ -43,7 +45,7 @@ export class Pagination extends Model {
   /**
    * Fire if page was changed
    */
-  get pageChanged(): Observable<number | null> {
+  get pageChanged(): Observable<PageChange> {
     return this._pageChanged.pipe(takeUntil(this._onDestroy));
   }
 
@@ -328,7 +330,11 @@ export class Pagination extends Model {
   public setLimit(limit) {
     this.limit = limit;
     this.resetPaging();
-    this._pageChanged.next();
+
+    this._pageChanged.next({
+      type: PageChangeType.LimitChanged,
+      payload: limit
+    });
   }
 
   /**
@@ -349,7 +355,10 @@ export class Pagination extends Model {
 
       this.updateOffset();
 
-      this._pageChanged.next(page);
+      this._pageChanged.next({
+        type: PageChangeType.Default,
+        payload: page
+      });
     }
   }
 
@@ -370,7 +379,10 @@ export class Pagination extends Model {
 
       this.updateOffset();
 
-      this._pageChanged.next(this.page);
+      this._pageChanged.next({
+        type: PageChangeType.Default,
+        payload: this.page,
+      });
     }
   }
 
@@ -383,7 +395,10 @@ export class Pagination extends Model {
 
       this.updateOffset();
 
-      this._pageChanged.next(this.page);
+      this._pageChanged.next({
+        type: PageChangeType.Default,
+        payload: this.page,
+      });
     }
   }
 
@@ -396,7 +411,10 @@ export class Pagination extends Model {
 
       this.updateOffset();
 
-      this._pageChanged.next(this.page);
+      this._pageChanged.next({
+        type: PageChangeType.Default,
+        payload: this.page,
+      });
     }
   }
 
@@ -409,7 +427,10 @@ export class Pagination extends Model {
 
       this.updateOffset();
 
-      this._pageChanged.next(this.page);
+      this._pageChanged.next({
+        type: PageChangeType.Default,
+        payload: this.page
+      });
     }
   }
 

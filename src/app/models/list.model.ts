@@ -1,8 +1,8 @@
-import { ItemType } from '@firestitch/filter';
-import { FsScrollService, FsScrollInstance } from '@firestitch/scroll';
+import { FilterConfig, ItemType } from '@firestitch/filter';
+import { FsScrollInstance, FsScrollService } from '@firestitch/scroll';
 import { SelectionDialog } from '@firestitch/selection';
 
-import { isNumber, merge, isFunction, isObject } from 'lodash-es';
+import { isFunction, isObject, merge } from 'lodash-es';
 import { Alias, Model } from 'tsmodels';
 
 import { BehaviorSubject, from, Observable, Subject, Subscription } from 'rxjs';
@@ -20,27 +20,28 @@ import {
 import { SortingDirection } from './column.model';
 import { Pagination } from './pagination.model';
 import { Sorting } from './sorting.model';
-
 // Interfaces
 import {
   FsListAbstractRow,
   FsListConfig,
-  FsListFetchSubscription, FsListLoadMoreConfig,
+  FsListFetchSubscription,
+  FsListLoadMoreConfig,
   FsListNoResultsConfig,
   FsListRestoreConfig,
   FsListScrollableConfig,
   FsListSelectionConfig,
   FsListTrackByFn,
   FsListTrackByTargetRowFn,
-  FsPaging
+  FsPaging,
+  PageChange
 } from '../interfaces';
 import { StyleConfig } from './styleConfig.model';
 import { Action } from './action.model';
 import { ReorderModel, ReorderStrategy } from './reorder.model';
 import { RowAction } from './row-action.model';
 import { Selection } from './selection.model';
-import { FilterConfig } from '@firestitch/filter';
 import { ColumnsController } from '../classes/columns-controller';
+import { PageChangeType } from '../enums/page-change-type.enum';
 
 const SHOW_DELETED_FILTERS_KEY = '$$_show_deleted_$$';
 
@@ -136,7 +137,7 @@ export class List extends Model {
           }
         }
       } else {
-        if (this.operation === Operation.loadMore || this.paging.loadMoreEnabled) {
+        if (this.operation === Operation.loadMoreOffsetStrategy || this.paging.loadMoreEnabled) {
           this._data$.next([ ...this.data, ...rows ]);
         } else {
           this._data$.next([...rows]);
@@ -220,8 +221,13 @@ export class List extends Model {
    * Watch page changes
    */
   public subscribe() {
-    this.paging.pageChanged.subscribe(() => {
+    this.paging.pageChanged.subscribe((event: PageChange) => {
       this.operation = Operation.pageChange;
+
+      // Remove all rows if limits was changed
+      if (event.type === PageChangeType.LimitChanged && this.paging.hasPageStrategy) {
+        this._data$.next([]);
+      }
 
       if (this.paging.hasOffsetStrategy) {
         this.paging.updatePagination();
@@ -307,7 +313,7 @@ export class List extends Model {
       } else {
         // Fetch more if has something for fetch
         if (this.data.length || this.paging.hasNextPage) {
-          this.operation = Operation.loadMore;
+          this.operation = Operation.loadMoreOffsetStrategy;
 
           this.paging.removeRows(removedCount);
           this.fetch$.next( { loadOffset: true});
@@ -717,7 +723,7 @@ export class List extends Model {
       this.paging.updatePaging(
         response.paging,
         displayed,
-        this.operation === Operation.loadMore
+        this.operation === Operation.loadMoreOffsetStrategy
       );
     }
 
@@ -853,5 +859,5 @@ export enum Operation {
   filter,
   sort,
   pageChange,
-  loadMore,
+  loadMoreOffsetStrategy,
 }
