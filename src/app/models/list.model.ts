@@ -286,6 +286,23 @@ export class List extends Model {
     }
   }
 
+  public replaceData(
+    targetRow: FsListAbstractRow,
+    trackBy?: FsListTrackByTargetRowFn
+  ) {
+    const rowIndex = this.data.findIndex((listRow) => {
+      return trackBy(listRow, targetRow);
+    });
+
+    if (rowIndex > -1) {
+      this.data[rowIndex] = targetRow;
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
   public removeData(data: FsListAbstractRow | FsListAbstractRow[] | FsListTrackByTargetRowFn): boolean {
     let removedCount = 0;
 

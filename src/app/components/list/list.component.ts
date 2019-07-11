@@ -139,6 +139,13 @@ export class FsListComponent implements OnInit, OnDestroy {
     return this.list.updateData(rows, trackBy);
   }
 
+  public replaceRow(
+    row: FsListAbstractRow,
+    trackBy?: FsListTrackByTargetRowFn
+  ): boolean {
+    return this.list.replaceData(row, trackBy);
+  }
+
   public removeData(data: FsListAbstractRow | FsListAbstractRow[] | FsListTrackByTargetRowFn): boolean {
     return this.list.removeData(data);
   }
