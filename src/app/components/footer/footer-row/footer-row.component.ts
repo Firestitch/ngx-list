@@ -10,6 +10,7 @@ import {
 
 import { FsPrompt } from '@firestitch/prompt';
 import { FsRowComponent } from '../../body/row/row.component';
+import { ReorderPosition } from '../../../models/reorder.model';
 
 
 @Component({
@@ -19,6 +20,8 @@ import { FsRowComponent } from '../../body/row/row.component';
 })
 export class FsFooterRowComponent extends FsRowComponent {
   @Input() hasRowActions: boolean;
+
+  public readonly ReorderPosition = ReorderPosition;
 
   constructor(cdRef: ChangeDetectorRef,
               fsPrompt: FsPrompt,
