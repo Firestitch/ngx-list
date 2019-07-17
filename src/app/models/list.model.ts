@@ -198,6 +198,9 @@ export class List extends Model {
 
     // Set sortBy default column
     this.sorting.initialSortBy(this.config.sort);
+    this.columns.sortableColumns.forEach((column) => {
+      this.sorting.addSortableColumn(column);
+    });
 
     this.initFilters();
     this.initInfinityScroll();

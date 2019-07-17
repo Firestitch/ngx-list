@@ -32,6 +32,10 @@ export class ColumnsController {
     return this._columns.slice();
   }
 
+  public get sortableColumns() {
+    return this._columns.filter((column) => column.sortable);
+  }
+
   public get visibleColumns() {
     return this._visibleColumns.slice();
   }
