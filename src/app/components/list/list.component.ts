@@ -7,7 +7,7 @@ import {
   ViewChild,
   Inject,
   QueryList,
-  EventEmitter,
+  EventEmitter, ElementRef,
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { FsScrollService } from '@firestitch/scroll';
@@ -48,7 +48,7 @@ export class FsListComponent implements OnInit, OnDestroy {
 
     const defaultOpts = cloneDeep(this._defaultOptions);
     const listConfig = mergeWith(defaultOpts, config, this._configMergeCustomizer);
-    this.list = new List(listConfig, this.fsScroll, this.selectionDialog);
+    this.list = new List(this._el, listConfig, this.fsScroll, this.selectionDialog);
 
     if (this.listColumnDirectives) {
       this.list.tranformTemplatesToColumns(this.listColumnDirectives);
@@ -82,6 +82,7 @@ export class FsListComponent implements OnInit, OnDestroy {
   }
 
   constructor(
+    private _el: ElementRef,
     @Inject(FS_LIST_DEFAULT_CONFIG) private _defaultOptions,
     private fsScroll: FsScrollService,
     private selectionDialog: SelectionDialog,

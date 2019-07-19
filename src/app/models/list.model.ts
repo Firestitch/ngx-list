@@ -1,3 +1,4 @@
+import { ElementRef } from '@angular/core';
 import { FilterConfig, ItemType } from '@firestitch/filter';
 import { FsScrollInstance, FsScrollService } from '@firestitch/scroll';
 import { SelectionDialog } from '@firestitch/selection';
@@ -106,6 +107,7 @@ export class List extends Model {
   private _fsScrollSubscription: Subscription;
 
   constructor(
+    private el: ElementRef,
     private config: FsListConfig = {},
     private fsScroll: FsScrollService,
     private selectionDialog: SelectionDialog,
@@ -243,6 +245,10 @@ export class List extends Model {
           this.selection.updateTotalRecordsCount(this.paging.records);
           this.selection.pageChanged(this.scrollable);
         }
+      }
+
+      if (!this.scrollable && !this.paging.loadMoreEnabled) {
+        this.el.nativeElement.scrollIntoView({ behavior: 'smooth' });
       }
 
       this.fetch$.next();
