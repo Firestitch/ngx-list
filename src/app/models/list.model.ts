@@ -137,7 +137,10 @@ export class List extends Model {
           }
         }
       } else {
-        if (this.operation === Operation.loadMoreOffsetStrategy || this.paging.loadMoreEnabled) {
+        if (
+          this.operation === Operation.loadMore ||
+          (this.operation === Operation.pageChange && this.paging.loadMoreEnabled)
+        ) {
           this._data$.next([ ...this.data, ...rows ]);
         } else {
           this._data$.next([...rows]);
@@ -333,7 +336,7 @@ export class List extends Model {
       } else {
         // Fetch more if has something for fetch
         if (this.data.length || this.paging.hasNextPage) {
-          this.operation = Operation.loadMoreOffsetStrategy;
+          this.operation = Operation.loadMore;
 
           this.paging.removeRows(removedCount);
           this.fetch$.next( { loadOffset: true});
@@ -743,7 +746,7 @@ export class List extends Model {
       this.paging.updatePaging(
         response.paging,
         displayed,
-        this.operation === Operation.loadMoreOffsetStrategy
+        this.operation === Operation.loadMore
       );
     }
 
@@ -879,5 +882,5 @@ export enum Operation {
   filter,
   sort,
   pageChange,
-  loadMoreOffsetStrategy,
+  loadMore,
 }
