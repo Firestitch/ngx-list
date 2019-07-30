@@ -11,7 +11,8 @@ import { SortingDirection } from '../../models/column.model';
   styleUrls: [
     './status.component.scss',
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  preserveWhitespaces: true
 })
 export class FsStatusComponent implements OnInit {
   @Input() public paging: Pagination;

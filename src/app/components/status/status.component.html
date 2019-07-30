@@ -22,14 +22,12 @@
 <ng-template #sortedBy>
   <span *ngIf="sorting.sortingColumn" class="sort-by">
      sorted by
-    <a class="order-toggle" [fsMenuTriggerFor]="orderColumnsMenu">
-      <ng-container *ngIf="sorting.sortingColumn.title; else sortByTemplate">
-        {{ sorting.sortingColumn.title }}
-      </ng-container>
-      <ng-template #sortByTemplate>
-        <ng-template [ngTemplateOutlet]="sorting.sortingColumn.headerTemplate"></ng-template>
-      </ng-template>
-    </a>,
+    <ng-container *ngIf="sorting.sortingColumn.title; else sortByTemplate">
+      <a class="order-toggle" [fsMenuTriggerFor]="orderColumnsMenu">{{ sorting.sortingColumn.title }}</a>,
+    </ng-container>
+    <ng-template #sortByTemplate>
+      <a class="order-toggle" [fsMenuTriggerFor]="orderColumnsMenu"><ng-template [ngTemplateOutlet]="sorting.sortingColumn.headerTemplate"></ng-template></a>,
+    </ng-template>
     <a class="order-toggle" [fsMenuTriggerFor]="orderDirectionMenu">{{ sorting.sortingColumn.fullNameDirection }}</a>
   </span>
 </ng-template>

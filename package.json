@@ -1,7 +1,7 @@
 {
   "name": "@firestitch/list",
   "title": "List",
-  "version": "7.1.22",
+  "version": "7.1.23",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-list"
