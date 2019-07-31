@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { FsApi } from '@firestitch/api';
 import { FsListConfig, ActionType, FsListComponent } from '@firestitch/list';
 import { ItemType } from '@firestitch/filter';

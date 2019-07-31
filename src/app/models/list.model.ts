@@ -121,11 +121,11 @@ export class List extends Model {
     this._cellConfig = new StyleConfig(config.cell);
     this._footerConfig = new StyleConfig(config.footer);
 
-    this.subscribe();
-
     this.initialized = true;
 
-    this.dataChange$.subscribe((rows) => {
+    this.dataChange$.pipe(
+      takeUntil(this.onDestroy$),
+    ).subscribe((rows) => {
       if (this.scrollable) {
         switch (this.operation) {
           case Operation.filter:
@@ -151,6 +151,8 @@ export class List extends Model {
 
       this.operation = Operation.idle;
     });
+
+    this.subscribe();
 
     if (this.initialFetch) {
       this.operation = Operation.load;
@@ -229,7 +231,11 @@ export class List extends Model {
    * Watch page changes
    */
   public subscribe() {
-    this.paging.pageChanged.subscribe((event: PageChange) => {
+    this.paging.pageChanged
+      .pipe(
+        takeUntil(this.onDestroy$),
+      )
+      .subscribe((event: PageChange) => {
       this.operation = Operation.pageChange;
 
       // Remove all rows if limits was changed
@@ -254,7 +260,11 @@ export class List extends Model {
       this.fetch$.next();
     });
 
-    this.sorting.sortingChanged.subscribe(() => {
+    this.sorting.sortingChanged
+      .pipe(
+        takeUntil(this.onDestroy$),
+      )
+      .subscribe(() => {
       this.operation = Operation.sort;
       this.paging.page = 1;
 
@@ -399,7 +409,7 @@ export class List extends Model {
    * @param config
    */
   private initDefaultOptions(config) {
-    if (config.initialFetch === false) { // TODO fixme after tsmodel version update
+    if (config.initialFetch === false || config.scrollable) { // TODO fixme after tsmodel version update
       this.initialFetch = false;
     }
     if (config.status === false) {
@@ -531,6 +541,7 @@ export class List extends Model {
   private listenFetch() {
     this.fetch$
       .pipe(
+        takeUntil(this.onDestroy$),
         debounceTime(50),
         tap(() => {
           this.loading = true;
@@ -563,7 +574,6 @@ export class List extends Model {
         switchMap((query) => {
           return this.fetchRemote(query);
         }),
-        takeUntil(this.onDestroy$),
         catchError((error, source$) => {
           return source$;
         })
@@ -624,7 +634,11 @@ export class List extends Model {
               }
           });
 
-          this.dataChange$.subscribe(() => {
+          this.dataChange$
+            .pipe(
+              takeUntil(this.onDestroy$),
+            )
+            .subscribe(() => {
             fsScrollInstance.loaded();
           });
         });
@@ -692,6 +706,7 @@ export class List extends Model {
    * @param filterSort
    */
   private filterChange(filterQuery, filterSort) {
+
 
     this.filtersQuery = filterQuery;
 

@@ -19,6 +19,7 @@ export class Sorting {
   public fakeSortingColumns: Column[] = [];
   public sortingColumn: Column;
 
+  private _initialization = false;
   private _sortingChanged = new Subject<SortingChangeEvent>();
   private _onDestroy = new Subject();
 
@@ -41,10 +42,7 @@ export class Sorting {
     if (this.sortingColumn && this.sortingColumn.sortingDirection !== direction) {
       this._setSortingDirection(direction);
 
-      this._sortingChanged.next({
-        sortBy: this.sortingColumn.name,
-        sortDirection: this.sortingColumn.direction
-      });
+      this._notifySortChanged();
     }
   }
 
@@ -56,10 +54,7 @@ export class Sorting {
     if (column.sortable) {
       this._setSortingColumn(column);
 
-      this._sortingChanged.next({
-        sortBy: this.sortingColumn.name,
-        sortDirection: this.sortingColumn.direction
-      });
+      this._notifySortChanged();
     }
   }
 
@@ -84,8 +79,12 @@ export class Sorting {
    * @param sort
    */
   public initialSortBy(sort: string) {
+    this._initialization = true;
+
     if (!sort || !isString(sort)) {
       this.sortByFirstSortbale();
+
+      this._initialization = false;
       return;
     }
 
@@ -104,6 +103,8 @@ export class Sorting {
       ? SortingDirection.asc
       : SortingDirection.desc;
     this._setSortingDirection(direction);
+
+    this._initialization = false;
   }
 
   /**
@@ -149,5 +150,13 @@ export class Sorting {
 
   private _setSortingDirection(direction) {
     this.sortingColumn.sortingDirection = direction;
+  }
+
+  private _notifySortChanged() {
+    if (this._initialization) { return; }
+    this._sortingChanged.next({
+      sortBy: this.sortingColumn.name,
+      sortDirection: this.sortingColumn.direction
+    });
   }
 }
