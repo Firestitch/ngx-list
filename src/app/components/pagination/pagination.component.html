@@ -4,15 +4,15 @@
     <div class="records"></div>
     <div fxFlex>
       <div class="pages">
-        <a class="first" [class.disabled]="!pagination.hasPrevPage" (click)="pagination.goFirst()">
+        <a matRipple matRippleRadius="15" [matRippleCentered]="true" class="first" [class.disabled]="!pagination.hasPrevPage" (click)="pagination.goFirst()">
           <i class="material-icons">first_page</i>
         </a>
 
-        <a class="previous" [class.disabled]="!pagination.hasPrevPage" (click)="pagination.goPrev()">
+        <a matRipple matRippleRadius="15" [matRippleCentered]="true" class="previous" [class.disabled]="!pagination.hasPrevPage" (click)="pagination.goPrev()">
           <i class="material-icons">keyboard_arrow_left</i>
         </a>
 
-        <a  class="page"
+        <a matRipple matRippleRadius="15" [matRippleCentered]="true" class="page"
             *ngFor="let page of pagination.pagesArray;"
             [class.active]="pagination.isActive(page)"
             (click)="pagination.goToPage(page)">
@@ -22,11 +22,11 @@
           </div>
         </a>
 
-        <a class="next" [class.disabled]="!pagination.hasNextPage" (click)="pagination.goNext()">
+        <a matRipple matRippleRadius="15" [matRippleCentered]="true" class="next" [class.disabled]="!pagination.hasNextPage" (click)="pagination.goNext()">
           <i class="material-icons">keyboard_arrow_right</i>
         </a>
 
-        <a class="last" [class.disabled]="!pagination.hasNextPage" (click)="pagination.goLast()">
+        <a matRipple matRippleRadius="15" [matRippleCentered]="true" class="last" [class.disabled]="!pagination.hasNextPage" (click)="pagination.goLast()">
           <i class="material-icons">last_page</i>
         </a>
 

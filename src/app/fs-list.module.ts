@@ -6,7 +6,8 @@ import {
   MatDialogModule,
   MatIconModule,
   MatMenuModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatRippleModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -50,6 +51,7 @@ import { FsListConfig } from './interfaces';
     MatMenuModule,
     MatProgressSpinnerModule,
     MatCheckboxModule,
+    MatRippleModule,
     FsFilterModule,
     FsMenuModule,
     FlexLayoutModule,

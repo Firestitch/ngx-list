@@ -18,8 +18,8 @@ export class ColumnsController {
   private _changeFn: FsListColumnChangeFn;
   private _isConfigured = false;
 
-  private _hasHeader = true;
-  private _hasFooter = true;
+  private _hasHeader = false;
+  private _hasFooter = false;
   private _columns: Column[] = [];
   private _visibleColumns: Column[] = [];
   private _defaultConfigs;

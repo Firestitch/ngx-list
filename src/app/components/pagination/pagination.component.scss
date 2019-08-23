@@ -6,7 +6,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
+    user-select: none;
 
     a {
 
@@ -28,22 +28,23 @@
       &.disabled {
         pointer-events: none;
         cursor: default;
-        color: #ccc;
-        display: none;
+        color: #d8d8d8;
       }
 
       &.active {
 
         .number {
           position: relative;
+          font-weight: bold;
 
           .active-indicator {
-            border-bottom: 2px solid rgba(0, 0, 0, 0.87);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.7);
             bottom: 0;
             width: 100%;
             height: 2px;
             bottom: -2px;
             position: absolute;
+            display: none;
           }
         }
       }
