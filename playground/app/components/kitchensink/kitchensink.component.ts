@@ -147,8 +147,17 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
       },
       actions: [
         {
-          label: 'Customize',
-          customize: true
+          label: 'Columns',
+          customize: true,
+          primary: false
+        },
+        {
+          click: (event) => {
+            console.log(event);
+          },
+          icon: 'delete',
+          primary: false,
+          label: 'Secondary Button'
         },
         {
           click: (event) => {
@@ -162,14 +171,6 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
             console.log(event);
           },
           label: 'Primary Button'
-        },
-        {
-          click: (event) => {
-            console.log(event);
-          },
-          icon: 'delete',
-          primary: false,
-          label: 'Secondary Button'
         }
       ],
       // rowActions: [
