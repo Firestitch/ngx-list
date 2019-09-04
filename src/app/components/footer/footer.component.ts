@@ -1,9 +1,11 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, ElementRef,
+  Component,
+  ElementRef,
   Input,
-  IterableDiffers, NgZone
+  IterableDiffers,
+  NgZone
 } from '@angular/core';
 import { FsBodyComponent } from '../body/body.component';
 

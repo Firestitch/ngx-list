@@ -12,16 +12,16 @@ import { takeUntil } from 'rxjs/operators';
 
 export class ColumnsController {
 
-  private _theadClass = '';
+  public visibleColumns: Column[] = [];
 
+  private _theadClass = '';
   private _loadFn: FsListColumnLoadFn;
   private _changeFn: FsListColumnChangeFn;
-  private _isConfigured = false;
 
+  private _isConfigured = false;
   private _hasHeader = false;
   private _hasFooter = false;
   private _columns: Column[] = [];
-  private _visibleColumns: Column[] = [];
   private _defaultConfigs;
 
   private _destroy$ = new Subject<void>();
@@ -34,10 +34,6 @@ export class ColumnsController {
 
   public get sortableColumns() {
     return this._columns.filter((column) => column.sortable);
-  }
-
-  public get visibleColumns() {
-    return this._visibleColumns.slice();
   }
 
   public get columnsForDialog() {
@@ -158,7 +154,7 @@ export class ColumnsController {
    * Set visible columns based on current columns show status
    */
   public updateVisibleColumns() {
-    this._visibleColumns =
+    this.visibleColumns =
       this._columns.filter((column) => column.show) || [];
   }
 
@@ -184,7 +180,7 @@ export class ColumnsController {
     this._destroy$.complete();
 
     this._columns = void 0;
-    this._visibleColumns = void 0;
+    this.visibleColumns = void 0;
     this._defaultConfigs = void 0;
 
     this._loadFn = void 0;

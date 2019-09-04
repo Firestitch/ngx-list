@@ -218,7 +218,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
           }),
           takeUntil(this._destroy$),
         )
-        .subscribe(({type: type, payload: status}) => {
+        .subscribe(({payload: status}) => {
           this.selected = status;
 
           this._cdRef.markForCheck();
