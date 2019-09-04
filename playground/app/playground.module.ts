@@ -8,6 +8,7 @@ import { FsExampleModule } from '@firestitch/example';
 import { FsApiModule } from '@firestitch/api';
 import { FsBadgeModule } from '@firestitch/badge';
 import { FsDateModule } from '@firestitch/date';
+import { FsDatePickerModule } from '@firestitch/datepicker';
 import { FsScrollModule } from '@firestitch/scroll';
 import { FsMessageModule } from '@firestitch/message';
 import { FsSelectionModule } from '@firestitch/selection';
@@ -67,7 +68,8 @@ import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material';
     FsPromptModule.forRoot(),
     FsApiModule,
     FsBadgeModule,
-    FsDateModule,
+    FsDateModule.forRoot(),
+    FsDatePickerModule.forRoot(),
     FsModelChangeModule,
     RouterModule.forRoot([
       { path: '', component: ExamplesComponent },
