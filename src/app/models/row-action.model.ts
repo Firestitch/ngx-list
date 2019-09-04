@@ -1,6 +1,6 @@
 import { Alias, Model } from 'tsmodels';
 import { ActionType } from '../enums/button-type.enum';
-import { FsListRowAction } from '../interfaces/listconfig.interface';
+
 
 export class RowAction extends Model {
 
@@ -19,7 +19,7 @@ export class RowAction extends Model {
 
   public isShown = true;
 
-  private _isGroup = false;
+  private readonly _isGroup: boolean = false;
 
   constructor(config: any = {}) {
     super();
@@ -62,7 +62,13 @@ export class RowAction extends Model {
   }
 
   public checkShowStatus(row) {
-    if (this.show) {
+    if (this.isGroup) {
+      this.rowActions.forEach((action) => {
+        action.checkShowStatus(row);
+      });
+
+      this.isShown = this.rowActions.some((action) => action.isShown);
+    } else if (this.show) {
       this.isShown = this.show(row);
     }
   }
