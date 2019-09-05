@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild, AfterContentInit } from '@angular/core';
 import { FsApi } from '@firestitch/api';
-import { ItemType } from '@firestitch/filter';
+import { ItemDateMode, ItemType } from '@firestitch/filter';
 import {
-  ActionType,
   FsListConfig,
   PaginationStrategy,
   FsListComponent,
@@ -106,6 +105,12 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           name: 'date',
           type: ItemType.Date,
           label: 'Date'
+        },
+        {
+          name: 'date_scroll',
+          type: ItemType.Date,
+          mode: ItemDateMode.ScrollMonthYear,
+          label: 'Month Scroll Picker'
         },
         {
           name: 'checkbox',
