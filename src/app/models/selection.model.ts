@@ -17,9 +17,11 @@ export class Selection {
 
   // Options from passed config
   public actions = [];
-  public onActionFn;
-  public onSelectAllFn;
-  public onCancelFn;
+  public selectAll = true;
+  public selectionChangedFn;
+  public actionSelectedFn;
+  public allSelectedFn;
+  public cancelledFn;
 
   // Store for selected visible rows
   public selectedRows = new Map();
@@ -49,9 +51,11 @@ export class Selection {
     private _selectionDialog: SelectionDialog
   ) {
     this.actions = config.actions ? [...config.actions] : [];
-    this.onActionFn = config.onAction;
-    this.onSelectAllFn = config.onSelectAll;
-    this.onCancelFn = config.onCancel;
+    this.actionSelectedFn = config.actionSelected;
+    this.allSelectedFn = config.allSelected;
+    this.cancelledFn = config.cancelled;
+    this.selectionChangedFn = config.selectionChanged;
+    this.selectAll = config.selectAll;
   }
 
   get selectedAll() {
@@ -115,6 +119,7 @@ export class Selection {
         this.selectedRows.delete(identifier);
       });
 
+      this._selectedAll = false;
       this._selectedRecords = 0;
     }
 
@@ -135,6 +140,7 @@ export class Selection {
       this.selectionDialogRef = this._selectionDialog.open({
         allCount: this._totalRecordsCount,
         actions: [...this.actions],
+        // selectAll: this.sele
       });
 
       this._subscribeToSelection();
@@ -198,9 +204,9 @@ export class Selection {
     this._resetSelection();
 
     this.actions = null;
-    this.onActionFn = null;
-    this.onSelectAllFn = null;
-    this.onCancelFn = null;
+    this.actionSelectedFn = null;
+    this.allSelectedFn = null;
+    this.cancelledFn = null;
 
     if (this.selectionDialogRef) {
       this.selectionDialogRef.close();
@@ -217,13 +223,13 @@ export class Selection {
    * Subscribe to selectionRef events
    */
   private _subscribeToSelection() {
-    if (this.onActionFn) {
-      this.selectionDialogRef.actionSelected$()
-        .pipe(
-          takeUntil(this._destroy$)
-        )
-        .subscribe((data) => this._onActionActions(data));
-    }
+    this.selectionDialogRef.actionSelected$()
+      .pipe(
+        takeUntil(this._destroy$)
+      )
+      .subscribe((data) => {
+        this._onActionActions(data);
+      });
 
     this.selectionDialogRef.cancelled$()
       .pipe(
@@ -231,13 +237,13 @@ export class Selection {
       )
       .subscribe(() => this._onCancelActions());
 
-    if (this.onSelectAllFn) {
-      this.selectionDialogRef.allSelected$()
-        .pipe(
-          takeUntil(this._destroy$)
-        )
-        .subscribe((data) => this._onSelectAllActions(data))
-    }
+    this.selectionDialogRef.allSelected$()
+      .pipe(
+        takeUntil(this._destroy$)
+      )
+      .subscribe((data) => {
+        this._onSelectAllActions(data);
+      })
   }
 
   /**
@@ -245,8 +251,10 @@ export class Selection {
    * @param data
    */
   private _onActionActions(data) {
+    if (!this.actionSelectedFn) { return }
+
     // Execute callback
-    const result = this.onActionFn({
+    const result = this.actionSelectedFn({
       selectedRows: Array.from(this.selectedRows.values()).map((row) => { return {...row}}),
       ...data
     });
@@ -280,8 +288,8 @@ export class Selection {
   private _onCancelActions() {
     this.selectAllVisibleRows(false);
 
-    if (this.onCancelFn) {
-      this.onCancelFn();
+    if (this.cancelledFn) {
+      this.cancelledFn();
     }
 
     this.selectionDialogRef = null;
@@ -292,6 +300,8 @@ export class Selection {
    * @param flag
    */
   private _onSelectAllActions(flag) {
+    if (!this.allSelectedFn) { return }
+
     this._selectedAll = flag;
 
     this.selectAllVisibleRows(flag);
@@ -301,7 +311,32 @@ export class Selection {
     this._selectionChangeEvent(SelectionChangeType.SelectedAll, this._selectedAll);
     this._updateSelectionRefSelectedAll();
 
-    this.onSelectAllFn(flag);
+    this.allSelectedFn(flag);
+  }
+
+  private _selectionChangedActions() {
+    if (this.selectionChangedFn) {
+      const result = this.selectionChangedFn(
+        Array.from(this.selectedRows.values()),
+        this.selectedAll,
+        this.selectionDialogRef,
+      );
+
+      if (result) {
+        if (result instanceof Observable) {
+          result.pipe(
+            take(1),
+            takeUntil(this._destroy$),
+          ).subscribe({
+            next: (actions) => {
+              this.selectionDialogRef.updateActions(actions);
+            }
+          });
+        } else if (Array.isArray(result)) {
+          this.selectionDialogRef.updateActions(result);
+        }
+      }
+    }
   }
 
   /**
@@ -311,6 +346,7 @@ export class Selection {
     if (this.selectionDialogRef) {
       this.selectionDialogRef.updateSelected(this.selectedRows.size);
     }
+    this._selectionChangedActions();
   }
 
   /**

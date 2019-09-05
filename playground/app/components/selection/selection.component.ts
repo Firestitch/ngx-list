@@ -61,7 +61,7 @@ export class SelectionComponent extends StrategyBaseComponent implements OnInit 
             ]
           },
         ],
-        onAction: (action) => {
+        actionSelected: (action) => {
 
           console.log(action);
 
@@ -69,9 +69,24 @@ export class SelectionComponent extends StrategyBaseComponent implements OnInit 
             delay(2000),
           )
         },
-        onSelectAll: () => {
+        allSelected: () => {
         },
-        onCancel: () => {
+        cancelled: () => {
+        },
+        selectionChanged: (data, allSelected, selectionRef) => {
+          if (data.find((row) => row.name === 'Object 1')) {
+            return of([
+              {
+                type: SelectionActionType.Action,
+                value: 'custom',
+                label: 'Custom Action'
+              },
+            ])
+          } else {
+            if (selectionRef) {
+              selectionRef.resetActions();
+            }
+          }
         }
       },
       paging: {
