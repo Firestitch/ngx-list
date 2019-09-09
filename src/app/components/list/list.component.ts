@@ -25,7 +25,13 @@ import { ReorderStrategy } from '../../models/reorder.model';
 import { FsListColumnDirective } from '../../directives/column/column.directive';
 import { FS_LIST_DEFAULT_CONFIG } from '../../fs-list.providers';
 
-import { FsListAbstractRow, FsListConfig, FsListTrackByFn, FsListTrackByTargetRowFn } from '../../interfaces';
+import {
+  FsListAbstractRow,
+  FsListAction,
+  FsListConfig,
+  FsListTrackByFn,
+  FsListTrackByTargetRowFn
+} from '../../interfaces';
 import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.component';
 
 
@@ -154,6 +160,7 @@ export class FsListComponent implements OnInit, OnDestroy {
       ref.resetActions();
     }
   }
+
   public removeData(data: FsListAbstractRow | FsListAbstractRow[] | FsListTrackByTargetRowFn): boolean {
     return this.list.removeData(data);
   }
@@ -174,8 +181,15 @@ export class FsListComponent implements OnInit, OnDestroy {
     this.list.reorder.enabled = false;
   }
 
+  public setActions(actions: FsListAction[]) {
+    if (actions) {
+      this.list.actions.clearActions();
+      this.list.actions.setActions(actions);
+    }
+  }
+
   private initCustomizableAction() {
-    const customizableAction = this.list.actions
+    const customizableAction = this.list.actions.actionsList
       .find((action) => action.customize);
 
     if (customizableAction) {

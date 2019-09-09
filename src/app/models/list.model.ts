@@ -43,6 +43,7 @@ import { RowAction } from './row-action.model';
 import { Selection } from './selection.model';
 import { ColumnsController } from '../classes/columns-controller';
 import { PageChangeType } from '../enums/page-change-type.enum';
+import { ActionsController } from '../classes';
 
 const SHOW_DELETED_FILTERS_KEY = '$$_show_deleted_$$';
 
@@ -52,7 +53,7 @@ export class List extends Model {
   @Alias() public trackBy: string;
   @Alias() public subheading: string;
   @Alias() public inlineFilters: any;
-  @Alias('actions', Action) public actions: Action[];
+  // @Alias('actions', Action) public actions: Action[];
   @Alias('rowActions') public rowActionsRaw: any[];
   @Alias('rowClass') public rowClass;
   @Alias() public rowEvents: any;
@@ -75,6 +76,7 @@ export class List extends Model {
   public menuActions: Action[] = [];
   public kebabActions: Action[] = [];
   public columns = new ColumnsController();
+  public actions = new ActionsController();
   public persist: string;
   public paging = new Pagination();
   public sorting = new Sorting([]);
@@ -399,7 +401,7 @@ export class List extends Model {
     this.initDefaultOptions(config);
     this.initReoder(config);
     this.initRestore();
-    this.initActions();
+    this.initActions(config.actions);
     this.initPaging(config.paging, config.loadMore);
     this.initSelection(config.selection, this.selectionDialog);
   }
@@ -423,9 +425,6 @@ export class List extends Model {
     }
     if (config.queryParam) {
       this.queryParam = true;
-    }
-    if (!config.actions) {
-      this.actions = [];
     }
     if (config.sorts) {
       this.sorting.initFakeColumns(config.sorts);
@@ -451,7 +450,7 @@ export class List extends Model {
           }
         });
 
-        this.actions.push(action);
+        this.actions.addReorderAction(action);
       }
     }
   }
@@ -519,9 +518,11 @@ export class List extends Model {
   /**
    * Split actions by categories
    */
-  private initActions() {
-    this.menuActions = this.actions.filter((action) => !action.menu);
-    this.kebabActions = this.actions.filter((action) => action.menu);
+  private initActions(actions) {
+    if (actions) {
+      this.actions.setActions(actions);
+    }
+
     this.hasRowActions = this.rowActionsRaw && this.rowActionsRaw.length > 0;
   }
 

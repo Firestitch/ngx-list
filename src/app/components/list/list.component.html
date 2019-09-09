@@ -4,7 +4,7 @@
                   'has-heading': list.heading,
                   'has-status': list.status,
                   'has-chips': list.chips,
-                  'has-actions': list.actions.length }">
+                  'has-actions': list.actions.actionsList.length }">
   <ng-template [ngTemplateOutlet]="listContainerContent"></ng-template>
 </div>
 
@@ -34,9 +34,9 @@
           <!-- Actions -->
           <fs-list-actions
             class="fs-list-actions"
-            *ngIf="list.actions?.length"
-            [menuActions]="list.menuActions"
-            [kebabActions]="list.kebabActions"
+            *ngIf="list.actions.actionsList.length"
+            [menuActions]="list.actions.menuActions"
+            [kebabActions]="list.actions.kebabActions"
             [manualReorderActivated]="list.reorder?.manualReorderActivated"
             (reorderFinished)="list.reorder.finishReorder()">
           </fs-list-actions>
