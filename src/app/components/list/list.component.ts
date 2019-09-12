@@ -105,7 +105,9 @@ export class FsListComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    this.list.destroy();
+    if (this.list) {
+      this.list.destroy();
+    }
 
     this._destroy.next();
     this._destroy.complete();
