@@ -811,7 +811,7 @@ export class List extends Model {
     if (targetIndex !== -1) {
       const updateTarget = this.data[targetIndex];
 
-      this.data[targetIndex] = merge({}, merge(updateTarget, targetRow));
+      this.data[targetIndex] = Object.assign({}, updateTarget, targetRow);
 
       return true;
     }
