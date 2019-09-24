@@ -127,6 +127,7 @@ export interface FsListAction {
   click?: (event) => void;
   type?: ActionType;
   customize?: boolean;
+  show?: () => boolean;
 }
 
 export interface FsListRowActionGroup {

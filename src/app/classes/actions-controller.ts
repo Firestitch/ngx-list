@@ -16,7 +16,11 @@ export class ActionsController {
   }
 
   public setActions(actions: FsListAction[]) {
-    this._actions = actions.map((action) => new Action(action));
+    this._actions = actions
+      .filter((action) => {
+        return !action.show || action.show();
+      })
+      .map((action) => new Action(action));
 
     if (this._reorderAction) {
       this._actions.unshift(this._reorderAction);

@@ -73,8 +73,6 @@ export class List extends Model {
   public filtersQuery: any;
 
   public hasRowActions;
-  public menuActions: Action[] = [];
-  public kebabActions: Action[] = [];
   public columns = new ColumnsController();
   public actions = new ActionsController();
   public persist: string;

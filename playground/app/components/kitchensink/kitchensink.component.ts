@@ -154,7 +154,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
         {
           label: 'Columns',
           customize: true,
-          primary: false
+          primary: false,
         },
         {
           click: (event) => {
