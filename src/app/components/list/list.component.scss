@@ -111,6 +111,10 @@
           width: 24px;
           text-align: center;
           cursor: grab;
+
+          mat-icon {
+            display: flex;
+          }
         }
 
         &.row-actions {
