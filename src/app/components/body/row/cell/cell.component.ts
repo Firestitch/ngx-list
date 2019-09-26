@@ -25,7 +25,7 @@ export class FsCellComponent implements OnInit {
   }
 
   public initCellContext() {
-    this.cellContext.index = this.rowIndex + 1;
+    this.cellContext.index = this.rowIndex;
     this.cellContext.column = this.column;
     if (this.row) {
       this.cellContext.row = this.row;
