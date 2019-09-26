@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import {
-  SelectionDialogActionCallbackParams,
-  SelectionDialogConfigAction, SelectionRef
+  FsSelectionDialogActionSelected,
+  FsSelectionDialogConfigAction, SelectionRef
 } from '@firestitch/selection'
 import { IFilterConfigItem, IFilterConfigDateItem } from '@firestitch/filter';
 
@@ -105,13 +105,13 @@ export interface FsListNoResultsConfig {
 }
 
 export interface FsListSelectionConfig {
-  actions?: SelectionDialogConfigAction[];
-  actionSelected?: (action: OnActionCallbackParams) => Observable<boolean>;
+  actions?: FsSelectionDialogConfigAction[];
+  actionSelected?: (action: FsListActionSelected) => Observable<boolean>;
   allSelected?: () => void;
   cancelled?: () => void;
   selectAll?: boolean;
   selectionChanged?: (data: any, selectedAll: boolean, selectionRef: SelectionRef) =>
-    SelectionDialogConfigAction[] | Observable<SelectionDialogConfigAction[] | void> | void;
+    FsSelectionDialogConfigAction[] | Observable<FsSelectionDialogConfigAction[] | void> | void;
 }
 
 export interface FsListFetchSubscription {
@@ -177,6 +177,6 @@ export interface FsListColumn {
   show: boolean;
 }
 
-interface OnActionCallbackParams extends SelectionDialogActionCallbackParams {
-  selectedRows: any[];
+export interface FsListActionSelected extends FsSelectionDialogActionSelected {
+  selected: any[];
 }

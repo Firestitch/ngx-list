@@ -40,6 +40,7 @@ export class SelectionComponent extends StrategyBaseComponent implements OnInit 
       status: true,
       filterInput: true,
       selection: {
+        selectAll: true,
         actions: [
           {
             type: SelectionActionType.Action,

@@ -138,6 +138,7 @@ export class Selection {
   public openDialog() {
     if (!this.selectionDialogRef) {
       this.selectionDialogRef = this._selectionDialog.open({
+        selectAll: this.selectAll,
         allCount: this._totalRecordsCount,
         actions: [...this.actions],
         // selectAll: this.sele
@@ -255,7 +256,7 @@ export class Selection {
 
     // Execute callback
     const result = this.actionSelectedFn({
-      selectedRows: Array.from(this.selectedRows.values()).map((row) => { return {...row}}),
+      selected: Array.from(this.selectedRows.values()).map((row) => { return {...row}}),
       ...data
     });
 
