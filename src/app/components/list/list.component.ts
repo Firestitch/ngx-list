@@ -1,13 +1,15 @@
 import {
+  ChangeDetectionStrategy,
   Component,
-  OnInit,
-  OnDestroy,
-  Input,
   ContentChildren,
-  ViewChild,
+  ElementRef,
+  EventEmitter,
   Inject,
+  Input,
+  OnDestroy,
+  OnInit,
   QueryList,
-  EventEmitter, ElementRef,
+  ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { FsScrollService } from '@firestitch/scroll';
@@ -40,7 +42,8 @@ import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.c
   templateUrl: 'list.component.html',
   styleUrls: [
     './list.component.scss',
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class FsListComponent implements OnInit, OnDestroy {
