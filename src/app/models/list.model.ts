@@ -302,9 +302,15 @@ export class List extends Model {
         }
       });
 
+      this._data$.next([...this.data]);
+
       return updateSuccess;
     } else {
-      return this.updateRow(rows, trackBy)
+      const updated = this.updateRow(rows, trackBy);
+
+      this._data$.next([...this.data]);
+
+      return updated;
     }
   }
 
@@ -318,6 +324,9 @@ export class List extends Model {
 
     if (rowIndex > -1) {
       this.data[rowIndex] = targetRow;
+
+      this._data$.next([...this.data]);
+
       return true;
     } else {
       return false;
@@ -344,20 +353,24 @@ export class List extends Model {
       removedCount = this.removeRow(data, defaultTrackBy);
     }
 
-    // TODO move to method
-    if (this.paging.enabled && removedCount > 0) {
+    if (removedCount > 0) {
+      this._data$.next([...this.data]);
 
-      if (this.paging.hasPageStrategy) {
-        this.noDataPaginationUpdate(removedCount);
-      } else {
-        // Fetch more if has something for fetch
-        if (this.data.length || this.paging.hasNextPage) {
-          this.operation = Operation.loadMore;
+      // TODO move to method
+      if (this.paging.enabled) {
 
-          this.paging.removeRows(removedCount);
-          this.fetch$.next( { loadOffset: true});
-        } else {
+        if (this.paging.hasPageStrategy) {
           this.noDataPaginationUpdate(removedCount);
+        } else {
+          // Fetch more if has something for fetch
+          if (this.data.length || this.paging.hasNextPage) {
+            this.operation = Operation.loadMore;
+
+            this.paging.removeRows(removedCount);
+            this.fetch$.next( { loadOffset: true});
+          } else {
+            this.noDataPaginationUpdate(removedCount);
+          }
         }
       }
     }
