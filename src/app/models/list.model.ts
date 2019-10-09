@@ -422,7 +422,13 @@ export class List extends Model {
    * @param config
    */
   private initDefaultOptions(config) {
-    if (config.initialFetch === false || config.scrollable) { // TODO fixme after tsmodel version update
+    // We should prevent initial fetch in cases when it will be fetched in any case
+    // As ex. scrollable or filter will do fetch in any cases
+    if (
+      config.initialFetch === false
+      || config.scrollable
+      || this.filters.length > 0
+    ) { // TODO fixme after tsmodel version update
       this.initialFetch = false;
     }
     if (config.status === false) {
