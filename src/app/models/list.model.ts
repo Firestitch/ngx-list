@@ -427,7 +427,7 @@ export class List extends Model {
     if (
       config.initialFetch === false
       || config.scrollable
-      || this.filters.length > 0
+      || (this.filters && this.filters.length > 0)
     ) { // TODO fixme after tsmodel version update
       this.initialFetch = false;
     }
