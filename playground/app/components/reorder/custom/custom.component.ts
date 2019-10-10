@@ -20,7 +20,7 @@ import { map } from 'rxjs/operators';
 })
 export class CustomReorderComponent implements OnInit {
 
-  @ViewChild('table')
+  @ViewChild('table', { static: true })
   public table: FsListComponent; // Controller fs-list
 
   public config: FsListConfig = null;

@@ -11,7 +11,7 @@ import { ItemType } from '@firestitch/filter';
 })
 export class NoResultsComponent implements OnInit {
 
-  @ViewChild('table')
+  @ViewChild('table', { static: true })
   public config: FsListConfig;
 
   constructor() {}

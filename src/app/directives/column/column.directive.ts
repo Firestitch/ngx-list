@@ -20,18 +20,18 @@ export class FsListColumnDirective {
   @Input() public width: string;
   @Input('class') public className: string | string[];
 
-  @ContentChild(FsListHeaderDirective, { read: TemplateRef })
+  @ContentChild(FsListHeaderDirective, { read: TemplateRef, static: false })
   headerTemplate: TemplateRef<any>;
 
-  @ContentChild(FsListHeaderDirective) headerConfigs: CellConfig;
+  @ContentChild(FsListHeaderDirective, { static: false }) headerConfigs: CellConfig;
 
-  @ContentChild(FsListCellDirective, { read: TemplateRef })
+  @ContentChild(FsListCellDirective, { read: TemplateRef, static: false })
   rowTemplate: TemplateRef<any>;
 
-  @ContentChild(FsListCellDirective) cellConfigs: CellConfig;
+  @ContentChild(FsListCellDirective, { static: false }) cellConfigs: CellConfig;
 
-  @ContentChild(FsListFooterDirective, { read: TemplateRef })
+  @ContentChild(FsListFooterDirective, { read: TemplateRef, static: false })
   footerTemplate: TemplateRef<any>;
 
-  @ContentChild(FsListFooterDirective) footerConfigs: CellConfig;
+  @ContentChild(FsListFooterDirective, { static: false }) footerConfigs: CellConfig;
 }

@@ -15,7 +15,7 @@ import {
   ViewChildren,
   TemplateRef,
 } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 import { FsPrompt } from '@firestitch/prompt';
 

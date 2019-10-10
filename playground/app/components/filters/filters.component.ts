@@ -12,7 +12,7 @@ import { ItemType } from '@firestitch/filter';
 })
 export class FiltersComponent implements OnInit {
 
-  @ViewChild('table')
+  @ViewChild('table', { static: true })
   public table: FsListComponent;
   public config: FsListConfig;
 

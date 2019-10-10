@@ -11,7 +11,7 @@ import {
   QueryList,
   ViewChild,
 } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { FsScrollService } from '@firestitch/scroll';
 import { FilterComponent } from '@firestitch/filter';
 import { SelectionDialog } from '@firestitch/selection';
@@ -74,7 +74,7 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   private _destroy = new Subject();
 
-  @ViewChild('filter') private _filter: FilterComponent;
+  @ViewChild('filter', { static: false }) private _filter: FilterComponent;
 
   /**
    * Set columns to config

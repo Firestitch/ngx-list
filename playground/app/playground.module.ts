@@ -47,7 +47,7 @@ import {
 import { RestoreComponent } from './components/restore/restore.component';
 import { StrategyBaseComponent } from './components/examples/strategy-base/strategy-base.component';
 import { ConfigureComponent } from './components/configure';
-import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material';
+import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
 
 
 @NgModule({

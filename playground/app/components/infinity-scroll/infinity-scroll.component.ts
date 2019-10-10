@@ -14,7 +14,7 @@ import { ApiStrategy } from '../../services/api-strategy.service';
 })
 export class InfinityScrollComponent extends StrategyBaseComponent implements OnInit {
 
-  @ViewChild('table')
+  @ViewChild('table', { static: true })
   public table: FsListComponent; // Controller fs-list
   public config: FsListConfig;
 

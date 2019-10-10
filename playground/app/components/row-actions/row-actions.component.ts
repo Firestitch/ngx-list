@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
 })
 export class RowActionsComponent implements OnInit {
 
-  @ViewChild('table')
+  @ViewChild('table', { static: true })
   public table: FsListComponent;
   public config: FsListConfig;
 

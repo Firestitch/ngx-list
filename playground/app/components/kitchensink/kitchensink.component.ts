@@ -26,7 +26,7 @@ import { cloneDeep } from 'lodash-es';
 })
 export class KitchenSinkComponent extends StrategyBaseComponent implements OnInit, AfterContentInit {
 
-  @ViewChild('list')
+  @ViewChild('list', { static: true })
   public list: FsListComponent; // Controller fs-list
   public config: FsListConfig;
 

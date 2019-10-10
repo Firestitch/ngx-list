@@ -7,7 +7,7 @@ import {
   ViewChild,
   ViewContainerRef, OnDestroy,
 } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -32,7 +32,7 @@ export class FsHeadComponent implements OnInit, OnDestroy {
   @Input() reorderStrategy: ReorderStrategy;
   @Input() selection: Selection;
 
-  @ViewChild('rowsContainer', { read: ViewContainerRef }) rowsContainer;
+  @ViewChild('rowsContainer', { read: ViewContainerRef, static: true }) rowsContainer;
 
   public selectedAll = false;
   public readonly ReorderPosition = ReorderPosition;

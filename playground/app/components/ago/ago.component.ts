@@ -21,7 +21,7 @@ import {
 })
 export class AgoComponent implements OnInit {
 
-  @ViewChild('table')
+  @ViewChild('table', { static: false })
   public table: FsListComponent; // Controller fs-list
   public config: FsListConfig;
 

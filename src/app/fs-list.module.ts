@@ -1,14 +1,12 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  MatButtonModule,
-  MatCheckboxModule,
-  MatDialogModule,
-  MatIconModule,
-  MatMenuModule,
-  MatProgressSpinnerModule,
-  MatRippleModule
-} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRippleModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { FsFilterModule } from '@firestitch/filter';

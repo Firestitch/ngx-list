@@ -49,8 +49,8 @@ export class FsBodyComponent implements OnInit, DoCheck, OnDestroy {
 
   @Output() reorderChanged = new EventEmitter<boolean>();
 
-  @ViewChild('rowsContainer', { read: ViewContainerRef }) rowsContainer;
-  @ContentChild(FsRowComponent, { read: TemplateRef })
+  @ViewChild('rowsContainer', { read: ViewContainerRef, static: true }) rowsContainer;
+  @ContentChild(FsRowComponent, { read: TemplateRef, static: true })
   headerTemplate: TemplateRef<any>;
 
   public draggable;
