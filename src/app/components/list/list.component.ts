@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ContentChildren,
@@ -46,7 +47,7 @@ import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.c
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class FsListComponent implements OnInit, OnDestroy {
+export class FsListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input('config')
   set config(config: FsListConfig) {
@@ -59,6 +60,7 @@ export class FsListComponent implements OnInit, OnDestroy {
     const listConfig = mergeWith(defaultOpts, config, this._configMergeCustomizer);
     this.list = new List(this._el, listConfig, this.fsScroll, this.selectionDialog);
 
+    debugger;
     if (this.listColumnDirectives) {
       this.list.tranformTemplatesToColumns(this.listColumnDirectives);
     }
@@ -86,6 +88,7 @@ export class FsListComponent implements OnInit, OnDestroy {
   private set columnTemplates(listColumnDirectives: QueryList<FsListColumnDirective>) {
     this.listColumnDirectives = listColumnDirectives;
     if (this.list) {
+      debugger;
       this.list.tranformTemplatesToColumns(listColumnDirectives);
     }
   }
@@ -105,6 +108,14 @@ export class FsListComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.subscribeToRemoveRow();
     this.initCustomizableAction();
+
+  }
+
+  public ngAfterViewInit(): void {
+    /*debugger;
+    this.test.changes.subscribe((row) => {
+      debugger;
+    })*/
   }
 
   public ngOnDestroy() {
@@ -148,14 +159,14 @@ export class FsListComponent implements OnInit, OnDestroy {
     rows: FsListAbstractRow | FsListAbstractRow[],
     trackBy?: FsListTrackByTargetRowFn
   ): boolean {
-    return this.list.updateData(rows, trackBy);
+    return this.list.dataController.updateData(rows, trackBy);
   }
 
   public replaceRow(
     row: FsListAbstractRow,
     trackBy?: FsListTrackByTargetRowFn
   ): boolean {
-    return this.list.replaceData(row, trackBy);
+    return this.list.dataController.replaceData(row, trackBy);
   }
 
   public resetSelectionActions() {
@@ -167,7 +178,7 @@ export class FsListComponent implements OnInit, OnDestroy {
   }
 
   public removeData(data: FsListAbstractRow | FsListAbstractRow[] | FsListTrackByTargetRowFn): boolean {
-    return this.list.removeData(data);
+    return this.list.dataController.removeData(data);
   }
 
   public setHeading(heading: string) {
@@ -223,7 +234,7 @@ export class FsListComponent implements OnInit, OnDestroy {
     this.rowRemoved
       .pipe(takeUntil(this._destroy))
       .subscribe((row) => {
-        this.list.removeData(row);
+        this.list.dataController.removeData(row);
       })
   }
 

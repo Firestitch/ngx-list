@@ -15,7 +15,7 @@ import { StrategyBaseComponent } from '../../examples/strategy-base/strategy-bas
 })
 export class RemoveSimpleComponent extends StrategyBaseComponent implements OnInit {
 
-  @ViewChild('table', { static: true })
+  @ViewChild('table', { static: false })
   public table: FsListComponent; // Controller fs-list
   public config: FsListConfig;
 

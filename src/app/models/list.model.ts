@@ -44,6 +44,8 @@ import { Selection } from './selection.model';
 import { ColumnsController } from '../classes/columns-controller';
 import { PageChangeType } from '../enums/page-change-type.enum';
 import { ActionsController } from '../classes';
+import { DataController } from '../classes/data-controller';
+import { Operation } from '../enums/operation.enum';
 
 const SHOW_DELETED_FILTERS_KEY = '$$_show_deleted_$$';
 
@@ -69,21 +71,22 @@ export class List extends Model {
 
   public initialized = false;
 
-  public operation: Operation;
+  // public operation: Operation;
   public filtersQuery: any;
 
   public hasRowActions;
+  public paging = new Pagination();
+
   public columns = new ColumnsController();
   public actions = new ActionsController();
+  public dataController: DataController;
   public persist: string;
-  public paging = new Pagination();
   public sorting = new Sorting([]);
   public selection: Selection;
 
   public filterConfig: FilterConfig = null;
 
   public fetch$ = new Subject<FsListFetchSubscription | void>();
-  public dataChange$: Subject<any> = new Subject<any>();
 
   public status = true;
   public chips = false;
@@ -99,7 +102,6 @@ export class List extends Model {
 
   public onDestroy$ = new Subject();
 
-  private readonly _data$ = new BehaviorSubject<any[]>([]);
   private readonly _headerConfig: StyleConfig;
   private readonly _cellConfig: StyleConfig;
   private readonly _footerConfig: StyleConfig;
@@ -115,6 +117,8 @@ export class List extends Model {
     super();
     this._fromJSON(config);
 
+    this.dataController = new DataController(!!this.scrollable, this.paging.loadMoreEnabled);
+
     this.initialize(config);
 
     this._headerConfig = new StyleConfig(config.header);
@@ -123,57 +127,14 @@ export class List extends Model {
 
     this.initialized = true;
 
-    this.dataChange$.pipe(
-      takeUntil(this.onDestroy$),
-    ).subscribe((rows) => {
-      if (this.scrollable) {
-        switch (this.operation) {
-          case Operation.filter:
-          case Operation.reload:
-          case Operation.sort: {
-            this._data$.next([...rows]);
-          } break;
-
-          default: {
-            this._data$.next([ ...this.data, ...rows ]);
-          }
-        }
-      } else {
-        if (
-          this.operation === Operation.loadMore ||
-          (this.operation === Operation.pageChange && this.paging.loadMoreEnabled)
-        ) {
-          this._data$.next([ ...this.data, ...rows ]);
-        } else {
-          this._data$.next([...rows]);
-        }
-      }
-
-      this.operation = Operation.idle;
-    });
-
     this.subscribe();
 
     if (this.initialFetch) {
-      this.operation = Operation.load;
+      this.dataController.setOperation(Operation.load);
       this.fetch$.next();
     }
 
   }
-
-  get data$() {
-    return this._data$.pipe(
-      shareReplay(1),
-    )
-  }
-
-  get data() {
-    return this._data$.getValue();
-  }
-
-  // set rows(value) {
-  //   this._rows = value;
-  // }
 
   public fetchRemote(query) {
     const result: any = this.fetchFn(query);
@@ -216,11 +177,11 @@ export class List extends Model {
   public reload() {
     this.loading = true;
 
-    this.operation = Operation.reload;
+    this.dataController.setOperation(Operation.reload);
     this.paging.page = 1;
 
     if (this.fsScrollInstance) {
-      this._data$.next([]);
+      this.dataController.clearRows();
       this.fsScrollInstance.reload();
     } else {
       this.fetch$.next();
@@ -236,146 +197,56 @@ export class List extends Model {
         takeUntil(this.onDestroy$),
       )
       .subscribe((event: PageChange) => {
-      this.operation = Operation.pageChange;
+        this.dataController.setOperation(Operation.pageChange);
 
-      // Remove all rows if limits was changed
-      if (event.type === PageChangeType.LimitChanged && this.paging.hasPageStrategy) {
-        this._data$.next([]);
-      }
-
-      if (this.paging.hasOffsetStrategy) {
-        this.paging.updatePagination();
-
-        if (this.selection) {
-          this.selection.updateVisibleRecordsCount(this.paging.getVisibleRecords());
-          this.selection.updateTotalRecordsCount(this.paging.records);
-          this.selection.pageChanged(this.scrollable);
+        // Remove all rows if limits was changed
+        if (event.type === PageChangeType.LimitChanged && this.paging.hasPageStrategy) {
+          this.dataController.clearRows();
         }
-      }
 
-      if (!this.scrollable && !this.paging.loadMoreEnabled) {
-        this.el.nativeElement.scrollIntoView({ behavior: 'smooth' });
-      }
+        if (this.paging.hasOffsetStrategy) {
+          this.paging.updatePagination();
 
-      this.fetch$.next();
-    });
+          if (this.selection) {
+            this.selection.updateVisibleRecordsCount(this.paging.getVisibleRecords());
+            this.selection.updateTotalRecordsCount(this.paging.records);
+            this.selection.pageChanged(this.scrollable);
+          }
+        }
+
+        if (!this.scrollable && !this.paging.loadMoreEnabled) {
+          this.el.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        this.fetch$.next();
+      });
 
     this.sorting.sortingChanged
       .pipe(
         takeUntil(this.onDestroy$),
       )
       .subscribe(() => {
-      this.operation = Operation.sort;
-      this.paging.page = 1;
+        this.dataController.setOperation(Operation.sort);
+        this.paging.page = 1;
 
-      if (this.fsScrollInstance) {
-        this._data$.next([]);
-        this.fsScrollInstance.reload();
-      } else {
-        this.fetch$.next();
-      }
+        if (this.fsScrollInstance) {
+          this.dataController.clearRows();
+          this.fsScrollInstance.reload();
+        } else {
+          this.fetch$.next();
+        }
+      });
 
-    });
-
+    this.listenRowsRemove();
     this.listenFetch();
   }
 
   public getData(trackBy: FsListTrackByFn) {
-    return this.data.filter(trackBy);
+    return this.dataController.data.filter(trackBy);
   }
 
   public hasData(trackBy: FsListTrackByFn) {
-    return this.data.some(trackBy);
-  }
-
-  public updateData(
-    rows: FsListAbstractRow | FsListAbstractRow[],
-    trackBy?: FsListTrackByTargetRowFn,
-  ): boolean {
-
-    if (Array.isArray(rows)) {
-      let updateSuccess = false;
-
-      rows.forEach((item) => {
-        if (this.updateRow(item, trackBy)) {
-          updateSuccess = true;
-        }
-      });
-
-      this._data$.next([...this.data]);
-
-      return updateSuccess;
-    } else {
-      const updated = this.updateRow(rows, trackBy);
-
-      this._data$.next([...this.data]);
-
-      return updated;
-    }
-  }
-
-  public replaceData(
-    targetRow: FsListAbstractRow,
-    trackBy?: FsListTrackByTargetRowFn
-  ) {
-    const rowIndex = this.data.findIndex((listRow) => {
-      return trackBy(listRow, targetRow);
-    });
-
-    if (rowIndex > -1) {
-      this.data[rowIndex] = targetRow;
-
-      this._data$.next([...this.data]);
-
-      return true;
-    } else {
-      return false;
-    }
-
-  }
-
-  public removeData(data: FsListAbstractRow | FsListAbstractRow[] | FsListTrackByTargetRowFn): boolean {
-    let removedCount = 0;
-
-    const defaultTrackBy = (row, target) => {
-      return row === target;
-    };
-
-    if (Array.isArray(data)) {
-      //
-      data.forEach((item) => {
-        removedCount = this.removeRow(item, defaultTrackBy);
-      });
-    } else if (isFunction(data)) {
-      //
-      removedCount = this.removeRow(null, (data as FsListTrackByTargetRowFn));
-    } else if (isObject(data)) {
-      removedCount = this.removeRow(data, defaultTrackBy);
-    }
-
-    if (removedCount > 0) {
-      this._data$.next([...this.data]);
-
-      // TODO move to method
-      if (this.paging.enabled) {
-
-        if (this.paging.hasPageStrategy) {
-          this.noDataPaginationUpdate(removedCount);
-        } else {
-          // Fetch more if has something for fetch
-          if (this.data.length || this.paging.hasNextPage) {
-            this.operation = Operation.loadMore;
-
-            this.paging.removeRows(removedCount);
-            this.fetch$.next( { loadOffset: true});
-          } else {
-            this.noDataPaginationUpdate(removedCount);
-          }
-        }
-      }
-    }
-
-    return !!removedCount;
+    return this.dataController.data.some(trackBy);
   }
 
   public destroy() {
@@ -400,7 +271,7 @@ export class List extends Model {
     this.onDestroy$.next();
     this.onDestroy$.complete();
 
-    this.dataChange$.complete();
+    this.dataController.destroy();
   }
 
   /**
@@ -549,7 +420,7 @@ export class List extends Model {
   ) {
     if (selectionConfig) {
       this.selection = new Selection(selectionConfig, this.trackBy, selectionDialog);
-      this.selection.setRowsData(this._data$);
+      this.selection.setRowsData(this.dataController.data$);
     }
   }
 
@@ -606,6 +477,40 @@ export class List extends Model {
       });
   }
 
+  private listenRowsRemove() {
+    this.dataController.rowsRemoved$
+      .pipe(
+        takeUntil(this.onDestroy$),
+      )
+      .subscribe((rows: any[]) => {
+        if (this.paging.enabled) {
+
+          const removedCount = rows.length;
+
+          if (this.paging.hasPageStrategy) {
+            this.noDataPaginationUpdate(removedCount);
+          } else {
+            // Fetch more if has something for fetch
+            if (this.dataController.hasData || this.paging.hasNextPage) {
+              this.dataController.setOperation(Operation.loadMore);
+
+              this.paging.removeRows(removedCount);
+              this.fetch$.next({ loadOffset: true });
+            } else {
+              this.noDataPaginationUpdate(removedCount);
+            }
+          }
+        }
+
+        // Remove from selection
+        if (this.selection) {
+          rows.forEach((row) => {
+            this.selection.removeRow(row);
+          });
+        }
+      });
+  }
+
   private initInfinityScroll() {
     if (this.scrollable) {
       // Scrollable status by default
@@ -624,25 +529,27 @@ export class List extends Model {
           this._fsScrollSubscription = fsScrollInstance
             .subscribe(() => {
               let startLoading = false;
+              const operation = this.dataController.operation;
 
               // Initial loading if initialFetch equals false
               if (!this.initialFetch
                 && !this.paging.initialized
-                && this.operation !== Operation.reload) {
+                && operation !== Operation.reload
+              ) {
 
-                this.operation = Operation.load;
+                this.dataController.setOperation(Operation.load);
                 startLoading = true;
 
               } else if (
-                this.operation === Operation.reload ||
-                this.operation === Operation.filter ||
-                this.operation === Operation.sort
+                operation === Operation.reload ||
+                operation === Operation.filter ||
+                operation === Operation.sort
               ) {
                 startLoading = true;
               } else if (this.paging.initialized && this.paging.hasNextPage) {
                 // Loading if content has been scrolled
                 startLoading = true;
-                this.operation = Operation.load;
+                this.dataController.setOperation(Operation.load);
                 this.paging.goNext();
               }
 
@@ -652,12 +559,12 @@ export class List extends Model {
               }
           });
 
-          this.dataChange$
+          this.dataController.dataChange$
             .pipe(
               takeUntil(this.onDestroy$),
             )
             .subscribe(() => {
-            fsScrollInstance.loaded();
+              fsScrollInstance.loaded();
           });
         });
     }
@@ -743,13 +650,13 @@ export class List extends Model {
       }
     }
 
-    this.operation = Operation.filter;
+    this.dataController.setOperation(Operation.filter);
 
     // Reset paging for request with correct offset
     this.paging.resetPaging();
 
     if (this.fsScrollInstance) {
-      this._data$.next([]);
+      this.dataController.clearRows();
       this.fsScrollInstance.reload();
     } else {
       this.fetch$.next();
@@ -785,12 +692,12 @@ export class List extends Model {
       this.paging.updatePaging(
         response.paging,
         displayed,
-        this.operation === Operation.loadMore
+        this.dataController.operation === Operation.loadMore
       );
     }
 
     /// must be before selection, because seletion use records
-    this.dataChange$.next(response.data);
+    this.dataController.setRowsFromResponse(response.data);
     ///
 
     // Update selection params
@@ -813,56 +720,6 @@ export class List extends Model {
     this.loading = false;
   }
 
-  private updateRow(
-    targetRow: FsListAbstractRow,
-    trackBy?: (listRow: FsListAbstractRow, targetRow?: FsListAbstractRow) => boolean) {
-
-    if (trackBy === void 0) {
-      trackBy = (row, target) => {
-        return row === target;
-      }
-    }
-
-    const targetIndex = this.data.findIndex((listRow) => trackBy(listRow, targetRow));
-
-    if (targetIndex !== -1) {
-      const updateTarget = this.data[targetIndex];
-
-      this.data[targetIndex] = Object.assign({}, updateTarget, targetRow);
-
-      return true;
-    }
-
-    return false;
-  }
-
-  /**
-   * Remove row from
-   * @param targetRow
-   * @param trackBy
-   */
-  private removeRow(
-    targetRow: FsListAbstractRow | null,
-    trackBy?: FsListTrackByTargetRowFn
-  ) {
-
-    let removedCounter = 0;
-
-    this.data.forEach((listRow, index) => {
-      if (trackBy(listRow, targetRow)) {
-        this.data.splice(index, 1);
-
-        if (this.selection) {
-          this.selection.removeRow(listRow);
-        }
-
-        removedCounter++;
-      }
-    });
-
-    return removedCounter;
-  }
-
   /**
    * Will do some actions if you removed item and item was last on his own page
    *
@@ -872,7 +729,7 @@ export class List extends Model {
    * @param deletedCount
    */
   private noDataPaginationUpdate(deletedCount) {
-    if (this.data.length === 0) {
+    if (!this.dataController.hasData) {
       if (this.paging.page > 1) {
         this.paging.goToPage(this.paging.page - 1 || 1);
       } else {
@@ -883,8 +740,8 @@ export class List extends Model {
     this.paging.records -= deletedCount;
     this.paging.updatePagination();
 
-    if (this.data.length && this.selection) {
-      this.selection.updateVisibleRecordsCount(this.data.length);
+    if (this.dataController.hasData && this.selection) {
+      this.selection.updateVisibleRecordsCount(this.dataController.visibleRowsCount);
       this.selection.updateTotalRecordsCount(this.paging.records);
     }
   }
@@ -912,14 +769,4 @@ export class List extends Model {
         })
     }
   }
-}
-
-export enum Operation {
-  idle,
-  load,
-  reload,
-  filter,
-  sort,
-  pageChange,
-  loadMore,
 }
