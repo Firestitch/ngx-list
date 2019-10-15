@@ -45,6 +45,7 @@ export interface FsListConfig {
   footer?: FsListFooterConfig;
   reorder?: FsListReorderConfig;
   sorts?: FsListSortsConfig[];
+  group?: any;
   sort?: string;
   restore?: FsListRestoreConfig;
   noResults?: FsListNoResultsConfig

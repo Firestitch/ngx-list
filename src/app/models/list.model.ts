@@ -3,15 +3,13 @@ import { FilterConfig, ItemType } from '@firestitch/filter';
 import { FsScrollInstance, FsScrollService } from '@firestitch/scroll';
 import { SelectionDialog } from '@firestitch/selection';
 
-import { isFunction, isObject, merge } from 'lodash-es';
 import { Alias, Model } from 'tsmodels';
 
-import { BehaviorSubject, from, Observable, Subject, Subscription } from 'rxjs';
+import { from, Observable, Subject, Subscription } from 'rxjs';
 import {
   catchError,
   debounceTime,
   map,
-  shareReplay,
   switchMap,
   take,
   takeUntil,
@@ -23,7 +21,6 @@ import { Pagination } from './pagination.model';
 import { Sorting } from './sorting.model';
 // Interfaces
 import {
-  FsListAbstractRow,
   FsListConfig,
   FsListFetchSubscription,
   FsListLoadMoreConfig,
@@ -32,7 +29,6 @@ import {
   FsListScrollableConfig,
   FsListSelectionConfig,
   FsListTrackByFn,
-  FsListTrackByTargetRowFn,
   FsPaging,
   PageChange
 } from '../interfaces';
@@ -79,7 +75,7 @@ export class List extends Model {
 
   public columns = new ColumnsController();
   public actions = new ActionsController();
-  public dataController: DataController;
+  public dataController = new DataController();
   public persist: string;
   public sorting = new Sorting([]);
   public selection: Selection;
@@ -117,9 +113,14 @@ export class List extends Model {
     super();
     this._fromJSON(config);
 
-    this.dataController = new DataController(!!this.scrollable, this.paging.loadMoreEnabled);
+    debugger;
 
     this.initialize(config);
+    debugger;
+    this.dataController.setGroupByCallback(this.config.group && this.config.group.groupBy);
+    this.dataController.setCompareByCallback(this.config.group && this.config.group.compareBy);
+    this.dataController.setInfinityScroll(!!this.scrollable);
+    this.dataController.setLoadMore(this.paging.loadMoreEnabled);
 
     this._headerConfig = new StyleConfig(config.header);
     this._cellConfig = new StyleConfig(config.cell);

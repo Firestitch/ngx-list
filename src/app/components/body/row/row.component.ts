@@ -13,7 +13,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChildren,
-  TemplateRef,
+  TemplateRef, Output,
 } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
@@ -26,6 +26,7 @@ import { Column } from '../../../models/column.model';
 import { ReorderPosition, ReorderStrategy } from '../../../models/reorder.model';
 import { Selection, SelectionChangeType } from '../../../models/selection.model';
 import { RowAction } from '../../../models/row-action.model';
+import { Row } from '../../../models/row.model';
 
 
 @Component({
@@ -36,7 +37,7 @@ import { RowAction } from '../../../models/row-action.model';
 export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   @HostBinding('attr.role') role = 'row';
 
-  @Input() public row: any;
+  @Input() public row: Row;
   @Input() public rowActionsRaw: any [] = [];
   @Input() public rowEvents = {};
   @Input() public rowClass;
@@ -54,7 +55,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   @Input() public rowRemoved: EventEmitter<any>;
 
-  // @Output() public startDragging = new EventEmitter();
+  @Output() public toggleGroup = new EventEmitter<Row>();
   // @Output() public stopDragging = new EventEmitter();
 
   @ViewChildren('td') public cellRefs;
@@ -68,7 +69,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   public restoreAction: RowAction;
   public selected = false;
 
-  private _rowDiffer: KeyValueDiffer<{}, {}>;
+  private _rowDiffer: KeyValueDiffer<any, any>;
 
   private _eventListeners = [];
 
@@ -119,7 +120,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   public ngDoCheck() {
     if (this._rowDiffer.diff(this.row)) {
       if (this.rowActions) {
-        this.rowActions.forEach((action) => action.checkShowStatus(this.row));
+        this.rowActions.forEach((action) => action.checkShowStatus(this.row.data));
         this.filterActionsByCategories();
       }
 
@@ -132,6 +133,10 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
     this._destroy$.next();
     this._destroy$.complete();
+  }
+
+  public open() {
+    this.toggleGroup.emit(this.row);
   }
 
   public actionClick(action: RowAction, row: any, event: any) {

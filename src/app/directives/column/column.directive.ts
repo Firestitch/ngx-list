@@ -39,6 +39,5 @@ export class FsListColumnDirective implements AfterViewInit {
   public footerConfigs: CellConfig;
 
   public ngAfterViewInit(): void {
-    debugger;
   }
 }

@@ -27,6 +27,7 @@ import { Selection } from '../../models/selection.model';
 
 import { FsRowComponent } from './row/row.component';
 import { Draggable } from './draggable';
+import { Row } from '../../models/row.model';
 
 @Component({
   selector: '[fs-list-body]',
@@ -48,6 +49,7 @@ export class FsBodyComponent implements OnInit, DoCheck, OnDestroy {
   @Input() rowRemoved: EventEmitter<any>;
 
   @Output() reorderChanged = new EventEmitter<boolean>();
+  @Output() toggledGroup = new EventEmitter<Row>();
 
   @ViewChild('rowsContainer', { read: ViewContainerRef, static: true }) rowsContainer;
   @ContentChild(FsRowComponent, { read: TemplateRef, static: true })
@@ -91,6 +93,10 @@ export class FsBodyComponent implements OnInit, DoCheck, OnDestroy {
 
     this._destroy$.next();
     this._destroy$.complete();
+  }
+
+  public groupToggle(row: Row) {
+    this.toggledGroup.emit(row);
   }
 
   public dragStart(event, elemRef: FsRowComponent) {

@@ -36,6 +36,7 @@ import {
   FsListTrackByTargetRowFn
 } from '../../interfaces';
 import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.component';
+import { Row } from '../../models/row.model';
 
 
 @Component({
@@ -202,6 +203,10 @@ export class FsListComponent implements OnInit, AfterViewInit, OnDestroy {
       this.list.actions.clearActions();
       this.list.actions.setActions(actions);
     }
+  }
+
+  public toggleGroup(row: Row) {
+    this.list.dataController.toggleGroup(row);
   }
 
   private initCustomizableAction() {

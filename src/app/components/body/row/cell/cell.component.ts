@@ -28,8 +28,8 @@ export class FsCellComponent implements OnInit {
     this.cellContext.index = this.rowIndex;
     this.cellContext.column = this.column;
     if (this.row) {
-      this.cellContext.row = this.row;
-      this.cellContext.value = this.row[this.column.name];
+      this.cellContext.row = this.row.data;
+      this.cellContext.value = this.row.data[this.column.name];
     }
   }
 }

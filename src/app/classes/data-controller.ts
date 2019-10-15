@@ -1,8 +1,11 @@
-import { takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { isFunction, isObject } from 'lodash-es';
+
 import { Operation } from '../enums/operation.enum';
-import { FsListAbstractRow, FsListTrackByTargetRowFn } from '@firestitch/list';
-import { isFunction, isObject } from 'rxjs/internal-compatibility';
+import { FsListAbstractRow, FsListTrackByTargetRowFn } from '../interfaces/listconfig.interface';
+import { Row } from '../models/row.model';
+
 
 export class DataController {
 
@@ -10,15 +13,23 @@ export class DataController {
   private readonly _dataChange$ = new Subject<any>();
   private readonly _rowsRemoved$ = new Subject<any[]>();
 
+  private _store = new Map();
+  private _rowsStack: Row[] = [];
   private _operation: Operation;
+
+  private _groupByFn: (row) => any[];
+  private _compareByFn: (group) => any;
+  private _groupModeEnabled = false;
+
+  private _infinityScrollEnabled: boolean;
+  private _loadMoreEnabled: boolean;
 
   private _hasData = false;
 
   private readonly _destroy$ = new Subject<void>();
 
   constructor(
-    private _infinityScrollEnabled: boolean,
-    private _loadMoreEnabled: boolean
+
   ) {}
 
   get data$() {
@@ -56,17 +67,35 @@ export class DataController {
     return this.data.length;
   }
 
+  public setGroupByCallback(value) {
+    this._groupByFn = value;
+    this._groupModeEnabled = !!value;
+  }
+
+  public setCompareByCallback(value) {
+    this._compareByFn = value;
+    this._groupModeEnabled = !!value;
+  }
+
+  public setInfinityScroll(value: boolean) {
+    this._infinityScrollEnabled = value;
+  }
+
+  public setLoadMore(value: boolean) {
+    this._loadMoreEnabled = value;
+  }
+
   public setRowsFromResponse(rows: any[]) {
     if (this._infinityScrollEnabled) {
       switch (this._operation) {
         case Operation.filter:
         case Operation.reload:
         case Operation.sort: {
-          this.visibleRows = [...rows];
+          this._updateRowsStack(rows);
         } break;
 
         default: {
-          this.visibleRows = [ ...this.data, ...rows ];
+          this._extendRowsStack(rows);
         }
       }
     } else {
@@ -74,13 +103,15 @@ export class DataController {
         this._operation === Operation.loadMore ||
         (this._operation === Operation.pageChange && this._loadMoreEnabled)
       ) {
-        this.visibleRows = [ ...this.data, ...rows ];
+        this._extendRowsStack(rows);
       } else {
-        this.visibleRows = [...rows];
+        this._updateRowsStack(rows);
       }
     }
 
     this._operation = Operation.idle;
+
+    this._setVisibleRows();
   }
 
   public setOperation(value: Operation) {
@@ -169,6 +200,47 @@ export class DataController {
     this._destroy$.complete();
   }
 
+  public toggleGroup(row: Row) {
+    row.toggleRowOpenStatus();
+
+    this._setVisibleRows();
+  }
+
+  private _updateRowsStack(rows) {
+    if (this._groupModeEnabled) {
+      this._store.clear();
+      this.groupRowsBy(rows);
+      this._rowsStack = [...this._store.values()];
+    } else {
+      rows = rows.map((row) => new Row(row));
+      this._rowsStack = [...rows];
+    }
+  }
+
+  private _extendRowsStack(rows) {
+    if (this._groupModeEnabled) {
+      this.groupRowsBy(rows);
+      this._rowsStack = [...this._store.values()];
+    } else {
+      rows = rows.map((row) => new Row(row));
+      this._rowsStack = [...this._rowsStack, ...rows];
+    }
+  }
+
+  private _setVisibleRows() {
+    const visibleRows = [];
+
+    this._rowsStack.forEach((row) => {
+      visibleRows.push(row);
+
+      if (row.isGroup && row.opened) {
+        visibleRows.push(...row.children);
+      }
+    });
+
+    this.visibleRows = visibleRows;
+  }
+
   private updateRow(
     targetRow: FsListAbstractRow,
     trackBy?: (listRow: FsListAbstractRow, targetRow?: FsListAbstractRow) => boolean) {
@@ -213,11 +285,24 @@ export class DataController {
     return removedRows;
   }
 
-  // private _listenDataChange() {
-  //   this._dataChange$.pipe(
-  //     takeUntil(this._destroy$),
-  //   ).subscribe((rows) => {
-  //
-  //   });
-  // }
+  private groupRowsBy(rows) {
+    if (!this._groupByFn || !this._compareByFn) { return rows }
+
+    rows.forEach((row) => {
+      const mainGroup = this._groupByFn(row);
+      const mainGroupKey = this._compareByFn(mainGroup);
+
+      if (mainGroupKey) {
+        if (!this._store.has(mainGroupKey)) {
+          const group = new Row(mainGroup, true);
+          this._store.set(mainGroupKey, group);
+        } else {
+          const group = this._store.get(mainGroupKey);
+          group.children.push(new Row(row));
+        }
+      } else {
+        throw Error(`compareBy callback is not specified or returned wrong result for ${row}`);
+      }
+    })
+  }
 }

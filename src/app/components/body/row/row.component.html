@@ -26,6 +26,7 @@
       [attr.width]="column.width">
   </td>
 </ng-container>
+<td *ngIf="row.isGroup"><button (click)="open()">V</button></td>
 
 <!-- Drag -->
 <td class="fs-list-col drag-col"

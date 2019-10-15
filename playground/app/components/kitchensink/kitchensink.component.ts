@@ -61,6 +61,14 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
         limits: [5, 15, 50, 150, 250, 500, 1000],
         strategy: PaginationStrategy.Page,
       },
+      group: {
+        groupBy: (row) => {
+          return row['some'];
+        },
+        compareBy: (group) => {
+          return group.name;
+        }
+      },
       sort: 'guid,desc',
       loadMore: true,
       column: {
@@ -310,6 +318,13 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
         return this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
           .pipe(
             map(response => ({ data: response.data.objects, paging: response.data.paging })),
+            map((response) => {
+              response.data.map((row) => {
+                row['some'] = {"name":"Group 1","date":"2000-07-19T10:59:46+00:00","signin_date":"2018-09-23T08:16:21+00:00","guid":"ec8996f74e9522237bce9467d016909c"};
+              });
+
+              return response;
+            })
           );
       },
     };
