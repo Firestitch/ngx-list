@@ -1,15 +1,12 @@
 import { Component, OnInit, ViewChild, AfterContentInit } from '@angular/core';
 import { FsApi } from '@firestitch/api';
-import { ItemDateMode, ItemType } from '@firestitch/filter';
+import { ItemType } from '@firestitch/filter';
 import {
   FsListConfig,
   PaginationStrategy,
   FsListComponent,
   FsListAbstractRow
 } from '@firestitch/list';
-import { nameValue } from '@firestitch/common';
-
-import { BehaviorSubject, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
@@ -22,7 +19,7 @@ import { cloneDeep } from 'lodash-es';
 @Component({
   selector: 'groups',
   templateUrl: 'groups.component.html',
-  styles: []
+  styleUrls: ['./groups.component.scss'],
 })
 export class GroupsComponent extends StrategyBaseComponent implements OnInit, AfterContentInit {
 
@@ -54,10 +51,7 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
       heading: 'Groups',
       status: true,
       filterInput: true,
-      paging: {
-        limits: [20, 40, 60],
-        strategy: PaginationStrategy.Page,
-      },
+      paging: false,
       group: {
         groupBy: (row) => {
           return row['some'];
@@ -159,6 +153,7 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
       },
       fetch: (query) => {
         query.count = 500;
+        query.limit = 20;
         let splitter = 0;
 
         return this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
