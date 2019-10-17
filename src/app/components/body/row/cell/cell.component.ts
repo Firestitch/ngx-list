@@ -2,8 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
-  Input, OnDestroy,
-  OnInit,
+  Input, OnChanges, OnDestroy,
+  OnInit, SimpleChanges,
   TemplateRef
 } from '@angular/core';
 import { Subject } from 'rxjs';
@@ -18,7 +18,7 @@ import { Row } from '../../../../models/row.model';
   templateUrl: 'cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FsCellComponent implements OnInit, OnDestroy {
+export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
   @HostBinding('class.fs-list-col') isColl = true;
 
   @HostBinding('attr.role') role = 'gridcell';
@@ -39,6 +39,12 @@ export class FsCellComponent implements OnInit, OnDestroy {
     this._initCellTemplate();
 
     this._listenGroupOpen();
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.rowIndex) {
+      this.cellContext.index = this.rowIndex;
+    }
   }
 
   public ngOnDestroy(): void {

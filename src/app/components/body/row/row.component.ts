@@ -13,7 +13,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChildren,
-  TemplateRef,
+  TemplateRef, OnChanges, SimpleChanges,
 } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
@@ -35,7 +35,9 @@ import { Row } from '../../../models/row.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
-  @HostBinding('attr.role') role = 'row';
+
+  @HostBinding('attr.role')
+  public role = 'row';
 
   @Input() public row: Row;
   @Input() public rowActionsRaw: any [] = [];
@@ -88,6 +90,8 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
     if (this.rowIndex % 2 !== 0) cls += ' fs-list-row-odd';
     if (this.rowIndex % 2 === 0) cls += ' fs-list-row-even';
+
+    if (this.row && this.row.isGroup) cls += ' fs-list-row-group';
 
     if (this.rowClass) {
       const resultClass = this.rowClass(this.row);
