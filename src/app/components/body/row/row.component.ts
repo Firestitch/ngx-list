@@ -13,7 +13,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChildren,
-  TemplateRef, OnChanges, SimpleChanges,
+  TemplateRef,
 } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
@@ -94,7 +94,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     if (this.row && this.row.isGroup) cls += ' fs-list-row-group';
 
     if (this.rowClass) {
-      const resultClass = this.rowClass(this.row);
+      const resultClass = this.rowClass(this.row.data);
 
       if (typeof resultClass === 'string') {
         cls += ` ${resultClass}`;
@@ -141,7 +141,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   public actionClick(action: RowAction, row: any, event: any) {
     if (action.remove) {
       if (typeof action.remove === 'boolean') {
-        this.removeAction(action, row, event);
+        this.removeAction(action, row.data, event);
       } else {
         this._fsPrompt.confirm({
           title: action.remove.title,
@@ -151,13 +151,13 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
           takeUntil(this._destroy$),
         ).subscribe({
           next: () => {
-            this.removeAction(action, row, event);
+            this.removeAction(action, row.data, event);
           },
           error: () => {},
         })
       }
     } else {
-      action.click(row, event);
+      action.click(row.data, event);
     }
   }
 
@@ -168,7 +168,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   public selectRow(event: MatCheckboxChange) {
     this.selected = event.checked;
 
-    this.selection.rowSelectionChange(this.row, event.checked);
+    this.selection.rowSelectionChange(this.row.data, event.checked);
     this._cdRef.markForCheck();
   }
 
@@ -193,7 +193,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
           if (!this.reorderEnabled) {
             this.rowEvents[event]({
               event: evt,
-              row: this.row,
+              row: this.row.data,
               rowIndex: this.rowIndex
             });
           }
@@ -210,7 +210,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   private initSelection() {
     if (this.selection) {
 
-      this.selected = this.selection.isRowSelected(this.row);
+      this.selected = this.row && this.selection.isRowSelected(this.row.data);
 
       this.selection.selectionChange$
         .pipe(

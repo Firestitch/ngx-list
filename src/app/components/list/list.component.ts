@@ -1,6 +1,6 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   ContentChildren,
   ElementRef,
@@ -17,8 +17,8 @@ import { FsScrollService } from '@firestitch/scroll';
 import { FilterComponent } from '@firestitch/filter';
 import { SelectionDialog } from '@firestitch/selection';
 
-import { fromEvent, Subject } from 'rxjs';
-import { filter, map, switchMap, take, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { cloneDeep, mergeWith } from 'lodash-es';
 
@@ -36,7 +36,6 @@ import {
   FsListTrackByTargetRowFn
 } from '../../interfaces';
 import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.component';
-import { Row } from '../../models/row.model';
 
 
 @Component({
@@ -97,6 +96,7 @@ export class FsListComponent implements OnInit, AfterViewInit, OnDestroy {
     private fsScroll: FsScrollService,
     private selectionDialog: SelectionDialog,
     private dialog: MatDialog,
+    private cdRef: ChangeDetectorRef,
   ) {}
 
   get filter() {
@@ -218,7 +218,9 @@ export class FsListComponent implements OnInit, AfterViewInit, OnDestroy {
           .subscribe((data) => {
             if (data) {
               this.list.columns.updateVisibilityForCols(data);
-              this.list.columns.saveChangesRemote()
+              this.list.columns.saveChangesRemote();
+
+              this.cdRef.markForCheck();
             }
           })
       }
@@ -239,6 +241,10 @@ export class FsListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  /**
+   * Listen updates for directives with descendants: true
+   * and assign to those directives function to be able to toggle row group open/close status
+   */
   private _listenAndUpdateExpandTriggers() {
     if (this.list.dataController.hasGroups) {
       this.listColumnDirectives.toArray()

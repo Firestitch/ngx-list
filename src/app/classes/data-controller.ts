@@ -91,6 +91,10 @@ export class DataController {
     this._loadMoreEnabled = value;
   }
 
+  /**
+   * Rows what was received from fetch function
+   * @param rows
+   */
   public setRowsFromResponse(rows: any[]) {
     if (this._infinityScrollEnabled) {
       switch (this._operation) {
@@ -122,14 +126,26 @@ export class DataController {
     this._setVisibleRows();
   }
 
+  /**
+   * Set current operation for list data flow
+   * @param value
+   */
   public setOperation(value: Operation) {
     this._operation = value;
   }
 
+  /**
+   * Remove rows from visible
+   */
   public clearRows() {
     this.visibleRows = [];
   }
 
+  /**
+   * Replace data for specified row
+   * @param targetRow
+   * @param trackBy
+   */
   public replaceData(
     targetRow: FsListAbstractRow,
     trackBy?: FsListTrackByTargetRowFn
@@ -150,6 +166,11 @@ export class DataController {
 
   }
 
+  /**
+   * Update data for specified row
+   * @param rows
+   * @param trackBy
+   */
   public updateData(
     rows: FsListAbstractRow | FsListAbstractRow[],
     trackBy?: FsListTrackByTargetRowFn,
@@ -176,6 +197,10 @@ export class DataController {
     }
   }
 
+  /**
+   * Remove data for specified row
+   * @param data
+   */
   public removeData(data: FsListAbstractRow | FsListAbstractRow[] | FsListTrackByTargetRowFn): boolean {
     const removedRows = [];
 
@@ -205,6 +230,7 @@ export class DataController {
 
   public destroy() {
     this._destroyRowsStack();
+    this._store.clear();
 
     this._destroy$.next();
     this._destroy$.complete();
@@ -303,6 +329,9 @@ export class DataController {
     return removedRows;
   }
 
+  /**
+   * Split existing rows by groups and store them for future use
+   */
   private groupRowsBy(rows) {
     if (!this._groupByFn || !this._compareByFn) { return rows }
 
