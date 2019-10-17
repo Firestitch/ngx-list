@@ -561,7 +561,7 @@ export class List extends Model {
               }
           });
 
-          this.dataController.visibleRows$
+          this.dataController.remoteRowsChange$
             .pipe(
               takeUntil(this.onDestroy$),
             )

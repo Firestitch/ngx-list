@@ -11,6 +11,7 @@ export class DataController {
 
   private readonly _visibleRows$ = new BehaviorSubject<any[]>([]);
   private readonly _rowsRemoved$ = new Subject<any[]>();
+  private readonly _remoteRowsChange$ = new Subject<any[]>();
 
   private _store = new Map();
   private _rowsStack: Row[] = [];
@@ -37,6 +38,12 @@ export class DataController {
 
   get visibleRows() {
     return this._visibleRows$.getValue();
+  }
+
+  get remoteRowsChange$() {
+    return this._remoteRowsChange$.pipe(
+      takeUntil(this._destroy$),
+    );
   }
 
   get rowsRemoved$() {
@@ -97,6 +104,8 @@ export class DataController {
           this._extendRowsStack(rows);
         }
       }
+
+      this._remoteRowsChange$.next();
     } else {
       if (
         this._operation === Operation.loadMore ||
@@ -305,6 +314,7 @@ export class DataController {
         if (!this._store.has(mainGroupKey)) {
           const group = new Row(mainGroup, true);
           this._store.set(mainGroupKey, group);
+          group.children.push(new Row(row));
         } else {
           const group = this._store.get(mainGroupKey);
           group.children.push(new Row(row));
