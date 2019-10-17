@@ -42,6 +42,7 @@ import {
   SelectionComponent,
   AgoComponent,
   GlobalStrategyComponent,
+  GroupsComponent,
 } from './components';
 
 import { RestoreComponent } from './components/restore/restore.component';
@@ -102,7 +103,8 @@ import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
     AgoComponent,
     GlobalStrategyComponent,
     StrategyBaseComponent,
-    ConfigureComponent
+    ConfigureComponent,
+    GroupsComponent,
   ],
   providers: [
     { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: {float: 'always'} }

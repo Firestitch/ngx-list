@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
+
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { Pagination } from '../../models/pagination.model';
 import { Sorting } from '../../models/sorting.model';
@@ -14,20 +24,25 @@ import { SortingDirection } from '../../models/column.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: true
 })
-export class FsStatusComponent implements OnInit {
+export class FsStatusComponent implements OnInit, OnDestroy {
   @Input() public paging: Pagination;
   @Input() public sorting: Sorting;
-  @Input() public dataChangedRef;
+  @Input() public rows;
   @Input() public scrollable;
 
   public OrderDirection = SortingDirection;
+
+  private _destroy$ = new Subject<void>();
+
   constructor(private cdRef: ChangeDetectorRef) {
   }
 
   public ngOnInit() {
-    this.dataChangedRef.subscribe(() => {
-      this.cdRef.markForCheck();
-    });
+  }
+
+  public ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
   public setDirection(direction: SortingDirection) {

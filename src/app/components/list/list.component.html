@@ -9,7 +9,7 @@
 </div>
 
 <ng-template #listContainerContent>
-  <ng-container *ngIf="list.dataController.data$ | async as listData">
+  <ng-container *ngIf="list.dataController.visibleRows$ | async as listData">
     <!-- Header -->
     <div class="fs-list-header-container">
       <div class="fs-list-header"
@@ -47,7 +47,7 @@
       <!-- Status -->
       <fs-list-status
         [ngClass]="{ 'hidden-mobile': !list.status }"
-        [dataChangedRef]="list.dataController.dataChange$"
+        [rows]="listData"
         [sorting]="list.sorting"
         [paging]="list.paging"
         [scrollable]="list.scrollable"
@@ -92,7 +92,6 @@
                [restoreMode]="list.restoreMode"
                [selection]="list.selection"
                [rowRemoved]="rowRemoved"
-               (toggledGroup)="toggleGroup($event)"
         >
         </tbody>
 
@@ -110,7 +109,7 @@
 
     <fs-list-pagination
       *ngIf="list.paging.enabled && !list.scrollable && listData.length > 0"
-      [dataChangedRef]="list.dataController.dataChange$"
+      [rows]="listData"
       [pagination]="list.paging">
     </fs-list-pagination>
 

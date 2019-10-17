@@ -7,7 +7,7 @@ import {
   Input,
   OnInit, IterableDiffer
 } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+
 import { Pagination } from '../../models/pagination.model';
 
 @Component({
@@ -20,7 +20,7 @@ import { Pagination } from '../../models/pagination.model';
 })
 export class FsPaginationComponent implements OnInit, DoCheck {
   @Input() pagination: Pagination;
-  @Input() dataChangedRef: BehaviorSubject<any>;
+  @Input() rows;
 
   private differ: IterableDiffer<any>;
 
@@ -32,9 +32,6 @@ export class FsPaginationComponent implements OnInit, DoCheck {
   }
 
   public ngOnInit() {
-    this.dataChangedRef.subscribe(() => {
-      this.cdRef.markForCheck();
-    });
   }
 
   public ngDoCheck() {

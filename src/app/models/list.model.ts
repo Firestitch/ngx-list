@@ -99,6 +99,7 @@ export class List extends Model {
   public onDestroy$ = new Subject();
 
   private readonly _headerConfig: StyleConfig;
+  private readonly _groupCellConfig: StyleConfig;
   private readonly _cellConfig: StyleConfig;
   private readonly _footerConfig: StyleConfig;
 
@@ -113,16 +114,15 @@ export class List extends Model {
     super();
     this._fromJSON(config);
 
-    debugger;
-
     this.initialize(config);
-    debugger;
+
     this.dataController.setGroupByCallback(this.config.group && this.config.group.groupBy);
     this.dataController.setCompareByCallback(this.config.group && this.config.group.compareBy);
     this.dataController.setInfinityScroll(!!this.scrollable);
     this.dataController.setLoadMore(this.paging.loadMoreEnabled);
 
     this._headerConfig = new StyleConfig(config.header);
+    this._groupCellConfig = new StyleConfig(config.cell);
     this._cellConfig = new StyleConfig(config.cell);
     this._footerConfig = new StyleConfig(config.footer);
 
@@ -158,6 +158,7 @@ export class List extends Model {
   public tranformTemplatesToColumns(templates) {
     const defaultConfigs = {
       header: this._headerConfig,
+      groupCell: this._groupCellConfig,
       cell: this._cellConfig,
       footer: this._footerConfig,
     };
@@ -243,11 +244,11 @@ export class List extends Model {
   }
 
   public getData(trackBy: FsListTrackByFn) {
-    return this.dataController.data.filter(trackBy);
+    return this.dataController.visibleRows.filter(trackBy);
   }
 
   public hasData(trackBy: FsListTrackByFn) {
-    return this.dataController.data.some(trackBy);
+    return this.dataController.visibleRows.some(trackBy);
   }
 
   public destroy() {
@@ -421,7 +422,7 @@ export class List extends Model {
   ) {
     if (selectionConfig) {
       this.selection = new Selection(selectionConfig, this.trackBy, selectionDialog);
-      this.selection.setRowsData(this.dataController.data$);
+      this.selection.setRowsData(this.dataController.visibleRows$);
     }
   }
 
@@ -560,7 +561,7 @@ export class List extends Model {
               }
           });
 
-          this.dataController.dataChange$
+          this.dataController.visibleRows$
             .pipe(
               takeUntil(this.onDestroy$),
             )

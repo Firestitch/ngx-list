@@ -1,5 +1,5 @@
 import { Alias, Model } from 'tsmodels';
-import { TemplateRef } from '@angular/core';
+import { ElementRef, TemplateRef } from '@angular/core';
 import { isObject, isBoolean } from 'lodash-es';
 
 import { StyleConfig } from './styleConfig.model';
@@ -23,11 +23,17 @@ export class Column extends Model {
   @Alias() public width: string;
   @Alias() public sortable: boolean;
   @Alias() public headerTemplate: TemplateRef<any>;
-  @Alias() public rowTemplate: TemplateRef<any>;
+  @Alias() public groupCellTemplate: TemplateRef<any>;
+  @Alias() public cellTemplate: TemplateRef<any>;
   @Alias() public footerTemplate: TemplateRef<any>;
+  @Alias() public expandTrigger: TemplateRef<any>;
+  @Alias() public superTriger: TemplateRef<any>;
 
   @Alias('headerConfigs', StyleConfig)
   public headerConfigs: StyleConfig = new StyleConfig();
+
+  @Alias('groupCellConfigs', StyleConfig)
+  public groupCellConfigs: StyleConfig = new StyleConfig();
 
   @Alias('cellConfigs', StyleConfig)
   public cellConfigs: StyleConfig = new StyleConfig();
@@ -39,6 +45,7 @@ export class Column extends Model {
   public sortingDirection: SortingDirection;
 
   public headerColspanned = false;
+  public groupCellColspanned = false;
   public cellColspanned = false;
   public footerColspanned = false;
 
@@ -96,12 +103,14 @@ export class Column extends Model {
 
         case 'class': {
           this.headerConfigs.mergeClassByPriority(this.colStyles, defaults.header);
+          this.groupCellConfigs.mergeClassByPriority(this.colStyles, defaults.cell);
           this.cellConfigs.mergeClassByPriority(this.colStyles, defaults.cell);
           this.footerConfigs.mergeClassByPriority(this.colStyles, defaults.footer);
         } break;
 
         case 'align': {
           this.headerConfigs.mergeAlignByPriority(this.colStyles, defaults.header);
+          this.groupCellConfigs.mergeAlignByPriority(this.colStyles, defaults.cell);
           this.cellConfigs.mergeAlignByPriority(this.colStyles, defaults.cell);
           this.footerConfigs.mergeAlignByPriority(this.colStyles, defaults.footer);
         } break;
@@ -109,6 +118,7 @@ export class Column extends Model {
     });
 
     this.headerConfigs.updateClasesArray();
+    this.groupCellConfigs.updateClasesArray();
     this.cellConfigs.updateClasesArray();
     this.footerConfigs.updateClasesArray();
   }

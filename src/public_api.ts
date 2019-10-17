@@ -27,7 +27,7 @@ export { FsPaginationComponent } from './app/components/pagination/pagination.co
 // Directives
 export { FsListFooterDirective } from './app/directives/footer/footer.directive';
 export { FsListColumnDirective } from './app/directives/column/column.directive';
-export { FsListCellDirective } from './app/directives/cell/row.directive';
+export { FsListCellDirective } from './app/directives/cell/cell.directive';
 export { FsListHeaderDirective } from './app/directives/header/header.directive';
 
 // Models

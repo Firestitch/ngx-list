@@ -13,7 +13,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChildren,
-  TemplateRef, Output,
+  TemplateRef,
 } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
@@ -55,7 +55,6 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   @Input() public rowRemoved: EventEmitter<any>;
 
-  @Output() public toggleGroup = new EventEmitter<Row>();
   // @Output() public stopDragging = new EventEmitter();
 
   @ViewChildren('td') public cellRefs;
@@ -133,10 +132,6 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
     this._destroy$.next();
     this._destroy$.complete();
-  }
-
-  public open() {
-    this.toggleGroup.emit(this.row);
   }
 
   public actionClick(action: RowAction, row: any, event: any) {

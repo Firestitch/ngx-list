@@ -10,7 +10,6 @@ import { Row } from '../models/row.model';
 export class DataController {
 
   private readonly _visibleRows$ = new BehaviorSubject<any[]>([]);
-  private readonly _dataChange$ = new Subject<any>();
   private readonly _rowsRemoved$ = new Subject<any[]>();
 
   private _store = new Map();
@@ -32,16 +31,12 @@ export class DataController {
 
   ) {}
 
-  get data$() {
+  get visibleRows$() {
     return this._visibleRows$;
   }
 
-  get data() {
+  get visibleRows() {
     return this._visibleRows$.getValue();
-  }
-
-  get dataChange$() {
-    return this._dataChange$.asObservable();
   }
 
   get rowsRemoved$() {
@@ -60,11 +55,15 @@ export class DataController {
 
   set visibleRows(value: any[]) {
     this._visibleRows$.next(value);
-    this._hasData = this.data.length > 0;
+    this._hasData = this.visibleRows.length > 0;
   }
 
   get visibleRowsCount() {
-    return this.data.length;
+    return this.visibleRows.length;
+  }
+
+  get hasGroups() {
+    return this._compareByFn && this._groupByFn;
   }
 
   public setGroupByCallback(value) {
@@ -126,14 +125,14 @@ export class DataController {
     targetRow: FsListAbstractRow,
     trackBy?: FsListTrackByTargetRowFn
   ) {
-    const rowIndex = this.data.findIndex((listRow) => {
+    const rowIndex = this.visibleRows.findIndex((listRow) => {
       return trackBy(listRow, targetRow);
     });
 
     if (rowIndex > -1) {
-      this.data[rowIndex] = targetRow;
+      this.visibleRows[rowIndex] = targetRow;
 
-      this.visibleRows = [...this.data];
+      this.visibleRows = [...this.visibleRows];
 
       return true;
     } else {
@@ -156,13 +155,13 @@ export class DataController {
         }
       });
 
-      this.visibleRows = [...this.data];
+      this.visibleRows = [...this.visibleRows];
 
       return updateSuccess;
     } else {
       const updated = this.updateRow(rows, trackBy);
 
-      this.visibleRows = [...this.data];
+      this.visibleRows = [...this.visibleRows];
 
       return updated;
     }
@@ -187,7 +186,7 @@ export class DataController {
     }
 
     if (removedRows.length > 0) {
-      this.visibleRows = [...this.data];
+      this.visibleRows = [...this.visibleRows];
 
       this._rowsRemoved$.next(removedRows)
     }
@@ -196,17 +195,23 @@ export class DataController {
   }
 
   public destroy() {
+    this._destroyRowsStack();
+
     this._destroy$.next();
     this._destroy$.complete();
   }
 
-  public toggleGroup(row: Row) {
+  public toggleRowGroup(rowData) {
+    const row = this.visibleRows.find((visibleRow) => visibleRow.data === rowData );
     row.toggleRowOpenStatus();
 
     this._setVisibleRows();
   }
 
   private _updateRowsStack(rows) {
+
+    this._destroyRowsStack();
+
     if (this._groupModeEnabled) {
       this._store.clear();
       this.groupRowsBy(rows);
@@ -225,6 +230,10 @@ export class DataController {
       rows = rows.map((row) => new Row(row));
       this._rowsStack = [...this._rowsStack, ...rows];
     }
+  }
+
+  private _destroyRowsStack() {
+    this._rowsStack.forEach((row) => row.destroy());
   }
 
   private _setVisibleRows() {
@@ -251,12 +260,12 @@ export class DataController {
       }
     }
 
-    const targetIndex = this.data.findIndex((listRow) => trackBy(listRow, targetRow));
+    const targetIndex = this.visibleRows.findIndex((listRow) => trackBy(listRow, targetRow));
 
     if (targetIndex !== -1) {
-      const updateTarget = this.data[targetIndex];
+      const updateTarget = this.visibleRows[targetIndex];
 
-      this.data[targetIndex] = Object.assign({}, updateTarget, targetRow);
+      this.visibleRows[targetIndex] = Object.assign({}, updateTarget, targetRow);
 
       return true;
     }
@@ -276,9 +285,9 @@ export class DataController {
 
     const removedRows = [];
 
-    this.data.forEach((listRow, index) => {
+    this.visibleRows.forEach((listRow, index) => {
       if (trackBy(listRow, targetRow)) {
-        removedRows.push(...this.data.splice(index, 1));
+        removedRows.push(...this.visibleRows.splice(index, 1));
       }
     });
 

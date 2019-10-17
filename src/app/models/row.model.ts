@@ -1,26 +1,32 @@
+import { BehaviorSubject } from 'rxjs';
+
 export class Row {
 
-  public data = {};
-  public children = [];
+  public data: any = {};
+  public children: Row[] = [];
   public isGroup = false;
-  public opened = false;
+
+  private _opened = new BehaviorSubject<boolean>(false);
 
   constructor(data: any = {}, isGroup = false) {
     this.data = data;
     this.isGroup = isGroup;
+  }
 
-    /*if (groupBy) {
-      debugger;
-      const children = groupBy(data);
+  get opened() {
+    return this._opened.getValue();
+  }
 
-      if (Array.isArray(children)) {
-        this.children = children.map((child) => new Row(child));
-        this.isGroup = true;
-      }
-    }*/
+  get opened$() {
+    return this._opened.asObservable();
   }
 
   public toggleRowOpenStatus() {
-    this.opened = !this.opened;
+    this._opened.next(!this.opened);
+  }
+
+  public destroy() {
+    this.children.forEach((child) => child.destroy());
+    this._opened.complete();
   }
 }

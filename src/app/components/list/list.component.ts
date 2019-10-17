@@ -17,8 +17,8 @@ import { FsScrollService } from '@firestitch/scroll';
 import { FilterComponent } from '@firestitch/filter';
 import { SelectionDialog } from '@firestitch/selection';
 
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { fromEvent, Subject } from 'rxjs';
+import { filter, map, switchMap, take, takeUntil } from 'rxjs/operators';
 
 import { cloneDeep, mergeWith } from 'lodash-es';
 
@@ -61,7 +61,6 @@ export class FsListComponent implements OnInit, AfterViewInit, OnDestroy {
     const listConfig = mergeWith(defaultOpts, config, this._configMergeCustomizer);
     this.list = new List(this._el, listConfig, this.fsScroll, this.selectionDialog);
 
-    debugger;
     if (this.listColumnDirectives) {
       this.list.tranformTemplatesToColumns(this.listColumnDirectives);
     }
@@ -83,13 +82,11 @@ export class FsListComponent implements OnInit, AfterViewInit, OnDestroy {
    * Set columns to config
    * Create Column Model instances
    *
-   * @param val
    */
   @ContentChildren(FsListColumnDirective)
   private set columnTemplates(listColumnDirectives: QueryList<FsListColumnDirective>) {
     this.listColumnDirectives = listColumnDirectives;
     if (this.list) {
-      debugger;
       this.list.tranformTemplatesToColumns(listColumnDirectives);
     }
   }
@@ -113,10 +110,7 @@ export class FsListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    /*debugger;
-    this.test.changes.subscribe((row) => {
-      debugger;
-    })*/
+    this._listenAndUpdateExpandTriggers();
   }
 
   public ngOnDestroy() {
@@ -205,10 +199,6 @@ export class FsListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public toggleGroup(row: Row) {
-    this.list.dataController.toggleGroup(row);
-  }
-
   private initCustomizableAction() {
     const customizableAction = this.list.actions.actionsList
       .find((action) => action.customize);
@@ -246,6 +236,21 @@ export class FsListComponent implements OnInit, AfterViewInit, OnDestroy {
   private _configMergeCustomizer(objValue: any, srcValue: any) {
     if (Array.isArray(objValue)) {
       return objValue;
+    }
+  }
+
+  private _listenAndUpdateExpandTriggers() {
+    if (this.list.dataController.hasGroups) {
+      this.listColumnDirectives.toArray()
+        .forEach((directive) => {
+          directive.expandTrigger.changes
+            .pipe(takeUntil(this._destroy))
+            .subscribe(() => {
+              directive.expandTrigger.forEach((child) => {
+                child.toggleRowGroup = this.list.dataController.toggleRowGroup.bind(this.list.dataController);
+              });
+            });
+        })
     }
   }
 }

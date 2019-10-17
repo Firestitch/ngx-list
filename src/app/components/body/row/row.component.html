@@ -17,16 +17,16 @@
 <!-- Content -->
 <ng-container *ngFor="let column of columns; trackBy: trackByFn">
   <td fs-cell
-      *ngIf="!column.cellColspanned"
+      *ngIf="(row.isGroup && !column.groupCellColspanned) || (!row.isGroup && !column.cellColspanned)"
       [column]="column"
       [row]="row"
       [rowIndex]="rowIndex"
       [ngClass]="column.cellConfigs.classesArray"
-      [attr.colspan]="column.cellConfigs.colspan"
-      [attr.width]="column.width">
+      [attr.colspan]="(row.isGroup && column.groupCellConfigs.colspan) || column.cellConfigs.colspan"
+      [attr.width]="column.width"
+  >
   </td>
 </ng-container>
-<td *ngIf="row.isGroup"><button (click)="open()">V</button></td>
 
 <!-- Drag -->
 <td class="fs-list-col drag-col"

@@ -1,0 +1,54 @@
+<fs-list [config]="config" #list>
+  <fs-list-column>
+    <ng-template fs-list-header>
+      №
+    </ng-template>
+    <ng-template fs-list-group-cell let-index="index">
+      {{index}}
+    </ng-template>
+    <ng-template fs-list-cell let-index="index">
+      {{index}}
+    </ng-template>
+    <ng-template fs-list-footer colspan="2">
+      2 colspan footer
+    </ng-template>
+  </fs-list-column>
+
+  <fs-list-column name="name" [sortable]="true">
+    <ng-template fs-list-header>
+      User Name
+    </ng-template>
+    <ng-template fs-list-group-cell [colspan]="3" let-value="value" let-row="row" let-opened="opened">
+      {{value}}
+      <mat-icon fsListExpandTrigger [row]="row">
+        <ng-container *ngIf="!opened; else closeIcon">
+          expand_more
+        </ng-container>
+        <ng-template #closeIcon>
+          expand_less
+        </ng-template>
+      </mat-icon>
+    </ng-template>
+    <ng-template fs-list-cell let-value="value" let-row="row">
+      {{value}}
+    </ng-template>
+  </fs-list-column>
+
+  <fs-list-column name="guid" title="GUID" [sortable]="true">
+    <ng-template fs-list-header>
+      <b>GUID</b>
+    </ng-template>
+    <ng-template fs-list-cell let-guid="value" let-row="row">
+      {{ row.guid }}
+    </ng-template>
+    <ng-template fs-list-footer colspan="2" align="right">
+       2 colspan footer right aligned
+    </ng-template>
+  </fs-list-column>
+
+  <fs-list-column name="link" title="Link">
+    <ng-template fs-list-cell let-guid="value" [class]="['myTestClass', 'myTestClass2']">
+      <a routerLink="/welcome">Simple Link</a>
+    </ng-template>
+  </fs-list-column>
+</fs-list>
