@@ -18,8 +18,5 @@ export class FsListExpandTriggerDirective {
   // Will set in list.component afterViewIniti
   public toggleRowGroup: (row: any) => void;
 
-  constructor(
-  ) {
-
-  }
+  constructor() {}
 }

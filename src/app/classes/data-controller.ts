@@ -260,7 +260,7 @@ export class DataController {
   private _extendRowsStack(rows) {
     if (this._groupModeEnabled) {
       this.groupRowsBy(rows);
-      this._rowsStack = [...this._store.values()];
+      this._rowsStack = [...<any>this._store.values()];
     } else {
       rows = rows.map((row) => new Row(row));
       this._rowsStack = [...this._rowsStack, ...rows];

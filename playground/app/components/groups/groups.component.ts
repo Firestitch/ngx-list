@@ -54,10 +54,10 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
       paging: false,
       group: {
         groupBy: (row) => {
-          return row['some'];
+          return row.group;
         },
         compareBy: (group) => {
-          return group.name;
+          return group.id;
         }
       },
       sort: 'guid,desc',
@@ -154,23 +154,10 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
       fetch: (query) => {
         query.count = 500;
         query.limit = 20;
-        let splitter = 0;
 
         return this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
           .pipe(
             map(response => ({ data: response.data.objects, paging: response.data.paging })),
-            map((response) => {
-              response.data.map((row) => {
-                if (splitter < 8) {
-                  row['some'] = {"name":"Group 1","date":"2000-07-19T10:59:46+00:00","signin_date":"2018-09-23T08:16:21+00:00","guid":"ec8996f74e9522237bce9467d016909c"};
-                } else {
-                  row['some'] = {"name":"Group 2","date":"2000-07-19T10:59:46+00:00","signin_date":"2018-09-23T08:16:21+00:00","guid":"AFKMSFAOISFasfja)(FASjfiasofajFi"};
-                }
-                splitter++;
-              });
-
-              return response;
-            })
           );
       },
     };

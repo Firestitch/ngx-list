@@ -18,16 +18,13 @@
     <ng-template fs-list-header>
       User Name
     </ng-template>
-    <ng-template fs-list-group-cell [colspan]="3" let-value="value" let-row="row" let-opened="opened">
-      {{value}}
-      <mat-icon fsListExpandTrigger [row]="row">
-        <ng-container *ngIf="!opened; else closeIcon">
-          expand_more
-        </ng-container>
-        <ng-template #closeIcon>
-          expand_less
-        </ng-template>
-      </mat-icon>
+    <ng-template fs-list-group-cell colspan="3" let-row="row" let-opened="opened">
+      <div fxLayout="row" fxLayoutAlign="start center">
+        {{row.name}}
+        <button mat-icon-button fsListExpandTrigger [row]="row">
+          <mat-icon>{{ opened ? 'expand_more' : 'expand_less '}}</mat-icon>
+        </button>
+      </div>
     </ng-template>
     <ng-template fs-list-cell let-value="value" let-row="row">
       {{value}}
