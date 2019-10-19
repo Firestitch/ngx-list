@@ -1,4 +1,5 @@
 import { Directive, HostListener, Input } from '@angular/core';
+import { ListService } from 'src/app/services';
 
 
 @Directive({ selector: '[fsListExpandTrigger]' })
@@ -8,15 +9,11 @@ export class FsListExpandTriggerDirective {
   public click(event) {
     event.preventDefault();
     event.stopPropagation();
-
-    this.toggleRowGroup(this.row);
+    this._listService.list.dataController.toggleRowGroup(this.row);
   }
 
   @Input()
   public row;
 
-  // Will set in list.component afterViewIniti
-  public toggleRowGroup: (row: any) => void;
-
-  constructor() {}
+  constructor(private _listService: ListService) {}
 }

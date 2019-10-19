@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   ContentChildren,
@@ -36,6 +35,7 @@ import {
   FsListTrackByTargetRowFn
 } from '../../interfaces';
 import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.component';
+import { ListService } from '../../services';
 
 
 @Component({
@@ -45,9 +45,12 @@ import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.c
     './list.component.scss',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    ListService
+  ]
 })
 
-export class FsListComponent implements OnInit, AfterViewInit, OnDestroy {
+export class FsListComponent implements OnInit, OnDestroy {
 
   @Input('config')
   set config(config: FsListConfig) {
@@ -63,6 +66,8 @@ export class FsListComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.listColumnDirectives) {
       this.list.tranformTemplatesToColumns(this.listColumnDirectives);
     }
+
+    this._listService.list = this.list;
   }
 
   public list: List;
@@ -97,6 +102,7 @@ export class FsListComponent implements OnInit, AfterViewInit, OnDestroy {
     private selectionDialog: SelectionDialog,
     private dialog: MatDialog,
     private cdRef: ChangeDetectorRef,
+    private _listService: ListService
   ) {}
 
   get filter() {
@@ -107,10 +113,6 @@ export class FsListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscribeToRemoveRow();
     this.initCustomizableAction();
 
-  }
-
-  public ngAfterViewInit(): void {
-    this._listenAndUpdateExpandTriggers();
   }
 
   public ngOnDestroy() {
@@ -238,25 +240,6 @@ export class FsListComponent implements OnInit, AfterViewInit, OnDestroy {
   private _configMergeCustomizer(objValue: any, srcValue: any) {
     if (Array.isArray(objValue)) {
       return objValue;
-    }
-  }
-
-  /**
-   * Listen updates for directives with descendants: true
-   * and assign to those directives function to be able to toggle row group open/close status
-   */
-  private _listenAndUpdateExpandTriggers() {
-    if (this.list.dataController.hasGroups) {
-      this.listColumnDirectives.toArray()
-        .forEach((directive) => {
-          directive.expandTrigger.changes
-            .pipe(takeUntil(this._destroy))
-            .subscribe(() => {
-              directive.expandTrigger.forEach((child) => {
-                child.toggleRowGroup = this.list.dataController.toggleRowGroup.bind(this.list.dataController);
-              });
-            });
-        })
     }
   }
 }
