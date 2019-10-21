@@ -22,7 +22,7 @@
       <div fxLayout="row" fxLayoutAlign="start center">
         {{row.name}}
         <button mat-icon-button fsListGroupExpandTrigger [row]="row">
-          <mat-icon>{{ opened ? 'expand_more' : 'expand_less '}}</mat-icon>
+          <mat-icon>{{ expanded ? 'expand_more' : 'expand_less '}}</mat-icon>
         </button>
       </div>
     </ng-template>

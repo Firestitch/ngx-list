@@ -77,7 +77,7 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
           takeUntil(this._destroy$),
         )
         .subscribe((status) => {
-          this.cellContext.opened = status;
+          this.cellContext.expanded = status;
         })
     }
   }
