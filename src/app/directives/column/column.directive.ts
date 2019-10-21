@@ -14,7 +14,7 @@ import { FsListFooterDirective } from '../footer/footer.directive';
 
 import { CellConfig } from '../../interfaces';
 import { FsListGroupCellDirective } from '../group-cell/group-cell.directive';
-import { FsListExpandTriggerDirective } from '../expand-trigger/expand-trigger.directive';
+import { FsListGroupExpandTriggerDirective } from '../group-expand-trigger/group-expand-trigger.directive';
 
 
 @Directive({
@@ -44,8 +44,8 @@ export class FsListColumnDirective {
   public groupCellConfigs: CellConfig;
 
   // Trigger
-  @ContentChildren(FsListExpandTriggerDirective, { descendants: true })
-  public expandTrigger: QueryList<FsListExpandTriggerDirective>;
+  @ContentChildren(FsListGroupExpandTriggerDirective, { descendants: true })
+  public expandTrigger: QueryList<FsListGroupExpandTriggerDirective>;
 
   // Cell
   @ContentChild(FsListCellDirective, { read: TemplateRef, static: true })

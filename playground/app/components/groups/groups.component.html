@@ -18,10 +18,10 @@
     <ng-template fs-list-header>
       User Name
     </ng-template>
-    <ng-template fs-list-group-cell colspan="3" let-row="row" let-opened="opened">
+    <ng-template fs-list-group-cell colspan="3" let-row="row" let-expanded="expanded">
       <div fxLayout="row" fxLayoutAlign="start center">
         {{row.name}}
-        <button mat-icon-button fsListExpandTrigger [row]="row">
+        <button mat-icon-button fsListGroupExpandTrigger [row]="row">
           <mat-icon>{{ opened ? 'expand_more' : 'expand_less '}}</mat-icon>
         </button>
       </div>

@@ -45,10 +45,16 @@ export interface FsListConfig {
   footer?: FsListFooterConfig;
   reorder?: FsListReorderConfig;
   sorts?: FsListSortsConfig[];
-  group?: any;
+  group?: FsListGroupConfig;
   sort?: string;
   restore?: FsListRestoreConfig;
   noResults?: FsListNoResultsConfig
+}
+
+export interface FsListGroupConfig {
+  initialExpand?: boolean;
+  groupBy?: (row: any) => any;
+  compareBy?: (row: any) => any;
 }
 
 export interface FsListLoadMoreConfig {

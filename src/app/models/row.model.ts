@@ -6,27 +6,31 @@ export class Row {
   public children: Row[] = [];
   public isGroup = false;
 
-  private _opened = new BehaviorSubject<boolean>(false);
+  private _expanded = new BehaviorSubject<boolean>(false);
 
-  constructor(data: any = {}, isGroup = false) {
+  constructor(data: any = {}, isGroup = false, initialExpand = false) {
     this.data = data;
     this.isGroup = isGroup;
+
+    if (initialExpand) {
+      this._expanded.next(initialExpand);
+    }
   }
 
-  get opened() {
-    return this._opened.getValue();
+  get expanded() {
+    return this._expanded.getValue();
   }
 
-  get opened$() {
-    return this._opened.asObservable();
+  get expanded$() {
+    return this._expanded.asObservable();
   }
 
-  public toggleRowOpenStatus() {
-    this._opened.next(!this.opened);
+  public toggleRowExpandStatus() {
+    this._expanded.next(!this.expanded);
   }
 
   public destroy() {
     this.children.forEach((child) => child.destroy());
-    this._opened.complete();
+    this._expanded.complete();
   }
 }

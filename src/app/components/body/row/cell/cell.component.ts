@@ -58,7 +58,7 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
     if (this.row) {
       this.cellContext.row = this.row.data;
       this.cellContext.value = this.row.data[this.column.name];
-      this.cellContext.opened = this.row.opened;
+      this.cellContext.expanded = this.row.expanded;
     }
   }
 
@@ -72,7 +72,7 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
 
   private _listenGroupOpen() {
     if (this.row && this.row.isGroup) {
-      this.row.opened$
+      this.row.expanded$
         .pipe(
           takeUntil(this._destroy$),
         )

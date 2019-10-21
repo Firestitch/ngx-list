@@ -3,15 +3,19 @@ import { takeUntil } from 'rxjs/operators';
 import { isFunction, isObject } from 'lodash-es';
 
 import { Operation } from '../enums/operation.enum';
-import { FsListAbstractRow, FsListTrackByTargetRowFn } from '../interfaces/listconfig.interface';
+import {
+  FsListAbstractRow,
+  FsListGroupConfig,
+  FsListTrackByTargetRowFn
+} from '../interfaces/listconfig.interface';
 import { Row } from '../models/row.model';
 
 
 export class DataController {
 
-  private readonly _visibleRows$ = new BehaviorSubject<any[]>([]);
-  private readonly _rowsRemoved$ = new Subject<any[]>();
-  private readonly _remoteRowsChange$ = new Subject<any[]>();
+  private readonly _visibleRows$ = new BehaviorSubject<Row[]>([]);
+  private readonly _rowsRemoved$ = new Subject<Row[]>();
+  private readonly _remoteRowsChange$ = new Subject<void>();
 
   private _store = new Map();
   private _rowsStack: Row[] = [];
@@ -19,6 +23,7 @@ export class DataController {
 
   private _groupByFn: (row) => any[];
   private _compareByFn: (group) => any;
+  private _initialExpand = true;
   private _groupModeEnabled = false;
 
   private _infinityScrollEnabled: boolean;
@@ -28,9 +33,7 @@ export class DataController {
 
   private readonly _destroy$ = new Subject<void>();
 
-  constructor(
-
-  ) {}
+  constructor() {}
 
   get visibleRows$() {
     return this._visibleRows$;
@@ -73,22 +76,17 @@ export class DataController {
     return this._compareByFn && this._groupByFn;
   }
 
-  public setGroupByCallback(value) {
-    this._groupByFn = value;
-    this._groupModeEnabled = !!value;
+  public setGroupConfig(group: FsListGroupConfig) {
+    if (group) {
+      this._groupByFn = group.groupBy;
+      this._compareByFn = group.compareBy;
+      this._groupModeEnabled = true;
+    }
   }
 
-  public setCompareByCallback(value) {
-    this._compareByFn = value;
-    this._groupModeEnabled = !!value;
-  }
-
-  public setInfinityScroll(value: boolean) {
-    this._infinityScrollEnabled = value;
-  }
-
-  public setLoadMore(value: boolean) {
-    this._loadMoreEnabled = value;
+  public setAdditionalConfigs(configs: { scrollable: boolean, loadMoreEnabled: boolean }) {
+    this._infinityScrollEnabled = configs.scrollable;
+    this._loadMoreEnabled = configs.loadMoreEnabled;
   }
 
   /**
@@ -238,7 +236,7 @@ export class DataController {
 
   public toggleRowGroup(rowData) {
     const row = this.visibleRows.find((visibleRow) => visibleRow.data === rowData );
-    row.toggleRowOpenStatus();
+    row.toggleRowExpandStatus();
 
     this._setVisibleRows();
   }
@@ -277,7 +275,7 @@ export class DataController {
     this._rowsStack.forEach((row) => {
       visibleRows.push(row);
 
-      if (row.isGroup && row.opened) {
+      if (row.isGroup && row.expanded) {
         visibleRows.push(...row.children);
       }
     });
@@ -341,7 +339,7 @@ export class DataController {
 
       if (mainGroupKey) {
         if (!this._store.has(mainGroupKey)) {
-          const group = new Row(mainGroup, true);
+          const group = new Row(mainGroup, true, this._initialExpand);
           this._store.set(mainGroupKey, group);
           group.children.push(new Row(row));
         } else {

@@ -35,7 +35,7 @@ import {
   FsListTrackByTargetRowFn
 } from '../../interfaces';
 import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.component';
-import { ListService } from '../../services';
+import { GroupExpandNotifierService } from '../../services/group-expand-notifier.service';
 
 
 @Component({
@@ -46,7 +46,7 @@ import { ListService } from '../../services';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    ListService
+    GroupExpandNotifierService
   ]
 })
 export class FsListComponent implements OnInit, OnDestroy {
@@ -65,8 +65,6 @@ export class FsListComponent implements OnInit, OnDestroy {
     if (this.listColumnDirectives) {
       this.list.tranformTemplatesToColumns(this.listColumnDirectives);
     }
-
-    this._listService.list = this.list;
   }
 
   public list: List;
@@ -102,7 +100,7 @@ export class FsListComponent implements OnInit, OnDestroy {
     private selectionDialog: SelectionDialog,
     private dialog: MatDialog,
     private cdRef: ChangeDetectorRef,
-    private _listService: ListService
+    private _groupExpandNotifier: GroupExpandNotifierService
   ) {}
 
   get filter() {
@@ -110,9 +108,9 @@ export class FsListComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.subscribeToRemoveRow();
-    this.initCustomizableAction();
-
+    this._subscribeToRemoveRow();
+    this._initCustomizableAction();
+    this._subscribeToGroupExpandStatusChange();
   }
 
   public ngOnDestroy() {
@@ -209,7 +207,7 @@ export class FsListComponent implements OnInit, OnDestroy {
     this.dragging = false;
   }
 
-  private initCustomizableAction() {
+  private _initCustomizableAction() {
     const customizableAction = this.list.actions.actionsList
       .find((action) => action.customize);
 
@@ -237,12 +235,24 @@ export class FsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  private subscribeToRemoveRow() {
+  private _subscribeToRemoveRow() {
     this.rowRemoved
       .pipe(takeUntil(this._destroy))
       .subscribe((row) => {
         this.list.dataController.removeData(row);
       })
+  }
+
+  private _subscribeToGroupExpandStatusChange() {
+    if (this.list.dataController.hasGroups) {
+      this._groupExpandNotifier.expandStatusChange$
+        .pipe(
+          takeUntil(this._destroy)
+        )
+        .subscribe((row) => {
+          this.list.dataController.toggleRowGroup(row);
+        })
+    }
   }
 
   private _configMergeCustomizer(objValue: any, srcValue: any) {

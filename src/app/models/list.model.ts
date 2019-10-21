@@ -116,11 +116,6 @@ export class List extends Model {
 
     this.initialize(config);
 
-    this.dataController.setGroupByCallback(this.config.group && this.config.group.groupBy);
-    this.dataController.setCompareByCallback(this.config.group && this.config.group.compareBy);
-    this.dataController.setInfinityScroll(!!this.scrollable);
-    this.dataController.setLoadMore(this.paging.loadMoreEnabled);
-
     this._headerConfig = new StyleConfig(config.header);
     this._groupCellConfig = new StyleConfig(config.cell);
     this._cellConfig = new StyleConfig(config.cell);
@@ -288,6 +283,7 @@ export class List extends Model {
     this.initActions(config.actions);
     this.initPaging(config.paging, config.loadMore);
     this.initSelection(config.selection, this.selectionDialog);
+    this.initializeData();
   }
 
   /**
@@ -424,6 +420,14 @@ export class List extends Model {
       this.selection = new Selection(selectionConfig, this.trackBy, selectionDialog);
       this.selection.setRowsData(this.dataController.visibleRows$);
     }
+  }
+
+  private initializeData() {
+    this.dataController.setGroupConfig(this.config.group);
+    this.dataController.setAdditionalConfigs({
+      scrollable: !!this.scrollable,
+      loadMoreEnabled: this.paging.loadMoreEnabled
+    });
   }
 
   /**

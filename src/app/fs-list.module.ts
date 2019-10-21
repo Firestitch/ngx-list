@@ -37,7 +37,7 @@ import { FsListColumnDirective } from './directives/column/column.directive';
 import { FsListCellDirective } from './directives/cell/cell.directive';
 import { FsListHeaderDirective } from './directives/header/header.directive';
 import { FsListGroupCellDirective } from './directives/group-cell/group-cell.directive';
-import { FsListExpandTriggerDirective } from './directives/expand-trigger/expand-trigger.directive';
+import { FsListGroupExpandTriggerDirective } from './directives/group-expand-trigger/group-expand-trigger.directive';
 
 import { FS_LIST_DEFAULT_CONFIG, FS_LIST_CONFIG } from './fs-list.providers';
 import { FsListConfig } from './interfaces';
@@ -82,7 +82,7 @@ import { FsListConfig } from './interfaces';
     FsListHeaderDirective,
     FsListFooterDirective,
     FsListGroupCellDirective,
-    FsListExpandTriggerDirective,
+    FsListGroupExpandTriggerDirective,
 
     // Dialog
     CustomizeColsDialogComponent,
@@ -102,7 +102,7 @@ import { FsListConfig } from './interfaces';
     FsListHeaderDirective,
     FsListFooterDirective,
     FsListGroupCellDirective,
-    FsListExpandTriggerDirective
+    FsListGroupExpandTriggerDirective
   ],
 })
 export class FsListModule {
