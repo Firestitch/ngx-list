@@ -1,14 +1,5 @@
 <fs-list [config]="config">
 
-  <fs-list-column>
-    <ng-template fs-list-header>
-      №
-    </ng-template>
-    <ng-template fs-list-cell let-index="index">
-      {{ index }}
-    </ng-template>
-  </fs-list-column>
-
   <fs-list-column name="name" title="Name">
     <ng-template fs-list-header>
       <b>User</b> name

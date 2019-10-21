@@ -50,13 +50,14 @@ export class FsBodyComponent implements OnInit, DoCheck, OnDestroy {
   @Input() rowRemoved: EventEmitter<any>;
 
   @Output() reorderChanged = new EventEmitter<boolean>();
+  @Output() dragStarted = new EventEmitter();
+  @Output() dragEnded = new EventEmitter();
 
   @ViewChild('rowsContainer', { read: ViewContainerRef, static: true }) rowsContainer;
   @ContentChild(FsRowComponent, { read: TemplateRef, static: true })
   headerTemplate: TemplateRef<any>;
 
   public draggable;
-  public dragStartFn = this.dragStart.bind(this);
 
   private _rowsDiffer: IterableDiffer<any>;
 
@@ -95,7 +96,7 @@ export class FsBodyComponent implements OnInit, DoCheck, OnDestroy {
     this._destroy$.complete();
   }
 
-  public dragStart(event, elemRef: FsRowComponent) {
+  public startDrag = (event, elemRef: FsRowComponent) => {
     if (this.reorderEnabled) {
       event.preventDefault();
       event.stopPropagation();
@@ -118,28 +119,36 @@ export class FsBodyComponent implements OnInit, DoCheck, OnDestroy {
   private _initDraggableElement() {
     this.draggable = new Draggable(this.el, this.cdRef, this.zone, this.rows);
 
-    // In case when drag always enabled we should fire dragStart/dragEnd events for every drag/drop
-    if (this.reorderStrategy === ReorderStrategy.Always) {
-      this.draggable.dragStart$
-        .pipe(
-          takeUntil(this._destroy$),
-        )
-        .subscribe(() => {
-          this.zone.run(() => {
+
+    this.draggable.dragStart$
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe(() => {
+        this.zone.run(() => {
+          // In case when drag always enabled we should fire dragStart/dragEnd events for every drag/drop
+          if (this.reorderStrategy === ReorderStrategy.Always) {
             this.reorderChanged.next(true);
-          });
+          }
+
+          this.dragStarted.emit();
         });
+      });
 
 
-      this.draggable.dragEnd$
-        .pipe(
-          takeUntil(this._destroy$),
-        )
-        .subscribe(() => {
-          this.zone.run(() => {
+    this.draggable.dragEnd$
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe(() => {
+        this.zone.run(() => {
+          // In case when drag always enabled we should fire dragStart/dragEnd events for every drag/drop
+          if (this.reorderStrategy === ReorderStrategy.Always) {
             this.reorderChanged.next(false);
-          });
+          }
+
+          this.dragEnded.emit();
         });
-    }
+      });
   }
 }

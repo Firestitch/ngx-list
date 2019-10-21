@@ -75,6 +75,7 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   // Event will fired if action remove: true will clicked
   public rowRemoved = new EventEmitter();
+  public dragging = false;
 
   public readonly ReorderStrategy = ReorderStrategy;
 
@@ -199,6 +200,14 @@ export class FsListComponent implements OnInit, OnDestroy {
       this.list.actions.clearActions();
       this.list.actions.setActions(actions);
     }
+  }
+
+  public dragStarted() {
+    this.dragging = true;
+  }
+
+  public dragEnded() {
+    this.dragging = false;
   }
 
   private initCustomizableAction() {

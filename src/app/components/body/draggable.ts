@@ -177,7 +177,7 @@ export class Draggable {
 
     el.classList.add('draggable');
 
-    this.el.nativeElement.append(el);
+    this.el.nativeElement.insertAdjacentElement('afterbegin', el);
 
     this.dragElement.draggableEl = el;
     this.dragElement.targetHeight = data.height;
@@ -198,9 +198,8 @@ export class Draggable {
       const el = this.elements[i];
 
       if (!el.active) {
-        // 30 - it is offset from center
-        if (top < el.center + 30 && el.index < this.dragElement.activeIndex
-          || bottom > el.center - 30 && el.index > this.dragElement.activeIndex) {
+        if (top < el.center + (el.height / 2) && el.index < this.dragElement.activeIndex
+          || bottom > el.center - (el.height / 2)  && el.index > this.dragElement.activeIndex) {
           elemIndex = i;
         }
       }

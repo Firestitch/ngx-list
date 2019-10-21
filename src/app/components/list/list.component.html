@@ -4,6 +4,7 @@
                   'has-heading': list.heading,
                   'has-status': list.status,
                   'has-chips': list.chips,
+                  'has-dragging': dragging,
                   'has-actions': list.actions.actionsList.length }">
   <ng-template [ngTemplateOutlet]="listContainerContent"></ng-template>
 </div>
@@ -89,6 +90,8 @@
                [reorderPosition]="list.reorder?.position"
                [reorderStrategy]="list.reorder?.strategy"
                (reorderChanged)="list.reorder?.reorderChanged($event)"
+               (dragStarted)="dragStarted()"
+               (dragEnded)="dragEnded()"
                [restoreMode]="list.restoreMode"
                [selection]="list.selection"
                [rowRemoved]="rowRemoved"

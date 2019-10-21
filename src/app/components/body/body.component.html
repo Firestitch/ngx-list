@@ -12,7 +12,7 @@
       [selection]="selection"
       [restoreMode]="restoreMode"
       [ngClass]="{'drag-row': reorderEnabled}"
-      [dragStart]="dragStartFn"
+      [dragStart]="startDrag"
       [activeRow]="activeRow"
       [rowRemoved]="rowRemoved"
       (toggleGroup)="groupToggle($event)"
