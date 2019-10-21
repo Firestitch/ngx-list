@@ -49,7 +49,6 @@ import { ListService } from '../../services';
     ListService
   ]
 })
-
 export class FsListComponent implements OnInit, OnDestroy {
 
   @Input('config')

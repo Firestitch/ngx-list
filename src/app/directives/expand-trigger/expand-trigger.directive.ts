@@ -1,5 +1,5 @@
 import { Directive, HostListener, Input } from '@angular/core';
-import { ListService } from 'src/app/services';
+import { ListService } from '../../services';
 
 
 @Directive({ selector: '[fsListExpandTrigger]' })
