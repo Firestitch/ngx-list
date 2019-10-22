@@ -13,7 +13,8 @@ import {
   switchMap,
   take,
   takeUntil,
-  tap
+  tap,
+  first
 } from 'rxjs/operators';
 
 import { SortingDirection } from './column.model';
@@ -83,6 +84,7 @@ export class List extends Model {
   public filterConfig: FilterConfig = null;
 
   public fetch$ = new Subject<FsListFetchSubscription | void>();
+  public fetchComplete$ = new Subject<void>();
 
   public status = true;
   public chips = false;
@@ -212,7 +214,28 @@ export class List extends Model {
         }
 
         if (!this.scrollable && !this.paging.loadMoreEnabled) {
-          this.el.nativeElement.scrollIntoView({ behavior: 'smooth' });
+
+          const contains = [].slice.call(document.querySelectorAll('.cdk-overlay-container')).some(overlay => {
+            return this.el.nativeElement.contains(overlay);
+          });
+
+          let el = this.el.nativeElement;
+
+          if (!contains) {
+            const rect = this.el.nativeElement.getBoundingClientRect();
+            if ((rect.top + window.pageYOffset) < window.innerHeight) {
+              el = document.body;
+            }
+          }
+
+          this.fetchComplete$.asObservable()
+          .pipe(
+            take(1),
+            takeUntil(this.onDestroy$)
+          )
+          .subscribe(() => {
+            el.scrollIntoView({ behavior: 'smooth' });
+          });
         }
 
         this.fetch$.next();
@@ -689,6 +712,7 @@ export class List extends Model {
   }
 
   private completeFetch(response) {
+
     if (!this.paging.page) {
       this.paging.page = 1;
     }
@@ -723,6 +747,7 @@ export class List extends Model {
 
     }
 
+    this.fetchComplete$.next();
     this.loading = false;
   }
 
