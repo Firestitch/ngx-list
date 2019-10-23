@@ -9,6 +9,7 @@ import {
   FsListTrackByTargetRowFn
 } from '../interfaces/listconfig.interface';
 import { Row } from '../models/row.model';
+import { RowType } from '../enums/row-type.enum';
 
 
 export class DataController {
@@ -271,11 +272,15 @@ export class DataController {
 
   private _setVisibleRows() {
     const visibleRows = [];
-
+    let groupIndex = 0;
     this._rowsStack.forEach((row) => {
       visibleRows.push(row);
 
       if (row.isGroup && row.expanded) {
+        row.index = groupIndex;
+        groupIndex++;
+
+        row.updateChildrenIndexes();
         visibleRows.push(...row.children);
       }
     });
@@ -339,12 +344,12 @@ export class DataController {
 
       if (mainGroupKey) {
         if (!this._store.has(mainGroupKey)) {
-          const group = new Row(mainGroup, true, this._initialExpand);
+          const group = new Row(mainGroup, RowType.Group, this._initialExpand);
           this._store.set(mainGroupKey, group);
-          group.children.push(new Row(row));
+          group.children.push(new Row(row, RowType.Child));
         } else {
           const group = this._store.get(mainGroupKey);
-          group.children.push(new Row(row));
+          group.children.push(new Row(row, RowType.Child));
         }
       } else {
         throw Error(`compareBy callback is not specified or returned wrong result for ${row}`);

@@ -54,6 +54,15 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
 
   private _initCellContext() {
     this.cellContext.index = this.rowIndex;
+
+    if (this.row) {
+      if (this.row.isGroup) {
+        this.cellContext.groupIndex = this.row.index;
+      } else if (this.row.isChild) {
+        this.cellContext.groupChildIndex = this.row.index;
+      }
+    }
+
     this.cellContext.column = this.column;
     if (this.row) {
       this.cellContext.row = this.row.data;
