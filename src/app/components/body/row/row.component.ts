@@ -146,7 +146,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     this._destroy$.complete();
   }
 
-  public actionClick(action: RowAction, row: any, event: any) {
+  public actionClick(action: RowAction, row: any, event: any, menuRef) {
     if (action.remove) {
       if (typeof action.remove === 'boolean') {
         this.removeAction(action, row.data, event);
@@ -165,7 +165,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
         })
       }
     } else {
-      action.click(row.data, event);
+      action.click(row.data, event, menuRef);
     }
   }
 

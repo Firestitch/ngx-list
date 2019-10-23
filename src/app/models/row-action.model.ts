@@ -8,13 +8,13 @@ export class RowAction extends Model {
   @Alias() public label: string;
   @Alias() public menu: boolean;
   @Alias() public remove: { title: string; template: string; };
-  @Alias() public click: Function;
   @Alias() public className: string;
   @Alias() public type: ActionType;
   @Alias() public show: Function;
   @Alias() public restore: boolean;
   @Alias('rowActions', RowAction) public rowActions: RowAction[];
 
+  public click: Function;
   public classArray: string[] = [];
 
   public isShown = true;
@@ -48,7 +48,7 @@ export class RowAction extends Model {
 
     // Re-assign click function
     const clickFn = value.click;
-    value.click = (row, event, rowActionsRef = null) => {
+    this.click = (row, event, rowActionsRef = null) => {
       return this.clickEvent(row, event, rowActionsRef, clickFn);
     };
 
@@ -79,7 +79,7 @@ export class RowAction extends Model {
 
     // Close menu
     if (rowActionsRef) {
-      rowActionsRef.close.emit();
+      rowActionsRef.closeMenu();
     }
 
     if (clickFn) {

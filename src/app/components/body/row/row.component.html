@@ -105,7 +105,9 @@
   <!-- Menu -->
   <fs-menu class="row-menu-action"
            *ngIf="menuRowActions.length || (restoreMode && restoreAction)"
-           (click)="$event.stopPropagation();">
+           (click)="$event.stopPropagation();"
+           #menuRef
+  >
     <!-- Case when we have usual menu actions -->
     <ng-template [ngIf]="!restoreMode || (restoreMode && !restoreAction)">
       <ng-container *ngFor="let action of inlineRowActions; trackBy: trackByFn">
@@ -123,7 +125,7 @@
             <ng-container *ngFor="let subAction of action.rowActions">
               <ng-template fs-menu-item
                            [hidden]="!subAction.isShown"
-                           (click)="actionClick(subAction, row, $event);">
+                           (click)="actionClick(subAction, row, $event, menuRef);">
                 <mat-icon *ngIf="subAction.icon">{{subAction.icon}}</mat-icon>
                 {{subAction.label}}
               </ng-template>
@@ -133,7 +135,7 @@
         <ng-template #simpleMenuItem>
           <ng-template fs-menu-item
                        [hidden]="!action.isShown"
-                       (click)="actionClick(action, row, $event);">
+                       (click)="actionClick(action, row, $event, menuRef);">
             <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon>
             {{action.label}}
           </ng-template>
@@ -143,7 +145,7 @@
 
     <!-- Case when we have restore mode enabled and must hide menu actions -->
     <ng-container *ngIf="restoreMode && restoreAction">
-      <ng-template fs-menu-item (click)="actionClick(restoreAction, row, $event)">
+      <ng-template fs-menu-item (click)="actionClick(restoreAction, row, $event, menuRef)">
         <mat-icon *ngIf="restoreAction.icon">{{restoreAction.icon}}</mat-icon>
         {{restoreAction.label}}
       </ng-template>
