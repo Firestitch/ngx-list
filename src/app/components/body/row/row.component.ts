@@ -41,6 +41,8 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   @Input() public row: Row;
   @Input() public rowActionsRaw: any [] = [];
+  @Input() public groupActionsRaw: any [] = [];
+  @Input() public hasRowActions = false;
   @Input() public rowEvents = {};
   @Input() public rowClass;
 
@@ -64,9 +66,9 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   public readonly ReorderPosition = ReorderPosition;
   public readonly ReorderStrategy = ReorderStrategy;
 
-  public rowActions: RowAction[];
-  public menuRowActions: RowAction[];
-  public inlineRowActions: RowAction[];
+  public rowActions: RowAction[] = [];
+  public menuRowActions: RowAction[] = [];
+  public inlineRowActions: RowAction[] = [];
   public restoreAction: RowAction;
   public selected = false;
 
@@ -113,7 +115,13 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     this.initRowEvents();
     this.initSelection();
 
-    if (this.rowActionsRaw) {
+    if (this.row && this.row.isGroup) {
+      if (this.row && this.row.isGroup && this.groupActionsRaw) {
+        this.rowActions = this.groupActionsRaw.map((action) => new RowAction(action));
+
+        this.filterActionsByCategories();
+      }
+    } else if (this.rowActionsRaw) {
       this.rowActions = this.rowActionsRaw.map((action) => new RowAction(action));
 
       this.filterActionsByCategories();

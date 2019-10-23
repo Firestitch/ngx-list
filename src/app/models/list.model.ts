@@ -24,6 +24,7 @@ import { Sorting } from './sorting.model';
 import {
   FsListConfig,
   FsListFetchSubscription,
+  FsListGroupConfig,
   FsListLoadMoreConfig,
   FsListNoResultsConfig,
   FsListRestoreConfig,
@@ -54,6 +55,7 @@ export class List extends Model {
   @Alias() public inlineFilters: any;
   // @Alias('actions', Action) public actions: Action[];
   @Alias('rowActions') public rowActionsRaw: any[];
+  public groupActionsRaw: any[];
   @Alias('rowClass') public rowClass;
   @Alias() public rowEvents: any;
   @Alias() public restore: FsListRestoreConfig;
@@ -306,6 +308,7 @@ export class List extends Model {
     this.initActions(config.actions);
     this.initPaging(config.paging, config.loadMore);
     this.initSelection(config.selection, this.selectionDialog);
+    this.initGroups(config.group);
     this.initializeData();
   }
 
@@ -432,7 +435,9 @@ export class List extends Model {
       this.actions.setActions(actions);
     }
 
-    this.hasRowActions = this.rowActionsRaw && this.rowActionsRaw.length > 0;
+    this.hasRowActions =
+      (this.rowActionsRaw && this.rowActionsRaw.length > 0)
+      || (this.groupActionsRaw && this.groupActionsRaw.length > 0);
   }
 
   private initSelection(
@@ -446,11 +451,17 @@ export class List extends Model {
   }
 
   private initializeData() {
-    this.dataController.setGroupConfig(this.config.group);
     this.dataController.setAdditionalConfigs({
       scrollable: !!this.scrollable,
       loadMoreEnabled: this.paging.loadMoreEnabled
     });
+  }
+
+  private initGroups(groupConfig: FsListGroupConfig) {
+    if (groupConfig) {
+      this.dataController.setGroupConfig(groupConfig);
+      this.groupActionsRaw = groupConfig.groupActions;
+    }
   }
 
   /**

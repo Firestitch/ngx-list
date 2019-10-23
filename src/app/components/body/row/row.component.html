@@ -38,7 +38,7 @@
 </td>
 
 <!-- Row Actions -->
-<td *ngIf="rowActions?.length > 0 && !(reorderEnabled && reorderStrategy === ReorderStrategy.Manual)" class="fs-list-col row-actions">
+<td *ngIf="hasRowActions && !(reorderEnabled && reorderStrategy === ReorderStrategy.Manual)" class="fs-list-col row-actions">
   <ng-template [ngIf]="!restoreMode || (restoreMode && !restoreAction)">
     <span *ngFor="let action of inlineRowActions; trackBy: trackByFn"
           class="row-inline-action row-inline-action-{{action.type}}"

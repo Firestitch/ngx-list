@@ -58,7 +58,16 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
         },
         compareBy: (group) => {
           return group.id;
-        }
+        },
+        groupActions: [
+          {
+            click: (row, event) => {
+
+            },
+            menu: true,
+            label: 'Group action'
+          }
+        ]
       },
       sort: 'guid,desc',
       filters: [

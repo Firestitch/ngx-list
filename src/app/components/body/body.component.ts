@@ -40,9 +40,11 @@ export class FsBodyComponent implements OnInit, DoCheck, OnDestroy {
   @Input() columns: Column[] = [];
   @Input() hasFooter = false;
   @Input() rowActionsRaw: any[] = [];
+  @Input() groupActionsRaw: any[] = [];
   @Input() rowEvents = {};
   @Input() rowClass;
   @Input() reorderEnabled: boolean;
+  @Input() hasRowActions = false;
   @Input() reorderPosition: ReorderPosition;
   @Input() reorderStrategy: ReorderStrategy;
   @Input() selection: Selection;
