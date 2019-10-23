@@ -65,7 +65,7 @@ export class Column extends Model {
   }
 
   get fullNameDirection() {
-    return (this.sortingDirection === SortingDirection.asc) ? 'ascending' : 'descending';
+    return (this.sortingDirection === SortingDirection.asc) ? 'A' : 'Descending';
   }
 
   get ordered() {

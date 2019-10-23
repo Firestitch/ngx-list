@@ -59,12 +59,11 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
         compareBy: (group) => {
           return group.id;
         },
-        groupActions: [
+        actions: [
           {
             click: (row, event) => {
-
+              console.log('Group Action Clicked');
             },
-            menu: true,
             label: 'Group action'
           }
         ]

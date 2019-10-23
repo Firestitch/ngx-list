@@ -55,7 +55,7 @@ export interface FsListGroupConfig {
   initialExpand?: boolean;
   groupBy?: (row: any) => any;
   compareBy?: (row: any) => any;
-  groupActions?: (FsListRowActionGroup | FsListRowAction)[];
+  actions?: (FsListRowActionGroup | FsListRowAction)[];
 }
 
 export interface FsListLoadMoreConfig {

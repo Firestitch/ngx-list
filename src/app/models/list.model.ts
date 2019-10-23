@@ -460,7 +460,7 @@ export class List extends Model {
   private initGroups(groupConfig: FsListGroupConfig) {
     if (groupConfig) {
       this.dataController.setGroupConfig(groupConfig);
-      this.groupActionsRaw = groupConfig.groupActions;
+      this.groupActionsRaw = groupConfig.actions;
     }
   }
 
