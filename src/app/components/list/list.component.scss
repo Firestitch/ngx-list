@@ -44,7 +44,6 @@
   .fs-list-body {
     display: table-row-group;
     position: relative;
-    border-bottom: 2px solid #ddd;
 
     &.loading {
       opacity: 0.4;
@@ -82,16 +81,6 @@
     .fs-list-row {
       display: table-row;
 
-
-      &.draggable {
-        position: fixed;
-        z-index: 9999;
-
-        .fs-list-col {
-          background-color: #f6f6f6;
-        }
-      }
-
       &:nth-child(1) .fs-list-col {
         border-top: 0;
       }
@@ -101,6 +90,7 @@
         display: table-cell;
 
         border-top: 1px solid #ddd;
+
         padding: 8px;
         vertical-align: middle;
         outline: none;
@@ -152,6 +142,17 @@
 
         &.right {
           text-align: right;
+        }
+      }
+
+      &.draggable {
+        position: fixed;
+        z-index: 9999;
+        box-shadow: 2px 2px 2px 0px rgba(158,158,158,0.65);
+        border-radius: 5px;
+        .fs-list-col {
+          background-color: #f6f6f6;
+          border: none;
         }
       }
     }
@@ -232,6 +233,12 @@
         margin-right: 5px;
       }
     }
+
+    &.has-dragging {
+      .fs-list-head .fs-list-col {
+          border-width: 1px;
+      }
+    }
   }
 
   .fs-list-head {
@@ -254,7 +261,7 @@
       color: rgba(143, 143, 143, 1);
 
       &.fs-list-col-selection {
-        width: 30px;
+        width: 1%;
         text-align: left;
       }
 
@@ -306,7 +313,7 @@
     user-select: none;
   }
 
-  .draggable-elem {
+  .draggable-elem td {
     opacity: 0.2;
   }
 
