@@ -28,7 +28,7 @@
     <ng-template #sortByTemplate>
       <a class="order-toggle" [fsMenuTriggerFor]="orderColumnsMenu"><ng-template [ngTemplateOutlet]="sorting.sortingColumn.headerTemplate"></ng-template></a>,
     </ng-template>
-    <a class="order-toggle" [fsMenuTriggerFor]="orderDirectionMenu">{{ sorting.sortingColumn.fullNameDirection }}</a>
+    <a class="order-toggle" (click)="toggleDirection()">{{ sorting.sortingColumn.fullNameDirection }}</a>
   </span>
 </ng-template>
 
@@ -71,9 +71,4 @@
       {{ column.title }}
     </ng-template>
   </ng-template>
-</fs-menu>
-
-<fs-menu [hidden]="!sorting.sortingColumn" #orderDirectionMenu>
-  <ng-template fs-menu-item (click)="setDirection(OrderDirection.asc)"> Ascending </ng-template>
-  <ng-template fs-menu-item (click)="setDirection(OrderDirection.desc)"> Descending </ng-template>
 </fs-menu>

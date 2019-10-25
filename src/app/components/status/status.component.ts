@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 import { Pagination } from '../../models/pagination.model';
 import { Sorting } from '../../models/sorting.model';
@@ -30,8 +29,6 @@ export class FsStatusComponent implements OnInit, OnDestroy {
   @Input() public rows;
   @Input() public scrollable;
 
-  public OrderDirection = SortingDirection;
-
   private _destroy$ = new Subject<void>();
 
   constructor(private cdRef: ChangeDetectorRef) {
@@ -45,8 +42,12 @@ export class FsStatusComponent implements OnInit, OnDestroy {
     this._destroy$.complete();
   }
 
-  public setDirection(direction: SortingDirection) {
-    this.sorting.sortDirection(direction);
+  public toggleDirection() {
+    if (this.sorting.sortingColumn.direction === 'asc') {
+      this.sorting.sortDirection(SortingDirection.desc);
+    } else {
+      this.sorting.sortDirection(SortingDirection.asc);
+    }
   }
 
   public setSortableColumn(column) {
