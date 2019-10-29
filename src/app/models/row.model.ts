@@ -33,6 +33,10 @@ export class Row {
     return this._expanded.asObservable();
   }
 
+  get type() {
+    return this._rowType;
+  }
+
   public updateChildrenIndexes() {
     this.children.forEach((row, index) => {
       row.index = index;

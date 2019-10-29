@@ -174,7 +174,6 @@ export class DataController {
     rows: FsListAbstractRow | FsListAbstractRow[],
     trackBy?: FsListTrackByTargetRowFn,
   ): boolean {
-
     if (Array.isArray(rows)) {
       let updateSuccess = false;
 
@@ -298,12 +297,14 @@ export class DataController {
       }
     }
 
-    const targetIndex = this.visibleRows.findIndex((listRow) => trackBy(listRow, targetRow));
+    const targetIndex = this.visibleRows.findIndex((listRow) => trackBy(listRow.data, targetRow));
 
     if (targetIndex !== -1) {
       const updateTarget = this.visibleRows[targetIndex];
+      const updatedData = Object.assign({}, updateTarget.data, targetRow);
+      const updatedRow = new Row(updatedData, updateTarget.type, updateTarget.expanded);
 
-      this.visibleRows[targetIndex] = Object.assign({}, updateTarget, targetRow);
+      this.visibleRows[targetIndex] = updatedRow;
 
       return true;
     }
@@ -324,7 +325,7 @@ export class DataController {
     const removedRows = [];
 
     this.visibleRows.forEach((listRow, index) => {
-      if (trackBy(listRow, targetRow)) {
+      if (trackBy(listRow.data, targetRow)) {
         removedRows.push(...this.visibleRows.splice(index, 1));
       }
     });
