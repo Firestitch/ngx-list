@@ -122,7 +122,7 @@ export class DataController {
 
     this._operation = Operation.idle;
 
-    this._setVisibleRows();
+    this._updateVisibleRows();
   }
 
   /**
@@ -149,14 +149,14 @@ export class DataController {
     targetRow: FsListAbstractRow,
     trackBy?: FsListTrackByTargetRowFn
   ) {
-    const rowIndex = this.visibleRows.findIndex((listRow) => {
-      return trackBy(listRow, targetRow);
+    const rowIndex = this._rowsStack.findIndex((listRow) => {
+      return trackBy(listRow.data, targetRow);
     });
 
     if (rowIndex > -1) {
-      this.visibleRows[rowIndex] = targetRow;
+      this._rowsStack[rowIndex] = new Row(targetRow);
 
-      this.visibleRows = [...this.visibleRows];
+      this._updateVisibleRows();
 
       return true;
     } else {
@@ -183,13 +183,13 @@ export class DataController {
         }
       });
 
-      this.visibleRows = [...this.visibleRows];
+      this._updateVisibleRows();
 
       return updateSuccess;
     } else {
       const updated = this.updateRow(rows, trackBy);
 
-      this.visibleRows = [...this.visibleRows];
+      this._updateVisibleRows();
 
       return updated;
     }
@@ -218,7 +218,7 @@ export class DataController {
     }
 
     if (removedRows.length > 0) {
-      this.visibleRows = [...this.visibleRows];
+      this._updateVisibleRows();
 
       this._rowsRemoved$.next(removedRows)
     }
@@ -238,7 +238,7 @@ export class DataController {
     const row = this.visibleRows.find((visibleRow) => visibleRow.data === rowData );
     row.toggleRowExpandStatus();
 
-    this._setVisibleRows();
+    this._updateVisibleRows();
   }
 
   private _updateRowsStack(rows) {
@@ -269,9 +269,10 @@ export class DataController {
     this._rowsStack.forEach((row) => row.destroy());
   }
 
-  private _setVisibleRows() {
+  private _updateVisibleRows() {
     const visibleRows = [];
     let groupIndex = 0;
+
     this._rowsStack.forEach((row) => {
       visibleRows.push(row);
 
@@ -297,14 +298,12 @@ export class DataController {
       }
     }
 
-    const targetIndex = this.visibleRows.findIndex((listRow) => trackBy(listRow.data, targetRow));
+    const targetIndex = this._rowsStack.findIndex((listRow) => trackBy(listRow.data, targetRow));
 
     if (targetIndex !== -1) {
-      const updateTarget = this.visibleRows[targetIndex];
+      const updateTarget = this._rowsStack[targetIndex];
       const updatedData = Object.assign({}, updateTarget.data, targetRow);
-      const updatedRow = new Row(updatedData, updateTarget.type, updateTarget.expanded);
-
-      this.visibleRows[targetIndex] = updatedRow;
+      this._rowsStack[targetIndex] = new Row(updatedData, updateTarget.type, updateTarget.expanded);
 
       return true;
     }
@@ -322,11 +321,14 @@ export class DataController {
     trackBy?: FsListTrackByTargetRowFn
   ) {
 
+    const rows = this._rowsStack;
     const removedRows = [];
 
-    this.visibleRows.forEach((listRow, index) => {
+    rows.forEach((listRow, index) => {
       if (trackBy(listRow.data, targetRow)) {
-        removedRows.push(...this.visibleRows.splice(index, 1));
+        const removedRow = rows.splice(index, 1);
+
+        removedRows.push(removedRow);
       }
     });
 
