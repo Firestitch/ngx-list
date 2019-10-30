@@ -264,11 +264,11 @@ export class List extends Model {
   }
 
   public getData(trackBy: FsListTrackByFn) {
-    return this.dataController.visibleRows.filter(trackBy);
+    return this.dataController.visibleRowsData.filter(trackBy);
   }
 
   public hasData(trackBy: FsListTrackByFn) {
-    return this.dataController.visibleRows.some(trackBy);
+    return this.dataController.visibleRowsData.some(trackBy);
   }
 
   public destroy() {

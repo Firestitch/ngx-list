@@ -19,6 +19,7 @@ export class DataController {
   private readonly _remoteRowsChange$ = new Subject<void>();
 
   private _store = new Map();
+  private _visibleRowsData: any[] = [];
   private _rowsStack: Row[] = [];
   private _operation: Operation;
 
@@ -44,6 +45,10 @@ export class DataController {
     return this._visibleRows$.getValue();
   }
 
+  get visibleRowsData() {
+    return this._visibleRowsData;
+  }
+
   get remoteRowsChange$() {
     return this._remoteRowsChange$.pipe(
       takeUntil(this._destroy$),
@@ -66,6 +71,7 @@ export class DataController {
 
   set visibleRows(value: any[]) {
     this._visibleRows$.next(value);
+    this._visibleRowsData = this.visibleRows.map((row) => row.data);
     this._hasData = this.visibleRows.length > 0;
   }
 
@@ -235,7 +241,7 @@ export class DataController {
   }
 
   public toggleRowGroup(rowData) {
-    const row = this.visibleRows.find((visibleRow) => visibleRow.data === rowData );
+    const row = this.visibleRowsData.find((visibleRow) => visibleRow === rowData );
     row.toggleRowExpandStatus();
 
     this._updateVisibleRows();
