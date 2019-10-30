@@ -19,7 +19,6 @@ export class DataController {
   private readonly _remoteRowsChange$ = new Subject<void>();
 
   private _store = new Map();
-  private _visibleRowsData: any[] = [];
   private _rowsStack: Row[] = [];
   private _operation: Operation;
 
@@ -46,7 +45,7 @@ export class DataController {
   }
 
   get visibleRowsData() {
-    return this._visibleRowsData;
+    return this.visibleRows.map((row) => row.data);
   }
 
   get remoteRowsChange$() {
@@ -71,7 +70,6 @@ export class DataController {
 
   set visibleRows(value: any[]) {
     this._visibleRows$.next(value);
-    this._visibleRowsData = this.visibleRows.map((row) => row.data);
     this._hasData = this.visibleRows.length > 0;
   }
 
