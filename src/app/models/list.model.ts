@@ -14,7 +14,6 @@ import {
   take,
   takeUntil,
   tap,
-  first
 } from 'rxjs/operators';
 
 import { SortingDirection } from './column.model';
@@ -288,6 +287,10 @@ export class List extends Model {
       this.selection.destroy();
     }
 
+    if (this.filterConfig) {
+      this.filterConfig = null;
+    }
+
     this.columns.destroy();
 
     this.onDestroy$.next();
@@ -552,6 +555,10 @@ export class List extends Model {
   }
 
   private initInfinityScroll() {
+    if (this.fsScrollInstance) {
+      return;
+    }
+
     if (this.scrollable) {
       // Scrollable status by default
       if (this.scrollable.status === void 0) {
@@ -614,6 +621,10 @@ export class List extends Model {
    * Update and watch filter changes
    */
   private initFilters() {
+    if (this.filterConfig) {
+      return;
+    }
+
     if (this.filters && this.filters.length) {
 
       // Merge sorting and fake sorting cols
@@ -663,6 +674,8 @@ export class List extends Model {
    */
   private filterInit(filters) {
     this.filtersQuery = filters;
+
+    this.checkRestoreFilter();
   }
 
   /**
@@ -678,16 +691,10 @@ export class List extends Model {
     this.restoreMode = false;
 
     // Restore option
-    if (this.restore && this.filtersQuery[SHOW_DELETED_FILTERS_KEY]) {
-      delete this.filtersQuery[SHOW_DELETED_FILTERS_KEY];
+    this.checkRestoreFilter();
 
-      Object.assign(this.filtersQuery, this.restore.query);
-
-      this.restoreMode = true;
-
-      if (this.restore.reload) {
-        this.reload();
-      }
+    if (this.restore && this.restore.reload) {
+      this.reload();
     }
 
     this.dataController.setOperation(Operation.filter);
@@ -700,6 +707,17 @@ export class List extends Model {
       this.fsScrollInstance.reload();
     } else {
       this.fetch$.next();
+    }
+  }
+
+  private checkRestoreFilter() {
+    // Restore option
+    if (this.restore && this.filtersQuery[SHOW_DELETED_FILTERS_KEY]) {
+      delete this.filtersQuery[SHOW_DELETED_FILTERS_KEY];
+
+      Object.assign(this.filtersQuery, this.restore.query);
+
+      this.restoreMode = true;
     }
   }
 
