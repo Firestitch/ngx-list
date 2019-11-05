@@ -239,7 +239,7 @@ export class DataController {
   }
 
   public toggleRowGroup(rowData) {
-    const row = this.visibleRowsData.find((visibleRow) => visibleRow === rowData );
+    const row = this.visibleRows.find((visibleRow) => visibleRow.data === rowData );
     row.toggleRowExpandStatus();
 
     this._updateVisibleRows();
