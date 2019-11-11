@@ -201,6 +201,20 @@ export class Selection {
     this._updateSelectionRefSelectedAll();
   }
 
+  /**
+   * Intersection of selected and passed rows to remove rows that we dont need more
+   * @param rows
+   */
+  public selectedRowsIntersection(rows) {
+    const rowsIndentifiers = rows.map((row) => this._rowIdentifier(row));
+
+    this.selectedRows.forEach((selectedRow, identifier) => {
+      if (rowsIndentifiers.indexOf(identifier) === -1) {
+        this.removeRow(selectedRow);
+      }
+    })
+  }
+
   public destroy() {
     this._resetSelection();
 

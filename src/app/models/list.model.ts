@@ -6,15 +6,7 @@ import { SelectionDialog } from '@firestitch/selection';
 import { Alias, Model } from 'tsmodels';
 
 import { from, Observable, Subject, Subscription } from 'rxjs';
-import {
-  catchError,
-  debounceTime,
-  map,
-  switchMap,
-  take,
-  takeUntil,
-  tap,
-} from 'rxjs/operators';
+import { catchError, debounceTime, map, switchMap, take, takeUntil, tap, } from 'rxjs/operators';
 
 import { SortingDirection } from './column.model';
 import { Pagination } from './pagination.model';
@@ -774,6 +766,7 @@ export class List extends Model {
         this.selection.updateTotalRecordsCount(count);
       }
 
+      this.selection.selectedRowsIntersection(this.dataController.visibleRowsData);
     }
 
     this.fetchComplete$.next();
