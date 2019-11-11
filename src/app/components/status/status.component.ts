@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { Pagination } from '../../models/pagination.model';
 import { Sorting } from '../../models/sorting.model';
@@ -31,10 +32,17 @@ export class FsStatusComponent implements OnInit, OnDestroy {
 
   private _destroy$ = new Subject<void>();
 
-  constructor(private cdRef: ChangeDetectorRef) {
+  constructor(private _cdRef: ChangeDetectorRef) {
   }
 
   public ngOnInit() {
+    this.sorting.sortingChanged
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe(() => {
+        this._cdRef.markForCheck();
+      });
   }
 
   public ngOnDestroy(): void {
