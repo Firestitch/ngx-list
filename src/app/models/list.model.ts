@@ -5,8 +5,17 @@ import { SelectionDialog } from '@firestitch/selection';
 
 import { Alias, Model } from 'tsmodels';
 
-import { from, Observable, Subject, Subscription } from 'rxjs';
-import { catchError, debounceTime, map, switchMap, take, takeUntil, tap, } from 'rxjs/operators';
+import { BehaviorSubject, from, Observable, Subject, Subscription } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  delay,
+  map,
+  switchMap,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
 
 import { SortingDirection } from './column.model';
 import { Pagination } from './pagination.model';
@@ -59,7 +68,8 @@ export class List extends Model {
   @Alias('fetch') public fetchFn: any;
   // @Alias('rows') private _rows: any;
 
-  public initialized = false;
+  public initialized$ = new BehaviorSubject(false);
+  public loading$ = new BehaviorSubject(false);
 
   // public operation: Operation;
   public filtersQuery: any;
@@ -84,8 +94,6 @@ export class List extends Model {
   public filterInput = true;
   public queryParam = false;
   public restoreMode = false;
-
-  public loading = false;
 
   public initialFetch = true;
 
@@ -116,7 +124,7 @@ export class List extends Model {
     this._cellConfig = new StyleConfig(config.cell);
     this._footerConfig = new StyleConfig(config.footer);
 
-    this.initialized = true;
+    this.initialized$.next(true);
 
     this.subscribe();
 
@@ -167,7 +175,7 @@ export class List extends Model {
   }
 
   public reload() {
-    this.loading = true;
+    this.loading$.next(true);
 
     this.dataController.setOperation(Operation.reload);
     this.paging.page = 1;
@@ -468,7 +476,7 @@ export class List extends Model {
         takeUntil(this.onDestroy$),
         debounceTime(50),
         tap(() => {
-          this.loading = true;
+          this.loading$.next(true);
         }),
         map((params: FsListFetchSubscription) => {
           const query = this.paging.hasOffsetStrategy && params && params.loadOffset
@@ -770,7 +778,7 @@ export class List extends Model {
     }
 
     this.fetchComplete$.next();
-    this.loading = false;
+    this.loading$.next(false);
   }
 
   /**

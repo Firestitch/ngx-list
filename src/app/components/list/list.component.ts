@@ -17,7 +17,7 @@ import { FilterComponent } from '@firestitch/filter';
 import { SelectionDialog } from '@firestitch/selection';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { filter, skip, take, takeUntil } from 'rxjs/operators';
 
 import { cloneDeep, mergeWith } from 'lodash-es';
 
@@ -73,6 +73,7 @@ export class FsListComponent implements OnInit, OnDestroy {
   // Event will fired if action remove: true will clicked
   public rowRemoved = new EventEmitter();
   public dragging = false;
+  public firstLoad = true;
 
   public readonly ReorderStrategy = ReorderStrategy;
 
@@ -111,6 +112,7 @@ export class FsListComponent implements OnInit, OnDestroy {
     this._subscribeToRemoveRow();
     this._initCustomizableAction();
     this._subscribeToGroupExpandStatusChange();
+    this._waitFirstLoad();
   }
 
   public ngOnDestroy() {
@@ -253,6 +255,20 @@ export class FsListComponent implements OnInit, OnDestroy {
           this.list.dataController.toggleRowGroup(row);
         })
     }
+  }
+
+  private _waitFirstLoad() {
+    this.list.loading$
+      .pipe(
+        skip(1),
+        filter((value) => value === false),
+        take(1),
+        takeUntil(this._destroy),
+      )
+      .subscribe(() => {
+        this.firstLoad = false;
+        this.cdRef.markForCheck();
+      });
   }
 
   private _configMergeCustomizer(objValue: any, srcValue: any) {

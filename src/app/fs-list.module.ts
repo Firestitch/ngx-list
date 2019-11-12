@@ -13,6 +13,7 @@ import { FsFilterModule } from '@firestitch/filter';
 import { FsScrollModule } from '@firestitch/scroll';
 import { FsMenuModule } from '@firestitch/menu';
 import { FsPromptModule } from '@firestitch/prompt';
+import { FsSkeletonModule } from '@firestitch/skeleton';
 
 import { merge } from 'lodash-es';
 
@@ -56,6 +57,7 @@ import { FsListConfig } from './interfaces';
     FsMenuModule,
     FlexLayoutModule,
     FsScrollModule,
+    FsSkeletonModule,
     FsPromptModule,
     MatDialogModule,
   ],
