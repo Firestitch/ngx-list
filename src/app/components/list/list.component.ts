@@ -218,6 +218,7 @@ export class FsListComponent implements OnInit, OnDestroy {
         const dialogRef = this.dialog.open(CustomizeColsDialogComponent, {
           data: {
             columns: this.list.columns.columnsForDialog,
+            changeFn: this.list.columns.changeFn,
           },
         });
 
@@ -228,7 +229,6 @@ export class FsListComponent implements OnInit, OnDestroy {
           .subscribe((data) => {
             if (data) {
               this.list.columns.updateVisibilityForCols(data);
-              this.list.columns.saveChangesRemote();
 
               this.cdRef.markForCheck();
             }

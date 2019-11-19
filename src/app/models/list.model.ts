@@ -5,12 +5,12 @@ import { SelectionDialog } from '@firestitch/selection';
 
 import { Alias, Model } from 'tsmodels';
 
-import { BehaviorSubject, from, Observable, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, from, Observable, of, Subject, Subscription } from 'rxjs';
 import {
   catchError,
   debounceTime,
-  delay,
   map,
+  mapTo,
   switchMap,
   take,
   takeUntil,
@@ -492,6 +492,19 @@ export class List extends Model {
             )
           }
 
+          return query;
+        }),
+        switchMap((query) => {
+          if (this.columns.loadFnConfigured && !this.columns.columnsFetched) {
+            return this.columns.loadRemoteColumnConfigs()
+              .pipe(
+                mapTo(query)
+              );
+          } else {
+            return of(query);
+          }
+        }),
+        switchMap((query) => {
           if (this.columns.configured) {
             Object.assign(
               query,
@@ -501,9 +514,6 @@ export class List extends Model {
             )
           }
 
-          return query;
-        }),
-        switchMap((query) => {
           return this.fetchRemote(query);
         }),
         catchError((error, source$) => {

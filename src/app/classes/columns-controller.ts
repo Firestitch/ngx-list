@@ -1,5 +1,5 @@
 import { isNumber } from 'lodash-es';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { Column } from '../models/column.model';
 import {
@@ -7,7 +7,7 @@ import {
   FsListColumnConfig,
   FsListColumnLoadFn
 } from '../interfaces/listconfig.interface';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 
 
 export class ColumnsController {
@@ -19,6 +19,9 @@ export class ColumnsController {
   private _changeFn: FsListColumnChangeFn;
 
   private _isConfigured = false;
+  private _loadFnConfigured = false;
+  private _changeFnConfigured = false;
+  private _columnsFetched = false;
   private _hasHeader = false;
   private _hasFooter = false;
   private _columns: Column[] = [];
@@ -37,15 +40,20 @@ export class ColumnsController {
   }
 
   public get columnsForDialog() {
-    return this._columns.map((column) => {
-      return {
-        template: column.headerTemplate,
-        name: column.name,
-        show: column.show,
-        title: column.title,
-      }
-    })
-      .filter((column) => !!column.name);
+    return this._columns
+      .filter((column) => column.customize && !!column.name)
+      .map((column) => {
+        return {
+          template: column.headerTemplate,
+          name: column.name,
+          show: column.show,
+          title: column.title,
+        }
+      });
+  }
+
+  public get columnsFetched() {
+    return this._columnsFetched;
   }
 
   public get hasHeader() {
@@ -64,6 +72,18 @@ export class ColumnsController {
     return this._isConfigured;
   }
 
+  public get loadFnConfigured() {
+    return this._loadFnConfigured;
+  }
+
+  public get changeFnConfigured() {
+    return this._changeFnConfigured;
+  }
+
+  public get changeFn() {
+    return this._changeFn;
+  }
+
   public get visibleColumnsNames() {
     return this.visibleColumns
       .map((column) => column.name)
@@ -80,8 +100,15 @@ export class ColumnsController {
    */
   public initConfig(config: FsListColumnConfig) {
     if (config) {
-      this._loadFn = config.load;
-      this._changeFn = config.change;
+      if (config.load) {
+        this._loadFn = config.load;
+        this._loadFnConfigured = true;
+      }
+
+      if (config.change) {
+        this._changeFn = config.change;
+        this._changeFnConfigured = true;
+      }
 
       this._isConfigured = true;
     }
@@ -113,42 +140,21 @@ export class ColumnsController {
     this._updateColspans('cellConfigs', 'cellColspanned');
     this._updateColspans('footerConfigs', 'footerColspanned');
 
-    if (this.configured) {
-      this.loadRemoteColumnConfigs();
-    } else {
-      this.updateVisibleColumns();
-    }
+    this.updateVisibleColumns();
   }
 
   /**
    * Load visiblity config for columns from remote
    */
   public loadRemoteColumnConfigs() {
-    this._loadFn()
+    return this._loadFn()
       .pipe(
         takeUntil(this._destroy$),
+        tap((columnConfigs) => {
+          this._columnsFetched = true;
+          this.updateVisibilityForCols(columnConfigs);
+        })
       )
-      .subscribe((columnConfigs) => {
-        this.updateVisibilityForCols(columnConfigs);
-      })
-  }
-
-  /**
-   * Call change callback function if specified
-   */
-  public saveChangesRemote() {
-    if (this._changeFn) {
-      const data = this.columns
-        .filter((column) => !!column.name)
-        .map((column) => {
-          return {
-            name: column.name,
-            show: column.show,
-          }
-        });
-
-      this._changeFn(data);
-    }
   }
 
   /**

@@ -24,6 +24,7 @@ export class FsListColumnDirective {
   @Input() public title: string;
   @Input() public name: string;
   @Input() public show = true;
+  @Input() public customize = true;
   @Input() public sortable: boolean;
   @Input() public align: string;
   @Input() public width: string;
