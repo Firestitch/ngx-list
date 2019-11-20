@@ -1,7 +1,8 @@
 import { Observable } from 'rxjs';
 import {
   FsSelectionDialogActionSelected,
-  FsSelectionDialogConfigAction, SelectionRef
+  FsSelectionDialogConfigAction,
+  SelectionRef
 } from '@firestitch/selection'
 import { IFilterConfigItem, IFilterConfigDateItem } from '@firestitch/filter';
 
@@ -175,9 +176,19 @@ export interface FsListColumnChangeFn {
   (listColumns: FsListColumn[]): void;
 }
 
+export interface FsListColumnTitleFn {
+  (name: string, defaultTitle: string): string;
+}
+
+export interface FsListColumnDisabledFn {
+  (name: string): boolean;
+}
+
 export interface FsListColumnConfig {
   load?: FsListColumnLoadFn;
   change?: FsListColumnChangeFn;
+  title?: FsListColumnTitleFn;
+  disabled?: FsListColumnDisabledFn
 }
 
 export interface FsListColumn {

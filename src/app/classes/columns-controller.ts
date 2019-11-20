@@ -1,13 +1,15 @@
 import { isNumber } from 'lodash-es';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil, tap } from 'rxjs/operators';
 
 import { Column } from '../models/column.model';
 import {
   FsListColumnChangeFn,
   FsListColumnConfig,
-  FsListColumnLoadFn
+  FsListColumnDisabledFn,
+  FsListColumnLoadFn,
+  FsListColumnTitleFn,
 } from '../interfaces/listconfig.interface';
-import { takeUntil, tap } from 'rxjs/operators';
 
 
 export class ColumnsController {
@@ -17,6 +19,8 @@ export class ColumnsController {
   private _theadClass = '';
   private _loadFn: FsListColumnLoadFn;
   private _changeFn: FsListColumnChangeFn;
+  private _customizeFieldTitleFn: FsListColumnTitleFn;
+  private _customizeFieldDisabledFn: FsListColumnDisabledFn;
 
   private _isConfigured = false;
   private _loadFnConfigured = false;
@@ -40,14 +44,26 @@ export class ColumnsController {
   }
 
   public get columnsForDialog() {
+    const hasCustomTitle = !!this._customizeFieldTitleFn;
+    const hasCustomDisabledStatus = !!this._customizeFieldDisabledFn;
+
     return this._columns
       .filter((column) => column.customize && !!column.name)
       .map((column) => {
+        const title = hasCustomTitle
+          ? this._customizeFieldTitleFn(column.name, column.title)
+          : column.name;
+
+        const disabled = hasCustomDisabledStatus
+          ? this._customizeFieldDisabledFn(column.name)
+          : false;
+
         return {
           template: column.headerTemplate,
           name: column.name,
           show: column.show,
-          title: column.title,
+          title: title,
+          disabled: disabled,
         }
       });
   }
@@ -108,6 +124,14 @@ export class ColumnsController {
       if (config.change) {
         this._changeFn = config.change;
         this._changeFnConfigured = true;
+      }
+
+      if (config.title) {
+        this._customizeFieldTitleFn = config.title;
+      }
+
+      if (config.disabled) {
+        this._customizeFieldDisabledFn = config.disabled;
       }
 
       this._isConfigured = true;

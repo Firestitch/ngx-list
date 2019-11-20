@@ -1,7 +1,7 @@
 <h1 matDialogTitle>Customize Columns</h1>
 <mat-dialog-content>
   <div *ngFor="let column of columns">
-    <mat-checkbox [checked]="column.show" (change)="visibilityChange($event, column)">
+    <mat-checkbox [checked]="column.show" (change)="visibilityChange($event, column)" [disabled]="column.disabled">
       <ng-container *ngIf="!column.title; else titleLable">
         <ng-template [ngTemplateOutlet]="column.template"></ng-template>
       </ng-container>
