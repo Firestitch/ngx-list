@@ -13,7 +13,6 @@ import { FsFilterModule } from '@firestitch/filter';
 import { FsScrollModule } from '@firestitch/scroll';
 import { FsMenuModule } from '@firestitch/menu';
 import { FsPromptModule } from '@firestitch/prompt';
-import { FsSkeletonModule } from '@firestitch/skeleton';
 
 import { merge } from 'lodash-es';
 
@@ -31,6 +30,7 @@ import { FsStatusComponent } from './components/status/status.component';
 import { FsActionsComponent } from './components/actions/actions.component';
 import { FsPaginationComponent } from './components/pagination/pagination.component';
 import { CustomizeColsDialogComponent } from './components/customize-cols/customize-cols.component';
+import { FsListLoaderComponent } from './components/loader/loader.component';
 
 // Directives
 import { FsListFooterDirective } from './directives/footer/footer.directive';
@@ -57,7 +57,6 @@ import { FsListConfig } from './interfaces';
     FsMenuModule,
     FlexLayoutModule,
     FsScrollModule,
-    FsSkeletonModule,
     FsPromptModule,
     MatDialogModule,
   ],
@@ -69,6 +68,7 @@ import { FsListConfig } from './interfaces';
     FsFooterRowComponent,
     FsFooterCellComponent,
     FsStatusComponent,
+    FsListLoaderComponent,
 
     // Internal Components
     FsActionsComponent,
@@ -99,12 +99,13 @@ import { FsListConfig } from './interfaces';
     FsListComponent,
     FsRowComponent,
     FsCellComponent,
+    FsListLoaderComponent,
     FsListColumnDirective,
     FsListCellDirective,
     FsListHeaderDirective,
     FsListFooterDirective,
     FsListGroupCellDirective,
-    FsListGroupExpandTriggerDirective
+    FsListGroupExpandTriggerDirective,
   ],
 })
 export class FsListModule {
