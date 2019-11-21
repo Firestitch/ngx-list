@@ -1,10 +1,19 @@
 table {
   width: 100%;
-  border-spacing: 10px;
+  border-spacing: 0;
+  opacity: .5;
 }
 
-.fs-list-col {
-  background: #f6f6f6 !important;
-  border-radius: 10px;
-  border: 0 !important;
+.placeholder {
+  height: 17px;
+  background: rgba(246, 247, 249, 0.5);
+  background-image: linear-gradient(to right, rgba(246, 247, 249, 0) 0, rgba(233, 235, 238, 0.8) 20%, rgba(246, 247, 249, 0) 40%, rgba(246, 247, 249, 0.05) 100%);
+  background-repeat: no-repeat;
+  background-size: 1000px;
+  border-radius: 2px;
+  max-width: 550px;
+}
+
+:host ::ng-deep tbody tr:hover td {
+  background: transparent;
 }

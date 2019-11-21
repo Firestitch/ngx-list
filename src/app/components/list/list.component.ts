@@ -10,6 +10,7 @@ import {
   OnInit,
   QueryList,
   ViewChild,
+  HostBinding,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FsScrollService } from '@firestitch/scroll';
@@ -50,6 +51,8 @@ import { GroupExpandNotifierService } from '../../services/group-expand-notifier
   ]
 })
 export class FsListComponent implements OnInit, OnDestroy {
+
+  @HostBinding('class.fs-list') classFsList = true;
 
   @Input('config')
   set config(config: FsListConfig) {

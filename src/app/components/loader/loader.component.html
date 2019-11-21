@@ -1,19 +1,26 @@
-<table class="fs-list-table" role="grid">
-  <tbody class="fs-list-body">
-  <tr class="fs-list-row">
-    <td class="fs-list-col" *ngFor="let col of columns">
-      &nbsp;
-    </td>
-  </tr>
-  <tr class="fs-list-row">
-    <td class="fs-list-col" *ngFor="let col of columns">
-      &nbsp;
-    </td>
-  </tr>
-  <tr class="fs-list-row">
-    <td class="fs-list-col" *ngFor="let col of columns">
-      &nbsp;
-    </td>
-  </tr>
+<table>
+  <thead>
+    <tr>
+      <th *ngFor="let col of cols; let column = index" [width]="widths[column] + '%'">
+        <div class="placeholder" [style.width]="(placeholderWidths[0][column]/2)  + '%'"></div>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td *ngFor="let col of cols; let column = index">
+        <div class="placeholder" [style.width]="placeholderWidths[0][column] + '%'"></div>
+      </td>
+    </tr>
+    <tr>
+      <td *ngFor="let col of cols; let column = index">
+        <div class="placeholder" [style.width]="placeholderWidths[1][column] + '%'"></div>
+      </td>
+    </tr>
+    <tr>
+      <td *ngFor="let col of cols; let column = index">
+        <div class="placeholder" [style.width]="placeholderWidths[2][column] + '%'"></div>
+      </td>
+    </tr>
   </tbody>
 </table>
