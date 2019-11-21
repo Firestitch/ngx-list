@@ -29,7 +29,7 @@ export class Selection {
   // Reference to selection dialog
   public selectionDialogRef: SelectionRef = null;
 
-  private _rowsData$: BehaviorSubject<any[]>;
+  private _getRowsData: () => any[];
   private _selectionChange = new Subject<{ type: SelectionChangeType, payload: any }>();
 
   // Selected only visible rows (ex.: selected only limited 15 rows when we have pagination)
@@ -66,8 +66,8 @@ export class Selection {
     return this._selectionChange.pipe(takeUntil(this._destroy$));
   }
 
-  public setRowsData(data: BehaviorSubject<any[]>) {
-    this._rowsData$ = data;
+  public setRowsDataCallback(data: () => any[]) {
+    this._getRowsData = data;
   }
 
   /**
@@ -105,16 +105,17 @@ export class Selection {
     this.openDialog();
 
     this._selectedAllVisible = checked;
+    const rowsData = this._getRowsData();
 
     if (checked) {
-      this._rowsData$.getValue().forEach((row) => {
+      rowsData.forEach((row) => {
         const identifier = this._rowIdentifier(row);
         this.selectedRows.set(identifier, row);
       });
 
-      this._selectedRecords = this._rowsData$.getValue().length;
+      this._selectedRecords = rowsData.length;
     } else {
-      this._rowsData$.getValue().forEach((row) => {
+      rowsData.forEach((row) => {
         const identifier = this._rowIdentifier(row);
         this.selectedRows.delete(identifier);
       });
@@ -175,7 +176,7 @@ export class Selection {
       }
     } else {
       this._selectedRecords = 0;
-      this._rowsData$.getValue().forEach((row) => {
+      this._getRowsData().forEach((row) => {
         const identified = this._rowIdentifier(row);
 
         if (this.selectedRows.has(identified)) {

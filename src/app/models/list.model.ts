@@ -449,7 +449,7 @@ export class List extends Model {
   ) {
     if (selectionConfig) {
       this.selection = new Selection(selectionConfig, this.trackBy, selectionDialog);
-      this.selection.setRowsData(this.dataController.visibleRows$);
+      this.selection.setRowsDataCallback(() => this.dataController.visibleRowsData);
     }
   }
 
