@@ -39,10 +39,6 @@ export class ColumnsController {
     return this._columns.slice();
   }
 
-  public get sortableColumns() {
-    return this._columns.filter((column) => column.sortable);
-  }
-
   public get columnsForDialog() {
     const hasCustomTitle = !!this._customizeFieldTitleFn;
     const hasCustomDisabledStatus = !!this._customizeFieldDisabledFn;

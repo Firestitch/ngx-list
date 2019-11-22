@@ -10,8 +10,8 @@ import {
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { SortingController } from '../../classes/sorting-controller';
 import { Pagination } from '../../models/pagination.model';
-import { Sorting } from '../../models/sorting.model';
 import { SortingDirection } from '../../models/column.model';
 
 
@@ -26,7 +26,7 @@ import { SortingDirection } from '../../models/column.model';
 })
 export class FsStatusComponent implements OnInit, OnDestroy {
   @Input() public paging: Pagination;
-  @Input() public sorting: Sorting;
+  @Input() public sorting: SortingController;
   @Input() public rows;
   @Input() public scrollable;
 

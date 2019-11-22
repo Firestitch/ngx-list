@@ -19,7 +19,7 @@ import {
 
 import { SortingDirection } from './column.model';
 import { Pagination } from './pagination.model';
-import { Sorting } from './sorting.model';
+
 // Interfaces
 import {
   FsListConfig,
@@ -43,6 +43,8 @@ import { ColumnsController } from '../classes/columns-controller';
 import { PageChangeType } from '../enums/page-change-type.enum';
 import { ActionsController } from '../classes';
 import { DataController } from '../classes/data-controller';
+import { SortingController } from '../classes/sorting-controller';
+
 import { Operation } from '../enums/operation.enum';
 
 const SHOW_DELETED_FILTERS_KEY = '$$_show_deleted_$$';
@@ -81,7 +83,7 @@ export class List extends Model {
   public actions = new ActionsController();
   public dataController = new DataController();
   public persist: string;
-  public sorting = new Sorting([]);
+  public sorting = new SortingController();
   public selection: Selection;
 
   public filterConfig: FilterConfig = null;
@@ -165,9 +167,11 @@ export class List extends Model {
     this.columns.initializeColumns(templates);
 
     // Set sortBy default column
-    this.columns.sortableColumns.forEach((column) => {
-      this.sorting.addSortableColumn(column);
-    });
+    this.columns.columns
+      .filter((column) => column.sortable)
+      .forEach((column) => {
+        this.sorting.addSortableColumn(column);
+      });
     this.sorting.initialSortBy(this.config.sort);
 
     this.initFilters();
@@ -734,15 +738,10 @@ export class List extends Model {
   // Callback when Filter sort has been changed
   private filterSort(filterQuery, filterSort) {
     if (filterSort) {
-      const targetColumn = this.columns.visibleColumns
-        .find((column) => column.name === filterSort.value);
+      this.sorting.sortByColumnWithName(filterSort.value);
 
-      if (targetColumn) {
-        this.sorting.sortBy(targetColumn);
-
-        const sortDirection = filterSort.direction === 'asc' ? SortingDirection.asc : SortingDirection.desc;
-        this.sorting.sortDirection(sortDirection);
-      }
+      const sortDirection = filterSort.direction === 'asc' ? SortingDirection.asc : SortingDirection.desc;
+      this.sorting.sortDirection(sortDirection);
     } else {
       // FIXME need to be refactored...
       this.sorting.sortingColumn = void 0;

@@ -3,18 +3,17 @@ import { takeUntil } from 'rxjs/operators';
 
 import { isString } from 'lodash-es';
 
-import { Column, SortingDirection } from './column.model';
-import { List } from './list.model';
+import { Column, SortingDirection } from '../models/column.model';
+import { List } from '../models/list.model';
 
 export interface SortingChangeEvent {
   sortBy: string;
   sortDirection: string;
 }
 
-export class Sorting {
+export class SortingController {
   public config: List;
 
-  public tableColumns: Column[];
   public sortingColumns: Column[] = [];
   public fakeSortingColumns: Column[] = [];
   public sortingColumn: Column;
@@ -23,9 +22,7 @@ export class Sorting {
   private _sortingChanged = new Subject<SortingChangeEvent>();
   private _onDestroy = new Subject();
 
-  constructor(columns) {
-    this.tableColumns = columns;
-  }
+  constructor() {}
 
   get sortingChanged(): Observable<SortingChangeEvent> {
     return this._sortingChanged.pipe(takeUntil(this._onDestroy));
@@ -56,6 +53,20 @@ export class Sorting {
 
       this._notifySortChanged();
     }
+  }
+
+  /**
+   * Same as sortBy, but need only column name as parameter for sort
+   * @param name
+   */
+  public sortByColumnWithName(name: string) {
+    const column =
+      this.sortingColumns.find(col => col.name === name && col.sortable) ||
+      this.fakeSortingColumns.find(col => col.name === name && col.sortable);
+
+    if (!column) { return; }
+
+    this._setSortingColumn(column);
   }
 
   /**
@@ -91,13 +102,7 @@ export class Sorting {
     const [columnName, columnDirection] = sort.split(',')
       .map(str => str.trim());
 
-    const column =
-      this.sortingColumns.find(col => col.name === columnName && col.sortable) ||
-      this.fakeSortingColumns.find(col => col.name === columnName && col.sortable);
-
-    if (!column) { return; }
-
-    this._setSortingColumn(column);
+    this.sortByColumnWithName(columnName);
 
     const direction = (columnDirection === 'asc')
       ? SortingDirection.asc

@@ -38,7 +38,7 @@ export { Pagination } from './app/models/pagination.model';
 export { ReorderStrategy, ReorderPosition, ReorderModel } from './app/models/reorder.model';
 export { RowAction } from './app/models/row-action.model';
 export { Selection, SelectionChangeType } from './app/models/selection.model';
-export { Sorting, SortingChangeEvent } from './app/models/sorting.model';
+export { SortingController, SortingChangeEvent } from './app/classes/sorting-controller';
 export { StyleConfig } from './app/models/styleConfig.model';
 
 // Interfaces
