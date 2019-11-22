@@ -61,7 +61,10 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
         limits: [5, 15, 50, 150, 250, 500, 1000],
         strategy: PaginationStrategy.Page,
       },
-      sort: 'guid,desc',
+      sort: {
+        name: 'guid',
+        direction: 'desc',
+      },
       loadMore: false,
       column: {
         load: () => {

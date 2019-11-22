@@ -5,6 +5,7 @@ import { isString } from 'lodash-es';
 
 import { Column, SortingDirection } from '../models/column.model';
 import { List } from '../models/list.model';
+import { FsListSortConfig } from '../interfaces';
 
 export interface SortingChangeEvent {
   sortBy: string;
@@ -89,22 +90,19 @@ export class SortingController {
    * Set initial sorting
    * @param sort
    */
-  public initialSortBy(sort: string) {
+  public initialSortBy(sort: FsListSortConfig) {
     this._initialization = true;
 
-    if (!sort || !isString(sort)) {
+    if (!sort) {
       this.sortByFirstSortbale();
 
       this._initialization = false;
       return;
     }
 
-    const [columnName, columnDirection] = sort.split(',')
-      .map(str => str.trim());
+    this.sortByColumnWithName(sort.name);
 
-    this.sortByColumnWithName(columnName);
-
-    const direction = (columnDirection === 'asc')
+    const direction = (sort.direction === void 0 || sort.direction === 'asc')
       ? SortingDirection.asc
       : SortingDirection.desc;
     this._setSortingDirection(direction);

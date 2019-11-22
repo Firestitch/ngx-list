@@ -9,6 +9,7 @@ import { IFilterConfigItem, IFilterConfigDateItem } from '@firestitch/filter';
 import { ActionType } from '../enums/button-type.enum';
 import { ReorderPosition, ReorderStrategy } from '../models/reorder.model';
 import { PaginationStrategy } from '../enums/pagination-strategy.enum';
+import { SortDirection } from '@angular/material/sort';
 
 
 export interface FsPaging {
@@ -47,7 +48,7 @@ export interface FsListConfig {
   reorder?: FsListReorderConfig;
   sorts?: FsListSortsConfig[];
   group?: FsListGroupConfig;
-  sort?: string;
+  sort?: FsListSortConfig;
   restore?: FsListRestoreConfig;
   noResults?: FsListNoResultsConfig
 }
@@ -90,6 +91,11 @@ export interface FsListFooterConfig {
 export interface FsListSortsConfig {
   name: string;
   value: string;
+}
+
+export interface FsListSortConfig {
+  name: string;
+  direction?: 'asc' | 'desc';
 }
 
 export interface FsListScrollableConfig {

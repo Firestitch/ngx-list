@@ -68,7 +68,10 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
           }
         ]
       },
-      sort: 'guid,desc',
+      sort: {
+        name: 'guid',
+        direction: 'desc',
+      },
       filters: [
         {
           name: 'keyword',
