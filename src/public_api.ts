@@ -33,11 +33,11 @@ export { FsListHeaderDirective } from './app/directives/header/header.directive'
 // Models
 export { Action } from './app/models/action.model';
 export { Column, SortingDirection } from './app/models/column.model';
-export { List } from './app/models/list.model';
-export { Pagination } from './app/models/pagination.model';
-export { ReorderStrategy, ReorderPosition, ReorderModel } from './app/models/reorder.model';
+export { List } from './app/classes/list-controller';
+export { PaginationController } from './app/classes/pagination-controller';
+export { ReorderStrategy, ReorderPosition, ReorderController } from './app/classes/reorder-controller';
 export { RowAction } from './app/models/row-action.model';
-export { Selection, SelectionChangeType } from './app/models/selection.model';
+export { SelectionController, SelectionChangeType } from './app/classes/selection-controller';
 export { SortingController, SortingChangeEvent } from './app/classes/sorting-controller';
 export { StyleConfig } from './app/models/styleConfig.model';
 

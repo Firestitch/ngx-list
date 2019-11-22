@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { get as _get } from 'lodash-es';
 import { SelectionDialog, SelectionRef } from '@firestitch/selection';
@@ -13,7 +13,7 @@ export enum SelectionChangeType {
 }
 
 
-export class Selection {
+export class SelectionController {
 
   // Options from passed config
   public actions = [];

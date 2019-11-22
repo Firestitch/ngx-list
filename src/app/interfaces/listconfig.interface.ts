@@ -7,9 +7,8 @@ import {
 import { IFilterConfigItem, IFilterConfigDateItem } from '@firestitch/filter';
 
 import { ActionType } from '../enums/button-type.enum';
-import { ReorderPosition, ReorderStrategy } from '../models/reorder.model';
+import { ReorderPosition, ReorderStrategy } from '../classes/reorder-controller';
 import { PaginationStrategy } from '../enums/pagination-strategy.enum';
-import { SortDirection } from '@angular/material/sort';
 
 
 export interface FsPaging {

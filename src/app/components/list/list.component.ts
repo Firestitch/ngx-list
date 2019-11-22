@@ -22,8 +22,8 @@ import { filter, skip, take, takeUntil } from 'rxjs/operators';
 
 import { cloneDeep, mergeWith } from 'lodash-es';
 
-import { List } from '../../models/list.model';
-import { ReorderStrategy } from '../../models/reorder.model';
+import { List } from '../../classes/list-controller';
+import { ReorderStrategy } from '../../classes/reorder-controller';
 
 import { FsListColumnDirective } from '../../directives/column/column.directive';
 import { FS_LIST_DEFAULT_CONFIG } from '../../fs-list.providers';

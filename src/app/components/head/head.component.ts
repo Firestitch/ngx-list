@@ -12,10 +12,10 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-import { SortingController } from '../../classes/sorting-controller';
 import { Column } from '../../models/column.model';
-import { ReorderPosition, ReorderStrategy } from '../../models/reorder.model';
-import { Selection, SelectionChangeType } from '../../models/selection.model';
+import { SortingController } from '../../classes/sorting-controller';
+import { ReorderPosition, ReorderStrategy } from '../../classes/reorder-controller';
+import { SelectionController, SelectionChangeType } from '../../classes/selection-controller';
 
 
 @Component({
@@ -30,7 +30,7 @@ export class FsHeadComponent implements OnInit, OnDestroy {
   @Input() reorderEnabled: boolean;
   @Input() reorderPosition: ReorderPosition;
   @Input() reorderStrategy: ReorderStrategy;
-  @Input() selection: Selection;
+  @Input() selection: SelectionController;
 
   @ViewChild('rowsContainer', { read: ViewContainerRef, static: true }) rowsContainer;
 

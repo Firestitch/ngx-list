@@ -17,8 +17,7 @@ import {
   tap,
 } from 'rxjs/operators';
 
-import { SortingDirection } from './column.model';
-import { Pagination } from './pagination.model';
+import { SortingDirection } from '../models/column.model';
 
 // Interfaces
 import {
@@ -34,16 +33,17 @@ import {
   FsPaging,
   PageChange
 } from '../interfaces';
-import { StyleConfig } from './styleConfig.model';
-import { Action } from './action.model';
-import { ReorderModel, ReorderStrategy } from './reorder.model';
-import { RowAction } from './row-action.model';
-import { Selection } from './selection.model';
-import { ColumnsController } from '../classes/columns-controller';
+import { StyleConfig } from '../models/styleConfig.model';
+import { Action } from '../models/action.model';
+import { RowAction } from '../models/row-action.model';
+import { ColumnsController } from './columns-controller';
 import { PageChangeType } from '../enums/page-change-type.enum';
-import { ActionsController } from '../classes';
-import { DataController } from '../classes/data-controller';
-import { SortingController } from '../classes/sorting-controller';
+import { ActionsController } from './index';
+import { DataController } from './data-controller';
+import { PaginationController } from './pagination-controller';
+import { SelectionController } from './selection-controller';
+import { ReorderController, ReorderStrategy } from './reorder-controller';
+import { SortingController } from './sorting-controller';
 
 import { Operation } from '../enums/operation.enum';
 
@@ -65,7 +65,7 @@ export class List extends Model {
   @Alias() public filters = [];
   @Alias() public scrollable: FsListScrollableConfig | false = false;
   @Alias() public noResults: FsListNoResultsConfig;
-  public reorder: ReorderModel;
+  public reorder: ReorderController;
   // @Alias() public initialFetch = true; //TODO fixme
   @Alias('fetch') public fetchFn: any;
   // @Alias('rows') private _rows: any;
@@ -77,14 +77,14 @@ export class List extends Model {
   public filtersQuery: any;
 
   public hasRowActions;
-  public paging = new Pagination();
+  public paging = new PaginationController();
 
   public columns = new ColumnsController();
   public actions = new ActionsController();
   public dataController = new DataController();
   public persist: string;
   public sorting = new SortingController();
-  public selection: Selection;
+  public selection: SelectionController;
 
   public filterConfig: FilterConfig = null;
 
@@ -358,7 +358,7 @@ export class List extends Model {
    */
   private initReoder(config) {
     if (config.reorder) {
-      this.reorder = new ReorderModel(this, config.reorder);
+      this.reorder = new ReorderController(this, config.reorder);
 
       if (this.reorder.strategy === ReorderStrategy.Manual) {
         const action = new Action({
@@ -452,7 +452,7 @@ export class List extends Model {
     selectionDialog: SelectionDialog,
   ) {
     if (selectionConfig) {
-      this.selection = new Selection(selectionConfig, this.trackBy, selectionDialog);
+      this.selection = new SelectionController(selectionConfig, this.trackBy, selectionDialog);
       this.selection.setRowsDataCallback(() => this.dataController.visibleRowsData);
     }
   }

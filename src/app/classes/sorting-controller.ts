@@ -1,10 +1,8 @@
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { isString } from 'lodash-es';
-
 import { Column, SortingDirection } from '../models/column.model';
-import { List } from '../models/list.model';
+import { List } from './list-controller';
 import { FsListSortConfig } from '../interfaces';
 
 export interface SortingChangeEvent {

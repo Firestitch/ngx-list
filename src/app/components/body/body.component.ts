@@ -22,8 +22,8 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { Column } from '../../models/column.model';
-import { ReorderPosition, ReorderStrategy } from '../../models/reorder.model';
-import { Selection } from '../../models/selection.model';
+import { ReorderPosition, ReorderStrategy } from '../../classes/reorder-controller';
+import { SelectionController } from '../../classes/selection-controller';
 import { Row } from '../../models/row.model';
 
 import { FsRowComponent } from './row/row.component';
@@ -47,7 +47,7 @@ export class FsBodyComponent implements OnInit, DoCheck, OnDestroy {
   @Input() hasRowActions = false;
   @Input() reorderPosition: ReorderPosition;
   @Input() reorderStrategy: ReorderStrategy;
-  @Input() selection: Selection;
+  @Input() selection: SelectionController;
   @Input() restoreMode = false;
   @Input() rowRemoved: EventEmitter<any>;
 

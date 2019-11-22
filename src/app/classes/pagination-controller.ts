@@ -13,7 +13,7 @@ import { PaginationStrategy } from '../enums/pagination-strategy.enum';
 import { PageChangeType } from '../enums/page-change-type.enum';
 
 
-export class Pagination extends Model {
+export class PaginationController extends Model {
 
   @Alias() public limit = 25;
   @Alias() public pages = 0; // Total pages

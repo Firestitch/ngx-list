@@ -10,7 +10,7 @@ import {
 
 import { FsPrompt } from '@firestitch/prompt';
 import { FsRowComponent } from '../../body/row/row.component';
-import { ReorderPosition } from '../../../models/reorder.model';
+import { ReorderPosition } from '../../../classes/reorder-controller';
 
 
 @Component({

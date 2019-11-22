@@ -8,7 +8,7 @@ import {
   OnInit, IterableDiffer
 } from '@angular/core';
 
-import { Pagination } from '../../models/pagination.model';
+import { PaginationController } from '../../classes/pagination-controller';
 
 @Component({
   selector: 'fs-list-pagination',
@@ -19,7 +19,7 @@ import { Pagination } from '../../models/pagination.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FsPaginationComponent implements OnInit, DoCheck {
-  @Input() pagination: Pagination;
+  @Input() pagination: PaginationController;
   @Input() rows;
 
   private differ: IterableDiffer<any>;

@@ -23,8 +23,8 @@ import { Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 
 import { Column } from '../../../models/column.model';
-import { ReorderPosition, ReorderStrategy } from '../../../models/reorder.model';
-import { Selection, SelectionChangeType } from '../../../models/selection.model';
+import { ReorderPosition, ReorderStrategy } from '../../../classes/reorder-controller';
+import { SelectionController, SelectionChangeType } from '../../../classes/selection-controller';
 import { RowAction } from '../../../models/row-action.model';
 import { Row } from '../../../models/row.model';
 
@@ -48,7 +48,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   @Input() public rowIndex: number;
   @Input() public columns: Column[];
-  @Input() public selection: Selection;
+  @Input() public selection: SelectionController;
   @Input() public reorderEnabled: boolean;
   @Input() public reorderStrategy: ReorderStrategy;
   @Input() public reorderPosition: ReorderPosition;

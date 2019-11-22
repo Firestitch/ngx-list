@@ -1,5 +1,5 @@
 import { Alias, Model } from 'tsmodels';
-import { List } from './list.model';
+import { List } from './list-controller';
 
 
 export enum ReorderPosition {
@@ -14,7 +14,7 @@ export enum ReorderStrategy {
 }
 
 
-export class ReorderModel extends Model {
+export class ReorderController extends Model {
   @Alias() public start: Function;
   @Alias() public done: Function;
   @Alias() public status: boolean;
