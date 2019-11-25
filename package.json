@@ -46,7 +46,7 @@
     "@compodoc/compodoc": "^1.1.10",
     "@firestitch/api": "^8.0.1",
     "@firestitch/autocomplete": "8.0.0",
-    "@firestitch/autocomplete-chips": "^8.0.0",
+    "@firestitch/autocomplete-chips": "^8.0.1",
     "@firestitch/badge": "^7.0.2",
     "@firestitch/chip": "^7.3.2",
     "@firestitch/clear": "^7.1.0",
@@ -55,7 +55,7 @@
     "@firestitch/datepicker": "^8.0.1",
     "@firestitch/drawer": "^8.0.0",
     "@firestitch/example": "^8.0.0",
-    "@firestitch/filter": "^8.1.15",
+    "@firestitch/filter": "^8.1.19",
     "@firestitch/form": "^7.6.8",
     "@firestitch/iframe": "^8.0.0",
     "@firestitch/label": "^7.1.9",
@@ -91,7 +91,7 @@
     "@firestitch/scroll": ">=7.0.0",
     "@firestitch/date": ">=7.0.0",
     "@firestitch/prompt": ">=7.3.0",
-    "@firestitch/filter": ">=8.1.15",
+    "@firestitch/filter": ">=8.1.19",
     "@firestitch/menu": ">=7.0.11"
   }
 }
