@@ -38,6 +38,8 @@ export class ActionsController {
   public addReorderAction(action: Action) {
     this._actions.unshift(action);
 
+    action.isReorderAction = true;
+
     this._classifyAction(action);
     this._reorderAction = action;
   }

@@ -3,7 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FsApi } from '@firestitch/api';
 import { FsListConfig, ReorderPosition, ReorderStrategy } from '@firestitch/list';
 
-import { map } from 'rxjs/operators';
+import { delay, map } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 
 @Component({
@@ -25,11 +26,17 @@ export class ManualReorderComponent implements OnInit {
       reorder: {
         position: ReorderPosition.Right,
         strategy: ReorderStrategy.Manual,
+        menu: false,
         start: () => {
           console.log('reorder started');
+          return of(null).pipe(delay(5000));
+        },
+        moved: (data) => {
+          console.log('reorder moved', data);
         },
         done: (data) => {
           console.log('reorder finished', data);
+          return of(null).pipe(delay(5000));
         }
       },
       fetch: query => {

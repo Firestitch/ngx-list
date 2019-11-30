@@ -39,6 +39,9 @@ export class CustomReorderComponent implements OnInit {
         start: () => {
           console.log('reorder started');
         },
+        moved: (data) => {
+          console.log('reorder moved', data);
+        },
         done: (data) => {
           console.log('reorder finished', data);
         }

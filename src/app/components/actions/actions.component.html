@@ -8,6 +8,7 @@
                         mat-button
                         (click)="action.click($event)"
                         [ngClass]="action.classArray"
+                        [disabled]="action.isReorderAction && reorderDisabled"
                 >
                   <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
                 </button>
@@ -18,6 +19,7 @@
                         mat-raised-button
                         (click)="action.click($event)"
                         [ngClass]="action.classArray"
+                        [disabled]="action.isReorderAction && reorderDisabled"
                 >
                   <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
                 </button>
@@ -28,6 +30,7 @@
                         mat-icon-button
                         (click)="action.click($event)"
                         [ngClass]="action.classArray"
+                        [disabled]="action.isReorderAction && reorderDisabled"
                 >
                   <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
                 </button>
@@ -38,6 +41,7 @@
                         mat-fab
                         (click)="action.click($event)"
                         [ngClass]="action.classArray"
+                        [disabled]="action.isReorderAction && reorderDisabled"
                 >
                   <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
                 </button>
@@ -48,6 +52,7 @@
                         mat-mini-fab
                         (click)="action.click($event)"
                         [ngClass]="action.classArray"
+                        [disabled]="action.isReorderAction && reorderDisabled"
                 >
                   <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
                 </button>
@@ -101,8 +106,8 @@
 
 <!-- Reorder Button -->
 <button type="button"
-        mat-button
-        color="primary"
+        mat-raised-button
+        [disabled]="reorderDisabled"
         *ngIf="manualReorderActivated"
         (click)="finishReorder()">
   DONE

@@ -18,6 +18,9 @@ export class FsActionsComponent {
   @Input()
   public manualReorderActivated = false;
 
+  @Input()
+  public reorderDisabled = false;
+
   @Output()
   public reorderFinished = new EventEmitter<void>();
 

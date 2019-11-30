@@ -295,6 +295,10 @@ export class List extends Model {
       this.filterConfig = null;
     }
 
+    if (this.reorder) {
+      this.reorder.destroy();
+    }
+
     this.columns.destroy();
 
     this.onDestroy$.next();
@@ -364,8 +368,9 @@ export class List extends Model {
         const action = new Action({
           label: this.reorder.label || 'Reorder',
           menu: this.reorder.menu,
+          primary: false,
           click: () => {
-            this.reorder.enabled = true;
+            this.reorder.enableReorder();
           }
         });
 

@@ -64,12 +64,21 @@ export interface FsListLoadMoreConfig {
 }
 
 export interface FsListReorderConfig {
-  start?: Function;
-  done?: Function;
+  start?: () => void;
+  moved?: FsListReorderMovedCallback;
+  done?: FsListReorderDoneCallback;
   position?: ReorderPosition;
   strategy?: ReorderStrategy;
   label?: string;
   menu?: boolean;
+}
+
+export interface FsListReorderMovedCallback {
+  (rows: FsListAbstractRow[]): void;
+}
+
+export interface FsListReorderDoneCallback {
+  (rows: FsListAbstractRow[]): void | Observable<void>;
 }
 
 export interface FsListHeaderConfig {

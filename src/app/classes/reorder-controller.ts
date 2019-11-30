@@ -1,5 +1,10 @@
 import { Alias, Model } from 'tsmodels';
+
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import { List } from './list-controller';
+import { FsListReorderDoneCallback, FsListReorderMovedCallback } from '../interfaces';
 
 
 export enum ReorderPosition {
@@ -15,8 +20,9 @@ export enum ReorderStrategy {
 
 
 export class ReorderController extends Model {
-  @Alias() public start: Function;
-  @Alias() public done: Function;
+  @Alias() public start: () => void | Observable<void>;
+  @Alias() public moved: FsListReorderMovedCallback;
+  @Alias() public done: FsListReorderDoneCallback;
   @Alias() public status: boolean;
   @Alias() public label: string;
   @Alias() public menu: boolean;
@@ -24,6 +30,9 @@ export class ReorderController extends Model {
   @Alias() public strategy: ReorderStrategy;
 
   private _enabled = false;
+  private _manualReorderActivated$ = new BehaviorSubject(false);
+  private _reorderDisabled$ = new BehaviorSubject(false);
+  private _destroy$ = new Subject();
 
   constructor(private _list: List, data: any = {}) {
     super();
@@ -35,22 +44,18 @@ export class ReorderController extends Model {
     return this._enabled;
   }
 
-  get manualReorderActivated() {
-    return this.enabled && this.strategy === ReorderStrategy.Manual
-  }
-
   set enabled(value) {
     this._enabled = value;
 
-    if (this.strategy === ReorderStrategy.Manual || this.strategy === ReorderStrategy.Custom) {
+    this._manualReorderActivated$.next(this.enabled && this.strategy === ReorderStrategy.Manual);
+  }
 
-      if (value) {
-        // Fire callback that reorder was started
-        this.reorderStarted();
-      } else {
-        this.reorderFinished();
-      }
-    }
+  get manualReorderActivated$() {
+    return this._manualReorderActivated$.asObservable();
+  }
+
+  get reorderDisabled$() {
+    return this._reorderDisabled$.asObservable();
   }
 
   public _fromJSON(data) {
@@ -67,7 +72,7 @@ export class ReorderController extends Model {
     if (data.strategy === void 0) {
       this.strategy = ReorderStrategy.Manual;
     } else if (data.strategy === ReorderStrategy.Always) {
-      this.enabled = true;
+      this.enableReorder();
     }
 
     if (data.status === void 0) {
@@ -75,32 +80,66 @@ export class ReorderController extends Model {
     }
   }
 
-  /**
-   * If reorder strategy Always and drag was started or finished
-   * @param status
-   */
-  public reorderChanged(status: boolean) {
-    if (status) {
-      this.reorderStarted();
-    } else {
-      this.reorderFinished();
-    }
-  }
-
-  /**
-   * If reorder strategy Manual and Done button was clicked
-   */
-  public finishReorder() {
-    this.enabled = false;
-  }
-
-  /**
-   * Exec start callback
-   */
-  public reorderStarted() {
-    if (this.start) {
+  public dragStart() {
+    if (this.start && this.strategy === ReorderStrategy.Always) {
       this.start();
     }
+  }
+
+  public dragEnd() {
+    if (this.moved) {
+      this.moved(this._list.dataController.visibleRowsData);
+    }
+
+    if (this.strategy === ReorderStrategy.Always) {
+      if (this.done) {
+        this.done(this._list.dataController.visibleRowsData);
+      }
+    }
+  }
+
+  public enableReorder() {
+    if (this.strategy === ReorderStrategy.Manual || this.strategy === ReorderStrategy.Custom) {
+      const returnedValue = this.start();
+
+      if (returnedValue && returnedValue instanceof Observable) {
+        this._reorderDisabled$.next(true);
+        returnedValue
+          .pipe(
+            takeUntil(this._destroy$),
+          )
+          .subscribe(() => {
+            this._reorderDisabled$.next(false);
+            this.enabled = true;
+          });
+
+        return;
+      }
+    }
+
+    this.enabled = true;
+  }
+
+  public disableReorder() {
+    if (this.strategy === ReorderStrategy.Manual || this.strategy === ReorderStrategy.Custom) {
+      const returnedValue = this.reorderFinished();
+
+      if (returnedValue && returnedValue instanceof Observable) {
+        this._reorderDisabled$.next(true);
+        returnedValue
+          .pipe(
+            takeUntil(this._destroy$),
+          )
+          .subscribe(() => {
+            this.enabled = false;
+            this._reorderDisabled$.next(false);
+          });
+
+        return;
+      }
+    }
+
+    this.enabled = false;
   }
 
   /**
@@ -108,7 +147,12 @@ export class ReorderController extends Model {
    */
   public reorderFinished() {
     if (this.done) {
-      this.done(this._list.dataController.visibleRowsData);
+      return this.done(this._list.dataController.visibleRowsData);
     }
+  }
+
+  public destroy() {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 }

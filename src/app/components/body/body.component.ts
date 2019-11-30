@@ -51,9 +51,10 @@ export class FsBodyComponent implements OnInit, DoCheck, OnDestroy {
   @Input() restoreMode = false;
   @Input() rowRemoved: EventEmitter<any>;
 
-  @Output() reorderChanged = new EventEmitter<boolean>();
-  @Output() dragStarted = new EventEmitter();
-  @Output() dragEnded = new EventEmitter();
+  // @Output() reorderChanged = new EventEmitter<boolean>();
+
+  @Output() dragStart = new EventEmitter();
+  @Output() dragEnd = new EventEmitter();
 
   @ViewChild('rowsContainer', { read: ViewContainerRef, static: true }) rowsContainer;
   @ContentChild(FsRowComponent, { read: TemplateRef, static: true })
@@ -129,11 +130,12 @@ export class FsBodyComponent implements OnInit, DoCheck, OnDestroy {
       .subscribe(() => {
         this.zone.run(() => {
           // In case when drag always enabled we should fire dragStart/dragEnd events for every drag/drop
-          if (this.reorderStrategy === ReorderStrategy.Always) {
-            this.reorderChanged.next(true);
-          }
+          // if (this.reorderStrategy === ReorderStrategy.Always) {
+          //   // this.dragMoved.emit();
+          //   // this.reorderChanged.next(true);
+          // }
 
-          this.dragStarted.emit();
+          this.dragStart.emit();
         });
       });
 
@@ -144,12 +146,9 @@ export class FsBodyComponent implements OnInit, DoCheck, OnDestroy {
       )
       .subscribe(() => {
         this.zone.run(() => {
-          // In case when drag always enabled we should fire dragStart/dragEnd events for every drag/drop
-          if (this.reorderStrategy === ReorderStrategy.Always) {
-            this.reorderChanged.next(false);
-          }
+          // this.reorderChanged.next(false);
 
-          this.dragEnded.emit();
+          this.dragEnd.emit();
         });
       });
   }

@@ -12,6 +12,8 @@ export class Action extends Model {
   @Alias() public click: Function;
   @Alias() public type: ActionType;
 
+  public isReorderAction = false;
+
   public classArray: string[] = [];
 
   constructor(config: any = {}) {

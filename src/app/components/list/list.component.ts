@@ -190,11 +190,11 @@ export class FsListComponent implements OnInit, OnDestroy {
   }
 
   public reorderStart() {
-    this.list.reorder.enabled = true;
+    this.list.reorder.enableReorder();
   }
 
   public reorderFinish() {
-    this.list.reorder.enabled = false;
+    this.list.reorder.disableReorder();
   }
 
   public setActions(actions: FsListAction[]) {
@@ -206,10 +206,12 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   public dragStarted() {
     this.dragging = true;
+    this.list.reorder.dragStart();
   }
 
   public dragEnded() {
     this.dragging = false;
+    this.list.reorder.dragEnd();
   }
 
   private _initCustomizableAction() {
