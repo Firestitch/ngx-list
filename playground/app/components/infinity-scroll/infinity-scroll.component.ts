@@ -34,7 +34,6 @@ export class InfinityScrollComponent extends StrategyBaseComponent implements On
   public ngOnInit() {
 
     this.config = {
-      heading: 'Infinity Scroll',
       paging: {
         limits: [30, 50, 150]
       },

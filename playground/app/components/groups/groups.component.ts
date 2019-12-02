@@ -48,7 +48,6 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
   public ngOnInit() {
 
     this.config = {
-      heading: 'Groups',
       status: true,
       filterInput: true,
       paging: false,

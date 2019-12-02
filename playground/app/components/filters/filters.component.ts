@@ -21,8 +21,6 @@ export class FiltersComponent implements OnInit {
   public ngOnInit() {
 
     this.config = {
-      heading: 'Filters',
-      initialFetch: true,
       paging: {
         limits: [5, 15, 50]
       },

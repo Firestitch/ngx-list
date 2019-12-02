@@ -78,7 +78,7 @@ export interface FsListReorderMovedCallback {
 }
 
 export interface FsListReorderDoneCallback {
-  (rows: FsListAbstractRow[]): void | Observable<void>;
+  (rows: FsListAbstractRow[]): void | Observable<any>;
 }
 
 export interface FsListHeaderConfig {

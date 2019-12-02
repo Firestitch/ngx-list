@@ -35,7 +35,6 @@ export class SelectionComponent extends StrategyBaseComponent implements OnInit 
   public ngOnInit() {
 
     this.config = {
-      heading: 'Selection',
       trackBy: 'name',
       status: true,
       filterInput: true,

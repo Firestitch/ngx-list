@@ -19,31 +19,29 @@
           <h2 class="heading" *ngIf="list.heading">{{list.heading}}</h2>
           <span class="subheading" *ngIf="list.subheading">{{list.subheading}}</span>
         </div>
-        <!-- Filters/actions -->
-        <div class="fs-list-toolbar">
-          <fs-filter
-            #filter
-            class="fs-list-filter"
-            *ngIf="list.filterConfig"
-            [hidden]="!list.filterConfig?.items.length || (list.reorder?.manualReorderActivated$ | async)"
-            [filter]="list.filterConfig"
-            [sortUpdate]="list?.sorting?.sortingChanged"
-            [showSortBy]="!list.status"
-            [showFilterInput]="list.filterInput">
-          </fs-filter>
 
-          <!-- Actions -->
-          <fs-list-actions
-            class="fs-list-actions"
-            *ngIf="list.actions.actionsList.length"
-            [menuActions]="list.actions.menuActions"
-            [kebabActions]="list.actions.kebabActions"
-            [manualReorderActivated]="list.reorder?.manualReorderActivated$ | async"
-            [reorderDisabled]="list.reorder?.reorderDisabled$ | async"
-            (reorderFinished)="reorderFinish()">
-          </fs-list-actions>
-          <!-- /Actions -->
-        </div>
+        <fs-filter
+          #filter
+          class="fs-list-filter"
+          *ngIf="list.filterConfig"
+          [hidden]="!list.filterConfig?.items.length || (list.reorder?.manualReorderActivated$ | async)"
+          [filter]="list.filterConfig"
+          [sortUpdate]="list?.sorting?.sortingChanged"
+          [showSortBy]="!list.status"
+          [showFilterInput]="list.filterInput">
+        </fs-filter>
+
+        <!-- Actions -->
+        <fs-list-actions
+          class="fs-list-actions"
+          *ngIf="list.actions.actionsList.length"
+          [menuActions]="list.actions.menuActions"
+          [kebabActions]="list.actions.kebabActions"
+          [manualReorderActivated]="list.reorder?.manualReorderActivated$ | async"
+          [reorderDisabled]="list.reorder?.reorderDisabled$ | async"
+          (reorderFinished)="reorderFinish()">
+        </fs-list-actions>
+        <!-- /Actions -->
       </div>
 
       <!-- Status -->

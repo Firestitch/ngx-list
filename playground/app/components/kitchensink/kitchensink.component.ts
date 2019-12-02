@@ -51,8 +51,6 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
   public ngOnInit() {
 
     this.config = {
-      heading: 'Kitchen Sink',
-      subheading: 'Subheading',
       status: true,
       chips: true,
       filterInput: true,

@@ -12,10 +12,7 @@
     </ng-template>
   </fs-list-column>
 
-  <fs-list-column name="name" [sortable]="true">
-    <ng-template fs-list-header>
-      User Name
-    </ng-template>
+  <fs-list-column name="name" title="User Name" [sortable]="true">
     <ng-template fs-list-cell let-value="value" let-row="row">
       {{value}}
     </ng-template>

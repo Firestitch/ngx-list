@@ -32,7 +32,6 @@ export class RestoreComponent extends StrategyBaseComponent implements OnInit {
   public ngOnInit() {
 
     this.config = {
-      heading: 'Delete/Restore',
       status: true,
       filterInput: true,
       restore: {

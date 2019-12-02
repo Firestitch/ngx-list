@@ -28,15 +28,15 @@ export class ManualReorderComponent implements OnInit {
         strategy: ReorderStrategy.Manual,
         menu: false,
         start: () => {
-          console.log('reorder started');
-          return of(null).pipe(delay(5000));
+          console.log('reorder start');
+          return of(null).pipe(delay(1000));
         },
         moved: (data) => {
           console.log('reorder moved', data);
         },
         done: (data) => {
-          console.log('reorder finished', data);
-          return of(null).pipe(delay(5000));
+          console.log('reorder done', data);
+          return of(null).pipe(delay(1000));
         }
       },
       fetch: query => {

@@ -1,8 +1,6 @@
-<span class="title">
-  API Strategy:
-</span>
+
 <mat-form-field>
-  <mat-label>Select API Pagination Strategy</mat-label>
+  <mat-label>API Pagination Strategy</mat-label>
 
   <mat-select [(ngModel)]="strategy" (ngModelChange)="selectStrategy($event)">
     <mat-option [value]="strategies.Page">
