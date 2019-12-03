@@ -5,8 +5,8 @@ import { isObject, isBoolean } from 'lodash-es';
 import { StyleConfig } from './styleConfig.model';
 
 export enum SortingDirection {
-  asc = 0,
-  desc = 1
+  asc = 'asc',
+  desc = 'desc'
 }
 
 const ALLOWED_DEFAULTS = [
@@ -43,6 +43,8 @@ export class Column extends Model {
   public footerConfigs: StyleConfig = new StyleConfig();
 
   public colStyles: StyleConfig;
+
+  @Alias('direction')
   public sortingDirection: SortingDirection;
 
   public headerColspanned = false;
@@ -76,7 +78,7 @@ export class Column extends Model {
   set ordered(value) {
     this._ordered = value;
 
-    if (value) {
+    if (value && !this.sortingDirection) {
       this.sortingDirection = SortingDirection.asc;
     }
   }

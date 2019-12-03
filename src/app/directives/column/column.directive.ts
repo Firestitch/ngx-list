@@ -26,6 +26,7 @@ export class FsListColumnDirective {
   @Input() public show = true;
   @Input() public customize = true;
   @Input() public sortable: boolean;
+  @Input() public direction: 'asc' | 'desc';
   @Input() public align: string;
   @Input() public width: string;
   @Input('class') public className: string | string[];

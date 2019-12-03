@@ -60,7 +60,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
         strategy: PaginationStrategy.Page,
       },
       sort: {
-        name: 'guid',
+        value: 'guid',
         direction: 'desc',
       },
       loadMore: false,

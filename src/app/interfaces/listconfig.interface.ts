@@ -99,10 +99,11 @@ export interface FsListFooterConfig {
 export interface FsListSortsConfig {
   name: string;
   value: string;
+  direction?: 'asc' | 'desc';
 }
 
 export interface FsListSortConfig {
-  name: string;
+  value: string;
   direction?: 'asc' | 'desc';
 }
 

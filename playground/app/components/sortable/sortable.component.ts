@@ -30,9 +30,14 @@ export class SortableComponent implements OnInit {
           name: 'Last Login',
           value: 'last_login',
         },
+        {
+          name: 'User Rating',
+          value: 'user_rating',
+          direction: 'desc',
+        },
       ],
       sort: {
-        name: 'last_login',
+        value: 'last_login',
         direction: 'desc',
       },
       paging: {

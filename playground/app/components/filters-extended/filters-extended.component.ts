@@ -30,7 +30,7 @@ export class FiltersExtendedComponent implements OnInit {
         },
       ],
       sort: {
-        name: 'last_login',
+        value: 'last_login',
         direction: 'desc',
       },
       filters: [

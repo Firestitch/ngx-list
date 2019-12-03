@@ -30,6 +30,7 @@ export class SortingController {
   public addSortableColumn(column: Column) {
     this.sortingColumns.push(column);
   }
+
   /**
    * Set Sortable Direction
    * @param direction
@@ -77,7 +78,8 @@ export class SortingController {
       const fakeColumn = new Column({
         title: column.name,
         name: column.value,
-        sortable: true
+        sortable: true,
+        direction: column.direction,
       });
 
       this.fakeSortingColumns.push(fakeColumn);
@@ -98,7 +100,7 @@ export class SortingController {
       return;
     }
 
-    this.sortByColumnWithName(sort.name);
+    this.sortByColumnWithName(sort.value);
 
     const direction = (sort.direction === void 0 || sort.direction === 'asc')
       ? SortingDirection.asc
@@ -129,7 +131,7 @@ export class SortingController {
     this._onDestroy.complete();
   }
 
-  private _setSortingColumn(column) {
+  private _setSortingColumn(column: Column) {
     // Can't do sort by non sortable column
     if (!column.sortable) {
       return false;
