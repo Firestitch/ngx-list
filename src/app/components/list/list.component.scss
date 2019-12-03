@@ -6,12 +6,24 @@
     display: block;
     width: 100%;
 
+
     .fs-filter {
       margin-bottom: 0;
       position: initial !important;
+      display: block;
 
       fs-filter-chips.has-filter-chips {
-        margin-bottom: 7px;
+        margin-bottom: 6px;
+        margin-top: 1px;
+      }
+    }
+
+    .fs-list-container {
+
+      &.has-actions {
+        .fs-list-actions {
+          margin-left: 5px;
+        }
       }
     }
 
@@ -228,13 +240,6 @@
     }
 
     .fs-list-header {
-      display: flex;
-      flex-flow: row nowrap;
-      align-items: center;
-
-      &.no-wrap {
-        flex-flow: row nowrap !important;
-      }
 
       .heading-container {
         font-weight: 600;
@@ -247,6 +252,7 @@
 
       .heading {
         margin: 0;
+        line-height: 36px;
       }
 
       .subheading {
@@ -256,13 +262,15 @@
         font-weight: 400;
       }
 
-      .fs-list-filter {
-        flex: 100;
-      }
-
       .fs-list-actions {
-        margin-left: auto;
         white-space: nowrap;
+        float: right;
+
+        .menu-button {
+          width: 36px;
+          height: 36px;
+          line-height: 36px;
+        }
       }
 
       .action-button {
@@ -285,12 +293,6 @@
       &:not(.has-filters):not(.has-actions):not(.has-heading)  {
         .fs-list-header-container {
           display: none;
-        }
-      }
-
-      &.has-actions {
-        .fs-list-filter {
-          margin-right: 5px;
         }
       }
 

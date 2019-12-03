@@ -82,7 +82,7 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   private _destroy = new Subject();
 
-  @ViewChild('filter', { static: false }) private _filter: FilterComponent;
+  @ViewChild(FilterComponent, { static: false }) private _filter: FilterComponent;
 
   /**
    * Set columns to config

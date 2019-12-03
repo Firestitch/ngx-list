@@ -63,6 +63,13 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
         value: 'guid',
         direction: 'desc',
       },
+      sorts: [
+        {
+          name: 'Custom Sort',
+          direction: 'desc',
+          value: 'custom'
+        }
+      ],
       loadMore: false,
       column: {
         load: () => {

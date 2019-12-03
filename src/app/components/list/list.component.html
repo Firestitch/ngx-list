@@ -13,23 +13,9 @@
   <ng-container *ngIf="list.dataController.visibleRows$ | async as listData">
     <!-- Header -->
     <div class="fs-list-header-container">
-      <div class="fs-list-header"
-           [ngClass]="{ 'no-wrap': list.reorder?.manualReorderActivated$ || !list.filterConfig?.items.length }">
-        <div class="heading-container">
-          <h2 class="heading" *ngIf="list.heading">{{list.heading}}</h2>
-          <span class="subheading" *ngIf="list.subheading">{{list.subheading}}</span>
-        </div>
 
-        <fs-filter
-          #filter
-          class="fs-list-filter"
-          *ngIf="list.filterConfig"
-          [hidden]="!list.filterConfig?.items.length || (list.reorder?.manualReorderActivated$ | async)"
-          [filter]="list.filterConfig"
-          [sortUpdate]="list?.sorting?.sortingChanged"
-          [showSortBy]="!list.status"
-          [showFilterInput]="list.filterInput">
-        </fs-filter>
+      <div class="fs-list-header"
+        [ngClass]="{ 'no-wrap': list.reorder?.manualReorderActivated$ || !list.filterConfig?.items.length }">
 
         <!-- Actions -->
         <fs-list-actions
@@ -42,6 +28,22 @@
           (reorderFinished)="reorderFinish()">
         </fs-list-actions>
         <!-- /Actions -->
+
+        <div class="heading-container">
+          <h2 class="heading" *ngIf="list.heading">{{list.heading}}</h2>
+          <span class="subheading" *ngIf="list.subheading">{{list.subheading}}</span>
+        </div>
+
+        <fs-filter
+          class="fs-list-filter"
+          *ngIf="list.filterConfig"
+          [hidden]="!list.filterConfig?.items.length || (list.reorder?.manualReorderActivated$ | async)"
+          [filter]="list.filterConfig"
+          [sortUpdate]="list?.sorting?.sortingChanged"
+          [showSortBy]="!list.status"
+          [showFilterInput]="list.filterInput">
+        </fs-filter>
+
       </div>
 
       <!-- Status -->
@@ -53,6 +55,7 @@
         [scrollable]="list.scrollable"
         *ngIf="
           list.paging &&
+          !list.reorder?.manualReorderActivated$ &&
           (!list.reorder?.enabled || list.reorder?.status) &&
           ((list.scrollable && list.scrollable.status) || !list.scrollable) &&
           listData.length > 0">
