@@ -6,10 +6,7 @@ table {
 
 .placeholder {
   height: 17px;
-  background: rgba(246, 247, 249, 0.5);
-  background-image: linear-gradient(to right, rgba(246, 247, 249, 0) 0, rgba(233, 235, 238, 0.8) 20%, rgba(246, 247, 249, 0) 40%, rgba(246, 247, 249, 0.05) 100%);
-  background-repeat: no-repeat;
-  background-size: 1000px;
+  background: #e6e6e6;
   border-radius: 2px;
   max-width: 550px;
 }
