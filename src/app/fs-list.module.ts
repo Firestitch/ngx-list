@@ -6,6 +6,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -59,6 +60,7 @@ import { FsListConfig } from './interfaces';
     FsScrollModule,
     FsPromptModule,
     MatDialogModule,
+    MatTooltipModule,
   ],
   declarations: [
     // Components

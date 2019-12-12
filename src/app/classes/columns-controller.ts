@@ -9,6 +9,7 @@ import {
   FsListColumnDisabledFn,
   FsListColumnLoadFn,
   FsListColumnTitleFn,
+  FsListColumnTooltipFn,
 } from '../interfaces/listconfig.interface';
 
 
@@ -21,6 +22,7 @@ export class ColumnsController {
   private _changeFn: FsListColumnChangeFn;
   private _customizeFieldTitleFn: FsListColumnTitleFn;
   private _customizeFieldDisabledFn: FsListColumnDisabledFn;
+  private _columnTooltipFn: FsListColumnTooltipFn;
 
   private _isConfigured = false;
   private _loadFnConfigured = false;
@@ -42,6 +44,7 @@ export class ColumnsController {
   public get columnsForDialog() {
     const hasCustomTitle = !!this._customizeFieldTitleFn;
     const hasCustomDisabledStatus = !!this._customizeFieldDisabledFn;
+    const hasCustomTooltip = !!this._columnTooltipFn;
 
     return this._columns
       .filter((column) => column.customize && !!column.name)
@@ -54,12 +57,17 @@ export class ColumnsController {
           ? this._customizeFieldDisabledFn(column.name)
           : false;
 
+        const tooltip = hasCustomTooltip
+          ? this._columnTooltipFn(column.name, column.show, disabled)
+          : void 0;
+
         return {
           template: column.headerTemplate,
           name: column.name,
           show: column.show,
           title: title,
           disabled: disabled,
+          tooltip: tooltip,
         }
       });
   }
@@ -128,6 +136,10 @@ export class ColumnsController {
 
       if (config.disabled) {
         this._customizeFieldDisabledFn = config.disabled;
+      }
+
+      if (config.tooltip) {
+        this._columnTooltipFn = config.tooltip;
       }
 
       this._isConfigured = true;

@@ -82,7 +82,17 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
         },
         change: (columns) => {
           console.log('Column changed ', columns);
-        }
+        },
+        tooltip: (name) => {
+          if (name === 'name') {
+            return 'Custom Tooltip "tip"';
+          }
+        },
+        disabled: (name) => {
+          if (name === 'name') {
+            return true;
+          }
+        },
       },
       filters: [
         {
