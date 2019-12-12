@@ -185,15 +185,25 @@ export interface FsListColumnTitleFn {
   (name: string, defaultTitle: string): string;
 }
 
+export interface FsListColumnTooltipFn {
+  (name: string, show: boolean, disabled: boolean): string;
+}
+
 export interface FsListColumnDisabledFn {
   (name: string): boolean;
+}
+
+export interface FsListColumnSelectedFn {
+  (name: string, show: boolean): boolean;
 }
 
 export interface FsListColumnConfig {
   load?: FsListColumnLoadFn;
   change?: FsListColumnChangeFn;
   title?: FsListColumnTitleFn;
-  disabled?: FsListColumnDisabledFn
+  tooltip?: FsListColumnTooltipFn;
+  disabled?: FsListColumnDisabledFn;
+  selected?: FsListColumnSelectedFn;
 }
 
 export interface FsListColumn {

@@ -8,6 +8,12 @@
       <ng-template #titleLable>
         {{ column.title }}
       </ng-template>
+
+      <ng-container *ngIf="column.tooltip">
+        <mat-icon [matTooltip]="column.tooltip">
+          help
+        </mat-icon>
+      </ng-container>
     </mat-checkbox>
   </div>
 </mat-dialog-content>
