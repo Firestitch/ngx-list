@@ -55,7 +55,7 @@
         [scrollable]="list.scrollable"
         *ngIf="
           list.paging &&
-          !list.reorder?.manualReorderActivated$ &&
+          !(list.reorder?.manualReorderActivated$ | async) &&
           (!list.reorder?.enabled || list.reorder?.status) &&
           ((list.scrollable && list.scrollable.status) || !list.scrollable) &&
           listData.length > 0">
