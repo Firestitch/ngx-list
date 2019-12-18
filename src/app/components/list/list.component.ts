@@ -12,6 +12,7 @@ import {
   ViewChild,
   HostBinding,
 } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FsScrollService } from '@firestitch/scroll';
 import { FilterComponent } from '@firestitch/filter';
@@ -63,7 +64,15 @@ export class FsListComponent implements OnInit, OnDestroy {
 
     const defaultOpts = cloneDeep(this._defaultOptions);
     const listConfig = mergeWith(defaultOpts, config, this._configMergeCustomizer);
-    this.list = new List(this._el, listConfig, this.fsScroll, this.selectionDialog);
+
+    this.list = new List(
+      this._el,
+      listConfig,
+      this.fsScroll,
+      this.selectionDialog,
+      this._router,
+      this._route,
+    );
 
     if (this.listColumnDirectives) {
       this.list.tranformTemplatesToColumns(this.listColumnDirectives);
@@ -104,7 +113,9 @@ export class FsListComponent implements OnInit, OnDestroy {
     private selectionDialog: SelectionDialog,
     private dialog: MatDialog,
     private cdRef: ChangeDetectorRef,
-    private _groupExpandNotifier: GroupExpandNotifierService
+    private _groupExpandNotifier: GroupExpandNotifierService,
+    private _router: Router,
+    private _route: ActivatedRoute,
   ) {}
 
   get filter() {

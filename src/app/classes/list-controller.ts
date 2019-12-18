@@ -1,4 +1,5 @@
 import { ElementRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FilterConfig, ItemType } from '@firestitch/filter';
 import { FsScrollInstance, FsScrollService } from '@firestitch/scroll';
 import { SelectionDialog } from '@firestitch/selection';
@@ -46,6 +47,7 @@ import { ReorderController, ReorderStrategy } from './reorder-controller';
 import { SortingController } from './sorting-controller';
 
 import { Operation } from '../enums/operation.enum';
+import { RouterQueryListenerController } from './router-query-listener-controller';
 
 const SHOW_DELETED_FILTERS_KEY = '$$_show_deleted_$$';
 
@@ -109,12 +111,15 @@ export class List extends Model {
   private readonly _footerConfig: StyleConfig;
 
   private _fsScrollSubscription: Subscription;
+  private _routerQueryListener: RouterQueryListenerController;
 
   constructor(
     private el: ElementRef,
     private config: FsListConfig = {},
     private fsScroll: FsScrollService,
     private selectionDialog: SelectionDialog,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {
     super();
     this._fromJSON(config);
@@ -299,6 +304,10 @@ export class List extends Model {
       this.reorder.destroy();
     }
 
+    if (this._routerQueryListener) {
+      this._routerQueryListener.destroy();
+    }
+
     this.columns.destroy();
 
     this.onDestroy$.next();
@@ -320,6 +329,8 @@ export class List extends Model {
     this.initPaging(config.paging, config.loadMore);
     this.initSelection(config.selection, this.selectionDialog);
     this.initGroups(config.group);
+    this.initRouteQueryListener();
+
     this.initializeData();
   }
 
@@ -330,11 +341,7 @@ export class List extends Model {
   private initDefaultOptions(config) {
     // We should prevent initial fetch in cases when it will be fetched in any case
     // As ex. scrollable or filter will do fetch in any cases
-    if (
-      config.initialFetch === false
-      || config.scrollable
-      || (this.filters && this.filters.length > 0)
-    ) { // TODO fixme after tsmodel version update
+    if (config.initialFetch === false || config.scrollable) { // TODO fixme after tsmodel version update
       this.initialFetch = false;
     }
     if (config.status === false) {
@@ -387,7 +394,7 @@ export class List extends Model {
       const restoreAction = new RowAction({
         label: this.restore.menuLabel || 'Restore',
         menu: true,
-        click: (row, event) => { this.restoreClick(this.restore.click, row) }, // TODO fix me, move to special file
+        click: (row) => { this.restoreClick(this.restore.click, row) }, // TODO fix me, move to special file
         restore: true
       });
 
@@ -418,25 +425,7 @@ export class List extends Model {
    * @param loadMore
    */
   private initPaging(pagingConfig: FsPaging | false, loadMore: FsListLoadMoreConfig | boolean) {
-    if (pagingConfig) {
-      // this.paging.manual = pagingConfig.manual;
-      if (pagingConfig.limits) {
-        this.paging.limits = pagingConfig.limits
-      }
-
-      if (pagingConfig.limit) {
-        this.paging.limit = pagingConfig.limit;
-      }
-
-      if (!!loadMore) {
-        this.paging.setLoadMore(loadMore);
-      }
-
-      this.paging.updatePagingStrategy(pagingConfig.strategy);
-
-    } else if (pagingConfig === false) {
-      this.paging.enabled = false;
-    }
+    this.paging.initWithConfig(pagingConfig, loadMore, !!this.scrollable);
   }
 
   /**
@@ -474,6 +463,10 @@ export class List extends Model {
       this.dataController.setGroupConfig(groupConfig);
       this.groupActionsRaw = groupConfig.actions;
     }
+  }
+
+  private initRouteQueryListener() {
+    this._routerQueryListener = new RouterQueryListenerController(this.router, this.route, this.paging);
   }
 
   /**

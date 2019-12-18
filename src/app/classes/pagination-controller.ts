@@ -34,13 +34,12 @@ export class PaginationController extends Model {
 
   private _enabled = true;
   private _loadMoreEnabled = false;
+  private _infinityScrollEnabled = false;
   private _loadMoreText = 'Load More';
   private _limits = [10, 25, 50, 100, 200];
 
-  constructor(config: FsPaging | any = {}) {
+  constructor() {
     super();
-
-    this.updatePaging(config);
   }
 
   /**
@@ -93,8 +92,31 @@ export class PaginationController extends Model {
    */
   get query() {
     return this._strategy === PaginationStrategy.Page
-      ? this._queryPageStrategy
-      : this._queryOffsetStrategy;
+      ? this.queryPageStrategy
+      : this.queryOffsetStrategy;
+  }
+
+  /**
+   * Query for Page Strategy
+   */
+  get queryPageStrategy(): QueryPageStrategy {
+    return {
+      page: this.page || 1,
+      limit: this.limit || 10,
+    }
+  }
+
+  /**
+   * Query for Offset Strategy
+   */
+  get queryOffsetStrategy(): QueryOffsetStrategy {
+    const page = this.page - 1 || 0;
+    const limit = this.limit || 5;
+
+    return {
+      offset: page * limit,
+      limit: limit,
+    }
   }
 
   /**
@@ -156,6 +178,10 @@ export class PaginationController extends Model {
     return this._loadMoreText;
   }
 
+  get infinityScrollEnabled() {
+    return this._infinityScrollEnabled;
+  }
+
   public _fromJSON(value): void {
     super._fromJSON(value);
 
@@ -164,26 +190,29 @@ export class PaginationController extends Model {
     }
   }
 
-  /**
-   * Query for Page Strategy
-   */
-  private get _queryPageStrategy(): QueryPageStrategy {
-    return {
-      page: this.page || 1,
-      limit: this.limit || 10,
-    }
-  }
+  public initWithConfig(
+    config: FsPaging | false,
+    loadMore: FsListLoadMoreConfig | boolean,
+    infinityScrollEnabled = false,
+  ) {
+    if (config) {
+      if (config.limits) {
+        this.limits = config.limits;
+      }
 
-  /**
-   * Query for Offset Strategy
-   */
-  private get _queryOffsetStrategy(): QueryOffsetStrategy {
-    const page = this.page - 1 || 0;
-    const limit = this.limit || 5;
+      if (config.limit) {
+        this.limit = config.limit;
+      }
 
-    return {
-      offset: page * limit,
-      limit: limit,
+      if (loadMore) {
+        this.setLoadMore(loadMore);
+      }
+
+      this._infinityScrollEnabled = infinityScrollEnabled;
+      this.updatePagingStrategy(config.strategy);
+
+    } else if (config === false) {
+      this.enabled = false;
     }
   }
 
@@ -351,7 +380,7 @@ export class PaginationController extends Model {
    * @param page
    */
   public goToPage(page) {
-    if (page >= 1 && page <= this.pages && this.page !== page) {
+    if (page >= 1 && this.page !== page) {
       this.page = page;
 
       this.updateOffset();
