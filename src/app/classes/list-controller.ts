@@ -192,6 +192,8 @@ export class List extends Model {
     if (this.fsScrollInstance) {
       this.dataController.clearRows();
       this.fsScrollInstance.reload();
+    } else {
+      this.fetch$.next();
     }
   }
 
@@ -522,11 +524,6 @@ export class List extends Model {
       )
       .subscribe((response) => {
         this.completeFetch(response);
-        // if (this.fetchFn) {
-        //
-        // } else {
-        //   console.warn('No fetch function supplied');
-        // }
       });
   }
 
