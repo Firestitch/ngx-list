@@ -187,9 +187,9 @@ export class List extends Model {
     this.loading$.next(true);
 
     this.dataController.setOperation(Operation.reload);
-    this.paging.goFirst();
 
     if (this.fsScrollInstance) {
+      this.paging.resetPaging();
       this.dataController.clearRows();
       this.fsScrollInstance.reload();
     } else {
