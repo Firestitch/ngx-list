@@ -9,6 +9,7 @@ import { IFilterConfigItem, IFilterConfigDateItem } from '@firestitch/filter';
 import { ActionType } from '../enums/button-type.enum';
 import { ReorderPosition, ReorderStrategy } from '../classes/reorder-controller';
 import { PaginationStrategy } from '../enums/pagination-strategy.enum';
+import { RouterLink } from '@angular/router';
 
 
 export interface FsPaging {
@@ -167,9 +168,19 @@ export interface FsListRowAction {
   icon?: string;
   menu?: boolean;
   click?: (row, event) => void;
+  link?: FsListRowActionLinkFn;
   show?: (row) => boolean;
   remove?: { title?: string; template?: string; } | boolean;
   restore?: boolean;
+}
+
+export interface FsListRowActionLinkFn {
+  (row: FsListAbstractRow): FsListRowActionLink
+}
+
+export interface FsListRowActionLink {
+  link: any[] | string;
+  queryParms?: Record<string, any>;
 }
 
 export interface FsListAbstractRow {

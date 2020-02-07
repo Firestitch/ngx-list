@@ -1,11 +1,12 @@
-import { Component, OnInit, ViewChild, AfterContentInit } from '@angular/core';
+import { AfterContentInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FsApi } from '@firestitch/api';
 import { ItemDateMode, ItemType } from '@firestitch/filter';
 import {
-  FsListConfig,
-  PaginationStrategy,
+  ActionType,
+  FsListAbstractRow,
   FsListComponent,
-  FsListAbstractRow
+  FsListConfig,
+  PaginationStrategy
 } from '@firestitch/list';
 import { nameValue } from '@firestitch/common';
 
@@ -242,11 +243,28 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
       // ],
       rowActions: [
         {
-          click: (row, event) => {
-
+          label: 'Simple Btn',
+          type: ActionType.Raised,
+          menu: false,
+          click: (row) => {
+            console.log('simple btn clicked', row);
           },
-          menu: true,
-          label: 'Go to Project'
+        },
+        {
+          label: 'Link Btn',
+          type: ActionType.Raised,
+          menu: false,
+          link: (row) => {
+
+            return { link: ['rows', row.guid ], queryParms: { param: 1 } }
+          },
+        },
+        {
+          label: 'Go to Project',
+          link: (row) => {
+
+            return { link: ['rows', row.guid ], queryParms: { param: 1 } }
+          },
         },
         {
           label: 'Group 1',
@@ -255,7 +273,6 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
               click: (row, event) => {
 
               },
-              menu: true,
               icon: 'edit',
               label: 'Edit'
             },
@@ -268,7 +285,6 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
                   }
                 );
               },
-              menu: true,
               remove: {
                 title: 'Confirm',
                 template: 'Are you sure you would like to delete this record?',

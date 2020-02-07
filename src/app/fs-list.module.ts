@@ -1,5 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRippleModule } from '@angular/material/core';
@@ -32,6 +33,8 @@ import { FsActionsComponent } from './components/actions/actions.component';
 import { FsPaginationComponent } from './components/pagination/pagination.component';
 import { CustomizeColsDialogComponent } from './components/customize-cols/customize-cols.component';
 import { FsListLoaderComponent } from './components/loader/loader.component';
+import { FsRowActionsComponent } from './components/body/row/actions/actions.component';
+import { FsRowInlineActionComponent } from './components/body/row/inline-action/inline-action.component';
 
 // Directives
 import { FsListFooterDirective } from './directives/footer/footer.directive';
@@ -48,6 +51,7 @@ import { FsListConfig } from './interfaces';
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule,
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
@@ -66,6 +70,8 @@ import { FsListConfig } from './interfaces';
     // Components
     FsListComponent,
     FsRowComponent,
+    FsRowActionsComponent,
+    FsRowInlineActionComponent,
     FsCellComponent,
     FsFooterRowComponent,
     FsFooterCellComponent,

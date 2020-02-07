@@ -17,10 +17,8 @@ import {
 } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
-import { FsPrompt } from '@firestitch/prompt';
-
-import { Observable, Subject } from 'rxjs';
-import { filter, take, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { Column } from '../../../models/column.model';
 import { ReorderPosition, ReorderStrategy } from '../../../classes/reorder-controller';
@@ -45,6 +43,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   @Input() public hasRowActions = false;
   @Input() public rowEvents = {};
   @Input() public rowClass;
+  @Input() public restoreMode = false;
 
   @Input() public rowIndex: number;
   @Input() public columns: Column[];
@@ -52,7 +51,6 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   @Input() public reorderEnabled: boolean;
   @Input() public reorderStrategy: ReorderStrategy;
   @Input() public reorderPosition: ReorderPosition;
-  @Input() public restoreMode = false;
 
   @Input() public dragStart: any;
   @Input() public activeRow: TemplateRef<any>;
@@ -61,15 +59,18 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   // @Output() public stopDragging = new EventEmitter();
 
-  @ViewChildren('td') public cellRefs;
+  @ViewChildren('td')
+  public cellRefs;
 
   public readonly ReorderPosition = ReorderPosition;
   public readonly ReorderStrategy = ReorderStrategy;
 
   public rowActions: RowAction[] = [];
+
   public menuRowActions: RowAction[] = [];
   public inlineRowActions: RowAction[] = [];
   public restoreAction: RowAction;
+
   public selected = false;
 
   private _rowDiffer: KeyValueDiffer<any, any>;
@@ -79,7 +80,6 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   private _destroy$ = new Subject();
 
   constructor(public el: ElementRef,
-              private _fsPrompt: FsPrompt,
               private _cdRef: ChangeDetectorRef,
               private _differs: KeyValueDiffers,
               private _renderer: Renderer2) {
@@ -131,7 +131,10 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   public ngDoCheck() {
     if (this._rowDiffer.diff(this.row)) {
       if (this.rowActions) {
-        this.rowActions.forEach((action) => action.checkShowStatus(this.row.data));
+        this.rowActions.forEach((action) => {
+          action.checkShowStatus(this.row.data);
+          action.updateLink(this.row.data);
+        });
         this.filterActionsByCategories();
       }
 
@@ -144,29 +147,6 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
     this._destroy$.next();
     this._destroy$.complete();
-  }
-
-  public actionClick(action: RowAction, row: any, event: any, menuRef) {
-    if (action.remove) {
-      if (typeof action.remove === 'boolean') {
-        this.removeAction(action, row.data, event);
-      } else {
-        this._fsPrompt.confirm({
-          title: action.remove.title,
-          template: action.remove.template,
-        }).pipe(
-          take(1),
-          takeUntil(this._destroy$),
-        ).subscribe({
-          next: () => {
-            this.removeAction(action, row.data, event);
-          },
-          error: () => {},
-        })
-      }
-    } else {
-      action.click(row.data, event, menuRef);
-    }
   }
 
   /**
@@ -234,27 +214,6 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
           this.selected = status;
 
           this._cdRef.markForCheck();
-        });
-    }
-  }
-
-  /**
-   * Emit that some row must be removed
-   * @param action
-   * @param row
-   * @param event
-   */
-  private removeAction(action, row, event) {
-    const removeObservable = action.click(row, event);
-
-    if (removeObservable && removeObservable instanceof Observable) {
-      removeObservable
-        .pipe(
-          take(1),
-          takeUntil(this._destroy$),
-        )
-        .subscribe(() => {
-          this.rowRemoved.emit(row);
         });
     }
   }

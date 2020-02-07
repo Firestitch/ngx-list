@@ -8,7 +8,6 @@ import {
   Renderer2,
 } from '@angular/core';
 
-import { FsPrompt } from '@firestitch/prompt';
 import { FsRowComponent } from '../../body/row/row.component';
 import { ReorderPosition } from '../../../classes/reorder-controller';
 
@@ -24,10 +23,9 @@ export class FsFooterRowComponent extends FsRowComponent {
   public readonly ReorderPosition = ReorderPosition;
 
   constructor(cdRef: ChangeDetectorRef,
-              fsPrompt: FsPrompt,
               differs: KeyValueDiffers,
               el: ElementRef,
               renderer: Renderer2) {
-    super(el, fsPrompt, cdRef, differs, renderer);
+    super(el, cdRef, differs, renderer);
   }
 }
