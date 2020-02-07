@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { FsCellComponent } from '../../../body/row/cell/cell.component';
 
 
@@ -9,7 +9,9 @@ import { FsCellComponent } from '../../../body/row/cell/cell.component';
 })
 export class FsFooterCellComponent extends FsCellComponent {
 
-  constructor() {
-    super()
+  constructor(protected _cdRef: ChangeDetectorRef) {
+    super(_cdRef);
+
+    this._cdRef.detach();
   }
 }

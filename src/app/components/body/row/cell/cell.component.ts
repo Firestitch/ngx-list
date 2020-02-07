@@ -1,10 +1,14 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   HostBinding,
-  Input, OnChanges, OnDestroy,
-  OnInit, SimpleChanges,
-  TemplateRef
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  TemplateRef,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -32,19 +36,25 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
 
   private _destroy$ = new Subject<void>();
 
-  constructor() {}
+  constructor(protected _cdRef: ChangeDetectorRef) {
+    this._cdRef.detach();
+  }
 
   public ngOnInit() {
     this._initCellContext();
     this._initCellTemplate();
 
     this._listenGroupOpen();
+
+    this._cdRef.detectChanges();
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.rowIndex) {
       this.cellContext.index = this.rowIndex;
     }
+
+    this._cdRef.detectChanges();
   }
 
   public ngOnDestroy(): void {

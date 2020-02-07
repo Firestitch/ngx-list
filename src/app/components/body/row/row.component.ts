@@ -79,11 +79,14 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   private _destroy$ = new Subject();
 
-  constructor(public el: ElementRef,
-              private _cdRef: ChangeDetectorRef,
-              private _differs: KeyValueDiffers,
-              private _renderer: Renderer2) {
+  constructor(
+    public el: ElementRef,
+    private _cdRef: ChangeDetectorRef,
+    private _differs: KeyValueDiffers,
+    private _renderer: Renderer2,
+  ) {
     this._rowDiffer = _differs.find({}).create();
+    this._cdRef.detach();
   }
 
   @HostBinding('class')
@@ -138,7 +141,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
         this.filterActionsByCategories();
       }
 
-      this._cdRef.markForCheck();
+      this._cdRef.detectChanges();
     }
   }
 
@@ -157,7 +160,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     this.selected = event.checked;
 
     this.selection.rowSelectionChange(this.row.data, event.checked);
-    this._cdRef.markForCheck();
+    this._cdRef.detectChanges();
   }
 
   /**
@@ -213,7 +216,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
         .subscribe(({payload: status}) => {
           this.selected = status;
 
-          this._cdRef.markForCheck();
+          this._cdRef.detectChanges();
         });
     }
   }

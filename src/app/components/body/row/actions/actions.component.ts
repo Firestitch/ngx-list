@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 
 import { Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -14,7 +21,7 @@ import { Row } from '../../../../models/row.model';
   templateUrl: './actions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FsRowActionsComponent {
+export class FsRowActionsComponent implements OnChanges {
 
   @Input()
   public row: Row;
@@ -38,7 +45,14 @@ export class FsRowActionsComponent {
 
   constructor(
     private _fsPrompt: FsPrompt,
-  ) {}
+    private _cdRef: ChangeDetectorRef,
+  ) {
+    this._cdRef.detach();
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    this._cdRef.detectChanges();
+  }
 
   public actionClick(action: RowAction, row: any, event: any, menuRef?) {
     if (action.remove) {

@@ -1,12 +1,13 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
-  EventEmitter, HostBinding,
+  EventEmitter,
   Input,
+  OnChanges,
   Output,
+  SimpleChanges,
 } from '@angular/core';
-
-import { FsPrompt } from '@firestitch/prompt';
 
 import { RowAction } from '../../../../models/row-action.model';
 
@@ -16,7 +17,7 @@ import { RowAction } from '../../../../models/row-action.model';
   templateUrl: './inline-action.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FsRowInlineActionComponent {
+export class FsRowInlineActionComponent implements OnChanges {
 
   @Input()
   public action: RowAction;
@@ -25,8 +26,14 @@ export class FsRowInlineActionComponent {
   public clicked = new EventEmitter();
 
   constructor(
-    private _fsPrompt: FsPrompt,
-  ) {}
+    private _cdRef: ChangeDetectorRef,
+  ) {
+    this._cdRef.detach();
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    this._cdRef.detectChanges();
+  }
 
   public actionClick(event) {
     this.clicked.emit(event);
