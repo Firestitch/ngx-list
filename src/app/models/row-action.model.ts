@@ -1,5 +1,6 @@
 import { Alias, Model } from 'tsmodels';
 import { ActionType } from '../enums/button-type.enum';
+import { FsListRowActionLink, FsListRowActionLinkFn } from '../interfaces';
 
 
 export class RowAction extends Model {
@@ -14,11 +15,12 @@ export class RowAction extends Model {
   @Alias() public restore: boolean;
   @Alias('rowActions', RowAction) public rowActions: RowAction[];
 
-  public click: Function;
+  public routerLink: FsListRowActionLink;
   public classArray: string[] = [];
-
   public isShown = true;
+  public click: Function;
 
+  private _linkFn: FsListRowActionLinkFn;
   private readonly _isGroup: boolean = false;
 
   constructor(config: any = {}) {
@@ -52,6 +54,8 @@ export class RowAction extends Model {
       return this.clickEvent(row, event, rowActionsRef, clickFn);
     };
 
+    this._linkFn = value.link;
+
     if (this.className) {
       this.classArray = this.className.split(' ').reduce((acc, elem) => {
         acc.push(elem);
@@ -70,6 +74,16 @@ export class RowAction extends Model {
       this.isShown = this.rowActions.some((action) => action.isShown);
     } else if (this.show) {
       this.isShown = this.show(row);
+    }
+  }
+
+  public updateLink(row) {
+    if (this.isGroup) {
+      this.rowActions.forEach((action) => {
+        action.updateLink(row);
+      });
+    } else if (this._linkFn) {
+      this.routerLink = this._linkFn(row);
     }
   }
 
