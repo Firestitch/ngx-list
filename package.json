@@ -59,7 +59,7 @@
     "@firestitch/form": "^7.6.8",
     "@firestitch/iframe": "^8.0.0",
     "@firestitch/label": "^7.1.9",
-    "@firestitch/menu": "^7.0.11",
+    "@firestitch/menu": "^8.1.0",
     "@firestitch/message": "^8.0.1",
     "@firestitch/model-change": "^7.0.1",
     "@firestitch/prompt": "^7.3.0",
