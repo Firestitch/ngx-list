@@ -329,7 +329,10 @@ export class List extends Model {
     this.initPaging(config.paging, config.loadMore);
     this.initSelection(config.selection, this.selectionDialog);
     this.initGroups(config.group);
-    this.initRouteQueryListener();
+
+    if (this.queryParam) {
+      this.initRouteQueryListener();
+    }
 
     this.initializeData();
   }
@@ -353,7 +356,7 @@ export class List extends Model {
     if (config.filterInput === false) {
       this.filterInput = false;
     }
-    if (config.queryParam) {
+    if (config.queryParam === void 0) {
       this.queryParam = true;
     }
     if (config.sorts) {
@@ -466,7 +469,11 @@ export class List extends Model {
   }
 
   private initRouteQueryListener() {
-    this._routerQueryListener = new RouterQueryListenerController(this.router, this.route, this.paging);
+    this._routerQueryListener = new RouterQueryListenerController(
+      this.router,
+      this.route,
+      this.paging
+    );
   }
 
   /**
