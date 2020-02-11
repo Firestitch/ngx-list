@@ -39,7 +39,7 @@
           *ngIf="list.filterConfig"
           [hidden]="!list.filterConfig?.items.length || (list.reorder?.manualReorderActivated$ | async)"
           [filter]="list.filterConfig"
-          [sortUpdate]="list?.sorting?.sortingChanged"
+          [sortUpdate]="list?.sorting?.sortingChanged$"
           [showSortBy]="!list.status"
           [showFilterInput]="list.filterInput">
         </fs-filter>

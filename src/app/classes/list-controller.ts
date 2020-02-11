@@ -251,7 +251,7 @@ export class List extends Model {
         this.fetch$.next();
       });
 
-    this.sorting.sortingChanged
+    this.sorting.sortingChanged$
       .pipe(
         takeUntil(this.onDestroy$),
       )

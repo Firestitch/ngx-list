@@ -18,13 +18,13 @@ export class SortingController {
   public sortingColumn: Column;
 
   private _initialization = false;
-  private _sortingChanged = new Subject<SortingChangeEvent>();
+  private _sortingChanged$ = new Subject<SortingChangeEvent>();
   private _onDestroy = new Subject();
 
   constructor() {}
 
-  get sortingChanged(): Observable<SortingChangeEvent> {
-    return this._sortingChanged.pipe(takeUntil(this._onDestroy));
+  get sortingChanged$(): Observable<SortingChangeEvent> {
+    return this._sortingChanged$.pipe(takeUntil(this._onDestroy));
   }
 
   public addSortableColumn(column: Column) {
@@ -67,6 +67,8 @@ export class SortingController {
     if (!column) { return; }
 
     this._setSortingColumn(column);
+
+    this._notifySortChanged();
   }
 
   /**
@@ -157,7 +159,7 @@ export class SortingController {
 
   private _notifySortChanged() {
     if (this._initialization) { return; }
-    this._sortingChanged.next({
+    this._sortingChanged$.next({
       sortBy: this.sortingColumn.name,
       sortDirection: this.sortingColumn.direction
     });
