@@ -72,10 +72,13 @@ export class FsHeadComponent implements OnInit, OnDestroy {
    * Subscribe to sorting change
    */
   private initSorting() {
-    this.sorting.sortingChanged
+    this.sorting.sortingChanged$
+      .pipe(
+        takeUntil(this._destroy$),
+      )
       .subscribe(() => {
-      this.cdRef.markForCheck();
-    });
+        this.cdRef.detectChanges();
+      });
   }
 
   /**

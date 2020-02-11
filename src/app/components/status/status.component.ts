@@ -36,7 +36,7 @@ export class FsStatusComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.sorting.sortingChanged
+    this.sorting.sortingChanged$
       .pipe(
         takeUntil(this._destroy$),
       )
