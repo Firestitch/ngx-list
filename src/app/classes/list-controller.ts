@@ -356,9 +356,11 @@ export class List extends Model {
     if (config.filterInput === false) {
       this.filterInput = false;
     }
-    if (config.queryParam === void 0) {
-      this.queryParam = true;
-    }
+
+    this.queryParam = (config.queryParam === void 0)
+      ? true
+      : config.queryParam;
+
     if (config.sorts) {
       this.sorting.initFakeColumns(config.sorts);
     }
