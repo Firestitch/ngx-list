@@ -279,11 +279,12 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
             {
               click: (row, event) => {
                 console.log('delete', row, event);
-                this.list.removeData(
-                  (listRow: FsListAbstractRow) => {
-                    return listRow.name === row.name;
-                  }
-                );
+                return of(true);
+                // this.list.removeData(
+                //   (listRow: FsListAbstractRow) => {
+                //     return listRow.name === row.name;
+                //   }
+                // );
               },
               remove: {
                 title: 'Confirm',

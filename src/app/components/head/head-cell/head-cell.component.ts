@@ -23,7 +23,7 @@ export class FsHeadCellComponent extends FsCellComponent implements DoCheck {
               private differs: KeyValueDiffers) {
     super(_cdRef);
 
-    this._cdRef.detach();
+    //this._cdRef.detach();
     this._columnDiffer = differs.find({}).create();
   }
 

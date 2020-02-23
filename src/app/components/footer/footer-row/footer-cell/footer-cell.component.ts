@@ -11,7 +11,6 @@ export class FsFooterCellComponent extends FsCellComponent {
 
   constructor(protected _cdRef: ChangeDetectorRef) {
     super(_cdRef);
-
-    this._cdRef.detach();
+    //this._cdRef.detach();
   }
 }

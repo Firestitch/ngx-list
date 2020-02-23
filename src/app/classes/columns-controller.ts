@@ -158,6 +158,7 @@ export class ColumnsController {
       if (col.headerTemplate || col.title) {
         this._hasHeader = true;
       }
+
       if (col.footerTemplate) {
         this._hasFooter = true;
       }

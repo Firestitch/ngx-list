@@ -86,7 +86,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     private _renderer: Renderer2,
   ) {
     this._rowDiffer = _differs.find({}).create();
-    this._cdRef.detach();
+    //this._cdRef.detach();
   }
 
   @HostBinding('class')

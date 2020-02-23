@@ -5,6 +5,8 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 
 import { Observable, Subject } from 'rxjs';
@@ -32,6 +34,7 @@ export class FsRowActionsComponent implements OnChanges {
   @Input()
   public rowActions: RowAction[] = [];
 
+
   @Input()
   public menuRowActions: RowAction[] = [];
 
@@ -41,13 +44,16 @@ export class FsRowActionsComponent implements OnChanges {
   @Input()
   public restoreAction: RowAction;
 
+  @Input()
+  public rowRemoved: EventEmitter<any>;
+
   private _destroy$ = new Subject();
 
   constructor(
     private _fsPrompt: FsPrompt,
     private _cdRef: ChangeDetectorRef,
   ) {
-    this._cdRef.detach();
+    //this._cdRef.detach();
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -105,7 +111,7 @@ export class FsRowActionsComponent implements OnChanges {
           takeUntil(this._destroy$),
         )
         .subscribe(() => {
-          // this.rowRemoved.emit(row);
+          this.rowRemoved.emit(row);
         });
     }
   }

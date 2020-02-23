@@ -28,7 +28,7 @@ export class FsRowInlineActionComponent implements OnChanges {
   constructor(
     private _cdRef: ChangeDetectorRef,
   ) {
-    this._cdRef.detach();
+    //this._cdRef.detach();
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

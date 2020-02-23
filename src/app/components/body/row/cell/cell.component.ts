@@ -37,7 +37,7 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
   private _destroy$ = new Subject<void>();
 
   constructor(protected _cdRef: ChangeDetectorRef) {
-    this._cdRef.detach();
+    //this._cdRef.detach();
   }
 
   public ngOnInit() {
