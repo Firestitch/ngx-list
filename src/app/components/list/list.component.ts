@@ -122,6 +122,14 @@ export class FsListComponent implements OnInit, OnDestroy {
     return this._filter;
   }
 
+  get groupMode() {
+    return this.list.dataController.groupMode;
+  }
+
+  set groupMode(value: boolean) {
+    this.list.groupMode(value);
+  }
+
   public ngOnInit() {
     this._subscribeToRemoveRow();
     this._initCustomizableAction();

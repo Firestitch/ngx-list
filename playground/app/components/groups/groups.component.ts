@@ -53,7 +53,10 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
       paging: false,
       actions: [
         {
-          label: 'Test'
+          label: 'Toggle Group Mode',
+          click: () => {
+            this.list.groupMode = !this.list.groupMode;
+          }
         }
       ],
       group: {

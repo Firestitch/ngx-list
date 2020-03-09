@@ -279,6 +279,17 @@ export class List extends Model {
     return this.dataController.visibleRowsData.some(trackBy);
   }
 
+  /**
+   * Toggle group mode status
+   * @param value
+   */
+  public groupMode(value: boolean) {
+    if (this.dataController.groupMode !== value) {
+      this.dataController.groupMode = value;
+      this.reload();
+    }
+  }
+
   public destroy() {
     if (this._fsScrollSubscription) {
       this._fsScrollSubscription.unsubscribe();

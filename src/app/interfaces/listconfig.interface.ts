@@ -53,6 +53,7 @@ export interface FsListConfig {
 }
 
 export interface FsListGroupConfig {
+  enabled?: boolean;
   initialExpand?: boolean;
   groupBy?: (row: any) => any;
   compareBy?: (row: any) => any;

@@ -25,7 +25,7 @@ export class DataController {
   private _groupByFn: (row) => any[];
   private _compareByFn: (group) => any;
   private _initialExpand = true;
-  private _groupModeEnabled = false;
+  private _groupMode = false;
 
   private _infinityScrollEnabled: boolean;
   private _loadMoreEnabled: boolean;
@@ -46,6 +46,14 @@ export class DataController {
 
   get visibleRowsData() {
     return this.visibleRows.map((row) => row.data);
+  }
+
+  get groupMode() {
+    return this._groupMode;
+  }
+
+  set groupMode(value: boolean) {
+    this._groupMode = value;
   }
 
   get remoteRowsChange$() {
@@ -85,7 +93,11 @@ export class DataController {
     if (group) {
       this._groupByFn = group.groupBy;
       this._compareByFn = group.compareBy;
-      this._groupModeEnabled = true;
+
+      // group mode enabled by default
+      this._groupMode = (group.enabled !== void 0)
+        ? group.enabled
+        : true;
     }
   }
 
@@ -249,7 +261,7 @@ export class DataController {
 
     this._destroyRowsStack();
 
-    if (this._groupModeEnabled) {
+    if (this.groupMode) {
       this._store.clear();
       this.groupRowsBy(rows);
       this._rowsStack = [...this._store.values()];
@@ -260,7 +272,7 @@ export class DataController {
   }
 
   private _extendRowsStack(rows) {
-    if (this._groupModeEnabled) {
+    if (this.groupMode) {
       this.groupRowsBy(rows);
       this._rowsStack = [...<any>this._store.values()];
     } else {
