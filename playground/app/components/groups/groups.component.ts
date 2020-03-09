@@ -55,7 +55,7 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
         {
           label: 'Toggle Group Mode',
           click: () => {
-            this.list.groupMode = !this.list.groupMode;
+            this.list.groupEnabled = !this.list.groupEnabled;
           }
         }
       ],

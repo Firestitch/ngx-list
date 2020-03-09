@@ -122,12 +122,12 @@ export class FsListComponent implements OnInit, OnDestroy {
     return this._filter;
   }
 
-  get groupMode() {
-    return this.list.dataController.groupMode;
+  get groupEnabled() {
+    return this.list.dataController.groupEnabled;
   }
 
-  set groupMode(value: boolean) {
-    this.list.groupMode(value);
+  set groupEnabled(value: boolean) {
+    this.list.groupEnabled(value);
   }
 
   public ngOnInit() {

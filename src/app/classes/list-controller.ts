@@ -283,9 +283,9 @@ export class List extends Model {
    * Toggle group mode status
    * @param value
    */
-  public groupMode(value: boolean) {
-    if (this.dataController.groupMode !== value) {
-      this.dataController.groupMode = value;
+  public groupEnabled(value: boolean) {
+    if (this.dataController.groupEnabled !== value) {
+      this.dataController.groupEnabled = value;
       this.reload();
     }
   }
