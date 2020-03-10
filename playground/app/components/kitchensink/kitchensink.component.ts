@@ -270,8 +270,8 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           label: 'Group 1',
           rowActions: [
             {
-              click: (row, event) => {
-
+              link: (row) => {
+                return { link: ['rows', row.guid ], queryParms: { param: 1 } }
               },
               icon: 'edit',
               label: 'Edit'
