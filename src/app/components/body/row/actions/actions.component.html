@@ -33,6 +33,7 @@
           <ng-container *ngFor="let subAction of action.rowActions">
             <ng-template fs-menu-item
                          [link]="subAction.routerLink?.link"
+                         [queryParams]="subAction.routerLink?.queryParms"
                          [hidden]="!subAction.isShown"
                          (click)="actionClick(subAction, row, $event, menuRef);">
               <mat-icon *ngIf="subAction.icon">{{subAction.icon}}</mat-icon>
