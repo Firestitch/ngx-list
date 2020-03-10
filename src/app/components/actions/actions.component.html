@@ -9,6 +9,7 @@
                         (click)="action.click($event)"
                         [ngClass]="action.classArray"
                         [disabled]="action.isReorderAction && reorderDisabled"
+                        [tabIndex]="action.tabIndex"
                 >
                   <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
                 </button>
@@ -20,6 +21,7 @@
                         (click)="action.click($event)"
                         [ngClass]="action.classArray"
                         [disabled]="action.isReorderAction && reorderDisabled"
+                        [tabIndex]="action.tabIndex"
                 >
                   <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
                 </button>
@@ -31,6 +33,7 @@
                         (click)="action.click($event)"
                         [ngClass]="action.classArray"
                         [disabled]="action.isReorderAction && reorderDisabled"
+                        [tabIndex]="action.tabIndex"
                 >
                   <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
                 </button>
@@ -42,6 +45,7 @@
                         (click)="action.click($event)"
                         [ngClass]="action.classArray"
                         [disabled]="action.isReorderAction && reorderDisabled"
+                        [tabIndex]="action.tabIndex"
                 >
                   <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
                 </button>
@@ -53,6 +57,7 @@
                         (click)="action.click($event)"
                         [ngClass]="action.classArray"
                         [disabled]="action.isReorderAction && reorderDisabled"
+                        [tabIndex]="action.tabIndex"
                 >
                   <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
                 </button>
@@ -110,7 +115,8 @@
         mat-raised-button
         [disabled]="reorderDisabled"
         *ngIf="manualReorderActivated"
-        (click)="finishReorder()">
+        (click)="finishReorder()"
+        tabindex="0">
   Done
 </button>
 <!-- /Reorder Button -->

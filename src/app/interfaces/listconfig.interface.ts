@@ -154,6 +154,7 @@ export interface FsListAction {
   type?: ActionType;
   customize?: boolean;
   show?: () => boolean;
+  tabIndex?: number;
 }
 
 export interface FsListRowActionGroup {

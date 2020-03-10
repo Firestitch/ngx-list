@@ -11,6 +11,7 @@ export class Action extends Model {
   @Alias() public className: string;
   @Alias() public click: Function;
   @Alias() public type: ActionType;
+  @Alias() public tabIndex: number;
 
   public isReorderAction = false;
 
@@ -44,6 +45,10 @@ export class Action extends Model {
 
     if (this.primary) {
       this.classArray.push('mat-primary');
+    }
+
+    if (!value.tabIndex) {
+      this.tabIndex = 0;
     }
   }
 }
