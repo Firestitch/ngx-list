@@ -256,14 +256,14 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           menu: false,
           link: (row) => {
 
-            return { link: ['rows', row.guid ], queryParms: { param: 1 } }
+            return { link: ['rows', row.guid ], queryParams: { param: 1 } }
           },
         },
         {
           label: 'Go to Project',
           link: (row) => {
 
-            return { link: ['rows', row.guid ], queryParms: { param: 1 } }
+            return { link: ['rows', row.guid ], queryParams: { param: 1 } }
           },
         },
         {
@@ -271,7 +271,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           rowActions: [
             {
               link: (row) => {
-                return { link: ['rows', row.guid ], queryParms: { param: 1 } }
+                return { link: ['rows', row.guid ], queryParams: { param: 1 } }
               },
               icon: 'edit',
               label: 'Edit'

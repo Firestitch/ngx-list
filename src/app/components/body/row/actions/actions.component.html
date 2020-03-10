@@ -20,7 +20,7 @@
       <ng-template class="hidden-mobile-menu-action"
                    fs-menu-item
                    [link]="action.routerLink?.link"
-                   [queryParams]="action.routerLink?.queryParms"
+                   [queryParams]="action.routerLink?.queryParams"
                    [hidden]="action.menu !== undefined && !action.isShown">
         <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon>
         {{action.label}}
@@ -33,7 +33,7 @@
           <ng-container *ngFor="let subAction of action.rowActions">
             <ng-template fs-menu-item
                          [link]="subAction.routerLink?.link"
-                         [queryParams]="subAction.routerLink?.queryParms"
+                         [queryParams]="subAction.routerLink?.queryParams"
                          [hidden]="!subAction.isShown"
                          (click)="actionClick(subAction, row, $event, menuRef);">
               <mat-icon *ngIf="subAction.icon">{{subAction.icon}}</mat-icon>
@@ -45,7 +45,7 @@
       <ng-template #simpleMenuItem>
         <ng-template fs-menu-item
                      [link]="action.routerLink?.link"
-                     [queryParams]="action.routerLink?.queryParms"
+                     [queryParams]="action.routerLink?.queryParams"
                      [hidden]="!action.isShown"
                      (click)="actionClick(action, row, $event, menuRef);">
           <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon>

@@ -181,7 +181,7 @@ export interface FsListRowActionLinkFn {
 
 export interface FsListRowActionLink {
   link: any[] | string;
-  queryParms?: Record<string, any>;
+  queryParams?: Record<string, any>;
 }
 
 export interface FsListAbstractRow {
