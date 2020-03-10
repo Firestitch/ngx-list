@@ -78,6 +78,10 @@ export class RowAction extends Model {
   }
 
   public updateLink(row) {
+    if (!this.isShown) {
+      return;
+    }
+
     if (this.isGroup) {
       this.rowActions.forEach((action) => {
         action.updateLink(row);
