@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  HostBinding,
+  Input,
+} from '@angular/core';
 
 import { Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -24,6 +30,9 @@ export class FsRowActionsComponent {
 
   @Input()
   public rowActions: RowAction[] = [];
+
+  @Input()
+  public rowRemoved: EventEmitter<any>;
 
   @Input()
   public menuRowActions: RowAction[] = [];
@@ -91,7 +100,7 @@ export class FsRowActionsComponent {
           takeUntil(this._destroy$),
         )
         .subscribe(() => {
-          // this.rowRemoved.emit(row);
+          this.rowRemoved.emit(row);
         });
     }
   }
