@@ -55,7 +55,7 @@
     "@firestitch/datepicker": "^8.0.1",
     "@firestitch/drawer": "^8.0.0",
     "@firestitch/example": "^8.0.0",
-    "@firestitch/filter": "^8.1.23",
+    "@firestitch/filter": "^8.3.0",
     "@firestitch/form": "^7.6.8",
     "@firestitch/iframe": "^8.0.0",
     "@firestitch/label": "^7.1.9",
