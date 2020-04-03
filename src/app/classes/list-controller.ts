@@ -64,6 +64,8 @@ export class List extends Model {
   @Alias() public rowEvents: any;
   @Alias() public restore: FsListRestoreConfig;
   @Alias() public columnTemplates: any;
+  @Alias() public persist: boolean;
+  @Alias() public namespace: string;
   @Alias() public filters = [];
   @Alias() public scrollable: FsListScrollableConfig | false = false;
   @Alias() public noResults: FsListNoResultsConfig;
@@ -84,7 +86,6 @@ export class List extends Model {
   public columns = new ColumnsController();
   public actions = new ActionsController();
   public dataController = new DataController();
-  public persist: string;
   public sorting = new SortingController();
   public selection: SelectionController;
 
@@ -679,6 +680,7 @@ export class List extends Model {
       // Config
       this.filterConfig = {
         persist: this.persist,
+        namespace: this.namespace || '',
         items: this.filters || [],
         inline: this.inlineFilters,
         queryParam: this.queryParam,

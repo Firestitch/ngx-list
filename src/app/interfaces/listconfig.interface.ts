@@ -33,6 +33,8 @@ export interface FsListConfig {
   loadMore?: FsListLoadMoreConfig | boolean;
   columnDefaults?: Object;
   filters?: (IFilterConfigItem | IFilterConfigDateItem)[];
+  persist?: boolean;
+  namespace?: string;
   rowActions?: (FsListRowActionGroup | FsListRowAction)[] ;
   rowClass?: (row: any) => string;
   actions?: FsListAction[];
