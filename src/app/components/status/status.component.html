@@ -1,9 +1,9 @@
-<div class="infinite-records" *ngIf="paging.enabled && !scrollable">
+<ng-container *ngIf="paging.enabled && !scrollable">
   <span class="sort-limits">Showing <a [fsMenuTriggerFor]="limitsMenu">{{ paging.displayed }}</a> of {{ paging.records }} results</span>
   <ng-container *ngTemplateOutlet="sortedBy"></ng-container>
-</div>
+</ng-container>
 
-<div class="infinite-records" *ngIf="(!paging.enabled || scrollable) && paging.displayed > 0">
+<ng-container *ngIf="(!paging.enabled || scrollable) && paging.displayed > 0">
   <span class="sort-limits">
     <ng-container *ngIf="!scrollable; else scrollable">
       Showing
@@ -17,7 +17,7 @@
     </ng-template>
   </span>
   <ng-container *ngTemplateOutlet="sortedBy"></ng-container>
-</div>
+</ng-container>
 
 <ng-template #sortedBy>
   <span *ngIf="sorting.sortingColumn" class="sort-by">

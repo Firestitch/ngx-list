@@ -11,11 +11,6 @@
       margin-bottom: 0;
       position: initial !important;
       display: block;
-
-      fs-filter-chips.has-filter-chips {
-        margin-bottom: 6px;
-        margin-top: 1px;
-      }
     }
 
     .fs-list-container {
@@ -314,12 +309,6 @@
 
     tfoot td {
       padding: 8px;
-    }
-
-    fs-list-status {
-      font-size: 13px;
-      color: rgb(58, 58, 58);
-      display: block;
     }
   }
 }
