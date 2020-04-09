@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, ElementRef, NgZone } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Row } from '../../models/row.model';
 
 
 export class Draggable {
@@ -26,7 +27,7 @@ export class Draggable {
   constructor(private el: ElementRef,
               private cdRef: ChangeDetectorRef,
               private zone: NgZone,
-              private _rows: any[]) {
+              private _rows: Row[]) {
 
   }
 

@@ -38,6 +38,7 @@ import {
 } from '../../interfaces';
 import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.component';
 import { GroupExpandNotifierService } from '../../services/group-expand-notifier.service';
+import { Row } from '../../models/row.model';
 
 
 @Component({
@@ -228,9 +229,9 @@ export class FsListComponent implements OnInit, OnDestroy {
     this.list.reorder.dragStart();
   }
 
-  public dragEnded() {
+  public dragEnded(rows: Row[]) {
     this.dragging = false;
-    this.list.reorder.dragEnd();
+    this.list.reorder.dragEnd(rows);
   }
 
   private _initCustomizableAction() {

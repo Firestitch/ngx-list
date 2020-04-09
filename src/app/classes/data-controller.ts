@@ -242,6 +242,10 @@ export class DataController {
     return !!removedRows.length;
   }
 
+  public updateOrderByRows(rows: Row[]) {
+    this._rowsStack = [...rows];
+  }
+
   public destroy() {
     this._destroyRowsStack();
     this._store.clear();

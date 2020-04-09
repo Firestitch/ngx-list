@@ -5,6 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { List } from './list-controller';
 import { FsListReorderDoneCallback, FsListReorderMovedCallback } from '../interfaces';
+import { Row } from '../models/row.model';
 
 
 export enum ReorderPosition {
@@ -86,7 +87,7 @@ export class ReorderController extends Model {
     }
   }
 
-  public dragEnd() {
+  public dragEnd(rows: Row[]) {
     if (this.moved) {
       this.moved(this._list.dataController.visibleRowsData);
     }
@@ -96,6 +97,8 @@ export class ReorderController extends Model {
         this.done(this._list.dataController.visibleRowsData);
       }
     }
+
+    this._list.dataController.updateOrderByRows(rows);
   }
 
   public enableReorder() {

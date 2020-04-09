@@ -98,7 +98,7 @@
                [reorderPosition]="list.reorder?.position"
                [reorderStrategy]="list.reorder?.strategy"
                (dragStart)="dragStarted()"
-               (dragEnd)="dragEnded()"
+               (dragEnd)="dragEnded($event)"
                [restoreMode]="list.restoreMode"
                [selection]="list.selection"
                [rowRemoved]="rowRemoved"

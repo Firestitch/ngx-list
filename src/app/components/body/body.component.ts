@@ -54,13 +54,13 @@ export class FsBodyComponent implements OnInit, DoCheck, OnDestroy {
   // @Output() reorderChanged = new EventEmitter<boolean>();
 
   @Output() dragStart = new EventEmitter();
-  @Output() dragEnd = new EventEmitter();
+  @Output() dragEnd = new EventEmitter<Row[]>();
 
   @ViewChild('rowsContainer', { read: ViewContainerRef, static: true }) rowsContainer;
   @ContentChild(FsRowComponent, { read: TemplateRef, static: true })
   headerTemplate: TemplateRef<any>;
 
-  public draggable;
+  public draggable: Draggable;
 
   private _rowsDiffer: IterableDiffer<any>;
 
@@ -107,7 +107,7 @@ export class FsBodyComponent implements OnInit, DoCheck, OnDestroy {
     }
 
     return true;
-  }
+  };
 
   // /**
   //  * Track By for improve change detection
@@ -148,7 +148,7 @@ export class FsBodyComponent implements OnInit, DoCheck, OnDestroy {
         this.zone.run(() => {
           // this.reorderChanged.next(false);
 
-          this.dragEnd.emit();
+          this.dragEnd.emit(this.rows);
         });
       });
   }
