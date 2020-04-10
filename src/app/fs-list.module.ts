@@ -117,7 +117,7 @@ import { FsListConfig } from './interfaces';
   ],
 })
 export class FsListModule {
-  static forRoot(config: FsListConfig = {}): ModuleWithProviders {
+  static forRoot(config: FsListConfig = {}): ModuleWithProviders<FsListModule> {
     return {
       ngModule: FsListModule,
       providers: [

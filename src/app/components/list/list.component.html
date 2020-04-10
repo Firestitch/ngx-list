@@ -33,7 +33,6 @@
           <h2 class="heading" *ngIf="list.heading">{{list.heading}}</h2>
           <span class="subheading" *ngIf="list.subheading">{{list.subheading}}</span>
         </div>
-
         <fs-filter
           class="fs-list-filter"
           *ngIf="list.filterConfig"
@@ -43,10 +42,9 @@
           [showSortBy]="!list.status"
           [showFilterInput]="list.filterInput">
 
-
           <ng-template
             fsFilterStatusBar
-            *ngIf="
+            [ngIf]="
               list.paging &&
               !(list.reorder?.manualReorderActivated$ | async) &&
               (!list.reorder?.enabled || list.reorder?.status) &&

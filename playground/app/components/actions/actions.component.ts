@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
 })
 export class ActionsComponent implements OnInit {
 
-  @ViewChild('table', { static: false })
+  @ViewChild('table')
   public table: FsListComponent;
   public config: FsListConfig;
 
