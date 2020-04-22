@@ -15,13 +15,14 @@
 </ng-container>
 
 <!-- Content -->
-<ng-container *ngFor="let column of columns; trackBy: trackByFn">
+<ng-container *ngFor="let column of columns; trackBy: trackByFn; let i = index">
   <td fs-cell
       *ngIf="(row.isGroup && !column.groupCellColspanned) || (!row.isGroup && !column.cellColspanned)"
       [column]="column"
       [row]="row"
       [rowIndex]="rowIndex"
-      [ngClass]="column.cellConfigs.classesArray"
+      [class]="column.cellConfigs.classesString"
+      [ngClass]="{ 'primary-col': i ===  0 }"
       [attr.colspan]="(row.isGroup && column.groupCellConfigs.colspan) || column.cellConfigs.colspan"
       [attr.width]="column.width"
   >

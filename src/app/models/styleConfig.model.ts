@@ -7,6 +7,7 @@ export class StyleConfig extends Model {
   @Alias() public className: string | string[] = []; // Can't be used in tempaltes!
 
   public classesArray = []; // Can be used in tempaltes
+  public classesString = '';
 
   constructor(config = {}) {
     super();
@@ -19,6 +20,7 @@ export class StyleConfig extends Model {
    */
   public updateClasesArray() {
     this.classesArray = [].concat(this.className, this.align);
+    this.classesString = [].concat(this.className, this.align).join(' ');
   }
 
   /**
