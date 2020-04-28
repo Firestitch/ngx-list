@@ -496,7 +496,6 @@ export class List extends Model {
   private listenFetch() {
     this.fetch$
       .pipe(
-        takeUntil(this.onDestroy$),
         debounceTime(50),
         tap(() => {
           this.loading$.next(true);
@@ -541,7 +540,8 @@ export class List extends Model {
         }),
         catchError((error, source$) => {
           return source$;
-        })
+        }),
+        takeUntil(this.onDestroy$),
       )
       .subscribe((response) => {
         this.completeFetch(response);
