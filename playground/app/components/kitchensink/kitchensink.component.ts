@@ -123,7 +123,10 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
         {
           name: 'date',
           type: ItemType.Date,
-          label: 'Date'
+          label: 'Date',
+          change: (event) => {
+            debugger;
+          }
         },
         {
           name: 'date_scroll',
