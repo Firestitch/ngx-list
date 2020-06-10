@@ -70,6 +70,7 @@
         <thead fs-list-head
                class="fs-list-head"
                role="rowgroup"
+               *ngIf="list.columns.hasHeader"
                [ngClass]="list.columns.theadClass"
                [columns]="list.columns.visibleColumns"
                [sorting]="list.sorting"
