@@ -1,13 +1,13 @@
 import { PageChangeType } from '../enums/page-change-type.enum';
 
 export interface QueryPageStrategy {
-  page: number;
-  limit: number;
+  page?: number;
+  limit?: number;
 }
 
 export interface QueryOffsetStrategy {
-  offset: number;
-  limit: number;
+  offset?: number;
+  limit?: number;
 }
 
 export interface PageChange {

@@ -58,7 +58,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
       queryParam: true,
       paging: {
         limits: [5, 15, 50, 150, 250, 500, 1000],
-        strategy: PaginationStrategy.Page,
+        strategy: PaginationStrategy.Offset,
       },
       sort: {
         value: 'guid',
@@ -343,7 +343,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
         align: 'left'
       },
       fetch: (query) => {
-        query.count = 500;
+        query.count = 50;
         return this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
           .pipe(
             map(response => ({ data: response.data.objects, paging: response.data.paging })),

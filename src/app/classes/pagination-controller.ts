@@ -1,7 +1,9 @@
-import { Alias, Model } from 'tsmodels';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { Alias, Model } from 'tsmodels';
 import { isObject } from 'lodash-es';
+
 import {
   FsListLoadMoreConfig,
   FsPaging,
@@ -11,7 +13,6 @@ import {
 } from '../interfaces';
 import { PaginationStrategy } from '../enums/pagination-strategy.enum';
 import { PageChangeType } from '../enums/page-change-type.enum';
-
 
 export class PaginationController extends Model {
 
@@ -26,13 +27,12 @@ export class PaginationController extends Model {
   public pagesArray = [];
   public displayed = 0;
 
-  private _strategy: PaginationStrategy = PaginationStrategy.Page;
+  private _strategy: PaginationStrategy = PaginationStrategy.None;
   private _removedRows = 0;
 
   private _pageChanged = new Subject<PageChange>();
   private _onDestroy = new Subject();
 
-  private _enabled = true;
   private _loadMoreEnabled = false;
   private _infinityScrollEnabled = false;
   private _loadMoreText = 'Load More';
@@ -53,16 +53,7 @@ export class PaginationController extends Model {
    * Get enabled
    */
   get enabled(): boolean {
-    return this._enabled;
-  }
-
-  /**
-   * Set enabled and update pages array
-   * @param value
-   */
-  set enabled(value) {
-    this._enabled = value;
-    this.updatePagesArray();
+    return !this.hasNoneStrategy;
   }
 
   /**
@@ -91,19 +82,25 @@ export class PaginationController extends Model {
    * Get query for request
    */
   get query() {
-    return this._strategy === PaginationStrategy.Page
-      ? this.queryPageStrategy
-      : this.queryOffsetStrategy;
+    switch (this.strategy) {
+      case PaginationStrategy.Page:
+        return this.queryPageStrategy;
+      case PaginationStrategy.Offset:
+      case PaginationStrategy.LoadMore:
+        return this.queryOffsetStrategy;
+    }
+
+    return {};
   }
 
   /**
    * Query for Page Strategy
    */
   get queryPageStrategy(): QueryPageStrategy {
-    return {
+    return this.hasNoneStrategy ? {} : {
       page: this.page || 1,
       limit: this.limit || 10,
-    }
+    };
   }
 
   /**
@@ -137,18 +134,29 @@ export class PaginationController extends Model {
     return this._strategy;
   }
 
+  set strategy(strategy: PaginationStrategy) {
+    this._strategy = (strategy === void 0) ? PaginationStrategy.Page : strategy;
+  }
+
   /**
    * Check if pagination in Page Strategy Mode
    */
   get hasPageStrategy() {
-    return this.strategy === PaginationStrategy.Page
+    return this.strategy === PaginationStrategy.Page;
   }
 
   /**
    * Check if pagination in Offset Strategy Mode
    */
   get hasOffsetStrategy() {
-    return this.strategy === PaginationStrategy.Offset
+    return this.strategy === PaginationStrategy.Offset;
+  }
+
+  /**
+   * Check if pagination in None Strategy Mode
+   */
+  get hasNoneStrategy(): boolean {
+    return this.strategy === PaginationStrategy.None;
   }
 
   /**
@@ -156,18 +164,30 @@ export class PaginationController extends Model {
    *
    */
   get hasPrevPage(): boolean {
-    return this._strategy === PaginationStrategy.Page
-      ? this._hasPrevPagePageStrategy
-      : this._hasPrevPageOffsetStrategy;
+    switch (this.strategy) {
+      case PaginationStrategy.Page:
+        return this._hasPrevPagePageStrategy;
+      case PaginationStrategy.Offset:
+      case PaginationStrategy.LoadMore:
+        return this._hasPrevPageOffsetStrategy;
+    }
+
+    return false;
   }
 
   /**
    * If next page can be activated
    */
   get hasNextPage(): boolean { // Need to check if pages === page && page === 1
-    return this._strategy === PaginationStrategy.Page
-      ? this._hasNextPagePageStrategy
-      : this._hasNextPageOffsetStrategy;
+    switch (this.strategy) {
+      case PaginationStrategy.Page:
+        return this._hasNextPagePageStrategy;
+      case PaginationStrategy.Offset:
+      case PaginationStrategy.LoadMore:
+        return this._hasNextPageOffsetStrategy;
+    }
+
+    return false;
   }
 
   get loadMoreEnabled(): boolean {
@@ -195,6 +215,7 @@ export class PaginationController extends Model {
     loadMore: FsListLoadMoreConfig | boolean,
     infinityScrollEnabled = false,
   ) {
+
     if (config) {
       if (config.limits) {
         this.limits = config.limits;
@@ -209,11 +230,10 @@ export class PaginationController extends Model {
       }
 
       this._infinityScrollEnabled = infinityScrollEnabled;
-      this.updatePagingStrategy(config.strategy);
-
-    } else if (config === false) {
-      this.enabled = false;
+      this.strategy = config.strategy;
     }
+
+    this.updatePagesArray();
   }
 
   /**
@@ -264,14 +284,9 @@ export class PaginationController extends Model {
       this._removedRows = 0;
     }
 
-
     this.updateTotalPages();
     this.updatePagesArray();
     // this.updateDisplayed();
-  }
-
-  public updatePagingStrategy(strategy?: PaginationStrategy) {
-    this._strategy = (strategy === void 0) ? PaginationStrategy.Page : strategy;
   }
 
   /**
@@ -318,7 +333,6 @@ export class PaginationController extends Model {
     }
 
     this.pagesArray = Object.assign([], pagesArr);
-
   }
 
   public setLoadMore(config: FsListLoadMoreConfig | boolean) {
