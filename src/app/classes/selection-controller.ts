@@ -316,8 +316,6 @@ export class SelectionController {
    * @param flag
    */
   private _onSelectAllActions(flag) {
-    if (!this.allSelectedFn) { return }
-
     this._selectedAll = flag;
 
     this.selectAllVisibleRows(flag);
@@ -326,6 +324,8 @@ export class SelectionController {
 
     this._selectionChangeEvent(SelectionChangeType.SelectedAll, this._selectedAll);
     this._updateSelectionRefSelectedAll();
+
+    if (!this.allSelectedFn) { return }
 
     this.allSelectedFn(flag);
   }
