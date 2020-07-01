@@ -4,7 +4,7 @@ import {
   FsSelectionDialogConfigAction,
   SelectionRef
 } from '@firestitch/selection'
-import { IFilterConfigItem, IFilterConfigDateItem } from '@firestitch/filter';
+import { IFilterConfigItem, IFilterConfigDateItem, FsFilterPersistance } from '@firestitch/filter';
 
 import { ActionType } from '../enums/button-type.enum';
 import { ReorderPosition, ReorderStrategy } from '../classes/reorder-controller';
@@ -33,8 +33,7 @@ export interface FsListConfig {
   loadMore?: FsListLoadMoreConfig | boolean;
   columnDefaults?: Object;
   filters?: (IFilterConfigItem | IFilterConfigDateItem)[];
-  persist?: boolean;
-  namespace?: string;
+  persist?: FsFilterPersistance;
   rowActions?: (FsListRowActionGroup | FsListRowAction)[] ;
   rowClass?: (row: any) => string;
   actions?: FsListAction[];
