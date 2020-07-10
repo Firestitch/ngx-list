@@ -538,6 +538,8 @@ export class List extends Model {
           return this.fetchRemote(query);
         }),
         catchError((error, source$) => {
+          console.error(error);
+
           return source$;
         }),
         takeUntil(this.onDestroy$),
