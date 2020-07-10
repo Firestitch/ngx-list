@@ -151,6 +151,8 @@ export class ColumnsController {
    * @param templates
    */
   public initializeColumns(templates) {
+    this._columns = [];
+
     templates.forEach((column) => {
       const col = new Column(column, this._defaultConfigs);
 
