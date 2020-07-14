@@ -1,4 +1,4 @@
-import { SortingDirection } from '@firestitch/list';
+import { SortingDirection } from '../models/column.model';
 
 export type ExternalParams = IExternalPaginationParams & IExternalSortingParams;
 
