@@ -10,12 +10,13 @@ import {
   OnInit,
   QueryList,
   ViewChild,
-  HostBinding,
+  HostBinding, Optional,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { Location } from '@angular/common';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FsScrollService } from '@firestitch/scroll';
-import { FilterComponent } from '@firestitch/filter';
+import { FilterComponent, getNormalizedPath } from '@firestitch/filter';
 import { SelectionDialog } from '@firestitch/selection';
 
 import { Subject } from 'rxjs';
@@ -32,13 +33,14 @@ import { FS_LIST_DEFAULT_CONFIG } from '../../fs-list.providers';
 import {
   FsListAbstractRow,
   FsListAction,
-  FsListConfig,
+  FsListConfig, FsListPersitance,
   FsListTrackByFn,
   FsListTrackByTargetRowFn
 } from '../../interfaces';
 import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.component';
 import { GroupExpandNotifierService } from '../../services/group-expand-notifier.service';
 import { Row } from '../../models/row.model';
+import { PersistanceController } from '../../classes/persistance-controller';
 
 
 @Component({
@@ -49,7 +51,8 @@ import { Row } from '../../models/row.model';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    GroupExpandNotifierService
+    GroupExpandNotifierService,
+    PersistanceController,
   ]
 })
 export class FsListComponent implements OnInit, OnDestroy {
@@ -66,6 +69,8 @@ export class FsListComponent implements OnInit, OnDestroy {
     const defaultOpts = cloneDeep(this._defaultOptions);
     const listConfig = mergeWith(defaultOpts, config, this._configMergeCustomizer);
 
+    this._restorePersistance(config.persist);
+
     this.list = new List(
       this._el,
       listConfig,
@@ -73,6 +78,7 @@ export class FsListComponent implements OnInit, OnDestroy {
       this.selectionDialog,
       this._router,
       this._route,
+      this._persistance,
     );
 
     if (this.listColumnDirectives) {
@@ -117,6 +123,9 @@ export class FsListComponent implements OnInit, OnDestroy {
     private _groupExpandNotifier: GroupExpandNotifierService,
     private _router: Router,
     private _route: ActivatedRoute,
+    private _persistance: PersistanceController,
+    private _location: Location,
+    @Optional() private _dialogRef: MatDialogRef<any>,
   ) {}
 
   get filter() {
@@ -300,5 +309,11 @@ export class FsListComponent implements OnInit, OnDestroy {
     if (Array.isArray(objValue)) {
       return objValue;
     }
+  }
+
+  private _restorePersistance(persistConfig: FsListPersitance) {
+    const namespace = getNormalizedPath(this._location);
+    this._persistance.configUpdated(persistConfig, namespace, !!this._dialogRef);
+    this._persistance.restore();
   }
 }

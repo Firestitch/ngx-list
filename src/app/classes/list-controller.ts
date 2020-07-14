@@ -47,7 +47,8 @@ import { ReorderController, ReorderStrategy } from './reorder-controller';
 import { SortingController } from './sorting-controller';
 
 import { Operation } from '../enums/operation.enum';
-import { RouterQueryListenerController } from './router-query-listener-controller';
+import { PersistanceController } from './persistance-controller';
+import { ExternalParamsController } from './external-params-controller';
 
 const SHOW_DELETED_FILTERS_KEY = '$$_show_deleted_$$';
 
@@ -86,6 +87,7 @@ export class List extends Model {
   public actions = new ActionsController();
   public dataController = new DataController();
   public sorting = new SortingController();
+  public externalParams: ExternalParamsController;
   public selection: SelectionController;
 
   public filterConfig: FilterConfig = null;
@@ -111,7 +113,6 @@ export class List extends Model {
   private readonly _footerConfig: StyleConfig;
 
   private _fsScrollSubscription: Subscription;
-  private _routerQueryListener: RouterQueryListenerController;
 
   constructor(
     private el: ElementRef,
@@ -120,6 +121,7 @@ export class List extends Model {
     private selectionDialog: SelectionDialog,
     private router: Router,
     private route: ActivatedRoute,
+    private persistance: PersistanceController,
   ) {
     super();
     this._fromJSON(config);
@@ -177,7 +179,11 @@ export class List extends Model {
       .forEach((column) => {
         this.sorting.addSortableColumn(column);
       });
-    this.sorting.initialSortBy(this.config.sort);
+
+    const initialSortConfig = this.config.sort || this.externalParams.externalSorting;
+    this.sorting.initialSortBy(initialSortConfig);
+
+    // this.sorting.initialSortBy(this.config.sort);
 
     this.initFilters();
     this.initInfinityScroll();
@@ -315,8 +321,8 @@ export class List extends Model {
       this.reorder.destroy();
     }
 
-    if (this._routerQueryListener) {
-      this._routerQueryListener.destroy();
+    if (this.externalParams) {
+      this.externalParams.destroy()
     }
 
     this.columns.destroy();
@@ -340,10 +346,7 @@ export class List extends Model {
     this.initPaging(config.paging, config.loadMore);
     this.initSelection(config.selection, this.selectionDialog);
     this.initGroups(config.group);
-
-    if (this.queryParam) {
-      this.initRouteQueryListener();
-    }
+    this.initExternalParamsController();
 
     this.initializeData();
   }
@@ -481,11 +484,14 @@ export class List extends Model {
     }
   }
 
-  private initRouteQueryListener() {
-    this._routerQueryListener = new RouterQueryListenerController(
+  private initExternalParamsController() {
+    this.externalParams = new ExternalParamsController(
       this.router,
       this.route,
-      this.paging
+      this.persistance,
+      this.paging,
+      this.sorting,
+      this.queryParam
     );
   }
 

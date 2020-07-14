@@ -1,4 +1,4 @@
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { Column, SortingDirection } from '../models/column.model';
@@ -17,7 +17,7 @@ export class SortingController {
   public fakeSortingColumns: Column[] = [];
   public sortingColumn: Column;
 
-  private _initialization = false;
+  private _initialized = new BehaviorSubject<boolean>(false);
   private _sortingChanged$ = new Subject<SortingChangeEvent>();
   private _onDestroy = new Subject();
 
@@ -25,6 +25,29 @@ export class SortingController {
 
   get sortingChanged$(): Observable<SortingChangeEvent> {
     return this._sortingChanged$.pipe(takeUntil(this._onDestroy));
+  }
+
+  get initialized$(): Observable<boolean> {
+    return this._initialized.pipe(takeUntil(this._onDestroy));
+  }
+
+  get value(): FsListSortConfig | undefined {
+    if (this.sortingColumn) {
+      return {
+        value: this.sortingColumn.name,
+        direction: this.sortingColumn.direction,
+      };
+    } else {
+      return void 0;
+    }
+  }
+
+  get initialization(): boolean {
+    return !this._initialized.getValue();
+  }
+
+  private set _initialization(value: boolean) {
+    this._initialized.next(!value);
   }
 
   public addSortableColumn(column: Column) {
@@ -158,7 +181,8 @@ export class SortingController {
   }
 
   private _notifySortChanged() {
-    if (this._initialization) { return; }
+    if (this.initialization) { return; }
+
     this._sortingChanged$.next({
       sortBy: this.sortingColumn.name,
       sortDirection: this.sortingColumn.direction

@@ -33,7 +33,7 @@ export interface FsListConfig {
   loadMore?: FsListLoadMoreConfig | boolean;
   columnDefaults?: Object;
   filters?: (IFilterConfigItem | IFilterConfigDateItem)[];
-  persist?: FsFilterPersistance;
+  persist?: FsListPersitance;
   rowActions?: (FsListRowActionGroup | FsListRowAction)[] ;
   rowClass?: (row: any) => string;
   actions?: FsListAction[];
@@ -237,3 +237,5 @@ export interface FsListColumn {
 export interface FsListActionSelected extends FsSelectionDialogActionSelected {
   selected: any[];
 }
+
+export type FsListPersitance = FsFilterPersistance;

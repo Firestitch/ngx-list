@@ -97,10 +97,12 @@ export class PaginationController extends Model {
    * Query for Page Strategy
    */
   get queryPageStrategy(): QueryPageStrategy {
-    return this.hasNoneStrategy ? {} : {
-      page: this.page || 1,
-      limit: this.limit || 10,
-    };
+    return this.hasNoneStrategy
+      ? {}
+      : {
+        page: this.page || 1,
+        limit: this.limit || 10,
+      };
   }
 
   /**
