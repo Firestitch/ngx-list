@@ -365,17 +365,13 @@ export class DataController {
       const mainGroup = this._groupByFn(row);
       const mainGroupKey = this._compareByFn(mainGroup);
 
-      if (mainGroupKey) {
-        if (!this._store.has(mainGroupKey)) {
-          const group = new Row(mainGroup, RowType.Group, this._initialExpand);
-          this._store.set(mainGroupKey, group);
-          group.children.push(new Row(row, RowType.Child));
-        } else {
-          const group = this._store.get(mainGroupKey);
-          group.children.push(new Row(row, RowType.Child));
-        }
+      if (!this._store.has(mainGroupKey)) {
+        const group = new Row(mainGroup, RowType.Group, this._initialExpand);
+        this._store.set(mainGroupKey, group);
+        group.children.push(new Row(row, RowType.Child));
       } else {
-        throw Error(`compareBy callback is not specified or returned wrong result for ${row}`);
+        const group = this._store.get(mainGroupKey);
+        group.children.push(new Row(row, RowType.Child));
       }
     })
   }
