@@ -25,6 +25,7 @@ export class SortableComponent implements OnInit {
       heading: 'Sortable',
       status: true,
       filterInput: false,
+      queryParam: false,
       sorts: [
         {
           name: 'Last Login',

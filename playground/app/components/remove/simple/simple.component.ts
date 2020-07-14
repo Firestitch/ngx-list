@@ -33,6 +33,7 @@ export class RemoveSimpleComponent extends StrategyBaseComponent implements OnIn
       subheading: 'Remove action without confirmation',
       status: false,
       filterInput: true,
+      queryParam: false,
       trackBy: 'name',
       selection: {
       },

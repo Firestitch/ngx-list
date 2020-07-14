@@ -34,6 +34,7 @@ export class RemoveConfirmComponent extends StrategyBaseComponent implements OnI
       subheading: 'Remove action with list integrated confirmation or click on row for delete',
       status: false,
       filterInput: true,
+      queryParam: false,
       paging: {
         limits: [5, 15, 50],
         strategy: PaginationStrategy.Page,

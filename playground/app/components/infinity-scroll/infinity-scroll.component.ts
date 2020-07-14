@@ -40,6 +40,7 @@ export class InfinityScrollComponent extends StrategyBaseComponent implements On
       scrollable: {
         name: 'list-scroll',
       },
+      queryParam: false,
       filters: [
         {
           name: 'keyword',

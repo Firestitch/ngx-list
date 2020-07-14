@@ -22,6 +22,7 @@ export class AlwaysReorderComponent implements OnInit {
       subheading: 'With Always strategy and positioned to left',
       status: false,
       filterInput: true,
+      queryParam: false,
       reorder: {
         position: ReorderPosition.Left,
         strategy: ReorderStrategy.Always,

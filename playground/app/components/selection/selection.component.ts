@@ -38,6 +38,7 @@ export class SelectionComponent extends StrategyBaseComponent implements OnInit 
       trackBy: 'name',
       status: true,
       filterInput: true,
+      queryParam: false,
       selection: {
         selectAll: true,
         actions: [

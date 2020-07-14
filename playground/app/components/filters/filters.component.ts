@@ -25,6 +25,7 @@ export class FiltersComponent implements OnInit {
         limits: [5, 15, 50]
       },
       status: true,
+      queryParam: false,
       filters: [
         {
           name: 'keyword',
