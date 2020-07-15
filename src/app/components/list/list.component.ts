@@ -176,7 +176,7 @@ export class FsListComponent implements OnInit, OnDestroy {
     this.list.reload();
   }
 
-  public getData(trackBy: FsListTrackByFn) {
+  public getData(trackBy?: FsListTrackByFn) {
     return this.list.getData(trackBy);
   }
 

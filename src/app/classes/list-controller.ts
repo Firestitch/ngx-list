@@ -17,6 +17,7 @@ import {
   takeUntil,
   tap,
 } from 'rxjs/operators';
+import { cloneDeep } from 'lodash-es';
 
 import { SortingDirection } from '../models/column.model';
 
@@ -277,8 +278,19 @@ export class List extends Model {
     this.listenFetch();
   }
 
-  public getData(trackBy: FsListTrackByFn) {
-    return this.dataController.visibleRowsData.filter(trackBy);
+  public getData(trackBy?: FsListTrackByFn) {
+    let rowsData = this.dataController
+      .visibleRowsData;
+
+    if (trackBy) {
+      rowsData = rowsData
+        .filter(trackBy);
+    }
+
+    return rowsData
+      .map((data) => {
+        return cloneDeep(data);
+      });
   }
 
   public hasData(trackBy: FsListTrackByFn) {
