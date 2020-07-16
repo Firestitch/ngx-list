@@ -86,7 +86,6 @@ export class PaginationController extends Model {
       case PaginationStrategy.Page:
         return this.queryPageStrategy;
       case PaginationStrategy.Offset:
-      case PaginationStrategy.LoadMore:
         return this.queryOffsetStrategy;
     }
 
@@ -170,7 +169,6 @@ export class PaginationController extends Model {
       case PaginationStrategy.Page:
         return this._hasPrevPagePageStrategy;
       case PaginationStrategy.Offset:
-      case PaginationStrategy.LoadMore:
         return this._hasPrevPageOffsetStrategy;
     }
 
@@ -185,7 +183,6 @@ export class PaginationController extends Model {
       case PaginationStrategy.Page:
         return this._hasNextPagePageStrategy;
       case PaginationStrategy.Offset:
-      case PaginationStrategy.LoadMore:
         return this._hasNextPageOffsetStrategy;
     }
 
