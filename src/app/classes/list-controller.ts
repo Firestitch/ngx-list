@@ -123,6 +123,7 @@ export class List extends Model {
     private router: Router,
     private route: ActivatedRoute,
     private persistance: PersistanceController,
+    private inDialog: boolean,
   ) {
     super();
     this._fromJSON(config);
@@ -383,9 +384,13 @@ export class List extends Model {
       this.filterInput = false;
     }
 
-    this.queryParam = (config.queryParam === void 0)
-      ? true
-      : config.queryParam;
+    if (this.inDialog) {
+      this.queryParam = false;
+    } else {
+      this.queryParam = (config.queryParam === void 0)
+        ? true
+        : config.queryParam;
+    }
 
     if (config.sorts) {
       this.sorting.initFakeColumns(config.sorts);

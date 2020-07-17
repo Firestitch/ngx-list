@@ -79,6 +79,7 @@ export class FsListComponent implements OnInit, OnDestroy {
       this._router,
       this._route,
       this._persistance,
+      !!this._dialogRef
     );
 
     if (this.listColumnDirectives) {
