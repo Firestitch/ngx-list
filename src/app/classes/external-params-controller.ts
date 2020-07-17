@@ -38,14 +38,18 @@ export class ExternalParamsController {
   }
 
   public get externalSorting(): FsListSortConfig {
-    if (this._sortName && this._sortDirection) {
-      return {
-        value: this._sortName,
-        direction: this._sortDirection,
-      }
-    } else {
+    if (!this._enabled || !this._sortName || !this._sortDirection) {
       return null;
     }
+
+    return {
+      value: this._sortName,
+      direction: this._sortDirection,
+    }
+  }
+
+  private get _enabled(): boolean {
+    return this._queryParamsEnabled || this._persistance.enabled;
   }
 
   private get _page(): number {
