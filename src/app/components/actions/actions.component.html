@@ -1,72 +1,72 @@
 <!-- Buttons -->
 <ng-container *ngIf="!manualReorderActivated">
-            <span *ngFor="let action of menuActions" class="action-button">
-              <ng-container [ngSwitch]="action.type">
-                <!-- Basic button -->
-                <button type="button"
-                        *ngSwitchCase="'basic'"
-                        mat-button
-                        (click)="action.click($event)"
-                        [ngClass]="action.classArray"
-                        [disabled]="action.isReorderAction && reorderDisabled"
-                        [tabIndex]="action.tabIndex"
-                >
-                  <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
-                </button>
+  <span *ngFor="let action of menuActions" class="action-button">
+    <ng-container [ngSwitch]="action.type">
+      <!-- Basic button -->
+      <button type="button"
+              *ngSwitchCase="'basic'"
+              mat-button
+              (click)="action.click($event)"
+              [ngClass]="action.classArray"
+              [disabled]="action.isReorderAction && reorderDisabled"
+              [tabIndex]="action.tabIndex"
+      >
+        <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
+      </button>
 
-                        <!-- Raised button -->
-                <button type="button"
-                        *ngSwitchDefault
-                        mat-raised-button
-                        (click)="action.click($event)"
-                        [ngClass]="action.classArray"
-                        [disabled]="action.isReorderAction && reorderDisabled"
-                        [tabIndex]="action.tabIndex"
-                >
-                  <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
-                </button>
+              <!-- Raised button -->
+      <button type="button"
+              *ngSwitchDefault
+              mat-raised-button
+              (click)="action.click($event)"
+              [ngClass]="action.classArray"
+              [disabled]="action.isReorderAction && reorderDisabled"
+              [tabIndex]="action.tabIndex"
+      >
+        <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
+      </button>
 
-                        <!-- Icon button -->
-                <button type="button"
-                        *ngSwitchCase="'icon'"
-                        mat-icon-button
-                        (click)="action.click($event)"
-                        [ngClass]="action.classArray"
-                        [disabled]="action.isReorderAction && reorderDisabled"
-                        [tabIndex]="action.tabIndex"
-                >
-                  <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
-                </button>
+              <!-- Icon button -->
+      <button type="button"
+              *ngSwitchCase="'icon'"
+              mat-icon-button
+              (click)="action.click($event)"
+              [ngClass]="action.classArray"
+              [disabled]="action.isReorderAction && reorderDisabled"
+              [tabIndex]="action.tabIndex"
+      >
+        <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
+      </button>
 
-                        <!-- Fab button -->
-                <button type="button"
-                        *ngSwitchCase="'fab'"
-                        mat-fab
-                        (click)="action.click($event)"
-                        [ngClass]="action.classArray"
-                        [disabled]="action.isReorderAction && reorderDisabled"
-                        [tabIndex]="action.tabIndex"
-                >
-                  <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
-                </button>
+              <!-- Fab button -->
+      <button type="button"
+              *ngSwitchCase="'fab'"
+              mat-fab
+              (click)="action.click($event)"
+              [ngClass]="action.classArray"
+              [disabled]="action.isReorderAction && reorderDisabled"
+              [tabIndex]="action.tabIndex"
+      >
+        <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
+      </button>
 
-                        <!-- Mini Fab button -->
-                <button type="button"
-                        *ngSwitchCase="'mini-fab'"
-                        mat-mini-fab
-                        (click)="action.click($event)"
-                        [ngClass]="action.classArray"
-                        [disabled]="action.isReorderAction && reorderDisabled"
-                        [tabIndex]="action.tabIndex"
-                >
-                  <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
-                </button>
+              <!-- Mini Fab button -->
+      <button type="button"
+              *ngSwitchCase="'mini-fab'"
+              mat-mini-fab
+              (click)="action.click($event)"
+              [ngClass]="action.classArray"
+              [disabled]="action.isReorderAction && reorderDisabled"
+              [tabIndex]="action.tabIndex"
+      >
+        <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
+      </button>
 
-                <ng-template #buttonContent let-value="value">
-                  <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
-                </ng-template>
-              </ng-container>
-          </span>
+      <ng-template #buttonContent let-value="value">
+        <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon> {{action.label}}
+      </ng-template>
+    </ng-container>
+</span>
 </ng-container>
 <!-- /Buttons -->
 

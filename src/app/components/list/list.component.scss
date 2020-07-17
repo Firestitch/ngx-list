@@ -235,6 +235,11 @@
     }
 
     .fs-list-header {
+      &:after {
+        content: "";
+        clear: both;
+        display: table;
+      }
 
       .heading-container {
         font-weight: 600;
