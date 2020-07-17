@@ -182,7 +182,7 @@ export class List extends Model {
         this.sorting.addSortableColumn(column);
       });
 
-    const initialSortConfig = this.config.sort || this.externalParams.externalSorting;
+    const initialSortConfig = this.externalParams.externalSorting || this.config.sort;
     this.sorting.initialSortBy(initialSortConfig);
 
     // this.sorting.initialSortBy(this.config.sort);
