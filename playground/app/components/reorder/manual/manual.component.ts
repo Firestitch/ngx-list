@@ -24,6 +24,7 @@ export class ManualReorderComponent implements OnInit {
       status: false,
       filterInput: true,
       queryParam: false,
+      persist: false,
       reorder: {
         position: ReorderPosition.Right,
         strategy: ReorderStrategy.Manual,

@@ -26,6 +26,7 @@ export class FiltersComponent implements OnInit {
       },
       status: true,
       queryParam: false,
+      persist: false,
       filters: [
         {
           name: 'keyword',

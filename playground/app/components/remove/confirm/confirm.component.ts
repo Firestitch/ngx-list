@@ -35,6 +35,7 @@ export class RemoveConfirmComponent extends StrategyBaseComponent implements OnI
       status: false,
       filterInput: true,
       queryParam: false,
+      persist: false,
       paging: {
         limits: [5, 15, 50],
         strategy: PaginationStrategy.Page,

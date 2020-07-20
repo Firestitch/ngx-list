@@ -35,6 +35,7 @@ export class RestoreComponent extends StrategyBaseComponent implements OnInit {
       status: true,
       filterInput: true,
       queryParam: false,
+      persist: false,
       restore: {
         query: { state: 'deleted' },
         filterLabel: 'Show Deleted',

@@ -41,6 +41,7 @@ export class InfinityScrollComponent extends StrategyBaseComponent implements On
         name: 'list-scroll',
       },
       queryParam: false,
+      persist: false,
       filters: [
         {
           name: 'keyword',

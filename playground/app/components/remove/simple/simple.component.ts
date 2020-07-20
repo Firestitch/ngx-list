@@ -34,6 +34,7 @@ export class RemoveSimpleComponent extends StrategyBaseComponent implements OnIn
       status: false,
       filterInput: true,
       queryParam: false,
+      persist: false,
       trackBy: 'name',
       selection: {
       },

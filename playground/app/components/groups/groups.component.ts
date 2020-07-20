@@ -52,6 +52,7 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
       filterInput: true,
       paging: false,
       queryParam: false,
+      persist: false,
       actions: [
         {
           label: 'Toggle Group Mode',
