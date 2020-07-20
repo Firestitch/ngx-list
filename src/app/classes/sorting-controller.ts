@@ -47,7 +47,7 @@ export class SortingController {
   }
 
   get isDefined(): boolean {
-    return this.initialization && !!this.sortingColumn;
+    return !!this.sortingColumn;
   }
 
   private set _initialization(value: boolean) {
