@@ -42,6 +42,7 @@ import { GroupExpandNotifierService } from '../../services/group-expand-notifier
 import { Row } from '../../models/row.model';
 import { PersistanceController } from '../../classes/persistance-controller';
 import { getNormalizedPath } from '@firestitch/common';
+import { DrawerRef } from '@firestitch/drawer';
 
 
 @Component({
@@ -80,7 +81,7 @@ export class FsListComponent implements OnInit, OnDestroy {
       this._router,
       this._route,
       this._persistance,
-      !!this._dialogRef
+      this._inDialog,
     );
 
     if (this.listColumnDirectives) {
@@ -97,6 +98,8 @@ export class FsListComponent implements OnInit, OnDestroy {
   public firstLoad = true;
 
   public readonly ReorderStrategy = ReorderStrategy;
+
+  private _inDialog = !!this._dialogRef || !!this._drawerRef;
 
   private _destroy = new Subject();
 
@@ -128,6 +131,7 @@ export class FsListComponent implements OnInit, OnDestroy {
     private _persistance: PersistanceController,
     private _location: Location,
     @Optional() private _dialogRef: MatDialogRef<any>,
+    @Optional() private _drawerRef: DrawerRef<any>,
   ) {}
 
   get filter() {
@@ -315,7 +319,6 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   private _restorePersistance(persistConfig: FsListPersitance) {
     const namespace = getNormalizedPath(this._location);
-    this._persistance.setConfig(persistConfig, namespace, !!this._dialogRef);
-    this._persistance.restore();
+    this._persistance.setConfig(persistConfig, namespace, this._inDialog);
   }
 }
