@@ -182,10 +182,16 @@ export class List extends Model {
         this.sorting.addSortableColumn(column);
       });
 
-    const initialSortConfig = this.externalParams.externalSorting || this.config.sort;
+    // Default sort by
+    const externalSorting = this.externalParams.externalSorting;
+    const initialSortConfig = externalSorting || this.config.sort;
     this.sorting.initialSortBy(initialSortConfig);
 
-    // this.sorting.initialSortBy(this.config.sort);
+    if (externalSorting && !this.sorting.isDefined) {
+      this.externalParams.clearSortingParams();
+
+      console.warn('Not able to restore persisted sorting params.', externalSorting);
+    }
 
     this.initFilters();
     this.initInfinityScroll();

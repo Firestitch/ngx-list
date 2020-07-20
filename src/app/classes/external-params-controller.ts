@@ -102,6 +102,10 @@ export class ExternalParamsController {
     this._listenSortingChanges();
   }
 
+  public clearSortingParams() {
+    this._updateSortingParams(null, null);
+  }
+
   public destroy(): void {
     this._destroy$.next();
     this._destroy$.complete();
@@ -151,7 +155,7 @@ export class ExternalParamsController {
         if (sorting) {
           this._updateSortingParams(sorting.value, sorting.direction);
         } else {
-          this._updateSortingParams(null, null);
+          this.clearSortingParams();
         }
       })
   }

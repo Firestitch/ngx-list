@@ -46,6 +46,10 @@ export class SortingController {
     return !this._initialized.getValue();
   }
 
+  get isDefined(): boolean {
+    return this.initialization && !!this.sortingColumn;
+  }
+
   private set _initialization(value: boolean) {
     this._initialized.next(!value);
   }
@@ -83,9 +87,7 @@ export class SortingController {
    * @param name
    */
   public sortByColumnWithName(name: string) {
-    const column =
-      this.sortingColumns.find(col => col.name === name && col.sortable) ||
-      this.fakeSortingColumns.find(col => col.name === name && col.sortable);
+    const column = this.getColumn(name);
 
     if (!column) { return; }
 
@@ -146,6 +148,11 @@ export class SortingController {
 
     this.sortBy(column);
     this.sortDirection(SortingDirection.asc);
+  }
+
+  public getColumn(name: string): Column {
+    return this.sortingColumns.find(col => col.name === name && col.sortable) ||
+    this.fakeSortingColumns.find(col => col.name === name && col.sortable);
   }
 
   /**
