@@ -72,8 +72,8 @@ export class ExternalParamsController {
 
     // Restore from localStorage parameters if persistance enabled
     if (this._persistance.enabled) {
-      this._restorePaginationParams(this._persistance.getDataForScope('paging'));
-      this._restoreSortingParams(this._persistance.getDataForScope('sorting'));
+      this._restorePaginationParams(this._persistance.getDataFromScope('paging'));
+      this._restoreSortingParams(this._persistance.getDataFromScope('sorting'));
     }
 
     // Restore from queryParams and override if persistance already had values for those params
@@ -174,9 +174,9 @@ export class ExternalParamsController {
 
     if (this._persistance.enabled) {
       if (name && direction) {
-        this._persistance.setDataForScope('sorting', { sortName: name, sortDirection: direction});
+        this._persistance.saveDataToScope('sorting', { sortName: name, sortDirection: direction});
       } else {
-        this._persistance.setDataForScope('sorting', null);
+        this._persistance.saveDataToScope('sorting', null);
       }
     }
   }
@@ -194,7 +194,7 @@ export class ExternalParamsController {
     }
 
     if (this._persistance.enabled) {
-      this._persistance.setDataForScope('paging', params);
+      this._persistance.saveDataToScope('paging', params);
     }
   }
 }

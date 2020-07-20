@@ -16,7 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FsScrollService } from '@firestitch/scroll';
-import { FilterComponent, getNormalizedPath } from '@firestitch/filter';
+import { FilterComponent } from '@firestitch/filter';
 import { SelectionDialog } from '@firestitch/selection';
 
 import { Subject } from 'rxjs';
@@ -41,6 +41,7 @@ import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.c
 import { GroupExpandNotifierService } from '../../services/group-expand-notifier.service';
 import { Row } from '../../models/row.model';
 import { PersistanceController } from '../../classes/persistance-controller';
+import { getNormalizedPath } from '@firestitch/common';
 
 
 @Component({
@@ -314,7 +315,7 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   private _restorePersistance(persistConfig: FsListPersitance) {
     const namespace = getNormalizedPath(this._location);
-    this._persistance.configUpdated(persistConfig, namespace, !!this._dialogRef);
+    this._persistance.setConfig(persistConfig, namespace, !!this._dialogRef);
     this._persistance.restore();
   }
 }
