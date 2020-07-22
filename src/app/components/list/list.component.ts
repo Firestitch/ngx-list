@@ -205,11 +205,7 @@ export class FsListComponent implements OnInit, OnDestroy {
   }
 
   public resetSelectionActions() {
-    const ref = this.list.selection.selectionDialogRef;
-
-    if (ref) {
-      ref.resetActions();
-    }
+    this.list.selection.resetActions();
   }
 
   public removeData(data: FsListAbstractRow | FsListAbstractRow[] | FsListTrackByTargetRowFn): boolean {

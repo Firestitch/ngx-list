@@ -528,6 +528,9 @@ export class List extends Model {
         tap(() => {
           this.loading$.next(true);
         }),
+        tap(() => {
+          this.selection?.closeSelectionDialog();
+        }),
         map((params: FsListFetchSubscription) => {
           const query = this.paging.hasOffsetStrategy && params && params.loadOffset
             ? Object.assign({}, this.filtersQuery, this.paging.loadDeletedOffsetQuery)

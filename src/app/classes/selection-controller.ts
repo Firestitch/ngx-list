@@ -27,7 +27,7 @@ export class SelectionController {
   public selectedRows = new Map();
 
   // Reference to selection dialog
-  public selectionDialogRef: SelectionRef = null;
+  private _selectionDialogRef: SelectionRef = null;
 
   private _getRowsData: () => any[];
   private _selectionChange = new Subject<{ type: SelectionChangeType, payload: any }>();
@@ -137,8 +137,8 @@ export class SelectionController {
    * Open selection dialog and create reference
    */
   public openDialog() {
-    if (!this.selectionDialogRef) {
-      this.selectionDialogRef = this._selectionDialog.open({
+    if (!this._selectionDialogRef) {
+      this._selectionDialogRef = this._selectionDialog.open({
         selectAll: this.selectAll,
         allCount: this._totalRecordsCount,
         actions: [...this.actions],
@@ -164,8 +164,8 @@ export class SelectionController {
   public updateTotalRecordsCount(count: number) {
     this._totalRecordsCount = count;
 
-    if (this.selectionDialogRef) {
-      this.selectionDialogRef.updateAllCount(this._totalRecordsCount);
+    if (this._selectionDialogRef) {
+      this._selectionDialogRef.updateAllCount(this._totalRecordsCount);
     }
   }
 
@@ -216,6 +216,15 @@ export class SelectionController {
     })
   }
 
+  // Reset actions to default set
+  public resetActions() {
+    this._selectionDialogRef?.resetActions();
+  }
+
+  public closeSelectionDialog() {
+    this._selectionDialogRef?.close();
+  }
+
   public destroy() {
     this._resetSelection();
 
@@ -224,10 +233,8 @@ export class SelectionController {
     this.allSelectedFn = null;
     this.cancelledFn = null;
 
-    if (this.selectionDialogRef) {
-      this.selectionDialogRef.close();
-    }
-    this.selectionDialogRef = null;
+    this.closeSelectionDialog();
+    this._selectionDialogRef = null;
 
     this._destroy$.next();
     this._destroy$.complete();
@@ -239,7 +246,7 @@ export class SelectionController {
    * Subscribe to selectionRef events
    */
   private _subscribeToSelection() {
-    this.selectionDialogRef.actionSelected$()
+    this._selectionDialogRef.actionSelected$()
       .pipe(
         takeUntil(this._destroy$)
       )
@@ -247,13 +254,13 @@ export class SelectionController {
         this._onActionActions(data);
       });
 
-    this.selectionDialogRef.cancelled$()
+    this._selectionDialogRef.cancelled$()
       .pipe(
         takeUntil(this._destroy$)
       )
       .subscribe(() => this._onCancelActions());
 
-    this.selectionDialogRef.allSelected$()
+    this._selectionDialogRef.allSelected$()
       .pipe(
         takeUntil(this._destroy$)
       )
@@ -286,9 +293,7 @@ export class SelectionController {
         next: () => {
 
           // Close dialog
-          if (this.selectionDialogRef) {
-            this.selectionDialogRef.close();
-          }
+          this.closeSelectionDialog();
 
           // Uncheck all visible rows
           this.selectAllVisibleRows(false);
@@ -308,7 +313,7 @@ export class SelectionController {
       this.cancelledFn();
     }
 
-    this.selectionDialogRef = null;
+    this._selectionDialogRef = null;
   }
 
   /**
@@ -320,7 +325,7 @@ export class SelectionController {
 
     this.selectAllVisibleRows(flag);
 
-    this.selectionDialogRef.updateSelected(this._totalRecordsCount);
+    this._selectionDialogRef.updateSelected(this._totalRecordsCount);
 
     this._selectionChangeEvent(SelectionChangeType.SelectedAll, this._selectedAll);
     this._updateSelectionRefSelectedAll();
@@ -335,7 +340,7 @@ export class SelectionController {
       const result = this.selectionChangedFn(
         Array.from(this.selectedRows.values()),
         this.selectedAll,
-        this.selectionDialogRef,
+        this._selectionDialogRef,
       );
 
       if (result) {
@@ -345,11 +350,11 @@ export class SelectionController {
             takeUntil(this._destroy$),
           ).subscribe({
             next: (actions) => {
-              this.selectionDialogRef.updateActions(actions);
+              this._selectionDialogRef.updateActions(actions);
             }
           });
         } else if (Array.isArray(result)) {
-          this.selectionDialogRef.updateActions(result);
+          this._selectionDialogRef.updateActions(result);
         }
       }
     }
@@ -359,8 +364,13 @@ export class SelectionController {
    * Update in Dialog Ref how much rows was selected
    */
   private _updateSelectionRefSelected() {
-    if (this.selectionDialogRef) {
-      this.selectionDialogRef.updateSelected(this.selectedRows.size);
+    if (this._selectionDialogRef) {
+      this._selectionDialogRef.updateSelected(this.selectedRows.size);
+
+      // S-T1268
+      if (this.selectedRows.size === 0) {
+        this._selectionDialogRef.close();
+      }
     }
     this._selectionChangedActions();
   }
@@ -373,8 +383,8 @@ export class SelectionController {
    *
    */
   private _updateSelectionRefSelectedAll() {
-    if (this.selectionDialogRef) {
-      this.selectionDialogRef.updateSelectedAllStatus(this._selectedAll);
+    if (this._selectionDialogRef) {
+      this._selectionDialogRef.updateSelectedAllStatus(this._selectedAll);
     }
   }
 
