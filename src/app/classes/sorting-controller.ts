@@ -127,6 +127,13 @@ export class SortingController {
       return;
     }
 
+    if (!this.getColumn(sort.value)) {
+      throw Error(`
+        Not possible to do initial sort by "${sort.value}" column.
+        Column with name "${sort.value}" does not exists
+      `);
+    }
+
     this.sortByColumnWithName(sort.value);
 
     const direction = (sort.direction === void 0 || sort.direction === 'asc')
@@ -152,7 +159,7 @@ export class SortingController {
 
   public getColumn(name: string): Column {
     return this.sortingColumns.find(col => col.name === name && col.sortable) ||
-    this.fakeSortingColumns.find(col => col.name === name && col.sortable);
+      this.fakeSortingColumns.find(col => col.name === name && col.sortable);
   }
 
   /**
