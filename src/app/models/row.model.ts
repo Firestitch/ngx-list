@@ -1,3 +1,4 @@
+/*
 import { BehaviorSubject } from 'rxjs';
 import { RowType } from '../enums/row-type.enum';
 
@@ -11,14 +12,21 @@ export class Row {
   public index: number;
 
   private _rowType: RowType;
+  private _parent: Row;
   private _expanded = new BehaviorSubject<boolean>(false);
 
-  constructor(data: any = {}, rowType = RowType.Simple, initialExpand = false) {
+  constructor(
+    data: any = {},
+    rowType = RowType.Simple,
+    parent: Row = null,
+    initialExpand = false,
+  ) {
     this.data = data;
 
     this._rowType = rowType;
     this.isGroup = rowType === RowType.Group;
     this.isChild = rowType === RowType.Child;
+    this._parent = parent;
 
     if (initialExpand) {
       this._expanded.next(initialExpand);
@@ -37,6 +45,10 @@ export class Row {
     return this._rowType;
   }
 
+  get parent() {
+    return this._parent;
+  }
+
   public updateChildrenIndexes() {
     this.children.forEach((row, index) => {
       row.index = index;
@@ -52,3 +64,4 @@ export class Row {
     this._expanded.complete();
   }
 }
+*/

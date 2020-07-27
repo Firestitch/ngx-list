@@ -24,7 +24,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Column } from '../../models/column.model';
 import { ReorderPosition, ReorderStrategy } from '../../classes/reorder-controller';
 import { SelectionController } from '../../classes/selection-controller';
-import { Row } from '../../models/row.model';
+import { Row } from '../../models/row';
 
 import { FsRowComponent } from './row/row.component';
 import { Draggable } from './draggable';

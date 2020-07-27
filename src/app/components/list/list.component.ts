@@ -39,7 +39,7 @@ import {
 } from '../../interfaces';
 import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.component';
 import { GroupExpandNotifierService } from '../../services/group-expand-notifier.service';
-import { Row } from '../../models/row.model';
+import { Row } from '../../models/row';
 import { PersistanceController } from '../../classes/persistance-controller';
 import { getNormalizedPath } from '@firestitch/common';
 import { DrawerRef } from '@firestitch/drawer';

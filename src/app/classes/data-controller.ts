@@ -8,14 +8,16 @@ import {
   FsListGroupConfig,
   FsListTrackByTargetRowFn
 } from '../interfaces/listconfig.interface';
-import { Row } from '../models/row.model';
-import { RowType } from '../enums/row-type.enum';
+import { BaseRow } from '../models/row/base-row';
+import { GroupRow } from '../models/row/group-row';
+import { ChildRow } from '../models/row/child-row';
+import { Row } from '../models/row';
 
 
 export class DataController {
 
-  private readonly _visibleRows$ = new BehaviorSubject<Row[]>([]);
-  private readonly _rowsRemoved$ = new Subject<Row[]>();
+  private readonly _visibleRows$ = new BehaviorSubject<BaseRow[]>([]);
+  private readonly _rowsRemoved$ = new Subject<BaseRow[]>();
   private readonly _remoteRowsChange$ = new Subject<void>();
 
   private _store = new Map();
@@ -323,7 +325,15 @@ export class DataController {
     if (targetIndex !== -1) {
       const updateTarget = this._rowsStack[targetIndex];
       const updatedData = Object.assign({}, updateTarget.data, targetRow);
-      this._rowsStack[targetIndex] = new Row(updatedData, updateTarget.type, updateTarget.expanded);
+
+      this._rowsStack[targetIndex] = new Row(
+        updatedData,
+        updateTarget.type,
+        {
+          parent: updateTarget.parent,
+          initialExpand: updateTarget.expanded,
+        }
+      );
 
       return true;
     }
@@ -366,12 +376,16 @@ export class DataController {
       const mainGroupKey = this._compareByFn(mainGroup);
 
       if (!this._store.has(mainGroupKey)) {
-        const group = new Row(mainGroup, RowType.Group, this._initialExpand);
+        const group = new GroupRow(
+          mainGroup,
+          this._initialExpand
+        );
+
         this._store.set(mainGroupKey, group);
-        group.children.push(new Row(row, RowType.Child));
+        group.children.push(new ChildRow(row, group));
       } else {
         const group = this._store.get(mainGroupKey);
-        group.children.push(new Row(row, RowType.Child));
+        group.children.push(new ChildRow(row, group));
       }
     })
   }

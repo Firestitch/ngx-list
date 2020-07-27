@@ -24,7 +24,7 @@ import { Column } from '../../../models/column.model';
 import { ReorderPosition, ReorderStrategy } from '../../../classes/reorder-controller';
 import { SelectionController, SelectionChangeType } from '../../../classes/selection-controller';
 import { RowAction } from '../../../models/row-action.model';
-import { Row } from '../../../models/row.model';
+import { Row } from '../../../models/row';
 
 
 @Component({

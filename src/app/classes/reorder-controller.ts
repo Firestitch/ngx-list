@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { List } from './list-controller';
 import { FsListReorderDoneCallback, FsListReorderMovedCallback } from '../interfaces';
-import { Row } from '../models/row.model';
+import { Row } from '../models/row';
 
 
 export enum ReorderPosition {
