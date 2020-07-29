@@ -16,10 +16,10 @@ export class FsActionsComponent {
   public menuActions: Action[] = [];
 
   @Input()
-  public manualReorderActivated = false;
+  public manualReorderActivated: boolean | undefined = false;
 
   @Input()
-  public reorderDisabled = false;
+  public reorderDisabled: boolean | undefined = false;
 
   @Output()
   public reorderFinished = new EventEmitter<void>();

@@ -10,7 +10,7 @@ export class Row {
   constructor(
     data: any = {},
     rowType: RowType = RowType.Simple,
-    { parent, initialExpand }: { parent?: GroupRow, initialExpand?: boolean } = null,
+    { parent, initialExpand }: { parent?: GroupRow, initialExpand?: boolean } = {},
   ) {
     switch (rowType) {
       case RowType.Simple: {
@@ -33,6 +33,14 @@ export class Row {
 
   public set index(value: number) {
     this._row.index = value;
+  }
+
+  public get readyToSwap(): boolean {
+    return this._row.readyToSwap;
+  }
+
+  public set readyToSwap(value: boolean) {
+    this._row.readyToSwap = value;
   }
 
   public get data(): any {

@@ -1,11 +1,7 @@
 <!-- Drag -->
-<td class="fs-list-col drag-col"
-    *ngIf="reorderEnabled && reorderPosition === ReorderPosition.Left"
-    (mousedown)="dragStart($event, activeRow)"
-    (touchstart)="dragStart($event, activeRow)"
->
-  <mat-icon>drag_handle</mat-icon>
-</td>
+<ng-container *ngIf="reorderController.leftReorderActivated$ | async">
+  <ng-container *ngTemplateOutlet="dragCell"></ng-container>
+</ng-container>
 
 <!-- Selection -->
 <ng-container *ngIf="selection">
@@ -30,16 +26,12 @@
 </ng-container>
 
 <!-- Drag -->
-<td class="fs-list-col drag-col"
-    *ngIf="reorderEnabled && reorderPosition === ReorderPosition.Right"
-    (mousedown)="dragStart($event, activeRow)"
-    (touchstart)="dragStart($event, activeRow)"
->
-  <mat-icon>drag_handle</mat-icon>
-</td>
+<ng-container *ngIf="reorderController.rightReorderActivated$ | async">
+  <ng-container *ngTemplateOutlet="dragCell"></ng-container>
+</ng-container>
 
 <!-- Row Actions -->
-<td *ngIf="hasRowActions && !(reorderEnabled && reorderStrategy === ReorderStrategy.Manual)" class="fs-list-col row-actions">
+<td *ngIf="hasRowActions && !(reorderController.manualReorderActivated$ | async)" class="fs-list-col row-actions">
   <fs-list-row-actions [row]="row"
                        [rowActions]="rowActions"
                        [menuRowActions]="menuRowActions"
@@ -49,3 +41,17 @@
                        [rowRemoved]="rowRemoved"
   ></fs-list-row-actions>
 </td>
+
+<ng-template #dragCell>
+  <ng-container *ngIf="dragCellVisible; else emptyCell">
+    <td class="fs-list-col drag-col"
+        (mousedown)="dragStart($event)"
+        (touchstart)="dragStart($event)"
+    >
+      <mat-icon>drag_handle</mat-icon>
+    </td>
+  </ng-container>
+  <ng-template #emptyCell>
+    <td class="fs-list-col drag-col"></td>
+  </ng-template>
+</ng-template>

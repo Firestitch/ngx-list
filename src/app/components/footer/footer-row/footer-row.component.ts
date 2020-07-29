@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 
 import { FsRowComponent } from '../../body/row/row.component';
-import { ReorderPosition } from '../../../classes/reorder-controller';
+import { ReorderController, ReorderPosition } from '../../../classes/reorder-controller';
 
 
 @Component({
@@ -22,10 +22,13 @@ export class FsFooterRowComponent extends FsRowComponent {
 
   public readonly ReorderPosition = ReorderPosition;
 
-  constructor(cdRef: ChangeDetectorRef,
-              differs: KeyValueDiffers,
-              el: ElementRef,
-              renderer: Renderer2) {
-    super(el, cdRef, differs, renderer);
+  constructor(
+    el: ElementRef,
+    reorderController: ReorderController,
+    cdRef: ChangeDetectorRef,
+    differs: KeyValueDiffers,
+    renderer: Renderer2
+  ) {
+    super(el, reorderController, cdRef, differs, renderer, null);
   }
 }

@@ -8,7 +8,6 @@ import {
   FsListGroupConfig,
   FsListTrackByTargetRowFn
 } from '../interfaces/listconfig.interface';
-import { BaseRow } from '../models/row/base-row';
 import { GroupRow } from '../models/row/group-row';
 import { ChildRow } from '../models/row/child-row';
 import { Row } from '../models/row';
@@ -16,8 +15,8 @@ import { Row } from '../models/row';
 
 export class DataController {
 
-  private readonly _visibleRows$ = new BehaviorSubject<BaseRow[]>([]);
-  private readonly _rowsRemoved$ = new Subject<BaseRow[]>();
+  private readonly _visibleRows$ = new BehaviorSubject<Row[]>([]);
+  private readonly _rowsRemoved$ = new Subject<Row[]>();
   private readonly _remoteRowsChange$ = new Subject<void>();
 
   private _store = new Map();
@@ -245,7 +244,7 @@ export class DataController {
   }
 
   public updateOrderByRows(rows: Row[]) {
-    this._rowsStack = [...rows];
+    // this._rowsStack = [...rows];
   }
 
   public destroy() {

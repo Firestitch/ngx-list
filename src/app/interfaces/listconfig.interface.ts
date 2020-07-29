@@ -69,6 +69,7 @@ export interface FsListReorderConfig {
   start?: () => void;
   moved?: FsListReorderMovedCallback;
   done?: FsListReorderDoneCallback;
+  moveDrop?: FsListReorderMoveInGroupCallback;
   position?: ReorderPosition;
   strategy?: ReorderStrategy;
   label?: string;
@@ -82,6 +83,9 @@ export interface FsListReorderMovedCallback {
 export interface FsListReorderDoneCallback {
   (rows: FsListAbstractRow[]): void | Observable<any>;
 }
+
+export type FsListReorderMoveInGroupCallback =
+  (data: { row1: any, row2: any, group1: any, group2: any}) => boolean;
 
 export interface FsListHeaderConfig {
   className?: string;

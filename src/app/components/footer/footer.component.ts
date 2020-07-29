@@ -1,30 +1,21 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  ElementRef,
   Input,
-  IterableDiffers,
-  NgZone
 } from '@angular/core';
-import { FsBodyComponent } from '../body/body.component';
+import { Column } from '../../models/column.model';
+import { SelectionController } from '../../classes/selection-controller';
 
 @Component({
   selector: '[fs-list-footer]',
   templateUrl: 'footer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FsFooterComponent extends FsBodyComponent {
+export class FsFooterComponent {
 
   @Input() hasRowActions: boolean;
+  @Input() columns: Column[] = [];
+  @Input() selection: SelectionController;
 
-  constructor(
-    el: ElementRef,
-    cdRef: ChangeDetectorRef,
-    differs: IterableDiffers,
-    zone: NgZone,
-  ) {
-    super(el, cdRef, differs, zone);
-  }
-
+  constructor() {}
 }

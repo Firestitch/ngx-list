@@ -4,7 +4,6 @@
                   'has-heading': list.heading,
                   'has-status': list.status,
                   'has-chips': list.chips,
-                  'has-dragging': dragging,
                   'has-actions': list.actions.actionsList.length }">
   <ng-template [ngTemplateOutlet]="listContainerContent"></ng-template>
 </div>
@@ -15,7 +14,7 @@
     <div class="fs-list-header-container">
 
       <div class="fs-list-header"
-        [ngClass]="{ 'no-wrap': list.reorder?.manualReorderActivated$ || !list.filterConfig?.items.length }">
+        [ngClass]="{ 'no-wrap': reorderController.manualReorderActivated$ || !list.filterConfig?.items.length }">
 
         <!-- Actions -->
         <fs-list-actions
@@ -23,8 +22,8 @@
           *ngIf="list.actions.actionsList.length"
           [menuActions]="list.actions.menuActions"
           [kebabActions]="list.actions.kebabActions"
-          [manualReorderActivated]="list.reorder?.manualReorderActivated$ | async"
-          [reorderDisabled]="list.reorder?.reorderDisabled$ | async"
+          [manualReorderActivated]="reorderController.manualReorderActivated$ | async"
+          [reorderDisabled]="reorderController.reorderDisabled$ | async"
           (reorderFinished)="reorderFinish()">
         </fs-list-actions>
         <!-- /Actions -->
@@ -36,7 +35,7 @@
         <fs-filter
           class="fs-list-filter"
           *ngIf="list.filterConfig"
-          [hidden]="!list.filterConfig?.items.length || (list.reorder?.manualReorderActivated$ | async)"
+          [hidden]="!list.filterConfig?.items.length || (reorderController.manualReorderActivated$ | async)"
           [filter]="list.filterConfig"
           [sortUpdate]="list?.sorting?.sortingChanged$"
           [showSortBy]="!list.status"
@@ -46,8 +45,8 @@
             fsFilterStatusBar
             [ngIf]="
               list.paging &&
-              !(list.reorder?.manualReorderActivated$ | async) &&
-              (!list.reorder?.enabled || list.reorder?.status) &&
+              !(reorderController.manualReorderActivated$ | async) &&
+              (!reorderController.enabled || reorderController.status) &&
               ((list.scrollable && list.scrollable.status) || !list.scrollable) &&
               listData.length > 0">
             <!-- Status -->
@@ -76,16 +75,14 @@
                [sorting]="list.sorting"
                [selection]="list.selection"
                [hasRowActions]="list.hasRowActions"
-               [reorderEnabled]="list.reorder?.enabled"
-               [reorderPosition]="list.reorder?.position"
-               [reorderStrategy]="list.reorder?.strategy"
         >
         </thead>
 
         <tbody fs-list-body
+               fsListDraggableList
                class="fs-list-body"
                role="rowgroup"
-               [class.loading]="(list.loading$ | async) || (list.reorder?.reorderDisabled$ | async)"
+               [class.loading]="(list.loading$ | async) || (reorderController.reorderDisabled$ | async)"
                [rows]="listData"
                [rowActionsRaw]="list.rowActionsRaw"
                [groupActionsRaw]="list.groupActionsRaw"
@@ -93,11 +90,6 @@
                [rowEvents]="list.rowEvents"
                [rowClass]="list.rowClass"
                [columns]="list.columns.visibleColumns"
-               [reorderEnabled]="list.reorder?.enabled"
-               [reorderPosition]="list.reorder?.position"
-               [reorderStrategy]="list.reorder?.strategy"
-               (dragStart)="dragStarted()"
-               (dragEnd)="dragEnded($event)"
                [restoreMode]="list.restoreMode"
                [selection]="list.selection"
                [rowRemoved]="rowRemoved"
@@ -109,9 +101,6 @@
                *ngIf="list.columns.hasFooter"
                [columns]="list.columns.visibleColumns"
                [selection]="list.selection"
-               [reorderEnabled]="list.reorder?.enabled"
-               [reorderPosition]="list.reorder?.position"
-               [reorderStrategy]="list.reorder?.strategy"
                [hasRowActions]="list.hasRowActions">
         </tfoot>
       </table>

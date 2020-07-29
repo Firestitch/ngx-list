@@ -3,6 +3,7 @@ import { RowType } from '../../enums/row-type.enum';
 export abstract class BaseRow {
 
   public index: number;
+  public readyToSwap = true;
 
   protected readonly _rowType: RowType;
 

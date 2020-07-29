@@ -14,7 +14,11 @@ import { filter, takeUntil } from 'rxjs/operators';
 
 import { Column } from '../../models/column.model';
 import { SortingController } from '../../classes/sorting-controller';
-import { ReorderPosition, ReorderStrategy } from '../../classes/reorder-controller';
+import {
+  ReorderController,
+  ReorderPosition,
+  ReorderStrategy
+} from '../../classes/reorder-controller';
 import { SelectionController, SelectionChangeType } from '../../classes/selection-controller';
 
 
@@ -27,9 +31,6 @@ export class FsHeadComponent implements OnInit, OnDestroy {
   @Input() sorting: SortingController;
   @Input() columns: Column[];
   @Input() hasRowActions: boolean;
-  @Input() reorderEnabled: boolean;
-  @Input() reorderPosition: ReorderPosition;
-  @Input() reorderStrategy: ReorderStrategy;
   @Input() selection: SelectionController;
 
   @ViewChild('rowsContainer', { read: ViewContainerRef, static: true }) rowsContainer;
@@ -40,7 +41,10 @@ export class FsHeadComponent implements OnInit, OnDestroy {
 
   private _destroy$ = new Subject();
 
-  constructor(private cdRef: ChangeDetectorRef) {}
+  constructor(
+    public reorderController: ReorderController,
+    private cdRef: ChangeDetectorRef,
+  ) {}
 
   public ngOnInit() {
     this.initSorting();
