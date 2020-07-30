@@ -59,7 +59,9 @@ export class FsStatusComponent implements OnInit, OnDestroy {
   }
 
   public setSortableColumn(column) {
-    this.sorting.sortBy(column);
+    if (this.sorting.sortingColumn !== column) {
+      this.sorting.sortBy(column);
+    }
   }
 
   public setLimit(limit) {

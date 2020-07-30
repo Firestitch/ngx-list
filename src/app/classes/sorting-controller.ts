@@ -182,7 +182,7 @@ export class SortingController {
     } else {
       [...this.fakeSortingColumns, ...this.sortingColumns]
         .filter((col) => col.ordered)
-        .map((col) => col.ordered = false);
+        .forEach((col) => col.ordered = false);
 
       column.ordered = true;
     }
