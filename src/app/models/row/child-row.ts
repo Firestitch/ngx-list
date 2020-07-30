@@ -1,10 +1,10 @@
-import { BehaviorSubject } from 'rxjs';
 import { BaseRow } from './base-row';
 import { RowType } from '../../enums/row-type.enum';
 import { GroupRow } from './group-row';
 
 export class ChildRow extends BaseRow {
 
+  public visible = true;
   private readonly _parent: GroupRow;
 
   constructor(
@@ -14,6 +14,11 @@ export class ChildRow extends BaseRow {
     super(data, RowType.Child);
 
     this._parent = parent;
+
+    if (this.parent) {
+      this.visible = this._parent.expanded;
+      this.index = this.parent.children.length;
+    }
   }
 
   public get parent(): GroupRow {

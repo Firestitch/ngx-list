@@ -35,11 +35,19 @@ export class GroupRow extends BaseRow {
   public updateChildrenIndexes() {
     this.children.forEach((row, index) => {
       row.index = index;
+    });
+  }
+
+  public updateChildrenVisibility() {
+    this.children.forEach((row) => {
+      row.visible = this.expanded;
     })
   }
 
   public toggleRowExpandStatus() {
     this._expanded.next(!this.expanded);
+
+    this.updateChildrenVisibility();
   }
 
   public destroy() {

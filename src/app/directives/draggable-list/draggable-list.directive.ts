@@ -138,16 +138,16 @@ export class FsListDraggableListDirective {
 
     ///
     if (this._reorderController.movedCallback) {
-      this._reorderController.movedCallback(this._reorderController.dataController.visibleRowsData);
+      this._reorderController.movedCallback(this._reorderController.dataController.rowsStack);
     }
 
     if (this._reorderController.strategy === ReorderStrategy.Always) {
       if (this._reorderController.doneCallback) {
-        this._reorderController.doneCallback(this._reorderController.dataController.visibleRowsData);
+        this._reorderController.doneCallback(this._reorderController.dataController.rowsStack);
       }
     }
 
-    this._reorderController.dataController.updateOrderByRows(this._rows);
+    // this._reorderController.dataController.updateOrderByRows(this._rows);
     ///
 
     this._draggableElement.classList.remove('draggable-elem');
@@ -260,6 +260,12 @@ export class FsListDraggableListDirective {
   private swapWithIndex(index) {
     const activeIndex = this._draggableElementIndex;
 
+    // Swap rows in global rows stack
+    this._reorderController
+      .dataController
+      .swapRows(this._rows[activeIndex] , this._rows[index]);
+
+    // Swap visible rows
     const activeRow = this._rows[activeIndex];
     this._rows[activeIndex] = this._rows[index];
     this._rows[index] = activeRow;

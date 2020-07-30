@@ -49,6 +49,10 @@ export class DataController {
     return this.visibleRows.map((row) => row.data);
   }
 
+  get rowsStack() {
+    return this._rowsStack.slice();
+  }
+
   get groupEnabled() {
     return this._groupEnabled;
   }
@@ -243,8 +247,17 @@ export class DataController {
     return !!removedRows.length;
   }
 
-  public updateOrderByRows(rows: Row[]) {
-    // this._rowsStack = [...rows];
+  public swapRows(row1, row2) {
+    let tmpEl;
+    const rowsStack = this._rowsStack;
+    const row1GlobalIndex = rowsStack.indexOf(row1);
+    const row2GlobalIndex = rowsStack.indexOf(row2);
+
+    tmpEl = rowsStack[row1GlobalIndex];
+    rowsStack[row1GlobalIndex] = rowsStack[row2GlobalIndex];
+    rowsStack[row2GlobalIndex] = tmpEl;
+
+    this._rowsStack = [ ...rowsStack ];
   }
 
   public destroy() {
@@ -268,8 +281,7 @@ export class DataController {
 
     if (this.groupEnabled) {
       this._store.clear();
-      this.groupRowsBy(rows);
-      this._rowsStack = [...this._store.values()];
+      this._rowsStack = [...this.groupRowsBy(rows)];
     } else {
       rows = rows.map((row) => new Row(row));
       this._rowsStack = [...rows];
@@ -278,8 +290,7 @@ export class DataController {
 
   private _extendRowsStack(rows) {
     if (this.groupEnabled) {
-      this.groupRowsBy(rows);
-      this._rowsStack = [...<any>this._store.values()];
+      this._rowsStack = [...this.groupRowsBy(rows)];
     } else {
       rows = rows.map((row) => new Row(row));
       this._rowsStack = [...this._rowsStack, ...rows];
@@ -291,22 +302,10 @@ export class DataController {
   }
 
   private _updateVisibleRows() {
-    const visibleRows = [];
-    let groupIndex = 0;
-
-    this._rowsStack.forEach((row) => {
-      visibleRows.push(row);
-
-      if (row.isGroup && row.expanded) {
-        row.index = groupIndex;
-        groupIndex++;
-
-        row.updateChildrenIndexes();
-        visibleRows.push(...row.children);
-      }
-    });
-
-    this.visibleRows = visibleRows;
+    this.visibleRows = this._rowsStack
+      .filter((row) => {
+        return !row.isChild || row.visible;
+      });
   }
 
   private updateRow(
@@ -370,6 +369,8 @@ export class DataController {
   private groupRowsBy(rows) {
     if (!this._groupByFn || !this._compareByFn) { return rows }
 
+    let numberOfGroups = 0;
+
     rows.forEach((row) => {
       const mainGroup = this._groupByFn(row);
       const mainGroupKey = this._compareByFn(mainGroup);
@@ -377,15 +378,34 @@ export class DataController {
       if (!this._store.has(mainGroupKey)) {
         const group = new GroupRow(
           mainGroup,
-          this._initialExpand
+          this._initialExpand,
         );
 
+        group.index = numberOfGroups;
+        numberOfGroups++;
+
+        const childRow = new ChildRow(row, group);
+
         this._store.set(mainGroupKey, group);
-        group.children.push(new ChildRow(row, group));
+        group.children.push(childRow);
       } else {
         const group = this._store.get(mainGroupKey);
-        group.children.push(new ChildRow(row, group));
+        const childRow = new ChildRow(row, group);
+
+        group.children.push(childRow);
       }
-    })
+    });
+
+
+    return Array.from(this._store.values())
+      .reduce((acc, item) => {
+        if (item.isGroup) {
+          acc.push(item, ...item.children);
+        } else {
+          acc.push(item);
+        }
+
+        return acc;
+      }, []);
   }
 }
