@@ -1,5 +1,6 @@
 <ng-container *ngFor="let row of rows; let i = index;">
   <tr fs-list-row
+      fsListDraggableRow
       [row]="row"
       [rowIndex]="i"
       [columns]="columns"
@@ -8,14 +9,9 @@
       [hasRowActions]="hasRowActions"
       [rowEvents]="rowEvents"
       [rowClass]="rowClass"
-      [reorderEnabled]="reorderEnabled"
-      [reorderPosition]="reorderPosition"
-      [reorderStrategy]="reorderStrategy"
       [selection]="selection"
       [restoreMode]="restoreMode"
-      [ngClass]="{ 'drag-row': reorderEnabled }"
-      [dragStart]="startDrag"
-      [activeRow]="activeRow"
+      [ngClass]="{ 'drag-row': reorderContoller.enabled }"
       [rowRemoved]="rowRemoved"
       #activeRow>
   </tr>

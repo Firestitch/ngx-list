@@ -6,6 +6,13 @@
     display: block;
     width: 100%;
 
+    .fs-list-swap-restricted {
+      opacity: 0.4;
+    }
+
+    .fs-list-no-drop {
+      cursor: no-drop;
+    }
 
     .fs-filter {
       margin-bottom: 0;
@@ -217,9 +224,9 @@
         &.draggable {
           position: fixed;
           z-index: 9999;
-          box-shadow: 2px 2px 2px 0px rgba(158,158,158,0.65);
+          box-shadow: 2px 2px 2px 0 rgba(158,158,158,0.65);
           border-radius: 5px;
-          width: auto !important;
+          //width: auto !important;
 
           td,
           .fs-list-col {

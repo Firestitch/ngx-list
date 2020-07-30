@@ -1,5 +1,7 @@
+import { TemplateRef } from '@angular/core';
+
 import { Alias, Model } from 'tsmodels';
-import { ElementRef, TemplateRef } from '@angular/core';
+
 import { isObject, isBoolean } from 'lodash-es';
 
 import { StyleConfig } from './styleConfig.model';

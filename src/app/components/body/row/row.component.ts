@@ -18,13 +18,18 @@ import {
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
 import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, map, takeUntil } from 'rxjs/operators';
 
 import { Column } from '../../../models/column.model';
-import { ReorderPosition, ReorderStrategy } from '../../../classes/reorder-controller';
+import {
+  ReorderController,
+  ReorderPosition,
+  ReorderStrategy
+} from '../../../classes/reorder-controller';
 import { SelectionController, SelectionChangeType } from '../../../classes/selection-controller';
 import { RowAction } from '../../../models/row-action.model';
-import { Row } from '../../../models/row.model';
+import { Row } from '../../../models/row';
+import { FsListDraggableListDirective } from '../../../directives/draggable-list/draggable-list.directive';
 
 
 @Component({
@@ -48,16 +53,9 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   @Input() public rowIndex: number;
   @Input() public columns: Column[];
   @Input() public selection: SelectionController;
-  @Input() public reorderEnabled: boolean;
-  @Input() public reorderStrategy: ReorderStrategy;
-  @Input() public reorderPosition: ReorderPosition;
-
-  @Input() public dragStart: any;
-  @Input() public activeRow: TemplateRef<any>;
 
   @Input() public rowRemoved: EventEmitter<any>;
 
-  // @Output() public stopDragging = new EventEmitter();
 
   @ViewChildren('td')
   public cellRefs;
@@ -79,10 +77,14 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   private _destroy$ = new Subject();
 
-  constructor(public el: ElementRef,
-              private _cdRef: ChangeDetectorRef,
-              private _differs: KeyValueDiffers,
-              private _renderer: Renderer2) {
+  constructor(
+    public el: ElementRef,
+    public reorderController: ReorderController,
+    private _cdRef: ChangeDetectorRef,
+    private _differs: KeyValueDiffers,
+    private _renderer: Renderer2,
+    private _draggableList: FsListDraggableListDirective,
+  ) {
     this._rowDiffer = _differs.find({}).create();
   }
 
@@ -109,6 +111,10 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     }
 
     return cls;
+  }
+
+  public get dragCellVisible(): boolean {
+    return !this.row.isGroup;
   }
 
   public ngOnInit() {
@@ -168,6 +174,15 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     return index;
   }
 
+  public dragStart(event) {
+    if (this.reorderController.enabled) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      this._draggableList.dragStart(this.el.nativeElement);
+    }
+  }
+
   /**
    * Set event listeners for row
    */
@@ -178,7 +193,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
           evt.preventDefault();
           evt.stopPropagation();
 
-          if (!this.reorderEnabled) {
+          if (!this.reorderController.enabled) {
             this.rowEvents[event]({
               event: evt,
               row: this.row.data,

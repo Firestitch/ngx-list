@@ -1,4 +1,4 @@
-<td *ngIf="reorderEnabled && reorderPosition === ReorderPosition.Left" class="fs-list-col drag-col"></td>
+<td *ngIf="reorderController.leftReorderActivated$ | async" class="fs-list-col drag-col"></td>
 
 <td *ngIf="selection" class="fs-list-col fs-list-col-selection"></td>
 <ng-container *ngFor="let column of columns; trackBy: trackByFn">
@@ -14,7 +14,7 @@
 </ng-container>
 
 <!-- Drag -->
-<td *ngIf="reorderEnabled && reorderPosition === ReorderPosition.Right" class="fs-list-col row-actions"></td>
+<td *ngIf="reorderController.rightReorderActivated$ | async" class="fs-list-col row-actions"></td>
 
 <!-- Row Actions -->
-<td *ngIf="hasRowActions && !(reorderEnabled && reorderStrategy === ReorderStrategy.Manual)" class="fs-list-col drag-col"></td>
+<td *ngIf="hasRowActions && !(reorderController.enabled && reorderController.strategy === ReorderStrategy.Manual)" class="fs-list-col drag-col"></td>

@@ -15,17 +15,20 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { FsScrollService } from '@firestitch/scroll';
-import { FilterComponent } from '@firestitch/filter';
-import { SelectionDialog } from '@firestitch/selection';
 
 import { Subject } from 'rxjs';
 import { filter, skip, take, takeUntil } from 'rxjs/operators';
 
+import { FsScrollService } from '@firestitch/scroll';
+import { FilterComponent } from '@firestitch/filter';
+import { SelectionDialog } from '@firestitch/selection';
+import { getNormalizedPath } from '@firestitch/common';
+import { DrawerRef } from '@firestitch/drawer';
+
 import { cloneDeep, mergeWith } from 'lodash-es';
 
 import { List } from '../../classes/list-controller';
-import { ReorderStrategy } from '../../classes/reorder-controller';
+import { ReorderController } from '../../classes/reorder-controller';
 
 import { FsListColumnDirective } from '../../directives/column/column.directive';
 import { FS_LIST_DEFAULT_CONFIG } from '../../fs-list.providers';
@@ -39,10 +42,7 @@ import {
 } from '../../interfaces';
 import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.component';
 import { GroupExpandNotifierService } from '../../services/group-expand-notifier.service';
-import { Row } from '../../models/row.model';
 import { PersistanceController } from '../../classes/persistance-controller';
-import { getNormalizedPath } from '@firestitch/common';
-import { DrawerRef } from '@firestitch/drawer';
 
 
 @Component({
@@ -55,6 +55,7 @@ import { DrawerRef } from '@firestitch/drawer';
   providers: [
     GroupExpandNotifierService,
     PersistanceController,
+    ReorderController,
   ]
 })
 export class FsListComponent implements OnInit, OnDestroy {
@@ -84,6 +85,12 @@ export class FsListComponent implements OnInit, OnDestroy {
       this._inDialog,
     );
 
+    this.reorderController.initWithConfig(
+      config.reorder,
+      this.list.dataController,
+      this.list.actions,
+    );
+
     if (this.listColumnDirectives) {
       this.list.tranformTemplatesToColumns(this.listColumnDirectives);
     }
@@ -94,10 +101,9 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   // Event will fired if action remove: true will clicked
   public rowRemoved = new EventEmitter();
-  public dragging = false;
   public firstLoad = true;
 
-  public readonly ReorderStrategy = ReorderStrategy;
+  // public readonly ReorderStrategy = ReorderStrategy;
 
   private _inDialog = !!this._dialogRef || !!this._drawerRef;
 
@@ -119,6 +125,7 @@ export class FsListComponent implements OnInit, OnDestroy {
   }
 
   constructor(
+    public reorderController: ReorderController,
     private _el: ElementRef,
     @Inject(FS_LIST_DEFAULT_CONFIG) private _defaultOptions,
     private fsScroll: FsScrollService,
@@ -221,11 +228,11 @@ export class FsListComponent implements OnInit, OnDestroy {
   }
 
   public reorderStart() {
-    this.list.reorder.enableReorder();
+    this.reorderController.enableReorder();
   }
 
   public reorderFinish() {
-    this.list.reorder.disableReorder();
+    this.reorderController.disableReorder();
   }
 
   public setActions(actions: FsListAction[]) {
@@ -233,16 +240,6 @@ export class FsListComponent implements OnInit, OnDestroy {
       this.list.actions.clearActions();
       this.list.actions.setActions(actions);
     }
-  }
-
-  public dragStarted() {
-    this.dragging = true;
-    this.list.reorder.dragStart();
-  }
-
-  public dragEnded(rows: Row[]) {
-    this.dragging = false;
-    this.list.reorder.dragEnd(rows);
   }
 
   private _initCustomizableAction() {

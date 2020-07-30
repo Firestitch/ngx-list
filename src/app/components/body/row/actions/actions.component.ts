@@ -12,7 +12,7 @@ import { take, takeUntil } from 'rxjs/operators';
 import { FsPrompt } from '@firestitch/prompt';
 
 import { RowAction } from '../../../../models/row-action.model';
-import { Row } from '../../../../models/row.model';
+import { Row } from '../../../../models/row';
 
 
 @Component({

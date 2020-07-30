@@ -36,7 +36,6 @@ import {
   PageChange
 } from '../interfaces';
 import { StyleConfig } from '../models/styleConfig.model';
-import { Action } from '../models/action.model';
 import { RowAction } from '../models/row-action.model';
 import { ColumnsController } from './columns-controller';
 import { PageChangeType } from '../enums/page-change-type.enum';
@@ -44,7 +43,6 @@ import { ActionsController } from './index';
 import { DataController } from './data-controller';
 import { PaginationController } from './pagination-controller';
 import { SelectionController } from './selection-controller';
-import { ReorderController, ReorderStrategy } from './reorder-controller';
 import { SortingController } from './sorting-controller';
 
 import { Operation } from '../enums/operation.enum';
@@ -70,7 +68,6 @@ export class List extends Model {
   @Alias() public filters = [];
   @Alias() public scrollable: FsListScrollableConfig | false = false;
   @Alias() public noResults: FsListNoResultsConfig;
-  public reorder: ReorderController;
   // @Alias() public initialFetch = true; //TODO fixme
   @Alias('fetch') public fetchFn: any;
   // @Alias('rows') private _rows: any;
@@ -336,10 +333,6 @@ export class List extends Model {
       this.filterConfig = null;
     }
 
-    if (this.reorder) {
-      this.reorder.destroy();
-    }
-
     if (this.externalParams) {
       this.externalParams.destroy()
     }
@@ -359,7 +352,6 @@ export class List extends Model {
   private initialize(config: FsListConfig) {
     this.columns.initConfig(config.column);
     this.initDefaultOptions(config);
-    this.initReoder(config);
     this.initRestore();
     this.initActions(config.actions);
     this.initPaging(config.paging, config.loadMore);
@@ -403,28 +395,6 @@ export class List extends Model {
     }
     if (!config.trackBy) {
       this.trackBy = 'id';
-    }
-  }
-
-  /**
-   * Init reorder action button (must be on first place)
-   */
-  private initReoder(config) {
-    if (config.reorder) {
-      this.reorder = new ReorderController(this, config.reorder);
-
-      if (this.reorder.strategy === ReorderStrategy.Manual) {
-        const action = new Action({
-          label: this.reorder.label || 'Reorder',
-          menu: this.reorder.menu,
-          primary: false,
-          click: () => {
-            this.reorder.enableReorder();
-          }
-        });
-
-        this.actions.addReorderAction(action);
-      }
     }
   }
 

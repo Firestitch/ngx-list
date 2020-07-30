@@ -5,7 +5,7 @@ import {
   FsListConfig,
   PaginationStrategy,
   FsListComponent,
-  FsListAbstractRow
+  FsListAbstractRow, ReorderPosition, ReorderStrategy
 } from '@firestitch/list';
 import { map } from 'rxjs/operators';
 
@@ -61,6 +61,24 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
           }
         }
       ],
+      reorder: {
+        moveDrop: ({ row1, row2, group1, group2 }) => {
+          console.log(row1, row2, group1, group2);
+
+          return group1 === group2;
+        },
+        position: ReorderPosition.Left,
+        strategy: ReorderStrategy.Always,
+        start: () => {
+          console.log('reorder started');
+        },
+        moved: (data) => {
+          console.log('reorder moved', data);
+        },
+        done: (data) => {
+          console.log('reorder finished', data);
+        }
+      },
       group: {
         groupBy: (row) => {
           return row.group;

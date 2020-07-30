@@ -1,12 +1,17 @@
-import { Alias, Model } from 'tsmodels';
+import { Injectable, OnDestroy } from '@angular/core';
 
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, map, shareReplay, takeUntil } from 'rxjs/operators';
 
-import { List } from './list-controller';
-import { FsListReorderDoneCallback, FsListReorderMovedCallback } from '../interfaces';
-import { Row } from '../models/row.model';
+import {
+  FsListReorderDoneCallback,
+  FsListReorderMovedCallback,
+  FsListReorderMoveInGroupCallback
+} from '../interfaces';
 
+import { DataController } from './data-controller';
+import { ActionsController } from './actions-controller';
+import { Action } from '../models/action.model';
 
 export enum ReorderPosition {
   Left = 'left',
@@ -19,91 +24,111 @@ export enum ReorderStrategy {
   Custom = 'custom',
 }
 
+@Injectable()
+export class ReorderController implements OnDestroy {
 
-export class ReorderController extends Model {
-  @Alias() public start: () => void | Observable<void>;
-  @Alias() public moved: FsListReorderMovedCallback;
-  @Alias() public done: FsListReorderDoneCallback;
-  @Alias() public status: boolean;
-  @Alias() public label: string;
-  @Alias() public menu: boolean;
-  @Alias() public position: ReorderPosition;
-  @Alias() public strategy: ReorderStrategy;
+  public startCallback: () => void | Observable<void>;
+  public movedCallback: FsListReorderMovedCallback;
+  public doneCallback: FsListReorderDoneCallback;
+  public moveDropCallback: FsListReorderMoveInGroupCallback;
 
-  private _enabled = false;
+  public status: boolean;
+  public label: string;
+  public menu: boolean;
+  public position: ReorderPosition;
+  public strategy: ReorderStrategy;
+
+  private _dataController: DataController;
+
+  private _enabled$ = new BehaviorSubject<boolean>(false);
   private _manualReorderActivated$ = new BehaviorSubject(false);
   private _reorderDisabled$ = new BehaviorSubject(false);
+
   private _destroy$ = new Subject();
 
-  constructor(private _list: List, data: any = {}) {
-    super();
+  constructor() {}
 
-    this._fromJSON(data);
+  public get enabled() {
+    return this._enabled$.getValue();
   }
 
-  get enabled() {
-    return this._enabled;
-  }
-
-  set enabled(value) {
-    this._enabled = value;
+  public set enabled(value) {
+    this._enabled$.next(value);
 
     this._manualReorderActivated$.next(this.enabled && this.strategy === ReorderStrategy.Manual);
   }
 
-  get manualReorderActivated$() {
+  public get dataController() {
+    return this._dataController;
+  }
+
+  public get manualReorderActivated$(): Observable<boolean> {
     return this._manualReorderActivated$.asObservable();
   }
 
-  get reorderDisabled$() {
+  public get leftReorderActivated$(): Observable<boolean> {
+    return this._enabled$
+      .pipe(
+        map((enabled) => {
+          return enabled && this.position === ReorderPosition.Left;
+        }),
+        distinctUntilChanged(),
+        shareReplay(),
+        takeUntil(this._destroy$),
+      )
+  }
+
+  public get rightReorderActivated$(): Observable<boolean> {
+    return this._enabled$
+      .pipe(
+        map((enabled) => {
+          return enabled && this.position === ReorderPosition.Right;
+        }),
+        distinctUntilChanged(),
+        shareReplay(),
+        takeUntil(this._destroy$),
+      )
+  }
+
+  public get reorderDisabled$(): Observable<boolean> {
     return this._reorderDisabled$.asObservable();
   }
 
-  public _fromJSON(data) {
-    super._fromJSON(data);
+  public initWithConfig(data, dataController: DataController, actionsController: ActionsController) {
+    if (!data) { return }
 
-    if (data.menu === void 0) { // FIXME must be fixed after tsmodels defaults will be released
-      this.menu = true;
-    }
+    this.menu = data.menu ?? true;
+    this.position = data.position ?? ReorderPosition.Left;
+    this.strategy = data.strategy ?? ReorderStrategy.Manual;
+    this.status = data.status ?? true;
+    this.label = data.label;
 
-    if (data.position === void 0) {
-      this.position = ReorderPosition.Left;
-    }
+    this.startCallback = data.start;
+    this.movedCallback = data.moved;
+    this.doneCallback = data.done;
+    this.moveDropCallback = data.moveDrop;
 
-    if (data.strategy === void 0) {
-      this.strategy = ReorderStrategy.Manual;
-    } else if (data.strategy === ReorderStrategy.Always) {
-      this.enableReorder();
-    }
-
-    if (data.status === void 0) {
-      this.status = true;
-    }
-  }
-
-  public dragStart() {
-    if (this.start && this.strategy === ReorderStrategy.Always) {
-      this.start();
-    }
-  }
-
-  public dragEnd(rows: Row[]) {
-    if (this.moved) {
-      this.moved(this._list.dataController.visibleRowsData);
-    }
+    this._dataController = dataController;
 
     if (this.strategy === ReorderStrategy.Always) {
-      if (this.done) {
-        this.done(this._list.dataController.visibleRowsData);
-      }
-    }
+      this.enableReorder();
+    } else if (this.strategy === ReorderStrategy.Manual) {
+      const action = new Action({
+        label: this.label || 'Reorder',
+        menu: this.menu,
+        primary: false,
+        click: () => {
+          this.enableReorder();
+        }
+      });
 
-    this._list.dataController.updateOrderByRows(rows);
+      actionsController.addReorderAction(action);
+    }
   }
 
   public enableReorder() {
     if (this.strategy === ReorderStrategy.Manual || this.strategy === ReorderStrategy.Custom) {
-      const returnedValue = this.start();
+      const returnedValue = this.startCallback();
 
       if (returnedValue && returnedValue instanceof Observable) {
         this._reorderDisabled$.next(true);
@@ -149,12 +174,12 @@ export class ReorderController extends Model {
    * Exec end callback
    */
   public reorderFinished() {
-    if (this.done) {
-      return this.done(this._list.dataController.visibleRowsData);
+    if (this.doneCallback) {
+      return this.doneCallback(this._dataController.visibleRowsData);
     }
   }
 
-  public destroy() {
+  public ngOnDestroy() {
     this._destroy$.next();
     this._destroy$.complete();
   }

@@ -10,7 +10,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { Column } from '../../../../models/column.model';
-import { Row } from '../../../../models/row.model';
+import { Row } from '../../../../models/row';
 
 
 @Component({
