@@ -9,6 +9,7 @@ import { IFilterConfigItem, IFilterConfigDateItem, FsFilterPersistance } from '@
 import { ActionType } from '../enums/button-type.enum';
 import { ReorderPosition, ReorderStrategy } from '../classes/reorder-controller';
 import { PaginationStrategy } from '../enums/pagination-strategy.enum';
+import { RowType } from '../enums/row-type.enum';
 
 
 export interface FsPaging {
@@ -76,12 +77,16 @@ export interface FsListReorderConfig {
   menu?: boolean;
 }
 
-export interface FsListReorderMovedCallback {
-  (rows: FsListAbstractRow[]): void;
-}
+export type FsListReorderMovedCallback
+  = <TData, TParent>(rows: FsListReorderData<TData, TParent>[]) => void;
 
-export interface FsListReorderDoneCallback {
-  (rows: FsListAbstractRow[]): void | Observable<any>;
+export type FsListReorderDoneCallback
+  = <TData, TParent>(rows: FsListReorderData<TData, TParent>[]) => void | Observable<any>;
+
+export interface FsListReorderData<TData, TParent = any> {
+  type: RowType,
+  data: TData,
+  parent: FsListReorderData<TParent>,
 }
 
 export type FsListReorderMoveInGroupCallback =

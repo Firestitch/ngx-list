@@ -138,12 +138,16 @@ export class FsListDraggableListDirective {
 
     ///
     if (this._reorderController.movedCallback) {
-      this._reorderController.movedCallback(this._reorderController.dataController.rowsStack);
+      this._reorderController.movedCallback(
+        this._reorderController.dataController.reorderData
+      );
     }
 
     if (this._reorderController.strategy === ReorderStrategy.Always) {
       if (this._reorderController.doneCallback) {
-        this._reorderController.doneCallback(this._reorderController.dataController.rowsStack);
+        this._reorderController.doneCallback(
+          this._reorderController.dataController.reorderData
+        );
       }
     }
 

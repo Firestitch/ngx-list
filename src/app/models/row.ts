@@ -2,6 +2,7 @@ import { RowType } from '../enums/row-type.enum';
 import { ChildRow } from './row/child-row';
 import { GroupRow } from './row/group-row';
 import { SimpleRow } from './row/simple-row';
+import { FsListReorderData } from '../interfaces';
 
 export class Row {
 
@@ -85,6 +86,10 @@ export class Row {
 
   public toggleRowExpandStatus() {
     (this._row as GroupRow).toggleRowExpandStatus();
+  }
+
+  public getReorderData(): FsListReorderData<unknown> {
+    return this._row.getReorderData();
   }
 
   public destroy() {

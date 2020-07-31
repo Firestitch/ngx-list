@@ -94,6 +94,11 @@ export class DataController {
     return this._compareByFn && this._groupByFn;
   }
 
+  get reorderData() {
+    return this._rowsStack
+      .map((row) => row.getReorderData());
+  }
+
   public setGroupConfig(group: FsListGroupConfig) {
     if (group) {
       this._groupByFn = group.groupBy;

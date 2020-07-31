@@ -1,6 +1,8 @@
 import { BaseRow } from './base-row';
 import { RowType } from '../../enums/row-type.enum';
 import { GroupRow } from './group-row';
+import { FsListReorderData } from '../../interfaces';
+
 
 export class ChildRow extends BaseRow {
 
@@ -27,6 +29,15 @@ export class ChildRow extends BaseRow {
 
   public get isChild(): boolean {
     return true;
+  }
+
+
+  public getReorderData(): FsListReorderData<unknown> {
+    return {
+      type: this._rowType,
+      data: this.data,
+      parent: this.parent.getReorderData(),
+    }
   }
 
   public destroy() {}

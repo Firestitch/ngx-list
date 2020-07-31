@@ -1,4 +1,5 @@
 import { RowType } from '../../enums/row-type.enum';
+import { FsListReorderData } from '../../interfaces';
 
 export abstract class BaseRow {
 
@@ -25,6 +26,13 @@ export abstract class BaseRow {
     return this._rowType;
   }
 
+  public getReorderData(): FsListReorderData<unknown> {
+    return {
+      type: this._rowType,
+      data: this.data,
+      parent: null,
+    }
+  }
 
   public abstract destroy();
 }

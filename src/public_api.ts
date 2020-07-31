@@ -56,7 +56,11 @@ export {
   FsListHeaderConfig,
   FsListNoResultsConfig,
   FsListReorderConfig,
+  FsListReorderMovedCallback,
+  FsListReorderDoneCallback,
+  FsListReorderData,
   FsListRestoreConfig,
+  FsListReorderMoveInGroupCallback,
   FsListRowAction,
   FsListTrackByFn,
   FsListTrackByTargetRowFn,
@@ -75,3 +79,4 @@ export { QueryOffsetStrategy, QueryPageStrategy } from './app/interfaces/paginat
 // Enums
 export { ActionType } from './app/enums/button-type.enum';
 export { PaginationStrategy } from './app/enums/pagination-strategy.enum';
+export { RowType } from './app/enums/row-type.enum';

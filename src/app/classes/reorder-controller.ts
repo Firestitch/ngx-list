@@ -175,7 +175,7 @@ export class ReorderController implements OnDestroy {
    */
   public reorderFinished() {
     if (this.doneCallback) {
-      return this.doneCallback(this._dataController.visibleRowsData);
+      return this.doneCallback(this._dataController.reorderData);
     }
   }
 
