@@ -78,15 +78,15 @@ export interface FsListReorderConfig {
 }
 
 export type FsListReorderMovedCallback
-  = <TData, TParent>(rows: FsListReorderData<TData, TParent>[]) => void;
+  = (rows: FsListReorderData[]) => void;
 
 export type FsListReorderDoneCallback
-  = <TData, TParent>(rows: FsListReorderData<TData, TParent>[]) => void | Observable<any>;
+  = (rows: FsListReorderData[]) => void | Observable<any>;
 
-export interface FsListReorderData<TData, TParent = any> {
+export interface FsListReorderData {
   type: RowType,
-  data: TData,
-  parent: FsListReorderData<TParent>,
+  data: any,
+  parent: FsListReorderData,
 }
 
 export type FsListReorderMoveInGroupCallback =
