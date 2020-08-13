@@ -94,6 +94,7 @@ export class FsListComponent implements OnInit, OnDestroy {
     if (this.listColumnDirectives) {
       this.list.tranformTemplatesToColumns(this.listColumnDirectives);
     }
+    this._listenSortingChange();
   }
 
   public list: List;
@@ -240,6 +241,22 @@ export class FsListComponent implements OnInit, OnDestroy {
       this.list.actions.clearActions();
       this.list.actions.setActions(actions);
     }
+  }
+
+  /**
+   * Update sorting in filter
+   * @private
+   */
+  private _listenSortingChange() {
+    this.list.sorting
+      .sortingChanged$
+      .pipe(
+        takeUntil(this.list.onDestroy$),
+        takeUntil(this._destroy),
+      )
+      .subscribe((sort) => {
+        this._filter.updateSort(sort);
+      })
   }
 
   private _initCustomizableAction() {

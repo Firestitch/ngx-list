@@ -37,7 +37,6 @@
           *ngIf="list.filterConfig"
           [hidden]="!list.filterConfig?.items.length || (reorderController.manualReorderActivated$ | async)"
           [filter]="list.filterConfig"
-          [sortUpdate]="list?.sorting?.sortingChanged$"
           [showSortBy]="!list.status"
           [showFilterInput]="list.filterInput">
 

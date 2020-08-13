@@ -61,7 +61,7 @@ export class RestoreComponent extends StrategyBaseComponent implements OnInit {
       filters: [
         {
           name: 'keyword',
-          type: ItemType.Text,
+          type: ItemType.Keyword,
           label: 'Search'
         }
       ],

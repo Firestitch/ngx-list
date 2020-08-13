@@ -98,7 +98,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
       filters: [
         {
           name: 'keyword',
-          type: ItemType.Text,
+          type: ItemType.Keyword,
           label: 'Search'
         },
         {
@@ -117,8 +117,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
         {
           name: 'range',
           type: ItemType.Range,
-          label: 'Range',
-          placeholder: ['Min', 'Max']
+          label: ['Min', 'Max'],
         },
         {
           name: 'date',

@@ -102,7 +102,7 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
       filters: [
         {
           name: 'keyword',
-          type: ItemType.Text,
+          type: ItemType.Keyword,
           label: 'Search'
         }
       ],

@@ -22,7 +22,7 @@ export class PagingComponent implements OnInit {
       filters: [
         {
           name: 'keyword',
-          type: ItemType.Text,
+          type: ItemType.Keyword,
           label: 'Search'
         },
       ],

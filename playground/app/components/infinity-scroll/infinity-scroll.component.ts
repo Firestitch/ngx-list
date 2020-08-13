@@ -45,7 +45,7 @@ export class InfinityScrollComponent extends StrategyBaseComponent implements On
       filters: [
         {
           name: 'keyword',
-          type: ItemType.Text,
+          type: ItemType.Keyword,
           label: 'Search'
         },
         {
@@ -64,8 +64,7 @@ export class InfinityScrollComponent extends StrategyBaseComponent implements On
         {
           name: 'range',
           type: ItemType.Range,
-          label: 'Range',
-          placeholder: ['Min', 'Max']
+          label: ['Min', 'Max'],
         },
         {
           name: 'date',
