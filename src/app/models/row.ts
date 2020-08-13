@@ -88,7 +88,7 @@ export class Row {
     (this._row as GroupRow).toggleRowExpandStatus();
   }
 
-  public getReorderData(): FsListReorderData<unknown> {
+  public getReorderData(): FsListReorderData {
     return this._row.getReorderData();
   }
 

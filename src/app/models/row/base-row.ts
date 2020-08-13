@@ -26,7 +26,7 @@ export abstract class BaseRow {
     return this._rowType;
   }
 
-  public getReorderData(): FsListReorderData<unknown> {
+  public getReorderData(): FsListReorderData {
     return {
       type: this._rowType,
       data: this.data,
