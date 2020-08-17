@@ -45,13 +45,13 @@ export class SelectionComponent extends StrategyBaseComponent implements OnInit 
         actions: [
           {
             type: SelectionActionType.Action,
-            value: 'delete',
+            name: 'delete',
             label: 'Delete'
           },
           {
             type: SelectionActionType.Select,
             label: 'Change Status To',
-            options: [
+            values: [
               {
                 name: 'TODO',
                 value: '1'

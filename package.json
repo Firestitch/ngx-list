@@ -68,7 +68,7 @@
     "@firestitch/scroll": "^8.0.0",
     "@firestitch/scroll-picker": "^8.0.0",
     "@firestitch/selectbutton": "^8.0.1",
-    "@firestitch/selection": "^8.1.0",
+    "@firestitch/selection": "^9.0.0",
     "@firestitch/skeleton": "8.1.4",
     "@firestitch/store": "^8.1.0",
     "codelyzer": "^5.2.2",
