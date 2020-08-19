@@ -85,6 +85,8 @@ export class FsListComponent implements OnInit, OnDestroy {
       this._inDialog,
     );
 
+    this._waitFirstLoad();
+
     this.reorderController.initWithConfig(
       config.reorder,
       this.list.dataController,
@@ -158,7 +160,6 @@ export class FsListComponent implements OnInit, OnDestroy {
     this._subscribeToRemoveRow();
     this._initCustomizableAction();
     this._subscribeToGroupExpandStatusChange();
-    this._waitFirstLoad();
   }
 
   public ngOnDestroy() {
@@ -313,6 +314,7 @@ export class FsListComponent implements OnInit, OnDestroy {
         skip(1),
         filter((value) => value === false),
         take(1),
+        takeUntil(this.list.onDestroy$),
         takeUntil(this._destroy),
       )
       .subscribe(() => {
