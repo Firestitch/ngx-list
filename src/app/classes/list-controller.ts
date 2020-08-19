@@ -308,7 +308,10 @@ export class List extends Model {
   public groupEnabled(value: boolean) {
     if (this.dataController.groupEnabled !== value) {
       this.dataController.groupEnabled = value;
-      this.reload();
+
+      // Commented out because Ray wants to change group status in fetch map pipe
+      // and it triggers extra requests
+      // this.reload();
     }
   }
 
