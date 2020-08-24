@@ -1,7 +1,7 @@
 {
   "name": "@firestitch/list",
   "title": "List",
-  "version": "9.5.2",
+  "version": "9.5.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-list"
@@ -68,7 +68,7 @@
     "@firestitch/scroll": "^8.0.0",
     "@firestitch/scroll-picker": "^8.0.0",
     "@firestitch/selectbutton": "^8.0.1",
-    "@firestitch/selection": "^9.0.0",
+    "@firestitch/selection": "^9.0.2",
     "@firestitch/skeleton": "8.1.4",
     "@firestitch/store": "^8.1.0",
     "codelyzer": "^5.2.2",

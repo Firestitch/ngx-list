@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import {
-  FsSelectionDialogActionSelected,
+  FsSelectionActionSelected,
   FsSelectionDialogConfigAction,
   SelectionRef
 } from '@firestitch/selection'
@@ -243,7 +243,7 @@ export interface FsListColumn {
   show: boolean;
 }
 
-export interface FsListActionSelected extends FsSelectionDialogActionSelected {
+export interface FsListActionSelected extends FsSelectionActionSelected {
   selected: any[];
 }
 
