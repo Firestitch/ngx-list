@@ -1,6 +1,5 @@
 <ng-container *ngIf="!pagination.loadMoreEnabled; else loadMoreButton">
-  <div class="paging" fxLayout="row"
-       *ngIf="pagination?.pagesArray && pagination.pagesArray.length > 1">
+  <div class="paging" *ngIf="pagination?.pages">
     <div class="records"></div>
     <div fxFlex>
       <div class="pages">
@@ -12,15 +11,9 @@
           <i class="material-icons">keyboard_arrow_left</i>
         </a>
 
-        <a matRipple matRippleRadius="15" [matRippleCentered]="true" class="page"
-            *ngFor="let page of pagination.pagesArray;"
-            [class.active]="pagination.isActive(page)"
-            (click)="pagination.goToPage(page)">
-          <div class="number">
-            {{ page }}
-            <div class="active-indicator"></div>
-          </div>
-        </a>
+        <div class="number">
+          {{ pagination.page }} of {{ pagination.pages }}
+        </div>
 
         <a matRipple matRippleRadius="15" [matRippleCentered]="true" class="next" [class.disabled]="!pagination.hasNextPage" (click)="pagination.goNext()">
           <i class="material-icons">keyboard_arrow_right</i>

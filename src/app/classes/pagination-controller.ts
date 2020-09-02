@@ -31,6 +31,7 @@ export class PaginationController extends Model {
   private _removedRows = 0;
 
   private _pageChanged = new Subject<PageChange>();
+  private _pagesChanged = new Subject<any>();
   private _onDestroy = new Subject();
 
   private _loadMoreEnabled = false;
@@ -47,6 +48,10 @@ export class PaginationController extends Model {
    */
   get pageChanged(): Observable<PageChange> {
     return this._pageChanged.pipe(takeUntil(this._onDestroy));
+  }
+
+  get pagesChanged(): Observable<PageChange> {
+    return this._pagesChanged.pipe(takeUntil(this._onDestroy));
   }
 
   /**
@@ -69,7 +74,7 @@ export class PaginationController extends Model {
    */
   set limits(value) {
     this._limits = value;
-    this.updatePagesArray();
+    this._pagesChanged.next();
 
     if (this.limits.length > 0 && this.limits.indexOf(this.limit) === -1) {
       this.limit = this.limits[0]
@@ -231,8 +236,6 @@ export class PaginationController extends Model {
       this._infinityScrollEnabled = infinityScrollEnabled;
       this.strategy = config.strategy;
     }
-
-    this.updatePagesArray();
   }
 
   /**
@@ -284,8 +287,6 @@ export class PaginationController extends Model {
     }
 
     this.updateTotalPages();
-    this.updatePagesArray();
-    // this.updateDisplayed();
   }
 
   /**
@@ -305,34 +306,34 @@ export class PaginationController extends Model {
   /**
    * Update pages array with new pages count
    */
-  public updatePagesArray() {
-    const MIDDLE = 2;
-    const pagesArr = [];
+  // public updatePagesArray() {
+  //   const MIDDLE = 2;
+  //   const pagesArr = [];
 
-    let from = 0;
-    let to = 0;
-    if (this.page < MIDDLE) {
-      from = MIDDLE - 1;
-      to = MIDDLE + 1;
-    } else if (this.page >= MIDDLE && this.page <= this.pages - MIDDLE + 1) {
-      from = this.page - 1;
-      to = this.page + 1;
-    } else if (this.page > this.pages - MIDDLE + 1) {
-      from = this.pages - MIDDLE - 1;
-      to = this.pages;
-    }
+  //   let from = 0;
+  //   let to = 0;
+  //   if (this.page < MIDDLE) {
+  //     from = MIDDLE - 1;
+  //     to = MIDDLE + 1;
+  //   } else if (this.page >= MIDDLE && this.page <= this.pages - MIDDLE + 1) {
+  //     from = this.page - 1;
+  //     to = this.page + 1;
+  //   } else if (this.page > this.pages - MIDDLE + 1) {
+  //     from = this.pages - MIDDLE - 1;
+  //     to = this.pages;
+  //   }
 
-    if (!this.pages || this.pages < 5) {
-      from = 1;
-      to = this.pages || 0;
-    }
+  //   if (!this.pages || this.pages < 5) {
+  //     from = 1;
+  //     to = this.pages || 0;
+  //   }
 
-    for (let i = from; i <= to; i++) {
-      pagesArr.push(i);
-    }
+  //   for (let i = from; i <= to; i++) {
+  //     pagesArr.push(i);
+  //   }
 
-    this.pagesArray = Object.assign([], pagesArr);
-  }
+  //   this.pagesArray = Object.assign([], pagesArr);
+  // }
 
   public setLoadMore(config: FsListLoadMoreConfig | boolean) {
     this._loadMoreEnabled = !!config;
@@ -487,8 +488,6 @@ export class PaginationController extends Model {
 
   public updatePagination() {
     this.updateTotalPages();
-    this.updatePagesArray();
-    // this.updateDisplayed();
   }
 
   /**
@@ -511,5 +510,6 @@ export class PaginationController extends Model {
    */
   private updateTotalPages() {
     this.pages = Math.ceil(this.records / this.limit);
+    this._pagesChanged.next();
   }
 }

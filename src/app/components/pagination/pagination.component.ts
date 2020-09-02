@@ -1,12 +1,14 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  IterableDiffers,
   Component,
-  DoCheck,
   Input,
-  OnInit, IterableDiffer
+  OnInit,
+  OnDestroy,
 } from '@angular/core';
+
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { PaginationController } from '../../classes/pagination-controller';
 
@@ -18,25 +20,30 @@ import { PaginationController } from '../../classes/pagination-controller';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FsPaginationComponent implements OnInit, DoCheck {
+export class FsPaginationComponent implements OnInit, OnDestroy {
+
   @Input() pagination: PaginationController;
   @Input() rows;
 
-  private differ: IterableDiffer<any>;
+  private _destroy$ = new Subject();
 
   constructor(
-    private differs: IterableDiffers,
     private cdRef: ChangeDetectorRef,
-  ) {
-    this.differ = this.differs.find([]).create(null);
+  ) {}
+
+  public ngOnInit(): void {
+    this.pagination.pageChanged
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe(() => {
+        this.cdRef.markForCheck();
+      });
   }
 
-  public ngOnInit() {
+  public ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
-  public ngDoCheck() {
-    if (this.differ.diff(this.pagination.pagesArray)) {
-      this.cdRef.markForCheck();
-    }
-  }
 }
