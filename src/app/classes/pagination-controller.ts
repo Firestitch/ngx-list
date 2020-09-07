@@ -1,4 +1,4 @@
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { Alias, Model } from 'tsmodels';
@@ -17,22 +17,23 @@ import { PageChangeType } from '../enums/page-change-type.enum';
 export class PaginationController extends Model {
 
   @Alias() public limit = 25;
-  @Alias() public pages = 0; // Total pages
   @Alias() public records: number;
   @Alias() public manual = false;
 
   public page = 1; // Active page
   public offset = 0;
 
-  public pagesArray = [];
+  // public pagesArray = [];
   public displayed = 0;
+
+  private _pages$ = new BehaviorSubject<number>(0); // Total pages
 
   private _strategy: PaginationStrategy = PaginationStrategy.None;
   private _removedRows = 0;
 
-  private _pageChanged = new Subject<PageChange>();
-  private _pagesChanged = new Subject<any>();
-  private _onDestroy = new Subject();
+  private _pageChanged$ = new Subject<PageChange>();
+  private _pageReset$ = new Subject<void>();
+  private _onDestroy$ = new Subject();
 
   private _loadMoreEnabled = false;
   private _infinityScrollEnabled = false;
@@ -43,15 +44,29 @@ export class PaginationController extends Model {
     super();
   }
 
+  // Total pages
+  @Alias('pages')
+  set pages(value: number) {
+    this._pages$.next(value);
+  }
+
+  get pages(): number {
+    return this._pages$.getValue();
+  }
+
+  get pages$(): Observable<number> {
+    return this._pages$.asObservable();
+  }
+
   /**
    * Fire if page was changed
    */
-  get pageChanged(): Observable<PageChange> {
-    return this._pageChanged.pipe(takeUntil(this._onDestroy));
+  get pageChanged$(): Observable<PageChange> {
+    return this._pageChanged$.pipe(takeUntil(this._onDestroy$));
   }
 
-  get pagesChanged(): Observable<PageChange> {
-    return this._pagesChanged.pipe(takeUntil(this._onDestroy));
+  get pageReset$(): Observable<void> {
+    return this._pageReset$.asObservable();
   }
 
   /**
@@ -74,7 +89,6 @@ export class PaginationController extends Model {
    */
   set limits(value) {
     this._limits = value;
-    this._pagesChanged.next();
 
     if (this.limits.length > 0 && this.limits.indexOf(this.limit) === -1) {
       this.limit = this.limits[0]
@@ -289,10 +303,10 @@ export class PaginationController extends Model {
     this.updateTotalPages();
   }
 
-  /**
-   * Update paging when data source not remove
-   * @param {any[]} rows
-   */
+  // /**
+  //  * Update paging when data source not remove
+  //  * @param {any[]} rows
+  //  */
   /*public updatePagingManual(rows: any[]) {
     if (Array.isArray(rows) && rows.length > 0) {
       this.records = rows.length;
@@ -375,7 +389,7 @@ export class PaginationController extends Model {
     this.limit = limit;
     this.resetPaging();
 
-    this._pageChanged.next({
+    this._pageChanged$.next({
       type: PageChangeType.LimitChanged,
       payload: limit
     });
@@ -399,7 +413,7 @@ export class PaginationController extends Model {
 
       this.updateOffset();
 
-      this._pageChanged.next({
+      this._pageChanged$.next({
         type: PageChangeType.Default,
         payload: page
       });
@@ -423,7 +437,7 @@ export class PaginationController extends Model {
 
       this.updateOffset();
 
-      this._pageChanged.next({
+      this._pageChanged$.next({
         type: PageChangeType.Default,
         payload: this.page,
       });
@@ -439,7 +453,7 @@ export class PaginationController extends Model {
 
       this.updateOffset();
 
-      this._pageChanged.next({
+      this._pageChanged$.next({
         type: PageChangeType.Default,
         payload: this.page,
       });
@@ -455,7 +469,7 @@ export class PaginationController extends Model {
 
       this.updateOffset();
 
-      this._pageChanged.next({
+      this._pageChanged$.next({
         type: PageChangeType.Default,
         payload: this.page,
       });
@@ -471,7 +485,7 @@ export class PaginationController extends Model {
 
       this.updateOffset();
 
-      this._pageChanged.next({
+      this._pageChanged$.next({
         type: PageChangeType.Default,
         payload: this.page
       });
@@ -494,8 +508,8 @@ export class PaginationController extends Model {
    * Destroy
    */
   public destroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
+    this._onDestroy$.next();
+    this._onDestroy$.complete();
   }
 
   /**
@@ -510,6 +524,5 @@ export class PaginationController extends Model {
    */
   private updateTotalPages() {
     this.pages = Math.ceil(this.records / this.limit);
-    this._pagesChanged.next();
   }
 }

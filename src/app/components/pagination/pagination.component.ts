@@ -7,7 +7,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 
-import { Subject } from 'rxjs';
+import { merge, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { PaginationController } from '../../classes/pagination-controller';
@@ -32,7 +32,10 @@ export class FsPaginationComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.pagination.pageChanged
+    merge(
+      this.pagination.pageChanged$,
+      this.pagination.pages$,
+    )
       .pipe(
         takeUntil(this._destroy$),
       )

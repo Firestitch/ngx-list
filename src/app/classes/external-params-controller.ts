@@ -132,7 +132,11 @@ export class ExternalParamsController {
   }
 
   private _listenPaginatorChanges() {
-    this._paginator.pageChanged
+    merge(
+      this._paginator.pageChanged$,
+      this._paginator.pages$,
+      this._paginator.pageReset$,
+    )
       .pipe(
         takeUntil(this._destroy$),
       )

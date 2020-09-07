@@ -212,7 +212,7 @@ export class List extends Model {
    * Watch page changes
    */
   public subscribe() {
-    this.paging.pageChanged
+    this.paging.pageChanged$
       .pipe(
         takeUntil(this.onDestroy$),
       )
