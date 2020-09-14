@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -6,7 +6,8 @@ import { takeUntil } from 'rxjs/operators';
 
 @Component({
   templateUrl: 'customize-cols.component.html',
-  styleUrls: ['customize-cols.component.scss']
+  styleUrls: ['customize-cols.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomizeColsDialogComponent implements OnDestroy {
 

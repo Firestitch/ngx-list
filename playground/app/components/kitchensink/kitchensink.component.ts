@@ -1,4 +1,10 @@
-import { AfterContentInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterContentInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { FsApi } from '@firestitch/api';
 import { ItemDateMode, ItemType } from '@firestitch/filter';
 import {
@@ -23,7 +29,8 @@ import { cloneDeep } from 'lodash-es';
 @Component({
   selector: 'kitchensink',
   templateUrl: 'kitchensink.component.html',
-  styles: []
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KitchenSinkComponent extends StrategyBaseComponent implements OnInit, AfterContentInit {
 

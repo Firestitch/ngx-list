@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { random } from 'lodash-es';
 
 
@@ -7,7 +7,8 @@ import { random } from 'lodash-es';
   templateUrl: './loader.component.html',
   styleUrls: [
     './loader.component.scss',
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsListLoaderComponent implements OnInit {
 
