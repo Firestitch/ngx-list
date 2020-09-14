@@ -72,7 +72,9 @@ export class FsListComponent implements OnInit, OnDestroy {
     const defaultOpts = cloneDeep(this._defaultOptions);
     const listConfig = mergeWith(defaultOpts, config, this._configMergeCustomizer);
 
-    this._restorePersistance(listConfig.persist);
+    if (listConfig.persist !== false) {
+      this._restorePersistance(listConfig.persist);
+    }
 
     this.list = new List(
       this._el,
