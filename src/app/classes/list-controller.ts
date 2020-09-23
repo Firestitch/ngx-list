@@ -1,12 +1,20 @@
 import { ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FilterConfig, ItemType } from '@firestitch/filter';
+import { FilterConfig, IFilterSavedFiltersConfig, ItemType } from '@firestitch/filter';
 import { FsScrollInstance, FsScrollService } from '@firestitch/scroll';
 import { SelectionDialog } from '@firestitch/selection';
 
 import { Alias, Model } from 'tsmodels';
 
-import { BehaviorSubject, from, Observable, of, Subject, Subscription } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  from,
+  Observable,
+  of,
+  Subject,
+  Subscription
+} from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -66,6 +74,7 @@ export class List extends Model {
   @Alias() public columnTemplates: any;
   @Alias() public persist: boolean;
   @Alias() public filters = [];
+  @Alias() public savedFilters: IFilterSavedFiltersConfig;
   @Alias() public scrollable: FsListScrollableConfig | false = false;
   @Alias() public noResults: FsListNoResultsConfig;
   // @Alias() public initialFetch = true; //TODO fixme
@@ -92,6 +101,7 @@ export class List extends Model {
 
   public fetch$ = new Subject<FsListFetchSubscription | void>();
   public fetchComplete$ = new Subject<void>();
+  public filtersReady$ = new Subject<void>();
 
   public status = true;
   public chips = false;
@@ -141,6 +151,10 @@ export class List extends Model {
       this.fetch$.next();
     }
 
+  }
+
+  public get hasSavedFilters(): boolean {
+    return !!this.filterConfig.savedFilters;
   }
 
   public fetchRemote(query) {
@@ -495,7 +509,17 @@ export class List extends Model {
    * Subscribe to fetch$ event with debounce
    */
   private listenFetch() {
-    this.fetch$
+    let fetch$ = this.fetch$.asObservable();
+
+    // Should wait until saved filters not loaded
+    if (!!this.filters && !!this.savedFilters) {
+      fetch$ = combineLatest([fetch$, this.filtersReady$])
+        .pipe(
+          map(([params]) => params),
+        );
+    }
+
+    fetch$
       .pipe(
         debounceTime(50),
         tap(() => {
@@ -687,6 +711,7 @@ export class List extends Model {
       this.filterConfig = {
         persist: this.persist,
         items: this.filters || [],
+        savedFilters: this.savedFilters,
         inline: this.inlineFilters,
         queryParam: this.queryParam,
         sorts: sortValues,

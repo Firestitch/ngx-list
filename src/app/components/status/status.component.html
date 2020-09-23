@@ -1,5 +1,7 @@
 <ng-container *ngIf="paging.enabled && !scrollable">
-  <span class="sort-limits">Showing <a [fsMenuTriggerFor]="limitsMenu">{{ paging.displayed }}</a> of {{ paging.records }} results</span>
+  <span class="sort-limits">
+    Showing&nbsp;<a [fsMenuTriggerFor]="limitsMenu">{{ paging.displayed }}&nbsp;</a> of {{ paging.records }} results&nbsp;
+  </span>
   <ng-container *ngTemplateOutlet="sortedBy"></ng-container>
 </ng-container>
 
@@ -7,13 +9,13 @@
   <span class="sort-limits">
     <ng-container *ngIf="!scrollable; else scrollable">
       Showing
-      <span *ngIf="paging.displayed == 1">{{ paging.displayed }} result</span>
-      <span *ngIf="paging.displayed > 1">{{ paging.displayed }} results</span>
+      <span *ngIf="paging.displayed == 1">{{ paging.displayed }} result&nbsp;</span>
+      <span *ngIf="paging.displayed > 1">{{ paging.displayed }} results&nbsp;</span>
     </ng-container>
 
     <ng-template #scrollable>
-      <span *ngIf="paging.records == 1">{{ paging.records }} result</span>
-      <span *ngIf="paging.records > 1">{{ paging.records }} results</span>
+      <span *ngIf="paging.records == 1">{{ paging.records }} result&nbsp;</span>
+      <span *ngIf="paging.records > 1">{{ paging.records }} results&nbsp;</span>
     </ng-template>
   </span>
   <ng-container *ngTemplateOutlet="sortedBy"></ng-container>
@@ -21,16 +23,20 @@
 
 <ng-template #sortedBy>
   <span *ngIf="sorting.sortingColumn" class="sort-by">
-     sorted by
+    sorted by&nbsp;
     <ng-container *ngIf="sorting.sortingColumn.title; else sortByTemplate">
-      <a class="order-toggle" [fsMenuTriggerFor]="orderColumnsMenu">{{ sorting.sortingColumn.title }}</a>,
+      <a class="order-toggle" [fsMenuTriggerFor]="orderColumnsMenu">{{ sorting.sortingColumn.title }}</a>,&nbsp;
     </ng-container>
     <ng-template #sortByTemplate>
-      <a class="order-toggle" [fsMenuTriggerFor]="orderColumnsMenu"><ng-template [ngTemplateOutlet]="sorting.sortingColumn.headerTemplate"></ng-template></a>,
+      <a class="order-toggle" [fsMenuTriggerFor]="orderColumnsMenu">
+        <ng-template [ngTemplateOutlet]="sorting.sortingColumn.headerTemplate"></ng-template>
+      </a>,
     </ng-template>
     <a class="order-toggle" (click)="toggleDirection()">{{ sorting.sortingColumn.fullNameDirection }}</a>
   </span>
 </ng-template>
+
+<fs-list-saved-filters></fs-list-saved-filters>
 
 <fs-menu [hidden]="!paging.enabled || scrollable" #limitsMenu>
   <ng-template

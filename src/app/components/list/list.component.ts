@@ -246,6 +246,10 @@ export class FsListComponent implements OnInit, OnDestroy {
     }
   }
 
+  public filterReady() {
+    this.list.filtersReady$.next();
+  }
+
   /**
    * Update sorting in filter
    * @private

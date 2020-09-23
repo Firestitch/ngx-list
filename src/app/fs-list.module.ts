@@ -35,6 +35,8 @@ import { CustomizeColsDialogComponent } from './components/customize-cols/custom
 import { FsListLoaderComponent } from './components/loader/loader.component';
 import { FsRowActionsComponent } from './components/body/row/actions/actions.component';
 import { FsRowInlineActionComponent } from './components/body/row/inline-action/inline-action.component';
+import { FsListSavedFiltersComponent } from './components/saved-filters/saved-filters.component';
+import { FsListManageSavedFiltersComponent } from './components/manage-saved-filters/manage-saved-filters.component';
 
 // Directives
 import { FsListFooterDirective } from './directives/footer/footer.directive';
@@ -79,6 +81,8 @@ import { FsListConfig } from './interfaces';
     FsFooterCellComponent,
     FsStatusComponent,
     FsListLoaderComponent,
+    FsListSavedFiltersComponent,
+    FsListManageSavedFiltersComponent,
 
     // Internal Components
     FsActionsComponent,

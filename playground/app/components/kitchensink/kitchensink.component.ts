@@ -17,13 +17,14 @@ import {
 import { nameValue } from '@firestitch/common';
 
 import { BehaviorSubject, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { delay, map } from 'rxjs/operators';
 
 import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
 import { ApiStrategy } from '../../services/api-strategy.service';
 import { FsExampleComponent } from '@firestitch/example';
 import { ConfigureComponent } from '../configure';
 import { cloneDeep } from 'lodash-es';
+import { savedFilters } from './saved-filter';
 
 
 @Component({
@@ -170,6 +171,53 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           isolate: { label: 'Show Deleted', value: 'deleted' }
         }
       ],
+      savedFilters: {
+        load: () => {
+          console.log('<====== Load Saved Filters =====>');
+          return of(savedFilters)
+            .pipe(
+              delay(1500),
+            );
+        },
+        save: (filter) => {
+          console.log('<====== Save Filter =====>');
+          const filterIndex = savedFilters.findIndex((f) => {
+            return f.id === filter.id;
+          });
+
+          if (filterIndex > -1) {
+            // Here I'm emulating like backend returend filter which automatically activated
+            filter.active = true;
+            savedFilters[filterIndex] = filter;
+          } else {
+            // Here I'm emulating like backend returend new filter with ID to me
+            filter = {
+              ...filter,
+              id: 999,
+            }
+            savedFilters.push(filter);
+          }
+
+          console.log('Save Filter', filter);
+          console.log('Saved Filters: ', savedFilters);
+
+          return of(filter)
+            .pipe(
+              delay(1500),
+            );
+        },
+        order: (filters) => {
+          console.log('<====== Order Saved Filters =====>');
+          console.log('order filters', filters);
+
+          return of(filters);
+        },
+        delete: (filter) => {
+          console.log('<====== Delete Saved Filter =====>');
+
+          return of();
+        },
+      },
       reorder: {
         start: () => {
           console.log('reorder started');
