@@ -1,7 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 
 import { FilterComponent } from '@firestitch/filter';
-import { FsListAction } from '@firestitch/list';
+import { FsListAction } from '../interfaces/listconfig.interface';
 
 
 export class ActionsController {
