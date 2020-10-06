@@ -1,7 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { get as _get } from 'lodash-es';
-import { SelectionDialog, SelectionRef } from '@firestitch/selection';
+import { SelectionDialog, SelectionRef, FsSelectionDialogConfigAction } from '@firestitch/selection';
 
 import { FsListSelectionConfig } from '../interfaces';
 
@@ -214,6 +214,17 @@ export class SelectionController {
         this.removeRow(selectedRow);
       }
     })
+  }
+
+  public updateConfig({
+    actions, actionSelected, allSelected, cancelled, selectionChanged, selectAll
+  }: FsListSelectionConfig) {
+    this.actions = actions ? [...actions] : this.actions;
+    this.actionSelectedFn = actionSelected ?? this.actionSelectedFn;
+    this.allSelectedFn = allSelected ?? this.allSelectedFn;
+    this.cancelledFn = cancelled ?? this.cancelledFn;
+    this.selectionChangedFn = selectionChanged ?? this.selectionChangedFn;
+    this.selectAll = selectAll ?? this.selectAll;
   }
 
   // Reset actions to default set

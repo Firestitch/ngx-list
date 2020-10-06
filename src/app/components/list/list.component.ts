@@ -17,7 +17,7 @@ import { Location } from '@angular/common';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { Subject } from 'rxjs';
-import { filter, finalize, skip, take, takeUntil } from 'rxjs/operators';
+import { filter, skip, take, takeUntil } from 'rxjs/operators';
 
 import { FsScrollService } from '@firestitch/scroll';
 import { FilterComponent } from '@firestitch/filter';
@@ -36,7 +36,7 @@ import { FS_LIST_DEFAULT_CONFIG } from '../../fs-list.providers';
 import {
   FsListAbstractRow,
   FsListAction,
-  FsListConfig, FsListPersitance,
+  FsListConfig, FsListPersitance, FsListSelectionConfig,
   FsListTrackByFn,
   FsListTrackByTargetRowFn
 } from '../../interfaces';
@@ -186,6 +186,10 @@ export class FsListComponent implements OnInit, OnDestroy {
     trackBy?: FsListTrackByTargetRowFn
   ): boolean {
     return this.list.dataController.replaceData(row, trackBy);
+  }
+
+  public updateSelectionConfig(config: FsListSelectionConfig) {
+    this.list.selection.updateConfig(config);
   }
 
   public resetSelectionActions() {
