@@ -29,7 +29,6 @@ import { FsFooterComponent } from './components/footer/footer.component';
 import { FsFooterRowComponent } from './components/footer/footer-row/footer-row.component';
 import { FsFooterCellComponent } from './components/footer/footer-row/footer-cell/footer-cell.component';
 import { FsStatusComponent } from './components/status/status.component';
-import { FsActionsComponent } from './components/actions/actions.component';
 import { FsPaginationComponent } from './components/pagination/pagination.component';
 import { CustomizeColsDialogComponent } from './components/customize-cols/customize-cols.component';
 import { FsListLoaderComponent } from './components/loader/loader.component';
@@ -85,7 +84,6 @@ import { FsListConfig } from './interfaces';
     FsListManageSavedFiltersComponent,
 
     // Internal Components
-    FsActionsComponent,
     FsHeadComponent,
     FsHeadCellComponent,
     FsBodyComponent,

@@ -17,7 +17,7 @@ import { Location } from '@angular/common';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { Subject } from 'rxjs';
-import { filter, skip, take, takeUntil } from 'rxjs/operators';
+import { filter, finalize, skip, take, takeUntil } from 'rxjs/operators';
 
 import { FsScrollService } from '@firestitch/scroll';
 import { FilterComponent } from '@firestitch/filter';
@@ -64,41 +64,7 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   @Input('config')
   set config(config: FsListConfig) {
-
-    if (this.list) {
-      this.list.destroy();
-    }
-
-    const defaultOpts = cloneDeep(this._defaultOptions);
-    const listConfig = mergeWith(defaultOpts, config, this._configMergeCustomizer);
-
-    if (listConfig.persist !== false) {
-      this._restorePersistance(listConfig.persist);
-    }
-
-    this.list = new List(
-      this._el,
-      listConfig,
-      this.fsScroll,
-      this.selectionDialog,
-      this._router,
-      this._route,
-      this._persistance,
-      this._inDialog,
-    );
-
-    this._waitFirstLoad();
-
-    this.reorderController.initWithConfig(
-      config.reorder,
-      this.list.dataController,
-      this.list.actions,
-    );
-
-    if (this.listColumnDirectives) {
-      this.list.tranformTemplatesToColumns(this.listColumnDirectives);
-    }
-    this._listenSortingChange();
+    this._initWithConfig(config)
   }
 
   public list: List;
@@ -110,11 +76,16 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   // public readonly ReorderStrategy = ReorderStrategy;
 
+  private _filterRef: FilterComponent;
   private _inDialog = !!this._dialogRef || !!this._drawerRef;
 
   private _destroy = new Subject();
 
-  @ViewChild(FilterComponent) private _filter: FilterComponent;
+  @ViewChild(FilterComponent)
+  private set filterReference(component) {
+    this._filterRef = component;
+    this.list.actions.setFilterRef(component);
+  }
 
   /**
    * Set columns to config
@@ -146,8 +117,11 @@ export class FsListComponent implements OnInit, OnDestroy {
     @Optional() private _drawerRef: DrawerRef<any>,
   ) {}
 
-  get filter() {
-    return this._filter;
+  /**
+   * Return reference for filter
+   */
+  get filterRef(): FilterComponent {
+    return this._filterRef;
   }
 
   get groupEnabled() {
@@ -160,7 +134,6 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this._subscribeToRemoveRow();
-    this._initCustomizableAction();
     this._subscribeToGroupExpandStatusChange();
   }
 
@@ -251,27 +224,63 @@ export class FsListComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Update sorting in filter
-   * @private
+   * Initialize config for list
+   * @param config
    */
-  private _listenSortingChange() {
-    this.list.sorting
-      .sortingChanged$
-      .pipe(
-        takeUntil(this.list.onDestroy$),
-        takeUntil(this._destroy),
-      )
-      .subscribe((sort) => {
-        this._filter.updateSort(sort);
-      })
+  private _initWithConfig(config: FsListConfig) {
+    if (this.list) {
+      this.list.destroy();
+    }
+
+    const defaultOpts = cloneDeep(this._defaultOptions);
+    const listConfig = mergeWith(defaultOpts, config, this._configMergeCustomizer);
+
+    if (listConfig.persist !== false) {
+      this._restorePersistance(listConfig.persist);
+    }
+
+    this._updateCustomizeAction(listConfig.actions);
+
+    this.list = new List(
+      this._el,
+      listConfig,
+      this.fsScroll,
+      this.selectionDialog,
+      this._router,
+      this._route,
+      this._persistance,
+      this._inDialog,
+    );
+
+    this._waitFirstLoad();
+
+    this.reorderController.initWithConfig(
+      config.reorder,
+      this.list.dataController,
+      this.list.actions,
+    );
+
+    if (this.listColumnDirectives) {
+      this.list.tranformTemplatesToColumns(this.listColumnDirectives);
+    }
+    this._listenSortingChange();
   }
 
-  private _initCustomizableAction() {
-    const customizableAction = this.list.actions.actionsList
-      .find((action) => action.customize);
+  /**
+   * Find action with customize flag and re-declare click function for CustomizeColsDialog
+   * @param actions
+   */
+  private _updateCustomizeAction(actions: FsListAction[]) {
+    const customizeAction = actions?.find((action) => action.customize);
 
-    if (customizableAction) {
-      customizableAction.click = () => {
+    if (customizeAction) {
+      const actionClickFn = customizeAction.click;
+
+      customizeAction.click = () => {
+        if (actionClickFn) {
+          actionClickFn(null);
+        }
+
         const dialogRef = this.dialog.open(CustomizeColsDialogComponent, {
           data: {
             columns: this.list.columns.columnsForDialog,
@@ -279,8 +288,10 @@ export class FsListComponent implements OnInit, OnDestroy {
           },
         });
 
-        dialogRef.afterClosed()
+        dialogRef
+          .afterClosed()
           .pipe(
+            takeUntil(this.list.onDestroy$),
             takeUntil(this._destroy),
           )
           .subscribe((data) => {
@@ -290,8 +301,23 @@ export class FsListComponent implements OnInit, OnDestroy {
               this.cdRef.markForCheck();
             }
           })
-      }
+      };
     }
+  }
+
+  /**
+   * Update sorting in filter
+   */
+  private _listenSortingChange() {
+    this.list.sorting
+      .sortingChanged$
+      .pipe(
+        takeUntil(this.list.onDestroy$),
+        takeUntil(this._destroy),
+      )
+      .subscribe((sort) => {
+        this._filterRef.updateSort(sort);
+      })
   }
 
   private _subscribeToRemoveRow() {

@@ -4,7 +4,7 @@
                   'has-heading': list.heading,
                   'has-status': list.status,
                   'has-chips': list.chips,
-                  'has-actions': list.actions.actionsList.length }">
+                  'has-actions': list.actions.hasActions }">
   <ng-template [ngTemplateOutlet]="listContainerContent"></ng-template>
 </div>
 
@@ -15,19 +15,6 @@
 
       <div class="fs-list-header"
         [ngClass]="{ 'no-wrap': reorderController.manualReorderActivated$ || !list.filterConfig?.items.length }">
-
-        <!-- Actions -->
-        <fs-list-actions
-          class="fs-list-actions"
-          *ngIf="list.actions.actionsList.length"
-          [menuActions]="list.actions.menuActions"
-          [kebabActions]="list.actions.kebabActions"
-          [manualReorderActivated]="reorderController.manualReorderActivated$ | async"
-          [reorderDisabled]="reorderController.reorderDisabled$ | async"
-          (reorderFinished)="reorderFinish()">
-        </fs-list-actions>
-        <!-- /Actions -->
-
         <div class="heading-container">
           <h2 class="heading" *ngIf="list.heading">{{list.heading}}</h2>
           <span class="subheading" *ngIf="list.subheading">{{list.subheading}}</span>
@@ -35,7 +22,6 @@
         <fs-filter
           class="fs-list-filter"
           *ngIf="list.filterConfig"
-          [hidden]="!list.filterConfig?.items.length || (reorderController.manualReorderActivated$ | async)"
           [filter]="list.filterConfig"
           [showSortBy]="!list.status"
           [showFilterInput]="list.filterInput"
@@ -59,7 +45,6 @@
             </ng-container>
           </ng-template>
         </fs-filter>
-
       </div>
     </div>
 
@@ -82,7 +67,7 @@
                fsListDraggableList
                class="fs-list-body"
                role="rowgroup"
-               [class.loading]="(list.loading$ | async) || (reorderController.reorderDisabled$ | async)"
+               [class.loading]="(list.loading$ | async) || !!(reorderController.reorderDisabled$ | async)"
                [rows]="listData"
                [rowActionsRaw]="list.rowActionsRaw"
                [groupActionsRaw]="list.groupActionsRaw"

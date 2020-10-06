@@ -683,48 +683,44 @@ export class List extends Model {
       return;
     }
 
-    if (this.filters && this.filters.length) {
+    // Merge sorting and fake sorting cols
+    // Fake sorting cols it's cols which don't represented in table cols, like abstract cols
+    const sortValues =
+      [
+        ...this.sorting.sortingColumns,
+        ...this.sorting.fakeSortingColumns
+      ].reduce((acc, column) => {
 
-      // Merge sorting and fake sorting cols
-      // Fake sorting cols it's cols which don't represented in table cols, like abstract cols
-      const sortValues =
-        [
-          ...this.sorting.sortingColumns,
-          ...this.sorting.fakeSortingColumns
-        ].reduce((acc, column) => {
+        const sortingItem = {
+          name: column.title,
+          value: column.name,
+          default: this.sorting.sortingColumn && this.sorting.sortingColumn.name === column.name
+        };
 
-          const sortingItem = {
-            name: column.title,
-            value: column.name,
-            default: this.sorting.sortingColumn && this.sorting.sortingColumn.name === column.name
-          };
+        acc.push(sortingItem);
+        return acc;
+      }, []);
 
-          acc.push(sortingItem);
-          return acc;
-        }, []);
+    const sortConfig = this.sorting.sortingColumn
+      ? { value: this.sorting.sortingColumn.name, direction: this.sorting.sortingColumn.direction}
+      : null;
 
-      const sortConfig = this.sorting.sortingColumn
-        ? { value: this.sorting.sortingColumn.name, direction: this.sorting.sortingColumn.direction}
-        : null;
-
-      // Config
-      this.filterConfig = {
-        persist: this.persist,
-        items: this.filters || [],
-        savedFilters: this.savedFilters,
-        inline: this.inlineFilters,
-        queryParam: this.queryParam,
-        sorts: sortValues,
-        sort: sortConfig,
-        chips: this.chips,
-        init: this.filterInit.bind(this),
-        change: this.filterChange.bind(this),
-        reload: this.reload.bind(this),
-        sortChange: this.filterSort.bind(this),
-      };
-    } else {
-      this.filtersQuery = {};
-    }
+    // Config
+    this.filterConfig = {
+      persist: this.persist,
+      items: this.filters || [],
+      savedFilters: this.savedFilters,
+      inline: this.inlineFilters,
+      actions: this.actions.actions,
+      queryParam: this.queryParam,
+      sorts: sortValues,
+      sort: sortConfig,
+      chips: this.chips,
+      init: this.filterInit.bind(this),
+      change: this.filterChange.bind(this),
+      reload: this.reload.bind(this),
+      sortChange: this.filterSort.bind(this),
+    };
   }
 
   /**

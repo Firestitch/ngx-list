@@ -8,7 +8,8 @@ import {
   IFilterConfigItem,
   IFilterConfigDateItem,
   FsFilterPersistance,
-  IFilterSavedFiltersConfig
+  IFilterSavedFiltersConfig,
+  IFsFilterAction,
 } from '@firestitch/filter';
 
 import { ActionType } from '../enums/button-type.enum';
@@ -159,17 +160,8 @@ export interface FsListFetchSubscription {
   loadOffset?: boolean;
 }
 
-export interface FsListAction {
-  primary?: boolean;
-  icon?: string;
-  label?: string;
-  menu?: boolean;
-  className?: string;
-  click?: (event) => void;
-  type?: ActionType;
+export interface FsListAction extends IFsFilterAction {
   customize?: boolean;
-  show?: () => boolean;
-  tabIndex?: number;
 }
 
 export interface FsListRowActionGroup {

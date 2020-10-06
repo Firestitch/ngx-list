@@ -1,69 +1,78 @@
-import { Action } from '../models/action.model';
-import { FsListAction } from '../interfaces/listconfig.interface';
+import { Observable, Subject } from 'rxjs';
+
+import { FilterComponent } from '@firestitch/filter';
+import { FsListAction } from '@firestitch/list';
+
 
 export class ActionsController {
 
-  public menuActions: Action[] = [];
-  public kebabActions: Action[] = [];
+  private _filterRef: FilterComponent;
 
-  private _actions: Action[] = [];
-  private _reorderAction: Action;
+  private _actions: FsListAction[] = [];
+  private _reorderAction: FsListAction;
+  private _doneAction: FsListAction;
+
+  private _destroy$ = new Subject<void>();
 
   constructor() {}
 
-  get actionsList() {
+  public get destroy$(): Observable<void> {
+    return this._destroy$.asObservable();
+  }
+
+  public get actions(): FsListAction[] {
     return this._actions;
   }
 
+  public get hasActions(): boolean {
+    return this._actions.length > 0;
+  }
+
+  public setFilterRef(ref: FilterComponent) {
+    this._filterRef = ref;
+  }
+
   public setActions(actions: FsListAction[]) {
-    this._actions = actions
-      .filter((action) => {
-        return !action.show || action.show();
-      })
-      .map((action) => new Action(action));
+    this.clearActions();
+    this._actions = actions;
 
     if (this._reorderAction) {
       this._actions.unshift(this._reorderAction);
     }
-
-    this._classifyActions();
   }
 
-  public addAction(action: Action) {
-    this._actions.push(action);
-
-    this._classifyAction(action);
-  }
-
-  public addReorderAction(action: Action) {
+  public addReorderAction(action: FsListAction) {
+    const actionClickFn = action.click;
     this._actions.unshift(action);
 
-    action.isReorderAction = true;
+    action.click = () => {
+      this._filterRef.updateActions([this._doneAction]);
+      this._filterRef.hideKeywordField();
+      this._filterRef.hideFiltersBtn();
+      actionClickFn(null);
+    }
 
-    this._classifyAction(action);
     this._reorderAction = action;
+  }
+
+  public addReorderDoneAction(action: FsListAction) {
+    this._doneAction = action;
+    const actionClickFn = action.click;
+
+    this._doneAction.click = () => {
+      this._filterRef.updateActions(this._actions);
+      this._filterRef.showKeywordField();
+      this._filterRef.showFiltersBtn();
+      actionClickFn(null);
+    }
   }
 
   public clearActions() {
     this._actions = [];
-    this.kebabActions = [];
-    this.menuActions = [];
+    this._destroy$.next();
   }
 
-  private _classifyActions() {
-    this.menuActions = [];
-    this.kebabActions = [];
-
-    this._actions.forEach((action) => {
-      this._classifyAction(action);
-    })
-  }
-
-  private _classifyAction(action: Action) {
-    if (action.menu) {
-      this.kebabActions.push(action);
-    } else {
-      this.menuActions.push(action);
-    }
+  public updateDisabledState(): void {
+    this._filterRef.updateDisabledState();
   }
 }

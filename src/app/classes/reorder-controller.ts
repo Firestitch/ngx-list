@@ -11,7 +11,6 @@ import {
 
 import { DataController } from './data-controller';
 import { ActionsController } from './actions-controller';
-import { Action } from '../models/action.model';
 
 export enum ReorderPosition {
   Left = 'left',
@@ -39,6 +38,7 @@ export class ReorderController implements OnDestroy {
   public strategy: ReorderStrategy;
 
   private _dataController: DataController;
+  private _actionsController: ActionsController;
 
   private _enabled$ = new BehaviorSubject<boolean>(false);
   private _manualReorderActivated$ = new BehaviorSubject(false);
@@ -94,6 +94,10 @@ export class ReorderController implements OnDestroy {
     return this._reorderDisabled$.asObservable();
   }
 
+  public get reorderDisabled(): boolean {
+    return this._reorderDisabled$.getValue();
+  }
+
   public initWithConfig(data, dataController: DataController, actionsController: ActionsController) {
     if (!data) { return }
 
@@ -109,20 +113,36 @@ export class ReorderController implements OnDestroy {
     this.moveDropCallback = data.moveDrop;
 
     this._dataController = dataController;
+    this._actionsController = actionsController;
 
     if (this.strategy === ReorderStrategy.Always) {
       this.enableReorder();
     } else if (this.strategy === ReorderStrategy.Manual) {
-      const action = new Action({
-        label: this.label || 'Reorder',
-        menu: this.menu,
-        primary: false,
-        click: () => {
-          this.enableReorder();
+      actionsController.addReorderAction(
+        {
+          label: this.label || 'Reorder',
+          menu: this.menu,
+          primary: false,
+          click: () => {
+            this.enableReorder();
+          },
+          disabled: () => {
+            return this.reorderDisabled;
+          }
         }
-      });
+      );
 
-      actionsController.addReorderAction(action);
+      actionsController.addReorderDoneAction({
+          label: 'Done',
+          primary: false,
+          click: () => {
+            this.disableReorder();
+          },
+          disabled: () => {
+            return this.reorderDisabled;
+          },
+        }
+      )
     }
   }
 
@@ -131,14 +151,15 @@ export class ReorderController implements OnDestroy {
       const returnedValue = this.startCallback();
 
       if (returnedValue && returnedValue instanceof Observable) {
-        this._reorderDisabled$.next(true);
+        this._disableReorderAction();
+
         returnedValue
           .pipe(
             takeUntil(this._destroy$),
           )
           .subscribe(() => {
-            this._reorderDisabled$.next(false);
             this.enabled = true;
+            this._enableReorderAction();
           });
 
         return;
@@ -153,14 +174,15 @@ export class ReorderController implements OnDestroy {
       const returnedValue = this.reorderFinished();
 
       if (returnedValue && returnedValue instanceof Observable) {
-        this._reorderDisabled$.next(true);
+        this._disableReorderAction();
+
         returnedValue
           .pipe(
             takeUntil(this._destroy$),
           )
           .subscribe(() => {
             this.enabled = false;
-            this._reorderDisabled$.next(false);
+            this._enableReorderAction();
           });
 
         return;
@@ -182,5 +204,21 @@ export class ReorderController implements OnDestroy {
   public ngOnDestroy() {
     this._destroy$.next();
     this._destroy$.complete();
+  }
+
+  /**
+   * Enable reorder action and update filter actions state
+   */
+  private _enableReorderAction() {
+    this._reorderDisabled$.next(false);
+    this._actionsController.updateDisabledState();
+  }
+
+  /**
+   * Disable reorder action and update filter actions state
+   */
+  private _disableReorderAction() {
+    this._reorderDisabled$.next(true);
+    this._actionsController.updateDisabledState();
   }
 }

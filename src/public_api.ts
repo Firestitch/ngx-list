@@ -21,7 +21,6 @@ export {
   FsFooterCellComponent
 }from './app/components/footer/footer-row/footer-cell/footer-cell.component';
 export { FsStatusComponent } from './app/components/status/status.component';
-export { FsActionsComponent } from './app/components/actions/actions.component';
 export { FsPaginationComponent } from './app/components/pagination/pagination.component';
 
 // Directives
@@ -31,7 +30,6 @@ export { FsListCellDirective } from './app/directives/cell/cell.directive';
 export { FsListHeaderDirective } from './app/directives/header/header.directive';
 
 // Models
-export { Action } from './app/models/action.model';
 export { Column, SortingDirection } from './app/models/column.model';
 export { List } from './app/classes/list-controller';
 export { PaginationController } from './app/classes/pagination-controller';
