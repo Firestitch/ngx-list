@@ -49,6 +49,7 @@ import { RestoreComponent } from './components/restore/restore.component';
 import { StrategyBaseComponent } from './components/examples/strategy-base/strategy-base.component';
 import { ConfigureComponent } from './components/configure';
 import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
+import { FsFileModule } from '@firestitch/file';
 
 
 @NgModule({
@@ -76,7 +77,8 @@ import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
       { path: '', component: ExamplesComponent },
       { path: 'noresults', component: NoResultsComponent },
       { path: 'paging', component: PagingComponent },
-    ])
+    ]),
+    FsFileModule.forRoot({}),
   ],
   entryComponents: [
     ConfigureComponent

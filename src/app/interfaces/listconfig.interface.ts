@@ -9,7 +9,7 @@ import {
   IFilterConfigDateItem,
   FsFilterPersistance,
   IFilterSavedFiltersConfig,
-  IFsFilterAction,
+  FsFilterAction,
 } from '@firestitch/filter';
 
 import { ActionType } from '../enums/button-type.enum';
@@ -160,9 +160,7 @@ export interface FsListFetchSubscription {
   loadOffset?: boolean;
 }
 
-export interface FsListAction extends IFsFilterAction {
-  customize?: boolean;
-}
+export type FsListAction  = {customize?: boolean} & FsFilterAction;
 
 export interface FsListRowActionGroup {
   label?: string;
