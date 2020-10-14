@@ -113,15 +113,11 @@ export class FsListDraggableListDirective {
 
     if (!swapWithBoundaryGroupElement) {
       if (elemIndex !== null) {
-        if (this._reorderController.dataController.groupEnabled) {
-          if (targetRow.readyToSwap) {
-            this.swapWithIndex(elemIndex)
-            this._draggableElementPreview.classList.remove('fs-list-no-drop');
-          } else {
-            this._draggableElementPreview.classList.add('fs-list-no-drop');
-          }
-        } else {
+        if (targetRow.readyToSwap) {
           this.swapWithIndex(elemIndex)
+          this._draggableElementPreview.classList.remove('fs-list-no-drop');
+        } else {
+          this._draggableElementPreview.classList.add('fs-list-no-drop');
         }
       }
     }

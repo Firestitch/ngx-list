@@ -72,7 +72,7 @@ export class FsListDraggableRowDirective implements OnInit, OnDestroy {
       },
     );
 
-    if (!this.row.readyToSwap && currentElGroup !== targetElGroup) {
+    if (!this.row.readyToSwap) {
       this._renderer.addClass(this._el.nativeElement, 'fs-list-swap-restricted');
     }
   }
