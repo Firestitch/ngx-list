@@ -42,7 +42,7 @@ export class ManualReorderComponent implements OnInit {
         }
       },
       fetch: query => {
-        return this._fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
+        return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
           .pipe(
             map(response => ({ data: response.data.objects, paging: response.data.paging })),
           );
