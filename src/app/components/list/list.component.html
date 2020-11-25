@@ -32,8 +32,7 @@
               list.paging &&
               !(reorderController.manualReorderActivated$ | async) &&
               (!reorderController.enabled || reorderController.status) &&
-              ((list.scrollable && list.scrollable.status) || !list.scrollable) &&
-              listData.length > 0">
+              ((list.scrollable && list.scrollable.status) || !list.scrollable)">
               <!-- Status -->
               <fs-list-status
                 [ngClass]="{ 'hidden-mobile': !list.status }"

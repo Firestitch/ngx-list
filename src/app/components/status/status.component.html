@@ -1,6 +1,11 @@
 <ng-container *ngIf="paging.enabled && !scrollable">
   <span class="sort-limits">
-    Showing&nbsp;<a [fsMenuTriggerFor]="limitsMenu">{{ paging.displayed }}&nbsp;</a> of {{ paging.records }} results&nbsp;
+    <ng-container *ngIf="paging.records > 0; else emptyResults">
+      Showing&nbsp;<a [fsMenuTriggerFor]="limitsMenu">{{ paging.statusLabel }}</a>&nbsp;of {{ paging.records}} results&nbsp;
+    </ng-container>
+    <ng-template #emptyResults>
+      Showing&nbsp;<a [fsMenuTriggerFor]="limitsMenu">0</a>&nbsp;results&nbsp;
+    </ng-template>
   </span>
   <ng-container *ngTemplateOutlet="sortedBy"></ng-container>
 </ng-container>

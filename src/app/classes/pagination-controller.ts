@@ -220,6 +220,17 @@ export class PaginationController extends Model {
     return this._infinityScrollEnabled;
   }
 
+  /**
+   * SP-T1974
+   * Showing 26-50 of 333 results sorted by Name, Ascending
+   * Showing 0 results sorted by Name, Ascending
+   */
+  get statusLabel(): string {
+    const current = (this.page - 1) * this.limit;
+
+    return `${current + 1}-${current + this.limit}`;
+  }
+
   public _fromJSON(value): void {
     super._fromJSON(value);
 
