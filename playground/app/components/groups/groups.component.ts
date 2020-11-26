@@ -3,17 +3,22 @@ import { FsApi } from '@firestitch/api';
 import { ItemType } from '@firestitch/filter';
 import {
   FsListConfig,
-  PaginationStrategy,
   FsListComponent,
   FsListAbstractRow, ReorderPosition, ReorderStrategy
 } from '@firestitch/list';
-import { map } from 'rxjs/operators';
+
+import { of } from 'rxjs';
+import { delay, map } from 'rxjs/operators';
+
+import { cloneDeep } from 'lodash-es';
+
+import { FsExampleComponent } from '@firestitch/example';
+import { SelectionActionType } from '@firestitch/selection';
+
 
 import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
 import { ApiStrategy } from '../../services/api-strategy.service';
-import { FsExampleComponent } from '@firestitch/example';
 import { ConfigureComponent } from '../configure';
-import { cloneDeep } from 'lodash-es';
 
 
 @Component({
@@ -61,6 +66,58 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
           }
         }
       ],
+      trackBy: 'name',
+      selection: {
+        selectAll: true,
+        actions: [
+          {
+            type: SelectionActionType.Action,
+            name: 'delete',
+            label: 'Delete'
+          },
+          {
+            type: SelectionActionType.Select,
+            label: 'Change Status To',
+            values: [
+              {
+                name: 'TODO',
+                value: '1'
+              },
+              {
+                name: 'Done',
+                value: '2'
+              }
+            ]
+          },
+        ],
+        actionSelected: (action) => {
+
+          console.log(action);
+
+          return of(true).pipe(
+            delay(2000),
+          )
+        },
+        allSelected: () => {
+        },
+        cancelled: () => {
+        },
+        selectionChanged: (data, allSelected, selectionRef) => {
+          if (data.find((row) => row.name === 'Object 1')) {
+            return of([
+              {
+                type: SelectionActionType.Action,
+                value: 'custom',
+                label: 'Custom Action'
+              },
+            ])
+          } else {
+            if (selectionRef) {
+              selectionRef.resetActions();
+            }
+          }
+        }
+      },
       reorder: {
         moveDrop: ({ row1, row2, group1, group2 }) => {
           console.log(row1, row2, group1, group2);

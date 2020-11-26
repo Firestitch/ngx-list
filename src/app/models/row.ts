@@ -57,11 +57,11 @@ export class Row {
   }
 
   public get isGroup(): boolean {
-    return (this._row as GroupRow).isGroup;
+    return this._row instanceof GroupRow;
   }
 
   public get isChild(): boolean {
-    return (this._row as ChildRow).isChild;
+    return this._row instanceof ChildRow;
   }
 
   public get parent(): GroupRow {

@@ -476,7 +476,7 @@ export class List extends Model {
   ) {
     if (selectionConfig) {
       this.selection = new SelectionController(selectionConfig, this.trackBy, selectionDialog);
-      this.selection.setRowsDataCallback(() => this.dataController.visibleRowsData);
+      this.selection.setRowsCallback(() => this.dataController.visibleRows);
     }
   }
 

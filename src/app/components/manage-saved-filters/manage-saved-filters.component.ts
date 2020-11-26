@@ -76,7 +76,6 @@ export class FsListManageSavedFiltersComponent {
         return this.savedFiltersController.load()
           .pipe(
             map((response) => {
-              debugger;
               return { data: response };
             }),
           );

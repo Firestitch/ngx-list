@@ -1,9 +1,10 @@
 import { Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { get as _get } from 'lodash-es';
-import { SelectionDialog, SelectionRef, FsSelectionDialogConfigAction } from '@firestitch/selection';
+import { SelectionDialog, SelectionRef } from '@firestitch/selection';
 
 import { FsListSelectionConfig } from '../interfaces';
+import { Row } from '../models/row';
 
 
 export enum SelectionChangeType {
@@ -25,11 +26,12 @@ export class SelectionController {
 
   // Store for selected visible rows
   public selectedRows = new Map();
+  public selectedGroups = new Map();
 
   // Reference to selection dialog
   private _selectionDialogRef: SelectionRef = null;
 
-  private _getRowsData: () => any[];
+  private _getRows: () => any[];
   private _selectionChange = new Subject<{ type: SelectionChangeType, payload: any }>();
 
   // Selected only visible rows (ex.: selected only limited 15 rows when we have pagination)
@@ -66,8 +68,8 @@ export class SelectionController {
     return this._selectionChange.pipe(takeUntil(this._destroy$));
   }
 
-  public setRowsDataCallback(data: () => any[]) {
-    this._getRowsData = data;
+  public setRowsCallback(data: () => any[]) {
+    this._getRows = data;
   }
 
   /**
@@ -75,21 +77,17 @@ export class SelectionController {
    * @param row
    * @param checked
    */
-  public rowSelectionChange(row, checked) {
+  public rowSelectionChange(row: Row, checked: boolean) {
     if (row) {
-      const identifier = this._rowIdentifier(row);
-
       if (checked) {
-        this.selectedRows.set(identifier, row);
-        this._selectedRecords++;
+        this._selectRow(row);
         this.openDialog();
       } else {
         if (this._selectedAll) {
           this._selectedAll = false;
         }
 
-        this.selectedRows.delete(identifier);
-        this._selectedRecords--;
+        this._deselectRow(row);
       }
     }
 
@@ -105,19 +103,30 @@ export class SelectionController {
     this.openDialog();
 
     this._selectedAllVisible = checked;
-    const rowsData = this._getRowsData();
+    this._selectedRecords = 0;
+
+    const rows = this._getRows();
 
     if (checked) {
-      rowsData.forEach((row) => {
-        const identifier = this._rowIdentifier(row);
-        this.selectedRows.set(identifier, row);
-      });
+      rows.forEach((row) => {
+        const identifier = this._rowIdentifier(row.data);
 
-      this._selectedRecords = rowsData.length;
+        if (row.isGroup) {
+          this._setNumberOfSelectedChildrenInGroup(identifier, row.children.length);
+        } else {
+          this.selectedRows.set(identifier, row);
+          this._selectedRecords++;
+        }
+      });
     } else {
-      rowsData.forEach((row) => {
-        const identifier = this._rowIdentifier(row);
-        this.selectedRows.delete(identifier);
+      rows.forEach((row) => {
+        const identifier = this._rowIdentifier(row.data);
+
+        if (row.isGroup) {
+          this._setNumberOfSelectedChildrenInGroup(identifier, 0);
+        } else {
+          this.selectedRows.delete(identifier);
+        }
       });
 
       this._selectedAll = false;
@@ -130,7 +139,22 @@ export class SelectionController {
   }
 
   public isRowSelected(row) {
-    return this.selectedRows.has(this._rowIdentifier(row)) || this.selectedAll;
+    return this.selectedRows.has(this._rowIdentifier(row))
+      || this.selectedGroups.has(this._rowIdentifier(row))
+      || this.selectedAll;
+  }
+
+  public isGroupSelected(row): boolean | 'indeterminate' {
+    const identifier = this._rowIdentifier(row.data);
+
+    if (
+      this.selectedGroups.has(identifier)
+      && row.children?.length > this.selectedGroups.get(identifier)
+    ) {
+      return 'indeterminate';
+    } else {
+      return this.selectedGroups.has(identifier) || this.selectedAll;
+    }
   }
 
   /**
@@ -176,13 +200,15 @@ export class SelectionController {
       }
     } else {
       this._selectedRecords = 0;
-      this._getRowsData().forEach((row) => {
-        const identified = this._rowIdentifier(row);
+      this._getRows()
+        .map((row) => row.data)
+        .forEach((row) => {
+          const identified = this._rowIdentifier(row);
 
-        if (this.selectedRows.has(identified)) {
-          this._selectedRecords++;
-        }
-      });
+          if (this.selectedRows.has(identified)) {
+            this._selectedRecords++;
+          }
+        });
 
       this._updateSelectionRefSelected();
       this._updateSelectedVisibleStatus();
@@ -439,7 +465,78 @@ export class SelectionController {
    * @param row
    */
   private _rowIdentifier(row) {
-    return _get(row, this._trackBy)
+    const identifier = _get(row, this._trackBy);
+
+    if (!identifier) {
+      console.warn('Selection can not recognize track by field for row. ' +
+        'Please check if you had configured trackBy function.')
+    }
+
+    return identifier;
+  }
+
+  private _selectRow(row) {
+    const identifier = this._rowIdentifier(row.data);
+
+    if (row.isGroup) {
+      row.children.forEach((childRow) => {
+        this._selectRow(childRow);
+      });
+    } else {
+      if (row.isChild) {
+        this._selectChildRow(row)
+      }
+
+      this.selectedRows.set(identifier, row.data);
+      this._selectedRecords++;
+    }
+  }
+
+  private _deselectRow(row) {
+    const identifier = this._rowIdentifier(row.data);
+
+    if (row.isGroup) {
+      this.selectedGroups.delete(identifier);
+
+      row.children.forEach((childRow) => {
+        this._deselectRow(childRow);
+      });
+    } else {
+      if (row.isChild && this.selectedRows.has(identifier)) {
+        this._deselectChildRow(row);
+      }
+
+      this.selectedRows.delete(identifier);
+      this._selectedRecords--;
+    }
+  }
+
+  private _selectChildRow(row) {
+    const parentIdentifier = this._rowIdentifier(row.parent.data);
+    const selectedChildrenNumber = this.selectedGroups.get(parentIdentifier) || 0;
+
+    this._setNumberOfSelectedChildrenInGroup(parentIdentifier, selectedChildrenNumber + 1);
+  }
+
+  private _deselectChildRow(row) {
+    const parentIdentifier = this._rowIdentifier(row.parent.data);
+    const selectedChildrenNumber = this.selectedGroups.get(parentIdentifier) || 0;
+
+    if (selectedChildrenNumber > 1) {
+      this._setNumberOfSelectedChildrenInGroup(parentIdentifier, selectedChildrenNumber - 1);
+    } else {
+      this._setNumberOfSelectedChildrenInGroup(parentIdentifier, 0);
+    }
+  }
+
+  private _setNumberOfSelectedChildrenInGroup(identifier: string, n: number) {
+    if (n === 0) {
+      this.selectedGroups.delete(identifier);
+
+      return;
+    }
+
+    this.selectedGroups.set(identifier, n);
   }
 
   /**
