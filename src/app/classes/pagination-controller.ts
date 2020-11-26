@@ -227,8 +227,10 @@ export class PaginationController extends Model {
    */
   get statusLabel(): string {
     const current = (this.page - 1) * this.limit;
+    const from = current + 1;
+    const to = Math.min(this.records, current + this.limit);
 
-    return `${current + 1}-${current + this.limit}`;
+    return `${from}-${to}`;
   }
 
   public _fromJSON(value): void {
