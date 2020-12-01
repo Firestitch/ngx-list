@@ -7,19 +7,9 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
+    <tr *ngFor="let row of rows; let index=index">
       <td *ngFor="let col of cols; let column = index">
-        <div class="placeholder" [style.width]="placeholderWidths[0][column] + '%'"></div>
-      </td>
-    </tr>
-    <tr>
-      <td *ngFor="let col of cols; let column = index">
-        <div class="placeholder" [style.width]="placeholderWidths[1][column] + '%'"></div>
-      </td>
-    </tr>
-    <tr>
-      <td *ngFor="let col of cols; let column = index">
-        <div class="placeholder" [style.width]="placeholderWidths[2][column] + '%'"></div>
+        <div class="placeholder" [style.width]="placeholderWidths[index][column] + '%'"></div>
       </td>
     </tr>
   </tbody>

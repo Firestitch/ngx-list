@@ -67,6 +67,9 @@ export class FsListComponent implements OnInit, OnDestroy {
     this._initWithConfig(config)
   }
 
+  @Input()
+  public loaderLines = 3;
+
   public list: List;
   private listColumnDirectives: QueryList<FsListColumnDirective>;
 

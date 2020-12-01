@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges
+} from '@angular/core';
 import { random } from 'lodash-es';
 
 
@@ -10,14 +17,20 @@ import { random } from 'lodash-es';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FsListLoaderComponent implements OnInit {
+export class FsListLoaderComponent implements OnInit, OnChanges {
 
   public placeholderWidths = [[], [], []];
   public widths = [];
 
   @Input() columns;
 
-  ngOnInit() {
+  @Input()
+  public loaderLines: number;
+
+  public cols = [];
+  public rows = [];
+
+  public ngOnInit() {
 
     this.cols = this.columns > 5 ? this.columns.splice(0, 5) : this.columns;
     const length = this.cols.length;
@@ -32,5 +45,9 @@ export class FsListLoaderComponent implements OnInit {
     }
   }
 
-  public cols = [];
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.loaderLines) {
+      this.rows = new Array(this.loaderLines);
+    }
+  }
 }
