@@ -606,7 +606,7 @@ export class List extends Model {
         // Remove from selection
         if (this.selection) {
           rows.forEach((row) => {
-            this.selection.removeRow(row);
+            this.selection.removeRow(row.data);
           });
         }
       });

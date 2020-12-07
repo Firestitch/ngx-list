@@ -114,7 +114,7 @@ export class SelectionController {
         if (row.isGroup) {
           this._setNumberOfSelectedChildrenInGroup(identifier, row.children.length);
         } else {
-          this.selectedRows.set(identifier, row);
+          this.selectedRows.set(identifier, row.data);
           this._selectedRecords++;
         }
       });
@@ -138,9 +138,9 @@ export class SelectionController {
     this._updateSelectionRefSelected();
   }
 
-  public isRowSelected(row) {
-    return this.selectedRows.has(this._rowIdentifier(row))
-      || this.selectedGroups.has(this._rowIdentifier(row))
+  public isRowSelected(rowData) {
+    return this.selectedRows.has(this._rowIdentifier(rowData))
+      || this.selectedGroups.has(this._rowIdentifier(rowData))
       || this.selectedAll;
   }
 
@@ -202,8 +202,8 @@ export class SelectionController {
       this._selectedRecords = 0;
       this._getRows()
         .map((row) => row.data)
-        .forEach((row) => {
-          const identified = this._rowIdentifier(row);
+        .forEach((rowData) => {
+          const identified = this._rowIdentifier(rowData);
 
           if (this.selectedRows.has(identified)) {
             this._selectedRecords++;
