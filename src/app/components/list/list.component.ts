@@ -106,8 +106,8 @@ export class FsListComponent implements OnInit, OnDestroy {
   constructor(
     public reorderController: ReorderController,
     private _el: ElementRef,
-    @Inject(FS_LIST_DEFAULT_CONFIG) private _defaultOptions,
-    private fsScroll: FsScrollService,
+    @Optional() @Inject(FS_LIST_DEFAULT_CONFIG) private _defaultOptions,
+    @Optional() private fsScroll: FsScrollService,
     private selectionDialog: SelectionDialog,
     private dialog: MatDialog,
     private cdRef: ChangeDetectorRef,
@@ -239,7 +239,9 @@ export class FsListComponent implements OnInit, OnDestroy {
       this.list.destroy();
     }
 
-    const defaultOpts = cloneDeep(this._defaultOptions);
+    const defaultOpts = this._defaultOptions
+      ? cloneDeep(this._defaultOptions)
+      : {};
     const listConfig = mergeWith(defaultOpts, config, this._configMergeCustomizer);
 
     if (listConfig.persist !== false) {
