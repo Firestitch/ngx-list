@@ -45,7 +45,7 @@ export interface FsListConfig {
   rowActions?: (FsListRowActionGroup | FsListRowAction)[] ;
   rowClass?: (row: any) => string;
   actions?: FsListAction[];
-  fetch?: (query: any) => Observable<any>;
+  fetch?: (query: any) => Observable<{ data: unknown[], paging?: FsPaging }>;
   scrollable?: FsListScrollableConfig | boolean;
   selection?: FsListSelectionConfig;
   initialFetch?: boolean;
