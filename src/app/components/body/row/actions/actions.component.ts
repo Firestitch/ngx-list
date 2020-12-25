@@ -11,8 +11,8 @@ import { take, takeUntil } from 'rxjs/operators';
 
 import { FsPrompt } from '@firestitch/prompt';
 
-import { RowAction } from '../../../../models/row-action.model';
 import { Row } from '../../../../models/row';
+import { RowAction } from '../../../../models/row-action.model';
 
 
 @Component({
@@ -24,6 +24,9 @@ export class FsRowActionsComponent {
 
   @Input()
   public row: Row;
+
+  @Input()
+  public index: number;
 
   @Input()
   public restoreMode = false;
@@ -52,7 +55,7 @@ export class FsRowActionsComponent {
   public actionClick(action: RowAction, row: any, event: any, menuRef?) {
     if (action.remove) {
       if (typeof action.remove === 'boolean') {
-        this.removeAction(action, row.data, event);
+        this.removeAction(action, row.data, event, this.index);
       } else {
         this._fsPrompt.confirm({
           title: action.remove.title,
@@ -62,13 +65,13 @@ export class FsRowActionsComponent {
           takeUntil(this._destroy$),
         ).subscribe({
           next: () => {
-            this.removeAction(action, row.data, event);
+            this.removeAction(action, row.data, event, this.index);
           },
           error: () => {},
         })
       }
     } else {
-      action.click(row.data, event, menuRef);
+      action.click(row.data, event, this.index, menuRef);
     }
   }
 
@@ -89,9 +92,10 @@ export class FsRowActionsComponent {
    * @param action
    * @param row
    * @param event
+   * @param index
    */
-  private removeAction(action, row, event) {
-    const removeObservable = action.click(row, event);
+  private removeAction(action, row, event, index) {
+    const removeObservable = action.click(row, event, index);
 
     if (removeObservable && removeObservable instanceof Observable) {
       removeObservable

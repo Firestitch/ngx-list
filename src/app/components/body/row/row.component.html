@@ -36,6 +36,7 @@
 <!-- Row Actions -->
 <td *ngIf="hasRowActions && !(reorderController.manualReorderActivated$ | async)" class="fs-list-col row-actions">
   <fs-list-row-actions [row]="row"
+                       [index]="rowIndex"
                        [rowActions]="rowActions"
                        [menuRowActions]="menuRowActions"
                        [inlineRowActions]="inlineRowActions"

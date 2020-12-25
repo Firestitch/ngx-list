@@ -173,7 +173,7 @@ export interface FsListRowAction {
   className?: string;
   icon?: string;
   menu?: boolean;
-  click?: (row, event) => void;
+  click?: (row, event, index) => void;
   link?: FsListRowActionLinkFn;
   show?: (row) => boolean;
   remove?: { title?: string; template?: string; } | boolean;
