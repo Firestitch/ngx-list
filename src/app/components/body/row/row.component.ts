@@ -138,7 +138,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     if (this._rowDiffer.diff(this.row)) {
       if (this.rowActions) {
         this.rowActions.forEach((action) => {
-          action.checkShowStatus(this.row.data);
+          action.checkShowStatus(this.row.data, this.rowIndex);
           action.updateLink(this.row.data);
         });
         this.filterActionsByCategories();

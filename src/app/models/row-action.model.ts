@@ -65,15 +65,15 @@ export class RowAction extends Model {
     }
   }
 
-  public checkShowStatus(row) {
+  public checkShowStatus(row, index) {
     if (this.isGroup) {
       this.rowActions.forEach((action) => {
-        action.checkShowStatus(row);
+        action.checkShowStatus(row, index);
       });
 
       this.isShown = this.rowActions.some((action) => action.isShown);
     } else if (this.show) {
-      this.isShown = this.show(row);
+      this.isShown = this.show(row, index);
     }
   }
 

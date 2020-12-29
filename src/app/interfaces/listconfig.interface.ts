@@ -175,7 +175,7 @@ export interface FsListRowAction {
   menu?: boolean;
   click?: (row, event, index) => void;
   link?: FsListRowActionLinkFn;
-  show?: (row) => boolean;
+  show?: (row, index: number) => boolean;
   remove?: { title?: string; template?: string; } | boolean;
   restore?: boolean;
 }
