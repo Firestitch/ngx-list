@@ -65,6 +65,7 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
 
     this.cellContext.column = this.column;
     if (this.row) {
+      this.cellContext.$implicit = this.row.data;
       this.cellContext.row = this.row.data;
       this.cellContext.value = this.row.data[this.column.name];
       this.cellContext.expanded = this.row.expanded;
