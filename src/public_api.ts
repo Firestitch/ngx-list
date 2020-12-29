@@ -71,6 +71,7 @@ export {
   FsListGroupConfig,
   FsListRowActionLink,
   FsListRowActionLinkFn,
+  FsListRowActionGroup,
 } from './app/interfaces/listconfig.interface';
 export { QueryOffsetStrategy, QueryPageStrategy } from './app/interfaces/pagination.interface';
 
