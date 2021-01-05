@@ -408,8 +408,9 @@ export class SelectionController {
       if (this.selectedRows.size === 0) {
         this._selectionDialogRef.close();
       }
+
+      this._selectionChangedActions();
     }
-    this._selectionChangedActions();
   }
 
   /**
