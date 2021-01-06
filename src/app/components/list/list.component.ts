@@ -242,6 +242,20 @@ export class FsListComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Update visibility for specific column
+   */
+  public columnVisibility(name: string, show: boolean) {
+    this.columnsVisibility([ {name, show } ])
+  }
+
+  /**
+   * Update visibility for list of specific columns
+   */
+  public columnsVisibility(columns: { name: string, show: boolean }[]) {
+    this.list.columns.updateVisibilityForCols(columns);
+  }
+
+  /**
    * Initialize config for list
    * @param config
    */
