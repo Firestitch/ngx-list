@@ -59,6 +59,7 @@ export interface FsListConfig {
   sort?: FsListSortConfig;
   restore?: FsListRestoreConfig;
   noResults?: FsListNoResultsConfig
+  emptyState?: FsListEmptyStateConfig;
 }
 
 export interface FsListGroupConfig {
@@ -243,4 +244,9 @@ export interface FsListActionSelected extends FsSelectionActionSelected {
   selected: any[];
 }
 
+export interface FsListEmptyStateConfig {
+  validate: FsListStateValidationFn;
+}
+
 export type FsListPersitance = FsFilterPersistance;
+export type FsListStateValidationFn = (filters: any, rows: FsListAbstractRow[]) => boolean;

@@ -1,0 +1,12 @@
+.empty-state {
+  display: block;
+  text-align: center;
+}
+
+.controls {
+  .actions {
+    button + button {
+      margin-left: 15px;
+    }
+  }
+}

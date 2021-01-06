@@ -28,6 +28,7 @@ export { FsListFooterDirective } from './app/directives/footer/footer.directive'
 export { FsListColumnDirective } from './app/directives/column/column.directive';
 export { FsListCellDirective } from './app/directives/cell/cell.directive';
 export { FsListHeaderDirective } from './app/directives/header/header.directive';
+export { FsListEmptyStateDirective } from './app/directives/empty-state/empty-state.directive';
 
 // Models
 export { Column, SortingDirection } from './app/models/column.model';
@@ -72,6 +73,8 @@ export {
   FsListRowActionLink,
   FsListRowActionLinkFn,
   FsListRowActionGroup,
+  FsListEmptyStateConfig,
+  FsListStateValidationFn,
 } from './app/interfaces/listconfig.interface';
 export { QueryOffsetStrategy, QueryPageStrategy } from './app/interfaces/pagination.interface';
 

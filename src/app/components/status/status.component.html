@@ -55,7 +55,7 @@
   </ng-template>
 </fs-menu>
 
-<fs-menu [hidden]="!sorting.sortingColumn" #orderColumnsMenu>
+<fs-menu [hidden]="!sorting.sortingColumn || paging.displayed === 0" #orderColumnsMenu>
   <!-- Real sorting columns -->
   <ng-template
     ngFor

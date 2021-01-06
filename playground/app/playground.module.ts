@@ -42,7 +42,7 @@ import {
   SelectionComponent,
   AgoComponent,
   GlobalStrategyComponent,
-  GroupsComponent,
+  GroupsComponent, EmptyStateComponent,
 } from './components';
 
 import { RestoreComponent } from './components/restore/restore.component';
@@ -107,6 +107,7 @@ import { FsFileModule } from '@firestitch/file';
     StrategyBaseComponent,
     ConfigureComponent,
     GroupsComponent,
+    EmptyStateComponent,
   ],
   providers: [
     { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: {float: 'always'} }

@@ -1,4 +1,4 @@
-import { ElementRef } from '@angular/core';
+import { ElementRef, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FilterConfig, IFilterSavedFiltersConfig, ItemType } from '@firestitch/filter';
 import { FsScrollInstance, FsScrollService } from '@firestitch/scroll';
@@ -32,6 +32,7 @@ import { SortingDirection } from '../models/column.model';
 // Interfaces
 import {
   FsListConfig,
+  FsListEmptyStateConfig,
   FsListFetchSubscription,
   FsListGroupConfig,
   FsListLoadMoreConfig,
@@ -77,6 +78,7 @@ export class List extends Model {
   @Alias() public savedFilters: IFilterSavedFiltersConfig;
   @Alias() public scrollable: FsListScrollableConfig | false = false;
   @Alias() public noResults: FsListNoResultsConfig;
+  @Alias() public emptyState: FsListEmptyStateConfig;
   // @Alias() public initialFetch = true; //TODO fixme
   @Alias('fetch') public fetchFn: any;
   // @Alias('rows') private _rows: any;
@@ -110,6 +112,10 @@ export class List extends Model {
   public restoreMode = false;
 
   public initialFetch = true;
+
+  // Empty state
+  public emptyStateEnabled = false;
+  public emptyStateTemplate: TemplateRef<any>;
 
   public fsScrollInstance: FsScrollInstance;
 
@@ -564,7 +570,7 @@ export class List extends Model {
             )
           }
 
-          return this.fetchRemote(query);
+          return combineLatest([of(query), this.fetchRemote(query)]);
         }),
         catchError((error, source$) => {
           console.error(error);
@@ -790,7 +796,7 @@ export class List extends Model {
     }
   }
 
-  private completeFetch(response) {
+  private completeFetch([query, response]) {
 
     if (!this.paging.page) {
       this.paging.page = 1;
@@ -825,6 +831,10 @@ export class List extends Model {
       }
 
       this.selection.selectedRowsIntersection(this.dataController.visibleRowsData);
+    }
+
+    if (this.emptyState?.validate && this.emptyStateTemplate) {
+      this.emptyStateEnabled = this.emptyState.validate(query, cloneDeep(response.data));
     }
 
     this.fetchComplete$.next();

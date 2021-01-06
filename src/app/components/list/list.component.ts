@@ -10,7 +10,10 @@ import {
   OnInit,
   QueryList,
   ViewChild,
-  HostBinding, Optional,
+  HostBinding,
+  Optional,
+  ContentChild,
+  TemplateRef,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -31,6 +34,7 @@ import { List } from '../../classes/list-controller';
 import { ReorderController } from '../../classes/reorder-controller';
 
 import { FsListColumnDirective } from '../../directives/column/column.directive';
+import { FsListEmptyStateDirective } from '../../directives/empty-state/empty-state.directive';
 import { FS_LIST_DEFAULT_CONFIG } from '../../fs-list.providers';
 
 import {
@@ -100,6 +104,13 @@ export class FsListComponent implements OnInit, OnDestroy {
     this.listColumnDirectives = listColumnDirectives;
     if (this.list) {
       this.list.tranformTemplatesToColumns(listColumnDirectives);
+    }
+  }
+
+  @ContentChild(FsListEmptyStateDirective, { read: TemplateRef })
+  private set _emptyStateTemplate(template: TemplateRef<any>) {
+    if (this.list) {
+      this.list.emptyStateTemplate = template;
     }
   }
 

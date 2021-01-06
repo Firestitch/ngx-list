@@ -6,7 +6,8 @@ import { ItemType } from '@firestitch/filter';
 
 
 @Component({
-  templateUrl: 'no-results.component.html',
+  selector: 'no-results',
+  templateUrl: './no-results.component.html',
   styles: []
 })
 export class NoResultsComponent implements OnInit {

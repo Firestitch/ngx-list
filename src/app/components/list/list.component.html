@@ -49,7 +49,7 @@
 
     <!-- Table implementation -->
     <div class="fs-list-table-container">
-      <table class="fs-list-table" role="grid" *ngIf="!firstLoad && listData.length > 0">
+      <table class="fs-list-table" role="grid" *ngIf="!firstLoad && listData.length > 0 && !list.emptyStateEnabled">
         <thead fs-list-head
                class="fs-list-head"
                role="rowgroup"
@@ -96,14 +96,24 @@
     </div>
 
     <fs-list-pagination
-      *ngIf="list.paging.enabled && !firstLoad && !list.scrollable && listData.length > 0"
+      *ngIf="list.paging.enabled && !firstLoad && !list.scrollable && listData.length > 0 && !list.emptyStateEnabled"
       [rows]="listData"
       [pagination]="list.paging">
     </fs-list-pagination>
 
-    <div class="fs-list-no-results" *ngIf="!firstLoad && listData.length === 0 && !(list.loading$ | async) && list.noResults?.message">
-      {{ list.noResults?.message }}
-    </div>
+    <ng-container *ngIf="!firstLoad && !(list.loading$ | async)">
+      <ng-container *ngIf="listData.length === 0">
+        <ng-container *ngIf="list.noResults?.message && !list.emptyStateEnabled">
+          <div class="fs-list-no-results">
+            {{ list.noResults?.message }}
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="list.emptyStateEnabled">
+        <ng-template [ngTemplateOutlet]="list.emptyStateTemplate"></ng-template>
+      </ng-container>
+    </ng-container>
   </ng-container>
 </ng-template>
 
