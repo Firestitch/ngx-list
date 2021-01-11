@@ -373,6 +373,14 @@ export class SelectionController {
   }
 
   private _selectionChangedActions() {
+    // Remove actions if no rows selected
+    // otherwise it will "blink" when user select any action
+    if (this.selectedRows.size === 0) {
+      this._selectionDialogRef.updateActions([]);
+
+      return
+    }
+
     if (this.selectionChangedFn) {
       const result = this.selectionChangedFn(
         Array.from(this.selectedRows.values()),
