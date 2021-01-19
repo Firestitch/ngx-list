@@ -317,7 +317,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           },
         },
         {
-          label: 'Go to Project',
+          label: 'Go to Project1',
           link: (row) => {
 
             return { link: ['rows', row.guid ], queryParams: { param: 1 } }
@@ -332,6 +332,15 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
               },
               icon: 'edit',
               label: 'Edit'
+            },
+            {
+              link: (row) => {
+                return { link: ['rows', row.guid ], queryParams: { param: 1 } }
+              },
+              show: () => {
+                return false;
+              },
+              label: 'Hidden',
             },
             {
               click: (row, event) => {
