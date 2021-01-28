@@ -63,7 +63,7 @@
     "@firestitch/iframe": "^8.0.0",
     "@firestitch/label": "^8.2.1",
     "@firestitch/mask": "^8.3.0",
-    "@firestitch/menu": "^9.1.4",
+    "@firestitch/menu": "^9.1.8",
     "@firestitch/message": "^8.1.0",
     "@firestitch/model-change": "^7.0.1",
     "@firestitch/prompt": "^8.4.1",
@@ -97,7 +97,7 @@
     "lodash-es": ">=4.17.15",
     "@firestitch/scroll": ">=7.0.0",
     "@firestitch/prompt": ">=7.3.0",
-    "@firestitch/menu": ">=7.0.11",
+    "@firestitch/menu": ">=9.1.8",
     "@firestitch/filter": ">=9.4.0"
   },
   "dependencies": {

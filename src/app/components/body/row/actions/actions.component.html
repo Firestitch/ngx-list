@@ -21,6 +21,7 @@
                    fs-menu-item
                    [link]="action.routerLink?.link"
                    [queryParams]="action.routerLink?.queryParams"
+                   [target]="action.routerLink?.target"
                    [hidden]="action.menu !== undefined && !action.isShown">
         <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon>
         {{action.label}}
@@ -34,6 +35,7 @@
             <ng-template fs-menu-item
                          [link]="subAction.routerLink?.link"
                          [queryParams]="subAction.routerLink?.queryParams"
+                         [target]="subAction.routerLink?.target"
                          [hidden]="!subAction.isShown"
                          (click)="actionClick(subAction, row, $event, menuRef);">
               <mat-icon *ngIf="subAction.icon">{{subAction.icon}}</mat-icon>
@@ -46,6 +48,7 @@
         <ng-template fs-menu-item
                      [link]="action.routerLink?.link"
                      [queryParams]="action.routerLink?.queryParams"
+                     [target]="action.routerLink?.target"
                      [hidden]="!action.isShown"
                      (click)="actionClick(action, row, $event, menuRef);">
           <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon>

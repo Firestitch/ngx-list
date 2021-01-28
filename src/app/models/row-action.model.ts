@@ -88,6 +88,10 @@ export class RowAction extends Model {
       });
     } else if (this._linkFn) {
       this.routerLink = this._linkFn(row);
+
+      if (this.routerLink && !this.routerLink.target) {
+        this.routerLink.target = null;
+      }
     }
   }
 
