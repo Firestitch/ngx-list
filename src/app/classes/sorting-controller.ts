@@ -128,18 +128,19 @@ export class SortingController {
     }
 
     if (!this.getColumn(sort.value)) {
-      throw Error(`
+      console.warn(`
         Not possible to do initial sort by "${sort.value}" column.
-        Column with name "${sort.value}" does not exists
+        Column with name "${sort.value}" does not exists.
+        Check your lister configuration.
       `);
+    } else {
+      this.sortByColumnWithName(sort.value);
+
+      const direction = (sort.direction === void 0 || sort.direction === 'asc')
+        ? SortingDirection.asc
+        : SortingDirection.desc;
+      this._setSortingDirection(direction);
     }
-
-    this.sortByColumnWithName(sort.value);
-
-    const direction = (sort.direction === void 0 || sort.direction === 'asc')
-      ? SortingDirection.asc
-      : SortingDirection.desc;
-    this._setSortingDirection(direction);
 
     this._initialization = false;
   }
