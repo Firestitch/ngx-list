@@ -14,6 +14,7 @@ import {
   Optional,
   ContentChild,
   TemplateRef,
+  Output,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -74,6 +75,9 @@ export class FsListComponent implements OnInit, OnDestroy {
   @Input()
   public loaderLines = 3;
 
+  @Output()
+  public filtersReady = new EventEmitter<void>();
+
   public list: List;
   private listColumnDirectives: QueryList<FsListColumnDirective>;
 
@@ -84,6 +88,7 @@ export class FsListComponent implements OnInit, OnDestroy {
   // public readonly ReorderStrategy = ReorderStrategy;
 
   private _filterRef: FilterComponent;
+  private _filterParamsReady = false;
   private _inDialog = !!this._dialogRef || !!this._drawerRef;
 
   private _destroy = new Subject();
@@ -92,6 +97,8 @@ export class FsListComponent implements OnInit, OnDestroy {
   private set filterReference(component) {
     this._filterRef = component;
     this.list.actions.setFilterRef(component);
+
+    this._emitFiltersReadyEvent();
   }
 
   /**
@@ -239,6 +246,8 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   public filterReady() {
     this.list.filtersReady$.next();
+    this._filterParamsReady = true;
+    this._emitFiltersReadyEvent();
   }
 
   /**
@@ -253,6 +262,12 @@ export class FsListComponent implements OnInit, OnDestroy {
    */
   public columnsVisibility(columns: { name: string, show: boolean }[]) {
     this.list.columns.updateVisibilityForCols(columns);
+  }
+
+  private _emitFiltersReadyEvent(): void {
+    if (!!this.filterRef && this._filterParamsReady) {
+      this.filtersReady.emit();
+    }
   }
 
   /**
