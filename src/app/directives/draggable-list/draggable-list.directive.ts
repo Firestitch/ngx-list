@@ -299,12 +299,15 @@ export class FsListDraggableListDirective {
 
   private _waitUntilIsNotDone(doneResult: unknown): void {
     if (doneResult instanceof Observable) {
-      this._reorderController.disableReorder();
-      doneResult
-        .pipe(takeUntil(this._destroy$))
-        .subscribe(() => {
-          this._reorderController.enableReorder();
-        })
+      this._zone.run(() => {
+        this._reorderController.disableReorderAction();
+        doneResult
+          .pipe(takeUntil(this._destroy$))
+          .subscribe(() => {
+            console.log('enable');
+            this._reorderController.enableReorderAction();
+          });
+      });
     }
   }
 

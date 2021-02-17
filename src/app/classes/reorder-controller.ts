@@ -151,7 +151,7 @@ export class ReorderController implements OnDestroy {
       const returnedValue = this.startCallback();
 
       if (returnedValue && returnedValue instanceof Observable) {
-        this._disableReorderAction();
+        this.disableReorderAction();
 
         returnedValue
           .pipe(
@@ -159,7 +159,7 @@ export class ReorderController implements OnDestroy {
           )
           .subscribe(() => {
             this.enabled = true;
-            this._enableReorderAction();
+            this.enableReorderAction();
           });
 
         return;
@@ -173,7 +173,7 @@ export class ReorderController implements OnDestroy {
     const returnedValue = this.reorderFinished();
 
     if (returnedValue && returnedValue instanceof Observable) {
-      this._disableReorderAction();
+      this.disableReorderAction();
 
       returnedValue
         .pipe(
@@ -181,7 +181,7 @@ export class ReorderController implements OnDestroy {
         )
         .subscribe(() => {
           this.enabled = false;
-          this._enableReorderAction();
+          this.enableReorderAction();
         });
 
       return;
@@ -209,7 +209,7 @@ export class ReorderController implements OnDestroy {
   /**
    * Enable reorder action and update filter actions state
    */
-  private _enableReorderAction() {
+  public enableReorderAction() {
     this._reorderDisabled$.next(false);
     this._actionsController.updateDisabledState();
   }
@@ -217,7 +217,7 @@ export class ReorderController implements OnDestroy {
   /**
    * Disable reorder action and update filter actions state
    */
-  private _disableReorderAction() {
+  public disableReorderAction() {
     this._reorderDisabled$.next(true);
     this._actionsController.updateDisabledState();
   }
