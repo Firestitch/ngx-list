@@ -141,9 +141,11 @@ export class FsListDraggableListDirective {
 
     if (this._reorderController.strategy === ReorderStrategy.Always) {
       if (this._reorderController.doneCallback) {
-        this._reorderController.doneCallback(
+        const result = this._reorderController.doneCallback(
           this._reorderController.dataController.reorderData
         );
+
+        this._waitUntilIsNotDone(result);
       }
     }
 
@@ -293,6 +295,17 @@ export class FsListDraggableListDirective {
       const dims = elem.getBoundingClientRect();
       draggableCells[index].style.width = dims.width + 'px';
     });
+  }
+
+  private _waitUntilIsNotDone(doneResult: unknown): void {
+    if (doneResult instanceof Observable) {
+      this._reorderController.disableReorder();
+      doneResult
+        .pipe(takeUntil(this._destroy$))
+        .subscribe(() => {
+          this._reorderController.enableReorder();
+        })
+    }
   }
 
   /**
