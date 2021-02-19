@@ -140,13 +140,15 @@ export class FsListDraggableListDirective {
     }
 
     if (this._reorderController.strategy === ReorderStrategy.Always) {
-      if (this._reorderController.doneCallback) {
-        const result = this._reorderController.doneCallback(
-          this._reorderController.dataController.reorderData
-        );
+      this._zone.run(() => {
+        if (this._reorderController.doneCallback) {
+          const result = this._reorderController.doneCallback(
+            this._reorderController.dataController.reorderData
+          );
 
-        this._waitUntilIsNotDone(result);
-      }
+          this._waitUntilIsNotDone(result);
+        }
+      });
     }
 
     // this._reorderController.dataController.updateOrderByRows(this._rows);
@@ -299,15 +301,14 @@ export class FsListDraggableListDirective {
 
   private _waitUntilIsNotDone(doneResult: unknown): void {
     if (doneResult instanceof Observable) {
-      this._zone.run(() => {
-        this._reorderController.disableReorderAction();
-        doneResult
-          .pipe(takeUntil(this._destroy$))
-          .subscribe(() => {
-            console.log('enable');
-            this._reorderController.enableReorderAction();
-          });
-      });
+      this._reorderController.disableReorderAction();
+
+      doneResult
+        .pipe(takeUntil(this._destroy$))
+        .subscribe(() => {
+          console.log('enable');
+          this._reorderController.enableReorderAction();
+        });
     }
   }
 
