@@ -1,47 +1,28 @@
 <ng-container *ngIf="paging.enabled && !scrollable">
-  <span class="sort-limits">
-    <ng-container *ngIf="paging.records > 0; else emptyResults">
-      Showing&nbsp;<a [fsMenuTriggerFor]="limitsMenu">{{ paging.statusLabel }}</a>&nbsp;of {{ paging.records}} results&nbsp;
-    </ng-container>
-    <ng-template #emptyResults>
-      Showing&nbsp;<a [fsMenuTriggerFor]="limitsMenu">0</a>&nbsp;results&nbsp;
-    </ng-template>
-  </span>
-  <ng-container *ngTemplateOutlet="sortedBy"></ng-container>
-</ng-container>
+  <ng-container *ngIf="paging.records > 0; else emptyResults">
+    Showing <a [fsMenuTriggerFor]="limitsMenu">{{ paging.statusLabel }}</a> of {{ paging.records}} results
+  </ng-container>
+  <ng-template #emptyResults>
+    Showing <a [fsMenuTriggerFor]="limitsMenu">0</a> results
+  </ng-template>
+  <ng-container *ngTemplateOutlet="sortedBy"></ng-container><!--
+--></ng-container><!--
 
-<ng-container *ngIf="(!paging.enabled || scrollable) && paging.displayed > 0">
-  <span class="sort-limits">
-    <ng-container *ngIf="!scrollable; else scrollable">
-      Showing
-      <span *ngIf="paging.displayed == 1">{{ paging.displayed }} result&nbsp;</span>
-      <span *ngIf="paging.displayed > 1">{{ paging.displayed }} results&nbsp;</span>
-    </ng-container>
+--><ng-container *ngIf="(!paging.enabled || scrollable) && paging.displayed > 0">
+  <ng-container *ngIf="!scrollable; else scrollable">
+    Showing
+    <span *ngIf="paging.displayed == 1">{{ paging.displayed }} result </span>
+    <span *ngIf="paging.displayed > 1">{{ paging.displayed }} results </span>
+  </ng-container>
 
-    <ng-template #scrollable>
-      <span *ngIf="paging.records == 1">{{ paging.records }} result&nbsp;</span>
-      <span *ngIf="paging.records > 1">{{ paging.records }} results&nbsp;</span>
-    </ng-template>
-  </span>
-  <ng-container *ngTemplateOutlet="sortedBy"></ng-container>
-</ng-container>
+  <ng-template #scrollable>
+    <span *ngIf="paging.records == 1">{{ paging.records }} result </span>
+    <span *ngIf="paging.records > 1">{{ paging.records }} results </span>
+  </ng-template>
+  <ng-container *ngTemplateOutlet="sortedBy"></ng-container><!--
+--></ng-container><!--
 
-<ng-template #sortedBy>
-  <span *ngIf="sorting.sortingColumn" class="sort-by">
-    sorted by&nbsp;
-    <ng-container *ngIf="sorting.sortingColumn.title; else sortByTemplate">
-      <a class="order-toggle" [fsMenuTriggerFor]="orderColumnsMenu">{{ sorting.sortingColumn.title }}</a>,&nbsp;
-    </ng-container>
-    <ng-template #sortByTemplate>
-      <a class="order-toggle" [fsMenuTriggerFor]="orderColumnsMenu">
-        <ng-template [ngTemplateOutlet]="sorting.sortingColumn.headerTemplate"></ng-template>
-      </a>,
-    </ng-template>
-    <a class="order-toggle" (click)="toggleDirection()">{{ sorting.sortingColumn.fullNameDirection }}</a>
-  </span>
-</ng-template>
-
-<fs-list-saved-filters class="saved-filters"></fs-list-saved-filters>
+--><fs-list-saved-filters class="saved-filters"></fs-list-saved-filters>
 
 <fs-menu [hidden]="!paging.enabled || scrollable" #limitsMenu>
   <ng-template
@@ -83,3 +64,19 @@
     </ng-template>
   </ng-template>
 </fs-menu>
+
+
+<ng-template #sortedBy>
+  <ng-container *ngIf="sorting.sortingColumn">
+    sorted by
+    <ng-container *ngIf="sorting.sortingColumn.title; else sortByTemplate">
+        <a class="order-toggle" [fsMenuTriggerFor]="orderColumnsMenu">{{ sorting.sortingColumn.title }}</a>,
+    </ng-container>
+    <ng-template #sortByTemplate>
+      <a class="order-toggle" [fsMenuTriggerFor]="orderColumnsMenu">
+        <ng-template [ngTemplateOutlet]="sorting.sortingColumn.headerTemplate"></ng-template>
+      </a>,
+    </ng-template>
+    <a class="order-toggle" (click)="toggleDirection()">{{ sorting.sortingColumn.fullNameDirection }}</a><!--
+  --></ng-container><!--
+--></ng-template>

@@ -1,19 +1,5 @@
-:host {
-  display: flex;
-
-  ::ng-deep {
-    fs-filter-saved-filters-menu {
-      display: flex;
-    }
-  }
-}
-
-.sort-limits, .saved-filters {
-  display: flex;
-}
-
-.sort-by {
-  display: flex;
+.order-toggle {
+  white-space: nowrap;
 }
 
 a {
