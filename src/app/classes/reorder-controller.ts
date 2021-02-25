@@ -170,26 +170,26 @@ export class ReorderController implements OnDestroy {
   }
 
   public disableReorder() {
-    const returnedValue = this.reorderFinished();
-
-    if (returnedValue && returnedValue instanceof Observable) {
-      this.disableReorderAction();
-
-      returnedValue
-        .pipe(
-          takeUntil(this._destroy$),
-        )
-        .subscribe(() => {
-          this.enabled = false;
-          this.enableReorderAction();
-        });
-
-      return;
-    }
-
     if (this.strategy === ReorderStrategy.Manual || this.strategy === ReorderStrategy.Custom) {
-      this.enabled = false;
+      const returnedValue = this.reorderFinished();
+
+      if (returnedValue && returnedValue instanceof Observable) {
+        this.disableReorderAction();
+
+        returnedValue
+          .pipe(
+            takeUntil(this._destroy$),
+          )
+          .subscribe(() => {
+            this.enabled = false;
+            this.enableReorderAction();
+          });
+
+        return;
+      }
     }
+
+    this.enabled = false;
   }
 
   /**
