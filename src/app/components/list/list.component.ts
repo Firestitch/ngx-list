@@ -149,6 +149,15 @@ export class FsListComponent implements OnInit, OnDestroy {
     return this.list.dataController.groupEnabled;
   }
 
+  get paginatorVisible(): boolean {
+    return this.list.paging.enabled
+      && !this.firstLoad
+      && !this.list.scrollable
+      && !this.list.emptyStateEnabled
+      && this.list.dataController.visibleRowsCount > 0
+      && this.list.paging.pages > 1;
+  }
+
   set groupEnabled(value: boolean) {
     this.list.groupEnabled(value);
   }

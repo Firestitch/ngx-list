@@ -96,7 +96,7 @@
     </div>
 
     <fs-list-pagination
-      *ngIf="list.paging.enabled && !firstLoad && !list.scrollable && listData.length > 0 && !list.emptyStateEnabled"
+      *ngIf="paginatorVisible"
       [rows]="listData"
       [pagination]="list.paging">
     </fs-list-pagination>
