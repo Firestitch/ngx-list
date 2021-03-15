@@ -10,6 +10,7 @@ import {
   FsFilterPersistance,
   IFilterSavedFiltersConfig,
   FsFilterAction,
+  ChangeFn,
 } from '@firestitch/filter';
 
 import { ActionType } from '../enums/button-type.enum';
@@ -60,6 +61,8 @@ export interface FsListConfig {
   restore?: FsListRestoreConfig;
   noResults?: FsListNoResultsConfig
   emptyState?: FsListEmptyStateConfig;
+  filterInit?: ChangeFn;
+  filterChange?: ChangeFn;
 }
 
 export interface FsListGroupConfig {

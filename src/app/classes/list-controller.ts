@@ -1,6 +1,6 @@
 import { ElementRef, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FilterConfig, IFilterSavedFiltersConfig, ItemType } from '@firestitch/filter';
+import { ChangeFn, FilterConfig, IFilterSavedFiltersConfig, ItemType } from '@firestitch/filter';
 import { FsScrollInstance, FsScrollService } from '@firestitch/scroll';
 import { SelectionDialog } from '@firestitch/selection';
 
@@ -75,6 +75,8 @@ export class List extends Model {
   @Alias() public columnTemplates: any;
   @Alias() public persist: boolean;
   @Alias() public filters = [];
+  @Alias('filterInit') public filterInitCb: ChangeFn;
+  @Alias('filterChange') public filterChangeCb: ChangeFn;
   @Alias() public savedFilters: IFilterSavedFiltersConfig;
   @Alias() public scrollable: FsListScrollableConfig | false = false;
   @Alias() public noResults: FsListNoResultsConfig;
@@ -734,6 +736,10 @@ export class List extends Model {
    * @param filters
    */
   private filterInit(filters) {
+    if (this.filterInitCb) {
+      this.filterInitCb(filters);
+    }
+
     this.filtersQuery = filters;
 
     this.checkRestoreFilter();
@@ -745,7 +751,9 @@ export class List extends Model {
    * @param filterSort
    */
   private filterChange(filterQuery, filterSort) {
-
+    if (this.filterChangeCb) {
+      this.filterChangeCb(filterQuery, filterSort);
+    }
 
     this.filtersQuery = filterQuery;
 
