@@ -140,8 +140,12 @@ export class PaginationController extends Model {
    * Get query for load only count of deleted rows
    */
   get loadDeletedOffsetQuery() {
+    const paginationOffset = this.limit * this.page;
+    const actualOffset = Math.min(this.records, paginationOffset);
+    const offset = Math.max(0, actualOffset - this._removedRows);
+
     return {
-      offset: this.limit * this.page - this._removedRows,
+      offset,
       limit: this._removedRows
     }
   }
