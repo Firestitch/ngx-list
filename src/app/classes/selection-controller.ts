@@ -474,9 +474,9 @@ export class SelectionController {
    * @param row
    */
   private _rowIdentifier(row) {
-    const identifier = _get(row, this._trackBy);
+    const identifier = _get(row, this._trackBy, undefined);
 
-    if (!identifier) {
+    if (identifier === undefined) {
       console.warn('Selection can not recognize track by field for row. ' +
         'Please check if you had configured trackBy function.')
     }
