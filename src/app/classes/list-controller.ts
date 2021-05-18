@@ -817,6 +817,14 @@ export class List extends Model {
         displayed,
         this.dataController.operation === Operation.loadMore
       );
+    } else if (this.paging.enabled) {
+      console.log(
+        '%c FsList Warning ',
+        'color: white; background-color: #ffcc0b',
+        'Pagination does not configured properly. ' +
+        'Pagination is enabled, but http response does not contain "paging" field. ' +
+        'You have to set "paging: false" in config or add "paging" field to response.'
+      );
     }
 
     /// must be before selection, because seletion use records
