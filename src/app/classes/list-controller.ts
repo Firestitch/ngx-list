@@ -195,6 +195,7 @@ export class List extends Model {
     this.columns.initializeColumns(templates);
 
     // Set sortBy default column
+    this.sorting.clearSortableColumns();
     this.columns.columns
       .filter((column) => column.sortable)
       .forEach((column) => {

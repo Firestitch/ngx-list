@@ -58,6 +58,11 @@ export class SortingController {
     this.sortingColumns.push(column);
   }
 
+  public clearSortableColumns(): void {
+    this.sortingColumns = [];
+    this.fakeSortingColumns = [];
+  }
+
   /**
    * Set Sortable Direction
    * @param direction
