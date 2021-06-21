@@ -17,6 +17,7 @@ import { ActionType } from '../enums/button-type.enum';
 import { ReorderPosition, ReorderStrategy } from '../classes/reorder-controller';
 import { PaginationStrategy } from '../enums/pagination-strategy.enum';
 import { RowType } from '../enums/row-type.enum';
+import { Operation } from '../enums/operation.enum';
 
 
 export interface FsPaging {
@@ -46,7 +47,7 @@ export interface FsListConfig {
   rowActions?: (FsListRowActionGroup | FsListRowAction)[] ;
   rowClass?: (row: any) => string;
   actions?: FsListAction[];
-  fetch?: (query: any) => Observable<{ data: unknown[], paging?: FsPaging }>;
+  fetch?: FsListFetchFn;
   scrollable?: FsListScrollableConfig | boolean;
   selection?: FsListSelectionConfig;
   initialFetch?: boolean;
@@ -252,5 +253,12 @@ export interface FsListEmptyStateConfig {
   validate: FsListStateValidationFn;
 }
 
+export interface FsListFetchOptions {
+  state: Operation,
+}
+
 export type FsListPersitance = FsFilterPersistance;
 export type FsListStateValidationFn = (filters: any, rows: FsListAbstractRow[]) => boolean;
+export type FsListFetchFn =
+  (query: Record<string, any>, options: FsListFetchOptions) =>
+    Observable<{ data: unknown[], paging?: FsPaging }>;

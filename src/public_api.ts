@@ -75,6 +75,8 @@ export {
   FsListRowActionGroup,
   FsListEmptyStateConfig,
   FsListStateValidationFn,
+  FsListFetchOptions,
+  FsListFetchFn,
 } from './app/interfaces/listconfig.interface';
 export { QueryOffsetStrategy, QueryPageStrategy } from './app/interfaces/pagination.interface';
 
@@ -82,3 +84,4 @@ export { QueryOffsetStrategy, QueryPageStrategy } from './app/interfaces/paginat
 export { ActionType } from './app/enums/button-type.enum';
 export { PaginationStrategy } from './app/enums/pagination-strategy.enum';
 export { RowType } from './app/enums/row-type.enum';
+export { Operation } from './app/enums/operation.enum';

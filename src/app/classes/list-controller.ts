@@ -32,7 +32,7 @@ import { SortingDirection } from '../models/column.model';
 // Interfaces
 import {
   FsListConfig,
-  FsListEmptyStateConfig,
+  FsListEmptyStateConfig, FsListFetchFn, FsListFetchOptions,
   FsListFetchSubscription,
   FsListGroupConfig,
   FsListLoadMoreConfig,
@@ -82,7 +82,7 @@ export class List extends Model {
   @Alias() public noResults: FsListNoResultsConfig;
   @Alias() public emptyState: FsListEmptyStateConfig;
   // @Alias() public initialFetch = true; //TODO fixme
-  @Alias('fetch') public fetchFn: any;
+  @Alias('fetch') public fetchFn: FsListFetchFn;
   // @Alias('rows') private _rows: any;
 
   public initialized$ = new BehaviorSubject(false);
@@ -166,7 +166,11 @@ export class List extends Model {
   }
 
   public fetchRemote(query) {
-    const result: any = this.fetchFn(query);
+    const options: FsListFetchOptions = {
+      state: this.dataController.operation,
+    };
+
+    const result: any = this.fetchFn(query, options);
 
     return result instanceof Promise ? from(result) : result;
   }
