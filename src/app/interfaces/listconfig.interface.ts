@@ -17,7 +17,7 @@ import { ActionType } from '../enums/button-type.enum';
 import { ReorderPosition, ReorderStrategy } from '../classes/reorder-controller';
 import { PaginationStrategy } from '../enums/pagination-strategy.enum';
 import { RowType } from '../enums/row-type.enum';
-import { Operation } from '../enums/operation.enum';
+import { FsListState } from '../enums/state.enum';
 
 
 export interface FsPaging {
@@ -254,7 +254,7 @@ export interface FsListEmptyStateConfig {
 }
 
 export interface FsListFetchOptions {
-  state: Operation,
+  state: FsListState,
 }
 
 export type FsListPersitance = FsFilterPersistance;

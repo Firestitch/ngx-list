@@ -54,7 +54,7 @@ import { PaginationController } from './pagination-controller';
 import { SelectionController } from './selection-controller';
 import { SortingController } from './sorting-controller';
 
-import { Operation } from '../enums/operation.enum';
+import { FsListState } from '../enums/state.enum';
 import { PersistanceController } from './persistance-controller';
 import { ExternalParamsController } from './external-params-controller';
 
@@ -155,7 +155,7 @@ export class List extends Model {
     this.subscribe();
 
     if (this.initialFetch) {
-      this.dataController.setOperation(Operation.load);
+      this.dataController.setOperation(FsListState.Load);
       this.fetch$.next();
     }
 
@@ -224,7 +224,7 @@ export class List extends Model {
   public reload() {
     this.loading$.next(true);
 
-    this.dataController.setOperation(Operation.reload);
+    this.dataController.setOperation(FsListState.Reload);
 
     if (this.fsScrollInstance) {
       this.paging.resetPaging();
@@ -244,7 +244,7 @@ export class List extends Model {
         takeUntil(this.onDestroy$),
       )
       .subscribe((event: PageChange) => {
-        this.dataController.setOperation(Operation.pageChange);
+        this.dataController.setOperation(FsListState.PageChange);
 
         // Remove all rows if limits was changed
         if (event.type === PageChangeType.LimitChanged && this.paging.hasPageStrategy) {
@@ -294,7 +294,7 @@ export class List extends Model {
         takeUntil(this.onDestroy$),
       )
       .subscribe(() => {
-        this.dataController.setOperation(Operation.sort);
+        this.dataController.setOperation(FsListState.Sort);
         this.paging.page = 1;
 
         if (this.fsScrollInstance) {
@@ -606,7 +606,7 @@ export class List extends Model {
           } else {
             // Fetch more if has something for fetch
             if (this.dataController.hasData || this.paging.hasNextPage) {
-              this.dataController.setOperation(Operation.loadMore);
+              this.dataController.setOperation(FsListState.LoadMore);
 
               this.paging.removeRows(removedCount);
               this.fetch$.next({ loadOffset: true });
@@ -652,22 +652,22 @@ export class List extends Model {
               // Initial loading if initialFetch equals false
               if (!this.initialFetch
                 && !this.paging.initialized
-                && operation !== Operation.reload
+                && operation !== FsListState.Reload
               ) {
 
-                this.dataController.setOperation(Operation.load);
+                this.dataController.setOperation(FsListState.Load);
                 startLoading = true;
 
               } else if (
-                operation === Operation.reload ||
-                operation === Operation.filter ||
-                operation === Operation.sort
+                operation === FsListState.Reload ||
+                operation === FsListState.Filter ||
+                operation === FsListState.Sort
               ) {
                 startLoading = true;
               } else if (this.paging.initialized && this.paging.hasNextPage) {
                 // Loading if content has been scrolled
                 startLoading = true;
-                this.dataController.setOperation(Operation.load);
+                this.dataController.setOperation(FsListState.Load);
                 this.paging.goNext();
               }
 
@@ -771,7 +771,7 @@ export class List extends Model {
       this.reload();
     }
 
-    this.dataController.setOperation(Operation.filter);
+    this.dataController.setOperation(FsListState.Filter);
 
     // Reset paging for request with correct offset
     this.paging.resetPaging();
@@ -820,7 +820,7 @@ export class List extends Model {
       this.paging.updatePaging(
         response.paging,
         displayed,
-        this.dataController.operation === Operation.loadMore
+        this.dataController.operation === FsListState.LoadMore
       );
     } else if (this.paging.enabled) {
       console.log(

@@ -84,4 +84,4 @@ export { QueryOffsetStrategy, QueryPageStrategy } from './app/interfaces/paginat
 export { ActionType } from './app/enums/button-type.enum';
 export { PaginationStrategy } from './app/enums/pagination-strategy.enum';
 export { RowType } from './app/enums/row-type.enum';
-export { Operation } from './app/enums/operation.enum';
+export { FsListState } from './app/enums/state.enum';

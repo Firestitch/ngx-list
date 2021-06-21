@@ -2,7 +2,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { isFunction, isObject } from 'lodash-es';
 
-import { Operation } from '../enums/operation.enum';
+import { FsListState } from '../enums/state.enum';
 import {
   FsListAbstractRow,
   FsListGroupConfig,
@@ -21,7 +21,7 @@ export class DataController {
 
   private _store = new Map();
   private _rowsStack: Row[] = [];
-  private _operation: Operation;
+  private _operation: FsListState;
 
   private _groupByFn: (row) => any[];
   private _compareByFn: (group) => any;
@@ -123,9 +123,9 @@ export class DataController {
   public setRowsFromResponse(rows: any[]) {
     if (this._infinityScrollEnabled) {
       switch (this._operation) {
-        case Operation.filter:
-        case Operation.reload:
-        case Operation.sort: {
+        case FsListState.Filter:
+        case FsListState.Reload:
+        case FsListState.Sort: {
           this._updateRowsStack(rows);
         } break;
 
@@ -137,8 +137,8 @@ export class DataController {
       this._remoteRowsChange$.next();
     } else {
       if (
-        this._operation === Operation.loadMore ||
-        (this._operation === Operation.pageChange && this._loadMoreEnabled)
+        this._operation === FsListState.LoadMore ||
+        (this._operation === FsListState.PageChange && this._loadMoreEnabled)
       ) {
         this._extendRowsStack(rows);
       } else {
@@ -146,7 +146,7 @@ export class DataController {
       }
     }
 
-    this._operation = Operation.idle;
+    this._operation = FsListState.Idle;
 
     this._updateVisibleRows();
   }
@@ -155,7 +155,7 @@ export class DataController {
    * Set current operation for list data flow
    * @param value
    */
-  public setOperation(value: Operation) {
+  public setOperation(value: FsListState) {
     this._operation = value;
   }
 
