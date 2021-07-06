@@ -39,6 +39,7 @@
                 [rows]="listData"
                 [sorting]="list.sorting"
                 [paging]="list.paging"
+                [loading]="(list.loading$ | async)"
                 [scrollable]="list.scrollable">
               </fs-list-status>
             </ng-container>

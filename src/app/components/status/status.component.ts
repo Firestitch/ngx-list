@@ -29,6 +29,7 @@ export class FsStatusComponent implements OnInit, OnDestroy {
   @Input() public sorting: SortingController;
   @Input() public rows;
   @Input() public scrollable;
+  @Input() public loading: boolean;
 
   private _destroy$ = new Subject<void>();
 
