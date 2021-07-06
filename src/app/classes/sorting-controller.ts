@@ -133,6 +133,8 @@ export class SortingController {
     }
 
     if (!this.getColumn(sort.value)) {
+      this.sortByFirstSortbale();
+
       console.warn(`
         Not possible to do initial sort by "${sort.value}" column.
         Column with name "${sort.value}" does not exists.
