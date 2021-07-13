@@ -1,5 +1,9 @@
 @import '../../styles/mixins';
 
+:host {
+  display: block;
+}
+
 .paging {
   display: flex;
 

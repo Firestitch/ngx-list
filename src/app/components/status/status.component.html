@@ -1,4 +1,4 @@
-<ng-container *ngIf="!loading else loadingTpl">
+<div class="status-bar">
   <ng-container *ngIf="paging.enabled && !scrollable">
     <ng-container *ngIf="paging.records > 0; else emptyResults">
       Showing <a [fsMenuTriggerFor]="limitsMenu">{{ paging.statusLabel }}</a> of {{ paging.records | number:'1.0':'en-US' }} results
@@ -80,8 +80,4 @@
       <a class="order-toggle" (click)="toggleDirection()">{{ sorting.sortingColumn.fullNameDirection }}</a><!--
   --></ng-container><!--
 --></ng-template>
-</ng-container>
-
-<ng-template #loadingTpl>
-  <div class="status-loading"></div>
-</ng-template>
+</div>

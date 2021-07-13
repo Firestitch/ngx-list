@@ -35,11 +35,14 @@
               ((list.scrollable && list.scrollable.status) || !list.scrollable)">
               <!-- Status -->
               <fs-list-status
-                [ngClass]="{ 'hidden-mobile': !list.status }"
+                [ngClass]="{
+                  'hidden-mobile': !list.status,
+                  'fs-list-loading': list.loading$ | async
+                }"
                 [rows]="listData"
                 [sorting]="list.sorting"
                 [paging]="list.paging"
-                [loading]="(list.loading$ | async)"
+                [firstLoad]="firstLoad"
                 [scrollable]="list.scrollable">
               </fs-list-status>
             </ng-container>
@@ -98,6 +101,7 @@
 
     <fs-list-pagination
       *ngIf="paginatorVisible"
+      [ngClass]="{'fs-list-loading': list.loading$ | async }"
       [rows]="listData"
       [pagination]="list.paging">
     </fs-list-pagination>

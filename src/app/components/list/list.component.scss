@@ -6,6 +6,10 @@
     display: block;
     width: 100%;
 
+    .fs-list-loading {
+      opacity: 0.4;
+    }
+
     .fs-list-swap-restricted {
       opacity: 0.4;
     }

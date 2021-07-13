@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit
@@ -29,7 +30,10 @@ export class FsStatusComponent implements OnInit, OnDestroy {
   @Input() public sorting: SortingController;
   @Input() public rows;
   @Input() public scrollable;
-  @Input() public loading: boolean;
+
+  @Input()
+  @HostBinding('class.first-load')
+  public firstLoad: boolean;
 
   private _destroy$ = new Subject<void>();
 

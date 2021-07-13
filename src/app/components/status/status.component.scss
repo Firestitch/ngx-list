@@ -1,5 +1,17 @@
 @import '../../styles/variables';
 
+:host {
+  display: inline-block;
+
+  &.first-load {
+    background: #f3f3f3;
+
+    .status-bar {
+      visibility: hidden;
+    }
+  }
+}
+
 .status-loading {
   width: 150px;
   height: 17px;
