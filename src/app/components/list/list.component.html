@@ -4,7 +4,8 @@
                   'has-heading': list.heading,
                   'has-status': list.status,
                   'has-chips': list.chips,
-                  'has-actions': list.actions.hasActions }">
+                  'has-actions': list.actions.hasActions,
+                  'fs-list-loading': (list.loading$ | async) || firstLoad }">
   <ng-template [ngTemplateOutlet]="listContainerContent"></ng-template>
 </div>
 
@@ -35,10 +36,8 @@
               ((list.scrollable && list.scrollable.status) || !list.scrollable)">
               <!-- Status -->
               <fs-list-status
-                [ngClass]="{
-                  'hidden-mobile': !list.status,
-                  'fs-list-loading': list.loading$ | async
-                }"
+                class="fs-list-status"
+                [ngClass]="{ 'hidden-mobile': !list.status }"
                 [rows]="listData"
                 [sorting]="list.sorting"
                 [paging]="list.paging"
@@ -101,7 +100,7 @@
 
     <fs-list-pagination
       *ngIf="paginatorVisible"
-      [ngClass]="{'fs-list-loading': list.loading$ | async }"
+      class="fs-list-pagination"
       [rows]="listData"
       [pagination]="list.paging">
     </fs-list-pagination>
