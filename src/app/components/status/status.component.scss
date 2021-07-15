@@ -4,18 +4,12 @@
   display: inline-block;
 
   &.first-load {
-    background: #f3f3f3;
+    background: $loader-background;
 
     .status-bar {
       visibility: hidden;
     }
   }
-}
-
-.status-loading {
-  width: 150px;
-  height: 17px;
-  background: $loader-background;
 }
 
 .order-toggle {
