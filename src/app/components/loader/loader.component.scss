@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 table {
   width: 100%;
   border-spacing: 0;
@@ -6,7 +8,7 @@ table {
 
 .placeholder {
   height: 17px;
-  background: #e6e6e6;
+  background: $loader-background;
   border-radius: 2px;
   max-width: 550px;
 }
