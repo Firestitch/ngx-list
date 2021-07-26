@@ -33,6 +33,7 @@ export class FsStatusComponent implements OnInit, OnDestroy {
 
   @Input()
   @HostBinding('class.first-load')
+  @HostBinding('class.fs-skeleton-placeholder')
   public firstLoad: boolean;
 
   private _destroy$ = new Subject<void>();

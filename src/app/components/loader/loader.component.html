@@ -2,14 +2,14 @@
   <thead>
     <tr>
       <th *ngFor="let col of cols; let column = index" [width]="widths[column] + '%'">
-        <div class="placeholder" [style.width]="(placeholderWidths[0][column]/2)  + '%'"></div>
+        <div class="fs-skeleton-placeholder" [style.width]="(placeholderWidths[0][column]/2)  + '%'"></div>
       </th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let row of rows; let index=index">
       <td *ngFor="let col of cols; let column = index">
-        <div class="placeholder" [style.width]="placeholderWidths[index][column] + '%'"></div>
+        <div class="fs-skeleton-placeholder" [style.width]="placeholderWidths[index][column] + '%'"></div>
       </td>
     </tr>
   </tbody>

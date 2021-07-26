@@ -3,14 +3,10 @@
 table {
   width: 100%;
   border-spacing: 0;
-  opacity: .5;
 }
 
-.placeholder {
-  height: 17px;
-  background: $loader-background;
-  border-radius: 2px;
-  max-width: 550px;
+.fs-skeleton-placeholder {
+  opacity: 0.5;
 }
 
 :host ::ng-deep tbody tr:hover td {

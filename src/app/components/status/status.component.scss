@@ -4,8 +4,6 @@
   display: inline-block;
 
   &.first-load {
-    background: $loader-background;
-
     .status-bar {
       visibility: hidden;
     }

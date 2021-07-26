@@ -5,6 +5,7 @@
 @import "~@firestitch/drawer/styles";
 @import '~@firestitch/datepicker/styles';
 @import '~@firestitch/filter/styles';
+@import '~@firestitch/skeleton/styles';
 @import '~@angular/material/theming';
 
 @include fs-selection($mat-blue);
