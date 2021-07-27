@@ -7,7 +7,6 @@
     width: 100%;
 
     .fs-list-loading {
-
       .fs-list-status, fs-list-pagination, .filter-chips {
         opacity: 0.5;
       }
@@ -32,6 +31,18 @@
       &.has-actions {
         .fs-list-actions {
           margin-left: 5px;
+        }
+      }
+
+      &.first-load {
+        ::ng-deep {
+          fs-filter-chips .fs-chip {
+            color: transparent;
+
+            .remove {
+              visibility: hidden;
+            }
+          }
         }
       }
     }
@@ -242,10 +253,6 @@
           }
         }
       }
-    }
-
-    .fs-list-header-container {
-      margin-bottom: 10px;
     }
 
     .fs-list-header {

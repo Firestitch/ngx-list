@@ -1,4 +1,4 @@
-<div class="status-bar">
+<div class="status">
   <ng-container *ngIf="paging.enabled && !scrollable">
     <ng-container *ngIf="paging.records > 0; else emptyResults">
       Showing <a [fsMenuTriggerFor]="limitsMenu">{{ paging.statusLabel }}</a> of {{ paging.records | number:'1.0':'en-US' }} results

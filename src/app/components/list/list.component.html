@@ -5,6 +5,7 @@
                   'has-status': list.status,
                   'has-chips': list.chips,
                   'has-actions': list.actions.hasActions,
+                  'first-load': firstLoad,
                   'fs-list-loading': (list.loading$ | async) || firstLoad }">
   <ng-template [ngTemplateOutlet]="listContainerContent"></ng-template>
 </div>
