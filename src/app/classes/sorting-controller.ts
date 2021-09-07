@@ -60,7 +60,6 @@ export class SortingController {
 
   public clearSortableColumns(): void {
     this.sortingColumns = [];
-    this.fakeSortingColumns = [];
   }
 
   /**
