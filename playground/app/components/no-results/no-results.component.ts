@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { FsListConfig } from '@firestitch/list';
 import { ItemType } from '@firestitch/filter';
+import { delay } from 'rxjs/operators';
 
 
 @Component({
@@ -28,11 +29,11 @@ export class NoResultsComponent implements OnInit {
         }
       ],
       heading: 'No Results',
-      fetch: (query) => {
-        return new Observable(observer => {
-          observer.next({ data: [], paging: {} });
-          observer.complete();
-      });
+      fetch: () => {
+        return of({ data: [], paging: {} })
+          .pipe(
+            delay(300),
+          )        
       },
     };
   }

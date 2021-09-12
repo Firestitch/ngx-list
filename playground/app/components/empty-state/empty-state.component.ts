@@ -3,6 +3,7 @@ import { of } from 'rxjs';
 
 import { FsListComponent, FsListConfig } from '@firestitch/list';
 import { ItemType } from '@firestitch/filter';
+import { delay, switchMap } from 'rxjs/operators';
 
 
 @Component({
@@ -49,12 +50,18 @@ export class EmptyStateComponent implements OnInit {
           return this.valid;
         }
       },
-      fetch: (query) => {
-        if (this.state === 'empty') {
-          return of({ data: [], paging: {} })
-        } else {
-          return of({ data: this.tmpData, paging: {} })
-        }
+      fetch: () => {
+        return of(true)
+        .pipe(
+          switchMap(() => {
+            if (this.state === 'empty') {
+              return of({ data: [], paging: {} });
+            }
+            
+            return of({ data: this.tmpData, paging: {} });
+          }),
+          delay(300),
+        )  
       },
     };
   }
