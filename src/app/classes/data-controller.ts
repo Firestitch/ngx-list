@@ -3,6 +3,7 @@ import { takeUntil } from 'rxjs/operators';
 import { isFunction, isObject } from 'lodash-es';
 
 import { FsListState } from '../enums/state.enum';
+import { RowType } from '../enums/row-type.enum';
 import {
   FsListAbstractRow,
   FsListGroupConfig,
@@ -103,6 +104,7 @@ export class DataController {
     if (group) {
       this._groupByFn = group.groupBy;
       this._compareByFn = group.compareBy;
+      this._initialExpand = group.initialExpand;
 
       // group mode enabled by default
       this._groupEnabled = (group.enabled !== void 0)
@@ -180,7 +182,11 @@ export class DataController {
     });
 
     if (rowIndex > -1) {
-      this._rowsStack[rowIndex] = new Row(targetRow);
+      this._rowsStack[rowIndex] = new Row(
+        targetRow,
+        RowType.Simple,
+        { initialExpand: this._initialExpand }
+      );
 
       this._updateVisibleRows();
 
@@ -288,7 +294,13 @@ export class DataController {
       this._store.clear();
       this._rowsStack = [...this.groupRowsBy(rows)];
     } else {
-      rows = rows.map((row) => new Row(row));
+      rows = rows.map((row) => {
+        return new Row(
+          row,
+          RowType.Simple,
+          { initialExpand: this._initialExpand },
+        );
+      });
       this._rowsStack = [...rows];
     }
   }
@@ -297,7 +309,13 @@ export class DataController {
     if (this.groupEnabled) {
       this._rowsStack = [...this.groupRowsBy(rows)];
     } else {
-      rows = rows.map((row) => new Row(row));
+      rows = rows.map((row) => {
+        return new Row(
+          row,
+          RowType.Simple,
+          { initialExpand: this._initialExpand },
+        );
+      });
       this._rowsStack = [...this._rowsStack, ...rows];
     }
   }
