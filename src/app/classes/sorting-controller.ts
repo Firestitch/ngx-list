@@ -125,7 +125,11 @@ export class SortingController {
     this._initialization = true;
 
     if (!sort) {
-      this.sortByFirstSortbale();
+      this._trySortByDefaultSortableColumn();
+
+      if (!this.sortingColumn) {
+        this.sortByFirstSortbale();
+      }
 
       this._initialization = false;
       return;
@@ -208,5 +212,14 @@ export class SortingController {
       sortBy: this.sortingColumn.name,
       sortDirection: this.sortingColumn.direction
     });
+  }
+
+  private _trySortByDefaultSortableColumn(): void {
+    const sortableDefault = this.sortingColumns
+      .find((column) => column.sortableDefault);
+
+    if (sortableDefault) {
+      this.sortByColumnWithName(sortableDefault.name);
+    }
   }
 }

@@ -25,6 +25,7 @@ export class Column extends Model {
   @Alias() public customize: boolean;
   @Alias() public width: string;
   @Alias() public sortable: boolean;
+  @Alias() public sortableDefault: boolean;
   @Alias() public headerTemplate: TemplateRef<any>;
   @Alias() public groupCellTemplate: TemplateRef<any>;
   @Alias() public cellTemplate: TemplateRef<any>;
@@ -82,6 +83,14 @@ export class Column extends Model {
 
     if (value && !this.sortingDirection) {
       this.sortingDirection = SortingDirection.asc;
+    }
+  }
+
+  public _fromJSON(value: any) {
+    super._fromJSON(value);
+
+    if (this.sortableDefault) {
+      this.sortable = true;
     }
   }
 
