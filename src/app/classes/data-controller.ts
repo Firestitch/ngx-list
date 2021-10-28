@@ -104,7 +104,7 @@ export class DataController {
     if (group) {
       this._groupByFn = group.groupBy;
       this._compareByFn = group.compareBy;
-      this._initialExpand = group.initialExpand;
+      this._initialExpand = group.initialExpand ?? true;
 
       // group mode enabled by default
       this._groupEnabled = (group.enabled !== void 0)
