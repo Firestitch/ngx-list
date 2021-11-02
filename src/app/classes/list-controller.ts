@@ -860,7 +860,10 @@ export class List extends Model {
       this.emptyStateEnabled = this.emptyState.validate(query, cloneDeep(response.data));
     }
 
-    this.afterFetchFn(query, this.dataController.visibleRowsData);
+    if (this.afterFetchFn) {
+      this.afterFetchFn(query, this.dataController.visibleRowsData);
+    }
+
     this.fetchComplete$.next();
     this.loading$.next(false);
   }
