@@ -48,6 +48,7 @@ export interface FsListConfig {
   rowClass?: (row: any) => string;
   actions?: FsListAction[];
   fetch?: FsListFetchFn;
+  afterFetch?: FsListAfterFetchFn;
   scrollable?: FsListScrollableConfig | boolean;
   selection?: FsListSelectionConfig;
   initialFetch?: boolean;
@@ -262,3 +263,6 @@ export type FsListStateValidationFn = (filters: any, rows: FsListAbstractRow[]) 
 export type FsListFetchFn =
   (query: Record<string, any>, options: FsListFetchOptions) =>
     Observable<{ data: unknown[], paging?: FsPaging }>;
+
+export type FsListAfterFetchFn =
+  (query: Record<string, any>, data: unknown[]) => void;

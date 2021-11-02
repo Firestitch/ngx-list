@@ -31,6 +31,7 @@ import { SortingDirection } from '../models/column.model';
 
 // Interfaces
 import {
+  FsListAfterFetchFn,
   FsListConfig,
   FsListEmptyStateConfig, FsListFetchFn, FsListFetchOptions,
   FsListFetchSubscription,
@@ -83,6 +84,7 @@ export class List extends Model {
   @Alias() public emptyState: FsListEmptyStateConfig;
   // @Alias() public initialFetch = true; //TODO fixme
   @Alias('fetch') public fetchFn: FsListFetchFn;
+  @Alias('afterFetch') public afterFetchFn: FsListAfterFetchFn;
   // @Alias('rows') private _rows: any;
 
   public initialized$ = new BehaviorSubject(false);
@@ -858,6 +860,7 @@ export class List extends Model {
       this.emptyStateEnabled = this.emptyState.validate(query, cloneDeep(response.data));
     }
 
+    this.afterFetchFn(query, this.dataController.visibleRowsData);
     this.fetchComplete$.next();
     this.loading$.next(false);
   }

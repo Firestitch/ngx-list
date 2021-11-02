@@ -412,6 +412,9 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
             map(response => ({ data: response.data.objects, paging: response.data.paging })),
           );
       },
+      afterFetch: (query, data) => {
+        console.log(query, data);
+      },
     };
   }
 
