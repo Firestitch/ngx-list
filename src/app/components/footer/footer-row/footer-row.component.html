@@ -5,8 +5,7 @@
   <td fs-list-footer-cell
       *ngIf="!column.footerColspanned"
       [column]="column"
-      [row]="row"
-      [rowIndex]="rowIndex"
+      [rows]="rows"
       [ngClass]="column.footerConfigs.classesArray"
       [attr.colspan]="column.footerConfigs.colspan"
       [attr.width]="column.width">

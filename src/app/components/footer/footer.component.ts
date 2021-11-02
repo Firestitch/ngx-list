@@ -5,6 +5,7 @@ import {
 } from '@angular/core';
 import { Column } from '../../models/column.model';
 import { SelectionController } from '../../classes/selection-controller';
+import { Row } from '../../models/row';
 
 @Component({
   selector: '[fs-list-footer]',
@@ -16,6 +17,7 @@ export class FsFooterComponent {
   @Input() hasRowActions: boolean;
   @Input() columns: Column[] = [];
   @Input() selection: SelectionController;
+  @Input() rows: Row[];
 
   constructor() {}
 }

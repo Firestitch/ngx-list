@@ -52,7 +52,7 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
     this._destroy$.complete();
   }
 
-  private _initCellContext() {
+  protected _initCellContext() {
     this.cellContext.index = this.rowIndex;
 
     if (this.row) {
