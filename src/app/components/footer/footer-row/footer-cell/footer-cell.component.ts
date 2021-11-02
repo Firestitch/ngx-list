@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FsCellComponent } from '../../../body/row/cell/cell.component';
-import { Row } from '../../../../models/row';
 
 
 @Component({
@@ -10,17 +9,7 @@ import { Row } from '../../../../models/row';
 })
 export class FsFooterCellComponent extends FsCellComponent {
 
-  @Input()
-  public rows: Row[];
-
   constructor() {
     super()
-  }
-
-  protected _initCellContext() {
-    this.cellContext.column = this.column;
-
-    this.cellContext.$implicit = this.rows
-      .map((row) => row.data);
   }
 }

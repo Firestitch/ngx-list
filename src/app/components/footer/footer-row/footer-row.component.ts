@@ -10,7 +10,6 @@ import {
 
 import { FsRowComponent } from '../../body/row/row.component';
 import { ReorderController, ReorderPosition } from '../../../classes/reorder-controller';
-import { Row } from '../../../models/row';
 
 
 @Component({
@@ -19,9 +18,7 @@ import { Row } from '../../../models/row';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FsFooterRowComponent extends FsRowComponent {
-
   @Input() hasRowActions: boolean;
-  @Input() rows: Row[];
 
   public readonly ReorderPosition = ReorderPosition;
 
