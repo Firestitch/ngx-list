@@ -63,7 +63,7 @@
     "@firestitch/iframe": "^8.0.0",
     "@firestitch/label": "^8.2.1",
     "@firestitch/mask": "^8.3.0",
-    "@firestitch/menu": "^9.1.8",
+    "@firestitch/menu": "^9.1.12",
     "@firestitch/message": "^8.1.0",
     "@firestitch/model-change": "^7.0.1",
     "@firestitch/prompt": "^8.4.1",
@@ -94,11 +94,11 @@
     "zone.js": "~0.10.2"
   },
   "peerDependencies": {
-    "lodash-es": ">=4.17.15",
-    "@firestitch/scroll": ">=7.0.0",
-    "@firestitch/prompt": ">=7.3.0",
+    "@firestitch/filter": ">=9.4.0",
     "@firestitch/menu": ">=9.1.8",
-    "@firestitch/filter": ">=9.4.0"
+    "@firestitch/prompt": ">=7.3.0",
+    "@firestitch/scroll": ">=7.0.0",
+    "lodash-es": ">=4.17.15"
   },
   "dependencies": {
     "tslib": "^1.11.1"

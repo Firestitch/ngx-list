@@ -317,7 +317,9 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           },
         },
         {
-          label: 'Go to Project1',
+          label: (row) => {
+            return `Go to ${row.name}`;
+          },
           link: (row) => {
 
             return { link: ['rows', row.guid ], queryParams: { param: 1 } }
