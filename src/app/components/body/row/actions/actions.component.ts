@@ -85,6 +85,9 @@ export class FsRowActionsComponent {
 
   public clickOnTrigger(event) {
     event.stopPropagation();
+
+    this.rowActions
+      .forEach((action) => action.updateLabel(this.row.data));
   }
 
   /**

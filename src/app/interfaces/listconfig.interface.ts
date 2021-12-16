@@ -174,7 +174,7 @@ export interface FsListRowActionGroup {
 }
 
 export interface FsListRowAction {
-  label?: string;
+  label?: string | FsListRowActionLabelFn;
   type?: ActionType;
   className?: string;
   icon?: string;
@@ -188,6 +188,10 @@ export interface FsListRowAction {
 
 export interface FsListRowActionLinkFn {
   (row: FsListAbstractRow): FsListRowActionLink
+}
+
+export interface FsListRowActionLabelFn {
+  (row: FsListAbstractRow): string
 }
 
 export interface FsListRowActionLink {

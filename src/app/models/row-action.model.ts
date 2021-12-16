@@ -1,12 +1,11 @@
 import { Alias, Model } from 'tsmodels';
 import { ActionType } from '../enums/button-type.enum';
-import { FsListRowActionLink, FsListRowActionLinkFn } from '../interfaces';
+import { FsListRowActionLabelFn, FsListRowActionLink, FsListRowActionLinkFn } from '../interfaces';
 
 
 export class RowAction extends Model {
 
   @Alias() public icon: string;
-  @Alias() public label: string;
   @Alias() public menu: boolean;
   @Alias() public remove: { title: string; template: string; };
   @Alias() public className: string;
@@ -15,12 +14,14 @@ export class RowAction extends Model {
   @Alias() public restore: boolean;
   @Alias('rowActions', RowAction) public rowActions: RowAction[];
 
+  public label = '';
   public routerLink: FsListRowActionLink;
   public classArray: string[] = [];
   public isShown = true;
   public click: Function;
 
   private _linkFn: FsListRowActionLinkFn;
+  private _labelFn: FsListRowActionLabelFn;
   private readonly _isGroup: boolean = false;
 
   constructor(config: any = {}) {
@@ -55,6 +56,14 @@ export class RowAction extends Model {
     };
 
     this._linkFn = value.link;
+
+    if (typeof value.label === 'function') {
+      this._labelFn = value.label
+
+      this.label = '';
+    } else {
+      this.label = value.label;
+    }
 
     if (this.className) {
       this.classArray = this.className.split(' ').reduce((acc, elem) => {
@@ -92,6 +101,20 @@ export class RowAction extends Model {
       if (this.routerLink && !this.routerLink.target) {
         this.routerLink.target = null;
       }
+    }
+  }
+
+  public updateLabel(row): void {
+    if (!this.isShown) {
+      return;
+    }
+
+    if (this.isGroup) {
+      this.rowActions.forEach((action) => {
+        action.updateLabel(row);
+      });
+    } else if (this._labelFn) {
+      this.label = this._labelFn(row);
     }
   }
 
