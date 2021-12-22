@@ -527,7 +527,7 @@ export class List extends Model {
     let fetch$ = this.fetch$.asObservable();
 
     // Should wait until saved filters not loaded
-    if (!!this.filters && !!this.savedFilters) {
+    if (!!this.filters) {
       fetch$ = combineLatest([fetch$, this.filtersReady$])
         .pipe(
           map(([params]) => params),
