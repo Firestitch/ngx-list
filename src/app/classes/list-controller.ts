@@ -91,7 +91,6 @@ export class List extends Model {
   public loading$ = new BehaviorSubject(false);
 
   // public operation: Operation;
-  public filtersQuery: any;
 
   public hasRowActions;
   public paging = new PaginationController();
@@ -125,6 +124,7 @@ export class List extends Model {
 
   public onDestroy$ = new Subject();
 
+  private readonly _filtersQuery = new BehaviorSubject<Record<string, any>>(null);
   private readonly _headerConfig: StyleConfig;
   private readonly _groupCellConfig: StyleConfig;
   private readonly _cellConfig: StyleConfig;
@@ -165,6 +165,14 @@ export class List extends Model {
 
   public get hasSavedFilters(): boolean {
     return !!this.filterConfig.savedFilters;
+  }
+
+  public get filtersQuery(): Record<string, any> {
+    return this._filtersQuery.getValue();
+  }
+
+  public get filtersQuery$(): Observable<Record<string, any>> {
+    return this._filtersQuery.asObservable();
   }
 
   public fetchRemote(query) {
@@ -747,7 +755,7 @@ export class List extends Model {
       this.filterInitCb(filters);
     }
 
-    this.filtersQuery = filters;
+    this._filtersQuery.next(filters);
 
     this.checkRestoreFilter();
   }
@@ -762,7 +770,7 @@ export class List extends Model {
       this.filterChangeCb(filterQuery, filterSort);
     }
 
-    this.filtersQuery = filterQuery;
+    this._filtersQuery.next(filterQuery);
 
     this.restoreMode = false;
 

@@ -44,6 +44,8 @@ export class ReorderController implements OnDestroy {
   private _manualReorderActivated$ = new BehaviorSubject(false);
   private _reorderDisabled$ = new BehaviorSubject(false);
 
+  private _numberOfActiveFilters = 0;
+
   private _destroy$ = new Subject();
 
   constructor() {}
@@ -72,9 +74,11 @@ export class ReorderController implements OnDestroy {
         map((enabled) => {
           return enabled && this.position === ReorderPosition.Left;
         }),
+        map(() => {
+          return this._numberOfActiveFilters === 0;
+        }),
         distinctUntilChanged(),
         shareReplay(),
-        takeUntil(this._destroy$),
       )
   }
 
@@ -84,9 +88,11 @@ export class ReorderController implements OnDestroy {
         map((enabled) => {
           return enabled && this.position === ReorderPosition.Right;
         }),
+        map(() => {
+          return this._numberOfActiveFilters === 0;
+        }),
         distinctUntilChanged(),
         shareReplay(),
-        takeUntil(this._destroy$),
       )
   }
 
@@ -220,5 +226,11 @@ export class ReorderController implements OnDestroy {
   public disableReorderAction() {
     this._reorderDisabled$.next(true);
     this._actionsController.updateDisabledState();
+  }
+
+  public setNunberOfActiveFilters(activeFilters: number) {
+    this._numberOfActiveFilters = activeFilters;
+
+    this.enabled = this.enabled;
   }
 }
