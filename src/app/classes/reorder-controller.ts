@@ -74,8 +74,8 @@ export class ReorderController implements OnDestroy {
         map((enabled) => {
           return enabled && this.position === ReorderPosition.Left;
         }),
-        map(() => {
-          return this._numberOfActiveFilters === 0;
+        map((enabled) => {
+          return enabled && this._numberOfActiveFilters === 0;
         }),
         distinctUntilChanged(),
         shareReplay(),
@@ -88,8 +88,8 @@ export class ReorderController implements OnDestroy {
         map((enabled) => {
           return enabled && this.position === ReorderPosition.Right;
         }),
-        map(() => {
-          return this._numberOfActiveFilters === 0;
+        map((enabled) => {
+          return enabled && this._numberOfActiveFilters === 0;
         }),
         distinctUntilChanged(),
         shareReplay(),
