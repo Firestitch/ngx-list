@@ -99,7 +99,9 @@ export class RowAction extends Model {
         action.checkShowStatus(row, index);
       });
 
-      this.isShown = this.rowActions.some((action) => action.isShown);
+      const groupVisible = !this.show || this.show(row, index);
+
+      this.isShown = groupVisible && this.rowActions.some((action) => action.isShown);
     } else if (this.show) {
       this.isShown = this.show(row, index);
     }
