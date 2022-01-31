@@ -6,7 +6,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { FsApi } from '@firestitch/api';
-import { ItemDateMode, ItemType } from '@firestitch/filter';
+import { ItemDateMode, ItemType, ActionMode } from '@firestitch/filter';
 import {
   ActionType,
   FsListAbstractRow,
@@ -252,6 +252,20 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
             console.log(event);
           },
           label: 'Primary Button'
+        },
+        {
+          mode: ActionMode.Menu,
+          label: 'Presets',
+          icon: 'arrow_drop_down',
+          primary: false,
+          items: [
+            {
+              label: 'Today',
+              click: () => {
+
+              }
+            },
+            ]
         }
       ],
       // rowActions: [
@@ -308,6 +322,16 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           },
         },
         {
+          label: 'Upload',
+          type: ActionType.Raised,
+          menu: false,
+          file: {
+            select: (file) => {
+              console.log('files:', file);
+            },
+          },
+        },
+        {
           label: 'Link Btn',
           type: ActionType.Raised,
           menu: false,
@@ -323,6 +347,15 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           link: (row) => {
 
             return { link: ['rows', row.guid ], queryParams: { param: 1 } }
+          },
+        },
+        {
+          label: 'Menu Upload',
+          menu: true,
+          file: {
+            select: (file) => {
+              console.log('files:', file);
+            },
           },
         },
         {
@@ -359,6 +392,14 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
               },
               icon: 'delete',
               label: 'Remove'
+            },
+            {
+              label: 'Sub Menu Upload',
+              file: {
+                select: (file) => {
+                  console.log('files:', file);
+                },
+              },
             },
           ]
         },

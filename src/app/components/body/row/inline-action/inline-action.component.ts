@@ -1,12 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter, HostBinding,
+  EventEmitter,
   Input,
   Output,
 } from '@angular/core';
 
 import { FsPrompt } from '@firestitch/prompt';
+import { FsFile } from '@firestitch/file';
 
 import { RowAction } from '../../../../models/row-action.model';
 
@@ -24,11 +25,18 @@ export class FsRowInlineActionComponent {
   @Output()
   public clicked = new EventEmitter();
 
+  @Output()
+  public fileSelect = new EventEmitter<FsFile | FsFile[]>();
+
   constructor(
     private _fsPrompt: FsPrompt,
   ) {}
 
   public actionClick(event) {
     this.clicked.emit(event);
+  }
+
+  public fileSelected(event): void {
+    this.fileSelect.emit(event);
   }
 }

@@ -3,7 +3,8 @@
     <fs-list-row-inline-action class="row-inline-action row-inline-action-{{action.type}}"
                                [action]="action"
                                [ngClass]="{'mobile-hide': action.menu === undefined}"
-                               (clicked)="actionClick(action, row, $event)">
+                               (clicked)="actionClick(action, row, $event)"
+                               (fileSelect)="action.fileUploadFn($event, row, index)">
     </fs-list-row-inline-action>
   </ng-container>
 </ng-container>
@@ -23,8 +24,14 @@
                    [queryParams]="action.routerLink?.queryParams"
                    [target]="action.routerLink?.target"
                    [hidden]="action.menu !== undefined && !action.isShown">
-        <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon>
-        {{action.label}}
+        <fs-list-row-menu-action
+          [icon]="action.icon"
+          [label]="action.label"
+          [file]="!!action.fileUploadFn"
+          [fileMultiple]="action.fileMultiple"
+          (fileSelect)="action.fileUploadFn($event, row, index)"
+          (fileError)="action.fileUploadErrorFn && action.fileUploadErrorFn($event)">
+        </fs-list-row-menu-action>
       </ng-template>
     </ng-container>
 
@@ -38,8 +45,14 @@
                          [target]="subAction.routerLink?.target"
                          [hidden]="!subAction.isShown"
                          (click)="actionClick(subAction, row, $event, menuRef);">
-              <mat-icon *ngIf="subAction.icon">{{subAction.icon}}</mat-icon>
-              {{subAction.label}}
+              <fs-list-row-menu-action
+                [icon]="subAction.icon"
+                [label]="subAction.label"
+                [file]="!!subAction.fileUploadFn"
+                [fileMultiple]="subAction.fileMultiple"
+                (fileSelect)="subAction.fileUploadFn($event, row, index)"
+                (fileError)="subAction.fileUploadErrorFn && subAction.fileUploadErrorFn($event)">
+              </fs-list-row-menu-action>
             </ng-template>
           </ng-container>
         </fs-menu-group>
@@ -51,8 +64,14 @@
                      [target]="action.routerLink?.target"
                      [hidden]="!action.isShown"
                      (click)="actionClick(action, row, $event, menuRef);">
-          <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon>
-          {{action.label}}
+          <fs-list-row-menu-action
+            [icon]="action.icon"
+            [label]="action.label"
+            [file]="!!action.fileUploadFn"
+            [fileMultiple]="action.fileMultiple"
+            (fileSelect)="action.fileUploadFn($event, row, index)"
+            (fileError)="action.fileUploadErrorFn && action.fileUploadErrorFn($event)">
+          </fs-list-row-menu-action>
         </ng-template>
       </ng-template>
     </ng-container>

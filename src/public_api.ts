@@ -77,6 +77,7 @@ export {
   FsListStateValidationFn,
   FsListFetchOptions,
   FsListFetchFn,
+  FsListRowActionFileFn,
 } from './app/interfaces/listconfig.interface';
 export { QueryOffsetStrategy, QueryPageStrategy } from './app/interfaces/pagination.interface';
 

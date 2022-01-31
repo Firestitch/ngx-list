@@ -1,0 +1,15 @@
+<ng-container *ngIf="!file else withFile">
+  <mat-icon *ngIf="icon">{{icon}}</mat-icon>
+  {{label}}
+</ng-container>
+
+<ng-template #withFile>
+  <fs-file
+    class="action-button"
+    [multiple]="fileMultiple"
+    (select)="fileSelect.emit($event)"
+    (error)="fileError.emit($event)">
+    <mat-icon *ngIf="icon">{{icon}}</mat-icon>
+    {{label}}
+  </fs-file>
+</ng-template>

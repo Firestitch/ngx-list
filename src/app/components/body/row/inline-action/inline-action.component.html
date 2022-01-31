@@ -99,8 +99,21 @@
     </ng-template>
   </ng-container>
 
-  <ng-template #buttonContent let-value="value">
-    <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon>
-    {{action.label}}
+  <ng-template #buttonContent>
+    <ng-container *ngIf="!action.fileUploadFn else uploadFileBtn">
+      <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon>
+      {{action.label}}
+    </ng-container>
+
+    <ng-template #uploadFileBtn>
+      <fs-file
+        class="action-button"
+        [multiple]="action.fileMultiple"
+        (select)="fileSelected($event)"
+        (error)="action.fileUploadErrorFn && action.fileUploadErrorFn($event)">
+        <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon>
+        {{action.label}}
+      </fs-file>
+    </ng-template>
   </ng-template>
 </ng-container>

@@ -12,6 +12,7 @@ import {
   FsFilterAction,
   ChangeFn,
 } from '@firestitch/filter';
+import { FsFile } from '@firestitch/file';
 
 import { ActionType } from '../enums/button-type.enum';
 import { ReorderPosition, ReorderStrategy } from '../classes/reorder-controller';
@@ -181,9 +182,18 @@ export interface FsListRowAction {
   menu?: boolean;
   click?: (row, event, index) => void;
   link?: FsListRowActionLinkFn;
+  file?: {
+    select: FsListRowActionFileFn;
+    error?: (error: unknown) => void,
+    multiple?: boolean,
+  },
   show?: (row, index: number) => boolean;
   remove?: { title?: string; template?: string; } | boolean;
   restore?: boolean;
+}
+
+export interface FsListRowActionFileFn {
+  (selection: FsFile | FsFile[], row: FsListAbstractRow, index: number): void
 }
 
 export interface FsListRowActionLinkFn {

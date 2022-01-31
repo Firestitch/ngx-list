@@ -15,6 +15,7 @@ import { FsFilterModule } from '@firestitch/filter';
 import { FsScrollModule } from '@firestitch/scroll';
 import { FsMenuModule } from '@firestitch/menu';
 import { FsPromptModule } from '@firestitch/prompt';
+import { FsFileModule } from '@firestitch/file';
 
 import { merge } from 'lodash-es';
 
@@ -34,6 +35,7 @@ import { CustomizeColsDialogComponent } from './components/customize-cols/custom
 import { FsListLoaderComponent } from './components/loader/loader.component';
 import { FsRowActionsComponent } from './components/body/row/actions/actions.component';
 import { FsRowInlineActionComponent } from './components/body/row/inline-action/inline-action.component';
+import { FsRowMenuActionComponent } from './components/body/row/menu-action/menu-action.component';
 import { FsListSavedFiltersComponent } from './components/saved-filters/saved-filters.component';
 import { FsListManageSavedFiltersComponent } from './components/manage-saved-filters/manage-saved-filters.component';
 
@@ -70,6 +72,7 @@ import { FsListConfig } from './interfaces';
     FsPromptModule,
     MatDialogModule,
     MatTooltipModule,
+    FsFileModule,
   ],
   declarations: [
     // Components
@@ -77,6 +80,7 @@ import { FsListConfig } from './interfaces';
     FsRowComponent,
     FsRowActionsComponent,
     FsRowInlineActionComponent,
+    FsRowMenuActionComponent,
     FsCellComponent,
     FsFooterRowComponent,
     FsFooterCellComponent,
