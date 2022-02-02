@@ -100,7 +100,7 @@
   </ng-container>
 
   <ng-template #buttonContent>
-    <ng-container *ngIf="!action.fileUploadFn else uploadFileBtn">
+    <ng-container *ngIf="!action.fileConfig else uploadFileBtn">
       <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon>
       {{action.label}}
     </ng-container>
@@ -108,9 +108,14 @@
     <ng-template #uploadFileBtn>
       <fs-file
         class="action-button"
-        [multiple]="action.fileMultiple"
+        [accept]="action.fileConfig.accept || '*'"
+        [multiple]="action.fileConfig.multiple"
+        [minWidth]="action.fileConfig.minWidth"
+        [minHeight]="action.fileConfig.minHeight"
+        [imageWidth]="action.fileConfig.maxWidth"
+        [imageHeight]="action.fileConfig.maxHeight"
         (select)="fileSelected($event)"
-        (error)="action.fileUploadErrorFn && action.fileUploadErrorFn($event)">
+        (error)="action.fileConfig.error && action.fileConfig.error($event)">
         <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon>
         {{action.label}}
       </fs-file>

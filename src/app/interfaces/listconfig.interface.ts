@@ -182,11 +182,7 @@ export interface FsListRowAction {
   menu?: boolean;
   click?: (row, event, index) => void;
   link?: FsListRowActionLinkFn;
-  file?: {
-    select: FsListRowActionFileFn;
-    error?: (error: unknown) => void,
-    multiple?: boolean,
-  },
+  file?: FsListRowActionFile,
   show?: (row, index: number) => boolean;
   remove?: { title?: string; template?: string; } | boolean;
   restore?: boolean;
@@ -202,6 +198,18 @@ export interface FsListRowActionLinkFn {
 
 export interface FsListRowActionLabelFn {
   (row: FsListAbstractRow): string
+}
+
+export interface FsListRowActionFile {
+  select: FsListRowActionFileFn;
+  error?: (error: unknown) => void;
+  multiple?: boolean;
+  accept?: string;
+  minWidth?: number;
+  minHeight?: number;
+  maxWidth?: number;
+  maxHeight?: number;
+  imageQuality?: number;
 }
 
 export interface FsListRowActionLink {

@@ -6,7 +6,12 @@
 <ng-template #withFile>
   <fs-file
     class="action-button"
-    [multiple]="fileMultiple"
+    [accept]="file.accept || '*'"
+    [multiple]="file.multiple"
+    [minWidth]="file.minWidth"
+    [minHeight]="file.minHeight"
+    [imageWidth]="file.maxWidth"
+    [imageHeight]="file.maxHeight"
     (select)="fileSelect.emit($event)"
     (error)="fileError.emit($event)">
     <mat-icon *ngIf="icon">{{icon}}</mat-icon>

@@ -1,6 +1,7 @@
 import { Alias, Model } from 'tsmodels';
 import { ActionType } from '../enums/button-type.enum';
 import {
+  FsListRowActionFile,
   FsListRowActionFileFn,
   FsListRowActionLabelFn,
   FsListRowActionLink,
@@ -25,9 +26,7 @@ export class RowAction extends Model {
   public isShown = true;
   public click: Function;
 
-  public fileUploadFn: FsListRowActionFileFn;
-  public fileUploadErrorFn: (error: unknown) => void;
-  public fileMultiple: boolean;
+  public fileConfig: FsListRowActionFile;
 
   private _linkFn: FsListRowActionLinkFn;
   private _labelFn: FsListRowActionLabelFn;
@@ -67,13 +66,14 @@ export class RowAction extends Model {
     this._linkFn = value.link;
 
     if (value.file) {
-      if (value.file.select) {
-        this.fileUploadFn = (selection, row, index) => {
-          value.file.select(selection, row, index);
+      this.fileConfig = { ...value.file };
+
+      if (this.fileConfig.select) {
+        const selectFn = this.fileConfig.select;
+        this.fileConfig.select = (selection, row, index) => {
+          selectFn(selection, row, index);
         }
       }
-      this.fileUploadErrorFn = value.file.error;
-      this.fileMultiple = value.file.multiple;
     }
 
     if (typeof value.label === 'function') {

@@ -4,7 +4,7 @@
                                [action]="action"
                                [ngClass]="{'mobile-hide': action.menu === undefined}"
                                (clicked)="actionClick(action, row, $event)"
-                               (fileSelect)="action.fileUploadFn($event, row, index)">
+                               (fileSelect)="action.fileConfig.select($event, row, index)">
     </fs-list-row-inline-action>
   </ng-container>
 </ng-container>
@@ -27,10 +27,9 @@
         <fs-list-row-menu-action
           [icon]="action.icon"
           [label]="action.label"
-          [file]="!!action.fileUploadFn"
-          [fileMultiple]="action.fileMultiple"
-          (fileSelect)="action.fileUploadFn($event, row, index)"
-          (fileError)="action.fileUploadErrorFn && action.fileUploadErrorFn($event)">
+          [file]="action.fileConfig"
+          (fileSelect)="action.fileConfig.select($event, row, index)"
+          (fileError)="action.fileConfig.error && action.fileConfig.error($event)">
         </fs-list-row-menu-action>
       </ng-template>
     </ng-container>
@@ -48,10 +47,9 @@
               <fs-list-row-menu-action
                 [icon]="subAction.icon"
                 [label]="subAction.label"
-                [file]="!!subAction.fileUploadFn"
-                [fileMultiple]="subAction.fileMultiple"
-                (fileSelect)="subAction.fileUploadFn($event, row, index)"
-                (fileError)="subAction.fileUploadErrorFn && subAction.fileUploadErrorFn($event)">
+                [file]="subAction.fileConfig"
+                (fileSelect)="subAction.fileConfig.select($event, row, index)"
+                (fileError)="subAction.fileConfig.error && subAction.fileConfig.error($event)">
               </fs-list-row-menu-action>
             </ng-template>
           </ng-container>
@@ -67,10 +65,9 @@
           <fs-list-row-menu-action
             [icon]="action.icon"
             [label]="action.label"
-            [file]="!!action.fileUploadFn"
-            [fileMultiple]="action.fileMultiple"
-            (fileSelect)="action.fileUploadFn($event, row, index)"
-            (fileError)="action.fileUploadErrorFn && action.fileUploadErrorFn($event)">
+            [file]="action.fileConfig"
+            (fileSelect)="action.fileConfig.select($event, row, index)"
+            (fileError)="action.fileConfig.error && action.fileConfig.error($event)">
           </fs-list-row-menu-action>
         </ng-template>
       </ng-template>

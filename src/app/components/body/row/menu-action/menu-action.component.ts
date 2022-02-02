@@ -5,6 +5,9 @@ import {
 } from '@angular/core';
 
 
+import { FsListRowActionFile } from '../../../../interfaces/listconfig.interface';
+
+
 @Component({
   selector: 'fs-list-row-menu-action',
   templateUrl: './menu-action.component.html',
@@ -19,10 +22,7 @@ export class FsRowMenuActionComponent {
   public label: string;
 
   @Input()
-  public file: boolean;
-
-  @Input()
-  public fileMultiple: boolean;
+  public file: FsListRowActionFile;
 
   @Output()
   public fileSelect = new EventEmitter();
