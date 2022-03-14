@@ -865,7 +865,7 @@ export class List extends Model {
     }
 
     if (this.emptyState?.validate && this.emptyStateTemplate) {
-      this.emptyStateEnabled = this.emptyState.validate(query, cloneDeep(response.data));
+      this.emptyStateEnabled = this.emptyState.validate(query, cloneDeep(this.dataController.visibleRowsData));
     }
 
     if (this.afterFetchFn) {
