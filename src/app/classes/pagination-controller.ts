@@ -1,7 +1,6 @@
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
-import { Alias, Model } from 'tsmodels';
 import { isObject } from 'lodash-es';
 
 import {
@@ -14,11 +13,11 @@ import {
 import { PaginationStrategy } from '../enums/pagination-strategy.enum';
 import { PageChangeType } from '../enums/page-change-type.enum';
 
-export class PaginationController extends Model {
+export class PaginationController {
 
-  @Alias() public limit = 25;
-  @Alias() public records: number;
-  @Alias() public manual = false;
+  public limit = 25;
+  public records: number;
+  public manual = false;
 
   public page = 1; // Active page
   public offset = 0;
@@ -40,12 +39,9 @@ export class PaginationController extends Model {
   private _loadMoreText = 'Load More';
   private _limits = [10, 25, 50, 100, 200];
 
-  constructor() {
-    super();
-  }
+  constructor() {}
 
   // Total pages
-  @Alias('pages')
   set pages(value: number) {
     this._pages$.next(value);
   }
@@ -55,7 +51,10 @@ export class PaginationController extends Model {
   }
 
   get pages$(): Observable<number> {
-    return this._pages$.asObservable();
+    return this._pages$
+      .pipe(
+        distinctUntilChanged(),
+      );
   }
 
   /**
@@ -106,6 +105,22 @@ export class PaginationController extends Model {
         return this.queryPageStrategy;
       case PaginationStrategy.Offset:
         return this.queryOffsetStrategy;
+    }
+
+    return {};
+  }
+
+  get loadMoreQuery() {
+    switch (this.strategy) {
+      case PaginationStrategy.Page:
+        return this.query;
+      case PaginationStrategy.Offset:
+        const query = this.queryOffsetStrategy;
+
+        query.limit = query.offset + query.limit;
+        query.offset = 0;
+
+        return query;
     }
 
     return {};
@@ -237,14 +252,6 @@ export class PaginationController extends Model {
     return `${from}-${to}`;
   }
 
-  public _fromJSON(value): void {
-    super._fromJSON(value);
-
-    if (!value.limit) {
-      this.limit = 25;
-    }
-  }
-
   public initWithConfig(
     config: FsPaging | false,
     loadMore: FsListLoadMoreConfig | boolean,
@@ -260,13 +267,14 @@ export class PaginationController extends Model {
         this.limit = config.limit;
       }
 
-      if (loadMore) {
-        this.setLoadMore(loadMore);
-      }
-
-      this._infinityScrollEnabled = infinityScrollEnabled;
       this.strategy = config.strategy;
     }
+
+    if (loadMore) {
+      this.setLoadMore(loadMore);
+    }
+
+    this._infinityScrollEnabled = infinityScrollEnabled;
   }
 
   /**
@@ -300,13 +308,13 @@ export class PaginationController extends Model {
   /**
    * Update paging config and all related fields
    * @param config
-   * @param displayed
-   * @param loadMore
+   * @param displayedRecords
+   * @param loadMoreOperation
    */
-  public updatePaging(config, displayed = 0, loadMore = false) {
-    if (!loadMore) {
-      this._fromJSON(config);
-      this.displayed = displayed;
+  public updatePaging(config, displayedRecords = 0, loadMoreOperation = false) {
+    if (!loadMoreOperation) {
+      this._fromParams(config);
+      this.displayed = displayedRecords;
     } else {
       this.records = config.records;
 
@@ -527,6 +535,21 @@ export class PaginationController extends Model {
   public destroy() {
     this._onDestroy$.next();
     this._onDestroy$.complete();
+  }
+
+  /**
+   * Update paging state
+   * @param params
+   */
+  private _fromParams(params): void {
+    if (!this.loadMoreEnabled) {
+      this.limit = params.limit ?? 25;
+    }
+
+    this.records = params.records;
+    this.manual = params.manual;
+
+    this.pages = params.pages || 0
   }
 
   /**

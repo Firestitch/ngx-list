@@ -552,9 +552,17 @@ export class List extends Model {
           this.selection?.closeSelectionDialog();
         }),
         map((params: FsListFetchSubscription) => {
-          const query = this.paging.hasOffsetStrategy && params && params.loadOffset
-            ? Object.assign({}, this.filtersQuery, this.paging.loadDeletedOffsetQuery)
-            : Object.assign({}, this.filtersQuery, this.paging.query);
+          let query = Object.assign({}, this.filtersQuery);
+
+          if (this.paging.hasOffsetStrategy && params && params.loadOffset) {
+            query = Object.assign(query, this.paging.loadDeletedOffsetQuery);
+          } else {
+            if (this.initialFetch && this.paging.loadMoreEnabled) {
+              query = Object.assign(query, this.paging.loadMoreQuery);
+            } else {
+              query = Object.assign(query, this.paging.query);
+            }
+          }
 
           if (this.sorting.sortingColumn) {
             Object.assign(
@@ -597,6 +605,8 @@ export class List extends Model {
         takeUntil(this.onDestroy$),
       )
       .subscribe((response) => {
+        this.initialFetch = false;
+
         this.completeFetch(response);
       });
   }
