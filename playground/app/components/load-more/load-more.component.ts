@@ -39,7 +39,6 @@ export class LoadMoreComponent extends StrategyBaseComponent implements OnInit {
       },
       loadMore: true,
       fetch: (query) => {
-        debugger;
         query.count = 30;
         const genders = ['men', 'women'];
         return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
