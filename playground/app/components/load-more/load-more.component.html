@@ -1,0 +1,30 @@
+<div fsScroll name="list-scroll" style="height: 600px" *ngIf="showList">
+  <div fsScrollContent>
+    <fs-list [config]="config" #table>
+
+      <fs-list-column name="avatar">
+        <ng-template fs-list-cell let-value="value">
+          <fs-badge size="60"
+                    [image]="value"
+                    tooltip="Tooltip">
+          </fs-badge>
+        </ng-template>
+      </fs-list-column>
+
+      <fs-list-column name="name" title="Name" [sortable]="true">
+        <ng-template fs-list-header>
+          <b>User</b> name
+        </ng-template>
+        <ng-template fs-list-cell let-value="value" let-row="row">
+          {{value}}
+        </ng-template>
+      </fs-list-column>
+
+      <fs-list-column name="date" title="Birth day">
+        <ng-template fs-list-cell let-value="value">
+          {{ value | fsDateFormat:'full-day-date' }}
+        </ng-template>
+      </fs-list-column>
+    </fs-list>
+  </div>
+</div>

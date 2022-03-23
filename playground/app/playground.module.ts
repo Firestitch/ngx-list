@@ -50,6 +50,7 @@ import { StrategyBaseComponent } from './components/examples/strategy-base/strat
 import { ConfigureComponent } from './components/configure';
 import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
 import { FsFileModule } from '@firestitch/file';
+import { LoadMoreComponent } from './components/load-more';
 
 
 @NgModule({
@@ -108,6 +109,7 @@ import { FsFileModule } from '@firestitch/file';
     ConfigureComponent,
     GroupsComponent,
     EmptyStateComponent,
+    LoadMoreComponent,
   ],
   providers: [
     { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: {float: 'always'} }
