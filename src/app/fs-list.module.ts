@@ -49,6 +49,7 @@ import { FsListGroupExpandTriggerDirective } from './directives/group-expand-tri
 import { FsListDraggableListDirective } from './directives/draggable-list/draggable-list.directive';
 import { FsListDraggableRowDirective } from './directives/draggable-row/draggable-row.directive';
 import { FsListEmptyStateDirective } from './directives/empty-state/empty-state.directive';
+import { FsListContentDirective } from './directives/content/content.directive';
 
 // Other
 import { FS_LIST_DEFAULT_CONFIG, FS_LIST_CONFIG } from './fs-list.providers';
@@ -106,6 +107,7 @@ import { FsListConfig } from './interfaces';
     FsListDraggableListDirective,
     FsListDraggableRowDirective,
     FsListEmptyStateDirective,
+    FsListContentDirective,
 
     // Dialog
     CustomizeColsDialogComponent,
@@ -128,6 +130,7 @@ import { FsListConfig } from './interfaces';
     FsListGroupCellDirective,
     FsListGroupExpandTriggerDirective,
     FsListEmptyStateDirective,
+    FsListContentDirective,
   ],
 })
 export class FsListModule {

@@ -51,6 +51,8 @@
       </div>
     </div>
 
+    <ng-content select="[fs-list-content]"></ng-content>
+
     <!-- Table implementation -->
     <div class="fs-list-table-container">
       <table class="fs-list-table" role="grid" *ngIf="!firstLoad && listData.length > 0 && !list.emptyStateEnabled">
@@ -108,17 +110,17 @@
 
 
     <ng-container *ngIf="!firstLoad">
-      <div 
-          *ngIf="listData.length === 0" 
+      <div
+          *ngIf="listData.length === 0"
           class="fs-list-no-results-container">
-        <div 
+        <div
             *ngIf="list.noResults?.message && !list.emptyStateEnabled"
             class="fs-list-no-results">
           {{ list.noResults?.message }}
         </div>
         <ng-container *ngIf="list.emptyStateEnabled">
           <ng-template [ngTemplateOutlet]="list.emptyStateTemplate"></ng-template>
-        </ng-container>        
+        </ng-container>
       </div>
     </ng-container>
   </ng-container>

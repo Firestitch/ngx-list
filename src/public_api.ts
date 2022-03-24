@@ -29,6 +29,7 @@ export { FsListColumnDirective } from './app/directives/column/column.directive'
 export { FsListCellDirective } from './app/directives/cell/cell.directive';
 export { FsListHeaderDirective } from './app/directives/header/header.directive';
 export { FsListEmptyStateDirective } from './app/directives/empty-state/empty-state.directive';
+export { FsListContentDirective } from './app/directives/content/content.directive';
 
 // Models
 export { Column, SortingDirection } from './app/models/column.model';
