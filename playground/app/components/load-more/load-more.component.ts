@@ -4,6 +4,7 @@ import { FsListComponent, FsListConfig, PaginationStrategy } from '@firestitch/l
 import { map } from 'rxjs/operators';
 import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
 import { ApiStrategy } from '../../services/api-strategy.service';
+import { ItemType } from '@firestitch/filter';
 
 
 @Component({
@@ -33,6 +34,13 @@ export class LoadMoreComponent extends StrategyBaseComponent implements OnInit {
   public ngOnInit() {
 
     this.config = {
+      filters: [
+        {
+          name: 'keyword',
+          type: ItemType.Keyword,
+          label: 'Search'
+        }
+      ],
       paging: {
         strategy: PaginationStrategy.Offset,
         limit: 3,

@@ -557,7 +557,11 @@ export class List extends Model {
           if (this.paging.hasOffsetStrategy && params && params.loadOffset) {
             query = Object.assign(query, this.paging.loadDeletedOffsetQuery);
           } else {
-            if (this.initialFetch && this.paging.loadMoreEnabled) {
+            const allRecordsRangeNeeded = (this.initialFetch
+                || this.dataController.operation === FsListState.Reload
+              ) && this.paging.loadMoreEnabled;
+
+            if (allRecordsRangeNeeded) {
               query = Object.assign(query, this.paging.loadMoreQuery);
             } else {
               query = Object.assign(query, this.paging.query);
