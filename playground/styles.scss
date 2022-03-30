@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '../tools/assets/playground.scss';
 @import "~@firestitch/message/styles";
 @import "~@firestitch/selection/styles.scss";
@@ -6,9 +7,8 @@
 @import '~@firestitch/datepicker/styles';
 @import '~@firestitch/filter/styles';
 @import '~@firestitch/skeleton/styles';
-@import '~@angular/material/theming';
 
-@include fs-selection($mat-blue);
+@include fs-selection(mat.$blue-palette);
 //@include fs-chip($mat-blue);
-@include fs-drawer($mat-blue);
-@include fs-date-picker($mat-blue);
+@include fs-drawer(mat.$blue-palette);
+//@include fs-date-picker(mat.$blue-palette);

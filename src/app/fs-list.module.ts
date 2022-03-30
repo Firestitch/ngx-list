@@ -112,10 +112,6 @@ import { FsListConfig } from './interfaces';
     // Dialog
     CustomizeColsDialogComponent,
   ],
-  entryComponents: [
-    // Dialog
-    CustomizeColsDialogComponent,
-  ],
   providers: [
   ],
   exports: [

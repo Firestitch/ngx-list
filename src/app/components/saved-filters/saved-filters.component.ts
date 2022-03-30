@@ -2,7 +2,7 @@ import { Component, ViewContainerRef } from '@angular/core';
 import { ExternalParamsController } from '@firestitch/filter';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { FsListManageSavedFiltersComponent } from '../manage-saved-filters/manage-saved-filters.component';
+// import { FsListManageSavedFiltersComponent } from '../manage-saved-filters/manage-saved-filters.component';
 
 
 @Component({
@@ -21,8 +21,8 @@ export class FsListSavedFiltersComponent {
   }
 
   public showManageDialog(): void {
-    this._dialog.open(FsListManageSavedFiltersComponent, {
-      viewContainerRef: this._vcRef,
-    });
+    // this._dialog.open(FsListManageSavedFiltersComponent, {
+    //   viewContainerRef: this._vcRef,
+    // });
   }
 }

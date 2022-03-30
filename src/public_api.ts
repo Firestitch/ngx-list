@@ -22,6 +22,7 @@ export {
 }from './app/components/footer/footer-row/footer-cell/footer-cell.component';
 export { FsStatusComponent } from './app/components/status/status.component';
 export { FsPaginationComponent } from './app/components/pagination/pagination.component';
+export { FsListLoaderComponent } from './app/components/loader/loader.component';
 
 // Directives
 export { FsListFooterDirective } from './app/directives/footer/footer.directive';
@@ -30,6 +31,9 @@ export { FsListCellDirective } from './app/directives/cell/cell.directive';
 export { FsListHeaderDirective } from './app/directives/header/header.directive';
 export { FsListEmptyStateDirective } from './app/directives/empty-state/empty-state.directive';
 export { FsListContentDirective } from './app/directives/content/content.directive';
+export { FsListGroupCellDirective } from './app/directives/group-cell/group-cell.directive';
+export { FsListGroupExpandTriggerDirective }
+  from './app/directives/group-expand-trigger/group-expand-trigger.directive';
 
 // Models
 export { Column, SortingDirection } from './app/models/column.model';

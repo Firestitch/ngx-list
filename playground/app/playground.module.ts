@@ -12,7 +12,6 @@ import { FsDatePickerModule } from '@firestitch/datepicker';
 import { FsScrollModule } from '@firestitch/scroll';
 import { FsMessageModule } from '@firestitch/message';
 import { FsSelectionModule } from '@firestitch/selection';
-import { FsModelChangeModule } from '@firestitch/model-change';
 import { FsLabelModule } from '@firestitch/label';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -48,7 +47,7 @@ import {
 import { RestoreComponent } from './components/restore/restore.component';
 import { StrategyBaseComponent } from './components/examples/strategy-base/strategy-base.component';
 import { ConfigureComponent } from './components/configure';
-import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { FsFileModule } from '@firestitch/file';
 import { LoadMoreComponent } from './components/load-more';
 
@@ -66,19 +65,18 @@ import { LoadMoreComponent } from './components/load-more';
     FsLabelModule,
     FsExampleModule.forRoot(),
     FsMessageModule.forRoot(),
-    FsSelectionModule.forRoot(),
+    FsSelectionModule,
     ToastrModule.forRoot({ preventDuplicates: true }),
     FsPromptModule.forRoot(),
     FsApiModule,
     FsBadgeModule,
     FsDateModule.forRoot(),
     FsDatePickerModule.forRoot(),
-    FsModelChangeModule,
     RouterModule.forRoot([
-      { path: '', component: ExamplesComponent },
-      { path: 'noresults', component: NoResultsComponent },
-      { path: 'paging', component: PagingComponent },
-    ]),
+    { path: '', component: ExamplesComponent },
+    { path: 'noresults', component: NoResultsComponent },
+    { path: 'paging', component: PagingComponent },
+], { relativeLinkResolution: 'legacy' }),
     FsFileModule.forRoot({}),
   ],
   entryComponents: [
@@ -112,7 +110,7 @@ import { LoadMoreComponent } from './components/load-more';
     LoadMoreComponent,
   ],
   providers: [
-    { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: {float: 'always'} }
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {floatLabel: 'always'} }
   ],
 
 })
