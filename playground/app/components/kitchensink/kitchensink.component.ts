@@ -171,6 +171,9 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           isolate: { label: 'Show Deleted', value: 'deleted' }
         }
       ],
+      afterContentInit: (query, data) => {
+        console.log('AfterContent Init', query, data);
+      },
       savedFilters: {
         load: () => {
           console.log('<====== Load Saved Filters =====>');

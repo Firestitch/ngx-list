@@ -55,45 +55,47 @@
 
     <!-- Table implementation -->
     <div class="fs-list-table-container">
-      <table class="fs-list-table" role="grid" *ngIf="!firstLoad && listData.length > 0 && !list.emptyStateEnabled">
-        <thead fs-list-head
-               class="fs-list-head"
-               role="rowgroup"
-               *ngIf="list.columns.hasHeader"
-               [ngClass]="list.columns.theadClass"
-               [columns]="list.columns.visibleColumns"
-               [sorting]="list.sorting"
-               [selection]="list.selection"
-               [hasRowActions]="list.hasRowActions"
-        >
-        </thead>
+      <ng-container *ngIf="!firstLoad && listData.length > 0 && !list.emptyStateEnabled">
+        <table class="fs-list-table" role="grid" [fsListContentInit]="list.afterContentInit">
+          <thead fs-list-head
+                 class="fs-list-head"
+                 role="rowgroup"
+                 *ngIf="list.columns.hasHeader"
+                 [ngClass]="list.columns.theadClass"
+                 [columns]="list.columns.visibleColumns"
+                 [sorting]="list.sorting"
+                 [selection]="list.selection"
+                 [hasRowActions]="list.hasRowActions"
+          >
+          </thead>
 
-        <tbody fs-list-body
-               fsListDraggableList
-               class="fs-list-body"
-               role="rowgroup"
-               [class.disabled]="!!(reorderController.reorderDisabled$ | async)"
-               [rows]="listData"
-               [rowActionsRaw]="list.rowActionsRaw"
-               [groupActionsRaw]="list.groupActionsRaw"
-               [hasRowActions]="list.hasRowActions"
-               [rowEvents]="list.rowEvents"
-               [rowClass]="list.rowClass"
-               [columns]="list.columns.visibleColumns"
-               [restoreMode]="list.restoreMode"
-               [selection]="list.selection"
-               [rowRemoved]="rowRemoved"
-        >
-        </tbody>
+          <tbody fs-list-body
+                 fsListDraggableList
+                 class="fs-list-body"
+                 role="rowgroup"
+                 [class.disabled]="!!(reorderController.reorderDisabled$ | async)"
+                 [rows]="listData"
+                 [rowActionsRaw]="list.rowActionsRaw"
+                 [groupActionsRaw]="list.groupActionsRaw"
+                 [hasRowActions]="list.hasRowActions"
+                 [rowEvents]="list.rowEvents"
+                 [rowClass]="list.rowClass"
+                 [columns]="list.columns.visibleColumns"
+                 [restoreMode]="list.restoreMode"
+                 [selection]="list.selection"
+                 [rowRemoved]="rowRemoved"
+          >
+          </tbody>
 
-        <tfoot fs-list-footer
-               class="fs-list-footer"
-               *ngIf="list.columns.hasFooter"
-               [columns]="list.columns.visibleColumns"
-               [selection]="list.selection"
-               [hasRowActions]="list.hasRowActions">
-        </tfoot>
-      </table>
+          <tfoot fs-list-footer
+                 class="fs-list-footer"
+                 *ngIf="list.columns.hasFooter"
+                 [columns]="list.columns.visibleColumns"
+                 [selection]="list.selection"
+                 [hasRowActions]="list.hasRowActions">
+          </tfoot>
+        </table>
+      </ng-container>
       <fs-list-loader
         *ngIf="firstLoad"
         [columns]="list.columns.columns"

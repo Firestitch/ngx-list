@@ -31,6 +31,7 @@ import { SortingDirection } from '../models/column.model';
 
 // Interfaces
 import {
+  FsListAfterContentInitFn,
   FsListAfterFetchFn,
   FsListConfig,
   FsListEmptyStateConfig, FsListFetchFn, FsListFetchOptions,
@@ -85,6 +86,7 @@ export class List extends Model {
   // @Alias() public initialFetch = true; //TODO fixme
   @Alias('fetch') public fetchFn: FsListFetchFn;
   @Alias('afterFetch') public afterFetchFn: FsListAfterFetchFn;
+  public afterContentInit: FsListAfterContentInitFn;
   // @Alias('rows') private _rows: any;
 
   public initialized$ = new BehaviorSubject(false);
@@ -435,6 +437,12 @@ export class List extends Model {
     }
     if (!config.trackBy) {
       this.trackBy = 'id';
+    }
+
+    if (config.afterContentInit) {
+      this.afterContentInit = () => {
+        config.afterContentInit(this.paging.query, this.dataController.visibleRows);
+      }
     }
   }
 

@@ -50,6 +50,7 @@ import { FsListDraggableListDirective } from './directives/draggable-list/dragga
 import { FsListDraggableRowDirective } from './directives/draggable-row/draggable-row.directive';
 import { FsListEmptyStateDirective } from './directives/empty-state/empty-state.directive';
 import { FsListContentDirective } from './directives/content/content.directive';
+import { FsListContentInitDirective } from './directives/content-init/content-init.directive';
 
 // Other
 import { FS_LIST_DEFAULT_CONFIG, FS_LIST_CONFIG } from './fs-list.providers';
@@ -108,6 +109,7 @@ import { FsListConfig } from './interfaces';
     FsListDraggableRowDirective,
     FsListEmptyStateDirective,
     FsListContentDirective,
+    FsListContentInitDirective,
 
     // Dialog
     CustomizeColsDialogComponent,
