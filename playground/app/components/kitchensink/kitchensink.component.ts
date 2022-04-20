@@ -1,6 +1,7 @@
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnInit,
   ViewChild
@@ -37,7 +38,9 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
 
   @ViewChild('list', { static: true })
   public list: FsListComponent; // Controller fs-list
+
   public config: FsListConfig;
+  public show = true;
 
   public weekdays = [
     { id: 1, name: 'Monday' },
@@ -52,13 +55,17 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
   constructor(
     protected _apiStrategy: ApiStrategy,
     private _fsApi: FsApi,
-    private example: FsExampleComponent) {
+    private example: FsExampleComponent,
+    private _cdRef: ChangeDetectorRef,
+  ) {
     super(_apiStrategy);
-
+  }
+  
+  public showToggle() {
+    this.show = false;
   }
 
   public ngOnInit() {
-
     this.config = {
       status: true,
       chips: true,
@@ -179,7 +186,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           console.log('<====== Load Saved Filters =====>');
           return of(savedFilters)
             .pipe(
-              delay(1500),
+              delay(100),
             );
         },
         save: (filter) => {
@@ -206,7 +213,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
 
           return of(filter)
             .pipe(
-              delay(1500),
+              delay(100),
             );
         },
         order: (filters) => {

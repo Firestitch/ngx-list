@@ -1,4 +1,4 @@
-import { ElementRef, TemplateRef } from '@angular/core';
+import { ElementRef, QueryList, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChangeFn, FilterConfig, IFilterSavedFiltersConfig, ItemType } from '@firestitch/filter';
 import { FsScrollInstance, FsScrollService } from '@firestitch/scroll';
@@ -59,6 +59,7 @@ import { SortingController } from './sorting-controller';
 import { FsListState } from '../enums/state.enum';
 import { PersistanceController } from './persistance-controller';
 import { ExternalParamsController } from './external-params-controller';
+import { FsListColumnDirective } from '../directives/column/column.directive';
 
 const SHOW_DELETED_FILTERS_KEY = '$$_show_deleted_$$';
 
@@ -199,7 +200,7 @@ export class List extends Model {
    * Transform templates for using
    * @param templates
    */
-  public tranformTemplatesToColumns(templates) {
+  public tranformTemplatesToColumns(templates: QueryList<FsListColumnDirective>) {
     const defaultConfigs = {
       header: this._headerConfig,
       groupCell: this._groupCellConfig,

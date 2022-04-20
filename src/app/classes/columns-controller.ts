@@ -11,6 +11,8 @@ import {
   FsListColumnTitleFn,
   FsListColumnTooltipFn,
 } from '../interfaces/listconfig.interface';
+import { QueryList } from '@angular/core';
+import { FsListColumnDirective } from '../directives/column/column.directive';
 
 
 export class ColumnsController {
@@ -23,6 +25,7 @@ export class ColumnsController {
   private _customizeFieldTitleFn: FsListColumnTitleFn;
   private _customizeFieldDisabledFn: FsListColumnDisabledFn;
   private _columnTooltipFn: FsListColumnTooltipFn;
+  private _columnVisibilityChange$ = new Subject<{ name: string; show: boolean }[]>();
 
   private _isConfigured = false;
   private _loadFnConfigured = false;
@@ -39,6 +42,10 @@ export class ColumnsController {
 
   public get columns() {
     return this._columns.slice();
+  }
+
+  public get columnVisibilityChange$() {
+    return this._columnVisibilityChange$;
   }
 
   public get columnsForDialog() {
@@ -150,12 +157,11 @@ export class ColumnsController {
    * Base initialization for columns
    * @param templates
    */
-  public initializeColumns(templates) {
+  public initializeColumns(templates: QueryList<FsListColumnDirective>) {
     this._columns = [];
 
     templates.forEach((column) => {
       const col = new Column(column, this._defaultConfigs);
-
 
       if (col.headerTemplate || col.title) {
         this._hasHeader = true;
@@ -165,6 +171,11 @@ export class ColumnsController {
       }
 
       this._columns.push(col);
+
+      column.columnVisibilityChange$
+      .subscribe((columnVisibility) => {
+        this.updateVisibilityForCols([columnVisibility]);
+      });
     });
 
     this._theadClass = this.hasHeader ? 'has-header' : '';
@@ -203,17 +214,22 @@ export class ColumnsController {
    * Update visibility based on passed config
    * @param columnsConfig
    */
-  public updateVisibilityForCols(columnsConfig) {
+  public updateVisibilityForCols(columnsConfig: { name: string; show: boolean }[]) {
     columnsConfig.forEach((columnConfig) => {
+      if(!columnConfig.name) {
+        console.error('Column name not specified for column visibility update');
+      }
+
       const col = this._columns
         .find((column) => column.name === columnConfig.name);
 
       if (col) {
         col.show = columnConfig.show;
       }
-    });
+    });   
 
     this.updateVisibleColumns();
+    this._columnVisibilityChange$.next(columnsConfig);
   }
 
   public destroy() {

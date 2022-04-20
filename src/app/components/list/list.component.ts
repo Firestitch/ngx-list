@@ -41,7 +41,9 @@ import { FS_LIST_DEFAULT_CONFIG } from '../../fs-list.providers';
 import {
   FsListAbstractRow,
   FsListAction,
-  FsListConfig, FsListPersitance, FsListSelectionConfig,
+  FsListConfig, 
+  FsListPersitance, 
+  FsListSelectionConfig,
   FsListTrackByFn,
   FsListTrackByTargetRowFn
 } from '../../interfaces';
@@ -165,6 +167,7 @@ export class FsListComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this._subscribeToRemoveRow();
     this._subscribeToGroupExpandStatusChange();
+    this._subscribeToColmnVisibilityChange();
   }
 
   public ngOnDestroy() {
@@ -385,6 +388,16 @@ export class FsListComponent implements OnInit, OnDestroy {
       .subscribe((row) => {
         this.list.dataController.removeData(row);
       })
+  }
+
+  private _subscribeToColmnVisibilityChange(): void {
+    this.list.columns.columnVisibilityChange$
+    .pipe(
+      takeUntil(this._destroy),
+    )
+    .subscribe(() => {
+      this.cdRef.markForCheck();
+    });
   }
 
   private _subscribeToGroupExpandStatusChange() {

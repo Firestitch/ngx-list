@@ -1,6 +1,6 @@
 <fs-list [config]="config" #list>
 
-  <fs-list-column>
+  <fs-list-column name="id" [show]="show">
     <ng-template fs-list-header>
       №
     </ng-template>
@@ -36,3 +36,6 @@
     </ng-template>
   </fs-list-column>
 </fs-list>
+
+
+<button type="button" (click)="showToggle()">Show Toggle</button>
