@@ -62,7 +62,7 @@
                  role="rowgroup"
                  *ngIf="list.columns.hasHeader"
                  [ngClass]="list.columns.theadClass"
-                 [columns]="list.columns.visibleColumns"
+                 [columns]="list.columns.visibleColumns$ | async"
                  [sorting]="list.sorting"
                  [selection]="list.selection"
                  [hasRowActions]="list.hasRowActions"
@@ -80,7 +80,7 @@
                  [hasRowActions]="list.hasRowActions"
                  [rowEvents]="list.rowEvents"
                  [rowClass]="list.rowClass"
-                 [columns]="list.columns.visibleColumns"
+                 [columns]="list.columns.visibleColumns$ | async"
                  [restoreMode]="list.restoreMode"
                  [selection]="list.selection"
                  [rowRemoved]="rowRemoved"
@@ -90,7 +90,7 @@
           <tfoot fs-list-footer
                  class="fs-list-footer"
                  *ngIf="list.columns.hasFooter"
-                 [columns]="list.columns.visibleColumns"
+                 [columns]="list.columns.visibleColumns$ | async"
                  [selection]="list.selection"
                  [hasRowActions]="list.hasRowActions">
           </tfoot>

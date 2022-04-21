@@ -1,6 +1,6 @@
 import { isNumber } from 'lodash-es';
-import { Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, merge, Observable, Subject } from 'rxjs';
+import { skip, takeUntil, tap } from 'rxjs/operators';
 
 import { Column } from '../models/column.model';
 import {
@@ -15,8 +15,8 @@ import {
 
 export class ColumnsController {
 
-  public visibleColumns: Column[] = [];
-
+  private _visibleColumns$ = new BehaviorSubject<Column[]>([]);
+  private _visibleColumnsShared$ = this._visibleColumns$.pipe();
   private _theadClass = '';
   private _loadFn: FsListColumnLoadFn;
   private _changeFn: FsListColumnChangeFn;
@@ -33,12 +33,21 @@ export class ColumnsController {
   private _columns: Column[] = [];
   private _defaultConfigs;
 
+  private _columnsUpdated$ = new Subject<void>();
   private _destroy$ = new Subject<void>();
 
   constructor() {}
 
   public get columns() {
     return this._columns.slice();
+  }
+
+  public get visibleColumns(): Column[] {
+    return this._visibleColumns$.getValue();
+  }
+
+  public get visibleColumns$(): Observable<Column[]> {
+    return this._visibleColumnsShared$;
   }
 
   public get columnsForDialog() {
@@ -58,13 +67,13 @@ export class ColumnsController {
           : false;
 
         const tooltip = hasCustomTooltip
-          ? this._columnTooltipFn(column.name, column.show, disabled)
+          ? this._columnTooltipFn(column.name, column.visible, disabled)
           : void 0;
 
         return {
           template: column.headerTemplate,
           name: column.name,
-          show: column.show,
+          show: column.visible,
           title: title,
           disabled: disabled,
           tooltip: tooltip,
@@ -175,6 +184,7 @@ export class ColumnsController {
     this._updateColspans('footerConfigs', 'footerColspanned');
 
     this.updateVisibleColumns();
+    this._listenColumnVisibilityUpdates();
   }
 
   /**
@@ -195,8 +205,9 @@ export class ColumnsController {
    * Set visible columns based on current columns show status
    */
   public updateVisibleColumns() {
-    this.visibleColumns =
-      this._columns.filter((column) => column.show) || [];
+    this._visibleColumns$.next(
+      this._columns.filter((column) => column.visible) || []
+    );
   }
 
   /**
@@ -209,7 +220,7 @@ export class ColumnsController {
         .find((column) => column.name === columnConfig.name);
 
       if (col) {
-        col.show = columnConfig.show;
+        col.updateVisibility(columnConfig.show);
       }
     });
 
@@ -219,13 +230,31 @@ export class ColumnsController {
   public destroy() {
     this._destroy$.next();
     this._destroy$.complete();
+    this._columnsUpdated$.complete();
 
     this._columns = void 0;
-    this.visibleColumns = void 0;
+    this._visibleColumns$ = void 0;
     this._defaultConfigs = void 0;
 
     this._loadFn = void 0;
     this._changeFn = void 0;
+  }
+
+  private _listenColumnVisibilityUpdates() {
+    this._columnsUpdated$.next();
+
+    const columnsVisibility = this._columns.map((column) => {
+      return column.visible$.pipe(skip(1))
+    });
+
+    merge(...columnsVisibility)
+      .pipe(
+        takeUntil(this._columnsUpdated$),
+        takeUntil(this._destroy$),
+      )
+      .subscribe(() => {
+        this.updateVisibleColumns();
+      })
   }
 
   private _updateColspans(config, updateFlag) {

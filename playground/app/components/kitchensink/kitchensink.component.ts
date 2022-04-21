@@ -39,6 +39,8 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
   public list: FsListComponent; // Controller fs-list
   public config: FsListConfig;
 
+  public linkVisible = true;
+
   public weekdays = [
     { id: 1, name: 'Monday' },
     { id: 2, name: 'Tuesday' },
@@ -237,11 +239,11 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
         },
         {
           click: (event) => {
-            console.log(event);
+            this.linkVisible = !this.linkVisible;
           },
           icon: 'delete',
           primary: false,
-          label: 'Secondary Button'
+          label: 'Toggle Link Visibility'
         },
         {
           click: (event) => {

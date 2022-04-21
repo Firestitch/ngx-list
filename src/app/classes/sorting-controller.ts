@@ -4,6 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Column, SortingDirection } from '../models/column.model';
 import { List } from './list-controller';
 import { FsListSortConfig } from '../interfaces';
+import { ColumnAttributes } from '../models/column-attributes';
 
 export interface SortingChangeEvent {
   sortBy: string;
@@ -106,11 +107,15 @@ export class SortingController {
    */
   public initFakeColumns(columns) {
     columns.forEach((column) => {
-      const fakeColumn = new Column({
+      const attributes = new ColumnAttributes({
         title: column.name,
         name: column.value,
         sortable: true,
         direction: column.direction,
+      });
+
+      const fakeColumn = new Column({
+        attributes,
       });
 
       this.fakeSortingColumns.push(fakeColumn);

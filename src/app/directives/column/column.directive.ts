@@ -15,22 +15,13 @@ import { FsListFooterDirective } from '../footer/footer.directive';
 import { CellConfig } from '../../interfaces';
 import { FsListGroupCellDirective } from '../group-cell/group-cell.directive';
 import { FsListGroupExpandTriggerDirective } from '../group-expand-trigger/group-expand-trigger.directive';
+import { ColumnAttributes } from '../../models/column-attributes';
 
 
 @Directive({
   selector: 'fs-list-column'
 })
 export class FsListColumnDirective {
-  @Input() public title: string;
-  @Input() public name: string;
-  @Input() public show = true;
-  @Input() public customize = true;
-  @Input() public sortable: boolean;
-  @Input() public sortableDefault: boolean;
-  @Input() public direction: 'asc' | 'desc';
-  @Input() public align: string;
-  @Input() public width: string;
-  @Input('class') public className: string | string[];
 
   // Header
   @ContentChild(FsListHeaderDirective, { read: TemplateRef, static: true })
@@ -63,4 +54,63 @@ export class FsListColumnDirective {
 
   @ContentChild(FsListFooterDirective, { static: true })
   public footerConfigs: CellConfig;
+
+  private readonly _columnAttributes = new ColumnAttributes();
+
+  constructor() {}
+
+  public get attributes(): ColumnAttributes {
+    return this._columnAttributes;
+  }
+
+  @Input('show')
+  public set visible(value: boolean) {
+    this._columnAttributes.visible = value;
+  }
+
+  @Input()
+  public set title(value: string) {
+    this._columnAttributes.title = value;
+  }
+
+  @Input()
+  public set name(value: string) {
+    this._columnAttributes.name = value;
+  }
+
+  @Input()
+  public set customize(value: boolean) {
+    this._columnAttributes.customize = value;
+  }
+
+  @Input()
+  public set sortable(value: boolean) {
+    this._columnAttributes.sortable = value;
+  }
+
+  @Input()
+  public set sortableDefault(value: boolean) {
+    this._columnAttributes.sortableDefault = value;
+  }
+
+  @Input()
+  public set direction(value: 'asc' | 'desc') {
+    this._columnAttributes.direction = value;
+  }
+
+  @Input()
+  public set align(value: string) {
+    this._columnAttributes.align = value;
+  }
+
+  @Input()
+  public set width(value: string) {
+    this._columnAttributes.width = value;
+  }
+
+  @Input('class')
+  public set className(value: string | string[]) {
+    this._columnAttributes.className = value;
+  }
+
 }
