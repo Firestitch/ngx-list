@@ -1,4 +1,4 @@
-import { FsListColumnDirective } from '@firestitch/list';
+import { FsListColumnDirective } from '../directives/column/column.directive';
 
 export type FsListColumnConfig = Partial<Pick<
   FsListColumnDirective,
