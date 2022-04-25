@@ -51,7 +51,11 @@ export class Column {
   constructor(colConfig: FsListColumnConfig, colDefaults: any = false) {
     this._parseConfig(colConfig);
 
-    this.colStyles = new StyleConfig(colConfig);
+    this.colStyles = new StyleConfig({
+      className: this._attributes.className,
+      align: this._attributes.align
+    });
+
     this.mergeWithColumnDefaults(colDefaults);
   }
 
