@@ -125,6 +125,9 @@ export class ColumnAttributes {
           case 'name': { this.name = attrs[key] } break;
           case 'align': { this.align = attrs[key] } break;
           case 'direction': { this.direction = attrs[key] } break;
+          case 'sortable': { this.sortable = attrs[key] } break;
+          case 'show': { this.visible = attrs[key] } break;
+          case 'visible': { this.visible = attrs[key] } break;
         }
       })
   }

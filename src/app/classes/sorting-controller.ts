@@ -174,8 +174,8 @@ export class SortingController {
   }
 
   public getColumn(name: string): Column {
-    return this.sortingColumns.find(col => col.name === name && col.sortable) ||
-      this.fakeSortingColumns.find(col => col.name === name && col.sortable);
+    return [...this.sortingColumns, ...this.fakeSortingColumns]
+      .find(col => col.name === name && col.sortable);
   }
 
   /**
