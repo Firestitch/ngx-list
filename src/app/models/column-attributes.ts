@@ -9,7 +9,7 @@ export class ColumnAttributes {
   private _customize = true;
   private _sortable: boolean;
   private _sortableDefault: boolean;
-  private _direction: 'asc' | 'desc';
+  private _direction$ = new ColumnAsyncAttribute(null);
   private _align: string;
   private _width: string;
   private _className: string | string[];
@@ -70,11 +70,15 @@ export class ColumnAttributes {
 
   // direction
   public set direction(value: 'asc' | 'desc') {
-    this._direction = value;
+    this._direction$.next(value);
   }
 
   public get direction(): 'asc' | 'desc' {
-    return this._direction;
+    return this._direction$.value;
+  }
+
+  public get direction$(): Observable<'asc' | 'desc'> {
+    return this._direction$.asObservable();
   }
 
   // align

@@ -7,7 +7,7 @@
         [ngTemplateOutletContext]="cellContext">
       </ng-template>
     </span>
-  <div class="direction" *ngIf="column.ordered" [ngSwitch]="column.sortingDirection">
+  <div class="direction" *ngIf="column.ordered" [ngSwitch]="column.sortingDirection$ | async">
     <mat-icon class="material-icons" role="img" aria-label="arrow_downward" *ngSwitchCase="'asc'">arrow_downward</mat-icon>
     <mat-icon class="material-icons" role="img" aria-label="arrow_upward" *ngSwitchCase="'desc'">arrow_upward</mat-icon>
   </div>

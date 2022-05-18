@@ -99,6 +99,10 @@ export class Column {
     return this._attributes.direction;
   }
 
+  public get sortingDirection$(): Observable<'asc' | 'desc'> {
+    return this._attributes.direction$;
+  }
+
   public get visible(): boolean {
     return this._attributes.visible;
   }
