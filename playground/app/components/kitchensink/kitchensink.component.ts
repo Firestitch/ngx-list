@@ -433,7 +433,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
         }
 
       ],
-      rowClass: (row) => {
+      rowClass: (row, options) => {
         return 'custom-row-class';
       },
       rowEvents:

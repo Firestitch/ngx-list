@@ -46,7 +46,7 @@ export interface FsListConfig {
   savedFilters?: IFilterSavedFiltersConfig;
   persist?: FsListPersitance;
   rowActions?: (FsListRowActionGroup | FsListRowAction)[] ;
-  rowClass?: (row: any) => string;
+  rowClass?: (row: any, options?: FsListRowClassOptions) => string;
   actions?: FsListAction[];
   fetch?: FsListFetchFn;
   afterFetch?: FsListAfterFetchFn;
@@ -292,3 +292,9 @@ export type FsListAfterFetchFn =
 
 export type FsListAfterContentInitFn =
   (query: Record<string, any>, data: unknown[]) => void;
+
+export interface FsListRowClassOptions {
+  index: number;
+  groupIndex?: number;
+  groupChildIndex?: number
+}

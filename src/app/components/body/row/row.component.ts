@@ -98,7 +98,17 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     if (this.row && this.row.isGroup) cls += ' fs-list-row-group';
 
     if (this.rowClass) {
-      const resultClass = this.rowClass(this.row.data);
+      const options: any = {
+        index: this.rowIndex,
+      };
+
+      if (this.row.isGroup) {
+        options.groupIndex = this.row.index;
+      } else if (this.row.isChild) {
+        options.groupChildIndex = this.row.index;
+      }
+
+      const resultClass = this.rowClass(this.row.data, options);
 
       if (typeof resultClass === 'string') {
         cls += ` ${resultClass}`;

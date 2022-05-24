@@ -84,6 +84,7 @@ export {
   FsListFetchFn,
   FsListRowActionFileFn,
   FsListRowActionFile,
+  FsListRowClassOptions,
 } from './app/interfaces/listconfig.interface';
 export { QueryOffsetStrategy, QueryPageStrategy } from './app/interfaces/pagination.interface';
 

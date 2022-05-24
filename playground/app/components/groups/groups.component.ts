@@ -226,7 +226,8 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
         }
 
       ],
-      rowClass: (row) => {
+      rowClass: (row, options) => {
+        console.log(options);
         return 'custom-row-class';
       },
       rowEvents:
