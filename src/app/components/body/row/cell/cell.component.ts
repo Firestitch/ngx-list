@@ -60,6 +60,7 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
         this.cellContext.groupIndex = this.row.index;
       } else if (this.row.isChild) {
         this.cellContext.groupChildIndex = this.row.index;
+        this.cellContext.groupRow = this.row.parent.data;
       }
     }
 
