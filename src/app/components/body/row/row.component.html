@@ -24,7 +24,9 @@
       [column]="column"
       [row]="row"
       [rowIndex]="rowIndex"
-      [class]="column.cellConfigs.classesString"
+      [class]="(isGroupRow && column.groupHeaderConfigs.classesString)
+        || (isGroupFooterRow && column.groupFooterConfigs.classesString)
+        || (!isGroupFooterRow && column.cellConfigs.classesString)"
       [ngClass]="{ 'primary-col': isFirst }"
       [attr.colspan]="(isGroupRow && column.groupHeaderConfigs.colspan)
         || (isGroupFooterRow && column.groupFooterConfigs.colspan)
