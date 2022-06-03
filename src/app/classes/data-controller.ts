@@ -12,6 +12,7 @@ import {
 import { GroupRow } from '../models/row/group-row';
 import { ChildRow } from '../models/row/child-row';
 import { Row } from '../models/row';
+import { GroupFooterRow } from '../models/row/group-footer-row';
 
 
 export class DataController {
@@ -25,6 +26,7 @@ export class DataController {
   private _operation: FsListState;
 
   private _groupByFn: (row) => any[];
+  private _footerRowFn: (row) => boolean;
   private _compareByFn: (group) => any;
   private _initialExpand = true;
   private _groupEnabled = false;
@@ -104,6 +106,7 @@ export class DataController {
     if (group) {
       this._groupByFn = group.groupBy;
       this._compareByFn = group.compareBy;
+      this._footerRowFn = group.footer || (() => false);
       this._initialExpand = group.initialExpand ?? true;
 
       // group mode enabled by default
@@ -284,6 +287,8 @@ export class DataController {
     row.toggleRowExpandStatus();
 
     this._updateVisibleRows();
+
+    console.log(this._rowsStack);
   }
 
   private _updateRowsStack(rows) {
@@ -327,7 +332,7 @@ export class DataController {
   private _updateVisibleRows() {
     this.visibleRows = this._rowsStack
       .filter((row) => {
-        return !row.isChild || row.visible;
+        return (!row.isChild && !row.isFooter) || row.visible;
       });
   }
 
@@ -393,10 +398,18 @@ export class DataController {
     if (!this._groupByFn || !this._compareByFn) { return rows }
 
     let numberOfGroups = 0;
+    const footerRows = new Map();
 
     rows.forEach((row) => {
       const mainGroup = this._groupByFn(row);
+      const isFooterRow = this._footerRowFn(row)
       const mainGroupKey = this._compareByFn(mainGroup);
+
+      if (isFooterRow) {
+        footerRows.set(mainGroupKey, row);
+
+        return;
+      }
 
       if (!this._store.has(mainGroupKey)) {
         const group = new GroupRow(
@@ -419,6 +432,14 @@ export class DataController {
       }
     });
 
+    for (const [key, value] of footerRows) {
+      const group = this._store.get(key) as GroupRow;
+
+      if (group) {
+        const footerRow = new GroupFooterRow(value, group);
+        group.children.push(footerRow);
+      }
+    }
 
     return Array.from(this._store.values())
       .reduce((acc, item) => {

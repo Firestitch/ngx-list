@@ -6,23 +6,29 @@
 <!-- Selection -->
 <ng-container *ngIf="selection">
   <td class="fs-list-col fs-list-col-selection">
-    <mat-checkbox (change)="selectRow($event)"
-                  [checked]="selected"
-                  [indeterminate]="indeterminateSelected">
-    </mat-checkbox>
+    <ng-container *ngIf="!row.isFooter">
+      <mat-checkbox (change)="selectRow($event)"
+                    [checked]="selected"
+                    [indeterminate]="indeterminateSelected">
+      </mat-checkbox>
+    </ng-container>
   </td>
 </ng-container>
 
 <!-- Content -->
 <ng-container *ngFor="let column of columns; trackBy: trackByFn; let isFirst = first">
   <td fs-cell
-      *ngIf="(row.isGroup && !column.groupCellColspanned) || (!row.isGroup && !column.cellColspanned)"
+      *ngIf="(isGroupRow && !column.groupHeaderColspanned)
+        || (isGroupFooterRow && !column.groupFooterColspanned)
+        || (!isGroupRow && !isGroupFooterRow && !column.cellColspanned)"
       [column]="column"
       [row]="row"
       [rowIndex]="rowIndex"
       [class]="column.cellConfigs.classesString"
       [ngClass]="{ 'primary-col': isFirst }"
-      [attr.colspan]="(row.isGroup && column.groupCellConfigs.colspan) || column.cellConfigs.colspan"
+      [attr.colspan]="(isGroupRow && column.groupHeaderConfigs.colspan)
+        || (isGroupFooterRow && column.groupFooterConfigs.colspan)
+        || column.cellConfigs.colspan"
       [attr.width]="column.width"
   >
   </td>
@@ -35,19 +41,21 @@
 
 <!-- Row Actions -->
 <td *ngIf="hasRowActions && !(reorderController.manualReorderActivated$ | async)" class="fs-list-col row-actions">
-  <fs-list-row-actions [row]="row"
-                       [index]="rowIndex"
-                       [rowActions]="rowActions"
-                       [menuRowActions]="menuRowActions"
-                       [inlineRowActions]="inlineRowActions"
-                       [restoreAction]="restoreAction"
-                       [restoreMode]="restoreMode"
-                       [rowRemoved]="rowRemoved"
-  ></fs-list-row-actions>
+  <ng-container *ngIf="!isGroupFooterRow">
+    <fs-list-row-actions [row]="row"
+                         [index]="rowIndex"
+                         [rowActions]="rowActions"
+                         [menuRowActions]="menuRowActions"
+                         [inlineRowActions]="inlineRowActions"
+                         [restoreAction]="restoreAction"
+                         [restoreMode]="restoreMode"
+                         [rowRemoved]="rowRemoved"
+    ></fs-list-row-actions>
+  </ng-container>
 </td>
 
 <ng-template #dragCell>
-  <ng-container *ngIf="dragCellVisible; else emptyCell">
+  <ng-container *ngIf="dragCellVisible && !isGroupFooterRow; else emptyCell">
     <td class="fs-list-col drag-col"
         (mousedown)="dragStart($event)"
         (touchstart)="dragStart($event)"

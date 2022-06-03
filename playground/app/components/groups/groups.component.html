@@ -3,8 +3,11 @@
     <ng-template fs-list-header>
       №
     </ng-template>
-    <ng-template fs-list-group-cell let-groupIndex="groupIndex">
+    <ng-template fs-list-group-header let-groupIndex="groupIndex">
       {{groupIndex}}
+    </ng-template>
+    <ng-template fs-list-group-footer let-groupIndex="groupIndex" colspan="2">
+      FOOTER
     </ng-template>
     <ng-template fs-list-cell let-groupChildIndex="groupChildIndex">
       {{groupChildIndex}}
@@ -18,7 +21,7 @@
     <ng-template fs-list-header>
       User Name
     </ng-template>
-    <ng-template fs-list-group-cell colspan="3" let-row="row" let-groupRow="groupRow" let-expanded="expanded">
+    <ng-template fs-list-group-header colspan="3" let-row="row" let-groupRow="groupRow" let-expanded="expanded">
       <div fxLayout="row" fxLayoutAlign="start center">
         {{row.name}}
         <button mat-icon-button fsListGroupExpandTrigger [row]="row">

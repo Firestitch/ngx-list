@@ -24,14 +24,16 @@ const ALLOWED_DEFAULTS = [
 export class Column {
 
   public headerTemplate: TemplateRef<any>;
-  public groupCellTemplate: TemplateRef<any>;
+  public groupHeaderTemplate: TemplateRef<any>;
+  public groupFooterTemplate: TemplateRef<any>;
   public cellTemplate: TemplateRef<any>;
   public footerTemplate: TemplateRef<any>;
   public expandTrigger: QueryList<FsListGroupExpandTriggerDirective>;
 
   public headerConfigs: StyleConfig = new StyleConfig();
 
-  public groupCellConfigs: StyleConfig = new StyleConfig();
+  public groupHeaderConfigs: StyleConfig = new StyleConfig();
+  public groupFooterConfigs: StyleConfig = new StyleConfig();
 
   public cellConfigs: StyleConfig = new StyleConfig();
 
@@ -40,7 +42,8 @@ export class Column {
   public colStyles: StyleConfig;
 
   public headerColspanned = false;
-  public groupCellColspanned = false;
+  public groupHeaderColspanned = false;
+  public groupFooterColspanned = false;
   public cellColspanned = false;
   public footerColspanned = false;
 
@@ -154,14 +157,16 @@ export class Column {
 
         case 'class': {
           this.headerConfigs.mergeClassByPriority(this.colStyles, defaults.header);
-          this.groupCellConfigs.mergeClassByPriority(this.colStyles, defaults.cell);
+          this.groupHeaderConfigs.mergeClassByPriority(this.colStyles, defaults.cell);
+          this.groupFooterConfigs.mergeClassByPriority(this.colStyles, defaults.cell);
           this.cellConfigs.mergeClassByPriority(this.colStyles, defaults.cell);
           this.footerConfigs.mergeClassByPriority(this.colStyles, defaults.footer);
         } break;
 
         case 'align': {
           this.headerConfigs.mergeAlignByPriority(this.colStyles, defaults.header);
-          this.groupCellConfigs.mergeAlignByPriority(this.colStyles, defaults.cell);
+          this.groupHeaderConfigs.mergeAlignByPriority(this.colStyles, defaults.cell);
+          this.groupFooterConfigs.mergeAlignByPriority(this.colStyles, defaults.cell);
           this.cellConfigs.mergeAlignByPriority(this.colStyles, defaults.cell);
           this.footerConfigs.mergeAlignByPriority(this.colStyles, defaults.footer);
         } break;
@@ -169,7 +174,8 @@ export class Column {
     });
 
     this.headerConfigs.updateClasesArray();
-    this.groupCellConfigs.updateClasesArray();
+    this.groupHeaderConfigs.updateClasesArray();
+    this.groupFooterConfigs.updateClasesArray();
     this.cellConfigs.updateClasesArray();
     this.footerConfigs.updateClasesArray();
   }
@@ -193,11 +199,13 @@ export class Column {
     this._attributes = config.attributes;
 
     this.headerTemplate = config.headerTemplate;
-    this.groupCellTemplate = config.groupCellTemplate;
+    this.groupHeaderTemplate = config.groupHeaderTemplate;
+    this.groupFooterTemplate = config.groupFooterTemplate;
     this.cellTemplate = config.cellTemplate;
     this.footerTemplate = config.footerTemplate;
     this.headerConfigs = new StyleConfig(config.headerConfigs);
-    this.groupCellConfigs = new StyleConfig(config.groupCellConfigs);
+    this.groupHeaderConfigs = new StyleConfig(config.groupHeaderConfigs);
+    this.groupFooterConfigs = new StyleConfig(config.groupFooterConfigs);
     this.cellConfigs = new StyleConfig(config.cellConfigs);
     this.footerConfigs = new StyleConfig(config.footerConfigs);
     this.expandTrigger = config.expandTrigger;

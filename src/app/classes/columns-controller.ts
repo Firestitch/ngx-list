@@ -179,7 +179,8 @@ export class ColumnsController {
     this._theadClass = this.hasHeader ? 'has-header' : '';
 
     this._updateColspans('headerConfigs', 'headerColspanned');
-    this._updateColspans('groupCellConfigs', 'groupCellColspanned');
+    this._updateColspans('groupHeaderConfigs', 'groupHeaderColspanned');
+    this._updateColspans('groupFooterConfigs', 'groupFooterColspanned');
     this._updateColspans('cellConfigs', 'cellColspanned');
     this._updateColspans('footerConfigs', 'footerColspanned');
 

@@ -74,6 +74,7 @@ export interface FsListGroupConfig {
   initialExpand?: boolean;
   groupBy?: (row: any) => any;
   compareBy?: (row: any) => any;
+  footer?: (row: any) => boolean;
   actions?: (FsListRowActionGroup | FsListRowAction)[];
 }
 

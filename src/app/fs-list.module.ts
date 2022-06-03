@@ -44,7 +44,7 @@ import { FsListFooterDirective } from './directives/footer/footer.directive';
 import { FsListColumnDirective } from './directives/column/column.directive';
 import { FsListCellDirective } from './directives/cell/cell.directive';
 import { FsListHeaderDirective } from './directives/header/header.directive';
-import { FsListGroupCellDirective } from './directives/group-cell/group-cell.directive';
+import { FsListGroupHeaderDirective } from './directives/group-header/group-header.directive';
 import { FsListGroupExpandTriggerDirective } from './directives/group-expand-trigger/group-expand-trigger.directive';
 import { FsListDraggableListDirective } from './directives/draggable-list/draggable-list.directive';
 import { FsListDraggableRowDirective } from './directives/draggable-row/draggable-row.directive';
@@ -55,6 +55,7 @@ import { FsListContentInitDirective } from './directives/content-init/content-in
 // Other
 import { FS_LIST_DEFAULT_CONFIG, FS_LIST_CONFIG } from './fs-list.providers';
 import { FsListConfig } from './interfaces';
+import { FsListGroupFooterDirective } from './directives/group-footer/group-footer.directive';
 
 
 @NgModule({
@@ -103,7 +104,8 @@ import { FsListConfig } from './interfaces';
     FsListCellDirective,
     FsListHeaderDirective,
     FsListFooterDirective,
-    FsListGroupCellDirective,
+    FsListGroupHeaderDirective,
+    FsListGroupFooterDirective,
     FsListGroupExpandTriggerDirective,
     FsListDraggableListDirective,
     FsListDraggableRowDirective,
@@ -125,7 +127,8 @@ import { FsListConfig } from './interfaces';
     FsListCellDirective,
     FsListHeaderDirective,
     FsListFooterDirective,
-    FsListGroupCellDirective,
+    FsListGroupHeaderDirective,
+    FsListGroupFooterDirective,
     FsListGroupExpandTriggerDirective,
     FsListEmptyStateDirective,
     FsListContentDirective,

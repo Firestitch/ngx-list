@@ -9,8 +9,10 @@ export type FsListColumnConfig = Partial<Pick<
   'cellConfigs'     |
   'footerTemplate'  |
   'footerConfigs'   |
-  'groupCellTemplate' |
-  'groupCellConfigs'  |
+  'groupHeaderTemplate' |
+  'groupHeaderConfigs'  |
+  'groupFooterTemplate' |
+  'groupFooterConfigs'  |
   'expandTrigger' |
   'attributes'
 >>;

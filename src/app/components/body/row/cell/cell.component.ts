@@ -58,7 +58,7 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
     if (this.row) {
       if (this.row.isGroup) {
         this.cellContext.groupIndex = this.row.index;
-      } else if (this.row.isChild) {
+      } else if (this.row.isChild || this.row.isFooter) {
         this.cellContext.groupChildIndex = this.row.index;
         this.cellContext.groupRow = this.row.parent.data;
       }
@@ -74,8 +74,10 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private _initCellTemplate() {
-    if (this.row && this.row.isGroup) {
-      this.cellTemplate = this.column.groupCellTemplate || this.column.cellTemplate;
+    if (this.row?.isGroup) {
+      this.cellTemplate = this.column.groupHeaderTemplate || this.column.cellTemplate;
+    } else if (this.row?.isFooter) {
+      this.cellTemplate = this.column.groupFooterTemplate || this.column.cellTemplate;
     } else {
       this.cellTemplate = this.column.cellTemplate;
     }

@@ -31,7 +31,8 @@ export { FsListCellDirective } from './app/directives/cell/cell.directive';
 export { FsListHeaderDirective } from './app/directives/header/header.directive';
 export { FsListEmptyStateDirective } from './app/directives/empty-state/empty-state.directive';
 export { FsListContentDirective } from './app/directives/content/content.directive';
-export { FsListGroupCellDirective } from './app/directives/group-cell/group-cell.directive';
+export { FsListGroupHeaderDirective } from './app/directives/group-header/group-header.directive';
+export { FsListGroupFooterDirective } from './app/directives/group-footer/group-footer.directive';
 export { FsListGroupExpandTriggerDirective }
   from './app/directives/group-expand-trigger/group-expand-trigger.directive';
 

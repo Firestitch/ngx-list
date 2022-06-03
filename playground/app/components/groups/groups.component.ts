@@ -143,6 +143,9 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
         compareBy: (group) => {
           return group.id;
         },
+        footer: (row) => {
+          return row.name.indexOf(500) > -1 || row.name.indexOf(498) > -1;
+        },
         actions: [
           {
             click: (row, event) => {

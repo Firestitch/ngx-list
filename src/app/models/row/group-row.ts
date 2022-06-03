@@ -2,10 +2,11 @@ import { BehaviorSubject } from 'rxjs';
 import { BaseRow } from './base-row';
 import { RowType } from '../../enums/row-type.enum';
 import { ChildRow } from './child-row';
+import { GroupFooterRow } from './group-footer-row';
 
 export class GroupRow extends BaseRow {
 
-  public children: ChildRow[] = [];
+  public children: (ChildRow | GroupFooterRow)[] = [];
 
   private readonly _expanded = new BehaviorSubject<boolean>(false);
 

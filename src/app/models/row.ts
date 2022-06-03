@@ -3,6 +3,7 @@ import { ChildRow } from './row/child-row';
 import { GroupRow } from './row/group-row';
 import { SimpleRow } from './row/simple-row';
 import { FsListReorderData } from '../interfaces';
+import { GroupFooterRow } from './row/group-footer-row';
 
 export class Row {
 
@@ -64,11 +65,15 @@ export class Row {
     return this._row instanceof ChildRow;
   }
 
+  public get isFooter(): boolean {
+    return this._row instanceof GroupFooterRow;
+  }
+
   public get parent(): GroupRow {
     return (this._row as ChildRow).parent;
   }
 
-  public get children(): ChildRow[] {
+  public get children(): (ChildRow | GroupFooterRow)[] {
     return (this._row as GroupRow).children;
   }
 

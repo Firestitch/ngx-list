@@ -88,6 +88,18 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     this._rowDiffer = _differs.find({}).create();
   }
 
+  public get isGroupRow(): boolean {
+    return this.row.isGroup;
+  }
+
+  public get isChildRow(): boolean {
+    return this.row.isChild;
+  }
+
+  public get isGroupFooterRow(): boolean {
+    return this.row.isFooter;
+  }
+
   @HostBinding('class')
   get rowCssClass() {
     let cls = 'fs-list-row';

@@ -13,7 +13,8 @@ import { FsListCellDirective } from '../cell/cell.directive';
 import { FsListFooterDirective } from '../footer/footer.directive';
 
 import { CellConfig } from '../../interfaces';
-import { FsListGroupCellDirective } from '../group-cell/group-cell.directive';
+import { FsListGroupHeaderDirective } from '../group-header/group-header.directive';
+import { FsListGroupFooterDirective } from '../group-footer/group-footer.directive';
 import { FsListGroupExpandTriggerDirective } from '../group-expand-trigger/group-expand-trigger.directive';
 import { ColumnAttributes } from '../../models/column-attributes';
 
@@ -31,11 +32,18 @@ export class FsListColumnDirective {
   public headerConfigs: CellConfig;
 
   // Group
-  @ContentChild(FsListGroupCellDirective, { read: TemplateRef, static: true })
-  public groupCellTemplate: TemplateRef<any>;
+  @ContentChild(FsListGroupHeaderDirective, { read: TemplateRef, static: true })
+  public groupHeaderTemplate: TemplateRef<any>;
 
-  @ContentChild(FsListGroupCellDirective, { static: true })
-  public groupCellConfigs: CellConfig;
+  @ContentChild(FsListGroupHeaderDirective, { static: true })
+  public groupHeaderConfigs: CellConfig;
+
+  // Group Footer
+  @ContentChild(FsListGroupFooterDirective, { read: TemplateRef, static: true })
+  public groupFooterTemplate: TemplateRef<any>;
+
+  @ContentChild(FsListGroupFooterDirective, { static: true })
+  public groupFooterConfigs: CellConfig;
 
   // Trigger
   @ContentChildren(FsListGroupExpandTriggerDirective, { descendants: true })
