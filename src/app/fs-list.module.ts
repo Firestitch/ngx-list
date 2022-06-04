@@ -16,6 +16,7 @@ import { FsScrollModule } from '@firestitch/scroll';
 import { FsMenuModule } from '@firestitch/menu';
 import { FsPromptModule } from '@firestitch/prompt';
 import { FsFileModule } from '@firestitch/file';
+import { FsCommonModule } from '@firestitch/common';
 
 import { merge } from 'lodash-es';
 
@@ -76,6 +77,7 @@ import { FsListGroupFooterDirective } from './directives/group-footer/group-foot
     MatDialogModule,
     MatTooltipModule,
     FsFileModule,
+    FsCommonModule,
   ],
   declarations: [
     // Components

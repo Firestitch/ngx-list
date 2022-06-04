@@ -12,7 +12,7 @@
         </a>
 
         <div class="number">
-          {{ pagination.page }} of {{ pagination.pages }}
+          {{ pagination.page | fsFormatNumber }} of {{ pagination.pages | fsFormatNumber }}
         </div>
 
         <a matRipple matRippleRadius="15" [matRippleCentered]="true" class="next" [class.disabled]="!pagination.hasNextPage" (click)="pagination.goNext()">
