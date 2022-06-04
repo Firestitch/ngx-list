@@ -51,7 +51,7 @@ export interface FsListConfig {
   fetch?: FsListFetchFn;
   afterFetch?: FsListAfterFetchFn;
   afterContentInit?: FsListAfterContentInitFn;
-  scrollable?: FsListScrollableConfig | boolean;
+  scrollable?: FsListScrollableConfig;
   selection?: FsListSelectionConfig;
   initialFetch?: boolean;
   rowEvents?: { [name: string]: (event) => void };

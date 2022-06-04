@@ -1,18 +1,15 @@
-import { Alias, Model } from 'tsmodels';
 import { isString } from 'lodash-es';
 
-export class StyleConfig extends Model {
-  @Alias() public colspan;
-  @Alias() public align: string; // Can't be used in tempaltes!
-  @Alias() public className: string | string[] = []; // Can't be used in tempaltes!
+export class StyleConfig {
+  public colspan;
+  public align: string; // Can't be used in tempaltes!
+  public className: string | string[] = []; // Can't be used in tempaltes!
 
   public classesArray = []; // Can be used in tempaltes
   public classesString = '';
 
   constructor(config = {}) {
-    super();
-
-    this._fromJSON(config);
+    this._init(config);
   }
 
   /**
@@ -65,6 +62,12 @@ export class StyleConfig extends Model {
     }
 
     this.className = targetValue;
+  }
+
+  private _init(config) {
+    this.colspan = config.colspan;
+    this.align = config.align;
+    this.className = config.className;
   }
 
   /**

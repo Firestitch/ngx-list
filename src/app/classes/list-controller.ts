@@ -4,8 +4,6 @@ import { ChangeFn, FilterConfig, IFilterSavedFiltersConfig, ItemType } from '@fi
 import { FsScrollInstance, FsScrollService } from '@firestitch/scroll';
 import { SelectionDialog } from '@firestitch/selection';
 
-import { Alias, Model } from 'tsmodels';
-
 import {
   BehaviorSubject,
   combineLatest,
@@ -38,7 +36,7 @@ import {
   FsListFetchSubscription,
   FsListGroupConfig,
   FsListLoadMoreConfig,
-  FsListNoResultsConfig,
+  FsListNoResultsConfig, FsListPersitance,
   FsListRestoreConfig,
   FsListScrollableConfig,
   FsListSelectionConfig,
@@ -63,29 +61,29 @@ import { ExternalParamsController } from './external-params-controller';
 const SHOW_DELETED_FILTERS_KEY = '$$_show_deleted_$$';
 
 
-export class List extends Model {
-  @Alias() public heading: string;
-  @Alias() public trackBy: string;
-  @Alias() public subheading: string;
-  @Alias() public inlineFilters: any;
+export class List {
+  public heading: string;
+  public trackBy: string;
+  public subheading: string;
+  // public inlineFilters: any;
   // @Alias('actions', Action) public actions: Action[];
-  @Alias('rowActions') public rowActionsRaw: any[];
+  public rowActionsRaw: any[];
   public groupActionsRaw: any[];
-  @Alias('rowClass') public rowClass;
-  @Alias() public rowEvents: any;
-  @Alias() public restore: FsListRestoreConfig;
-  @Alias() public columnTemplates: any;
-  @Alias() public persist: boolean;
-  @Alias() public filters = [];
-  @Alias('filterInit') public filterInitCb: ChangeFn;
-  @Alias('filterChange') public filterChangeCb: ChangeFn;
-  @Alias() public savedFilters: IFilterSavedFiltersConfig;
-  @Alias() public scrollable: FsListScrollableConfig | false = false;
-  @Alias() public noResults: FsListNoResultsConfig;
-  @Alias() public emptyState: FsListEmptyStateConfig;
-  // @Alias() public initialFetch = true; //TODO fixme
-  @Alias('fetch') public fetchFn: FsListFetchFn;
-  @Alias('afterFetch') public afterFetchFn: FsListAfterFetchFn;
+  public rowClass;
+  public rowEvents: any;
+  public restore: FsListRestoreConfig;
+  // public columnTemplates: any;
+  public persist: FsListPersitance;
+  public filters = [];
+  public filterInitCb: ChangeFn;
+  public filterChangeCb: ChangeFn;
+  public savedFilters: IFilterSavedFiltersConfig;
+  public scrollable: FsListScrollableConfig;
+  public noResults: FsListNoResultsConfig;
+  public emptyState: FsListEmptyStateConfig;
+  // public initialFetch = true; //TODO fixme
+  public fetchFn: FsListFetchFn;
+  public afterFetchFn: FsListAfterFetchFn;
   public afterContentInit: FsListAfterContentInitFn;
   // @Alias('rows') private _rows: any;
 
@@ -144,9 +142,6 @@ export class List extends Model {
     private persistance: PersistanceController,
     private inDialog: boolean,
   ) {
-    super();
-    this._fromJSON(config);
-
     this.initialize(config);
 
     this._headerConfig = new StyleConfig(config.header);
@@ -392,6 +387,24 @@ export class List extends Model {
    * @param config
    */
   private initialize(config: FsListConfig) {
+    this.heading      = config.heading;
+    this.trackBy      = config.trackBy;
+    this.subheading   = config.subheading;
+    this.rowActionsRaw = config.rowActions;
+    this.rowClass     = config.rowClass;
+    this.rowEvents    = config.rowEvents;
+    this.restore      = config.restore;
+    this.persist      = config.persist;
+    this.filters      = config.filters ?? [];
+    this.filterInitCb = config.filterInit;
+    this.filterChangeCb = config.filterChange;
+    this.savedFilters = config.savedFilters;
+    this.scrollable   = config.scrollable;
+    this.noResults    = config.noResults;
+    this.emptyState   = config.emptyState;
+    this.fetchFn      = config.fetch;
+    this.afterFetchFn = config.afterFetch;
+
     this.columns.initConfig(config.column);
     this.initDefaultOptions(config);
     this.initRestore();
@@ -755,7 +768,7 @@ export class List extends Model {
       persist: this.persist,
       items: this.filters || [],
       savedFilters: this.savedFilters,
-      inline: this.inlineFilters,
+      // inline: this.inlineFilters,
       actions: this.actions.actions,
       queryParam: this.queryParam,
       sorts: sortValues,
