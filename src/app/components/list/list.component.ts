@@ -162,6 +162,10 @@ export class FsListComponent implements OnInit, OnDestroy {
     this.list.groupEnabled(value);
   }
 
+  get filtersQuery(): Record<string, unknown> {
+    return this.list.filtersQuery;
+  }
+
   public ngOnInit() {
     this._subscribeToRemoveRow();
     this._subscribeToGroupExpandStatusChange();
