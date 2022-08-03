@@ -65,6 +65,7 @@ export class List {
   public heading: string;
   public trackBy: string;
   public subheading: string;
+  public autoFocus: boolean;
   // public inlineFilters: any;
   // @Alias('actions', Action) public actions: Action[];
   public rowActionsRaw: any[];
@@ -387,6 +388,7 @@ export class List {
    * @param config
    */
   private initialize(config: FsListConfig) {
+    this.autoFocus    = config.autoFocus;
     this.heading      = config.heading;
     this.trackBy      = config.trackBy;
     this.subheading   = config.subheading;
@@ -771,6 +773,7 @@ export class List {
       // inline: this.inlineFilters,
       actions: this.actions.actions,
       queryParam: this.queryParam,
+      autofocus: this.autoFocus,
       sorts: sortValues,
       sort: sortConfig,
       chips: this.chips,
