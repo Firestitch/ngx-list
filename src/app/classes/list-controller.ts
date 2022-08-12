@@ -207,12 +207,7 @@ export class List {
     this.columns.initializeColumns(templates);
 
     // Set sortBy default column
-    this.sorting.clearSortableColumns();
-    this.columns.columns
-      .filter((column) => column.sortable && column.visible)
-      .forEach((column) => {
-        this.sorting.addSortableColumn(column);
-      });
+    this._updateSortingColumns();
 
     // Default sort by
     const externalSorting = this.externalParams.externalSorting;
@@ -313,6 +308,7 @@ export class List {
         }
       });
 
+    this._listenVisibleColumnChanges();
     this.listenRowsRemove();
     this.listenFetch();
   }
@@ -672,6 +668,20 @@ export class List {
       });
   }
 
+  /**
+   * Lister may have originally hidden columns, but visibility of those columns
+   * can be changed programmaticaly in any time
+   */
+  private _listenVisibleColumnChanges(): void {
+    this.columns.visibleColumns$
+      .pipe(
+        takeUntil(this.onDestroy$),
+      )
+      .subscribe(() => {
+        this._updateSortingColumns();
+      });
+  }
+
   private initInfinityScroll() {
     if (this.fsScrollInstance) {
       return;
@@ -962,5 +972,14 @@ export class List {
           error: () => {},
         })
     }
+  }
+
+  private _updateSortingColumns(): void {
+    this.sorting.clearSortableColumns();
+    this.columns.columns
+      .filter((column) => column.sortable && column.visible)
+      .forEach((column) => {
+        this.sorting.addSortableColumn(column);
+      });
   }
 }
