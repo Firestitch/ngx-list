@@ -68,6 +68,10 @@ export class ReorderController implements OnDestroy {
     return this._manualReorderActivated$.asObservable();
   }
 
+  public get manualReorderActivated(): boolean {
+    return this._manualReorderActivated$.getValue();
+  }
+
   public get leftReorderActivated$(): Observable<boolean> {
     return this._enabled$
       .pipe(

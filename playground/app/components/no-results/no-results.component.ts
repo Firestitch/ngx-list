@@ -30,7 +30,7 @@ export class NoResultsComponent implements OnInit {
       ],
       heading: 'No Results',
       fetch: () => {
-        return of({ data: [], paging: {} })
+        return of({ data: [], paging: { records: 10 } })
           .pipe(
             delay(300),
           )        

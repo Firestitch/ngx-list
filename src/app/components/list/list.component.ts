@@ -123,9 +123,11 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   constructor(
     public reorderController: ReorderController,
-    private _el: ElementRef,
     @Optional() @Inject(FS_LIST_DEFAULT_CONFIG) private _defaultOptions,
     @Optional() private fsScroll: FsScrollService,
+    @Optional() private _dialogRef: MatDialogRef<any>,
+    @Optional() private _drawerRef: DrawerRef<any>,
+    private _el: ElementRef,
     private selectionDialog: SelectionDialog,
     private dialog: MatDialog,
     private cdRef: ChangeDetectorRef,
@@ -134,8 +136,6 @@ export class FsListComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute,
     private _persistance: PersistanceController,
     private _location: Location,
-    @Optional() private _dialogRef: MatDialogRef<any>,
-    @Optional() private _drawerRef: DrawerRef<any>,
   ) {}
 
   /**
@@ -147,6 +147,13 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   get groupEnabled() {
     return this.list.dataController.groupEnabled;
+  }
+
+  get hasStatus() {
+    return !this.reorderController.manualReorderActivated && 
+      this.list.paging.enabled &&    
+      (!this.reorderController.enabled || this.reorderController.status) &&
+      ((this.list.scrollable && this.list.scrollable.status) || !this.list.scrollable)
   }
 
   get paginatorVisible(): boolean {
