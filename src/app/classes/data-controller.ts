@@ -26,7 +26,7 @@ export class DataController {
   private _operation: FsListState;
 
   private _groupByFn: (row) => any[];
-  private _footerRowFn: (row) => boolean;
+  private _footerRowFn: (row, group) => boolean;
   private _compareByFn: (group) => any;
   private _initialExpand = true;
   private _groupEnabled = false;
@@ -332,7 +332,7 @@ export class DataController {
   private _updateVisibleRows() {
     this.visibleRows = this._rowsStack
       .filter((row) => {
-        return (!row.isChild && !row.isFooter) || row.visible;
+        return (!row.isChild && !row.isGroupFooter) || row.visible;
       });
   }
 
@@ -397,19 +397,12 @@ export class DataController {
   private groupRowsBy(rows) {
     if (!this._groupByFn || !this._compareByFn) { return rows }
 
-    let numberOfGroups = 0;
+    let groupRows: GroupRow[] = [];
     const footerRows = new Map();
 
     rows.forEach((row) => {
       const mainGroup = this._groupByFn(row);
-      const isFooterRow = this._footerRowFn(row)
       const mainGroupKey = this._compareByFn(mainGroup);
-
-      if (isFooterRow) {
-        footerRows.set(mainGroupKey, row);
-
-        return;
-      }
 
       if (!this._store.has(mainGroupKey)) {
         const group = new GroupRow(
@@ -417,8 +410,8 @@ export class DataController {
           this._initialExpand,
         );
 
-        group.index = numberOfGroups;
-        numberOfGroups++;
+        group.index = groupRows.length;
+        groupRows.push(group);
 
         const childRow = new ChildRow(row, group);
 
@@ -432,15 +425,21 @@ export class DataController {
       }
     });
 
-    for (const [key, value] of footerRows) {
-      const group = this._store.get(key) as GroupRow;
+    groupRows.forEach((groupRow) => {
+      const footerIndex = groupRow.children
+        .findIndex((row) => {
+          return this._footerRowFn(row.data, { 
+            ...groupRow.data,
+            children: groupRow.childrenData
+          });
+        });
 
-      if (group) {
-        const footerRow = new GroupFooterRow(value, group);
-        group.children.push(footerRow);
+      if(footerIndex !== -1) {
+        const footerRow = groupRow.children.slice(footerIndex, footerIndex + 1)[0];
+        groupRow.children.push(new GroupFooterRow(footerRow.data, groupRow));
       }
-    }
-
+    });
+  
     return Array.from(this._store.values())
       .reduce((acc, item) => {
         if (item.isGroup) {

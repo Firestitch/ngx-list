@@ -47,7 +47,6 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
     private _fsApi: FsApi,
     private example: FsExampleComponent) {
     super(_apiStrategy);
-
   }
 
   public ngOnInit() {
@@ -143,8 +142,8 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
         compareBy: (group) => {
           return group.id;
         },
-        footer: (row) => {
-          return row.name.indexOf(500) > -1 || row.name.indexOf(498) > -1;
+        footer: (row, group) => {
+          return row === group.children[group.children.length - 1];
         },
         actions: [
           {

@@ -26,7 +26,7 @@ export class GroupFooterRow extends BaseRow {
     return this._parent;
   }
 
-  public get isFooter(): boolean {
+  public get isGroupFooter(): boolean {
     return true;
   }
 

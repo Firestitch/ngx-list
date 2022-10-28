@@ -21,6 +21,11 @@ export class GroupRow extends BaseRow {
     }
   }
 
+  public get childrenData() {
+    return this.children
+        .map((child) => child.data);
+  }
+
   public get isGroup(): boolean {
     return true;
   }

@@ -58,9 +58,21 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
     if (this.row) {
       if (this.row.isGroup) {
         this.cellContext.groupIndex = this.row.index;
-      } else if (this.row.isChild || this.row.isFooter) {
-        this.cellContext.groupChildIndex = this.row.index;
+      } else if (this.row.isChild || this.row.isGroupFooter) {
+        this.cellContext.groupIndex = this.row.index;
         this.cellContext.groupRow = this.row.parent.data;
+        this.cellContext.group = this.row.parent.data;
+      }
+
+      if (this.row.isGroup) {
+        this.cellContext.group = this.row.data;
+        this.cellContext.groupChildren = this.row.children
+         .map((child) => child.data);
+      } else if(this.row.isGroupFooter) {
+        this.cellContext.group = this.row.parent.data;
+        this.cellContext.groupIndex = this.row.index;
+        this.cellContext.groupChildren = this.row.parent.children
+          .map((child) => child.data);
       }
     }
 
@@ -76,7 +88,7 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
   private _initCellTemplate() {
     if (this.row?.isGroup) {
       this.cellTemplate = this.column.groupHeaderTemplate || this.column.cellTemplate;
-    } else if (this.row?.isFooter) {
+    } else if (this.row?.isGroupFooter) {
       this.cellTemplate = this.column.groupFooterTemplate || this.column.cellTemplate;
     } else {
       this.cellTemplate = this.column.cellTemplate;

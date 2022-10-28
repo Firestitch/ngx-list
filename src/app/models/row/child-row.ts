@@ -31,7 +31,6 @@ export class ChildRow extends BaseRow {
     return true;
   }
 
-
   public getReorderData(): FsListReorderData {
     return {
       type: this._rowType,

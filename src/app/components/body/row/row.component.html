@@ -6,7 +6,7 @@
 <!-- Selection -->
 <ng-container *ngIf="selection">
   <td class="fs-list-col fs-list-col-selection">
-    <ng-container *ngIf="!row.isFooter">
+    <ng-container *ngIf="!row.isGroupFooter">
       <mat-checkbox (change)="selectRow($event)"
                     [checked]="selected"
                     [indeterminate]="indeterminateSelected">

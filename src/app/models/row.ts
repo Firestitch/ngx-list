@@ -65,7 +65,7 @@ export class Row {
     return this._row instanceof ChildRow;
   }
 
-  public get isFooter(): boolean {
+  public get isGroupFooter(): boolean {
     return this._row instanceof GroupFooterRow;
   }
 

@@ -97,7 +97,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   public get isGroupFooterRow(): boolean {
-    return this.row.isFooter;
+    return this.row.isGroupFooter;
   }
 
   @HostBinding('class')
@@ -117,7 +117,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
       if (this.row.isGroup) {
         options.groupIndex = this.row.index;
       } else if (this.row.isChild) {
-        options.groupChildIndex = this.row.index;
+        options.groupIndex = this.row.index;
       }
 
       const resultClass = this.rowClass(this.row.data, options);
