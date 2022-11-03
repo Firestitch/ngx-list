@@ -14,11 +14,9 @@
     <fs-label-field>
       <fs-label>Flags</fs-label>
 
-      <div fxLayout="column">
-        <mat-checkbox [(ngModel)]="config.status" [value]="true" (ngModelChange)="reload()">Show Status</mat-checkbox>
-        <mat-checkbox [(ngModel)]="config.chips" [value]="true" (ngModelChange)="reload()">Show Chips</mat-checkbox>
-        <mat-checkbox [(ngModel)]="config.filterInput" [value]="true" (ngModelChange)="reload()">Show Filter Input</mat-checkbox>
-      </div>
+      <mat-checkbox [(ngModel)]="config.status" [value]="true" (ngModelChange)="reload()">Show Status</mat-checkbox>
+      <mat-checkbox [(ngModel)]="config.chips" [value]="true" (ngModelChange)="reload()">Show Chips</mat-checkbox>
+      <mat-checkbox [(ngModel)]="config.filterInput" [value]="true" (ngModelChange)="reload()">Show Filter Input</mat-checkbox>
     </fs-label-field>
 
     <mat-form-field >

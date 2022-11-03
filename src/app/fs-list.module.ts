@@ -9,7 +9,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { FsFilterModule } from '@firestitch/filter';
 import { FsScrollModule } from '@firestitch/scroll';
@@ -71,7 +70,6 @@ import { FsListGroupFooterDirective } from './directives/group-footer/group-foot
     MatRippleModule,
     FsFilterModule,
     FsMenuModule,
-    FlexLayoutModule,
     FsScrollModule,
     FsPromptModule,
     MatDialogModule,

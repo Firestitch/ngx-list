@@ -1,40 +1,33 @@
 @import '../../styles/mixins';
 
 :host {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  width: 100%;
 }
 
-.paging {
+a {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.87);
+  text-decoration: none;
+  font-size: 15px;
+  cursor: pointer;
   display: flex;
 
-  .pages {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    user-select: none;
-
-    a {
-      text-align: center;
-      color: rgba(0, 0, 0, 0.87);
-      text-decoration: none;
-      font-size: 15px;
-      cursor: pointer;
-      display: flex;
-
-      &:not(.page) {
-       padding: 10px;
-      }
-
-      &.disabled {
-        pointer-events: none;
-        cursor: default;
-        color: #d8d8d8;
-      }
-    }
-    .number {
-      font-size: 90%;
-    }
+  &:not(.page) {
+    padding: 10px;
   }
+
+  &.disabled {
+    pointer-events: none;
+    cursor: default;
+    color: #d8d8d8;
+  }
+}
+.number {
+  font-size: 90%;
 }
 
 .fs-list-load-more button {

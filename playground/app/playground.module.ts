@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { FsExampleModule } from '@firestitch/example';
 import { FsApiModule } from '@firestitch/api';
@@ -61,7 +60,6 @@ import { LoadMoreComponent } from './components/load-more';
     BrowserAnimationsModule,
     AppMaterialModule,
     FormsModule,
-    FlexLayoutModule,
     FsLabelModule,
     FsExampleModule.forRoot(),
     FsMessageModule.forRoot(),
