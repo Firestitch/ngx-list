@@ -1,6 +1,6 @@
 <div class="fs-list-container"
     [ngClass]="{ 
-      'has-filter-input': list.filterInput,
+      'has-filter-keyword': hasFilterKeyword,
       'has-filters': list.filterConfig?.items.length,
       'has-heading': list.heading,
       'has-status': hasStatus,
@@ -19,7 +19,7 @@
           class="fs-list-header"
           [ngClass]="{ 'no-wrap': reorderController.manualReorderActivated || !list.filterConfig?.items.length }">
         <ng-container 
-            *ngIf="!hasStatus"
+            *ngIf="hasFilterKeyword"
             [ngTemplateOutlet]="heading">
         </ng-container>   
         <fs-filter
@@ -31,7 +31,7 @@
           (ready)="filterReady()">
           <ng-template fsFilterStatusBar>
             <ng-container 
-                *ngIf="hasStatus"
+                *ngIf="!hasFilterKeyword"
                 [ngTemplateOutlet]="heading">
             </ng-container>            
             <ng-container *ngIf="hasStatus">

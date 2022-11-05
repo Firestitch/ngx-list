@@ -29,31 +29,18 @@ export class RemoveSimpleComponent extends StrategyBaseComponent implements OnIn
   public ngOnInit() {
 
     this.config = {
-      heading: 'Remove',
-      subheading: 'Remove action without confirmation',
+     //heading: 'Removess',
+      //subheading: 'Remove action without confirmation',
       status: false,
-      filterInput: true,
       queryParam: false,
       persist: false,
       trackBy: 'name',
-      selection: {
-      },
       paging: {
         limits: [5, 15, 50],
         strategy: PaginationStrategy.Page,
       },
       actions: [
-        {
-          label: 'Update Row (Object 3)',
-          click: () => {
-            this.table.updateData(
-              { name: 'Object 3 Updated' },
-              (listRow: any) => {
-                return listRow.name === 'Object 3';
-              }
-            );
-          }
-        },
+
         {
           label: 'Remove Row (Object 2)',
           click: () => {

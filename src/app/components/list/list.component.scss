@@ -18,6 +18,7 @@
       margin-bottom: 0;
       position: initial !important;
       display: block;
+      width: 100%;
     }
 
     .fs-list-container {
@@ -308,7 +309,7 @@
         }
       }
 
-      &:not(.has-filters):not(.has-status) {
+      &:not(.has-filter-keyword) {
         .fs-list-header {
           display: flex;
           margin-bottom: 4px;

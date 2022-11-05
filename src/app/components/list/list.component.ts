@@ -79,6 +79,7 @@ export class FsListComponent implements OnInit, OnDestroy {
   public filtersReady = new EventEmitter<void>();
 
   public list: List;
+  public keywordVisible = false;
   private listColumnDirectives: QueryList<FsListColumnDirective>;
 
   // Event will fired if action remove: true will clicked
@@ -141,22 +142,27 @@ export class FsListComponent implements OnInit, OnDestroy {
   /**
    * Return reference for filter
    */
-  get filterRef(): FilterComponent {
+  public get filterRef(): FilterComponent {
     return this._filterRef;
   }
 
-  get groupEnabled() {
+  public get groupEnabled() {
     return this.list.dataController.groupEnabled;
   }
+  
+  public get hasFilterKeyword(): boolean {
+    return this.list.filterInput && this.keywordVisible;
+  }
 
-  get hasStatus() {
-    return !this.reorderController.manualReorderActivated && 
+  public get hasStatus() {
+    return this.list.status &&
+      !this.reorderController.manualReorderActivated && 
       this.list.paging.enabled &&    
       (!this.reorderController.enabled || this.reorderController.status) &&
       ((this.list.scrollable && this.list.scrollable.status) || !this.list.scrollable)
   }
 
-  get paginatorVisible(): boolean {
+  public get paginatorVisible(): boolean {
     return this.list.paging.enabled
       && !this.firstLoad
       && !this.list.scrollable
@@ -165,11 +171,11 @@ export class FsListComponent implements OnInit, OnDestroy {
       && this.list.paging.pages > 1;
   }
 
-  set groupEnabled(value: boolean) {
+  public set groupEnabled(value: boolean) {
     this.list.groupEnabled(value);
   }
 
-  get filtersQuery(): Record<string, unknown> {
+  public get filtersQuery(): Record<string, unknown> {
     return this.list.filtersQuery;
   }
 
@@ -287,6 +293,9 @@ export class FsListComponent implements OnInit, OnDestroy {
   private _emitFiltersReadyEvent(): void {
     if (!!this.filterRef && this._filterParamsReady) {
       this.filtersReady.emit();
+
+      this.keywordVisible = this.filterRef.hasKeyword;
+      this.cdRef.markForCheck();
     }
   }
 
