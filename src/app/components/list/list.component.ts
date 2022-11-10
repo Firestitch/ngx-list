@@ -79,7 +79,7 @@ export class FsListComponent implements OnInit, OnDestroy {
   public filtersReady = new EventEmitter<void>();
 
   public list: List;
-  public keywordVisible = false;
+  public keywordVisible = true;
   private listColumnDirectives: QueryList<FsListColumnDirective>;
 
   // Event will fired if action remove: true will clicked
