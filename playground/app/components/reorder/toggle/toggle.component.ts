@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
-import { FsListConfig, ReorderPosition, ReorderStrategy } from '@firestitch/list';
+import { FsListConfig, ReorderPosition } from '@firestitch/list';
 
 import { map } from 'rxjs/operators';
 
 
 @Component({
-  selector: 'always-reorder',
-  templateUrl: './always.component.html',
+  selector: 'toggle-reorder',
+  templateUrl: './toggle.component.html',
 })
-export class AlwaysReorderComponent implements OnInit {
+export class ToggleReorderComponent implements OnInit {
 
   public config: FsListConfig = null;
 
@@ -26,7 +26,6 @@ export class AlwaysReorderComponent implements OnInit {
       persist: false,
       reorder: {
         position: ReorderPosition.Left,
-        strategy: ReorderStrategy.Always,
         start: () => {
           console.log('reorder started');
         },

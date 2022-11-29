@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { FsApi } from '@firestitch/api';
-import { FsListComponent, FsListConfig, ReorderPosition, ReorderStrategy } from '@firestitch/list';
+import { FsListComponent, FsListConfig, ReorderPosition } from '@firestitch/list';
 
 import { map } from 'rxjs/operators';
 
@@ -35,7 +35,7 @@ export class CustomReorderComponent implements OnInit {
       filterInput: true,
       reorder: {
         position: ReorderPosition.Left,
-        strategy: ReorderStrategy.Custom,
+        disabled: true,
         start: () => {
           console.log('reorder started');
         },

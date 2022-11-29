@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
-import { FsListConfig, ReorderPosition, ReorderStrategy } from '@firestitch/list';
+import { FsListConfig, ReorderPosition } from '@firestitch/list';
 
 import { delay, map } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -27,7 +27,7 @@ export class ManualReorderComponent implements OnInit {
       persist: false,
       reorder: {
         position: ReorderPosition.Right,
-        strategy: ReorderStrategy.Manual,
+        toggle: true,
         menu: false,
         start: () => {
           console.log('reorder start');

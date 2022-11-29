@@ -89,7 +89,8 @@ export interface FsListReorderConfig {
   done?: FsListReorderDoneCallback;
   moveDrop?: FsListReorderMoveInGroupCallback;
   position?: ReorderPosition;
-  strategy?: ReorderStrategy;
+  disabled?: boolean;
+  toggle?: boolean;
   label?: string;
   menu?: boolean;
 }

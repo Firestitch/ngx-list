@@ -24,7 +24,7 @@ import { AppComponent } from './app.component';
 import {
   ExamplesComponent,
   KitchenSinkComponent,
-  AlwaysReorderComponent,
+  ToggleReorderComponent,
   ManualReorderComponent,
   CustomReorderComponent,
   RemoveSimpleComponent,
@@ -84,7 +84,7 @@ import { LoadMoreComponent } from './components/load-more';
     AppComponent,
     ExamplesComponent,
     KitchenSinkComponent,
-    AlwaysReorderComponent,
+    ToggleReorderComponent,
     ManualReorderComponent,
     CustomReorderComponent,
     RemoveSimpleComponent,

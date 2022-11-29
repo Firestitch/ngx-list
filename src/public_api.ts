@@ -40,7 +40,7 @@ export { FsListGroupExpandTriggerDirective }
 export { Column, SortingDirection } from './app/models/column.model';
 export { List } from './app/classes/list-controller';
 export { PaginationController } from './app/classes/pagination-controller';
-export { ReorderStrategy, ReorderPosition, ReorderController } from './app/classes/reorder-controller';
+export { ReorderPosition, ReorderController } from './app/classes/reorder-controller';
 export { RowAction } from './app/models/row-action.model';
 export { SelectionController, SelectionChangeType } from './app/classes/selection-controller';
 export { SortingController, SortingChangeEvent } from './app/classes/sorting-controller';

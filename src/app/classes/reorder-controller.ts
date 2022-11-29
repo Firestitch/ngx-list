@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay, takeUntil } from 'rxjs/operators';
 
 import {
+  FsListReorderConfig,
   FsListReorderDoneCallback,
   FsListReorderMovedCallback,
   FsListReorderMoveInGroupCallback
@@ -108,13 +109,20 @@ export class ReorderController implements OnDestroy {
     return this._reorderDisabled$.getValue();
   }
 
-  public initWithConfig(data, dataController: DataController, actionsController: ActionsController) {
+  public initWithConfig(data: FsListReorderConfig, dataController: DataController, actionsController: ActionsController) {
     if (!data) { return }
 
     this.menu = data.menu ?? true;
     this.position = data.position ?? ReorderPosition.Left;
-    this.strategy = data.strategy ?? ReorderStrategy.Manual;
-    this.status = data.status ?? true;
+
+    if (!data.disabled) {
+      this.strategy = ReorderStrategy.Always;
+    }
+
+    if (data.toggle) {
+      this.strategy = ReorderStrategy.Manual
+    }
+    // this.strategy = data.strategy ?? ReorderStrategy.Manual;
     this.label = data.label;
 
     this.startCallback = data.start;

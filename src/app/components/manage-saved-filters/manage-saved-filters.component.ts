@@ -37,7 +37,6 @@ export class FsListManageSavedFiltersComponent {
       paging: false,
       reorder: {
         position: ReorderPosition.Left,
-        strategy: ReorderStrategy.Always,
         moveDrop: () => {
           return this._reorderReady;
         },

@@ -4,7 +4,8 @@ import { ItemType } from '@firestitch/filter';
 import {
   FsListConfig,
   FsListComponent,
-  FsListAbstractRow, ReorderPosition, ReorderStrategy
+  FsListAbstractRow,
+  ReorderPosition,
 } from '@firestitch/list';
 
 import { of } from 'rxjs';
@@ -124,7 +125,6 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
           return group1 === group2;
         },
         position: ReorderPosition.Left,
-        strategy: ReorderStrategy.Always,
         start: () => {
           console.log('reorder started');
         },
