@@ -112,7 +112,7 @@ export class ReorderController implements OnDestroy {
   public initWithConfig(data: FsListReorderConfig, dataController: DataController, actionsController: ActionsController) {
     if (!data) { return }
 
-    this.menu = data.menu ?? true;
+    this.menu = data.menu ?? false;
     this.position = data.position ?? ReorderPosition.Left;
 
     if (!data.disabled) {
