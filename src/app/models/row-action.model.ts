@@ -46,7 +46,13 @@ export class RowAction {
     this.menu = value.menu ?? true;
     this.remove = value.remove;
     this.className = value.className;
-    this.type = value.type ?? ActionType.Basic;
+
+    if (this.menu && this.icon && !this.label && !value.type) {
+      this.type = ActionType.Icon;
+    } else {
+      this.type = value.type ?? ActionType.Basic;
+    }
+
     this.show = value.show;
     this.restore = value.restore;
     this.rowActions = value.rowActions
