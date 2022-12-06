@@ -1,7 +1,6 @@
 import { ActionType } from '../enums/button-type.enum';
 import {
   FsListRowActionFile,
-  FsListRowActionLabelFn,
   FsListRowActionLink,
   FsListRowActionLinkFn
 } from '../interfaces';
@@ -26,7 +25,6 @@ export class RowAction {
   public fileConfig: FsListRowActionFile;
 
   private _linkFn: FsListRowActionLinkFn;
-  private _labelFn: FsListRowActionLabelFn;
   private readonly _isGroup: boolean = false;
 
   constructor(config: any = {}) {
@@ -78,13 +76,7 @@ export class RowAction {
       }
     }
 
-    if (typeof value.label === 'function') {
-      this._labelFn = value.label
-
-      this.label = '';
-    } else {
-      this.label = value.label;
-    }
+    this.label = value.label;
 
     if (this.className) {
       this.classArray = this.className.split(' ').reduce((acc, elem) => {
@@ -124,20 +116,6 @@ export class RowAction {
       if (this.routerLink && !this.routerLink.target) {
         this.routerLink.target = null;
       }
-    }
-  }
-
-  public updateLabel(row): void {
-    if (!this.isShown) {
-      return;
-    }
-
-    if (this.isGroup) {
-      this.rowActions.forEach((action) => {
-        action.updateLabel(row);
-      });
-    } else if (this._labelFn) {
-      this.label = this._labelFn(row);
     }
   }
 

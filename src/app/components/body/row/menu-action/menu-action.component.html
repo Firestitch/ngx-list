@@ -1,20 +1,20 @@
 <ng-container *ngIf="!file else withFile">
   <mat-icon *ngIf="icon">{{icon}}</mat-icon>
-  {{label}}
+  {{label| actionLabel:row}}
 </ng-container>
 
 <ng-template #withFile>
   <fs-file
-    class="action-button"
-    [accept]="file.accept || '*'"
-    [multiple]="file.multiple"
-    [minWidth]="file.minWidth"
-    [minHeight]="file.minHeight"
-    [imageWidth]="file.maxWidth"
-    [imageHeight]="file.maxHeight"
-    (select)="fileSelect.emit($event)"
-    (error)="fileError.emit($event)">
+      class="action-button"
+      [accept]="file.accept || '*'"
+      [multiple]="file.multiple"
+      [minWidth]="file.minWidth"
+      [minHeight]="file.minHeight"
+      [imageWidth]="file.maxWidth"
+      [imageHeight]="file.maxHeight"
+      (select)="fileSelect.emit($event)"
+      (error)="fileError.emit($event)">
     <mat-icon *ngIf="icon">{{icon}}</mat-icon>
-    {{label}}
+    {{label| actionLabel:row}}
   </fs-file>
 </ng-template>

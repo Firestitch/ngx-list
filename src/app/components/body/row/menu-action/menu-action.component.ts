@@ -4,7 +4,7 @@ import {
   Input, Output,
 } from '@angular/core';
 
-
+import { Row } from '../../../../models/row';
 import { FsListRowActionFile } from '../../../../interfaces/listconfig.interface';
 
 
@@ -14,6 +14,9 @@ import { FsListRowActionFile } from '../../../../interfaces/listconfig.interface
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsRowMenuActionComponent {
+
+  @Input()
+  public row: Row;
 
   @Input()
   public icon: string;

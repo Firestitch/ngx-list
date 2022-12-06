@@ -181,7 +181,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           console.log('<====== Load Saved Filters =====>');
           return of(savedFilters)
             .pipe(
-              delay(1500),
+              delay(100),
             );
         },
         save: (filter) => {
@@ -273,50 +273,6 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
             ]
         }
       ],
-      // rowActions: [
-      //   {
-      //     click: (row, event) => {
-      //       console.log('Accept', row, event);
-      //     },
-      //     show: (row) => {
-      //       return row.show;
-      //     },
-      //     menu: false,
-      //     icon: 'done',
-      //     className: 'mat-warn',
-      //     type: ActionType.Icon,
-      //   },
-      //
-      //   {
-      //     click: (row, event) => {
-      //       console.log('edit', row, event);
-      //     },
-      //     show: (row) => {
-      //       return row.show;
-      //     },
-      //     menu: true,
-      //     icon: 'edit',
-      //     label: 'Edit',
-      //     type: ActionType.Basic
-      //   },
-      //   {
-      //     click: (row, event) => {
-      //       console.log('delete', row, event);
-      //       this.list.removeData(
-      //         (listRow: FsListAbstractRow) => {
-      //           return listRow.name === row.name;
-      //         }
-      //       );
-      //     },
-      //     menu: true,
-      //     remove: {
-      //       title: 'Confirm',
-      //       template: 'Are you sure you would like to delete this record?',
-      //     },
-      //     icon: 'delete',
-      //     label: 'Remove'
-      //   }
-      // ],
       rowActions: [
         {
           label: 'Simple Btn',

@@ -82,13 +82,6 @@ export class FsRowActionsComponent {
     return index;
   }
 
-  public clickOnTrigger(event) {
-    event.stopPropagation();
-
-    this.rowActions
-      .forEach((action) => action.updateLabel(this.row.data));
-  }
-
   /**
    * Emit that some row must be removed
    * @param action

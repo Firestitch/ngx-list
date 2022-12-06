@@ -56,6 +56,7 @@ import { FsListContentInitDirective } from './directives/content-init/content-in
 import { FS_LIST_DEFAULT_CONFIG, FS_LIST_CONFIG } from './fs-list.providers';
 import { FsListConfig } from './interfaces';
 import { FsListGroupFooterDirective } from './directives/group-footer/group-footer.directive';
+import { ActionLabelPipe } from './pipes';
 
 
 @NgModule({
@@ -115,8 +116,9 @@ import { FsListGroupFooterDirective } from './directives/group-footer/group-foot
 
     // Dialog
     CustomizeColsDialogComponent,
-  ],
-  providers: [
+
+    //Pipes
+    ActionLabelPipe,
   ],
   exports: [
     FsListComponent,
