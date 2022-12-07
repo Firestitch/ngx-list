@@ -306,7 +306,6 @@ export class FsListDraggableListDirective {
       doneResult
         .pipe(takeUntil(this._destroy$))
         .subscribe(() => {
-          console.log('enable');
           this._reorderController.enableReorderAction();
         });
     }

@@ -35,15 +35,17 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
   constructor() {}
 
   public ngOnInit() {
-    this._initCellContext();
-    this._initCellTemplate();
-
     this._listenGroupOpen();
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.rowIndex) {
+    if (changes.rowIndex?.currentValue !== changes.rowIndex?.previousValue) {
       this.cellContext.index = this.rowIndex;
+    }
+
+    if (changes.column?.currentValue !== changes.column?.previousValue) {
+      this._initCellContext();
+      this._initCellTemplate();
     }
   }
 
