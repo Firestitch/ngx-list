@@ -287,8 +287,6 @@ export class DataController {
     row.toggleRowExpandStatus();
 
     this._updateVisibleRows();
-
-    console.log(this._rowsStack);
   }
 
   private _updateRowsStack(rows) {
@@ -428,7 +426,7 @@ export class DataController {
     groupRows.forEach((groupRow) => {
       const footerIndex = groupRow.children
         .findIndex((row) => {
-          return this._footerRowFn(row.data, { 
+          return this._footerRowFn(row.data, {
             ...groupRow.data,
             children: groupRow.childrenData
           });
@@ -439,7 +437,7 @@ export class DataController {
         groupRow.children.push(new GroupFooterRow(footerRow.data, groupRow));
       }
     });
-  
+
     return Array.from(this._store.values())
       .reduce((acc, item) => {
         if (item.isGroup) {
