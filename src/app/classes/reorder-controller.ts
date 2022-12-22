@@ -165,7 +165,7 @@ export class ReorderController implements OnDestroy {
   }
 
   public enableReorder() {
-    if (this.strategy === ReorderStrategy.Manual || this.strategy === ReorderStrategy.Custom) {
+    if ((this.strategy === ReorderStrategy.Manual || this.strategy === ReorderStrategy.Custom) && this.startCallback) {
       const returnedValue = this.startCallback();
 
       if (returnedValue && returnedValue instanceof Observable) {
