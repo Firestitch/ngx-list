@@ -5,14 +5,17 @@
 
 <!-- Selection -->
 <ng-container *ngIf="selection">
-  <td class="fs-list-col fs-list-col-selection">
-    <ng-container *ngIf="!row.isGroupFooter">
-      <mat-checkbox (change)="selectRow($event)"
-                    [checked]="selected"
-                    [indeterminate]="indeterminateSelected">
-      </mat-checkbox>
-    </ng-container>
-  </td>
+  <ng-container *ngIf="!(selection.disabled$ | async)">
+    <td class="fs-list-col fs-list-col-selection">
+      <ng-container *ngIf="!row.isGroupFooter">
+        <mat-checkbox (change)="selectRow($event)"
+                      [checked]="selected"
+                      [indeterminate]="indeterminateSelected">
+        </mat-checkbox>
+      </ng-container>
+    </td>
+  </ng-container>
+
 </ng-container>
 
 <!-- Content -->

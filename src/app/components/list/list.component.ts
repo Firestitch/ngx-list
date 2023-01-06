@@ -243,6 +243,14 @@ export class FsListComponent implements OnInit, OnDestroy {
     this.list.selection.resetActions();
   }
 
+  public enableSelection() {
+    this.list.selection.enableSelection();
+  }
+
+  public disableSelection() {
+    this.list.selection.disableSelection();
+  }
+
   public removeData(data: FsListAbstractRow | FsListAbstractRow[] | FsListTrackByTargetRowFn): boolean {
     return this.list.dataController.removeData(data);
   }

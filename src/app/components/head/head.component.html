@@ -3,9 +3,11 @@
   <th *ngIf="reorderController.leftReorderActivated$ | async" class="fs-list-col drag-col"></th>
 
   <!-- Selection -->
-  <th *ngIf="selection" class="fs-list-col fs-list-col-selection">
-    <mat-checkbox (change)="selectAll($event)" [checked]="selectedAll"></mat-checkbox>
-  </th>
+  <ng-container *ngIf="selection">
+    <th *ngIf="!(selection.disabled$ | async)" class="fs-list-col fs-list-col-selection">
+      <mat-checkbox (change)="selectAll($event)" [checked]="selectedAll"></mat-checkbox>
+    </th>
+  </ng-container>
 
   <!-- Content -->
   <th fs-head-cell *ngFor="let column of columns; trackBy: trackByFn"
