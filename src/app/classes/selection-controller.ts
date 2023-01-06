@@ -24,7 +24,6 @@ export class SelectionController {
   public allSelectedFn;
 
   public cancelledFn;
-  public disabled$ = new BehaviorSubject<boolean>(false);
 
   // Store for selected visible rows
   public selectedRows = new Map();
@@ -48,6 +47,7 @@ export class SelectionController {
   private _totalRecordsCount = 0;
 
   private _destroy$ = new Subject();
+  private _disabled$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     config: FsListSelectionConfig = {},
@@ -60,7 +60,15 @@ export class SelectionController {
     this.cancelledFn = config.cancelled;
     this.selectionChangedFn = config.selectionChanged;
     this.selectAll = config.selectAll;
-    this.disabled$.next(!!config.disabled);
+    this._disabled$.next(!!config.disabled);
+  }
+
+  get disabled(): boolean {
+    return this._disabled$.getValue();
+  }
+
+  get disabled$(): Observable<boolean> {
+    return this._disabled$.asObservable();
   }
 
   get selectedAll() {
@@ -219,11 +227,11 @@ export class SelectionController {
   }
 
   public enableSelection() {
-    this.disabled$.next(false);
+    this._disabled$.next(false);
   }
 
   public disableSelection() {
-    this.disabled$.next(true);
+    this._disabled$.next(true);
   }
 
   /**
