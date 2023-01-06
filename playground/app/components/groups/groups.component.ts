@@ -64,10 +64,31 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
           click: () => {
             this.list.groupEnabled = !this.list.groupEnabled;
           }
-        }
+        },
+        {
+          label: 'Enable Selection',
+          click: () => {
+            this.enableSelection();
+            this.list.filterRef.updateActionsVisibility();
+          },
+          show: () => {
+            return this.list.list.selection.disabled;
+          }
+        },
+        {
+          label: 'Disable Selection',
+          click: () => {
+            this.disableSelection();
+            this.list.filterRef.updateActionsVisibility();
+          },
+          show: () => {
+            return !this.list.list.selection.disabled;
+          }
+        },
       ],
       trackBy: 'name',
       selection: {
+        disabled: false,
         selectAll: true,
         actions: [
           {
@@ -271,5 +292,13 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
 
   public onClick(row, event) {
     console.log(row, event);
+  }
+
+  public enableSelection() {
+    this.list.enableSelection();
+  }
+
+  public disableSelection() {
+    this.list.disableSelection();
   }
 }

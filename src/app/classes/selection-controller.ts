@@ -1,4 +1,4 @@
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { get as _get } from 'lodash-es';
 import { SelectionDialog, SelectionRef } from '@firestitch/selection';
@@ -22,6 +22,7 @@ export class SelectionController {
   public selectionChangedFn;
   public actionSelectedFn;
   public allSelectedFn;
+
   public cancelledFn;
 
   // Store for selected visible rows
@@ -46,6 +47,7 @@ export class SelectionController {
   private _totalRecordsCount = 0;
 
   private _destroy$ = new Subject();
+  private _disabled$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     config: FsListSelectionConfig = {},
@@ -58,6 +60,15 @@ export class SelectionController {
     this.cancelledFn = config.cancelled;
     this.selectionChangedFn = config.selectionChanged;
     this.selectAll = config.selectAll;
+    this._disabled$.next(!!config.disabled);
+  }
+
+  get disabled(): boolean {
+    return this._disabled$.getValue();
+  }
+
+  get disabled$(): Observable<boolean> {
+    return this._disabled$.asObservable();
   }
 
   get selectedAll() {
@@ -213,6 +224,14 @@ export class SelectionController {
       this._updateSelectionRefSelected();
       this._updateSelectedVisibleStatus();
     }
+  }
+
+  public enableSelection() {
+    this._disabled$.next(false);
+  }
+
+  public disableSelection() {
+    this._disabled$.next(true);
   }
 
   /**

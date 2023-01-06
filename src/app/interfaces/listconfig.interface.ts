@@ -162,6 +162,7 @@ export interface FsListSelectionConfig {
   actionSelected?: (action: FsListActionSelected) => Observable<boolean>;
   allSelected?: () => void;
   cancelled?: () => void;
+  disabled?: boolean;
   selectAll?: boolean;
   selectionChanged?: (data: any, selectedAll: boolean, selectionRef: SelectionRef) =>
     FsSelectionDialogConfigAction[] | Observable<FsSelectionDialogConfigAction[] | void> | void;
