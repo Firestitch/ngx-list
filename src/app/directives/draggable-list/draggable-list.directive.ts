@@ -4,15 +4,16 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { ReorderController, ReorderStrategy } from '../../classes/reorder-controller';
+import { SelectionController } from '../../classes/selection-controller';
 import { Row } from '../../models/row';
 import { FsListDragChildRowElement } from '../../interfaces/draggable-list.interface';
+import { FsListReorderData } from '../../interfaces';
 
 
 @Directive({
   selector: '[fsListDraggableList]',
 })
 export class FsListDraggableListDirective {
-
   // Draggable Element
   private _draggableElement: HTMLElement;
   private _draggableElementPreview: HTMLElement;
@@ -27,11 +28,17 @@ export class FsListDraggableListDirective {
   private _dragInProgress = false;
 
   private _childRowElements: FsListDragChildRowElement[];
-  private _dragStart$ = new Subject<void>();
+  private _dragStart$ = new Subject<Row>();
   private _dragEnd$ = new Subject<void>();
 
   @Input('rows')
   private _rows: Row[];
+
+  @Input('selection')
+  private _selectionController: SelectionController;
+
+  @Input('trackBy')
+  private _trackBy: string;
 
   private _destroy$ = new Subject();
 
@@ -42,7 +49,7 @@ export class FsListDraggableListDirective {
     private _reorderController: ReorderController,
   ) {}
 
-  public get dragStart$(): Observable<void> {
+  public get dragStart$(): Observable<Row> {
     return this._dragStart$.pipe(takeUntil(this._destroy$));
   }
 
@@ -58,7 +65,7 @@ export class FsListDraggableListDirective {
    * Prepare draggable elements and add events
    * @param draggableElement
    */
-  public dragStart(draggableElement: HTMLElement) {
+  public dragStart(draggableElement: HTMLElement, row: Row) {
     if (this._dragInProgress) {
       return;
     }
@@ -91,7 +98,7 @@ export class FsListDraggableListDirective {
       window.document.addEventListener('touchcancel', this._dragEndHandler);
     });
 
-    this._dragStart$.next();
+    this._dragStart$.next(row);
 
   }
 
@@ -263,14 +270,22 @@ export class FsListDraggableListDirective {
    */
   private swapWithIndex(index) {
     const activeIndex = this._draggableElementIndex;
-
-    // Swap rows in global rows stack
-    this._reorderController
-      .dataController
-      .swapRows(this._rows[activeIndex] , this._rows[index]);
-
-    // Swap visible rows
     const activeRow = this._rows[activeIndex];
+    const selectedRows = this._selectionController.selectedRows;
+    const dragRowSelected = this._selectionController.isRowSelected(activeRow.data);
+
+    if (this._reorderController.multiple && selectedRows.size > 1 && dragRowSelected) {
+      this._reorderController
+        .dataController
+        .swapSelectedRows(selectedRows, this._rows[index], this._trackBy);
+    } else {
+      // Swap rows in global rows stack
+      this._reorderController
+        .dataController
+        .swapRows(this._rows[activeIndex] , this._rows[index]);
+    }
+      
+    // Swap visible rows
     this._rows[activeIndex] = this._rows[index];
     this._rows[index] = activeRow;
 
@@ -280,8 +295,8 @@ export class FsListDraggableListDirective {
     this._childRowElements[activeIndex].target = this._childRowElements[index].target;
     this._childRowElements[index].target = activeElement;
     this._childRowElements[index].active = true;
+    
     this._draggableElementIndex = index;
-
     this._cdRef.detectChanges();
   }
 

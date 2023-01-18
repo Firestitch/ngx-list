@@ -2,6 +2,10 @@
 
 ::ng-deep {
 
+  .mat-checkbox {
+    min-height: 21px;
+  }
+
   .fs-list {
     display: block;
     width: 100%;

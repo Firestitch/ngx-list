@@ -428,6 +428,8 @@ export class SelectionController {
    * Update in Dialog Ref how much rows was selected
    */
   private _updateSelectionRefSelected() {
+    // console.log('cock', this.selectedRows);
+
     if (this._selectionDialogRef) {
       this._selectionDialogRef.updateSelected(this.selectedRows.size);
 

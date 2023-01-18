@@ -274,6 +274,33 @@ export class DataController {
     this._rowsStack = [ ...rowsStack ];
   }
 
+  public swapSelectedRows(selectedRows: Map<any, any>, swappedRow: Row, trackBy: string) {
+    const rowsStack = [...this._rowsStack];
+    let index = 0;
+    // indexing base rows
+    rowsStack.forEach((row) => {
+      row.index = index;
+      index++;
+    });
+
+    const selectedRowsArray = Array.from(selectedRows)
+      .map(el => el[1]);
+
+    const firstSelected = selectedRowsArray[0];
+    const firstSelectedIndex = rowsStack
+      .findIndex((row: Row) => row.data[trackBy] === firstSelected[trackBy]);
+
+    const sliceOfSelectedRows = rowsStack.splice(firstSelectedIndex, selectedRowsArray.length);
+    const swappedElIndex = rowsStack.indexOf(swappedRow) + 1;
+
+    const startSlice = rowsStack.slice(0, swappedElIndex);
+    const endSlice = rowsStack.slice(swappedElIndex, rowsStack.length)
+    const reorderedRowsStack = startSlice.concat(sliceOfSelectedRows).concat(endSlice);
+
+    this._rowsStack = reorderedRowsStack;
+    this._updateVisibleRows();
+  }
+
   public destroy() {
     this._destroyRowsStack();
     this._store.clear();

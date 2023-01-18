@@ -4,6 +4,8 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { ReorderController } from '../../classes/reorder-controller';
+import { SelectionController } from '../../classes/selection-controller';
+
 import { Row } from '../../models/row';
 import { FsListDraggableListDirective } from '../draggable-list/draggable-list.directive';
 
@@ -15,6 +17,11 @@ export class FsListDraggableRowDirective implements OnInit, OnDestroy {
 
   @Input()
   public row: Row;
+  @Input()
+  public trackBy: string;
+
+  @Input('selection')
+  private _selection: SelectionController;
 
   private _destroy$ = new Subject<void>();
 
@@ -26,9 +33,7 @@ export class FsListDraggableRowDirective implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    if (this._reorderController.moveDropCallback) {
-      this._listenDragEvents();
-    }
+    this._listenDragEvents();
   }
 
   public ngOnDestroy(): void {
@@ -42,8 +47,23 @@ export class FsListDraggableRowDirective implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this._destroy$),
       )
-      .subscribe(() => {
-        this._markReadyToSwapRows();
+      .subscribe((row: Row) => {
+        if (this._reorderController.multiple) {
+          const dragRowSelected = row && this._selection.isRowSelected(row.data);
+  
+          if (dragRowSelected) {
+            const isSelected = this.row && this._selection.isRowSelected(this.row.data);
+            
+            if (isSelected && row.data[this.trackBy] !== this.row.data[this.trackBy]) {
+              this._el.nativeElement.style.display = 'none';
+            }
+          }
+        }
+
+
+        if (this._reorderController.moveDropCallback) {
+          this._markReadyToSwapRows();
+        }
       });
 
     this._draggableList
@@ -52,7 +72,11 @@ export class FsListDraggableRowDirective implements OnInit, OnDestroy {
         takeUntil(this._destroy$),
       )
       .subscribe(() => {
-        this._unmarkRows();
+        this._el.nativeElement.style.display = 'table-row';
+
+        if (this._reorderController.moveDropCallback) {
+          this._unmarkRows();
+        }
       });
   }
 

@@ -42,6 +42,7 @@ export class FsBodyComponent implements DoCheck, OnDestroy {
   @Input() selection: SelectionController;
   @Input() restoreMode = false;
   @Input() rowRemoved: EventEmitter<any>;
+  @Input() trackBy: string;
 
   @ViewChild('rowsContainer', { read: ViewContainerRef, static: true }) rowsContainer;
   @ContentChild(FsRowComponent, { read: TemplateRef, static: true })

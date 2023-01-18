@@ -14,3 +14,4 @@ export * from './remove';
 export * from './ago';
 export * from './groups';
 export * from './empty-state';
+export * from './selection-reorder';

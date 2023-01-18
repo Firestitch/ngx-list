@@ -73,6 +73,7 @@
             fsListDraggableList
             class="fs-list-body"
             role="rowgroup"
+            [trackBy]="list.trackBy"
             [class.disabled]="!!(reorderController.reorderDisabled$ | async)"
             [rows]="listData"
             [rowActionsRaw]="list.rowActionsRaw"

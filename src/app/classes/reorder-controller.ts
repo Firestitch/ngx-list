@@ -37,6 +37,7 @@ export class ReorderController implements OnDestroy {
   public menu: boolean;
   public position: ReorderPosition;
   public strategy: ReorderStrategy;
+  public multiple: boolean;
 
   private _dataController: DataController;
   private _actionsController: ActionsController;
@@ -124,6 +125,7 @@ export class ReorderController implements OnDestroy {
     }
     // this.strategy = data.strategy ?? ReorderStrategy.Manual;
     this.label = data.label;
+    this.multiple = data.multiple;
 
     this.startCallback = data.start;
     this.movedCallback = data.moved;
