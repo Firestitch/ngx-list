@@ -182,7 +182,6 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
    * @param event
    */
   public selectRow(event: MatCheckboxChange) {
-    // console.log('selectRow', event.source._elementRef.nativeElement);
     this.selection.rowSelectionChange(this.row, event.checked);
     this._cdRef.markForCheck();
   }

@@ -274,8 +274,10 @@ export class DataController {
     this._rowsStack = [ ...rowsStack ];
   }
 
-  public swapSelectedRows(selectedRows: Map<any, any>, swappedRow: Row, trackBy: string) {
+  public swapSelectedRows(selectedRows: Map<any, any>, swappedIndex: number, activeIndex: number, trackBy: string) {
     const rowsStack = [...this._rowsStack];
+    const swappedRow = rowsStack[swappedIndex];
+
     let index = 0;
     // indexing base rows
     rowsStack.forEach((row) => {
@@ -286,19 +288,24 @@ export class DataController {
     const selectedRowsArray = Array.from(selectedRows)
       .map(el => el[1]);
 
-    const firstSelected = selectedRowsArray[0];
-    const firstSelectedIndex = rowsStack
-      .findIndex((row: Row) => row.data[trackBy] === firstSelected[trackBy]);
+    const sliceOfSelectedRows = [];
 
-    const sliceOfSelectedRows = rowsStack.splice(firstSelectedIndex, selectedRowsArray.length);
-    const swappedElIndex = rowsStack.indexOf(swappedRow) + 1;
+    selectedRowsArray.forEach((selectedRow) => {
+      const ind = rowsStack
+        .findIndex((row: Row) => row.data[trackBy] === selectedRow[trackBy]);
 
-    const startSlice = rowsStack.slice(0, swappedElIndex);
-    const endSlice = rowsStack.slice(swappedElIndex, rowsStack.length)
-    const reorderedRowsStack = startSlice.concat(sliceOfSelectedRows).concat(endSlice);
+      sliceOfSelectedRows.push(rowsStack.splice(ind, 1)[0]);
+    });
+    let swappedElIndex = rowsStack.indexOf(swappedRow);
+    if (swappedIndex > activeIndex) {
+      // if direction of swapping is down add 1 to index
+      swappedElIndex++;
+    }
 
-    this._rowsStack = reorderedRowsStack;
-    this._updateVisibleRows();
+    const startSlice = rowsStack.splice(0, swappedElIndex);
+
+    const reorderedRowsStack = [...startSlice].concat([...sliceOfSelectedRows]).concat([...rowsStack]);
+    this._rowsStack = [...reorderedRowsStack];
   }
 
   public destroy() {
@@ -317,7 +324,6 @@ export class DataController {
   }
 
   private _updateRowsStack(rows) {
-
     this._destroyRowsStack();
 
     if (this.groupEnabled) {
@@ -364,7 +370,7 @@ export class DataController {
   private updateRow(
     targetRow: FsListAbstractRow,
     trackBy?: (listRow: FsListAbstractRow, targetRow?: FsListAbstractRow) => boolean) {
-
+      
     if (trackBy === void 0) {
       trackBy = (row, target) => {
         return row === target;

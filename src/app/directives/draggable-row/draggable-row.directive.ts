@@ -55,7 +55,11 @@ export class FsListDraggableRowDirective implements OnInit, OnDestroy {
             const isSelected = this.row && this._selection.isRowSelected(this.row.data);
             
             if (isSelected && row.data[this.trackBy] !== this.row.data[this.trackBy]) {
-              this._el.nativeElement.style.display = 'none';
+              // TODO
+              this._el.nativeElement.classList.add('drag-hidden');
+              setTimeout(() => {
+                this._el.nativeElement.style.display = 'none';
+              }, 200);
             }
           }
         }
@@ -72,6 +76,7 @@ export class FsListDraggableRowDirective implements OnInit, OnDestroy {
         takeUntil(this._destroy$),
       )
       .subscribe(() => {
+        this._el.nativeElement.classList.remove('drag-hidden');
         this._el.nativeElement.style.display = 'table-row';
 
         if (this._reorderController.moveDropCallback) {

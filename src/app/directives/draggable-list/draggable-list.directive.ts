@@ -16,6 +16,8 @@ import { FsListReorderData } from '../../interfaces';
 export class FsListDraggableListDirective {
   // Draggable Element
   private _draggableElement: HTMLElement;
+  private _draggableRow: Row;
+
   private _draggableElementPreview: HTMLElement;
   private _draggableElementHeight: number;
   private _draggableElementIndex: number;
@@ -82,6 +84,7 @@ export class FsListDraggableListDirective {
     window.document.body.classList.add('reorder-in-progress');
 
     this._draggableElement = draggableElement;
+    this._draggableRow = row;
 
     this.prepareElements();
 
@@ -141,6 +144,8 @@ export class FsListDraggableListDirective {
 
     ///
     if (this._reorderController.movedCallback) {
+      this._reorderController.dataController.updateData(this._reorderController.dataController.reorderData)
+
       this._reorderController.movedCallback(
         this._reorderController.dataController.reorderData
       );
@@ -148,6 +153,7 @@ export class FsListDraggableListDirective {
 
     if (this._reorderController.strategy === ReorderStrategy.Always) {
       this._zone.run(() => {
+
         if (this._reorderController.doneCallback) {
           const result = this._reorderController.doneCallback(
             this._reorderController.dataController.reorderData
@@ -233,6 +239,13 @@ export class FsListDraggableListDirective {
 
     el.classList.add('draggable');
 
+    const selectedRows = this._selectionController.selectedRows;
+    const dragRowSelected = this._selectionController.isRowSelected(this._draggableRow.data);
+
+    if (this._reorderController.multiple && selectedRows.size > 1 && dragRowSelected) {
+      el.classList.add('multiple');
+    }
+
     this._containerElement.nativeElement.insertAdjacentElement('afterbegin', el);
 
     this._draggableElementPreview = el;
@@ -275,17 +288,17 @@ export class FsListDraggableListDirective {
     const dragRowSelected = this._selectionController.isRowSelected(activeRow.data);
 
     if (this._reorderController.multiple && selectedRows.size > 1 && dragRowSelected) {
+      // Swap multiple selected rows in global rows stack 
       this._reorderController
         .dataController
-        .swapSelectedRows(selectedRows, this._rows[index], this._trackBy);
+        .swapSelectedRows(selectedRows, index, activeIndex, this._trackBy);
     } else {
       // Swap rows in global rows stack
       this._reorderController
         .dataController
-        .swapRows(this._rows[activeIndex] , this._rows[index]);
+        .swapRows(this._rows[activeIndex], this._rows[index]);
     }
       
-    // Swap visible rows
     this._rows[activeIndex] = this._rows[index];
     this._rows[index] = activeRow;
 
@@ -295,7 +308,7 @@ export class FsListDraggableListDirective {
     this._childRowElements[activeIndex].target = this._childRowElements[index].target;
     this._childRowElements[index].target = activeElement;
     this._childRowElements[index].active = true;
-    
+
     this._draggableElementIndex = index;
     this._cdRef.detectChanges();
   }
