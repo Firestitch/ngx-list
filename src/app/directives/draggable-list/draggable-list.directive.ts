@@ -132,7 +132,7 @@ export class FsListDraggableListDirective {
       }
     }
 
-    const topOffset = (event.y || event.clientY) - (this._draggableElementHeight / 2);
+    let topOffset = (event.y || event.clientY) - (this._draggableElementHeight / 2);
     this._draggableElementPreview.style.top =  topOffset + 'px';
   }
 
@@ -239,8 +239,8 @@ export class FsListDraggableListDirective {
 
     el.classList.add('draggable');
 
-    const selectedRows = this._selectionController.selectedRows;
-    const dragRowSelected = this._selectionController.isRowSelected(this._draggableRow.data);
+    const selectedRows = this._selectionController?.selectedRows;
+    const dragRowSelected = this._selectionController?.isRowSelected(this._draggableRow.data);
 
     if (this._reorderController.multiple && selectedRows.size > 1 && dragRowSelected) {
       el.classList.add('multiple');
@@ -284,10 +284,10 @@ export class FsListDraggableListDirective {
   private swapWithIndex(index) {
     const activeIndex = this._draggableElementIndex;
     const activeRow = this._rows[activeIndex];
-    const selectedRows = this._selectionController.selectedRows;
-    const dragRowSelected = this._selectionController.isRowSelected(activeRow.data);
+    const selectedRows = this._selectionController?.selectedRows;
+    const dragRowSelected = this._selectionController?.isRowSelected(activeRow.data);
 
-    if (this._reorderController.multiple && selectedRows.size > 1 && dragRowSelected) {
+    if (this._reorderController.multiple && selectedRows?.size > 1 && dragRowSelected) {
       // Swap multiple selected rows in global rows stack 
       this._reorderController
         .dataController

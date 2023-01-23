@@ -77,7 +77,9 @@ export class FsListDraggableRowDirective implements OnInit, OnDestroy {
       )
       .subscribe(() => {
         this._el.nativeElement.classList.remove('drag-hidden');
-        this._el.nativeElement.style.display = 'table-row';
+        setTimeout(() => {
+          this._el.nativeElement.style.display = 'table-row';
+        }, 201);
 
         if (this._reorderController.moveDropCallback) {
           this._unmarkRows();

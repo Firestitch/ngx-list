@@ -277,6 +277,8 @@ export class DataController {
   public swapSelectedRows(selectedRows: Map<any, any>, swappedIndex: number, activeIndex: number, trackBy: string) {
     const rowsStack = [...this._rowsStack];
     const swappedRow = rowsStack[swappedIndex];
+    const activeRow = rowsStack[activeIndex];
+
 
     let index = 0;
     // indexing base rows
@@ -288,6 +290,15 @@ export class DataController {
     const selectedRowsArray = Array.from(selectedRows)
       .map(el => el[1]);
 
+    let swappedElIndex;
+    
+    if (swappedIndex > activeIndex) {
+      // if direction of swapping is down add 1 to index
+      swappedElIndex = rowsStack.indexOf(swappedRow) - selectedRowsArray.length + 1;
+    } else {
+      swappedElIndex = rowsStack.indexOf(activeRow) - 1;
+    }
+
     const sliceOfSelectedRows = [];
 
     selectedRowsArray.forEach((selectedRow) => {
@@ -296,11 +307,7 @@ export class DataController {
 
       sliceOfSelectedRows.push(rowsStack.splice(ind, 1)[0]);
     });
-    let swappedElIndex = rowsStack.indexOf(swappedRow);
-    if (swappedIndex > activeIndex) {
-      // if direction of swapping is down add 1 to index
-      swappedElIndex++;
-    }
+    
 
     const startSlice = rowsStack.splice(0, swappedElIndex);
 
