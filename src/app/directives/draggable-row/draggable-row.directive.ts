@@ -50,10 +50,9 @@ export class FsListDraggableRowDirective implements OnInit, OnDestroy {
       .subscribe((row: Row) => {
         if (this._reorderController.multiple) {
           const dragRowSelected = row && this._selection.isRowSelected(row.data);
-  
+
           if (dragRowSelected) {
             const isSelected = this.row && this._selection.isRowSelected(this.row.data);
-            
             if (isSelected && row.data[this.trackBy] !== this.row.data[this.trackBy]) {
               // TODO
               this._el.nativeElement.classList.add('drag-hidden');

@@ -5,6 +5,7 @@ export abstract class BaseRow {
 
   public index: number;
   public readyToSwap = true;
+  public visible = true;
 
   protected readonly _rowType: RowType;
 

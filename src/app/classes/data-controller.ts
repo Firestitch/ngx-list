@@ -290,10 +290,9 @@ export class DataController {
       .map(el => el[1]);
 
     let swappedElIndex;
-    
+
     if (swappedIndex > activeIndex) {
-      // if direction of swapping is down add 1 to index
-      swappedElIndex = rowsStack.indexOf(swappedRow) - selectedRowsArray.length + 1;
+      swappedElIndex = rowsStack.indexOf(swappedRow);
     } else {
       swappedElIndex = rowsStack.indexOf(activeRow) - 1;
     }
@@ -303,15 +302,19 @@ export class DataController {
     selectedRowsArray.forEach((selectedRow) => {
       const ind = rowsStack
         .findIndex((row: Row) => row.data[trackBy] === selectedRow[trackBy]);
-
-      sliceOfSelectedRows.push(rowsStack.splice(ind, 1)[0]);
+      const slicedSelectedRow = rowsStack.splice(ind, 1)[0];
+      slicedSelectedRow.visible = false;
+      sliceOfSelectedRows.push(slicedSelectedRow);
     });
-    
 
     const startSlice = rowsStack.splice(0, swappedElIndex);
 
     const reorderedRowsStack = [...startSlice].concat([...sliceOfSelectedRows]).concat([...rowsStack]);
     this._rowsStack = [...reorderedRowsStack];
+  }
+
+  public makeAllVisible(): void {
+    this._rowsStack.forEach((row: Row) => row.visible = true);
   }
 
   public destroy() {
@@ -376,7 +379,7 @@ export class DataController {
   private updateRow(
     targetRow: FsListAbstractRow,
     trackBy?: (listRow: FsListAbstractRow, targetRow?: FsListAbstractRow) => boolean) {
-      
+
     if (trackBy === void 0) {
       trackBy = (row, target) => {
         return row === target;
@@ -434,7 +437,7 @@ export class DataController {
   private groupRowsBy(rows) {
     if (!this._groupByFn || !this._compareByFn) { return rows }
 
-    let groupRows: GroupRow[] = [];
+    const groupRows: GroupRow[] = [];
     const footerRows = new Map();
 
     rows.forEach((row) => {
@@ -471,7 +474,7 @@ export class DataController {
           });
         });
 
-      if(footerIndex !== -1) {
+      if (footerIndex !== -1) {
         const footerRow = groupRow.children.slice(footerIndex, footerIndex + 1)[0];
         groupRow.children.push(new GroupFooterRow(footerRow.data, groupRow));
       }

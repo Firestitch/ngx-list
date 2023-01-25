@@ -131,7 +131,7 @@ export class FsListDraggableListDirective {
       }
     }
 
-    let topOffset = (event.y || event.clientY) - (this._draggableElementHeight / 2);
+    const topOffset = (event.y || event.clientY) - (this._draggableElementHeight / 2);
     this._draggableElementPreview.style.top =  topOffset + 'px';
   }
 
@@ -141,7 +141,6 @@ export class FsListDraggableListDirective {
   public dragEnd() {
     this._dragInProgress = false;
 
-    ///
     if (this._reorderController.movedCallback) {
       this._reorderController.dataController.updateData(this._reorderController.dataController.reorderData)
 
@@ -149,6 +148,10 @@ export class FsListDraggableListDirective {
         this._reorderController.dataController.reorderData
       );
     }
+
+    const selectedRows = this._selectionController?.selectedRows;
+    this._reorderController.dataController.makeAllVisible();
+    this._reorderController.dataController.updateData(this._reorderController.dataController.rowsStack)
 
     if (this._reorderController.strategy === ReorderStrategy.Always) {
       this._zone.run(() => {
@@ -284,10 +287,11 @@ export class FsListDraggableListDirective {
     const activeIndex = this._draggableElementIndex;
     const activeRow = this._rows[activeIndex];
     const selectedRows = this._selectionController?.selectedRows;
+
     const dragRowSelected = this._selectionController?.isRowSelected(activeRow.data);
 
     if (this._reorderController.multiple && selectedRows?.size > 1 && dragRowSelected) {
-      // Swap multiple selected rows in global rows stack 
+      // Swap multiple selected rows in global rows stack
       this._reorderController
         .dataController
         .swapSelectedRows(selectedRows, index, activeIndex, this._trackBy);
@@ -297,7 +301,7 @@ export class FsListDraggableListDirective {
         .dataController
         .swapRows(this._rows[activeIndex], this._rows[index]);
     }
-      
+
     this._rows[activeIndex] = this._rows[index];
     this._rows[index] = activeRow;
 

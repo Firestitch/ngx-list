@@ -110,7 +110,11 @@ export class ReorderController implements OnDestroy {
     return this._reorderDisabled$.getValue();
   }
 
-  public initWithConfig(data: FsListReorderConfig, dataController: DataController, actionsController: ActionsController) {
+  public initWithConfig(
+    data: FsListReorderConfig,
+    dataController: DataController,
+    actionsController: ActionsController,
+  ) {
     if (!data) { return }
 
     this.menu = data.menu ?? false;

@@ -104,6 +104,9 @@ export class SelectionReorderComponent extends StrategyBaseComponent implements 
         multiple: true,
       },
       fetch: query => {
+        query.count = 10;
+        query.limit = 10;
+
         return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
           .pipe(
             map(response => ({ data: response.data.objects, paging: response.data.paging }))
