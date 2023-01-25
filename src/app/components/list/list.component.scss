@@ -192,7 +192,6 @@
       tr,
       .fs-list-row {
         display: table-row;
-        transition: 0.2s;
 
         &.drag-hidden {
           transform: scale(0.8);
@@ -263,12 +262,11 @@
           box-shadow: 2px 2px 2px 0 rgba(158,158,158,0.65);
           border-radius: 5px;
           //width: auto !important;
-          transition: 0.2s;
           background-color: #f6f6f6;
 
           &.multiple {
             border: 1px solid #A4A4A4;
-            animation: stack 0.4s forwards;;
+            animation: stack 0.2s forwards;;
           }
 
           td,

@@ -102,7 +102,6 @@ export class FsListDraggableListDirective {
     });
 
     this._dragStart$.next(row);
-
   }
 
 

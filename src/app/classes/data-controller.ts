@@ -279,7 +279,6 @@ export class DataController {
     const swappedRow = rowsStack[swappedIndex];
     const activeRow = rowsStack[activeIndex];
 
-
     let index = 0;
     // indexing base rows
     rowsStack.forEach((row) => {
