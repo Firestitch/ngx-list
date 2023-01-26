@@ -284,7 +284,7 @@ export class FsListDraggableListDirective {
    */
   private swapWithIndex(index) {
     const activeIndex = this._draggableElementIndex;
-    const selectedRows = this._selectedRowsDirectives.map((d) => d.row);
+    const selectedRows = this._selectedRowsDirectives.map((d) => d.row).filter((d) => d.readyToSwap);
 
     // Swap rows in global rows stack
     this._reorderController
@@ -339,7 +339,7 @@ export class FsListDraggableListDirective {
 
   private _hideSelectedRows(): void {
     this._draggableChildrenDirectives.forEach((dir, index) => {
-      if (this._reorderController.selectionController?.isRowSelected(dir.row.data)) {
+      if (this._reorderController.selectionController?.isRowSelected(dir.row.data) && !dir.row.children) {
         this._selectedRowsDirectives.push(dir);
       }
     });

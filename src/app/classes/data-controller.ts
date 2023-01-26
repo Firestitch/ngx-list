@@ -272,10 +272,6 @@ export class DataController {
     rowsStack[row2GlobalIndex] = tmpEl;
 
     if (selectedRows.length > 0) {
-      // console.log('cock1', row1GlobalIndex);
-      // console.log('cock2', row1GlobalIndex);
-      console.log('cock', selectedRows);
-
       if (!selectedRows.includes(row1)) {
         selectedRows = [row1].concat(selectedRows);
       }

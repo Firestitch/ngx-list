@@ -52,7 +52,7 @@ export class FsBodyComponent implements DoCheck, OnDestroy {
   private _destroy$ = new Subject();
 
   constructor(
-    public reorderContoller: ReorderController,
+    public reorderController: ReorderController,
     private el: ElementRef,
     private cdRef: ChangeDetectorRef,
     private differs: IterableDiffers,
