@@ -29,9 +29,9 @@
 
       &.loading,
       &.first-load {
-        .fs-list-status, 
+        .fs-list-status,
         .fs-list-body,
-        fs-list-pagination, 
+        fs-list-pagination,
         .filter-chips,
         .fs-list-no-results-container {
           opacity: 0.4;
@@ -71,14 +71,14 @@
       border-collapse: collapse;
     }
 
-    .fs-list-no-results-container {      
+    .fs-list-no-results-container {
       .fs-list-no-results {
         text-align: center;
         color: #999;
         padding: 10px 0;
       }
     }
-    
+
     .hidden {
       display: none;
     }
@@ -194,7 +194,7 @@
         display: table-row;
 
         &.drag-hidden {
-          transform: scale(0.8);
+          display: none;
         }
 
         td,
@@ -270,7 +270,7 @@
           }
 
           td,
-          .fs-list-col {            
+          .fs-list-col {
             border: none;
           }
         }

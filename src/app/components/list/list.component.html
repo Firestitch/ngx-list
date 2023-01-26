@@ -1,5 +1,5 @@
 <div class="fs-list-container"
-    [ngClass]="{ 
+    [ngClass]="{
       'has-filter-keyword': hasFilterKeyword,
       'has-filters': list.filterConfig?.items.length,
       'has-heading': list.heading,
@@ -7,7 +7,7 @@
       'has-chips': list.chips,
       'has-actions': list.actions.hasActions,
       'first-load': firstLoad,
-      'loading': list.loading$ | async 
+      'loading': list.loading$ | async
     }">
   <ng-template [ngTemplateOutlet]="listContainerContent"></ng-template>
 </div>
@@ -15,13 +15,13 @@
 <ng-template #listContainerContent>
   <ng-container *ngIf="list.dataController.visibleRows$ | async as listData">
     <div class="fs-list-header-container">
-      <div 
+      <div
           class="fs-list-header"
           [ngClass]="{ 'no-wrap': reorderController.manualReorderActivated || !list.filterConfig?.items.length }">
-        <ng-container 
+        <ng-container
             *ngIf="hasFilterKeyword"
             [ngTemplateOutlet]="heading">
-        </ng-container>   
+        </ng-container>
         <fs-filter
           class="fs-list-filter"
           *ngIf="list.filterConfig"
@@ -30,10 +30,10 @@
           [showFilterInput]="list.filterInput"
           (ready)="filterReady()">
           <ng-template fsFilterStatusBar>
-            <ng-container 
+            <ng-container
                 *ngIf="!hasFilterKeyword"
                 [ngTemplateOutlet]="heading">
-            </ng-container>            
+            </ng-container>
             <ng-container *ngIf="hasStatus">
               <fs-list-status
                 class="fs-list-status"
@@ -56,7 +56,7 @@
     <div class="fs-list-table-container">
       <ng-container *ngIf="!firstLoad && listData.length > 0 && !list.emptyStateEnabled">
         <table class="fs-list-table" role="grid" [fsListContentInit]="list.afterContentInit">
-          <thead 
+          <thead
             fs-list-head
             class="fs-list-head"
             role="rowgroup"
@@ -68,12 +68,11 @@
             [hasRowActions]="list.hasRowActions">
           </thead>
 
-          <tbody 
+          <tbody
             fs-list-body
             fsListDraggableList
             class="fs-list-body"
             role="rowgroup"
-            [trackBy]="list.trackBy"
             [class.disabled]="!!(reorderController.reorderDisabled$ | async)"
             [rows]="listData"
             [rowActionsRaw]="list.rowActionsRaw"
@@ -87,7 +86,7 @@
             [rowRemoved]="rowRemoved">
           </tbody>
 
-          <tfoot 
+          <tfoot
             fs-list-footer
             class="fs-list-footer"
             *ngIf="list.columns.hasFooter"

@@ -17,11 +17,6 @@ export class FsListDraggableRowDirective implements OnInit, OnDestroy {
 
   @Input()
   public row: Row;
-  @Input()
-  public trackBy: string;
-
-  @Input('selection')
-  private _selection: SelectionController;
 
   private _destroy$ = new Subject<void>();
 
@@ -32,13 +27,25 @@ export class FsListDraggableRowDirective implements OnInit, OnDestroy {
     private _draggableList: FsListDraggableListDirective,
   ) {}
 
+  public get elRef(): ElementRef {
+    return this._el;
+  }
+
   public ngOnInit(): void {
-    this._listenDragEvents();
+    if (this._reorderController.moveDropCallback) {
+      this._listenDragEvents();
+    }
+    this._draggableList.addDraggableDirective(this);
   }
 
   public ngOnDestroy(): void {
+    this._draggableList.removeDraggableDirective(this);
     this._destroy$.next();
     this._destroy$.complete();
+  }
+
+  public dragHide(): void {
+    this._el.nativeElement.classList.add('drag-hidden');
   }
 
   private _listenDragEvents() {
@@ -47,26 +54,8 @@ export class FsListDraggableRowDirective implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this._destroy$),
       )
-      .subscribe((row: Row) => {
-        if (this._reorderController.multiple) {
-          const dragRowSelected = row && this._selection.isRowSelected(row.data);
-
-          if (dragRowSelected) {
-            const isSelected = this.row && this._selection.isRowSelected(this.row.data);
-            if (isSelected && row.data[this.trackBy] !== this.row.data[this.trackBy]) {
-              // TODO
-              this._el.nativeElement.classList.add('drag-hidden');
-              setTimeout(() => {
-                this._el.nativeElement.style.display = 'none';
-              }, 200);
-            }
-          }
-        }
-
-
-        if (this._reorderController.moveDropCallback) {
-          this._markReadyToSwapRows();
-        }
+      .subscribe(() => {
+        this._markReadyToSwapRows();
       });
 
     this._draggableList
@@ -75,14 +64,7 @@ export class FsListDraggableRowDirective implements OnInit, OnDestroy {
         takeUntil(this._destroy$),
       )
       .subscribe(() => {
-        this._el.nativeElement.classList.remove('drag-hidden');
-        setTimeout(() => {
-          this._el.nativeElement.style.display = 'table-row';
-        }, 201);
-
-        if (this._reorderController.moveDropCallback) {
-          this._unmarkRows();
-        }
+        this._unmarkRows();
       });
   }
 

@@ -261,7 +261,7 @@ export class DataController {
     return !!removedRows.length;
   }
 
-  public swapRows(row1, row2) {
+  public swapRows(row1, row2, selectedRows?: Row[]) {
     let tmpEl;
     const rowsStack = this._rowsStack;
     const row1GlobalIndex = rowsStack.indexOf(row1);
@@ -271,50 +271,34 @@ export class DataController {
     rowsStack[row1GlobalIndex] = rowsStack[row2GlobalIndex];
     rowsStack[row2GlobalIndex] = tmpEl;
 
-    this._rowsStack = [ ...rowsStack ];
-  }
+    if (selectedRows.length > 0) {
+      // console.log('cock1', row1GlobalIndex);
+      // console.log('cock2', row1GlobalIndex);
+      console.log('cock', selectedRows);
 
-  public swapSelectedRows(selectedRows: Map<any, any>, swappedIndex: number, activeIndex: number, trackBy: string) {
-    const rowsStack = [...this._rowsStack];
-    const swappedRow = rowsStack[swappedIndex];
-    const activeRow = rowsStack[activeIndex];
+      if (!selectedRows.includes(row1)) {
+        selectedRows = [row1].concat(selectedRows);
+      }
 
-    let index = 0;
-    // indexing base rows
-    rowsStack.forEach((row) => {
-      row.index = index;
-      index++;
-    });
+      selectedRows
+        .filter((selectedRow) => {
+          return selectedRow !== row1;
+        })
+        .forEach((selectedRow) => {
+          const idx = rowsStack.indexOf(selectedRow);
+          rowsStack.splice(idx, 1);
+        });
 
-    const selectedRowsArray = Array.from(selectedRows)
-      .map(el => el[1]);
+      const indexToInsertAfter = rowsStack.indexOf(tmpEl);
 
-    let swappedElIndex;
+      rowsStack.splice(indexToInsertAfter, 1);
 
-    if (swappedIndex > activeIndex) {
-      swappedElIndex = rowsStack.indexOf(swappedRow);
-    } else {
-      swappedElIndex = rowsStack.indexOf(activeRow) - 1;
+      selectedRows.forEach((selectedRow, offset) => {
+        rowsStack.splice(indexToInsertAfter + offset, 0, selectedRow);
+      });
     }
 
-    const sliceOfSelectedRows = [];
-
-    selectedRowsArray.forEach((selectedRow) => {
-      const ind = rowsStack
-        .findIndex((row: Row) => row.data[trackBy] === selectedRow[trackBy]);
-      const slicedSelectedRow = rowsStack.splice(ind, 1)[0];
-      slicedSelectedRow.visible = false;
-      sliceOfSelectedRows.push(slicedSelectedRow);
-    });
-
-    const startSlice = rowsStack.splice(0, swappedElIndex);
-
-    const reorderedRowsStack = [...startSlice].concat([...sliceOfSelectedRows]).concat([...rowsStack]);
-    this._rowsStack = [...reorderedRowsStack];
-  }
-
-  public makeAllVisible(): void {
-    this._rowsStack.forEach((row: Row) => row.visible = true);
+    this._rowsStack = [ ...rowsStack ];
   }
 
   public destroy() {
@@ -329,6 +313,10 @@ export class DataController {
     const row = this.visibleRows.find((visibleRow) => visibleRow.data === rowData );
     row.toggleRowExpandStatus();
 
+    this._updateVisibleRows();
+  }
+
+  public finishReorder(): void {
     this._updateVisibleRows();
   }
 
@@ -437,7 +425,7 @@ export class DataController {
   private groupRowsBy(rows) {
     if (!this._groupByFn || !this._compareByFn) { return rows }
 
-    const groupRows: GroupRow[] = [];
+    let groupRows: GroupRow[] = [];
     const footerRows = new Map();
 
     rows.forEach((row) => {
@@ -474,7 +462,7 @@ export class DataController {
           });
         });
 
-      if (footerIndex !== -1) {
+      if(footerIndex !== -1) {
         const footerRow = groupRow.children.slice(footerIndex, footerIndex + 1)[0];
         groupRow.children.push(new GroupFooterRow(footerRow.data, groupRow));
       }

@@ -1,7 +1,5 @@
 <ng-container *ngFor="let row of rows; let i = index;">
-  <tr
-      *ngIf="row.visible"
-      fs-list-row
+  <tr fs-list-row
       fsListDraggableRow
       [row]="row"
       [rowIndex]="i"
@@ -15,7 +13,6 @@
       [restoreMode]="restoreMode"
       [ngClass]="{ 'drag-row': reorderContoller.enabled }"
       [rowRemoved]="rowRemoved"
-      [trackBy]="trackBy"
       #activeRow>
   </tr>
 </ng-container>

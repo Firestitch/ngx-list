@@ -45,10 +45,6 @@ export class Row {
     return (this._row as ChildRow).visible;
   }
 
-  public set visible(value: boolean) {
-    (this._row as ChildRow).visible = value;
-  }
-
   public set readyToSwap(value: boolean) {
     this._row.readyToSwap = value;
   }

@@ -199,7 +199,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
       event.preventDefault();
       event.stopPropagation();
 
-      this._draggableList.dragStart(this.el.nativeElement, this.row);
+      this._draggableList.dragStart(this.el.nativeElement);
     }
   }
 
