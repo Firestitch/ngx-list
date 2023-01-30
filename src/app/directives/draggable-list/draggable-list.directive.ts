@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Directive, ElementRef, Input, NgZone } from '@angular/core';
+import { ChangeDetectorRef, Directive, ElementRef, Input, NgZone, Renderer2 } from '@angular/core';
 
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -18,6 +18,7 @@ export class FsListDraggableListDirective {
   // Draggable Element
   private _draggableElement: HTMLElement;
   private _draggableElementPreview: HTMLElement;
+  private _multipleDraggableElementPreview: HTMLElement;
   private _draggableElementHeight: number;
   private _draggableElementIndex: number;
 
@@ -43,6 +44,7 @@ export class FsListDraggableListDirective {
     private _zone: NgZone,
     private _containerElement: ElementRef,
     private _reorderController: ReorderController,
+    private _renderer: Renderer2,
   ) {}
 
   public get dragStart$(): Observable<void> {
@@ -120,25 +122,38 @@ export class FsListDraggableListDirective {
     const elemIndex = this.lookupElementUnder(event);
     const targetRow = this._rows[elemIndex];
 
+    if (this._multipleDraggableElementPreview) {
+      this._multipleDraggableElementPreview.style.left = event.clientX + 'px';
+      this._multipleDraggableElementPreview.style.top = event.clientY + 'px';
+    }
+
     // Can not drag before first group and after last group
     const swapWithBoundaryGroupElement =
       (elemIndex === 0 || elemIndex === this._rows.length - 1)
       && targetRow.isGroup
       && this.draggableItem.isChild;
 
+
     if (!swapWithBoundaryGroupElement) {
       if (elemIndex !== null) {
         if (targetRow.readyToSwap) {
-          this.swapWithIndex(elemIndex)
-          this._draggableElementPreview.classList.remove('fs-list-no-drop');
+          this.swapWithIndex(elemIndex);
+          if (this._draggableElementPreview) {
+            this._draggableElementPreview.classList.remove('fs-list-no-drop');
+          }
         } else {
-          this._draggableElementPreview.classList.add('fs-list-no-drop');
+          if (this._draggableElementPreview) {
+            this._draggableElementPreview.classList.add('fs-list-no-drop');
+          }
         }
       }
-    }
 
-    const topOffset = (event.y || event.clientY) - (this._draggableElementHeight / 2);
-    this._draggableElementPreview.style.top =  topOffset + 'px';
+      // FIXME
+      if (this._draggableElementPreview) {
+        const topOffset = (event.y || event.clientY) - (this._draggableElementHeight / 2);
+        this._draggableElementPreview.style.top =  topOffset + 'px';
+      }
+    }
   }
 
   /**
@@ -169,13 +184,19 @@ export class FsListDraggableListDirective {
 
     // this._reorderController.dataController.updateOrderByRows(this._rows);
     ///
-
     this._draggableElement.classList.remove('draggable-elem');
     window.document.body.classList.remove('reorder-in-progress');
-    this._draggableElementPreview.remove();
-
     this._draggableElement = null;
-    this._draggableElementPreview = null;
+
+    if (this._draggableElementPreview) {
+      this._draggableElementPreview.remove();
+
+      this._draggableElementPreview = null;
+    } else {
+      this._renderer.removeChild(document.body, this._multipleDraggableElementPreview);
+      this._multipleDraggableElementPreview = null;
+    }
+
     this._draggableElementHeight = null;
     this._draggableElementIndex = null;
     this._selectedRowsDirectives = [];
@@ -237,26 +258,37 @@ export class FsListDraggableListDirective {
     const el = this._draggableElement.cloneNode(true) as HTMLElement;
     const data = this._draggableElement.getBoundingClientRect();
 
-    el.style.width = data.width + 'px';
-    el.style.left = data.left + 'px';
-    el.style.top = data.top + 'px';
+    if (!(this._reorderController.multiple && this._selectedRowsDirectives.length > 1)) {
+      el.style.width = data.width + 'px';
+      el.style.left = data.left + 'px';
+      el.style.top = data.top + 'px';
+      el.classList.add('draggable');
 
-    el.classList.add('draggable');
+      this._containerElement.nativeElement.insertAdjacentElement('afterbegin', el);
 
-    if (this._reorderController.multiple && this._selectedRowsDirectives.length > 1) {
-      el.classList.add('multiple');
+      this._draggableElementPreview = el;
+      this._draggableElementHeight = data.height;
+
+      this.updateDraggableDims();
+    } else {
+      // Create preview DIV
+      const selectedCount = this._selectedRowsDirectives?.length;
+      const previewBlock = this._renderer.createElement('div');
+      previewBlock.style.left = data.left + 'px';
+      previewBlock.style.top = data.top + 'px';
+
+      const text = this._renderer.createText(`${selectedCount} selected items`);
+
+      this._renderer.appendChild(previewBlock, text);
+      this._renderer.addClass(previewBlock, 'preview-block');
+      this._renderer.appendChild(document.body, previewBlock);
+      this._multipleDraggableElementPreview = previewBlock;
     }
 
-    this._containerElement.nativeElement.insertAdjacentElement('afterbegin', el);
-
-    this._draggableElementPreview = el;
-    this._draggableElementHeight = data.height;
-
-    this.updateDraggableDims();
   }
 
   /**
-   * Looking by stored row elemens for overlapped row
+   * Looking by stored row elements for overlapped row
    * @param event
    */
   private lookupElementUnder(event) {
@@ -296,16 +328,18 @@ export class FsListDraggableListDirective {
       );
 
     // Swap visible rows
-    const activeRow = this._rows[activeIndex];
-    this._rows[activeIndex] = this._rows[index];
-    this._rows[index] = activeRow;
+    if (!(this._reorderController.multiple && this._selectedRowsDirectives.length > 1)) {
+      const activeRow = this._rows[activeIndex];
+      this._rows[activeIndex] = this._rows[index];
+      this._rows[index] = activeRow;
 
-    const activeElement = this._childRowElements[activeIndex].target;
-    this._childRowElements[activeIndex].active = false;
+      const activeElement = this._childRowElements[activeIndex].target;
+      this._childRowElements[activeIndex].active = false;
 
-    this._childRowElements[activeIndex].target = this._childRowElements[index].target;
-    this._childRowElements[index].target = activeElement;
-    this._childRowElements[index].active = true;
+      this._childRowElements[activeIndex].target = this._childRowElements[index].target;
+      this._childRowElements[index].target = activeElement;
+      this._childRowElements[index].active = true;
+    }
 
     this._draggableElementIndex = index;
     this._cdRef.detectChanges();
@@ -344,14 +378,14 @@ export class FsListDraggableListDirective {
       }
     });
 
-    this._selectedRowsDirectives.forEach((i) => {
-      if (i.elRef.nativeElement !== this._draggableElement) {
-        i.dragHide();
+    // this._selectedRowsDirectives.forEach((i) => {
+    //   if (i.elRef.nativeElement !== this._draggableElement) {
+    //     i.dragHide();
 
-        const idx = this._rows.findIndex((r) => r === i.row);
-        this._rows.splice(idx, 1);
-      }
-    });
+    //     const idx = this._rows.findIndex((r) => r === i.row);
+    //     this._rows.splice(idx, 1);
+    //   }
+    // });
   }
 
   /**

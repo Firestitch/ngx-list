@@ -59,6 +59,7 @@
 <ng-template #dragCell>
   <ng-container *ngIf="dragCellVisible && !isGroupFooterRow; else emptyCell">
     <td class="fs-list-col drag-col"
+        [class.drag-disabled]="isDragDisabled"
         (mousedown)="dragStart($event)"
         (touchstart)="dragStart($event)"
     >

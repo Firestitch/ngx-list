@@ -4,7 +4,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { ReorderController } from '../../classes/reorder-controller';
-import { SelectionController } from '../../classes/selection-controller';
 
 import { Row } from '../../models/row';
 import { FsListDraggableListDirective } from '../draggable-list/draggable-list.directive';

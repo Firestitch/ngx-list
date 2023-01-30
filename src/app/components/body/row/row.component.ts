@@ -100,6 +100,10 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     return this.row.isGroupFooter;
   }
 
+  public get isDragDisabled(): boolean {
+    return !this.selected && this.reorderController.multiple && !!this.selection.selectedRows.size;
+  }
+
   @HostBinding('class')
   get rowCssClass() {
     let cls = 'fs-list-row';
@@ -195,7 +199,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   public dragStart(event) {
-    if (this.reorderController.enabled) {
+    if (this.reorderController.enabled && !this.isDragDisabled) {
       event.preventDefault();
       event.stopPropagation();
 
@@ -232,9 +236,9 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
    */
   private initSelection() {
     if (this.selection) {
-
       this.selected = this.row && this.selection.isRowSelected(this.row.data);
 
+      this.markSelectedRow();
       this.selection.selectionChange$
         .pipe(
           // // Would like to respond only when checkbox on top is changed
@@ -247,6 +251,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
         )
         .subscribe(() => {
           this.selected = this.row && this.selection.isRowSelected(this.row.data);
+          this.markSelectedRow();
 
           if (this.row?.isGroup) {
             const groupSelection = this.selection.isGroupSelected(this.row);
@@ -262,6 +267,15 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
           this._cdRef.markForCheck();
         });
+    }
+  }
+
+  private markSelectedRow(): void {
+    const multiple = this.reorderController.multiple;
+    if (multiple && this.selected) {
+      this._renderer.addClass(this.el.nativeElement, 'multiple-selection');
+    } else {
+      this._renderer.removeClass(this.el.nativeElement, 'multiple-selection');
     }
   }
 
