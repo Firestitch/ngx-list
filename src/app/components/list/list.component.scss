@@ -7,7 +7,7 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
 
 ::ng-deep {
   .preview-block {
-    position: absolute;
+    position: fixed;
     height: 30px;
     width: 200px;
     background: grey;
@@ -152,6 +152,13 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
     .fs-list-body {
       display: table-row-group;
       position: relative;
+
+      &.drag-hidden {
+        .drag-col {
+          opacity: 0 !important;
+          cursor: default;
+        }
+      }
 
       &.disabled {
         opacity: 0.4;

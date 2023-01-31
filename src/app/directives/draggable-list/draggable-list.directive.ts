@@ -184,6 +184,7 @@ export class FsListDraggableListDirective {
 
     // this._reorderController.dataController.updateOrderByRows(this._rows);
     ///
+    this._containerElement.nativeElement.classList.remove('drag-hidden');
     this._draggableElement.classList.remove('draggable-elem');
     window.document.body.classList.remove('reorder-in-progress');
     this._draggableElement = null;
@@ -272,6 +273,8 @@ export class FsListDraggableListDirective {
       this.updateDraggableDims();
     } else {
       // Create preview DIV
+      this._containerElement.nativeElement.classList.add('drag-hidden');
+
       const selectedCount = this._selectedRowsDirectives?.length;
       const previewBlock = this._renderer.createElement('div');
       previewBlock.style.left = data.left + 'px';
