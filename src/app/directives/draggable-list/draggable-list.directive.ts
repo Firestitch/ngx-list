@@ -59,6 +59,10 @@ export class FsListDraggableListDirective {
     return this._rows[this._draggableElementIndex];
   }
 
+  private get _isMultipleDrag(): boolean {
+    return this._reorderController.multiple && this._selectedRowsDirectives.length > 1;
+  }
+
   public addDraggableDirective(dir: FsListDraggableRowDirective): void {
     this._draggableChildrenDirectives.push(dir);
   }
@@ -93,7 +97,7 @@ export class FsListDraggableListDirective {
 
     this._draggableElement = draggableElement;
 
-    this._hideSelectedRows();
+    this._detectSelectedRows();
     this.prepareElements();
 
     this.initDraggableElement();
@@ -161,9 +165,9 @@ export class FsListDraggableListDirective {
    */
   public dragEnd() {
     this._dragInProgress = false;
+    this._reorderController.dataController.finishReorder();
 
     if (this._reorderController.movedCallback) {
-      this._reorderController.dataController.finishReorder();
 
       this._reorderController.movedCallback(
         this._reorderController.dataController.reorderData
@@ -259,7 +263,7 @@ export class FsListDraggableListDirective {
     const el = this._draggableElement.cloneNode(true) as HTMLElement;
     const data = this._draggableElement.getBoundingClientRect();
 
-    if (!(this._reorderController.multiple && this._selectedRowsDirectives.length > 1)) {
+    if (!(this._isMultipleDrag)) {
       el.style.width = data.width + 'px';
       el.style.left = data.left + 'px';
       el.style.top = data.top + 'px';
@@ -319,7 +323,9 @@ export class FsListDraggableListDirective {
    */
   private swapWithIndex(index) {
     const activeIndex = this._draggableElementIndex;
-    const selectedRows = this._selectedRowsDirectives.map((d) => d.row).filter((d) => d.readyToSwap);
+    const selectedRows = this._selectedRowsDirectives
+      .map((d) => d.row)
+      .filter((d) => d.readyToSwap);
 
     // Swap rows in global rows stack
     this._reorderController
@@ -328,10 +334,11 @@ export class FsListDraggableListDirective {
         this._rows[activeIndex],
         this._rows[index],
         selectedRows,
+        this._isMultipleDrag,
       );
 
     // Swap visible rows
-    if (!(this._reorderController.multiple && this._selectedRowsDirectives.length > 1)) {
+    if (!this._isMultipleDrag) {
       const activeRow = this._rows[activeIndex];
       this._rows[activeIndex] = this._rows[index];
       this._rows[index] = activeRow;
@@ -374,21 +381,15 @@ export class FsListDraggableListDirective {
     }
   }
 
-  private _hideSelectedRows(): void {
-    this._draggableChildrenDirectives.forEach((dir, index) => {
-      if (this._reorderController.selectionController?.isRowSelected(dir.row.data) && !dir.row.children) {
-        this._selectedRowsDirectives.push(dir);
-      }
-    });
+  private _detectSelectedRows(): void {
+    this._draggableChildrenDirectives
+      .forEach((dir: FsListDraggableRowDirective) => {
+        const isRowSelected = this._reorderController.selectionController?.isRowSelected(dir.row.data);
 
-    // this._selectedRowsDirectives.forEach((i) => {
-    //   if (i.elRef.nativeElement !== this._draggableElement) {
-    //     i.dragHide();
-
-    //     const idx = this._rows.findIndex((r) => r === i.row);
-    //     this._rows.splice(idx, 1);
-    //   }
-    // });
+        if (isRowSelected && !dir.row.isGroup) {
+          this._selectedRowsDirectives.push(dir);
+        }
+      });
   }
 
   /**

@@ -261,7 +261,7 @@ export class DataController {
     return !!removedRows.length;
   }
 
-  public swapRows(row1, row2, selectedRows?: Row[]) {
+  public swapRows(row1, row2, selectedRows?: Row[], isMultipleDrag = false) {
     let tmpEl;
     const rowsStack = this._rowsStack;
     const row1GlobalIndex = rowsStack.indexOf(row1);
@@ -271,9 +271,9 @@ export class DataController {
     rowsStack[row1GlobalIndex] = rowsStack[row2GlobalIndex];
     rowsStack[row2GlobalIndex] = tmpEl;
 
-    if (selectedRows.length > 0) {
+    if (isMultipleDrag && Array.isArray(selectedRows)) {
       if (!selectedRows.includes(row1)) {
-        selectedRows = [row1].concat(selectedRows);
+        selectedRows = [row1, ...selectedRows];
       }
 
       selectedRows
