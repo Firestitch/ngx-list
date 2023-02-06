@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { ReorderController } from '../../classes/reorder-controller';
+
 import { Row } from '../../models/row';
 import { FsListDraggableListDirective } from '../draggable-list/draggable-list.directive';
 
@@ -25,15 +26,25 @@ export class FsListDraggableRowDirective implements OnInit, OnDestroy {
     private _draggableList: FsListDraggableListDirective,
   ) {}
 
+  public get elRef(): ElementRef {
+    return this._el;
+  }
+
   public ngOnInit(): void {
     if (this._reorderController.moveDropCallback) {
       this._listenDragEvents();
     }
+    this._draggableList.addDraggableDirective(this);
   }
 
   public ngOnDestroy(): void {
+    this._draggableList.removeDraggableDirective(this);
     this._destroy$.next();
     this._destroy$.complete();
+  }
+
+  public dragHide(): void {
+    this._el.nativeElement.classList.add('drag-hidden');
   }
 
   private _listenDragEvents() {

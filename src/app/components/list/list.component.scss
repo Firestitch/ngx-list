@@ -1,6 +1,27 @@
+@use '~@angular/material' as mat;
+@use '~@firestitch/style/variables' as fs-style-variables;
+
 @import "../../styles/mixins";
 
+$primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default;
+
 ::ng-deep {
+  .preview-block {
+    position: fixed;
+    height: 30px;
+    width: 200px;
+    background: grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 2px 2px 2px 0 rgba(158,158,158,0.65);
+    border-radius: 6px;
+  }
+  
+  .mat-checkbox {
+    min-height: 21px;
+  }
 
   .fs-list {
     display: block;
@@ -25,9 +46,9 @@
 
       &.loading,
       &.first-load {
-        .fs-list-status, 
+        .fs-list-status,
         .fs-list-body,
-        fs-list-pagination, 
+        fs-list-pagination,
         .filter-chips,
         .fs-list-no-results-container {
           opacity: 0.4;
@@ -67,14 +88,14 @@
       border-collapse: collapse;
     }
 
-    .fs-list-no-results-container {      
+    .fs-list-no-results-container {
       .fs-list-no-results {
         text-align: center;
         color: #999;
         padding: 10px 0;
       }
     }
-    
+
     .hidden {
       display: none;
     }
@@ -131,6 +152,13 @@
     .fs-list-body {
       display: table-row-group;
       position: relative;
+
+      &.drag-hidden {
+        .drag-col {
+          opacity: 0 !important;
+          cursor: default;
+        }
+      }
 
       &.disabled {
         opacity: 0.4;
@@ -189,6 +217,18 @@
       .fs-list-row {
         display: table-row;
 
+        &.drag-hidden {
+          display: none;
+        }
+
+        &.multiple-selection {
+          background-color: rgba($primary-color, 0.5);
+        
+          .fs-list-col {
+            background-color: rgba($primary-color, 0.5);
+          }
+        }
+
         td,
         th,
         .fs-list-col {
@@ -204,6 +244,11 @@
             width: 24px;
             text-align: center;
             cursor: grab;
+
+            &.drag-disabled {
+              opacity: 0.4;
+              cursor: no-drop;
+            }
 
             mat-icon {
               display: flex;
@@ -254,10 +299,10 @@
           box-shadow: 2px 2px 2px 0 rgba(158,158,158,0.65);
           border-radius: 5px;
           //width: auto !important;
+          background-color: #f6f6f6;
 
           td,
           .fs-list-col {
-            background-color: #f6f6f6;
             border: none;
           }
         }

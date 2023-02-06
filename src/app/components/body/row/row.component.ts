@@ -100,6 +100,17 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     return this.row.isGroupFooter;
   }
 
+  public get isDragDisabled(): boolean {
+    return !this.selected && this.reorderController.multiple && !!this.selection.selectedRows.size;
+  }
+
+  @HostBinding('class.multiple-selection')
+  get isMultipleSelection() {
+    const multiple = this.reorderController.multiple;
+
+    return multiple && this.selected;
+  }
+
   @HostBinding('class')
   get rowCssClass() {
     let cls = 'fs-list-row';
@@ -195,7 +206,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   public dragStart(event) {
-    if (this.reorderController.enabled) {
+    if (this.reorderController.enabled && !this.isDragDisabled) {
       event.preventDefault();
       event.stopPropagation();
 
@@ -232,7 +243,6 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
    */
   private initSelection() {
     if (this.selection) {
-
       this.selected = this.row && this.selection.isRowSelected(this.row.data);
 
       this.selection.selectionChange$

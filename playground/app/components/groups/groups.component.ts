@@ -141,19 +141,19 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
       },
       reorder: {
         moveDrop: ({ row1, row2, group1, group2 }) => {
-          console.log(row1, row2, group1, group2);
+          // console.log(row1, row2, group1, group2);
 
           return group1 === group2;
         },
         position: ReorderPosition.Left,
         start: () => {
-          console.log('reorder started');
+          // console.log('reorder started');
         },
         moved: (data) => {
-          console.log('reorder moved', data);
+          // console.log('reorder moved', data);
         },
         done: (data) => {
-          console.log('reorder finished', data);
+          // console.log('reorder finished', data);
         }
       },
       group: {
@@ -250,7 +250,7 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
 
       ],
       rowClass: (row, options) => {
-        console.log(options);
+        // console.log(options);
         return 'custom-row-class';
       },
       rowEvents:

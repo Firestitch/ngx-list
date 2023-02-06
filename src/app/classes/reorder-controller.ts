@@ -12,6 +12,7 @@ import {
 
 import { DataController } from './data-controller';
 import { ActionsController } from './actions-controller';
+import { SelectionController } from './selection-controller';
 
 export enum ReorderPosition {
   Left = 'left',
@@ -37,9 +38,11 @@ export class ReorderController implements OnDestroy {
   public menu: boolean;
   public position: ReorderPosition;
   public strategy: ReorderStrategy;
+  public multiple: boolean;
 
   private _dataController: DataController;
   private _actionsController: ActionsController;
+  private _selectionController: SelectionController;
 
   private _enabled$ = new BehaviorSubject<boolean>(false);
   private _manualReorderActivated$ = new BehaviorSubject(false);
@@ -63,6 +66,10 @@ export class ReorderController implements OnDestroy {
 
   public get dataController() {
     return this._dataController;
+  }
+
+  public get selectionController(): SelectionController {
+    return this._selectionController;
   }
 
   public get manualReorderActivated$(): Observable<boolean> {
@@ -109,7 +116,12 @@ export class ReorderController implements OnDestroy {
     return this._reorderDisabled$.getValue();
   }
 
-  public initWithConfig(data: FsListReorderConfig, dataController: DataController, actionsController: ActionsController) {
+  public initWithConfig(
+    data: FsListReorderConfig,
+    dataController: DataController,
+    actionsController: ActionsController,
+    selectionController: SelectionController,
+  ) {
     if (!data) { return }
 
     this.menu = data.menu ?? false;
@@ -124,6 +136,7 @@ export class ReorderController implements OnDestroy {
     }
     // this.strategy = data.strategy ?? ReorderStrategy.Manual;
     this.label = data.label;
+    this.multiple = data.multiple;
 
     this.startCallback = data.start;
     this.movedCallback = data.moved;
@@ -132,6 +145,7 @@ export class ReorderController implements OnDestroy {
 
     this._dataController = dataController;
     this._actionsController = actionsController;
+    this._selectionController = selectionController;
 
     if (this.strategy === ReorderStrategy.Always) {
       this.enableReorder();
@@ -245,4 +259,5 @@ export class ReorderController implements OnDestroy {
 
     this.enabled = this.enabled;
   }
+
 }

@@ -40,7 +40,9 @@ import {
   SelectionComponent,
   AgoComponent,
   GlobalStrategyComponent,
-  GroupsComponent, EmptyStateComponent,
+  GroupsComponent,
+  EmptyStateComponent,
+  SelectionReorderComponent,
 } from './components';
 
 import { RestoreComponent } from './components/restore/restore.component';
@@ -106,6 +108,7 @@ import { LoadMoreComponent } from './components/load-more';
     GroupsComponent,
     EmptyStateComponent,
     LoadMoreComponent,
+    SelectionReorderComponent,
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {floatLabel: 'always'} }

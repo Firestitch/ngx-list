@@ -149,15 +149,15 @@ export class FsListComponent implements OnInit, OnDestroy {
   public get groupEnabled() {
     return this.list.dataController.groupEnabled;
   }
-  
+
   public get hasFilterKeyword(): boolean {
     return this.list.filterInput && this.keywordVisible;
   }
 
   public get hasStatus() {
     return this.list.status &&
-      !this.reorderController.manualReorderActivated && 
-      this.list.paging.enabled &&    
+      !this.reorderController.manualReorderActivated &&
+      this.list.paging.enabled &&
       (!this.reorderController.enabled || this.reorderController.status) &&
       ((this.list.scrollable && this.list.scrollable.status) || !this.list.scrollable)
   }
@@ -345,6 +345,7 @@ export class FsListComponent implements OnInit, OnDestroy {
       config.reorder,
       this.list.dataController,
       this.list.actions,
+      this.list.selection,
     );
 
     if (this.listColumnDirectives) {

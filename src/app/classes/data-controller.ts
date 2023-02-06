@@ -261,7 +261,7 @@ export class DataController {
     return !!removedRows.length;
   }
 
-  public swapRows(row1, row2) {
+  public swapRows(row1, row2, selectedRows?: Row[], isMultipleDrag = false) {
     let tmpEl;
     const rowsStack = this._rowsStack;
     const row1GlobalIndex = rowsStack.indexOf(row1);
@@ -270,6 +270,29 @@ export class DataController {
     tmpEl = rowsStack[row1GlobalIndex];
     rowsStack[row1GlobalIndex] = rowsStack[row2GlobalIndex];
     rowsStack[row2GlobalIndex] = tmpEl;
+
+    if (isMultipleDrag && Array.isArray(selectedRows)) {
+      if (!selectedRows.includes(row1)) {
+        selectedRows = [row1, ...selectedRows];
+      }
+
+      selectedRows
+        .filter((selectedRow) => {
+          return selectedRow !== row1;
+        })
+        .forEach((selectedRow) => {
+          const idx = rowsStack.indexOf(selectedRow);
+          rowsStack.splice(idx, 1);
+        });
+
+      const indexToInsertAfter = rowsStack.indexOf(tmpEl);
+
+      rowsStack.splice(indexToInsertAfter, 1);
+
+      selectedRows.forEach((selectedRow, offset) => {
+        rowsStack.splice(indexToInsertAfter + offset, 0, selectedRow);
+      });
+    }
 
     this._rowsStack = [ ...rowsStack ];
   }
@@ -289,8 +312,11 @@ export class DataController {
     this._updateVisibleRows();
   }
 
-  private _updateRowsStack(rows) {
+  public finishReorder(): void {
+    this._updateVisibleRows();
+  }
 
+  private _updateRowsStack(rows) {
     this._destroyRowsStack();
 
     if (this.groupEnabled) {
