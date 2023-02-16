@@ -57,6 +57,7 @@ import { FS_LIST_DEFAULT_CONFIG, FS_LIST_CONFIG } from './fs-list.providers';
 import { FsListConfig } from './interfaces';
 import { FsListGroupFooterDirective } from './directives/group-footer/group-footer.directive';
 import { ActionLabelPipe } from './pipes';
+import { FsListHeadingDirective, FsListSubheadingDirective } from './directives';
 
 
 @NgModule({
@@ -113,6 +114,8 @@ import { ActionLabelPipe } from './pipes';
     FsListEmptyStateDirective,
     FsListContentDirective,
     FsListContentInitDirective,
+    FsListSubheadingDirective,
+    FsListHeadingDirective,
 
     // Dialog
     CustomizeColsDialogComponent,
@@ -133,7 +136,9 @@ import { ActionLabelPipe } from './pipes';
     FsListGroupFooterDirective,
     FsListGroupExpandTriggerDirective,
     FsListEmptyStateDirective,
-    FsListContentDirective,
+    FsListContentDirective,    
+    FsListSubheadingDirective,
+    FsListHeadingDirective,
   ],
 })
 export class FsListModule {

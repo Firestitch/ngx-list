@@ -19,8 +19,6 @@ export class ManualReorderComponent implements OnInit {
 
   public ngOnInit() {
     this.config = {
-      heading: 'Reorder',
-      subheading: 'With Manual strategy and positioned to right',
       status: false,
       filterInput: true,
       queryParam: false,

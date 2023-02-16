@@ -2,7 +2,7 @@
     [ngClass]="{
       'has-filter-keyword': hasFilterKeyword,
       'has-filters': list.filterConfig?.items.length,
-      'has-heading': list.heading,
+      'has-heading': list.heading || headingTemplate,
       'has-status': hasStatus,
       'has-chips': list.chips,
       'has-actions': list.actions.hasActions,
@@ -23,12 +23,12 @@
             [ngTemplateOutlet]="heading">
         </ng-container>
         <fs-filter
-          class="fs-list-filter"
-          *ngIf="list.filterConfig"
-          [filter]="list.filterConfig"
-          [showSortBy]="!list.status"
-          [showFilterInput]="list.filterInput"
-          (ready)="filterReady()">
+            class="fs-list-filter"
+            *ngIf="list.filterConfig"
+            [filter]="list.filterConfig"
+            [showSortBy]="!list.status"
+            [showFilterInput]="list.filterInput"
+            (ready)="filterReady()">
           <ng-template fsFilterStatusBar>
             <ng-container
                 *ngIf="!hasFilterKeyword"
@@ -127,10 +127,15 @@
   </ng-container>
 </ng-template>
 
-
 <ng-template #heading>
-  <div class="heading-container" *ngIf="list.heading || list.subheading">
-    <h2 class="heading" *ngIf="list.heading">{{list.heading}}</h2>
-    <div class="small subheading" *ngIf="list.subheading">{{list.subheading}}</div>
+  <div class="heading-container" *ngIf="list.heading || list.subheading || headingTemplate">
+    <h2 class="heading" *ngIf="list.heading|| headingTemplate">
+      {{list.heading}}
+      <ng-container [ngTemplateOutlet]="headingTemplate"></ng-container>
+    </h2>
+    <div class="small subheading" *ngIf="list.subheading || subheadingTemplate">
+      {{list.subheading}}
+      <ng-container [ngTemplateOutlet]="subheadingTemplate"></ng-container>
+    </div>
   </div>
 </ng-template>

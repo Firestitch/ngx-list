@@ -1,83 +1,85 @@
 <div class="status">
-  <ng-container *ngIf="paging.enabled && !scrollable">
-    <ng-container *ngIf="paging.records > 0; else emptyResults">
-      Showing <a [fsMenuTriggerFor]="limitsMenu">{{ paging.statusLabel }}</a> of {{ paging.records | number:'1.0':'en-US' }} results
+  <small>
+    <ng-container *ngIf="paging.enabled && !scrollable">
+      <ng-container *ngIf="paging.records > 0; else emptyResults">
+        Showing <a [fsMenuTriggerFor]="limitsMenu">{{ paging.statusLabel }}</a> of {{ paging.records | number:'1.0':'en-US' }} results
+      </ng-container>
+      <ng-template #emptyResults>
+        Showing <a [fsMenuTriggerFor]="limitsMenu">0</a> results
+      </ng-template>
+      <ng-container *ngTemplateOutlet="sortedBy"></ng-container><!--
+  --></ng-container><!--
+
+  --><ng-container *ngIf="(!paging.enabled || scrollable) && paging.displayed > 0">
+    <ng-container *ngIf="!scrollable; else scrollable">
+      Showing
+      <span *ngIf="paging.displayed == 1">{{ paging.displayed }} result </span>
+      <span *ngIf="paging.displayed > 1">{{ paging.displayed | number:'1.0':'en-US' }} results </span>
     </ng-container>
-    <ng-template #emptyResults>
-      Showing <a [fsMenuTriggerFor]="limitsMenu">0</a> results
+
+    <ng-template #scrollable>
+      <span *ngIf="paging.records == 1">{{ paging.records }} result </span>
+      <span *ngIf="paging.records > 1">{{ paging.records | number:'1.0':'en-US' }} results </span>
     </ng-template>
     <ng-container *ngTemplateOutlet="sortedBy"></ng-container><!--
---></ng-container><!--
+  --></ng-container><!--
 
---><ng-container *ngIf="(!paging.enabled || scrollable) && paging.displayed > 0">
-  <ng-container *ngIf="!scrollable; else scrollable">
-    Showing
-    <span *ngIf="paging.displayed == 1">{{ paging.displayed }} result </span>
-    <span *ngIf="paging.displayed > 1">{{ paging.displayed | number:'1.0':'en-US' }} results </span>
-  </ng-container>
+  --><fs-list-saved-filters class="saved-filters"></fs-list-saved-filters>
 
-  <ng-template #scrollable>
-    <span *ngIf="paging.records == 1">{{ paging.records }} result </span>
-    <span *ngIf="paging.records > 1">{{ paging.records | number:'1.0':'en-US' }} results </span>
-  </ng-template>
-  <ng-container *ngTemplateOutlet="sortedBy"></ng-container><!--
---></ng-container><!--
-
---><fs-list-saved-filters class="saved-filters"></fs-list-saved-filters>
-
-  <fs-menu [hidden]="!paging.enabled || scrollable" #limitsMenu>
-    <ng-template
-      ngFor
-      let-limit
-      [ngForOf]="paging.limits"
-    >
-      <ng-template fs-menu-item (click)="setLimit(limit)">
-        {{ limit }}
-      </ng-template>
-    </ng-template>
-  </fs-menu>
-
-  <fs-menu [hidden]="!sorting.sortingColumn || paging.displayed === 0" #orderColumnsMenu>
-    <!-- Real sorting columns -->
-    <ng-template
-      ngFor
-      let-column
-      [ngForOf]="sorting.sortingColumns"
-    >
-      <ng-template fs-menu-item (click)="setSortableColumn(column)">
-        <ng-container *ngIf="column.title; else sortByTemplate">
-          {{ column.title }}
-        </ng-container>
-        <ng-template #sortByTemplate>
-          <ng-template [ngTemplateOutlet]="column.headerTemplate"></ng-template>
+    <fs-menu [hidden]="!paging.enabled || scrollable" #limitsMenu>
+      <ng-template
+        ngFor
+        let-limit
+        [ngForOf]="paging.limits"
+      >
+        <ng-template fs-menu-item (click)="setLimit(limit)">
+          {{ limit }}
         </ng-template>
       </ng-template>
-    </ng-template>
+    </fs-menu>
 
-    <!-- Fake sorting columns -->
-    <ng-template
-      ngFor
-      let-column
-      [ngForOf]="sorting.fakeSortingColumns"
-    >
-      <ng-template fs-menu-item (click)="setSortableColumn(column)">
-        {{ column.title }}
+    <fs-menu [hidden]="!sorting.sortingColumn || paging.displayed === 0" #orderColumnsMenu>
+      <!-- Real sorting columns -->
+      <ng-template
+        ngFor
+        let-column
+        [ngForOf]="sorting.sortingColumns"
+      >
+        <ng-template fs-menu-item (click)="setSortableColumn(column)">
+          <ng-container *ngIf="column.title; else sortByTemplate">
+            {{ column.title }}
+          </ng-container>
+          <ng-template #sortByTemplate>
+            <ng-template [ngTemplateOutlet]="column.headerTemplate"></ng-template>
+          </ng-template>
+        </ng-template>
       </ng-template>
-    </ng-template>
-  </fs-menu>
 
-  <ng-template #sortedBy>
-    <ng-container *ngIf="sorting.sortingColumn">
-      sorted by
-      <ng-container *ngIf="sorting.sortingColumn.title; else sortByTemplate">
-        <a class="order-toggle" [fsMenuTriggerFor]="orderColumnsMenu">{{ sorting.sortingColumn.title }}</a>,
-      </ng-container>
-      <ng-template #sortByTemplate>
-        <a class="order-toggle" [fsMenuTriggerFor]="orderColumnsMenu">
-          <ng-template [ngTemplateOutlet]="sorting.sortingColumn.headerTemplate"></ng-template>
-        </a>,
+      <!-- Fake sorting columns -->
+      <ng-template
+        ngFor
+        let-column
+        [ngForOf]="sorting.fakeSortingColumns"
+      >
+        <ng-template fs-menu-item (click)="setSortableColumn(column)">
+          {{ column.title }}
+        </ng-template>
       </ng-template>
-      <a class="order-toggle" (click)="toggleDirection()">{{ sorting.sortingColumn.fullNameDirection }}</a><!--
-  --></ng-container><!--
---></ng-template>
+    </fs-menu>
+
+    <ng-template #sortedBy>
+      <ng-container *ngIf="sorting.sortingColumn">
+        sorted by
+        <ng-container *ngIf="sorting.sortingColumn.title; else sortByTemplate">
+          <a class="order-toggle" [fsMenuTriggerFor]="orderColumnsMenu">{{ sorting.sortingColumn.title }}</a>,
+        </ng-container>
+        <ng-template #sortByTemplate>
+          <a class="order-toggle" [fsMenuTriggerFor]="orderColumnsMenu">
+            <ng-template [ngTemplateOutlet]="sorting.sortingColumn.headerTemplate"></ng-template>
+          </a>,
+        </ng-template>
+        <a class="order-toggle" (click)="toggleDirection()">{{ sorting.sortingColumn.fullNameDirection }}</a><!--
+    --></ng-container><!--
+  --></ng-template>
+  </small>  
 </div>

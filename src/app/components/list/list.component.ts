@@ -37,7 +37,6 @@ import { ReorderController } from '../../classes/reorder-controller';
 import { FsListColumnDirective } from '../../directives/column/column.directive';
 import { FsListEmptyStateDirective } from '../../directives/empty-state/empty-state.directive';
 import { FS_LIST_DEFAULT_CONFIG } from '../../fs-list.providers';
-
 import {
   FsListAbstractRow,
   FsListAction,
@@ -48,14 +47,13 @@ import {
 import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.component';
 import { GroupExpandNotifierService } from '../../services/group-expand-notifier.service';
 import { PersistanceController } from '../../classes/persistance-controller';
+import { FsListHeadingDirective, FsListSubheadingDirective } from '../../directives';
 
 
 @Component({
   selector: 'fs-list',
   templateUrl: 'list.component.html',
-  styleUrls: [
-    './list.component.scss',
-  ],
+  styleUrls: ['./list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     GroupExpandNotifierService,
@@ -121,6 +119,12 @@ export class FsListComponent implements OnInit, OnDestroy {
       this.list.emptyStateTemplate = template;
     }
   }
+
+  @ContentChild(FsListHeadingDirective, { read: TemplateRef })
+  public headingTemplate: TemplateRef<any>;
+
+  @ContentChild(FsListSubheadingDirective, { read: TemplateRef })
+  public subheadingTemplate: TemplateRef<any>;
 
   constructor(
     public reorderController: ReorderController,
