@@ -1,10 +1,10 @@
 <ng-container *ngIf="!pagination.loadMoreEnabled; else loadMoreButton">
   <ng-container *ngIf="pagination?.pages">
-    <a matRipple matRippleRadius="15" [matRippleCentered]="true" class="first" [class.disabled]="!pagination.hasPrevPage" (click)="pagination.goFirst()">
+    <a matRipple [matRippleRadius]="15" [matRippleCentered]="true" class="first" [class.disabled]="!pagination.hasPrevPage" (click)="pagination.goFirst()">
       <i class="material-icons">first_page</i>
     </a>
 
-    <a matRipple matRippleRadius="15" [matRippleCentered]="true" class="previous" [class.disabled]="!pagination.hasPrevPage" (click)="pagination.goPrev()">
+    <a matRipple [matRippleRadius]="15" [matRippleCentered]="true" class="previous" [class.disabled]="!pagination.hasPrevPage" (click)="pagination.goPrev()">
       <i class="material-icons">keyboard_arrow_left</i>
     </a>
 
@@ -12,11 +12,11 @@
       {{ pagination.page | fsFormatNumber }} of {{ pagination.pages | fsFormatNumber }}
     </div>
 
-    <a matRipple matRippleRadius="15" [matRippleCentered]="true" class="next" [class.disabled]="!pagination.hasNextPage" (click)="pagination.goNext()">
+    <a matRipple [matRippleRadius]="15" [matRippleCentered]="true" class="next" [class.disabled]="!pagination.hasNextPage" (click)="pagination.goNext()">
       <i class="material-icons">keyboard_arrow_right</i>
     </a>
 
-    <a matRipple matRippleRadius="15" [matRippleCentered]="true" class="last" [class.disabled]="!pagination.hasNextPage" (click)="pagination.goLast()">
+    <a matRipple [matRippleRadius]="15" [matRippleCentered]="true" class="last" [class.disabled]="!pagination.hasNextPage" (click)="pagination.goLast()">
       <i class="material-icons">last_page</i>
     </a>
   </ng-container>
