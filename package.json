@@ -50,6 +50,7 @@
     "@firestitch/chip": "^12.0.0",
     "@firestitch/clear": "^12.0.0",
     "@firestitch/common": "^12.3.0",
+    "@firestitch/component-tools": "^12.0.8",
     "@firestitch/core": "^12.0.3",
     "@firestitch/date": "^12.0.0",
     "@firestitch/datepicker": "^12.4.0",
@@ -91,8 +92,7 @@
     "rxjs": "^6.6.7",
     "tslint": "~6.1.0",
     "typescript": "4.3.5",
-    "zone.js": "~0.11.4",
-    "@firestitch/component-tools": "^12.0.6"
+    "zone.js": "~0.11.4"
   },
   "peerDependencies": {
     "@firestitch/filter": ">=12.5.0",
