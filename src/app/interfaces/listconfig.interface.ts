@@ -94,6 +94,7 @@ export interface FsListReorderConfig {
   label?: string;
   menu?: boolean;
   multiple?: boolean;
+  status?: boolean;
 }
 
 export type FsListReorderMovedCallback

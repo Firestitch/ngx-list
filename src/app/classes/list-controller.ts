@@ -58,22 +58,20 @@ import { FsListState } from '../enums/state.enum';
 import { PersistanceController } from './persistance-controller';
 import { ExternalParamsController } from './external-params-controller';
 
-const SHOW_DELETED_FILTERS_KEY = '$$_show_deleted_$$';
+const SHOW_DELETED_FILTERS_KEY = '_showDeleted_';
 
 
 export class List {
+
   public heading: string;
   public trackBy: string;
   public subheading: string;
   public autoFocus: boolean;
-  // public inlineFilters: any;
-  // @Alias('actions', Action) public actions: Action[];
   public rowActionsRaw: any[];
   public groupActionsRaw: any[];
   public rowClass;
   public rowEvents: any;
   public restore: FsListRestoreConfig;
-  // public columnTemplates: any;
   public persist: FsListPersitance;
   public filters = [];
   public filterInitCb: ChangeFn;
@@ -82,16 +80,12 @@ export class List {
   public scrollable: FsListScrollableConfig;
   public noResults: FsListNoResultsConfig;
   public emptyState: FsListEmptyStateConfig;
-  // public initialFetch = true; //TODO fixme
   public fetchFn: FsListFetchFn;
   public afterFetchFn: FsListAfterFetchFn;
   public afterContentInit: FsListAfterContentInitFn;
-  // @Alias('rows') private _rows: any;
 
   public initialized$ = new BehaviorSubject(false);
   public loading$ = new BehaviorSubject(false);
-
-  // public operation: Operation;
 
   public hasRowActions;
   public paging = new PaginationController();

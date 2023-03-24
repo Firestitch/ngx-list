@@ -137,6 +137,7 @@ export class ReorderController implements OnDestroy {
     // this.strategy = data.strategy ?? ReorderStrategy.Manual;
     this.label = data.label;
     this.multiple = data.multiple;
+    this.status = data.status ?? true;
 
     this.startCallback = data.start;
     this.movedCallback = data.moved;

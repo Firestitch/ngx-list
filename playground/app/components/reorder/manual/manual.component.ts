@@ -19,14 +19,11 @@ export class ManualReorderComponent implements OnInit {
 
   public ngOnInit() {
     this.config = {
-      status: false,
-      filterInput: true,
-      queryParam: false,
+      status: true,
       persist: false,
       reorder: {
         position: ReorderPosition.Right,
         toggle: true,
-        menu: false,
         start: () => {
           console.log('reorder start');
           return of(null).pipe(delay(1000));
@@ -39,10 +36,10 @@ export class ManualReorderComponent implements OnInit {
           return of(null).pipe(delay(1000));
         }
       },
-      fetch: query => {
+      fetch: (query) => {
         return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
           .pipe(
-            map(response => ({ data: response.data.objects, paging: response.data.paging })),
+            map((response) => ({ data: response.data.objects, paging: response.data.paging })),
           );
       }
     };

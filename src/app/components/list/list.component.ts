@@ -160,9 +160,8 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   public get hasStatus() {
     return this.list.status &&
-      !this.reorderController.manualReorderActivated &&
-      this.list.paging.enabled &&
-      (!this.reorderController.enabled || this.reorderController.status) &&
+      (this.list.sorting.isDefined || this.list.paging.enabled) &&
+      (!this.reorderController.enabled || (this.reorderController.enabled && this.reorderController.status)) &&
       ((this.list.scrollable && this.list.scrollable.status) || !this.list.scrollable)
   }
 

@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { DrawerRef, DRAWER_DATA } from '@firestitch/drawer';
-import { FsListComponent, FsListConfig } from '@firestitch/list';
+import { FsListComponent } from '@firestitch/list';
 import { PaginationStrategy } from '@firestitch/list';
 
 
@@ -9,6 +9,7 @@ import { PaginationStrategy } from '@firestitch/list';
   styleUrls: ['./configure.component.scss']
 })
 export class ConfigureComponent {
+
   public config;
   public defaultConfig;
   public list: FsListComponent;
@@ -16,8 +17,10 @@ export class ConfigureComponent {
   public pagingStrategy = false;
   public loadMoreEnabled = false;
 
-  constructor(public drawer: DrawerRef<ConfigureComponent>,
-              @Inject(DRAWER_DATA) public data: any) {
+  public constructor(
+    public drawer: DrawerRef<ConfigureComponent>,
+    @Inject(DRAWER_DATA) public data: any
+  ) {
     this.config = data.config;
     this.defaultConfig = data.defaultConfig;
     this.list = data.list;
@@ -26,11 +29,11 @@ export class ConfigureComponent {
     this.loadMoreEnabled = !!this.config.loadMoreOffsetStrategy;
   }
 
-  reload() {
+  public reload() {
     this.list.config = this.config;
   }
 
-  pagingChange(pagingStrategy) {
+  public pagingChange(pagingStrategy) {
     if (!pagingStrategy) {
       this.config.paging = false;
     } else {
@@ -44,7 +47,7 @@ export class ConfigureComponent {
     this.reload();
   }
 
-  loadMore(event) {
+  public loadMore(event) {
     this.config.paging.loadMore = event.checked ? {} : null;
 
     this.reload();
