@@ -19,13 +19,12 @@ import { SortingDirection } from '../../models/column.model';
 @Component({
   selector: 'fs-list-status',
   templateUrl: 'status.component.html',
-  styleUrls: [
-    './status.component.scss',
-  ],
+  styleUrls: ['./status.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: true
 })
 export class FsStatusComponent implements OnInit, OnDestroy {
+  
   @Input() public paging: PaginationController;
   @Input() public sorting: SortingController;
   @Input() public rows;

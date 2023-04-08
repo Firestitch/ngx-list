@@ -42,7 +42,7 @@
                 [sorting]="list.sorting"
                 [paging]="list.paging"
                 [firstLoad]="firstLoad"
-                [scrollable]="list.scrollable">
+                [scrollable]="list.scrollable || list.paging.loadMoreEnabled">
               </fs-list-status>
             </ng-container>
           </ng-template>
