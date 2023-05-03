@@ -10,13 +10,27 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
     .fs-list-swap-restricted {
       opacity: 0.5;
     }
-  
+
     .fs-list-no-drop {
       cursor: no-drop;
     }
 
     .hidden {
       display: none;
+    }
+
+    @media print {
+      .fs-list-row-group {
+        page-break-after: avoid;
+      }
+
+      .fs-list-row-group-child {
+        page-break-before: avoid;
+      }
+
+      .fs-list-row-group-footer {
+        page-break-before: avoid;
+      }
     }
   }
 }
@@ -285,7 +299,7 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
 
         &.multiple-selection {
           background-color: rgba($primary-color, 0.5);
-        
+
           .fs-list-col {
             background-color: rgba($primary-color, 0.5);
           }
