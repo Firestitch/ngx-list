@@ -1,5 +1,23 @@
 @import "../../styles/mixins";
 
+:host {
+  ::ng-deep {
+    @media print {
+      .fs-list-row-group {
+        page-break-after: avoid;
+      }
+
+      .fs-list-row-group-child {
+        page-break-before: avoid;
+      }
+
+      .fs-list-row-group-footer {
+        page-break-before: avoid;
+      }
+    }
+  }
+}
+
 ::ng-deep {
 
   .fs-list {
@@ -24,9 +42,9 @@
 
       &.loading,
       &.first-load {
-        .fs-list-status, 
+        .fs-list-status,
         .fs-list-body,
-        fs-list-pagination, 
+        fs-list-pagination,
         .filter-chips,
         .fs-list-no-results-container {
           opacity: 0.4;
@@ -66,14 +84,14 @@
       border-collapse: collapse;
     }
 
-    .fs-list-no-results-container {      
+    .fs-list-no-results-container {
       .fs-list-no-results {
         text-align: center;
         color: #999;
         padding: 10px 0;
       }
     }
-    
+
     .hidden {
       display: none;
     }

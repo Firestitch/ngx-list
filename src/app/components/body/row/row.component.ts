@@ -107,7 +107,13 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     if (this.rowIndex % 2 !== 0) cls += ' fs-list-row-odd';
     if (this.rowIndex % 2 === 0) cls += ' fs-list-row-even';
 
-    if (this.row && this.row.isGroup) cls += ' fs-list-row-group';
+    if (this.row?.isGroup) {
+      cls += ' fs-list-row-group';
+    } else if (this.row?.isChild) {
+      cls += ' fs-list-row-group-child';
+    } else if (this.row?.isFooter) {
+      cls += ' fs-list-row-group-footer';
+    }
 
     if (this.rowClass) {
       const options: any = {
