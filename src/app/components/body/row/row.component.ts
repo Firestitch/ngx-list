@@ -122,7 +122,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
       cls += ' fs-list-row-group';
     } else if (this.row?.isChild) {
       cls += ' fs-list-row-group-child';
-    } else if (this.row?.isFooter) {
+    } else if (this.row?.isGroupFooter) {
       cls += ' fs-list-row-group-footer';
     }
 
