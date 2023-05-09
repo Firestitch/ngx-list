@@ -129,13 +129,21 @@
 
 <ng-template #heading>
   <div class="heading-container" *ngIf="list.heading || list.subheading || headingTemplate">
-    <h2 class="heading" *ngIf="list.heading|| headingTemplate">
-      {{list.heading}}
-      <ng-container [ngTemplateOutlet]="headingTemplate"></ng-container>
-    </h2>
-    <div class="small subheading" *ngIf="list.subheading || subheadingTemplate">
-      {{list.subheading}}
-      <ng-container [ngTemplateOutlet]="subheadingTemplate"></ng-container>
-    </div>
+    <ng-container *ngIf="headingContainerTemplate; else headingContainer">
+      <ng-container 
+        [ngTemplateOutlet]="headingContainerTemplate" 
+        [ngTemplateOutletContext]="{ template: headingContainer }">
+      </ng-container>
+    </ng-container>
+    <ng-template #headingContainer>
+      <h2 class="heading" *ngIf="list.heading|| headingTemplate">
+        {{list.heading}}
+        <ng-container [ngTemplateOutlet]="headingTemplate"></ng-container>
+      </h2>
+      <div class="small subheading" *ngIf="list.subheading || subheadingTemplate">
+        {{list.subheading}}
+        <ng-container [ngTemplateOutlet]="subheadingTemplate"></ng-container>
+      </div>
+    </ng-template>
   </div>
 </ng-template>

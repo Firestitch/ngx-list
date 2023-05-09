@@ -47,7 +47,7 @@ import {
 import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.component';
 import { GroupExpandNotifierService } from '../../services/group-expand-notifier.service';
 import { PersistanceController } from '../../classes/persistance-controller';
-import { FsListHeadingDirective, FsListSubheadingDirective } from '../../directives';
+import { FsListHeadingContainerDirective, FsListHeadingDirective, FsListSubheadingDirective } from '../../directives';
 
 
 @Component({
@@ -122,6 +122,9 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   @ContentChild(FsListHeadingDirective, { read: TemplateRef })
   public headingTemplate: TemplateRef<any>;
+
+  @ContentChild(FsListHeadingContainerDirective, { read: TemplateRef })
+  public headingContainerTemplate: TemplateRef<any>;
 
   @ContentChild(FsListSubheadingDirective, { read: TemplateRef })
   public subheadingTemplate: TemplateRef<any>;

@@ -34,7 +34,7 @@ export { FsListContentDirective } from './app/directives/content/content.directi
 export { FsListGroupHeaderDirective } from './app/directives/group-header/group-header.directive';
 export { FsListGroupFooterDirective } from './app/directives/group-footer/group-footer.directive';
 export { FsListGroupExpandTriggerDirective } from './app/directives/group-expand-trigger/group-expand-trigger.directive';
-export { FsListSubheadingDirective, FsListHeadingDirective } from './app/directives';
+export { FsListSubheadingDirective, FsListHeadingDirective, FsListHeadingContainerDirective } from './app/directives';
 
 // Models
 export { Column, SortingDirection } from './app/models/column.model';
