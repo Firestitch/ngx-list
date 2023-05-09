@@ -128,7 +128,7 @@
 </ng-template>
 
 <ng-template #heading>
-  <div class="heading-container" *ngIf="list.heading || list.subheading || headingTemplate">
+  <div class="heading-container" *ngIf="headingContainerTemplate || list.heading || list.subheading || headingTemplate">
     <ng-container *ngIf="headingContainerTemplate; else headingContainer">
       <ng-container 
         [ngTemplateOutlet]="headingContainerTemplate" 
@@ -136,7 +136,7 @@
       </ng-container>
     </ng-container>
     <ng-template #headingContainer>
-      <h2 class="heading" *ngIf="list.heading|| headingTemplate">
+      <h2 class="heading" *ngIf="list.heading || headingTemplate">
         {{list.heading}}
         <ng-container [ngTemplateOutlet]="headingTemplate"></ng-container>
       </h2>
