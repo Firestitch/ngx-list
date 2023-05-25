@@ -177,14 +177,13 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
   .fs-list {
     display: block;
     width: 100%;
+  }
 
-    table,
-    .fs-list-table {
-      border-spacing: 0;
-      display: table;
-      width: 100%;
-      border-collapse: collapse;
-    }
+  .fs-list-table {
+    border-spacing: 0;
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
 
     thead,
     .fs-list-head {
@@ -312,6 +311,7 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
           padding: 8px;
           vertical-align: middle;
           outline: none;
+          text-align: left;
 
           &.drag-col {
             // Percentage width doesn't work on IOS

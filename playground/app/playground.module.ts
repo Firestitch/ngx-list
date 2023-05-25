@@ -43,6 +43,7 @@ import {
   GroupsComponent,
   EmptyStateComponent,
   SelectionReorderComponent,
+  StyleComponent,
 } from './components';
 
 import { RestoreComponent } from './components/restore/restore.component';
@@ -94,6 +95,7 @@ import { LoadMoreComponent } from './components/load-more';
     ActionsComponent,
     RowActionsComponent,
     FiltersComponent,
+    StyleComponent,
     FiltersExtendedComponent,
     SortableComponent,
     InfinityScrollComponent,
