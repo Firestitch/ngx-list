@@ -249,14 +249,11 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
         pointer-events: none;
       }
 
-      td {
-        border-top: 1px solid #ddd;
-      }
-
       td,
       .fs-list-col {
         box-sizing: border-box;
-      }
+        border-top: 1px solid #ddd;
+      }      
 
       tr:hover td,
       .fs-list-row:hover .fs-list-col {
@@ -328,6 +325,10 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
             mat-icon {
               display: flex;
             }
+          }
+
+          &.fs-list-col-selection {
+            padding: 10px;
           }
 
           &.row-actions {
