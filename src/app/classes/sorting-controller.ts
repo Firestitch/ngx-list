@@ -170,7 +170,7 @@ export class SortingController {
     if (!column) { return; }
 
     this.sortBy(column);
-    this.sortDirection(SortingDirection.asc);
+    this.sortDirection(column.direction || SortingDirection.asc);
   }
 
   public getColumn(name: string): Column {
