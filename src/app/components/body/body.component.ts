@@ -3,7 +3,6 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChild,
-  DoCheck,
   ElementRef,
   EventEmitter,
   Input,
@@ -30,7 +29,7 @@ import { FsRowComponent } from './row/row.component';
   templateUrl: 'body.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FsBodyComponent implements DoCheck, OnDestroy {
+export class FsBodyComponent implements OnDestroy {
   @Input() rows: Row[];
   @Input() columns: Column[] = [];
   @Input() hasFooter = false;
@@ -58,12 +57,6 @@ export class FsBodyComponent implements DoCheck, OnDestroy {
     private differs: IterableDiffers,
   ) {
     this._rowsDiffer = differs.find([]).create(null);
-  }
-
-  public ngDoCheck() {
-    if (this._rowsDiffer.diff(this.rows)) {
-      this.cdRef.markForCheck();
-    }
   }
 
   public ngOnDestroy() {

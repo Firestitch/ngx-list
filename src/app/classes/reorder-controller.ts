@@ -257,8 +257,6 @@ export class ReorderController implements OnDestroy {
 
   public setNunberOfActiveFilters(activeFilters: number) {
     this._numberOfActiveFilters = activeFilters;
-
-    this.enabled = this.enabled;
   }
 
 }

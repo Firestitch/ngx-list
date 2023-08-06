@@ -108,10 +108,11 @@ export class FsListDraggableListDirective {
       window.addEventListener( 'touchmove', this._windowTouchMoveHandler, { passive: true });
       window.document.addEventListener('mousemove', this._dragToHandler, { passive: true });
       window.document.addEventListener('touchmove', this._dragToHandler, { passive: false });
-      window.document.addEventListener('mouseup', this._dragEndHandler);
-      window.document.addEventListener('touchend', this._dragEndHandler);
-      window.document.addEventListener('touchcancel', this._dragEndHandler);
     });
+
+    window.document.addEventListener('mouseup', this._dragEndHandler);
+    window.document.addEventListener('touchend', this._dragEndHandler);
+    window.document.addEventListener('touchcancel', this._dragEndHandler);
 
     this._dragStart$.next();
   }
