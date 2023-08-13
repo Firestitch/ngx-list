@@ -21,6 +21,7 @@ export class FsListDraggableListDirective {
   private _multipleDraggableElementPreview: HTMLElement;
   private _draggableElementHeight: number;
   private _draggableElementIndex: number;
+  private _draggableElementStartIndex: number;
 
   // Handlers
   private _dragToHandler = this.dragTo.bind(this);
@@ -99,9 +100,9 @@ export class FsListDraggableListDirective {
 
     this._detectSelectedRows();
     this.prepareElements();
-
     this.initDraggableElement();
 
+    this._draggableElementStartIndex = this._draggableElementIndex;
     this._draggableElement.classList.add('draggable-elem');
 
     this._zone.runOutsideAngular(() => {
@@ -168,7 +169,8 @@ export class FsListDraggableListDirective {
     this._dragInProgress = false;
     this._reorderController.dataController.finishReorder();
 
-    if (this._reorderController.movedCallback) {
+    if (this._reorderController.movedCallback
+      && this._draggableElementStartIndex !== this._draggableElementIndex) {
 
       this._reorderController.movedCallback(
         this._reorderController.dataController.reorderData
@@ -205,6 +207,7 @@ export class FsListDraggableListDirective {
 
     this._draggableElementHeight = null;
     this._draggableElementIndex = null;
+    this._draggableElementStartIndex = null;
     this._selectedRowsDirectives = [];
 
     window.removeEventListener( 'touchmove', this._windowTouchMoveHandler);

@@ -355,7 +355,9 @@ export class DataController {
 
   private _updateVisibleRows() {
     this.visibleRows = this._rowsStack
-      .filter((row) => {
+      .filter((row, index) => {
+        row.index = index;
+
         return (!row.isChild && !row.isGroupFooter) || row.visible;
       });
   }
