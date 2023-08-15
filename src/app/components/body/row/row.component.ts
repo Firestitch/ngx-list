@@ -55,6 +55,16 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   @Input() public rowRemoved: EventEmitter<any>;
 
+  @Input() activeFiltersCount: number;
+
+  @Input()
+  @HostBinding('class.drag-row')
+  public reorderEnabled: boolean;
+
+  @Input() reorderPosition: ReorderPosition | null;
+  @Input() reorderStrategy: ReorderStrategy | null;
+  @Input() reorderMultiple: boolean;
+
 
   @ViewChildren('td')
   public cellRefs;
@@ -79,7 +89,6 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   constructor(
     public el: ElementRef,
-    public reorderController: ReorderController,
     private _cdRef: ChangeDetectorRef,
     private _differs: KeyValueDiffers,
     private _renderer: Renderer2,
@@ -101,12 +110,12 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   public get isDragDisabled(): boolean {
-    return !this.selected && this.reorderController.multiple && !!this.selection.selectedRows.size;
+    return !this.selected && this.reorderMultiple && !!this.selection.selectedRows.size;
   }
 
   @HostBinding('class.multiple-selection')
   get isMultipleSelection() {
-    const multiple = this.reorderController.multiple;
+    const multiple = this.reorderMultiple;
 
     return multiple && this.selected;
   }
@@ -154,6 +163,18 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   public get dragCellVisible(): boolean {
     return !this.row.isGroup;
+  }
+
+  public get leftDragDropEnabled(): boolean {
+    return this.reorderEnabled
+      && this.reorderPosition === ReorderPosition.Left
+      && this.activeFiltersCount == 0
+  }
+
+  public get rightDragDropEnabled(): boolean {
+    return this.reorderEnabled
+      && this.reorderPosition === ReorderPosition.Right
+      && this.activeFiltersCount == 0
   }
 
   public ngOnInit() {
@@ -212,7 +233,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   public dragStart(event) {
-    if (this.reorderController.enabled && !this.isDragDisabled) {
+    if (this.reorderEnabled && !this.isDragDisabled) {
       event.preventDefault();
       event.stopPropagation();
 
@@ -230,7 +251,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
           // evt.preventDefault();
           // evt.stopPropagation();
 
-          if (!this.reorderController.enabled) {
+          if (!this.reorderEnabled) {
             this.rowEvents[event]({
               event: evt,
               row: this.row.data,

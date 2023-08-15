@@ -15,9 +15,8 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { Column } from '../../models/column.model';
 import { SortingController } from '../../classes/sorting-controller';
 import {
-  ReorderController,
   ReorderPosition,
-  ReorderStrategy
+  ReorderStrategy,
 } from '../../classes/reorder-controller';
 import { SelectionController, SelectionChangeType } from '../../classes/selection-controller';
 
@@ -32,19 +31,31 @@ export class FsHeadComponent implements OnInit, OnDestroy {
   @Input() columns: Column[];
   @Input() hasRowActions: boolean;
   @Input() selection: SelectionController;
+  @Input() activeFiltersCount: number;
+  @Input() reorderEnabled: boolean;
+  @Input() reorderPosition: ReorderPosition | null;
+  @Input() reorderStrategy: ReorderStrategy | null;
 
   @ViewChild('rowsContainer', { read: ViewContainerRef, static: true }) rowsContainer;
 
   public selectedAll = false;
-  public readonly ReorderPosition = ReorderPosition;
-  public readonly ReorderStrategy = ReorderStrategy;
+  public readonly ReorderStrategyEnum = ReorderStrategy;
 
   private _destroy$ = new Subject();
 
-  constructor(
-    public reorderController: ReorderController,
-    private cdRef: ChangeDetectorRef,
-  ) {}
+  constructor(private cdRef: ChangeDetectorRef,) {}
+
+  public get leftDragDropEnabled(): boolean {
+    return this.reorderEnabled
+      && this.reorderPosition === ReorderPosition.Left
+      && this.activeFiltersCount == 0
+  }
+
+  public get rightDragDropEnabled(): boolean {
+    return this.reorderEnabled
+      && this.reorderPosition === ReorderPosition.Right
+      && this.activeFiltersCount == 0
+  }
 
   public ngOnInit() {
     this.initSorting();

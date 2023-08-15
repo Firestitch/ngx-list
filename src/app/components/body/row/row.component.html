@@ -1,5 +1,5 @@
 <!-- Drag -->
-<ng-container *ngIf="reorderController.leftReorderActivated$ | async">
+<ng-container *ngIf="leftDragDropEnabled">
   <ng-container *ngTemplateOutlet="dragCell"></ng-container>
 </ng-container>
 
@@ -37,12 +37,12 @@
 </ng-container>
 
 <!-- Drag -->
-<ng-container *ngIf="reorderController.rightReorderActivated$ | async">
+<ng-container *ngIf="rightDragDropEnabled">
   <ng-container *ngTemplateOutlet="dragCell"></ng-container>
 </ng-container>
 
 <!-- Row Actions -->
-<td *ngIf="hasRowActions && !(reorderController.manualReorderActivated$ | async)" class="fs-list-col row-actions">
+<td *ngIf="hasRowActions && !(reorderEnabled && reorderStrategy === ReorderStrategy.Manual)" class="fs-list-col row-actions">
   <ng-container *ngIf="!isGroupFooterRow">
     <fs-list-row-actions [row]="row"
                          [index]="rowIndex"

@@ -17,7 +17,7 @@ import {
   catchError,
   debounceTime,
   map,
-  mapTo,
+  mapTo, shareReplay,
   switchMap,
   take,
   takeUntil,
@@ -120,6 +120,9 @@ export class List {
   public onDestroy$ = new Subject();
 
   private readonly _filtersQuery = new BehaviorSubject<Record<string, any>>(null);
+  private readonly _activeFiltersCount$ = this._filtersQuery
+    .pipe(map((v) => Object.keys(v).length), shareReplay())
+
   private readonly _headerConfig: StyleConfig;
   private readonly _groupCellConfig: StyleConfig;
   private readonly _cellConfig: StyleConfig;
@@ -163,8 +166,8 @@ export class List {
     return this._filtersQuery.getValue();
   }
 
-  public get filtersQuery$(): Observable<Record<string, any>> {
-    return this._filtersQuery.asObservable();
+  public get activeFiltersCount$(): Observable<number> {
+    return this._activeFiltersCount$;
   }
 
   public fetchRemote(query) {

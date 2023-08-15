@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, map, shareReplay, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 import {
   FsListReorderConfig,
@@ -36,8 +36,6 @@ export class ReorderController implements OnDestroy {
   public status: boolean;
   public label: string;
   public menu: boolean;
-  public position: ReorderPosition;
-  public strategy: ReorderStrategy;
   public multiple: boolean;
 
   private _dataController: DataController;
@@ -47,8 +45,8 @@ export class ReorderController implements OnDestroy {
   private _enabled$ = new BehaviorSubject<boolean>(false);
   private _manualReorderActivated$ = new BehaviorSubject(false);
   private _reorderDisabled$ = new BehaviorSubject(false);
-
-  private _numberOfActiveFilters = 0;
+  private _position = new BehaviorSubject<ReorderPosition | null>(null);
+  private _strategy = new BehaviorSubject<ReorderStrategy | null>(null);
 
   private _destroy$ = new Subject();
 
@@ -64,6 +62,14 @@ export class ReorderController implements OnDestroy {
     this._manualReorderActivated$.next(this.enabled && this.strategy === ReorderStrategy.Manual);
   }
 
+  public get strategy(): ReorderStrategy | null {
+    return this._strategy.getValue();
+  }
+
+  public get position(): ReorderPosition | null {
+    return this._position.getValue();
+  }
+
   public get dataController() {
     return this._dataController;
   }
@@ -72,40 +78,20 @@ export class ReorderController implements OnDestroy {
     return this._selectionController;
   }
 
-  public get manualReorderActivated$(): Observable<boolean> {
-    return this._manualReorderActivated$.asObservable();
+  public get enabled$(): Observable<boolean> {
+    return this._enabled$.asObservable();
+  }
+
+  public get position$(): Observable<ReorderPosition> {
+    return this._position.asObservable();
+  }
+
+  public get strategy$(): Observable<ReorderStrategy> {
+    return this._strategy.asObservable();
   }
 
   public get manualReorderActivated(): boolean {
     return this._manualReorderActivated$.getValue();
-  }
-
-  public get leftReorderActivated$(): Observable<boolean> {
-    return this._enabled$
-      .pipe(
-        map((enabled) => {
-          return enabled && this.position === ReorderPosition.Left;
-        }),
-        map((enabled) => {
-          return enabled && this._numberOfActiveFilters === 0;
-        }),
-        distinctUntilChanged(),
-        shareReplay(),
-      )
-  }
-
-  public get rightReorderActivated$(): Observable<boolean> {
-    return this._enabled$
-      .pipe(
-        map((enabled) => {
-          return enabled && this.position === ReorderPosition.Right;
-        }),
-        map((enabled) => {
-          return enabled && this._numberOfActiveFilters === 0;
-        }),
-        distinctUntilChanged(),
-        shareReplay(),
-      )
   }
 
   public get reorderDisabled$(): Observable<boolean> {
@@ -125,14 +111,14 @@ export class ReorderController implements OnDestroy {
     if (!data) { return }
 
     this.menu = data.menu ?? false;
-    this.position = data.position ?? ReorderPosition.Left;
+    this._setPosition(data.position ?? ReorderPosition.Left);
 
     if (!data.disabled) {
-      this.strategy = ReorderStrategy.Always;
+      this._setStrategy(ReorderStrategy.Always);
     }
 
     if (data.toggle) {
-      this.strategy = ReorderStrategy.Manual
+      this._setStrategy(ReorderStrategy.Manual);
     }
     // this.strategy = data.strategy ?? ReorderStrategy.Manual;
     this.label = data.label;
@@ -255,8 +241,12 @@ export class ReorderController implements OnDestroy {
     this._actionsController.updateDisabledState();
   }
 
-  public setNunberOfActiveFilters(activeFilters: number) {
-    this._numberOfActiveFilters = activeFilters;
+  private _setPosition(value: ReorderPosition): void {
+    this._position.next(value);
+  }
+
+  private _setStrategy(value: ReorderStrategy): void {
+    this._strategy.next(value);
   }
 
 }

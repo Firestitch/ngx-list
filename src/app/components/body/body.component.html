@@ -11,8 +11,12 @@
       [rowClass]="rowClass"
       [selection]="selection"
       [restoreMode]="restoreMode"
-      [ngClass]="{ 'drag-row': reorderController.enabled }"
       [rowRemoved]="rowRemoved"
-      #activeRow>
+      [activeFiltersCount]="activeFiltersCount"
+      [reorderEnabled]="reorderEnabled"
+      [reorderPosition]="reorderPosition"
+      [reorderStrategy]="reorderStrategy"
+      [reorderMultiple]="reorderMultiple"
+  >
   </tr>
 </ng-container>

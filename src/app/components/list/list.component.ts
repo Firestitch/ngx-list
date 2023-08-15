@@ -345,7 +345,6 @@ export class FsListComponent implements OnInit, OnDestroy {
     );
 
     this._waitFirstLoad();
-    this._listenFiltersQueryChange();
 
     this.reorderController.initWithConfig(
       config.reorder,
@@ -446,21 +445,6 @@ export class FsListComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.firstLoad = false;
         this.cdRef.markForCheck();
-      });
-  }
-
-  private _listenFiltersQueryChange() {
-    this.list.filtersQuery$
-      .pipe(
-        takeUntil(this.list.onDestroy$),
-        takeUntil(this._destroy),
-      )
-      .subscribe((value) => {
-        if (value) {
-          const activeFilters = Object.keys(value).length;
-
-          this.reorderController.setNunberOfActiveFilters(activeFilters);
-        }
       });
   }
 

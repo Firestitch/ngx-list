@@ -65,7 +65,12 @@
             [columns]="list.columns.visibleColumns$ | async"
             [sorting]="list.sorting"
             [selection]="list.selection"
-            [hasRowActions]="list.hasRowActions">
+            [hasRowActions]="list.hasRowActions"
+            [activeFiltersCount]="list.activeFiltersCount$ | async"
+            [reorderEnabled]="reorderController.enabled$ | async"
+            [reorderPosition]="reorderController.position$ | async"
+            [reorderStrategy]="reorderController.strategy$ | async"
+          >
           </thead>
 
           <tbody
@@ -83,7 +88,13 @@
             [columns]="list.columns.visibleColumns$ | async"
             [restoreMode]="list.restoreMode"
             [selection]="list.selection"
-            [rowRemoved]="rowRemoved">
+            [rowRemoved]="rowRemoved"
+            [activeFiltersCount]="list.activeFiltersCount$ | async"
+            [reorderEnabled]="reorderController.enabled$ | async"
+            [reorderPosition]="reorderController.position$ | async"
+            [reorderStrategy]="reorderController.strategy$ | async"
+            [reorderMultiple]="reorderController.multiple"
+          >
           </tbody>
 
           <tfoot
@@ -92,7 +103,12 @@
             *ngIf="list.columns.hasFooter"
             [columns]="list.columns.visibleColumns$ | async"
             [selection]="list.selection"
-            [hasRowActions]="list.hasRowActions">
+            [hasRowActions]="list.hasRowActions"
+            [activeFiltersCount]="list.activeFiltersCount$ | async"
+            [reorderEnabled]="reorderController.enabled$ | async"
+            [reorderPosition]="reorderController.position$ | async"
+            [reorderStrategy]="reorderController.strategy$ | async"
+          >
           </tfoot>
         </table>
       </ng-container>
@@ -130,8 +146,8 @@
 <ng-template #heading>
   <div class="heading-container" *ngIf="headingContainerTemplate || list.heading || list.subheading || headingTemplate">
     <ng-container *ngIf="headingContainerTemplate; else headingContainer">
-      <ng-container 
-        [ngTemplateOutlet]="headingContainerTemplate" 
+      <ng-container
+        [ngTemplateOutlet]="headingContainerTemplate"
         [ngTemplateOutletContext]="{ template: headingContainer }">
       </ng-container>
     </ng-container>

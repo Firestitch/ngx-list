@@ -1,6 +1,8 @@
 <tr class="fs-list-row">
   <!-- Drag -->
-  <th *ngIf="reorderController.leftReorderActivated$ | async" class="fs-list-col drag-col"></th>
+  <th *ngIf="leftDragDropEnabled"
+      class="fs-list-col drag-col">
+  </th>
 
   <!-- Selection -->
   <th *ngIf="selection && !(selection.disabled$ | async)" class="fs-list-col fs-list-col-selection">
@@ -17,8 +19,10 @@
       [attr.width]="column.width"></th>
 
   <!-- Drag -->
-  <th *ngIf="reorderController.rightReorderActivated$ | async" class="fs-list-col drag-col"></th>
+  <th *ngIf="rightDragDropEnabled"
+      class="fs-list-col drag-col">
+  </th>
 
   <!-- Row Actions -->
-  <th *ngIf="hasRowActions && !(reorderController.manualReorderActivated$ | async)" class="fs-list-col row-actions"></th>
+  <th *ngIf="hasRowActions && !(reorderEnabled && reorderStrategy === ReorderStrategyEnum.Manual)" class="fs-list-col row-actions"></th>
 </tr>

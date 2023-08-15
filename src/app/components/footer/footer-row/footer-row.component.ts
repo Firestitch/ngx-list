@@ -4,12 +4,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   ElementRef,
-  KeyValueDiffers,
-  Renderer2,
+  Renderer2, KeyValueDiffers,
 } from '@angular/core';
 
 import { FsRowComponent } from '../../body/row/row.component';
-import { ReorderController, ReorderPosition } from '../../../classes/reorder-controller';
+import { ReorderPosition, ReorderStrategy } from '../../../classes/reorder-controller';
 
 
 @Component({
@@ -19,16 +18,18 @@ import { ReorderController, ReorderPosition } from '../../../classes/reorder-con
 })
 export class FsFooterRowComponent extends FsRowComponent {
   @Input() hasRowActions: boolean;
-
-  public readonly ReorderPosition = ReorderPosition;
+  @Input() activeFiltersCount: number;
+  @Input() reorderEnabled: boolean;
+  @Input() reorderPosition: ReorderPosition | null;
+  @Input() reorderStrategy: ReorderStrategy | null;
 
   constructor(
     el: ElementRef,
-    reorderController: ReorderController,
     cdRef: ChangeDetectorRef,
     differs: KeyValueDiffers,
     renderer: Renderer2
   ) {
-    super(el, reorderController, cdRef, differs, renderer, null);
+    super(el, cdRef, differs, renderer, null);
   }
+
 }
