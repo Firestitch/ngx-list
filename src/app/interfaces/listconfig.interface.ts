@@ -51,6 +51,7 @@ export interface FsListConfig {
   actions?: FsListAction[];
   fetch?: FsListFetchFn;
   afterFetch?: FsListAfterFetchFn;
+  beforeFetch?: FsListBeforeFetchFn;
   afterContentInit?: FsListAfterContentInitFn;
   scrollable?: FsListScrollableConfig;
   selection?: FsListSelectionConfig;
@@ -295,6 +296,9 @@ export type FsListFetchFn =
 
 export type FsListAfterFetchFn =
   (query: Record<string, any>, data: unknown[]) => void;
+
+export type FsListBeforeFetchFn =
+  (query) => Observable<Record<string, any>>;
 
 export type FsListAfterContentInitFn =
   (query: Record<string, any>, data: unknown[]) => void;

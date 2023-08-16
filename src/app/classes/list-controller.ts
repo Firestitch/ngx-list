@@ -31,6 +31,7 @@ import { SortingDirection } from '../models/column.model';
 import {
   FsListAfterContentInitFn,
   FsListAfterFetchFn,
+  FsListBeforeFetchFn,
   FsListConfig,
   FsListEmptyStateConfig, FsListFetchFn, FsListFetchOptions,
   FsListFetchSubscription,
@@ -81,7 +82,8 @@ export class List {
   public noResults: FsListNoResultsConfig;
   public emptyState: FsListEmptyStateConfig;
   public fetchFn: FsListFetchFn;
-  public afterFetchFn: FsListAfterFetchFn;
+  public beforeFetchFn: FsListBeforeFetchFn;
+  public afterFetchFn: FsListAfterFetchFn; 
   public afterContentInit: FsListAfterContentInitFn;
 
   public initialized$ = new BehaviorSubject(false);
@@ -399,6 +401,7 @@ export class List {
     this.emptyState   = config.emptyState;
     this.fetchFn      = config.fetch;
     this.afterFetchFn = config.afterFetch;
+    this.beforeFetchFn = config.beforeFetch;
 
     this.columns.initConfig(config.column);
     this.initDefaultOptions(config);
@@ -593,6 +596,13 @@ export class List {
             )
           }
 
+          if (this.columns.configured) {
+            query = {
+              ...query,
+              columns: this.columns.visibleColumnsNames,
+            };
+          }
+
           return query;
         }),
         switchMap((query) => {
@@ -601,20 +611,14 @@ export class List {
               .pipe(
                 mapTo(query)
               );
-          } else {
-            return of(query);
-          }
-        }),
-        switchMap((query) => {
-          if (this.columns.configured) {
-            Object.assign(
-              query,
-              {
-                columns: this.columns.visibleColumnsNames,
-              }
-            )
           }
 
+          return of(query);
+        }),
+        switchMap((query) => {
+          return this.beforeFetchFn ? this.beforeFetchFn(query) : of(query);
+        }),
+        switchMap((query) => {
           return combineLatest([of(query), this.fetchRemote(query)]);
         }),
         catchError((error, source$) => {
@@ -865,7 +869,6 @@ export class List {
   }
 
   private completeFetch([query, response]) {
-
     if (!this.paging.page) {
       this.paging.page = 1;
     }
