@@ -15,7 +15,7 @@ import {
 import { FsFile } from '@firestitch/file';
 
 import { ActionType } from '../enums/button-type.enum';
-import { ReorderPosition, ReorderStrategy } from '../classes/reorder-controller';
+import { ReorderPosition } from '../classes/reorder-controller';
 import { PaginationStrategy } from '../enums/pagination-strategy.enum';
 import { RowType } from '../enums/row-type.enum';
 import { FsListState } from '../enums/state.enum';
@@ -53,6 +53,7 @@ export interface FsListConfig {
   afterFetch?: FsListAfterFetchFn;
   beforeFetch?: FsListBeforeFetchFn;
   afterContentInit?: FsListAfterContentInitFn;
+  afterInit?: FsListAfterInitFn;
   scrollable?: FsListScrollableConfig;
   selection?: FsListSelectionConfig;
   initialFetch?: boolean;
@@ -307,3 +308,5 @@ export interface FsListRowClassOptions {
   index: number;
   groupIndex?: number;
 }
+
+export type FsListAfterInitFn = (listComponent: any) => void;

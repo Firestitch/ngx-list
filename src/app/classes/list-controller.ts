@@ -31,6 +31,7 @@ import { SortingDirection } from '../models/column.model';
 import {
   FsListAfterContentInitFn,
   FsListAfterFetchFn,
+  FsListAfterInitFn,
   FsListBeforeFetchFn,
   FsListConfig,
   FsListEmptyStateConfig, FsListFetchFn, FsListFetchOptions,
@@ -85,6 +86,7 @@ export class List {
   public beforeFetchFn: FsListBeforeFetchFn;
   public afterFetchFn: FsListAfterFetchFn; 
   public afterContentInit: FsListAfterContentInitFn;
+  public afterInit: FsListAfterInitFn;
 
   public initialized$ = new BehaviorSubject(false);
   public loading$ = new BehaviorSubject(false);
@@ -402,6 +404,7 @@ export class List {
     this.fetchFn      = config.fetch;
     this.afterFetchFn = config.afterFetch;
     this.beforeFetchFn = config.beforeFetch;
+    this.afterInit = config.afterInit;
 
     this.columns.initConfig(config.column);
     this.initDefaultOptions(config);

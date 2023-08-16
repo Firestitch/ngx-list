@@ -424,6 +424,9 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
       afterFetch: (query, data) => {
         console.log(query, data);
       },
+      afterInit: (listComponent: FsListComponent) => {
+        console.log(listComponent);
+      },
     };
   }
 

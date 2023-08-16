@@ -15,6 +15,7 @@ import {
   ContentChild,
   TemplateRef,
   Output,
+  AfterContentInit,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -61,12 +62,12 @@ import { FsListHeadingContainerDirective, FsListHeadingDirective, FsListSubheadi
     ReorderController,
   ]
 })
-export class FsListComponent implements OnInit, OnDestroy {
+export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
 
   @HostBinding('class.fs-list') classFsList = true;
 
   @Input('config')
-  set config(config: FsListConfig) {
+  public set config(config: FsListConfig) {
     this._initWithConfig(config)
   }
 
@@ -183,6 +184,12 @@ export class FsListComponent implements OnInit, OnDestroy {
 
   public get filtersQuery(): Record<string, unknown> {
     return this.list.filtersQuery;
+  }
+
+  public ngAfterContentInit(): void {
+    if(this.list.afterInit) {
+      this.list.afterInit(this);
+    }
   }
 
   public ngOnInit() {
@@ -374,14 +381,12 @@ export class FsListComponent implements OnInit, OnDestroy {
           actionClickFn(null);
         }
 
-        const dialogRef = this.dialog.open(CustomizeColsDialogComponent, {
+        this.dialog.open(CustomizeColsDialogComponent, {
           data: {
             columns: this.list.columns.columnsForDialog,
             changeFn: this.list.columns.changeFn,
           },
-        });
-
-        dialogRef
+        })
           .afterClosed()
           .pipe(
             takeUntil(this.list.onDestroy$),
