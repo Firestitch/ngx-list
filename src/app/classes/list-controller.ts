@@ -4,25 +4,8 @@ import { ChangeFn, FilterConfig, IFilterSavedFiltersConfig, ItemType } from '@fi
 import { FsScrollInstance, FsScrollService } from '@firestitch/scroll';
 import { SelectionDialog } from '@firestitch/selection';
 
-import {
-  BehaviorSubject,
-  combineLatest,
-  from,
-  Observable,
-  of,
-  Subject,
-  Subscription
-} from 'rxjs';
-import {
-  catchError,
-  debounceTime,
-  map,
-  mapTo, shareReplay,
-  switchMap,
-  take,
-  takeUntil,
-  tap,
-} from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, from, Observable, of, Subject, Subscription } from 'rxjs';
+import { catchError, debounceTime, map, mapTo, shareReplay, switchMap, take, takeUntil, tap, } from 'rxjs/operators';
 import { cloneDeep } from 'lodash-es';
 
 import { SortingDirection } from '../models/column.model';
@@ -34,11 +17,14 @@ import {
   FsListAfterInitFn,
   FsListBeforeFetchFn,
   FsListConfig,
-  FsListEmptyStateConfig, FsListFetchFn, FsListFetchOptions,
+  FsListEmptyStateConfig,
+  FsListFetchFn,
+  FsListFetchOptions,
   FsListFetchSubscription,
   FsListGroupConfig,
   FsListLoadMoreConfig,
-  FsListNoResultsConfig, FsListPersitance,
+  FsListNoResultsConfig,
+  FsListPersitance,
   FsListRestoreConfig,
   FsListScrollableConfig,
   FsListSelectionConfig,
@@ -59,6 +45,7 @@ import { SortingController } from './sorting-controller';
 import { FsListState } from '../enums/state.enum';
 import { PersistanceController } from './persistance-controller';
 import { ExternalParamsController } from './external-params-controller';
+import { PaginationStrategy } from '../enums/pagination-strategy.enum';
 
 const SHOW_DELETED_FILTERS_KEY = '_showDeleted_';
 
@@ -84,7 +71,7 @@ export class List {
   public emptyState: FsListEmptyStateConfig;
   public fetchFn: FsListFetchFn;
   public beforeFetchFn: FsListBeforeFetchFn;
-  public afterFetchFn: FsListAfterFetchFn; 
+  public afterFetchFn: FsListAfterFetchFn;
   public afterContentInit: FsListAfterContentInitFn;
   public afterInit: FsListAfterInitFn;
 
@@ -921,6 +908,14 @@ export class List {
 
     if (this.afterFetchFn) {
       this.afterFetchFn(query, this.dataController.visibleRowsData);
+    }
+
+    // case when have removed all results from last page
+    if (this.dataController.visibleRows.length === 0
+      && this.paging.page > 1
+      && this.paging.page > this.paging.pages
+    ) {
+      this.paging.goLast();
     }
 
     this.fetchComplete$.next();

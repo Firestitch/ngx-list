@@ -505,7 +505,7 @@ export class PaginationController {
    * Go to last page
    */
   public goLast() {
-    if (this.page < this.pages) {
+    if (this.page !== this.pages) {
       this.page = this.pages;
 
       this.updateOffset();
