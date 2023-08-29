@@ -1,6 +1,6 @@
 export enum RowType {
-  Simple = 0,
-  Group = 1,
-  GroupFooter = 2,
-  Child = 3,
+  Simple = 'simple',
+  Group = 'group',
+  GroupFooter = 'groupFooter',
+  GroupChild = 'groupChild',
 }

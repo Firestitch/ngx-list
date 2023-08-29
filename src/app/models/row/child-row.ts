@@ -13,7 +13,7 @@ export class ChildRow extends BaseRow {
     data: any = {},
     parent: GroupRow = null,
   ) {
-    super(data, RowType.Child);
+    super(data, RowType.GroupChild);
 
     this._parent = parent;
 

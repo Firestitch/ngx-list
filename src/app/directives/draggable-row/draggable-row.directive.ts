@@ -71,9 +71,6 @@ export class FsListDraggableRowDirective implements OnInit, OnDestroy {
     const currentEl = this.row;
     const targetEl = this._draggableList.draggableItem;
 
-    const currentElGroup = (currentEl.isChild && currentEl.parent) || currentEl;
-    const targetElGroup = (targetEl.isChild && targetEl.parent) || targetEl;
-
     this.row.readyToSwap = this._reorderController.moveDropCallback(
       {
         row1: currentEl?.data,

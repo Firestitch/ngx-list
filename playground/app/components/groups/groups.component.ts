@@ -163,8 +163,8 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
         compareBy: (group) => {
           return group.id;
         },
-        footer: (row, group) => {
-          return row === group.children[group.children.length - 1];
+        footer: (group) => {
+          return true;
         },
         actions: [
           {

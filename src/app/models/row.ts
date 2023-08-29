@@ -23,7 +23,7 @@ export class Row {
         this._row = new GroupRow(data, initialExpand);
       } break;
 
-      case RowType.Child: {
+      case RowType.GroupChild: {
         this._row = new ChildRow(data, parent);
       } break;
     }
@@ -61,7 +61,7 @@ export class Row {
     return this._row instanceof GroupRow;
   }
 
-  public get isChild(): boolean {
+  public get isGroupChild(): boolean {
     return this._row instanceof ChildRow;
   }
 

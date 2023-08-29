@@ -77,7 +77,7 @@ export interface FsListGroupConfig {
   initialExpand?: boolean;
   groupBy?: (row: any) => any;
   compareBy?: (row: any) => any;
-  footer?: (row: any, group?: any) => boolean;
+  footer?: (group?: any) => boolean;
   actions?: (FsListRowActionGroup | FsListRowAction)[];
 }
 
@@ -307,6 +307,7 @@ export type FsListAfterContentInitFn =
 export interface FsListRowClassOptions {
   index: number;
   groupIndex?: number;
+  type?: RowType,
 }
 
 export type FsListAfterInitFn = (listComponent: any) => void;

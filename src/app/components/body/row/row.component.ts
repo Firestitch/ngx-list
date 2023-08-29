@@ -21,7 +21,6 @@ import { takeUntil } from 'rxjs/operators';
 
 import { Column } from '../../../models/column.model';
 import {
-  ReorderController,
   ReorderPosition,
   ReorderStrategy
 } from '../../../classes/reorder-controller';
@@ -29,6 +28,7 @@ import { SelectionController } from '../../../classes/selection-controller';
 import { RowAction } from '../../../models/row-action.model';
 import { Row } from '../../../models/row';
 import { FsListDraggableListDirective } from '../../../directives/draggable-list/draggable-list.directive';
+import { FsListRowClassOptions } from '../../../interfaces';
 
 
 @Component({
@@ -48,13 +48,10 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   @Input() public rowEvents = {};
   @Input() public rowClass;
   @Input() public restoreMode = false;
-
   @Input() public rowIndex: number;
   @Input() public columns: Column[];
   @Input() public selection: SelectionController;
-
   @Input() public rowRemoved: EventEmitter<any>;
-
   @Input() activeFiltersCount: number;
 
   @Input()
@@ -71,20 +68,15 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   public readonly ReorderPosition = ReorderPosition;
   public readonly ReorderStrategy = ReorderStrategy;
-
   public rowActions: RowAction[] = [];
-
   public menuRowActions: RowAction[] = [];
   public inlineRowActions: RowAction[] = [];
   public restoreAction: RowAction;
-
   public selected = false;
   public indeterminateSelected: boolean | 'indeterminate' = false;
 
   private _rowDiffer: KeyValueDiffer<any, any>;
-
   private _eventListeners = [];
-
   private _destroy$ = new Subject();
 
   constructor(
@@ -101,8 +93,8 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     return this.row.isGroup;
   }
 
-  public get isChildRow(): boolean {
-    return this.row.isChild;
+  public get isGroupChildRow(): boolean {
+    return this.row.isGroupChild;
   }
 
   public get isGroupFooterRow(): boolean {
@@ -129,21 +121,22 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
     if (this.row?.isGroup) {
       cls += ' fs-list-row-group';
-    } else if (this.row?.isChild) {
+    } else if (this.row?.isGroupChild) {
       cls += ' fs-list-row-group-child';
     } else if (this.row?.isGroupFooter) {
       cls += ' fs-list-row-group-footer';
     }
 
     if (this.rowClass) {
-      const options: any = {
+      const options: FsListRowClassOptions = {
         index: this.rowIndex,
+        type: this.row.type,
       };
 
       if (this.row.isGroup) {
         options.groupIndex = this.row.index;
-      } else if (this.row.isChild) {
-        options.groupIndex = this.row.index;
+      } else if (this.row.isGroupChild || this.row.isGroupFooter) {
+        options.groupIndex = this.row.parent.index;
       }
 
       const resultClass = this.rowClass(this.row.data, options);
