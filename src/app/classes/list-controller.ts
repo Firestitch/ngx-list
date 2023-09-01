@@ -45,7 +45,6 @@ import { SortingController } from './sorting-controller';
 import { FsListState } from '../enums/state.enum';
 import { PersistanceController } from './persistance-controller';
 import { ExternalParamsController } from './external-params-controller';
-import { PaginationStrategy } from '../enums/pagination-strategy.enum';
 
 const SHOW_DELETED_FILTERS_KEY = '_showDeleted_';
 
@@ -56,6 +55,7 @@ export class List {
   public trackBy: string;
   public subheading: string;
   public autoFocus: boolean;
+  public rowHighlight: boolean;
   public rowActionsRaw: any[];
   public groupActionsRaw: any[];
   public rowClass;
@@ -373,6 +373,7 @@ export class List {
    */
   private initialize(config: FsListConfig) {
     this.autoFocus    = config.autoFocus;
+    this.rowHighlight = config.rowHighlight ?? true;
     this.heading      = config.heading;
     this.trackBy      = config.trackBy;
     this.subheading   = config.subheading;

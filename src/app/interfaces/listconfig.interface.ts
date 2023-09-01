@@ -35,6 +35,7 @@ export interface FsListConfig {
   trackBy?: string;
   subheading?: string;
   status?: boolean;
+  rowHighlight?: boolean;
   chips?: boolean;
   column?: FsListColumnConfig;
   autoFocus?: boolean;

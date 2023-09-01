@@ -471,3 +471,15 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
     }
   }
 }
+
+:host(.fs-list-no-highlight) {
+  ::ng-deep {
+    .fs-list-row {
+      &:hover {
+        .fs-list-col {
+          background-color: initial;
+        }
+      }
+    }
+  }
+}

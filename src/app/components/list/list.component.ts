@@ -66,6 +66,9 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
 
   @HostBinding('class.fs-list') classFsList = true;
 
+  @HostBinding('class.fs-list-no-highlight')
+  public noRowsHighlight: boolean;
+
   @Input('config')
   public set config(config: FsListConfig) {
     this._initWithConfig(config)
@@ -350,6 +353,8 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
       this._persistance,
       this._inDialog,
     );
+
+    this.noRowsHighlight = this.list.rowHighlight == false;
 
     this._waitFirstLoad();
 
