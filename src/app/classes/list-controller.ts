@@ -4,7 +4,7 @@ import { ChangeFn, FilterConfig, IFilterSavedFiltersConfig, ItemType } from '@fi
 import { FsScrollInstance, FsScrollService } from '@firestitch/scroll';
 import { SelectionDialog } from '@firestitch/selection';
 
-import { BehaviorSubject, combineLatest, from, Observable, of, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, EMPTY, from, Observable, of, Subject, Subscription } from 'rxjs';
 import { catchError, debounceTime, map, mapTo, shareReplay, switchMap, take, takeUntil, tap, } from 'rxjs/operators';
 import { cloneDeep } from 'lodash-es';
 
@@ -607,15 +607,35 @@ export class List {
           return of(query);
         }),
         switchMap((query) => {
-          return this.beforeFetchFn ? this.beforeFetchFn(query) : of(query);
+          if (this.beforeFetchFn) {
+            return this.beforeFetchFn(query)
+              .pipe(
+                catchError((error, source$) => {
+                  console.error(error);
+
+                  return EMPTY;
+                })
+              )
+          }
+
+          return of(query);
         }),
         switchMap((query) => {
-          return combineLatest([of(query), this.fetchRemote(query)]);
+          const remoteFetch = this.fetchRemote(query)
+            .pipe(
+              catchError((error) => {
+                console.error(error);
+
+                return EMPTY;
+              }),
+            );
+
+          return combineLatest([of(query), remoteFetch]);
         }),
         catchError((error, source$) => {
           console.error(error);
 
-          return source$;
+          return EMPTY;
         }),
         takeUntil(this.onDestroy$),
       )
@@ -623,6 +643,8 @@ export class List {
         this.initialFetch = false;
 
         this.completeFetch(response);
+      }, () => {}, () => {
+        console.log('fin');
       });
   }
 
