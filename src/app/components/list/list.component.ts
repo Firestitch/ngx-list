@@ -1,40 +1,42 @@
+import { Location } from '@angular/common';
 import {
+  AfterContentInit,
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
+  ContentChild,
   ContentChildren,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Inject,
   Input,
   OnDestroy,
   OnInit,
-  QueryList,
-  ViewChild,
-  HostBinding,
   Optional,
-  ContentChild,
-  TemplateRef,
   Output,
-  AfterContentInit,
+  QueryList,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subject } from 'rxjs';
 import { filter, skip, take, takeUntil } from 'rxjs/operators';
 
-import { FsScrollService } from '@firestitch/scroll';
-import { FilterComponent } from '@firestitch/filter';
-import { SelectionDialog } from '@firestitch/selection';
 import { getNormalizedPath } from '@firestitch/common';
 import { DrawerRef } from '@firestitch/drawer';
+import { FilterComponent } from '@firestitch/filter';
+import { FsScrollService } from '@firestitch/scroll';
+import { SelectionDialog } from '@firestitch/selection';
 
 import { cloneDeep, mergeWith } from 'lodash-es';
 
 import { List } from '../../classes/list-controller';
 import { ReorderController } from '../../classes/reorder-controller';
 
+import { PersistanceController } from '../../classes/persistance-controller';
+import { FsListHeadingContainerDirective, FsListHeadingDirective, FsListSubheadingDirective } from '../../directives';
 import { FsListColumnDirective } from '../../directives/column/column.directive';
 import { FsListEmptyStateDirective } from '../../directives/empty-state/empty-state.directive';
 import { FS_LIST_DEFAULT_CONFIG } from '../../fs-list.providers';
@@ -45,10 +47,8 @@ import {
   FsListTrackByFn,
   FsListTrackByTargetRowFn
 } from '../../interfaces';
-import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.component';
 import { GroupExpandNotifierService } from '../../services/group-expand-notifier.service';
-import { PersistanceController } from '../../classes/persistance-controller';
-import { FsListHeadingContainerDirective, FsListHeadingDirective, FsListSubheadingDirective } from '../../directives';
+import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.component';
 
 
 @Component({
@@ -82,14 +82,12 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
 
   public list: List;
   public keywordVisible = true;
-  private listColumnDirectives: QueryList<FsListColumnDirective>;
 
   // Event will fired if action remove: true will clicked
   public rowRemoved = new EventEmitter();
   public firstLoad = true;
 
-  // public readonly ReorderStrategy = ReorderStrategy;
-
+  private listColumnDirectives: QueryList<FsListColumnDirective>;
   private _filterRef: FilterComponent;
   private _filterParamsReady = false;
   private _inDialog = !!this._dialogRef || !!this._drawerRef;
@@ -148,7 +146,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
     private _route: ActivatedRoute,
     private _persistance: PersistanceController,
     private _location: Location,
-  ) {}
+  ) { }
 
   /**
    * Return reference for filter
@@ -190,7 +188,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   public ngAfterContentInit(): void {
-    if(this.list.afterInit) {
+    if (this.list.afterInit) {
       this.list.afterInit(this);
     }
   }
@@ -304,7 +302,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
    * Update visibility for specific column
    */
   public columnVisibility(name: string, show: boolean) {
-    this.columnsVisibility([ {name, show } ])
+    this.columnsVisibility([{ name, show }])
   }
 
   /**

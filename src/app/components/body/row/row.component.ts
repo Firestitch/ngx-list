@@ -1,17 +1,17 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  ElementRef,
-  EventEmitter,
-  KeyValueDiffers,
-  Renderer2,
   Component,
   DoCheck,
+  ElementRef,
+  EventEmitter,
   HostBinding,
   Input,
   KeyValueDiffer,
+  KeyValueDiffers,
   OnDestroy,
   OnInit,
+  Renderer2,
   ViewChildren,
 } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
@@ -19,16 +19,16 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { Column } from '../../../models/column.model';
 import {
   ReorderPosition,
   ReorderStrategy
 } from '../../../classes/reorder-controller';
 import { SelectionController } from '../../../classes/selection-controller';
-import { RowAction } from '../../../models/row-action.model';
-import { Row } from '../../../models/row';
 import { FsListDraggableListDirective } from '../../../directives/draggable-list/draggable-list.directive';
 import { FsListRowClassOptions } from '../../../interfaces';
+import { Column } from '../../../models/column.model';
+import { Row } from '../../../models/row';
+import { RowAction } from '../../../models/row-action.model';
 
 
 @Component({
@@ -42,8 +42,8 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   public role = 'row';
 
   @Input() public row: Row;
-  @Input() public rowActionsRaw: any [] = [];
-  @Input() public groupActionsRaw: any [] = [];
+  @Input() public rowActionsRaw: any[] = [];
+  @Input() public groupActionsRaw: any[] = [];
   @Input() public hasRowActions = false;
   @Input() public rowEvents = {};
   @Input() public rowClass;
@@ -125,6 +125,8 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
       cls += ' fs-list-row-group-child';
     } else if (this.row?.isGroupFooter) {
       cls += ' fs-list-row-group-footer';
+    } else {
+      cls += ' fs-list-row-body';
     }
 
     if (this.rowClass) {

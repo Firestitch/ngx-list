@@ -4,13 +4,14 @@ import { ChangeFn, FilterConfig, IFilterSavedFiltersConfig, ItemType } from '@fi
 import { FsScrollInstance, FsScrollService } from '@firestitch/scroll';
 import { SelectionDialog } from '@firestitch/selection';
 
+import { cloneDeep } from 'lodash-es';
 import { BehaviorSubject, combineLatest, EMPTY, from, Observable, of, Subject, Subscription } from 'rxjs';
 import { catchError, debounceTime, map, mapTo, shareReplay, switchMap, take, takeUntil, tap, } from 'rxjs/operators';
-import { cloneDeep } from 'lodash-es';
 
 import { SortingDirection } from '../models/column.model';
 
 // Interfaces
+import { PageChangeType } from '../enums/page-change-type.enum';
 import {
   FsListAfterContentInitFn,
   FsListAfterFetchFn,
@@ -32,19 +33,18 @@ import {
   FsPaging,
   PageChange
 } from '../interfaces';
-import { StyleConfig } from '../models/styleConfig.model';
 import { RowAction } from '../models/row-action.model';
+import { StyleConfig } from '../models/styleConfig.model';
 import { ColumnsController } from './columns-controller';
-import { PageChangeType } from '../enums/page-change-type.enum';
-import { ActionsController } from './index';
 import { DataController } from './data-controller';
+import { ActionsController } from './index';
 import { PaginationController } from './pagination-controller';
 import { SelectionController } from './selection-controller';
 import { SortingController } from './sorting-controller';
 
 import { FsListState } from '../enums/state.enum';
-import { PersistanceController } from './persistance-controller';
 import { ExternalParamsController } from './external-params-controller';
+import { PersistanceController } from './persistance-controller';
 
 const SHOW_DELETED_FILTERS_KEY = '_showDeleted_';
 
@@ -74,6 +74,7 @@ export class List {
   public afterFetchFn: FsListAfterFetchFn;
   public afterContentInit: FsListAfterContentInitFn;
   public afterInit: FsListAfterInitFn;
+  public style;
 
   public initialized$ = new BehaviorSubject(false);
   public loading$ = new BehaviorSubject(false);
@@ -268,13 +269,13 @@ export class List {
           }
 
           this.fetchComplete$.asObservable()
-          .pipe(
-            take(1),
-            takeUntil(this.onDestroy$)
-          )
-          .subscribe(() => {
-            el.scrollIntoView({ behavior: 'smooth' });
-          });
+            .pipe(
+              take(1),
+              takeUntil(this.onDestroy$)
+            )
+            .subscribe(() => {
+              el.scrollIntoView({ behavior: 'smooth' });
+            });
         }
 
         this.fetch$.next();
@@ -372,27 +373,28 @@ export class List {
    * @param config
    */
   private initialize(config: FsListConfig) {
-    this.autoFocus    = config.autoFocus;
+    this.autoFocus = config.autoFocus;
     this.rowHighlight = config.rowHighlight ?? true;
-    this.heading      = config.heading;
-    this.trackBy      = config.trackBy;
-    this.subheading   = config.subheading;
+    this.heading = config.heading;
+    this.trackBy = config.trackBy;
+    this.subheading = config.subheading;
     this.rowActionsRaw = config.rowActions;
-    this.rowClass     = config.rowClass;
-    this.rowEvents    = config.rowEvents;
-    this.restore      = config.restore;
-    this.persist      = config.persist;
-    this.filters      = config.filters ?? [];
+    this.rowClass = config.rowClass;
+    this.rowEvents = config.rowEvents;
+    this.restore = config.restore;
+    this.persist = config.persist;
+    this.filters = config.filters ?? [];
     this.filterInitCb = config.filterInit;
     this.filterChangeCb = config.filterChange;
     this.savedFilters = config.savedFilters;
-    this.scrollable   = config.scrollable;
-    this.noResults    = config.noResults;
-    this.emptyState   = config.emptyState;
-    this.fetchFn      = config.fetch;
+    this.scrollable = config.scrollable;
+    this.noResults = config.noResults;
+    this.emptyState = config.emptyState;
+    this.fetchFn = config.fetch;
     this.afterFetchFn = config.afterFetch;
     this.beforeFetchFn = config.beforeFetch;
     this.afterInit = config.afterInit;
+    this.style = config.style;
 
     this.columns.initConfig(config.column);
     this.initDefaultOptions(config);
@@ -568,8 +570,8 @@ export class List {
             query = Object.assign(query, this.paging.loadDeletedOffsetQuery);
           } else {
             const allRecordsRangeNeeded = (this.initialFetch
-                || this.dataController.operation === FsListState.Reload
-              ) && this.paging.loadMoreEnabled;
+              || this.dataController.operation === FsListState.Reload
+            ) && this.paging.loadMoreEnabled;
 
             if (allRecordsRangeNeeded) {
               query = Object.assign(query, this.paging.loadMoreQuery);
@@ -643,7 +645,7 @@ export class List {
         this.initialFetch = false;
 
         this.completeFetch(response);
-      }, () => {}, () => {
+      }, () => { }, () => {
         console.log('fin');
       });
   }
@@ -746,7 +748,7 @@ export class List {
                 this.fetch$.next();
                 fsScrollInstance.loading();
               }
-          });
+            });
 
           this.dataController.remoteRowsChange$
             .pipe(
@@ -754,7 +756,7 @@ export class List {
             )
             .subscribe(() => {
               fsScrollInstance.loaded();
-          });
+            });
         });
     }
   }
@@ -786,7 +788,7 @@ export class List {
       }, []);
 
     const sortConfig = this.sorting.sortingColumn
-      ? { value: this.sorting.sortingColumn.name, direction: this.sorting.sortingColumn.direction}
+      ? { value: this.sorting.sortingColumn.name, direction: this.sorting.sortingColumn.direction }
       : null;
 
     // Config
@@ -990,7 +992,7 @@ export class List {
         )
         .subscribe({
           next: () => this.reload(),
-          error: () => {},
+          error: () => { },
         })
     }
   }

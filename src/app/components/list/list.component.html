@@ -55,7 +55,14 @@
     <!-- Table implementation -->
     <div class="fs-list-table-container">
       <ng-container *ngIf="!firstLoad && listData.length > 0 && !list.emptyStateEnabled">
-        <table class="fs-list-table" role="grid" [fsListContentInit]="list.afterContentInit">
+        <table 
+            class="fs-list-table" 
+            role="grid" 
+            [fsListContentInit]="list.afterContentInit" 
+            [ngClass]="{
+              'style-card': list.style === 'card',
+              'style-line': list.style ?? 'line' === 'line'
+            }">
           <thead
             fs-list-head
             class="fs-list-head"
@@ -69,8 +76,7 @@
             [activeFiltersCount]="list.activeFiltersCount$ | async"
             [reorderEnabled]="reorderController.enabled$ | async"
             [reorderPosition]="reorderController.position$ | async"
-            [reorderStrategy]="reorderController.strategy$ | async"
-          >
+            [reorderStrategy]="reorderController.strategy$ | async">
           </thead>
 
           <tbody
@@ -93,8 +99,7 @@
             [reorderEnabled]="reorderController.enabled$ | async"
             [reorderPosition]="reorderController.position$ | async"
             [reorderStrategy]="reorderController.strategy$ | async"
-            [reorderMultiple]="reorderController.multiple"
-          >
+            [reorderMultiple]="reorderController.multiple">
           </tbody>
 
           <tfoot
@@ -107,8 +112,7 @@
             [activeFiltersCount]="list.activeFiltersCount$ | async"
             [reorderEnabled]="reorderController.enabled$ | async"
             [reorderPosition]="reorderController.position$ | async"
-            [reorderStrategy]="reorderController.strategy$ | async"
-          >
+            [reorderStrategy]="reorderController.strategy$ | async">
           </tfoot>
         </table>
       </ng-container>

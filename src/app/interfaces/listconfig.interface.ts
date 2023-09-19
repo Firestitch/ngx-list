@@ -1,21 +1,21 @@
-import { Observable } from 'rxjs';
+import { FsFile } from '@firestitch/file';
+import {
+  ChangeFn,
+  FsFilterAction,
+  FsFilterPersistance,
+  IFilterConfigDateItem,
+  IFilterConfigItem,
+  IFilterSavedFiltersConfig,
+} from '@firestitch/filter';
 import {
   FsSelectionActionSelected,
   FsSelectionDialogConfigAction,
   SelectionRef
-} from '@firestitch/selection'
-import {
-  IFilterConfigItem,
-  IFilterConfigDateItem,
-  FsFilterPersistance,
-  IFilterSavedFiltersConfig,
-  FsFilterAction,
-  ChangeFn,
-} from '@firestitch/filter';
-import { FsFile } from '@firestitch/file';
+} from '@firestitch/selection';
+import { Observable } from 'rxjs';
 
-import { ActionType } from '../enums/button-type.enum';
 import { ReorderPosition } from '../classes/reorder-controller';
+import { ActionType } from '../enums/button-type.enum';
 import { PaginationStrategy } from '../enums/pagination-strategy.enum';
 import { RowType } from '../enums/row-type.enum';
 import { FsListState } from '../enums/state.enum';
@@ -47,7 +47,7 @@ export interface FsListConfig {
   filters?: (IFilterConfigItem | IFilterConfigDateItem)[];
   savedFilters?: IFilterSavedFiltersConfig;
   persist?: FsListPersitance;
-  rowActions?: (FsListRowActionGroup | FsListRowAction)[] ;
+  rowActions?: (FsListRowActionGroup | FsListRowAction)[];
   rowClass?: (row: any, options?: FsListRowClassOptions) => string;
   actions?: FsListAction[];
   fetch?: FsListFetchFn;
@@ -71,6 +71,7 @@ export interface FsListConfig {
   emptyState?: FsListEmptyStateConfig;
   filterInit?: ChangeFn;
   filterChange?: ChangeFn;
+  style?: 'line' | 'card'
 }
 
 export interface FsListGroupConfig {
@@ -113,7 +114,7 @@ export interface FsListReorderData {
 }
 
 export type FsListReorderMoveInGroupCallback =
-  (data: { row1: any, row2: any, group1: any, group2: any}) => boolean;
+  (data: { row1: any, row2: any, group1: any, group2: any }) => boolean;
 
 export interface FsListHeaderConfig {
   className?: string;
@@ -177,7 +178,7 @@ export interface FsListFetchSubscription {
   loadOffset?: boolean;
 }
 
-export type FsListAction  = {customize?: boolean} & FsFilterAction;
+export type FsListAction = { customize?: boolean } & FsFilterAction;
 
 export interface FsListRowActionGroup {
   label?: string;

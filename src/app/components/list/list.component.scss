@@ -246,29 +246,12 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
         pointer-events: none;
       }
 
-      .fs-list-col {
-        box-sizing: border-box;
-        border-top: 1px solid #ddd;
-      }
-
-      .fs-list-row:hover .fs-list-col {
-        background-color: #f6f6f6;
-      }
-
       .fs-list-row {
         &:hover {
           .fs-list-col {
             background-color: #f6f6f6;
           }
         }
-      }
-
-      .fs-list-row:first-child .fs-list-col {
-        border-top: 2px solid #ddd;
-      }
-
-      .fs-list-row:last-child .fs-list-col {
-        border-bottom: 2px solid #ddd;
       }
     }
 
@@ -370,22 +353,6 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
       }
     }
 
-    .fs-list-container {
-      &.has-dragging {
-        thead {
-          th {
-            border-bottom: 2px solid #ddd;
-          }
-        }
-
-        tbody {
-          tr:nth-child(2) td {
-            border-top: none;
-          }
-        }
-      }
-    }
-
     tfoot td {
       padding: 8px;
     }
@@ -464,6 +431,76 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
       &:hover {
         .fs-list-col {
           background-color: initial;
+        }
+      }
+    }
+  }
+}
+
+
+::ng-deep {
+  .fs-list-table.style-line,
+  .fs-list-table:not(.style-card) {
+    tbody {
+      .fs-list-col {
+        box-sizing: border-box;
+        border-top: 1px solid #ddd;
+      }
+      
+      .fs-list-row:first-child .fs-list-col {
+        border-top: 2px solid #ddd;
+      }
+
+      .fs-list-row:last-child .fs-list-col {
+        border-bottom: 2px solid #ddd;
+      }
+    }
+
+    .fs-list-row:hover .fs-list-col {
+      background-color: #f6f6f6;
+    }
+
+    .fs-list-container {
+      &.has-dragging {
+        thead {
+          th {
+            border-bottom: 2px solid #ddd;
+          }
+        }
+
+        tbody {
+          tr:nth-child(2) td {
+            border-top: none;
+          }
+        }
+      }
+    }
+  }
+
+  .fs-list-table.style-card {  
+    border-spacing: 0 8px;
+    border-collapse: separate;
+
+    tbody.fs-list-body  {
+      tr.fs-list-row {
+        &.fs-list-row-body {
+          background-color: #fafafa;
+          border-radius: 10px;
+        }
+
+        td.fs-list-col {
+          border: none !important;
+          padding: 8px 16px;
+
+          &:first-child {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+          }
+
+          &:last-child {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+          }
         }
       }
     }
