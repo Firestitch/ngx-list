@@ -24,7 +24,7 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
   @HostBinding('attr.role') role = 'gridcell';
 
   @Input() public column: Column;
-  @Input() public row: Row;
+  @Input() public row: any; // tmp
   @Input() public rowIndex: number;
 
   public cellContext: any = {};
@@ -60,7 +60,7 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
     if (this.row) {
       if (this.row.isGroup) {
         this.cellContext.groupIndex = this.row.index;
-      } else if (this.row.isGroupChild || this.row.isGroupFooter) {
+      } else if (this.row.isChild || this.row.isGroupFooter) {
         this.cellContext.groupIndex = this.row.index;
         this.cellContext.groupRow = this.row.parent.data;
         this.cellContext.group = this.row.parent.data;
