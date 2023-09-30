@@ -26,7 +26,15 @@ export class DataController {
   private _operation: FsListState;
 
   private _groupByFn: (row) => any[];
-  private _footerRowFn: (group) => boolean;
+  private _footerRowFn: (
+    row: { [key: string]: unknown },
+    group: {
+      [key: string]: unknown,
+      children: {
+        [key: string]: unknown
+      }[],
+    }
+  ) => boolean;
   private _compareByFn: (group) => any;
   private _initialExpand = true;
   private _groupEnabled = false;
@@ -452,10 +460,17 @@ export class DataController {
     });
 
     groupRows.forEach((groupRow) => {
-      const hasFooter = this._footerRowFn(groupRow);
+      const footerIndex = groupRow.children
+        .findIndex((row) => {
+          return this._footerRowFn(row.data, {
+            ...groupRow.data,
+            children: groupRow.childrenData,
+          });
+        });
 
-      if(hasFooter) {
-        groupRow.children.push(new GroupFooterRow(groupRow, groupRow));
+      if(footerIndex !== -1) {
+        const footerRow = groupRow.children.slice(footerIndex, footerIndex + 1)[0];
+        groupRow.children.push(new GroupFooterRow(footerRow.data, groupRow));
       }
     });
 
