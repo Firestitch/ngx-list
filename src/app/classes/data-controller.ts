@@ -27,11 +27,11 @@ export class DataController {
 
   private _groupByFn: (row) => any[];
   private _footerRowFn: (
-    row: { [key: string]: unknown },
+    row: { [key: string]: any },
     group: {
-      [key: string]: unknown,
+      [key: string]: any,
       children: {
-        [key: string]: unknown
+        [key: string]: any
       }[],
     }
   ) => boolean;
@@ -468,8 +468,8 @@ export class DataController {
           });
         });
 
-      if(footerIndex !== -1) {
-        const footerRow = groupRow.children.slice(footerIndex, footerIndex + 1)[0];
+      if (footerIndex !== -1) {
+        const footerRow = groupRow.children.splice(footerIndex, footerIndex + 1)[0];
         groupRow.children.push(new GroupFooterRow(footerRow.data, groupRow));
       }
     });

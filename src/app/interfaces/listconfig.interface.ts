@@ -80,10 +80,10 @@ export interface FsListGroupConfig {
   groupBy?: (row: any) => any;
   compareBy?: (row: any) => any;
   footer?: (
-    row: { [key: string]: unknown },
+    row: { [key: string]: any },
     group?: {
-        [key: string]: unknown,
-        children: {[key: string]: unknown
+        [key: string]: any,
+        children: {[key: string]: any
       }[],
     },
   ) => boolean;
