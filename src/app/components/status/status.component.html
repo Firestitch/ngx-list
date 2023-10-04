@@ -30,8 +30,7 @@
       <ng-template
         ngFor
         let-limit
-        [ngForOf]="paging.limits"
-      >
+        [ngForOf]="paging.limits">
         <ng-template fs-menu-item (click)="setLimit(limit)">
           {{ limit }}
         </ng-template>
@@ -43,8 +42,7 @@
       <ng-template
         ngFor
         let-column
-        [ngForOf]="sorting.sortingColumns"
-      >
+        [ngForOf]="sorting.sortingColumns">
         <ng-template fs-menu-item (click)="setSortableColumn(column)">
           <ng-container *ngIf="column.title; else sortByTemplate">
             {{ column.title }}
@@ -59,8 +57,7 @@
       <ng-template
         ngFor
         let-column
-        [ngForOf]="sorting.fakeSortingColumns"
-      >
+        [ngForOf]="sorting.fakeSortingColumns">
         <ng-template fs-menu-item (click)="setSortableColumn(column)">
           {{ column.title }}
         </ng-template>

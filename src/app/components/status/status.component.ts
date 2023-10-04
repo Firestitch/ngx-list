@@ -11,8 +11,8 @@ import {
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SortingController } from '../../classes/sorting-controller';
 import { PaginationController } from '../../classes/pagination-controller';
+import { SortingController } from '../../classes/sorting-controller';
 import { SortingDirection } from '../../models/column.model';
 
 
@@ -24,7 +24,7 @@ import { SortingDirection } from '../../models/column.model';
   preserveWhitespaces: true
 })
 export class FsStatusComponent implements OnInit, OnDestroy {
-  
+
   @Input() public paging: PaginationController;
   @Input() public sorting: SortingController;
   @Input() public rows;

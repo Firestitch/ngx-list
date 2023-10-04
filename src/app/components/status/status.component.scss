@@ -1,8 +1,4 @@
-@import '../../styles/variables';
-
 :host {
-  display: inline-block;
-
   &.first-load {
     .status {
       visibility: hidden;

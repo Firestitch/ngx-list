@@ -70,8 +70,10 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
   &.first-load {
     .fs-list-status,
     .fs-list-body,
+    .fs-list-head,
+    .fs-list-footer,
     fs-list-pagination,
-    .filter-chips,
+    ::ng-deep fs-filter-chips,
     .fs-list-no-results-container {
       opacity: 0.4;
       pointer-events: none;
