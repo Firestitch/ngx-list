@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FsApi } from '@firestitch/api';
+import { ItemType } from '@firestitch/filter';
 import { FsListComponent, FsListConfig, PaginationStrategy } from '@firestitch/list';
 import { map } from 'rxjs/operators';
-import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
 import { ApiStrategy } from '../../services/api-strategy.service';
-import { ItemType } from '@firestitch/filter';
+import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
 
 
 @Component({
@@ -19,9 +19,9 @@ export class LoadMoreComponent extends StrategyBaseComponent implements OnInit {
   public config: FsListConfig;
 
   public roles = [
-    {value: 'admin', viewValue: 'Admin'},
-    {value: 'moderator', viewValue: 'Moderator'},
-    {value: 'user', viewValue: 'User'}
+    { value: 'admin', viewValue: 'Admin' },
+    { value: 'moderator', viewValue: 'Moderator' },
+    { value: 'user', viewValue: 'User' }
   ];
 
   constructor(
@@ -52,12 +52,12 @@ export class LoadMoreComponent extends StrategyBaseComponent implements OnInit {
         return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
           .pipe(
             map(response => {
-              response.data.objects.forEach((obj) => {
+              response.objects.forEach((obj) => {
                 const gender = genders[this.randomInteger(0, 1)];
                 obj.avatar = 'http://api.randomuser.me/portraits/' + gender + '/' + this.randomInteger(1, 99) + '.jpg';
               });
 
-              return { data: response.data.objects, paging: response.data.paging };
+              return { data: response.objects, paging: response.paging };
             }),
           );
       },

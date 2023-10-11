@@ -7,7 +7,6 @@ import { SelectionActionType } from '@firestitch/selection';
 
 import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
-import { ItemType } from '@firestitch/filter';
 
 import { ApiStrategy } from '../../services/api-strategy.service';
 import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
@@ -109,7 +108,7 @@ export class SelectionReorderComponent extends StrategyBaseComponent implements 
 
         return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
           .pipe(
-            map(response => ({ data: response.data.objects, paging: response.data.paging }))
+            map(response => ({ data: response.objects, paging: response.paging }))
           );
       }
     };

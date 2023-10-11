@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FsApi } from '@firestitch/api';
 import { FsListConfig, ReorderPosition } from '@firestitch/list';
 
-import { delay, map } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { delay, map } from 'rxjs/operators';
 
 
 @Component({
@@ -15,7 +15,7 @@ export class ManualReorderComponent implements OnInit {
 
   public config: FsListConfig = null;
 
-  constructor(private _fsApi: FsApi) {}
+  constructor(private _fsApi: FsApi) { }
 
   public ngOnInit() {
     this.config = {
@@ -39,7 +39,7 @@ export class ManualReorderComponent implements OnInit {
       fetch: (query) => {
         return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
           .pipe(
-            map((response) => ({ data: response.data.objects, paging: response.data.paging })),
+            map((response) => ({ data: response.objects, paging: response.paging })),
           );
       }
     };

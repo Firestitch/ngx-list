@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FsApi } from '@firestitch/api';
-import { FsListComponent, FsListConfig, ActionType } from '@firestitch/list';
+import { ActionType, FsListComponent, FsListConfig } from '@firestitch/list';
 
 import { map } from 'rxjs/operators';
 
@@ -16,7 +16,7 @@ export class RowActionsComponent implements OnInit {
   public table: FsListComponent;
   public config: FsListConfig;
 
-  constructor(private _fsApi: FsApi) {}
+  constructor(private _fsApi: FsApi) { }
 
   public ngOnInit() {
 
@@ -71,7 +71,7 @@ export class RowActionsComponent implements OnInit {
         query.limit = 3;
         return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
           .pipe(
-            map(response => ({ data: response.data.objects, paging: response.data.paging }))
+            map(response => ({ data: response.objects, paging: response.paging }))
           );
       },
       paging: false,

@@ -2,12 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { FsApi } from '@firestitch/api';
-import { FsListConfig, ActionType, FsListComponent } from '@firestitch/list';
+import { ActionType, FsListComponent, FsListConfig } from '@firestitch/list';
 
-import { map } from 'rxjs/operators';
 import { ItemType } from '@firestitch/filter';
-import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
+import { map } from 'rxjs/operators';
 import { ApiStrategy } from '../../services/api-strategy.service';
+import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
 
 
 @Component({
@@ -69,7 +69,7 @@ export class RestoreComponent extends StrategyBaseComponent implements OnInit {
         query.count = 500;
         return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
           .pipe(
-            map(response => ({ data: response.data.objects, paging: response.data.paging })),
+            map(response => ({ data: response.objects, paging: response.paging })),
           );
       },
     };

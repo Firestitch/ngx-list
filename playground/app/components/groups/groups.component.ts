@@ -1,25 +1,23 @@
-import { Component, OnInit, ViewChild, AfterContentInit } from '@angular/core';
+import { AfterContentInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FsApi } from '@firestitch/api';
 import { ItemType } from '@firestitch/filter';
 import {
-  FsListConfig,
-  FsListComponent,
   FsListAbstractRow,
+  FsListComponent,
+  FsListConfig,
   ReorderPosition,
 } from '@firestitch/list';
 
 import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 
-import { cloneDeep } from 'lodash-es';
 
 import { FsExampleComponent } from '@firestitch/example';
 import { SelectionActionType } from '@firestitch/selection';
 
 
-import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
 import { ApiStrategy } from '../../services/api-strategy.service';
-import { ConfigureComponent } from '../configure';
+import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
 
 
 @Component({
@@ -276,18 +274,13 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
 
         return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
           .pipe(
-            map(response => ({ data: response.data.objects, paging: response.data.paging })),
+            map(response => ({ data: response.objects, paging: response.paging })),
           );
       },
     };
   }
 
   ngAfterContentInit() {
-    this.example.setConfigureComponent(ConfigureComponent, {
-      config: this.config,
-      list: this.list,
-      defaultConfig: cloneDeep(this.config)
-    });
   }
 
   public onClick(row, event) {

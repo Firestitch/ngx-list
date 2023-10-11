@@ -5,9 +5,9 @@ import { FsApi } from '@firestitch/api';
 import { FsListComponent, FsListConfig } from '@firestitch/list';
 import { SelectionActionType } from '@firestitch/selection';
 
+import { ItemType } from '@firestitch/filter';
 import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
-import { ItemType } from '@firestitch/filter';
 
 import { ApiStrategy } from '../../services/api-strategy.service';
 import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
@@ -105,7 +105,7 @@ export class SelectionComponent extends StrategyBaseComponent implements OnInit 
         query.count = 500;
         return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
           .pipe(
-            map(response => ({ data: response.data.objects, paging: response.data.paging }))
+            map(response => ({ data: response.objects, paging: response.paging }))
           );
       },
     };
