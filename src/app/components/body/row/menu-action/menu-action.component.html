@@ -12,8 +12,10 @@
       [minHeight]="file.minHeight"
       [imageWidth]="file.maxWidth"
       [imageHeight]="file.maxHeight"
-      (select)="fileSelect.emit($event)"
-      (error)="fileError.emit($event)">
+      (click)="$event.stopPropagation();"
+      (select)="selectFile($event)"
+      (error)="errorFile($event)"
+      (cancel)="closeMenu()">
     <mat-icon *ngIf="icon">{{icon}}</mat-icon>
     {{label| actionLabel:row}}
   </fs-file>
