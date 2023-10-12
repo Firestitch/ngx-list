@@ -52,12 +52,12 @@ export class LoadMoreComponent extends StrategyBaseComponent implements OnInit {
         return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
           .pipe(
             map(response => {
-              response.data.objects.forEach((obj) => {
+              response.objects.forEach((obj) => {
                 const gender = genders[this.randomInteger(0, 1)];
                 obj.avatar = 'http://api.randomuser.me/portraits/' + gender + '/' + this.randomInteger(1, 99) + '.jpg';
               });
 
-              return { data: response.data.objects, paging: response.data.paging };
+              return { data: response.objects, paging: response.paging };
             }),
           );
       },

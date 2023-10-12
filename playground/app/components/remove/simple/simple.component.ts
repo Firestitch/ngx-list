@@ -71,7 +71,7 @@ export class RemoveSimpleComponent extends StrategyBaseComponent implements OnIn
         query.count = 500;
         return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
           .pipe(
-            map(response => ({ data: response.data.objects, paging: response.data.paging }))
+            map(response => ({ data: response.objects, paging: response.paging }))
           );
       },
     };
