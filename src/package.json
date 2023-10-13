@@ -1,0 +1,30 @@
+{
+  "name": "@firestitch/list",
+  "version": "12.15.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Firestitch/ngx-list"
+  },
+  "author": {
+    "name": "Firestitch",
+    "email": "admin@firestitch.com"
+  },
+  "keywords": [
+    "angular"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Firestitch/ngx-list/issues"
+  },
+  "peerDependencies": {
+    "@firestitch/filter": ">=12.5.0",
+    "@firestitch/menu": ">=12.0.1",
+    "@firestitch/prompt": ">=12.0.1",
+    "@firestitch/scroll": ">=12.0.0",
+    "lodash-es": ">=4.17.15"
+  },
+  "sideEffects": false,
+  "esm2015": "esm2015/firestitch-list.js",
+  "fesm2015": "fesm2015/firestitch-list.js",
+  "typings": "firestitch-list.d.ts"
+}
