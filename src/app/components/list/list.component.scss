@@ -161,6 +161,7 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
         font-weight: normal;
         color: rgba(143, 143, 143, 1);
         font-size: 85%;
+        text-align: left;
       }
     }
 
