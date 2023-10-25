@@ -5,10 +5,11 @@ import {
   Input,
 } from '@angular/core';
 
+import { FsPrompt } from '@firestitch/prompt';
+
 import { Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
-import { FsPrompt } from '@firestitch/prompt';
 
 import { Row } from '../../../../models/row';
 import { RowAction } from '../../../../models/row-action.model';
@@ -17,6 +18,7 @@ import { RowAction } from '../../../../models/row-action.model';
 @Component({
   selector: 'fs-list-row-actions',
   templateUrl: './actions.component.html',
+  styleUrls: ['./actions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsRowActionsComponent {
@@ -49,7 +51,7 @@ export class FsRowActionsComponent {
 
   constructor(
     private _fsPrompt: FsPrompt,
-  ) {}
+  ) { }
 
   public actionClick(action: RowAction, row: any, event: any, menuRef?) {
     if (action.remove) {
@@ -66,8 +68,8 @@ export class FsRowActionsComponent {
           next: () => {
             this.removeAction(action, row.data, event, this.index);
           },
-          error: () => {},
-        })
+          error: () => { },
+        });
       }
     } else {
       action.click(row.data, event, this.index, menuRef);
@@ -76,6 +78,7 @@ export class FsRowActionsComponent {
 
   /**
    * Track By for improve change detection
+   *
    * @param index
    */
   public trackByFn(index) {
@@ -84,6 +87,7 @@ export class FsRowActionsComponent {
 
   /**
    * Emit that some row must be removed
+   *
    * @param action
    * @param row
    * @param event

@@ -4,10 +4,8 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { ReorderController, ReorderStrategy } from '../../classes/reorder-controller';
-import { SelectionController } from '../../classes/selection-controller';
-import { Row } from '../../models/row';
 import { FsListDragChildRowElement } from '../../interfaces/draggable-list.interface';
-import { FsListReorderData } from '../../interfaces';
+import { Row } from '../../models/row';
 import { FsListDraggableRowDirective } from '../draggable-row/draggable-row.directive';
 
 
@@ -26,7 +24,7 @@ export class FsListDraggableListDirective {
   // Handlers
   private _dragToHandler = this.dragTo.bind(this);
   private _dragEndHandler = this.dragEnd.bind(this);
-  private _windowTouchMoveHandler = () => {};
+  private _windowTouchMoveHandler = () => { };
 
   private _dragInProgress = false;
 
@@ -46,7 +44,7 @@ export class FsListDraggableListDirective {
     private _containerElement: ElementRef,
     private _reorderController: ReorderController,
     private _renderer: Renderer2,
-  ) {}
+  ) { }
 
   public get dragStart$(): Observable<void> {
     return this._dragStart$.pipe(takeUntil(this._destroy$));
@@ -78,6 +76,7 @@ export class FsListDraggableListDirective {
 
   /**
    * Prepare draggable elements and add events
+   *
    * @param draggableElement
    */
   public dragStart(draggableElement: HTMLElement) {
@@ -106,7 +105,7 @@ export class FsListDraggableListDirective {
     this._draggableElement.classList.add('draggable-elem');
 
     this._zone.runOutsideAngular(() => {
-      window.addEventListener( 'touchmove', this._windowTouchMoveHandler, { passive: true });
+      window.addEventListener('touchmove', this._windowTouchMoveHandler, { passive: true });
       window.document.addEventListener('mousemove', this._dragToHandler, { passive: true });
       window.document.addEventListener('touchmove', this._dragToHandler, { passive: false });
     });
@@ -121,6 +120,7 @@ export class FsListDraggableListDirective {
 
   /**
    * Move draggable elements and swap items
+   *
    * @param event
    */
   public dragTo(event) {
@@ -129,8 +129,8 @@ export class FsListDraggableListDirective {
     const targetRow = this._rows[elemIndex];
 
     if (this._multipleDraggableElementPreview) {
-      this._multipleDraggableElementPreview.style.left = event.clientX + 'px';
-      this._multipleDraggableElementPreview.style.top = event.clientY + 'px';
+      this._multipleDraggableElementPreview.style.left = `${event.clientX}px`;
+      this._multipleDraggableElementPreview.style.top = `${event.clientY}px`;
     }
 
     // Can not drag before first group and after last group
@@ -157,7 +157,7 @@ export class FsListDraggableListDirective {
       // FIXME
       if (this._draggableElementPreview) {
         const topOffset = (event.y || event.clientY) - (this._draggableElementHeight / 2);
-        this._draggableElementPreview.style.top =  topOffset + 'px';
+        this._draggableElementPreview.style.top = `${topOffset}px`;
       }
     }
   }
@@ -173,7 +173,7 @@ export class FsListDraggableListDirective {
       && this._draggableElementStartIndex !== this._draggableElementIndex) {
 
       this._reorderController.movedCallback(
-        this._reorderController.dataController.reorderData
+        this._reorderController.dataController.reorderData,
       );
     }
 
@@ -181,7 +181,7 @@ export class FsListDraggableListDirective {
       this._zone.run(() => {
         if (this._reorderController.doneCallback) {
           const result = this._reorderController.doneCallback(
-            this._reorderController.dataController.reorderData
+            this._reorderController.dataController.reorderData,
           );
 
           this._waitUntilIsNotDone(result);
@@ -210,7 +210,7 @@ export class FsListDraggableListDirective {
     this._draggableElementStartIndex = null;
     this._selectedRowsDirectives = [];
 
-    window.removeEventListener( 'touchmove', this._windowTouchMoveHandler);
+    window.removeEventListener('touchmove', this._windowTouchMoveHandler);
     window.document.removeEventListener('mousemove', this._dragToHandler);
     window.document.removeEventListener('touchmove', this._dragToHandler);
     window.document.removeEventListener('mouseup', this._dragEndHandler);
@@ -268,9 +268,9 @@ export class FsListDraggableListDirective {
     const data = this._draggableElement.getBoundingClientRect();
 
     if (!(this._isMultipleDrag)) {
-      el.style.width = data.width + 'px';
-      el.style.left = data.left + 'px';
-      el.style.top = data.top + 'px';
+      el.style.width = `${data.width}px`;
+      el.style.left = `${data.left}px`;
+      el.style.top = `${data.top}px`;
       el.classList.add('draggable');
 
       this._containerElement.nativeElement.insertAdjacentElement('afterbegin', el);
@@ -285,13 +285,13 @@ export class FsListDraggableListDirective {
 
       const selectedCount = this._selectedRowsDirectives?.length;
       const previewBlock = this._renderer.createElement('div');
-      previewBlock.style.left = data.left + 'px';
-      previewBlock.style.top = data.top + 'px';
+      previewBlock.style.left = `${data.left}px`;
+      previewBlock.style.top = `${data.top}px`;
 
       const text = this._renderer.createText(`${selectedCount} selected items`);
 
       this._renderer.appendChild(previewBlock, text);
-      this._renderer.addClass(previewBlock, 'preview-block');
+      this._renderer.addClass(previewBlock, 'fs-list-preview-block');
       this._renderer.appendChild(document.body, previewBlock);
       this._multipleDraggableElementPreview = previewBlock;
     }
@@ -300,6 +300,7 @@ export class FsListDraggableListDirective {
 
   /**
    * Looking by stored row elements for overlapped row
+   *
    * @param event
    */
   private lookupElementUnder(event) {
@@ -312,7 +313,7 @@ export class FsListDraggableListDirective {
 
       if (!el.active) {
         if (top < el.center + (el.height / 2) && el.index < this._draggableElementIndex
-          || bottom > el.center - (el.height / 2)  && el.index > this._draggableElementIndex) {
+          || bottom > el.center - (el.height / 2) && el.index > this._draggableElementIndex) {
           elemIndex = i;
         }
       }
@@ -323,6 +324,7 @@ export class FsListDraggableListDirective {
 
   /**
    * Swap rows
+   *
    * @param index
    */
   private swapWithIndex(index) {
@@ -366,10 +368,10 @@ export class FsListDraggableListDirective {
     const draggableCells: any = Array.from(this._draggableElementPreview.querySelectorAll('td'));
 
     Array.from(
-      this._draggableElementPreview.querySelectorAll('td')
+      this._draggableElementPreview.querySelectorAll('td'),
     ).forEach((elem: any, index) => {
       const dims = elem.getBoundingClientRect();
-      draggableCells[index].style.width = dims.width + 'px';
+      draggableCells[index].style.width = `${dims.width}px`;
     });
   }
 
@@ -398,6 +400,7 @@ export class FsListDraggableListDirective {
 
   /**
    * Fix background when mobile
+   *
    * @param e
    */
   private touchFix(e) {

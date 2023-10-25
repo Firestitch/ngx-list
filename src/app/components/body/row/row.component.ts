@@ -14,6 +14,7 @@ import {
   Renderer2,
   ViewChildren,
 } from '@angular/core';
+
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
 import { Subject } from 'rxjs';
@@ -21,7 +22,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import {
   ReorderPosition,
-  ReorderStrategy
+  ReorderStrategy,
 } from '../../../classes/reorder-controller';
 import { SelectionController } from '../../../classes/selection-controller';
 import { FsListDraggableListDirective } from '../../../directives/draggable-list/draggable-list.directive';
@@ -33,8 +34,9 @@ import { RowAction } from '../../../models/row-action.model';
 
 @Component({
   selector: '[fs-list-row]',
-  templateUrl: 'row.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './row.component.html',
+  styleUrls: ['./row.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
@@ -52,15 +54,15 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   @Input() public columns: Column[];
   @Input() public selection: SelectionController;
   @Input() public rowRemoved: EventEmitter<any>;
-  @Input() activeFiltersCount: number;
+  @Input() public activeFiltersCount: number;
 
   @Input()
   @HostBinding('class.drag-row')
   public reorderEnabled: boolean;
 
-  @Input() reorderPosition: ReorderPosition | null;
-  @Input() reorderStrategy: ReorderStrategy | null;
-  @Input() reorderMultiple: boolean;
+  @Input() public reorderPosition: ReorderPosition | null;
+  @Input() public reorderStrategy: ReorderStrategy | null;
+  @Input() public reorderMultiple: boolean;
 
 
   @ViewChildren('td')
@@ -106,18 +108,22 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   @HostBinding('class.multiple-selection')
-  get isMultipleSelection() {
+  public get isMultipleSelection() {
     const multiple = this.reorderMultiple;
 
     return multiple && this.selected;
   }
 
   @HostBinding('class')
-  get rowCssClass() {
+  public get rowCssClass() {
     let cls = 'fs-list-row';
 
-    if (this.rowIndex % 2 !== 0) cls += ' fs-list-row-odd';
-    if (this.rowIndex % 2 === 0) cls += ' fs-list-row-even';
+    if (this.rowIndex % 2 !== 0) {
+      cls += ' fs-list-row-odd';
+    }
+    if (this.rowIndex % 2 === 0) {
+      cls += ' fs-list-row-even';
+    }
 
     if (this.row?.isGroup) {
       cls += ' fs-list-row-group';
@@ -148,7 +154,9 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
       } else if (typeof resultClass === 'object') {
         const keys = Object.keys(resultClass);
         for (const k of keys) {
-          if (resultClass[k] === true) cls += ` ${k}`;
+          if (resultClass[k] === true) {
+            cls += ` ${k}`;
+          }
         }
       }
     }
@@ -163,13 +171,13 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   public get leftDragDropEnabled(): boolean {
     return this.reorderEnabled
       && this.reorderPosition === ReorderPosition.Left
-      && this.activeFiltersCount == 0
+      && this.activeFiltersCount == 0;
   }
 
   public get rightDragDropEnabled(): boolean {
     return this.reorderEnabled
       && this.reorderPosition === ReorderPosition.Right
-      && this.activeFiltersCount == 0
+      && this.activeFiltersCount == 0;
   }
 
   public ngOnInit() {
@@ -204,7 +212,9 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   public ngOnDestroy() {
-    this._eventListeners.forEach((listener) => { listener() });
+    this._eventListeners.forEach((listener) => {
+      listener();
+    });
 
     this._destroy$.next();
     this._destroy$.complete();
@@ -212,6 +222,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   /**
    * Select row by checkbox
+   *
    * @param event
    */
   public selectRow(event: MatCheckboxChange) {
@@ -221,6 +232,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   /**
    * Track By for improve change detection
+   *
    * @param index
    */
   public trackByFn(index) {
@@ -250,7 +262,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
             this.rowEvents[event]({
               event: evt,
               row: this.row.data,
-              rowIndex: this.rowIndex
+              rowIndex: this.rowIndex,
             });
           }
         });
@@ -304,7 +316,9 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
     this.rowActions.forEach((action) => {
 
-      if (!action.isShown) { return }
+      if (!action.isShown) {
+        return;
+      }
 
       if (action.menu && !action.restore) {
         this.menuRowActions.push(action);

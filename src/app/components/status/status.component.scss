@@ -1,4 +1,8 @@
 :host {
+  &.hidden-mobile {
+    display: none !important;
+  }
+
   &.first-load {
     .status {
       visibility: hidden;

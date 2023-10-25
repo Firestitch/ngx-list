@@ -1,0 +1,17 @@
+th {
+  &.fs-list-col-selection {
+    width: 1%;
+    text-align: left;
+  }
+
+  &.sorting {
+    cursor: pointer;
+    &:hover {
+      background-color: #F6F6F6;
+    }
+  }
+
+  &.sorting {
+    background-image: none;
+  }
+}

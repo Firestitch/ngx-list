@@ -6,6 +6,9 @@
 $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default;
 
 :host {
+  display: block;
+  width: 100%;
+
   ::ng-deep {
     .fs-list-swap-restricted {
       opacity: 0.5;
@@ -17,6 +20,14 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
 
     .hidden {
       display: none;
+    }
+
+    &.multiple-selection {
+      background-color: rgba($primary-color, 0.5);
+
+      ::ng-deep .fs-list-col {
+        background-color: rgba($primary-color, 0.5);
+      }
     }
 
     @media print {
@@ -34,7 +45,6 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
     }
   }
 }
-
 
 .fs-list-container {
   width: 100%;
@@ -97,73 +107,157 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
       margin-left: 5px;
     }
   }
-}
 
+  .fs-list-header {
+    .heading-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
 
-.fs-list-filter {
-  margin-bottom: 0;
-  position: initial !important;
-  display: block;
-  width: 100%;
-}
+    .heading {
+      margin: 0;
+    }
 
-
-.fs-list-no-results-container {
-  .fs-list-no-results {
-    text-align: center;
-    color: #999;
-    padding: 10px 0;
-  }
-}
-
-
-.fs-list-header {
-  .heading-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .heading {
-    margin: 0;
-  }
-
-  h2 + .subheading {
-    margin: 2px 0 0 0;
-  }
-
-  .fs-list-actions {
-    white-space: nowrap;
-    float: right;
-
-    .menu-button {
-      width: 36px;
-      height: 36px;
-      line-height: 36px;
+    h2 + .subheading {
+      margin: 2px 0 0 0;
     }
   }
 
-  .action-button {
-    margin-left: 5px;
-    &:first-child {
-      margin-left: 0;
-    }
-  }
-
-  .mat-button {
-    margin-top: 0;
+  .fs-list-filter {
     margin-bottom: 0;
-    margin-right: 0;
+    position: initial !important;
+    display: block;
+    width: 100%;
   }
-}
 
-.fs-list-table-container {
-  width: 100%;
-  overflow: auto;
+  .fs-list-no-results-container {
+    .fs-list-no-results {
+      text-align: center;
+      color: #999;
+      padding: 10px 0;
+    }
+  }
+
+  .fs-list-table-container {
+    width: 100%;
+    overflow: auto;
+  }
 }
 
 ::ng-deep {
-  .preview-block {
+  .fs-list-table {
+    border-spacing: 0;
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+
+    thead {
+      display: table-header-group;
+
+      th {
+        color: #999;
+        padding: 8px;
+        font-weight: normal;
+        color: rgba(143, 143, 143, 1);
+        font-size: 85%;
+      }
+    }
+
+    tbody {
+      display: table-row-group;
+      position: relative;
+    }
+
+    tbody,
+    thead,
+    tfoot{
+      tr{
+        display: table-row;
+
+        td {
+          display: table-cell;
+          padding: 8px;
+          vertical-align: middle;
+          outline: none;
+          text-align: left;
+        }
+      }
+    }
+
+    tfoot td {
+      padding: 8px;
+    }
+  }
+
+  .fs-list-table.style-line,
+  .fs-list-table:not(.style-card) {
+    tbody {
+      .fs-list-col {
+        box-sizing: border-box;
+        border-top: 1px solid #ddd;
+      }
+      
+      .fs-list-row:first-child .fs-list-col {
+        border-top: 2px solid #ddd;
+      }
+
+      .fs-list-row:last-child .fs-list-col {
+        border-bottom: 2px solid #ddd;
+      }
+    }
+
+    .fs-list-row:hover .fs-list-col {
+      background-color: #f6f6f6;
+    }
+
+    .fs-list-container {
+      &.has-dragging {
+        thead {
+          th {
+            border-bottom: 2px solid #ddd;
+          }
+        }
+
+        tbody {
+          tr:nth-child(2) td {
+            border-top: none;
+          }
+        }
+      }
+    }
+
+    &.style-card {  
+      border-spacing: 0 8px;
+      border-collapse: separate;
+
+      tbody  {
+        tr {
+          &:not(.fs-list-row-group-footer):not(.fs-list-row-group) {
+            background-color: #fafafa;
+            border-radius: 10px;
+          }
+
+          td {
+            border: none !important;
+            padding: 8px 16px;
+
+            &:first-child {
+              border-top-left-radius: 10px;
+              border-bottom-left-radius: 10px;
+            }
+
+            &:last-child {
+              border-top-right-radius: 10px;
+              border-bottom-right-radius: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .fs-list-preview-block {
     position: fixed;
     height: 30px;
     width: 200px;
@@ -176,206 +270,8 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
     border-radius: 6px;
   }
 
-  .fs-list {
-    display: block;
-    width: 100%;
-  }
-
-  .fs-list-table {
-    border-spacing: 0;
-    display: table;
-    width: 100%;
-    border-collapse: collapse;
-
-    .fs-list-head {
-      display: table-header-group;
-
-      .fs-list-col {
-        color: #999;
-        padding: 8px;
-        font-weight: normal;
-        color: rgba(143, 143, 143, 1);
-        font-size: 85%;
-
-        &.fs-list-col-selection {
-          width: 1%;
-          text-align: left;
-        }
-
-        &.sorting {
-          cursor: pointer;
-          &:hover {
-            background-color: #F6F6F6;
-          }
-        }
-
-        .wrap {
-          display: inline-flex;
-          vertical-align: middle;
-          white-space: nowrap;
-
-          mat-icon {
-            font-size: 14px;
-            display: block;
-            height: 14px;
-            width: 14px;
-          }
-
-          .direction {
-            margin-left: 5px;
-          }
-        }
-
-        &.sorting {
-          background-image: none;
-        }
-      }
-    }
-
-    .fs-list-body {
-      display: table-row-group;
-      position: relative;
-
-      &.drag-hidden {
-        .drag-col {
-          opacity: 0 !important;
-          cursor: default;
-        }
-      }
-
-      &.disabled {
-        opacity: 0.4;
-        pointer-events: none;
-      }
-
-      .fs-list-row {
-        &:hover {
-          .fs-list-col {
-            background-color: #f6f6f6;
-          }
-        }
-      }
-    }
-
-    .fs-list-head,
-    .fs-list-body,
-    .fs-list-footer {
-      .fs-list-row {
-        display: table-row;
-
-        &.drag-hidden {
-          display: none;
-        }
-
-        &.multiple-selection {
-          background-color: rgba($primary-color, 0.5);
-
-          .fs-list-col {
-            background-color: rgba($primary-color, 0.5);
-          }
-        }
-
-        .fs-list-col {
-          display: table-cell;
-          padding: 8px;
-          vertical-align: middle;
-          outline: none;
-          text-align: left;
-
-          &.drag-col {
-            // Percentage width doesn't work on IOS
-            // width: 1%;
-            width: 24px;
-            text-align: center;
-            cursor: grab;
-
-            &.drag-disabled {
-              opacity: 0.4;
-              cursor: no-drop;
-            }
-
-            mat-icon {
-              display: flex;
-            }
-          }
-
-          &.fs-list-col-selection {
-            padding: 10px;
-          }
-
-          &.row-actions {
-            width: 1%;
-            white-space: nowrap;
-            padding-right: 10px;
-            overflow: hidden;
-
-            .row-inline-action {
-              margin-left: 12px;
-              display: inline-block;
-
-              &:first-child {
-                margin-left: 0;
-              }
-            }
-
-            .row-inline-action-icon,
-            .row-inline-action-fab,
-            .row-inline-action-mini-fab,
-            .row-menu-action {
-                width: 35px;
-                justify-content: center;
-                align-items: center;
-            }
-          }
-
-          &.left {
-            text-align: left;
-          }
-
-          &.center {
-            text-align: center;
-          }
-
-          &.right {
-            text-align: right;
-          }
-        }
-
-        &.draggable {
-          position: fixed;
-          z-index: 9999;
-          box-shadow: 2px 2px 2px 0 rgba(158,158,158,0.65);
-          border-radius: 5px;
-          background-color: #f6f6f6;
-
-          .fs-list-col {
-            border: none;
-          }
-        }
-      }
-    }
-
-    tfoot td {
-      padding: 8px;
-    }
-  }
-}
-
-::ng-deep {
   .reorder-in-progress {
     user-select: none;
-  }
-
-  .draggable-elem td {
-    opacity: 0.2;
-  }
-
-  .hidden-mobile-menu-action {
-    display: none !important;
-  }
-
-  .hidden-mobile {
-    display: none !important;
   }
 
   @include phone {
@@ -433,76 +329,6 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
       &:hover {
         .fs-list-col {
           background-color: initial;
-        }
-      }
-    }
-  }
-}
-
-
-::ng-deep {
-  .fs-list-table.style-line,
-  .fs-list-table:not(.style-card) {
-    tbody {
-      .fs-list-col {
-        box-sizing: border-box;
-        border-top: 1px solid #ddd;
-      }
-      
-      .fs-list-row:first-child .fs-list-col {
-        border-top: 2px solid #ddd;
-      }
-
-      .fs-list-row:last-child .fs-list-col {
-        border-bottom: 2px solid #ddd;
-      }
-    }
-
-    .fs-list-row:hover .fs-list-col {
-      background-color: #f6f6f6;
-    }
-
-    .fs-list-container {
-      &.has-dragging {
-        thead {
-          th {
-            border-bottom: 2px solid #ddd;
-          }
-        }
-
-        tbody {
-          tr:nth-child(2) td {
-            border-top: none;
-          }
-        }
-      }
-    }
-  }
-
-  .fs-list-table.style-card {  
-    border-spacing: 0 8px;
-    border-collapse: separate;
-
-    tbody.fs-list-body  {
-      tr.fs-list-row {
-        &.fs-list-row-body {
-          background-color: #fafafa;
-          border-radius: 10px;
-        }
-
-        td.fs-list-col {
-          border: none !important;
-          padding: 8px 16px;
-
-          &:first-child {
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
-          }
-
-          &:last-child {
-            border-top-right-radius: 10px;
-            border-bottom-right-radius: 10px;
-          }
         }
       }
     }

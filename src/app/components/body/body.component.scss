@@ -1,0 +1,13 @@
+:host {
+  &.drag-hidden {
+    .drag-col {
+      opacity: 0 !important;
+      cursor: default;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+}

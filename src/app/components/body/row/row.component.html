@@ -7,9 +7,10 @@
 <ng-container *ngIf="selection && !(selection.disabled$ | async)">
   <td class="fs-list-col fs-list-col-selection">
     <ng-container *ngIf="!row.isGroupFooter">
-      <mat-checkbox (change)="selectRow($event)"
-                    [checked]="selected"
-                    [indeterminate]="indeterminateSelected">
+      <mat-checkbox 
+        (change)="selectRow($event)"
+        [checked]="selected"
+        [indeterminate]="indeterminateSelected">
       </mat-checkbox>
     </ng-container>
   </td>
@@ -44,25 +45,26 @@
 <!-- Row Actions -->
 <td *ngIf="hasRowActions && !(reorderEnabled && reorderStrategy === ReorderStrategy.Manual)" class="fs-list-col row-actions">
   <ng-container *ngIf="!isGroupFooterRow">
-    <fs-list-row-actions [row]="row"
-                         [index]="rowIndex"
-                         [rowActions]="rowActions"
-                         [menuRowActions]="menuRowActions"
-                         [inlineRowActions]="inlineRowActions"
-                         [restoreAction]="restoreAction"
-                         [restoreMode]="restoreMode"
-                         [rowRemoved]="rowRemoved"
-    ></fs-list-row-actions>
+    <fs-list-row-actions
+      [row]="row"
+      [index]="rowIndex"
+      [rowActions]="rowActions"
+      [menuRowActions]="menuRowActions"
+      [inlineRowActions]="inlineRowActions"
+      [restoreAction]="restoreAction"
+      [restoreMode]="restoreMode"
+      [rowRemoved]="rowRemoved">
+    </fs-list-row-actions>
   </ng-container>
 </td>
 
 <ng-template #dragCell>
   <ng-container *ngIf="dragCellVisible && !isGroupFooterRow; else emptyCell">
-    <td class="fs-list-col drag-col"
+    <td 
+        class="fs-list-col drag-col"
         [class.drag-disabled]="isDragDisabled"
         (mousedown)="dragStart($event)"
-        (touchstart)="dragStart($event)"
-    >
+        (touchstart)="dragStart($event)">
       <mat-icon>drag_handle</mat-icon>
     </td>
   </ng-container>

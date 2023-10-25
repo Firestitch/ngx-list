@@ -1,11 +1,12 @@
+import { SelectionDialog, SelectionRef } from '@firestitch/selection';
+
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
+
 import { get as _get } from 'lodash-es';
-import { SelectionDialog, SelectionRef } from '@firestitch/selection';
 
 import { FsListSelectionConfig } from '../interfaces';
 import { Row } from '../models/row';
-
 
 export enum SelectionChangeType {
   AllVisibleSelectionChange = 'AllVisibleSelectionChange',
@@ -33,7 +34,7 @@ export class SelectionController {
   private _selectionDialogRef: SelectionRef = null;
 
   private _getRows: () => any[];
-  private _selectionChange = new Subject<{ type: SelectionChangeType, payload: any }>();
+  private _selectionChange = new Subject<{ type: SelectionChangeType; payload: any }>();
 
   // Selected only visible rows (ex.: selected only limited 15 rows when we have pagination)
   private _selectedAllVisible = false;
@@ -52,7 +53,7 @@ export class SelectionController {
   constructor(
     config: FsListSelectionConfig = {},
     private _trackBy: string,
-    private _selectionDialog: SelectionDialog
+    private _selectionDialog: SelectionDialog,
   ) {
     this.actions = config.actions ? [...config.actions] : [];
     this.actionSelectedFn = config.actionSelected;
@@ -63,19 +64,19 @@ export class SelectionController {
     this._disabled$.next(!!config.disabled);
   }
 
-  get disabled(): boolean {
+  public get disabled(): boolean {
     return this._disabled$.getValue();
   }
 
-  get disabled$(): Observable<boolean> {
+  public get disabled$(): Observable<boolean> {
     return this._disabled$.asObservable();
   }
 
-  get selectedAll() {
+  public get selectedAll() {
     return this._selectedAll;
   }
 
-  get selectionChange$() {
+  public get selectionChange$() {
     return this._selectionChange.pipe(takeUntil(this._destroy$));
   }
 
@@ -85,6 +86,7 @@ export class SelectionController {
 
   /**
    * Trigger when row was selected
+   *
    * @param row
    * @param checked
    */
@@ -108,6 +110,7 @@ export class SelectionController {
 
   /**
    * Do check or uncheck of visible rows
+   *
    * @param checked
    */
   public selectAllVisibleRows(checked) {
@@ -163,9 +166,10 @@ export class SelectionController {
       && row.children?.length > this.selectedGroups.get(identifier)
     ) {
       return 'indeterminate';
-    } else {
-      return this.selectedGroups.has(identifier) || this.selectedAll;
     }
+
+    return this.selectedGroups.has(identifier) || this.selectedAll;
+
   }
 
   /**
@@ -186,6 +190,7 @@ export class SelectionController {
 
   /**
    * Update count of visible elements
+   *
    * @param count
    */
   public updateVisibleRecordsCount(count: number) {
@@ -194,6 +199,7 @@ export class SelectionController {
 
   /**
    * Update count of total available elemenets
+   *
    * @param count
    */
   public updateTotalRecordsCount(count: number) {
@@ -238,6 +244,7 @@ export class SelectionController {
    * Method will be called from List for remove row if it was selected
    *
    * BUT methods for update visible and etc. will be called a bit later
+   *
    * @param row
    */
   public removeRow(row) {
@@ -249,6 +256,7 @@ export class SelectionController {
 
   /**
    * Intersection of selected and passed rows to remove rows that we dont need more
+   *
    * @param rows
    */
   public selectedRowsIntersection(rows) {
@@ -258,11 +266,11 @@ export class SelectionController {
       if (rowsIndentifiers.indexOf(identifier) === -1) {
         this.removeRow(selectedRow);
       }
-    })
+    });
   }
 
   public updateConfig({
-    actions, actionSelected, allSelected, cancelled, selectionChanged, selectAll
+    actions, actionSelected, allSelected, cancelled, selectionChanged, selectAll,
   }: FsListSelectionConfig) {
     this.actions = actions ? [...actions] : this.actions;
     this.actionSelectedFn = actionSelected ?? this.actionSelectedFn;
@@ -304,7 +312,7 @@ export class SelectionController {
   private _subscribeToSelection() {
     this._selectionDialogRef.actionSelected$()
       .pipe(
-        takeUntil(this._destroy$)
+        takeUntil(this._destroy$),
       )
       .subscribe((data) => {
         this._onActionActions(data);
@@ -312,30 +320,35 @@ export class SelectionController {
 
     this._selectionDialogRef.cancelled$()
       .pipe(
-        takeUntil(this._destroy$)
+        takeUntil(this._destroy$),
       )
       .subscribe(() => this._onCancelActions());
 
     this._selectionDialogRef.allSelected$()
       .pipe(
-        takeUntil(this._destroy$)
+        takeUntil(this._destroy$),
       )
       .subscribe((data) => {
         this._onSelectAllActions(data);
-      })
+      });
   }
 
   /**
    * If some action was clicked on selection ref dialog
+   *
    * @param data
    */
   private _onActionActions(data) {
-    if (!this.actionSelectedFn) { return }
+    if (!this.actionSelectedFn) {
+      return;
+    }
 
     // Execute callback
     const result = this.actionSelectedFn({
-      selected: Array.from(this.selectedRows.values()).map((row) => { return {...row}}),
-      ...data
+      selected: Array.from(this.selectedRows.values()).map((row) => {
+        return { ...row };
+      }),
+      ...data,
     });
 
     // If result is observable
@@ -354,7 +367,7 @@ export class SelectionController {
           // Uncheck all visible rows
           this.selectAllVisibleRows(false);
         },
-        error: () => {}
+        error: () => { },
       });
     }
   }
@@ -374,6 +387,7 @@ export class SelectionController {
 
   /**
    * If "Select All" action was clicked on selection ref dialog
+   *
    * @param flag
    */
   private _onSelectAllActions(flag) {
@@ -386,7 +400,9 @@ export class SelectionController {
     this._selectionChangeEvent(SelectionChangeType.SelectedAll, this._selectedAll);
     this._updateSelectionRefSelectedAll();
 
-    if (!this.allSelectedFn) { return }
+    if (!this.allSelectedFn) {
+      return;
+    }
 
     this.allSelectedFn(flag);
   }
@@ -397,7 +413,7 @@ export class SelectionController {
     if (this.selectedRows.size === 0) {
       this._selectionDialogRef.updateActions([]);
 
-      return
+      return;
     }
 
     if (this.selectionChangedFn) {
@@ -415,7 +431,7 @@ export class SelectionController {
           ).subscribe({
             next: (actions) => {
               this._selectionDialogRef.updateActions(actions);
-            }
+            },
           });
         } else if (Array.isArray(result)) {
           this._selectionDialogRef.updateActions(result);
@@ -461,7 +477,7 @@ export class SelectionController {
 
     this._selectionChangeEvent(
       SelectionChangeType.RowSelectionChange,
-      this._selectedAllVisible
+      this._selectedAllVisible,
     );
   }
 
@@ -471,19 +487,20 @@ export class SelectionController {
   private _visibleRowsSelectionChanged() {
     this._selectionChangeEvent(
       SelectionChangeType.AllVisibleSelectionChange,
-      this._selectedAllVisible
+      this._selectedAllVisible,
     );
   }
 
   /**
    * Method constructor for events
+   *
    * @param type
    * @param payload
    */
   private _selectionChangeEvent(type: SelectionChangeType, payload) {
     this._selectionChange.next({
-      type: type,
-      payload: payload
+      type,
+      payload,
     });
   }
 
@@ -497,7 +514,7 @@ export class SelectionController {
 
     if (identifier === undefined) {
       console.warn('Selection can not recognize track by field for row. ' +
-        'Please check if you had configured trackBy function.')
+        'Please check if you had configured trackBy function.');
     }
 
     return identifier;
@@ -512,7 +529,7 @@ export class SelectionController {
       });
     } else {
       if (row.isChild) {
-        this._selectChildRow(row)
+        this._selectChildRow(row);
       }
 
       this.selectedRows.set(identifier, row.data);

@@ -10,13 +10,15 @@
   </th>
 
   <!-- Content -->
-  <th fs-head-cell *ngFor="let column of columns; trackBy: trackByFn"
-      (click)="$event.stopPropagation(); sorting.sortBy(column)"
-      [column]="column"
-      [class.sorting]="column.sortable"
-      [ngClass]="column.headerConfigs.classesArray"
-      [attr.colspan]="column.headerConfigs.colspan"
-      [attr.width]="column.width"></th>
+  <th 
+    fs-head-cell *ngFor="let column of columns; trackBy: trackByFn"
+    (click)="$event.stopPropagation(); sorting.sortBy(column)"
+    [column]="column"
+    [class.sorting]="column.sortable"
+    [ngClass]="column.headerConfigs.classesArray"
+    [attr.colspan]="column.headerConfigs.colspan"
+    [attr.width]="column.width">
+  </th>
 
   <!-- Drag -->
   <th *ngIf="rightDragDropEnabled"

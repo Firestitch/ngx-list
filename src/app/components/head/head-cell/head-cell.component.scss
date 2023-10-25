@@ -1,0 +1,16 @@
+.wrap {
+  display: inline-flex;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  mat-icon {
+    font-size: 14px;
+    display: block;
+    height: 14px;
+    width: 14px;
+  }
+
+  .direction {
+    margin-left: 5px;
+  }
+}

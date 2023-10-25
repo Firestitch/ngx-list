@@ -3,24 +3,24 @@ import {
   Component,
   Input,
 } from '@angular/core';
-import { Column } from '../../models/column.model';
-import { SelectionController } from '../../classes/selection-controller';
+
 import { ReorderPosition, ReorderStrategy } from '../../classes/reorder-controller';
+import { SelectionController } from '../../classes/selection-controller';
+import { Column } from '../../models/column.model';
 
 @Component({
   selector: '[fs-list-footer]',
-  templateUrl: 'footer.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './footer.component.html',
+  styleUrls: ['./footer.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsFooterComponent {
 
-  @Input() hasRowActions: boolean;
-  @Input() columns: Column[] = [];
-  @Input() selection: SelectionController;
-  @Input() activeFiltersCount: number;
-  @Input() reorderEnabled: boolean;
-  @Input() reorderPosition: ReorderPosition | null;
-  @Input() reorderStrategy: ReorderStrategy | null;
-
-  constructor() {}
+  @Input() public hasRowActions: boolean;
+  @Input() public columns: Column[] = [];
+  @Input() public selection: SelectionController;
+  @Input() public activeFiltersCount: number;
+  @Input() public reorderEnabled: boolean;
+  @Input() public reorderPosition: ReorderPosition | null;
+  @Input() public reorderStrategy: ReorderStrategy | null;
 }

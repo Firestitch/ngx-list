@@ -1,0 +1,15 @@
+:host ::ng-deep {
+  fs-list-row-inline-action {
+    margin-left: 5px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}
+
+::ng-deep {
+  .hidden-mobile-menu-action {
+    display: none !important;
+  }
+}

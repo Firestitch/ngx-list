@@ -1,22 +1,22 @@
 <ng-container *ngFor="let row of rows; let i = index;">
-  <tr fs-list-row
-      fsListDraggableRow
-      [row]="row"
-      [rowIndex]="i"
-      [columns]="columns"
-      [rowActionsRaw]="rowActionsRaw"
-      [groupActionsRaw]="groupActionsRaw"
-      [hasRowActions]="hasRowActions"
-      [rowEvents]="rowEvents"
-      [rowClass]="rowClass"
-      [selection]="selection"
-      [restoreMode]="restoreMode"
-      [rowRemoved]="rowRemoved"
-      [activeFiltersCount]="activeFiltersCount"
-      [reorderEnabled]="reorderEnabled"
-      [reorderPosition]="reorderPosition"
-      [reorderStrategy]="reorderStrategy"
-      [reorderMultiple]="reorderMultiple"
-  >
+  <tr
+    fs-list-row
+    fsListDraggableRow
+    [row]="row"
+    [rowIndex]="i"
+    [columns]="columns"
+    [rowActionsRaw]="rowActionsRaw"
+    [groupActionsRaw]="groupActionsRaw"
+    [hasRowActions]="hasRowActions"
+    [rowEvents]="rowEvents"
+    [rowClass]="rowClass"
+    [selection]="selection"
+    [restoreMode]="restoreMode"
+    [rowRemoved]="rowRemoved"
+    [activeFiltersCount]="activeFiltersCount"
+    [reorderEnabled]="reorderEnabled"
+    [reorderPosition]="reorderPosition"
+    [reorderStrategy]="reorderStrategy"
+    [reorderMultiple]="reorderMultiple">
   </tr>
 </ng-container>
