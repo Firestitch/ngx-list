@@ -321,6 +321,19 @@ export class DataController {
   }
 
   public finishReorder(): void {
+    // TODO fixme remove or improve
+    if (this.groupEnabled) {
+      let group;
+      this._rowsStack
+        .forEach((row, index) => {
+          if (row.isGroup && row !== group) {
+            group = row;
+          } else {
+            row.index = index - this._rowsStack.indexOf(group) - 1;
+          }
+        });
+    }
+
     this._updateVisibleRows();
   }
 
@@ -364,8 +377,6 @@ export class DataController {
   private _updateVisibleRows() {
     this.visibleRows = this._rowsStack
       .filter((row, index) => {
-        row.index = index;
-
         return (!row.isGroupChild && !row.isGroupFooter) || row.visible;
       });
   }

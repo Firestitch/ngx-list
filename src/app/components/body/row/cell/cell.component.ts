@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy,
-  Component,
+  Component, DoCheck,
   HostBinding,
   Input, OnChanges, OnDestroy,
   OnInit, SimpleChanges,
@@ -10,7 +10,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { Column } from '../../../../models/column.model';
-import { Row } from '../../../../models/row';
 
 
 @Component({
@@ -18,7 +17,7 @@ import { Row } from '../../../../models/row';
   templateUrl: 'cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
+export class FsCellComponent implements OnInit, OnChanges, DoCheck, OnDestroy {
   @HostBinding('class.fs-list-col') isColl = true;
 
   @HostBinding('attr.role') role = 'gridcell';
@@ -38,9 +37,17 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
     this._listenGroupOpen();
   }
 
+  public ngDoCheck() {
+    // TODO fixme remove or improve
+    if (this.row) {
+      this.cellContext.groupIndex = this.row.index;
+    }
+  }
+
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.rowIndex?.currentValue !== changes.rowIndex?.previousValue) {
       this.cellContext.index = this.rowIndex;
+      this.cellContext.groupIndex = this.row.index;
     }
 
     if (changes.column?.currentValue !== changes.column?.previousValue) {
