@@ -137,7 +137,8 @@ export class FsListDraggableListDirective {
     const swapWithBoundaryGroupElement =
       (elemIndex === 0 || elemIndex === this._rows.length - 1)
       && targetRow.isGroup
-      && this.draggableItem.isGroupChild;
+      // TODO fix isChild & all
+      && (this.draggableItem as any).isChild;
 
 
     if (!swapWithBoundaryGroupElement) {

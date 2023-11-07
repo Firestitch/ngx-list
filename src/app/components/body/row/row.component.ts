@@ -127,7 +127,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
     if (this.row?.isGroup) {
       cls += ' fs-list-row-group';
-    } else if (this.row?.isGroupChild) {
+    } else if ((this.row as any)?.isChild) { // TODO fix isChild & all
       cls += ' fs-list-row-group-child';
     } else if (this.row?.isGroupFooter) {
       cls += ' fs-list-row-group-footer';
@@ -143,7 +143,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
       if (this.row.isGroup) {
         options.groupIndex = this.row.index;
-      } else if (this.row.isGroupChild || this.row.isGroupFooter) {
+      } else if ((this.row as any).isChild || this.row.isGroupFooter) { // TODO fix isChild & all
         options.groupIndex = this.row.parent.index;
       }
 
