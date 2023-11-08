@@ -10,8 +10,9 @@ import {
 import {
   FsSelectionActionSelected,
   FsSelectionDialogConfigAction,
-  SelectionRef
+  SelectionRef,
 } from '@firestitch/selection';
+
 import { Observable } from 'rxjs';
 
 import { ReorderPosition } from '../classes/reorder-controller';
@@ -43,7 +44,7 @@ export interface FsListConfig {
   queryParam?: boolean;
   paging?: FsPaging | false;
   loadMore?: FsListLoadMoreConfig | boolean;
-  columnDefaults?: Object;
+  columnDefaults?: any;
   filters?: (IFilterConfigItem | IFilterConfigDateItem)[];
   savedFilters?: IFilterSavedFiltersConfig;
   persist?: FsListPersitance;
@@ -67,11 +68,12 @@ export interface FsListConfig {
   group?: FsListGroupConfig;
   sort?: FsListSortConfig;
   restore?: FsListRestoreConfig;
-  noResults?: FsListNoResultsConfig
+  noResults?: FsListNoResultsConfig;
   emptyState?: FsListEmptyStateConfig;
   filterInit?: ChangeFn;
   filterChange?: ChangeFn;
-  style?: 'line' | 'card'
+  reload?: boolean;
+  style?: 'line' | 'card';
 }
 
 export interface FsListGroupConfig {
@@ -82,9 +84,10 @@ export interface FsListGroupConfig {
   footer?: (
     row: { [key: string]: any },
     group?: {
-        [key: string]: any,
-        children: {[key: string]: any
-      }[],
+      [key: string]: any;
+      children: {
+        [key: string]: any;
+      }[];
     },
   ) => boolean;
   actions?: (FsListRowActionGroup | FsListRowAction)[];
@@ -115,13 +118,13 @@ export type FsListReorderDoneCallback
   = (rows: FsListReorderData[]) => void | Observable<any>;
 
 export interface FsListReorderData {
-  type: RowType,
-  data: any,
-  parent: FsListReorderData,
+  type: RowType;
+  data: any;
+  parent: FsListReorderData;
 }
 
 export type FsListReorderMoveInGroupCallback =
-  (data: { row1: any, row2: any, group1: any, group2: any }) => boolean;
+  (data: { row1: any; row2: any; group1: any; group2: any }) => boolean;
 
 export interface FsListHeaderConfig {
   className?: string;
@@ -189,7 +192,7 @@ export type FsListAction = { customize?: boolean } & FsFilterAction;
 
 export interface FsListRowActionGroup {
   label?: string;
-  rowActions: FsListRowAction[]
+  rowActions: FsListRowAction[];
 }
 
 export interface FsListRowAction {
@@ -200,23 +203,17 @@ export interface FsListRowAction {
   menu?: boolean;
   click?: (row, event, index) => void;
   link?: FsListRowActionLinkFn;
-  file?: FsListRowActionFile,
+  file?: FsListRowActionFile;
   show?: (row, index: number) => boolean;
-  remove?: { title?: string; template?: string; } | boolean;
+  remove?: { title?: string; template?: string } | boolean;
   restore?: boolean;
 }
 
-export interface FsListRowActionFileFn {
-  (selection: FsFile | FsFile[], row: FsListAbstractRow, index: number): void
-}
+export type FsListRowActionFileFn = (selection: FsFile | FsFile[], row: FsListAbstractRow, index: number) => void;
 
-export interface FsListRowActionLinkFn {
-  (row: FsListAbstractRow): FsListRowActionLink
-}
+export type FsListRowActionLinkFn = (row: FsListAbstractRow) => FsListRowActionLink;
 
-export interface FsListRowActionLabelFn {
-  (row: FsListAbstractRow): string
-}
+export type FsListRowActionLabelFn = (row: FsListAbstractRow) => string;
 
 export interface FsListRowActionFile {
   select: FsListRowActionFileFn;
@@ -240,37 +237,21 @@ export interface FsListAbstractRow {
   [name: string]: any;
 }
 
-export interface FsListTrackByFn {
-  (row: FsListAbstractRow, index?: number): boolean
-}
+export type FsListTrackByFn = (row: FsListAbstractRow, index?: number) => boolean;
 
-export interface FsListTrackByTargetRowFn {
-  (listRow: FsListAbstractRow, targetRow?: FsListAbstractRow): boolean
-}
+export type FsListTrackByTargetRowFn = (listRow: FsListAbstractRow, targetRow?: FsListAbstractRow) => boolean;
 
-export interface FsListColumnLoadFn {
-  (): Observable<FsListColumn[]>;
-}
+export type FsListColumnLoadFn = () => Observable<FsListColumn[]>;
 
-export interface FsListColumnChangeFn {
-  (listColumns: FsListColumn[]): void;
-}
+export type FsListColumnChangeFn = (listColumns: FsListColumn[]) => void;
 
-export interface FsListColumnTitleFn {
-  (name: string, defaultTitle: string): string;
-}
+export type FsListColumnTitleFn = (name: string, defaultTitle: string) => string;
 
-export interface FsListColumnTooltipFn {
-  (name: string, show: boolean, disabled: boolean): string;
-}
+export type FsListColumnTooltipFn = (name: string, show: boolean, disabled: boolean) => string;
 
-export interface FsListColumnDisabledFn {
-  (name: string): boolean;
-}
+export type FsListColumnDisabledFn = (name: string) => boolean;
 
-export interface FsListColumnSelectedFn {
-  (name: string, show: boolean): boolean;
-}
+export type FsListColumnSelectedFn = (name: string, show: boolean) => boolean;
 
 export interface FsListColumnConfig {
   load?: FsListColumnLoadFn;
@@ -295,14 +276,14 @@ export interface FsListEmptyStateConfig {
 }
 
 export interface FsListFetchOptions {
-  state: FsListState,
+  state: FsListState;
 }
 
 export type FsListPersitance = FsFilterPersistance;
 export type FsListStateValidationFn = (filters: any, rows: FsListAbstractRow[]) => boolean;
 export type FsListFetchFn =
   (query: Record<string, any>, options: FsListFetchOptions) =>
-    Observable<{ data: unknown[], paging?: FsPaging }>;
+    Observable<{ data: unknown[]; paging?: FsPaging }>;
 
 export type FsListAfterFetchFn =
   (query: Record<string, any>, data: unknown[]) => void;
@@ -316,7 +297,7 @@ export type FsListAfterContentInitFn =
 export interface FsListRowClassOptions {
   index: number;
   groupIndex?: number;
-  type?: RowType,
+  type?: RowType;
 }
 
 export type FsListAfterInitFn = (listComponent: any) => void;

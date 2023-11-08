@@ -1,17 +1,20 @@
 import { ElementRef, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { ChangeFn, FilterConfig, IFilterSavedFiltersConfig, ItemType } from '@firestitch/filter';
 import { FsScrollInstance, FsScrollService } from '@firestitch/scroll';
 import { SelectionDialog } from '@firestitch/selection';
 
-import { cloneDeep } from 'lodash-es';
 import { BehaviorSubject, combineLatest, EMPTY, from, Observable, of, Subject, Subscription } from 'rxjs';
-import { catchError, debounceTime, map, mapTo, shareReplay, switchMap, take, takeUntil, tap, } from 'rxjs/operators';
+import { catchError, debounceTime, map, mapTo, shareReplay, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+
+import { cloneDeep } from 'lodash-es';
 
 import { SortingDirection } from '../models/column.model';
 
 // Interfaces
 import { PageChangeType } from '../enums/page-change-type.enum';
+import { FsListState } from '../enums/state.enum';
 import {
   FsListAfterContentInitFn,
   FsListAfterFetchFn,
@@ -31,20 +34,19 @@ import {
   FsListSelectionConfig,
   FsListTrackByFn,
   FsPaging,
-  PageChange
+  PageChange,
 } from '../interfaces';
 import { RowAction } from '../models/row-action.model';
 import { StyleConfig } from '../models/styleConfig.model';
+
 import { ColumnsController } from './columns-controller';
 import { DataController } from './data-controller';
+import { ExternalParamsController } from './external-params-controller';
 import { ActionsController } from './index';
 import { PaginationController } from './pagination-controller';
+import { PersistanceController } from './persistance-controller';
 import { SelectionController } from './selection-controller';
 import { SortingController } from './sorting-controller';
-
-import { FsListState } from '../enums/state.enum';
-import { ExternalParamsController } from './external-params-controller';
-import { PersistanceController } from './persistance-controller';
 
 const SHOW_DELETED_FILTERS_KEY = '_showDeleted_';
 
@@ -75,26 +77,20 @@ export class List {
   public afterContentInit: FsListAfterContentInitFn;
   public afterInit: FsListAfterInitFn;
   public style;
-
   public initialized$ = new BehaviorSubject(false);
   public loading$ = new BehaviorSubject(false);
-
   public hasRowActions;
   public paging = new PaginationController();
-
   public columns = new ColumnsController();
   public actions = new ActionsController();
   public dataController = new DataController();
   public sorting = new SortingController();
   public externalParams: ExternalParamsController;
   public selection: SelectionController;
-
   public filterConfig: FilterConfig = null;
-
   public fetch$ = new Subject<FsListFetchSubscription | void>();
   public fetchComplete$ = new Subject<void>();
   public filtersReady$ = new Subject<void>();
-
   public status = true;
   public chips = false;
   public filterInput = true;
@@ -113,7 +109,7 @@ export class List {
 
   private readonly _filtersQuery = new BehaviorSubject<Record<string, any>>(null);
   private readonly _activeFiltersCount$ = this._filtersQuery
-    .pipe(map((v) => Object.keys(v).length), shareReplay())
+    .pipe(map((v) => Object.keys(v).length), shareReplay());
 
   private readonly _headerConfig: StyleConfig;
   private readonly _groupCellConfig: StyleConfig;
@@ -123,7 +119,7 @@ export class List {
   private _fsScrollSubscription: Subscription;
 
   constructor(
-    private el: ElementRef,
+    private _el: ElementRef,
     private config: FsListConfig = {},
     private fsScroll: FsScrollService,
     private selectionDialog: SelectionDialog,
@@ -133,14 +129,11 @@ export class List {
     private inDialog: boolean,
   ) {
     this.initialize(config);
-
     this._headerConfig = new StyleConfig(config.header);
     this._groupCellConfig = new StyleConfig(config.cell);
     this._cellConfig = new StyleConfig(config.cell);
     this._footerConfig = new StyleConfig(config.footer);
-
     this.initialized$.next(true);
-
     this.subscribe();
 
     if (this.initialFetch) {
@@ -182,6 +175,7 @@ export class List {
 
   /**
    * Transform templates for using
+   *
    * @param templates
    */
   public tranformTemplatesToColumns(templates) {
@@ -209,7 +203,7 @@ export class List {
       console.warn('Not able to restore persisted sorting params.', externalSorting);
     }
 
-    this.initFilters();
+    this._initFilters();
     this.initInfinityScroll();
   }
 
@@ -255,14 +249,14 @@ export class List {
 
         if (!this.scrollable && !this.paging.loadMoreEnabled) {
 
-          const contains = [].slice.call(document.querySelectorAll('.cdk-overlay-container')).some(overlay => {
-            return this.el.nativeElement.contains(overlay);
+          const contains = [].slice.call(document.querySelectorAll('.cdk-overlay-container')).some((overlay) => {
+            return this._el.nativeElement.contains(overlay);
           });
 
-          let el = this.el.nativeElement;
+          let el = this._el.nativeElement;
 
           if (!contains) {
-            const rect = this.el.nativeElement.getBoundingClientRect();
+            const rect = this._el.nativeElement.getBoundingClientRect();
             if ((rect.top + window.pageYOffset) < window.innerHeight) {
               el = document.body;
             }
@@ -271,7 +265,7 @@ export class List {
           this.fetchComplete$.asObservable()
             .pipe(
               take(1),
-              takeUntil(this.onDestroy$)
+              takeUntil(this.onDestroy$),
             )
             .subscribe(() => {
               el.scrollIntoView({ behavior: 'smooth' });
@@ -323,6 +317,7 @@ export class List {
 
   /**
    * Toggle group mode status
+   *
    * @param value
    */
   public groupEnabled(value: boolean) {
@@ -357,7 +352,7 @@ export class List {
     }
 
     if (this.externalParams) {
-      this.externalParams.destroy()
+      this.externalParams.destroy();
     }
 
     this.columns.destroy();
@@ -370,6 +365,7 @@ export class List {
 
   /**
    * Do initialization of table
+   *
    * @param config
    */
   private initialize(config: FsListConfig) {
@@ -410,6 +406,7 @@ export class List {
 
   /**
    * Just init options by default it it wasn't specified
+   *
    * @param config
    */
   private initDefaultOptions(config) {
@@ -446,7 +443,7 @@ export class List {
     if (config.afterContentInit) {
       this.afterContentInit = () => {
         config.afterContentInit(this.paging.query, this.dataController.visibleRows);
-      }
+      };
     }
   }
 
@@ -458,8 +455,10 @@ export class List {
       const restoreAction = new RowAction({
         label: this.restore.menuLabel || 'Restore',
         menu: true,
-        click: (row) => { this.restoreClick(this.restore.click, row) }, // TODO fix me, move to special file
-        restore: true
+        click: (row) => {
+          this.restoreClick(this.restore.click, row);
+        }, // TODO fix me, move to special file
+        restore: true,
       });
 
       if (!this.rowActionsRaw) {
@@ -476,7 +475,7 @@ export class List {
         this.filters.push({
           name: SHOW_DELETED_FILTERS_KEY,
           type: ItemType.Checkbox,
-          label: this.restore.filterLabel || 'Show Deleted'
+          label: this.restore.filterLabel || 'Show Deleted',
         });
       }
     }
@@ -485,6 +484,7 @@ export class List {
 
   /**
    * Init paging
+   *
    * @param pagingConfig
    * @param loadMore
    */
@@ -518,7 +518,7 @@ export class List {
   private initializeData() {
     this.dataController.setAdditionalConfigs({
       scrollable: !!this.scrollable,
-      loadMoreEnabled: this.paging.loadMoreEnabled
+      loadMoreEnabled: this.paging.loadMoreEnabled,
     });
   }
 
@@ -536,7 +536,7 @@ export class List {
       this.persistance,
       this.paging,
       this.sorting,
-      this.queryParam
+      this.queryParam,
     );
   }
 
@@ -564,7 +564,7 @@ export class List {
           this.selection?.closeSelectionDialog();
         }),
         map((params: FsListFetchSubscription) => {
-          let query = Object.assign({}, this.filtersQuery);
+          let query = { ...this.filtersQuery };
 
           if (this.paging.hasOffsetStrategy && params && params.loadOffset) {
             query = Object.assign(query, this.paging.loadDeletedOffsetQuery);
@@ -573,20 +573,16 @@ export class List {
               || this.dataController.operation === FsListState.Reload
             ) && this.paging.loadMoreEnabled;
 
-            if (allRecordsRangeNeeded) {
-              query = Object.assign(query, this.paging.loadMoreQuery);
-            } else {
-              query = Object.assign(query, this.paging.query);
-            }
+            query = allRecordsRangeNeeded ? Object.assign(query, this.paging.loadMoreQuery) : Object.assign(query, this.paging.query);
           }
 
           if (this.sorting.sortingColumn) {
             Object.assign(
               query,
               {
-                order: `${this.sorting.sortingColumn.name},${this.sorting.sortingColumn.direction}`
-              }
-            )
+                order: `${this.sorting.sortingColumn.name},${this.sorting.sortingColumn.direction}`,
+              },
+            );
           }
 
           if (this.columns.configured) {
@@ -602,7 +598,7 @@ export class List {
           if (this.columns.loadFnConfigured && !this.columns.columnsFetched) {
             return this.columns.loadRemoteColumnConfigs()
               .pipe(
-                mapTo(query)
+                mapTo(query),
               );
           }
 
@@ -616,8 +612,8 @@ export class List {
                   console.error(error);
 
                   return EMPTY;
-                })
-              )
+                }),
+              );
           }
 
           return of(query);
@@ -713,7 +709,7 @@ export class List {
       this.fsScroll
         .component(this.scrollable.name)
         .pipe(
-          takeUntil(this.onDestroy$)
+          takeUntil(this.onDestroy$),
         )
         .subscribe((fsScrollInstance: FsScrollInstance) => {
           this.fsScrollInstance = fsScrollInstance;
@@ -764,7 +760,7 @@ export class List {
   /**
    * Update and watch filter changes
    */
-  private initFilters() {
+  private _initFilters() {
     if (this.filterConfig) {
       return;
     }
@@ -774,16 +770,17 @@ export class List {
     const sortValues =
       [
         ...this.sorting.sortingColumns,
-        ...this.sorting.fakeSortingColumns
+        ...this.sorting.fakeSortingColumns,
       ].reduce((acc, column) => {
 
         const sortingItem = {
           name: column.title,
           value: column.name,
-          default: this.sorting.sortingColumn && this.sorting.sortingColumn.name === column.name
+          default: this.sorting.sortingColumn && this.sorting.sortingColumn.name === column.name,
         };
 
         acc.push(sortingItem);
+
         return acc;
       }, []);
 
@@ -805,13 +802,14 @@ export class List {
       chips: this.chips,
       init: this.filterInit.bind(this),
       change: this.filterChange.bind(this),
-      reload: this.reload.bind(this),
+      reload: (this.config.reload ?? true) ? this.reload.bind(this) : null,
       sortChange: this.filterSort.bind(this),
     };
   }
 
   /**
    * Callback when Filter has been initialized
+   *
    * @param filters
    */
   private filterInit(filters) {
@@ -826,6 +824,7 @@ export class List {
 
   /**
    * Callback when Filter has been changed
+   *
    * @param filterQuery
    * @param filterSort
    */
@@ -893,7 +892,7 @@ export class List {
       this.paging.updatePaging(
         response.paging,
         displayed,
-        this.dataController.operation === FsListState.LoadMore
+        this.dataController.operation === FsListState.LoadMore,
       );
     } else if (this.paging.enabled) {
       console.log(
@@ -901,7 +900,7 @@ export class List {
         'color: white; background-color: #ffcc0b',
         'Pagination does not configured properly. ' +
         'Pagination is enabled, but http response does not contain "paging" field. ' +
-        'You have to set "paging: false" in config or add "paging" field to response.'
+        'You have to set "paging: false" in config or add "paging" field to response.',
       );
     }
 
@@ -993,7 +992,7 @@ export class List {
         .subscribe({
           next: () => this.reload(),
           error: () => { },
-        })
+        });
     }
   }
 

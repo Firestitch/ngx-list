@@ -18,11 +18,10 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Subject } from 'rxjs';
-import { filter, skip, take, takeUntil } from 'rxjs/operators';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+
 
 import { getNormalizedPath } from '@firestitch/common';
 import { DrawerRef } from '@firestitch/drawer';
@@ -30,12 +29,14 @@ import { FilterComponent } from '@firestitch/filter';
 import { FsScrollService } from '@firestitch/scroll';
 import { SelectionDialog } from '@firestitch/selection';
 
+import { Subject } from 'rxjs';
+import { filter, skip, take, takeUntil } from 'rxjs/operators';
+
 import { cloneDeep, mergeWith } from 'lodash-es';
 
 import { List } from '../../classes/list-controller';
-import { ReorderController } from '../../classes/reorder-controller';
-
 import { PersistanceController } from '../../classes/persistance-controller';
+import { ReorderController } from '../../classes/reorder-controller';
 import { FsListHeadingContainerDirective, FsListHeadingDirective, FsListSubheadingDirective } from '../../directives';
 import { FsListColumnDirective } from '../../directives/column/column.directive';
 import { FsListEmptyStateDirective } from '../../directives/empty-state/empty-state.directive';
@@ -45,7 +46,7 @@ import {
   FsListAction,
   FsListConfig, FsListPersitance, FsListSelectionConfig,
   FsListTrackByFn,
-  FsListTrackByTargetRowFn
+  FsListTrackByTargetRowFn,
 } from '../../interfaces';
 import { GroupExpandNotifierService } from '../../services/group-expand-notifier.service';
 import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.component';
@@ -53,25 +54,25 @@ import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.c
 
 @Component({
   selector: 'fs-list',
-  templateUrl: 'list.component.html',
+  templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     GroupExpandNotifierService,
     PersistanceController,
     ReorderController,
-  ]
+  ],
 })
 export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
 
-  @HostBinding('class.fs-list') classFsList = true;
+  @HostBinding('class.fs-list') public classFsList = true;
 
   @HostBinding('class.fs-list-no-highlight')
   public noRowsHighlight: boolean;
 
   @Input('config')
   public set config(config: FsListConfig) {
-    this._initWithConfig(config)
+    this._initWithConfig(config);
   }
 
   @Input()
@@ -80,6 +81,15 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   @Output()
   public filtersReady = new EventEmitter<void>();
 
+  @ContentChild(FsListHeadingDirective, { read: TemplateRef })
+  public headingTemplate: TemplateRef<any>;
+
+  @ContentChild(FsListHeadingContainerDirective, { read: TemplateRef })
+  public headingContainerTemplate: TemplateRef<any>;
+
+  @ContentChild(FsListSubheadingDirective, { read: TemplateRef })
+  public subheadingTemplate: TemplateRef<any>;
+
   public list: List;
   public keywordVisible = true;
 
@@ -87,7 +97,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   public rowRemoved = new EventEmitter();
   public firstLoad = true;
 
-  private listColumnDirectives: QueryList<FsListColumnDirective>;
+  private _listColumnDirectives: QueryList<FsListColumnDirective>;
   private _filterRef: FilterComponent;
   private _filterParamsReady = false;
   private _inDialog = !!this._dialogRef || !!this._drawerRef;
@@ -95,7 +105,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   private _destroy = new Subject();
 
   @ViewChild(FilterComponent)
-  private set filterReference(component) {
+  public set filterReference(component) {
     this._filterRef = component;
     this.list.actions.setFilterRef(component);
 
@@ -105,11 +115,10 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   /**
    * Set columns to config
    * Create Column Model instances
-   *
    */
   @ContentChildren(FsListColumnDirective)
-  private set columnTemplates(listColumnDirectives: QueryList<FsListColumnDirective>) {
-    this.listColumnDirectives = listColumnDirectives;
+  public set columnTemplates(listColumnDirectives: QueryList<FsListColumnDirective>) {
+    this._listColumnDirectives = listColumnDirectives;
     if (this.list) {
       this.list.tranformTemplatesToColumns(listColumnDirectives);
     }
@@ -122,25 +131,16 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
     }
   }
 
-  @ContentChild(FsListHeadingDirective, { read: TemplateRef })
-  public headingTemplate: TemplateRef<any>;
-
-  @ContentChild(FsListHeadingContainerDirective, { read: TemplateRef })
-  public headingContainerTemplate: TemplateRef<any>;
-
-  @ContentChild(FsListSubheadingDirective, { read: TemplateRef })
-  public subheadingTemplate: TemplateRef<any>;
-
   constructor(
     public reorderController: ReorderController,
-    @Optional() @Inject(FS_LIST_DEFAULT_CONFIG) private _defaultOptions,
-    @Optional() private fsScroll: FsScrollService,
+    @Optional() @Inject(FS_LIST_DEFAULT_CONFIG) private _defaultOptions: FsListConfig,
+    @Optional() private _scroll: FsScrollService,
     @Optional() private _dialogRef: MatDialogRef<any>,
     @Optional() private _drawerRef: DrawerRef<any>,
     private _el: ElementRef,
-    private selectionDialog: SelectionDialog,
-    private dialog: MatDialog,
-    private cdRef: ChangeDetectorRef,
+    private _selectionDialog: SelectionDialog,
+    private _dialog: MatDialog,
+    private _cdRef: ChangeDetectorRef,
     private _groupExpandNotifier: GroupExpandNotifierService,
     private _router: Router,
     private _route: ActivatedRoute,
@@ -155,6 +155,10 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
     return this._filterRef;
   }
 
+  public set groupEnabled(value: boolean) {
+    this.list.groupEnabled(value);
+  }
+
   public get groupEnabled() {
     return this.list.dataController.groupEnabled;
   }
@@ -166,8 +170,11 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   public get hasStatus() {
     return this.list.status &&
       (this.list.sorting.isDefined || this.list.paging.enabled) &&
-      (!this.reorderController.enabled || (this.reorderController.enabled && this.reorderController.status)) &&
-      ((this.list.scrollable && this.list.scrollable.status) || !this.list.scrollable)
+      (
+        !this.reorderController.enabled ||
+        (this.reorderController.enabled && this.reorderController.status)
+      ) &&
+      ((this.list.scrollable && this.list.scrollable.status) || !this.list.scrollable);
   }
 
   public get paginatorVisible(): boolean {
@@ -177,10 +184,6 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
       && !this.list.emptyStateEnabled
       && this.list.dataController.visibleRowsCount > 0
       && this.list.paging.pages > 1;
-  }
-
-  public set groupEnabled(value: boolean) {
-    this.list.groupEnabled(value);
   }
 
   public get filtersQuery(): Record<string, unknown> {
@@ -237,14 +240,14 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
 
   public updateData(
     rows: FsListAbstractRow | FsListAbstractRow[],
-    trackBy?: FsListTrackByTargetRowFn
+    trackBy?: FsListTrackByTargetRowFn,
   ): boolean {
     return this.list.dataController.updateData(rows, trackBy);
   }
 
   public replaceRow(
     row: FsListAbstractRow,
-    trackBy?: FsListTrackByTargetRowFn
+    trackBy?: FsListTrackByTargetRowFn,
   ): boolean {
     return this.list.dataController.replaceData(row, trackBy);
   }
@@ -302,13 +305,13 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
    * Update visibility for specific column
    */
   public columnVisibility(name: string, show: boolean) {
-    this.columnsVisibility([{ name, show }])
+    this.columnsVisibility([{ name, show }]);
   }
 
   /**
    * Update visibility for list of specific columns
    */
-  public columnsVisibility(columns: { name: string, show: boolean }[]) {
+  public columnsVisibility(columns: { name: string; show: boolean }[]) {
     this.list.columns.updateVisibilityForCols(columns);
   }
 
@@ -317,12 +320,13 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
       this.filtersReady.emit();
 
       this.keywordVisible = this.filterRef.hasKeyword;
-      this.cdRef.markForCheck();
+      this._cdRef.markForCheck();
     }
   }
 
   /**
    * Initialize config for list
+   *
    * @param config
    */
   private _initWithConfig(config: FsListConfig) {
@@ -344,15 +348,15 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
     this.list = new List(
       this._el,
       listConfig,
-      this.fsScroll,
-      this.selectionDialog,
+      this._scroll,
+      this._selectionDialog,
       this._router,
       this._route,
       this._persistance,
       this._inDialog,
     );
 
-    this.noRowsHighlight = this.list.rowHighlight == false;
+    this.noRowsHighlight = !this.list.rowHighlight;
 
     this._waitFirstLoad();
 
@@ -363,14 +367,15 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
       this.list.selection,
     );
 
-    if (this.listColumnDirectives) {
-      this.list.tranformTemplatesToColumns(this.listColumnDirectives);
+    if (this._listColumnDirectives) {
+      this.list.tranformTemplatesToColumns(this._listColumnDirectives);
     }
     this._listenSortingChange();
   }
 
   /**
    * Find action with customize flag and re-declare click function for CustomizeColsDialog
+   *
    * @param actions
    */
   private _updateCustomizeAction(actions: FsListAction[]) {
@@ -384,7 +389,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
           actionClickFn(null);
         }
 
-        this.dialog.open(CustomizeColsDialogComponent, {
+        this._dialog.open(CustomizeColsDialogComponent, {
           data: {
             columns: this.list.columns.columnsForDialog,
             changeFn: this.list.columns.changeFn,
@@ -399,9 +404,9 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
             if (data) {
               this.list.columns.updateVisibilityForCols(data);
 
-              this.cdRef.markForCheck();
+              this._cdRef.markForCheck();
             }
-          })
+          });
       };
     }
   }
@@ -418,7 +423,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
       )
       .subscribe((sort) => {
         this._filterRef.updateSort(sort);
-      })
+      });
   }
 
   private _subscribeToRemoveRow() {
@@ -426,18 +431,18 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
       .pipe(takeUntil(this._destroy))
       .subscribe((row) => {
         this.list.dataController.removeData(row);
-      })
+      });
   }
 
   private _subscribeToGroupExpandStatusChange() {
     if (this.list.dataController.hasGroups) {
       this._groupExpandNotifier.expandStatusChange$
         .pipe(
-          takeUntil(this._destroy)
+          takeUntil(this._destroy),
         )
         .subscribe((row) => {
           this.list.dataController.toggleRowGroup(row);
-        })
+        });
     }
   }
 
@@ -445,14 +450,14 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
     this.list.loading$
       .pipe(
         skip(1),
-        filter((value) => value === false),
+        filter((value) => !value),
         take(1),
         takeUntil(this.list.onDestroy$),
         takeUntil(this._destroy),
       )
       .subscribe(() => {
         this.firstLoad = false;
-        this.cdRef.markForCheck();
+        this._cdRef.markForCheck();
       });
   }
 

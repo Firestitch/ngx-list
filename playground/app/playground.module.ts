@@ -1,26 +1,28 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+
 import { FsApiModule } from '@firestitch/api';
 import { FsBadgeModule } from '@firestitch/badge';
 import { FsDateModule } from '@firestitch/date';
 import { FsDatePickerModule } from '@firestitch/datepicker';
 import { FsExampleModule } from '@firestitch/example';
+import { FsFileModule } from '@firestitch/file';
+import { FsFilterModule } from '@firestitch/filter';
 import { FsLabelModule } from '@firestitch/label';
+import { FsListModule } from '@firestitch/list';
 import { FsMessageModule } from '@firestitch/message';
+import { FsPromptModule } from '@firestitch/prompt';
 import { FsScrollModule } from '@firestitch/scroll';
 import { FsSelectionModule } from '@firestitch/selection';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 
-import { FsListModule } from '@firestitch/list';
-import { FsPromptModule } from '@firestitch/prompt';
-
-import { AppMaterialModule } from './material.module';
-
 import { AppComponent } from './app.component';
-
 import {
   ActionsComponent,
   AgoComponent,
@@ -45,13 +47,11 @@ import {
   StyleComponent,
   ToggleReorderComponent,
 } from './components';
-
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { FsFileModule } from '@firestitch/file';
 import { ConfigureComponent } from './components/configure';
 import { StrategyBaseComponent } from './components/examples/strategy-base/strategy-base.component';
 import { LoadMoreComponent } from './components/load-more';
 import { RestoreComponent } from './components/restore/restore.component';
+import { AppMaterialModule } from './material.module';
 
 
 @NgModule({
@@ -62,6 +62,7 @@ import { RestoreComponent } from './components/restore/restore.component';
       style: 'card',
     }),
     FsScrollModule.forRoot(),
+    FsFilterModule.forRoot(),
     BrowserAnimationsModule,
     AppMaterialModule,
     FormsModule,
@@ -83,7 +84,7 @@ import { RestoreComponent } from './components/restore/restore.component';
     FsFileModule.forRoot({}),
   ],
   entryComponents: [
-    ConfigureComponent
+    ConfigureComponent,
   ],
   declarations: [
     AppComponent,
@@ -115,7 +116,7 @@ import { RestoreComponent } from './components/restore/restore.component';
     SelectionReorderComponent,
   ],
   providers: [
-    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'always' } }
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'always' } },
   ],
 
 })

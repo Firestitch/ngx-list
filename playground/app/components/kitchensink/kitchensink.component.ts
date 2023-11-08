@@ -3,25 +3,27 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
+
 import { FsApi } from '@firestitch/api';
 import { nameValue } from '@firestitch/common';
+import { FsExampleComponent } from '@firestitch/example';
 import { ActionMode, ItemDateMode, ItemType } from '@firestitch/filter';
 import {
   ActionType,
   FsListAbstractRow,
   FsListComponent,
   FsListConfig,
-  PaginationStrategy
+  PaginationStrategy,
 } from '@firestitch/list';
 
 import { BehaviorSubject, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 
-import { FsExampleComponent } from '@firestitch/example';
 import { ApiStrategy } from '../../services/api-strategy.service';
 import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
+
 import { savedFilters } from './saved-filter';
 
 
@@ -76,8 +78,8 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
         {
           name: 'Custom Sort',
           direction: 'desc',
-          value: 'custom'
-        }
+          value: 'custom',
+        },
       ],
       loadMore: false,
       column: {
@@ -86,7 +88,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
             {
               name: 'name',
               show: true,
-            }
+            },
           ]);
         },
         change: (columns) => {
@@ -107,7 +109,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
         {
           name: 'keyword',
           type: ItemType.Keyword,
-          label: 'Search'
+          label: 'Search',
         },
         {
           name: 'simple_select',
@@ -118,9 +120,9 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
               { name: 'All', value: '__all' },
               { name: 'Option 1', value: 1 },
               { name: 'Option 2', value: 2 },
-              { name: 'Option 3', value: 3 }
+              { name: 'Option 3', value: 3 },
             ];
-          }
+          },
         },
         {
           name: 'range',
@@ -133,18 +135,18 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           label: 'Date',
           change: (event) => {
             debugger;
-          }
+          },
         },
         {
           name: 'date_scroll',
           type: ItemType.Date,
           mode: ItemDateMode.ScrollMonthYear,
-          label: 'Month Scroll Picker'
+          label: 'Month Scroll Picker',
         },
         {
           name: 'checkbox',
           type: ItemType.Checkbox,
-          label: 'Checkbox'
+          label: 'Checkbox',
         },
         {
           name: 'days_chips',
@@ -155,8 +157,8 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
             return new BehaviorSubject(this.weekdays)
               .pipe(
                 map((weekdays) => nameValue(weekdays, 'name', 'id')),
-              )
-          }
+              );
+          },
         },
         {
           name: 'state',
@@ -166,10 +168,10 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           values: [
             { name: 'Active', value: 'active' },
             { name: 'Pending', value: 'pending' },
-            { name: 'Deleted', value: 'deleted' }
+            { name: 'Deleted', value: 'deleted' },
           ],
-          isolate: { label: 'Show Deleted', value: 'deleted' }
-        }
+          isolate: { label: 'Show Deleted', value: 'deleted' },
+        },
       ],
       afterContentInit: (query, data) => {
         console.log('AfterContent Init', query, data);
@@ -177,6 +179,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
       savedFilters: {
         load: () => {
           console.log('<====== Load Saved Filters =====>');
+
           return of(savedFilters)
             .pipe(
               delay(100),
@@ -197,7 +200,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
             filter = {
               ...filter,
               id: 999,
-            }
+            };
             savedFilters.push(filter);
           }
 
@@ -227,7 +230,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
         },
         done: (data) => {
           console.log(data);
-        }
+        },
       },
       actions: [
         {
@@ -241,20 +244,20 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           },
           icon: 'delete',
           primary: false,
-          label: 'Toggle Link Visibility'
+          label: 'Toggle Link Visibility',
         },
         {
           click: (event) => {
             // this.list.enableOrder();
           },
           label: 'Kebab only button',
-          menu: true
+          menu: true,
         },
         {
           click: (event) => {
             console.log(event);
           },
-          label: 'Primary Button'
+          label: 'Primary Button',
         },
         {
           mode: ActionMode.Menu,
@@ -266,10 +269,10 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
               label: 'Today',
               click: () => {
 
-              }
+              },
             },
-          ]
-        }
+          ],
+        },
       ],
       rowActions: [
         {
@@ -296,7 +299,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           menu: false,
           link: (row) => {
 
-            return { link: ['rows', row.guid], queryParams: { param: 1 } }
+            return { link: ['rows', row.guid], queryParams: { param: 1 } };
           },
         },
         {
@@ -305,7 +308,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           },
           link: (row) => {
 
-            return { link: ['rows', row.guid], queryParams: { param: 1 } }
+            return { link: ['rows', row.guid], queryParams: { param: 1 } };
           },
         },
         {
@@ -322,14 +325,14 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           rowActions: [
             {
               link: (row) => {
-                return { link: ['rows', row.guid], queryParams: { param: 1 } }
+                return { link: ['rows', row.guid], queryParams: { param: 1 } };
               },
               icon: 'edit',
-              label: 'Edit'
+              label: 'Edit',
             },
             {
               link: (row) => {
-                return { link: ['rows', row.guid], queryParams: { param: 1 } }
+                return { link: ['rows', row.guid], queryParams: { param: 1 } };
               },
               show: () => {
                 return false;
@@ -342,7 +345,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
                 this.list.removeData(
                   (listRow: FsListAbstractRow) => {
                     return listRow.name === row.name;
-                  }
+                  },
                 );
               },
               remove: {
@@ -350,7 +353,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
                 template: 'Are you sure you would like to delete this record?',
               },
               icon: 'delete',
-              label: 'Remove'
+              label: 'Remove',
             },
             {
               label: 'Sub Menu Upload',
@@ -360,7 +363,7 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
                 },
               },
             },
-          ]
+          ],
         },
         {
           label: 'View Donations',
@@ -369,22 +372,22 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
               click: (row, event) => {
 
               },
-              label: 'All'
+              label: 'All',
             },
             {
               click: (row, event) => {
 
               },
-              label: 'Complete'
+              label: 'Complete',
             },
             {
               click: (row, event) => {
 
               },
-              label: 'Overdue'
+              label: 'Overdue',
             },
-          ]
-        }
+          ],
+        },
 
       ],
       rowClass: (row, options) => {
@@ -397,21 +400,22 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
         },
         click: (event) => {
           console.log('row click', event);
-        }
+        },
       },
       header: {
         className: 'header-test-defaults-class',
-        align: 'left'
+        align: 'left',
       },
       cell: {
         className: 'cell-test-defaults-class',
-        align: 'left'
+        align: 'left',
       },
       fetch: (query) => {
         query.count = 50;
+
         return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
           .pipe(
-            map(response => ({ data: response.objects, paging: response.paging })),
+            map((response) => ({ data: response.objects, paging: response.paging })),
           );
       },
       beforeFetch: (query) => {
