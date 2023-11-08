@@ -2,14 +2,15 @@
 
 <td *ngIf="selection" class="fs-list-col fs-list-col-selection"></td>
 <ng-container *ngFor="let column of columns; trackBy: trackByFn">
-  <td fs-list-footer-cell
-      *ngIf="!column.footerColspanned"
-      [column]="column"
-      [row]="row"
-      [rowIndex]="rowIndex"
-      [ngClass]="column.footerConfigs.classesArray"
-      [attr.colspan]="column.footerConfigs.colspan"
-      [attr.width]="column.width">
+  <td 
+    *ngIf="!column.footerColspanned"
+    fs-list-footer-cell
+    [column]="column"
+    [row]="row"
+    [rowIndex]="rowIndex"
+    [ngClass]="column.footerConfigs.classesArray"
+    [attr.colspan]="column.footerConfigs.colspan"
+    [attr.width]="column.width">
   </td>
 </ng-container>
 

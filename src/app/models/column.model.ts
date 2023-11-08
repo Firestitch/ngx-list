@@ -2,12 +2,13 @@ import { QueryList, TemplateRef } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { isObject, isBoolean } from 'lodash-es';
+import { isBoolean, isObject } from 'lodash-es';
 
-import { StyleConfig } from './styleConfig.model';
-import { FsListColumnConfig } from '../interfaces/column-config.interface';
 import { FsListGroupExpandTriggerDirective } from '../directives/group-expand-trigger/group-expand-trigger.directive';
+import { FsListColumnConfig } from '../interfaces/column-config.interface';
+
 import { ColumnAttributes } from './column-attributes';
+import { StyleConfig } from './styleConfig.model';
 
 export enum SortingDirection {
   asc = 'asc',
@@ -18,7 +19,7 @@ const ALLOWED_DEFAULTS = [
   'title',
   'sortable',
   'align',
-  'class'
+  'class',
 ];
 
 export class Column {
@@ -56,7 +57,7 @@ export class Column {
 
     this.colStyles = new StyleConfig({
       className: this._attributes.className,
-      align: this._attributes.align
+      align: this._attributes.align,
     });
 
     this.mergeWithColumnDefaults(colDefaults);
@@ -136,10 +137,13 @@ export class Column {
 
   /**
    * Merge with defaults with existing config
+   *
    * @param defaults
    */
   public mergeWithColumnDefaults(defaults) {
-    if (!isObject(defaults)) { defaults = {} }
+    if (!isObject(defaults)) {
+      defaults = {};
+    }
 
     ALLOWED_DEFAULTS.forEach((key) => {
       switch (key) {
@@ -184,11 +188,7 @@ export class Column {
    * Change sorting direction
    */
   public changeDirection() {
-    if (this.sortingDirection === SortingDirection.asc) {
-      this.sortingDirection = SortingDirection.desc;
-    } else {
-      this.sortingDirection = SortingDirection.asc;
-    }
+    this.sortingDirection = this.sortingDirection === SortingDirection.asc ? SortingDirection.desc : SortingDirection.asc;
   }
 
   public updateVisibility(value: boolean) {

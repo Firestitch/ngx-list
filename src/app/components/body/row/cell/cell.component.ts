@@ -4,8 +4,9 @@ import {
   HostBinding,
   Input, OnChanges, OnDestroy,
   OnInit, SimpleChanges,
-  TemplateRef
+  TemplateRef,
 } from '@angular/core';
+
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -14,13 +15,14 @@ import { Column } from '../../../../models/column.model';
 
 @Component({
   selector: '[fs-cell]',
-  templateUrl: 'cell.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './cell.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsCellComponent implements OnInit, OnChanges, DoCheck, OnDestroy {
-  @HostBinding('class.fs-list-col') isColl = true;
 
-  @HostBinding('attr.role') role = 'gridcell';
+  @HostBinding('class.fs-list-col') public isColl = true;
+
+  @HostBinding('attr.role') public role = 'gridcell';
 
   @Input() public column: Column;
   @Input() public row: any; // tmp
@@ -30,8 +32,6 @@ export class FsCellComponent implements OnInit, OnChanges, DoCheck, OnDestroy {
   public cellTemplate: TemplateRef<any>;
 
   private _destroy$ = new Subject<void>();
-
-  constructor() {}
 
   public ngOnInit() {
     this._listenGroupOpen();
@@ -76,8 +76,8 @@ export class FsCellComponent implements OnInit, OnChanges, DoCheck, OnDestroy {
       if (this.row.isGroup) {
         this.cellContext.group = this.row.data;
         this.cellContext.groupChildren = this.row.children
-         .map((child) => child.data);
-      } else if(this.row.isGroupFooter) {
+          .map((child) => child.data);
+      } else if (this.row.isGroupFooter) {
         this.cellContext.group = this.row.parent.data;
         this.cellContext.groupIndex = this.row.index;
         this.cellContext.groupChildren = this.row.parent.children
@@ -112,7 +112,7 @@ export class FsCellComponent implements OnInit, OnChanges, DoCheck, OnDestroy {
         )
         .subscribe((status) => {
           this.cellContext.expanded = status;
-        })
+        });
     }
   }
 }
