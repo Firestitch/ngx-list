@@ -1,14 +1,12 @@
 import {
-  AfterContentInit,
   ChangeDetectionStrategy,
   Component,
   OnInit,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
 import { nameValue } from '@firestitch/common';
-import { FsExampleComponent } from '@firestitch/example';
 import { ActionMode, ItemDateMode, ItemType } from '@firestitch/filter';
 import {
   ActionType,
@@ -29,11 +27,12 @@ import { savedFilters } from './saved-filter';
 
 @Component({
   selector: 'kitchensink',
-  templateUrl: 'kitchensink.component.html',
-  styles: [],
+  templateUrl: './kitchensink.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class KitchenSinkComponent extends StrategyBaseComponent implements OnInit, AfterContentInit {
+export class KitchenSinkComponent
+  extends StrategyBaseComponent
+  implements OnInit {
 
   @ViewChild('list', { static: true })
   public list: FsListComponent; // Controller fs-list
@@ -54,9 +53,8 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
   constructor(
     protected _apiStrategy: ApiStrategy,
     private _fsApi: FsApi,
-    private example: FsExampleComponent) {
+  ) {
     super(_apiStrategy);
-
   }
 
   public ngOnInit() {
@@ -133,9 +131,6 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           name: 'date',
           type: ItemType.Date,
           label: 'Date',
-          change: (event) => {
-            debugger;
-          },
         },
         {
           name: 'date_scroll',
@@ -267,9 +262,6 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           items: [
             {
               label: 'Today',
-              click: () => {
-
-              },
             },
           ],
         },
@@ -370,19 +362,19 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
           rowActions: [
             {
               click: (row, event) => {
-
+                console.log(row);
               },
               label: 'All',
             },
             {
               click: (row, event) => {
-
+                console.log(row);
               },
               label: 'Complete',
             },
             {
               click: (row, event) => {
-
+                console.log(row);
               },
               label: 'Overdue',
             },
@@ -430,9 +422,6 @@ export class KitchenSinkComponent extends StrategyBaseComponent implements OnIni
         console.log(listComponent);
       },
     };
-  }
-
-  ngAfterContentInit() {
   }
 
   public onClick(row, event) {

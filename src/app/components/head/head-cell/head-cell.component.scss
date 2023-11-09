@@ -1,7 +1,6 @@
 .wrap {
-  display: inline-flex;
-  vertical-align: middle;
-  white-space: nowrap;
+  display: flex;
+  align-items: center;
 
   mat-icon {
     font-size: 14px;
