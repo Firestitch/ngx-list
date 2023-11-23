@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { FsApi } from '@firestitch/api';
 import { ActionType, FsListComponent, FsListConfig } from '@firestitch/list';
 
@@ -7,8 +8,7 @@ import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'row-actions',
-  templateUrl: 'row-actions.component.html',
-  styles: []
+  templateUrl: './row-actions.component.html',
 })
 export class RowActionsComponent implements OnInit {
 
@@ -55,7 +55,7 @@ export class RowActionsComponent implements OnInit {
           menu: true,
           icon: 'edit',
           label: 'Edit',
-          type: ActionType.Basic
+          type: ActionType.Basic,
         },
         {
           click: (row, event) => {
@@ -63,19 +63,20 @@ export class RowActionsComponent implements OnInit {
           },
           menu: true,
           icon: 'delete',
-          label: 'Remove'
-        }
+          label: 'Remove',
+        },
       ],
       fetch: (query) => {
         query.count = 3;
         query.limit = 3;
+
         return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
           .pipe(
-            map(response => ({ data: response.objects, paging: response.paging }))
+            map((response) => ({ data: response.objects, paging: response.paging })),
           );
       },
       paging: false,
-      status: false
+      status: false,
     };
   }
 }

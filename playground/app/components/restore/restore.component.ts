@@ -2,18 +2,18 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { FsApi } from '@firestitch/api';
+import { ItemType } from '@firestitch/filter';
 import { ActionType, FsListComponent, FsListConfig } from '@firestitch/list';
 
-import { ItemType } from '@firestitch/filter';
 import { map } from 'rxjs/operators';
+
 import { ApiStrategy } from '../../services/api-strategy.service';
 import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
 
 
 @Component({
   selector: 'restore',
-  templateUrl: 'restore.component.html',
-  styles: []
+  templateUrl: './restore.component.html',
 })
 export class RestoreComponent extends StrategyBaseComponent implements OnInit {
 
@@ -24,7 +24,7 @@ export class RestoreComponent extends StrategyBaseComponent implements OnInit {
   constructor(
     protected _apiStrategy: ApiStrategy,
     private _fsApi: FsApi,
-    private _router: Router
+    private _router: Router,
   ) {
     super(_apiStrategy);
   }
@@ -46,7 +46,7 @@ export class RestoreComponent extends StrategyBaseComponent implements OnInit {
         reload: true,
       },
       paging: {
-        limits: [5, 15, 50, 150, 250, 500, 1000]
+        limits: [5, 15, 50, 150, 250, 500, 1000],
       },
       rowActions: [
         {
@@ -56,20 +56,21 @@ export class RestoreComponent extends StrategyBaseComponent implements OnInit {
           menu: true,
           label: 'Delete',
           type: ActionType.Basic,
-        }
+        },
       ],
       filters: [
         {
           name: 'keyword',
           type: ItemType.Keyword,
-          label: 'Search'
-        }
+          label: 'Search',
+        },
       ],
       fetch: (query) => {
         query.count = 500;
+
         return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
           .pipe(
-            map(response => ({ data: response.objects, paging: response.paging })),
+            map((response) => ({ data: response.objects, paging: response.paging })),
           );
       },
     };

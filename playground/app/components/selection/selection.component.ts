@@ -2,10 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { FsApi } from '@firestitch/api';
+import { ItemType } from '@firestitch/filter';
 import { FsListComponent, FsListConfig } from '@firestitch/list';
 import { SelectionActionType } from '@firestitch/selection';
 
-import { ItemType } from '@firestitch/filter';
 import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 
@@ -15,8 +15,7 @@ import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.c
 
 @Component({
   selector: 'selection',
-  templateUrl: 'selection.component.html',
-  styles: []
+  templateUrl: './selection.component.html',
 })
 export class SelectionComponent extends StrategyBaseComponent implements OnInit {
 
@@ -46,7 +45,7 @@ export class SelectionComponent extends StrategyBaseComponent implements OnInit 
           {
             type: SelectionActionType.Action,
             name: 'delete',
-            label: 'Delete'
+            label: 'Delete',
           },
           {
             type: SelectionActionType.Select,
@@ -54,22 +53,19 @@ export class SelectionComponent extends StrategyBaseComponent implements OnInit 
             values: [
               {
                 name: 'TODO',
-                value: '1'
+                value: '1',
               },
               {
                 name: 'Done',
-                value: '2'
-              }
-            ]
+                value: '2',
+              },
+            ],
           },
         ],
         actionSelected: (action) => {
-
-          console.log(action);
-
           return of(true).pipe(
             delay(2000),
-          )
+          );
         },
         allSelected: () => {
         },
@@ -81,31 +77,32 @@ export class SelectionComponent extends StrategyBaseComponent implements OnInit 
               {
                 type: SelectionActionType.Action,
                 value: 'custom',
-                label: 'Custom Action'
+                label: 'Custom Action',
               },
-            ])
-          } else {
-            if (selectionRef) {
-              selectionRef.resetActions();
-            }
+            ]);
           }
-        }
+          if (selectionRef) {
+            selectionRef.resetActions();
+          }
+
+        },
       },
       paging: {
-        limits: [5, 15, 50]
+        limits: [5, 15, 50],
       },
       filters: [
         {
           name: 'keyword',
           type: ItemType.Keyword,
-          label: 'Search'
+          label: 'Search',
         },
       ],
       fetch: (query) => {
         query.count = 500;
+
         return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
           .pipe(
-            map(response => ({ data: response.objects, paging: response.paging }))
+            map((response) => ({ data: response.objects, paging: response.paging })),
           );
       },
     };

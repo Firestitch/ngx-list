@@ -642,7 +642,6 @@ export class List {
 
         this.completeFetch(response);
       }, () => { }, () => {
-        console.log('fin');
       });
   }
 
