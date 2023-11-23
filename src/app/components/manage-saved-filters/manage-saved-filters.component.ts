@@ -1,16 +1,20 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+
 import {
   ExternalParamsController,
   IFilterSavedFilter,
-  SavedFiltersController
+  SavedFiltersController,
 } from '@firestitch/filter';
-import { ReorderPosition, ReorderStrategy } from '../../classes/reorder-controller';
-import { FsListConfig } from '../../interfaces/listconfig.interface';
+
 import { map, tap } from 'rxjs/operators';
+
+import { ReorderPosition } from '../../classes/reorder-controller';
+import { FsListConfig } from '../../interfaces/listconfig.interface';
 
 
 @Component({
-  templateUrl: 'manage-saved-filters.component.html',
+  templateUrl: './manage-saved-filters.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsListManageSavedFiltersComponent {
 
@@ -50,8 +54,8 @@ export class FsListManageSavedFiltersComponent {
                 this._reorderReady = true;
               }),
             )
-            .subscribe(() => {});
-        }
+            .subscribe(() => { });
+        },
       },
       rowActions: [
         {
@@ -78,8 +82,8 @@ export class FsListManageSavedFiltersComponent {
               return { data: response };
             }),
           );
-      }
+      },
 
-    }
+    };
   }
 }

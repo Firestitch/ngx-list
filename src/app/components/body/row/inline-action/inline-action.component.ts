@@ -6,7 +6,6 @@ import {
   Output,
 } from '@angular/core';
 
-import { FsPrompt } from '@firestitch/prompt';
 import { FsFile } from '@firestitch/file';
 
 import { RowAction } from '../../../../models/row-action.model';
@@ -27,10 +26,6 @@ export class FsRowInlineActionComponent {
 
   @Output()
   public fileSelect = new EventEmitter<FsFile | FsFile[]>();
-
-  constructor(
-    private _fsPrompt: FsPrompt,
-  ) {}
 
   public actionClick(event) {
     this.clicked.emit(event);

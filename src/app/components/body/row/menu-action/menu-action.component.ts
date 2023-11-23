@@ -6,8 +6,8 @@ import {
 
 import { FsMenuComponent } from '@firestitch/menu';
 
-import { Row } from '../../../../models/row';
 import { FsListRowActionFile } from '../../../../interfaces/listconfig.interface';
+import { Row } from '../../../../models/row';
 
 
 @Component({
@@ -36,8 +36,8 @@ export class FsRowMenuActionComponent {
   public fileError = new EventEmitter();
 
   constructor(
-    private _menu: FsMenuComponent
-  ) {}
+    private _menu: FsMenuComponent,
+  ) { }
 
   public selectFile(event): void {
     this.fileSelect.emit(event);

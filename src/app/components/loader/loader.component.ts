@@ -4,17 +4,16 @@ import {
   Input,
   OnChanges,
   OnInit,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
+
 import { random } from 'lodash-es';
 
 
 @Component({
   selector: 'fs-list-loader',
   templateUrl: './loader.component.html',
-  styleUrls: [
-    './loader.component.scss',
-  ],
+  styleUrls: ['./loader.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsListLoaderComponent implements OnInit, OnChanges {
@@ -22,7 +21,7 @@ export class FsListLoaderComponent implements OnInit, OnChanges {
   public placeholderWidths = [[], [], []];
   public widths = [];
 
-  @Input() columns;
+  @Input() public columns;
 
   @Input()
   public loaderLines: number;

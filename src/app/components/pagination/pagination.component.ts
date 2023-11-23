@@ -3,8 +3,8 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
-  OnInit,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
 
 import { merge, Subject } from 'rxjs';
@@ -14,22 +14,20 @@ import { PaginationController } from '../../classes/pagination-controller';
 
 @Component({
   selector: 'fs-list-pagination',
-  templateUrl: 'pagination.component.html',
-  styleUrls: [
-    './pagination.component.scss'
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './pagination.component.html',
+  styleUrls: ['./pagination.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsPaginationComponent implements OnInit, OnDestroy {
 
-  @Input() pagination: PaginationController;
-  @Input() rows;
+  @Input() public pagination: PaginationController;
+  @Input() public rows;
 
   private _destroy$ = new Subject();
 
   constructor(
-    private cdRef: ChangeDetectorRef,
-  ) {}
+    private _cdRef: ChangeDetectorRef,
+  ) { }
 
   public ngOnInit(): void {
     merge(
@@ -40,7 +38,7 @@ export class FsPaginationComponent implements OnInit, OnDestroy {
         takeUntil(this._destroy$),
       )
       .subscribe(() => {
-        this.cdRef.markForCheck();
+        this._cdRef.markForCheck();
       });
   }
 

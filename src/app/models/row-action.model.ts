@@ -2,7 +2,7 @@ import { ActionType } from '../enums/button-type.enum';
 import {
   FsListRowActionFile,
   FsListRowActionLink,
-  FsListRowActionLinkFn
+  FsListRowActionLinkFn,
 } from '../interfaces';
 
 
@@ -10,7 +10,7 @@ export class RowAction {
 
   public icon: string;
   public menu: boolean;
-  public remove: { title: string; template: string; };
+  public remove: { title: string; template: string };
   public className: string;
   public type: ActionType;
   public show: Function;
@@ -35,7 +35,7 @@ export class RowAction {
     }
   }
 
-  get isGroup() {
+  public get isGroup() {
     return this._isGroup;
   }
 
@@ -44,13 +44,7 @@ export class RowAction {
     this.menu = value.menu ?? true;
     this.remove = value.remove;
     this.className = value.className;
-
-    if (this.menu && this.icon && !this.label && !value.type) {
-      this.type = ActionType.Icon;
-    } else {
-      this.type = value.type ?? ActionType.Basic;
-    }
-
+    this.type = this.menu && this.icon && !this.label && !value.type ? ActionType.Icon : value.type ?? ActionType.Basic;
     this.show = value.show;
     this.restore = value.restore;
     this.rowActions = value.rowActions
@@ -60,7 +54,7 @@ export class RowAction {
     // Re-assign click function
     const clickFn = value.click;
     this.click = (row, event, index, rowActionsRef = null) => {
-      return this.clickEvent(row, event, index, rowActionsRef, clickFn);
+      return this._clickEvent(row, event, index, rowActionsRef, clickFn);
     };
 
     this._linkFn = value.link;
@@ -72,7 +66,7 @@ export class RowAction {
         const selectFn = this.fileConfig.select;
         this.fileConfig.select = (selection, row, index) => {
           selectFn(selection, row, index);
-        }
+        };
       }
     }
 
@@ -119,7 +113,7 @@ export class RowAction {
     }
   }
 
-  private clickEvent(row, event, index, rowActionsRef, clickFn) {
+  private _clickEvent(row, event, index, rowActionsRef, clickFn) {
     // Stop event propagation for parent
     event.stopPropagation();
 

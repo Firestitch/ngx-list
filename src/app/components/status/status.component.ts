@@ -5,7 +5,7 @@ import {
   HostBinding,
   Input,
   OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
@@ -18,10 +18,10 @@ import { SortingDirection } from '../../models/column.model';
 
 @Component({
   selector: 'fs-list-status',
-  templateUrl: 'status.component.html',
+  templateUrl: './status.component.html',
   styleUrls: ['./status.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  preserveWhitespaces: true
+  preserveWhitespaces: true,
 })
 export class FsStatusComponent implements OnInit, OnDestroy {
 

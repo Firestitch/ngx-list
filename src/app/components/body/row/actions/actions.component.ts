@@ -50,26 +50,26 @@ export class FsRowActionsComponent {
   private _destroy$ = new Subject();
 
   constructor(
-    private _fsPrompt: FsPrompt,
+    private _prompt: FsPrompt,
   ) { }
 
   public actionClick(action: RowAction, row: any, event: any, menuRef?) {
     if (action.remove) {
       if (typeof action.remove === 'boolean') {
-        this.removeAction(action, row.data, event, this.index);
+        this._removeAction(action, row.data, event, this.index);
       } else {
-        this._fsPrompt.confirm({
+        this._prompt.confirm({
           title: action.remove.title,
           template: action.remove.template,
-        }).pipe(
-          take(1),
-          takeUntil(this._destroy$),
-        ).subscribe({
-          next: () => {
-            this.removeAction(action, row.data, event, this.index);
-          },
-          error: () => { },
-        });
+          autofocus: true,
+        })
+          .pipe(
+            take(1),
+            takeUntil(this._destroy$),
+          )
+          .subscribe(() => {
+            this._removeAction(action, row.data, event, this.index);
+          });
       }
     } else {
       action.click(row.data, event, this.index, menuRef);
@@ -93,7 +93,7 @@ export class FsRowActionsComponent {
    * @param event
    * @param index
    */
-  private removeAction(action, row, event, index) {
+  private _removeAction(action, row, event, index) {
     const removeObservable = action.click(row, event, index);
 
     if (removeObservable && removeObservable instanceof Observable) {

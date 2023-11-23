@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component, Inject, OnDestroy } from '@angular/core';
+
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
-  templateUrl: 'customize-cols.component.html',
-  styleUrls: ['customize-cols.component.scss'],
+  templateUrl: './customize-cols.component.html',
+  styleUrls: ['./customize-cols.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomizeColsDialogComponent implements OnDestroy {
@@ -40,7 +42,7 @@ export class CustomizeColsDialogComponent implements OnDestroy {
         return {
           name: column.name,
           show: column.show,
-        }
+        };
       });
 
     this.saveDisabled = true;
@@ -56,7 +58,7 @@ export class CustomizeColsDialogComponent implements OnDestroy {
           error: () => {
             this.saveDisabled = false;
           },
-        })
+        });
     } else {
       this._dialog.close(this.columns);
     }
