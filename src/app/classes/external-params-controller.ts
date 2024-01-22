@@ -166,18 +166,9 @@ export class ExternalParamsController {
 
   private _updateSortingParams(name: string, direction: string) {
     if (this._queryParamsEnabled) {
-      // FIXME
-      setTimeout(() => {
-        this._router.navigate([], {
-          skipLocationChange: true,
-          replaceUrl: true,
-          relativeTo: this._route,
-          queryParams: {
-            sortName: name,
-            sortDirection: direction,
-          },
-          queryParamsHandling: 'merge',
-        }).then();
+      this._replaceState({
+        sortName: name,
+        sortDirection: direction,
       });
     }
 
@@ -192,19 +183,23 @@ export class ExternalParamsController {
 
   private _updatePaginationParams(params) {
     if (this._queryParamsEnabled) {
-      setTimeout(() => {
-        this._router.navigate([], {
-          skipLocationChange: true,
-          replaceUrl: true,
-          relativeTo: this._route,
-          queryParams: params,
-          queryParamsHandling: 'merge',
-        }).then();
-      });
+      this._replaceState(params);
     }
 
     if (this._persistance.enabled) {
       this._persistance.saveDataToScope('paging', params);
     }
+  }
+
+  private _replaceState(data) {
+    const url = new URL(window.location.href);
+
+    Object.keys(data)
+      .filter((name) => data[name] !== undefined && data[name] !== null)
+      .forEach((name) => {
+        url.searchParams.set(name,data[name]);
+      });
+
+    history.replaceState({}, null, url.search);
   }
 }

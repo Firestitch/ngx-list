@@ -4,6 +4,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { FsApi } from '@firestitch/api';
 import { nameValue } from '@firestitch/common';
@@ -53,15 +54,16 @@ export class KitchenSinkComponent
   constructor(
     protected _apiStrategy: ApiStrategy,
     private _fsApi: FsApi,
+    private _router: Router,
   ) {
     super(_apiStrategy);
   }
 
   public ngOnInit() {
-
     this.config = {
       status: true,
       chips: true,
+      persist: false,
       filterInput: true,
       queryParam: true,
       paging: {

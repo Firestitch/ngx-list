@@ -3,6 +3,8 @@ import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { isObject } from 'lodash-es';
 
+import { PageChangeType } from '../enums/page-change-type.enum';
+import { PaginationStrategy } from '../enums/pagination-strategy.enum';
 import {
   FsListLoadMoreConfig,
   FsPaging,
@@ -10,8 +12,6 @@ import {
   QueryOffsetStrategy,
   QueryPageStrategy,
 } from '../interfaces';
-import { PaginationStrategy } from '../enums/pagination-strategy.enum';
-import { PageChangeType } from '../enums/page-change-type.enum';
 
 export class PaginationController {
 
@@ -42,15 +42,15 @@ export class PaginationController {
   constructor() {}
 
   // Total pages
-  set pages(value: number) {
+  public set pages(value: number) {
     this._pages$.next(value);
   }
 
-  get pages(): number {
+  public get pages(): number {
     return this._pages$.getValue();
   }
 
-  get pages$(): Observable<number> {
+  public get pages$(): Observable<number> {
     return this._pages$
       .pipe(
         distinctUntilChanged(),
@@ -60,37 +60,38 @@ export class PaginationController {
   /**
    * Fire if page was changed
    */
-  get pageChanged$(): Observable<PageChange> {
+  public get pageChanged$(): Observable<PageChange> {
     return this._pageChanged$.pipe(takeUntil(this._onDestroy$));
   }
 
-  get pageReset$(): Observable<void> {
+  public get pageReset$(): Observable<void> {
     return this._pageReset$.asObservable();
   }
 
   /**
    * Get enabled
    */
-  get enabled(): boolean {
+  public get enabled(): boolean {
     return !this.hasNoneStrategy;
   }
 
   /**
    * Get Limits
    */
-  get limits(): number[] {
+  public get limits(): number[] {
     return this._limits;
   }
 
   /**
    * Set limits, update pages array and set new limit per page
+   *
    * @param value
    */
-  set limits(value) {
+  public set limits(value) {
     this._limits = value;
 
     if (this.limits.length > 0 && this.limits.indexOf(this.limit) === -1) {
-      this.limit = this.limits[0]
+      this.limit = this.limits[0];
     } else if (this.limits.length === 0) {
       this.limit = this.records;
     }
@@ -99,7 +100,7 @@ export class PaginationController {
   /**
    * Get query for request
    */
-  get query() {
+  public get query() {
     switch (this.strategy) {
       case PaginationStrategy.Page:
         return this.queryPageStrategy;
@@ -110,7 +111,7 @@ export class PaginationController {
     return {};
   }
 
-  get loadMoreQuery() {
+  public get loadMoreQuery() {
     switch (this.strategy) {
       case PaginationStrategy.Page:
         return this.query;
@@ -129,7 +130,7 @@ export class PaginationController {
   /**
    * Query for Page Strategy
    */
-  get queryPageStrategy(): QueryPageStrategy {
+  public get queryPageStrategy(): QueryPageStrategy {
     return this.hasNoneStrategy
       ? {}
       : {
@@ -141,60 +142,60 @@ export class PaginationController {
   /**
    * Query for Offset Strategy
    */
-  get queryOffsetStrategy(): QueryOffsetStrategy {
+  public get queryOffsetStrategy(): QueryOffsetStrategy {
     const page = this.page - 1 || 0;
     const limit = this.limit || 5;
 
     return {
       offset: page * limit,
-      limit: limit,
-    }
+      limit,
+    };
   }
 
   /**
    * Get query for load only count of deleted rows
    */
-  get loadDeletedOffsetQuery() {
+  public get loadDeletedOffsetQuery() {
     const paginationOffset = this.limit * this.page;
     const actualOffset = Math.min(this.records, paginationOffset);
     const offset = Math.max(0, actualOffset - this._removedRows);
 
     return {
       offset,
-      limit: this._removedRows
-    }
+      limit: this._removedRows,
+    };
   }
 
-  get initialized() {
+  public get initialized() {
     return !!this.pages;
   }
 
-  get strategy() {
+  public get strategy() {
     return this._strategy;
   }
 
-  set strategy(strategy: PaginationStrategy) {
-    this._strategy = (strategy === void 0) ? PaginationStrategy.Page : strategy;
+  public set strategy(strategy: PaginationStrategy) {
+    this._strategy = (strategy === undefined) ? PaginationStrategy.Page : strategy;
   }
 
   /**
    * Check if pagination in Page Strategy Mode
    */
-  get hasPageStrategy() {
+  public get hasPageStrategy() {
     return this.strategy === PaginationStrategy.Page;
   }
 
   /**
    * Check if pagination in Offset Strategy Mode
    */
-  get hasOffsetStrategy() {
+  public get hasOffsetStrategy() {
     return this.strategy === PaginationStrategy.Offset;
   }
 
   /**
    * Check if pagination in None Strategy Mode
    */
-  get hasNoneStrategy(): boolean {
+  public get hasNoneStrategy(): boolean {
     return this.strategy === PaginationStrategy.None;
   }
 
@@ -202,7 +203,7 @@ export class PaginationController {
    * If prev page can be activated
    *
    */
-  get hasPrevPage(): boolean {
+  public  get hasPrevPage(): boolean {
     switch (this.strategy) {
       case PaginationStrategy.Page:
         return this._hasPrevPagePageStrategy;
@@ -216,7 +217,7 @@ export class PaginationController {
   /**
    * If next page can be activated
    */
-  get hasNextPage(): boolean { // Need to check if pages === page && page === 1
+  public get hasNextPage(): boolean { // Need to check if pages === page && page === 1
     switch (this.strategy) {
       case PaginationStrategy.Page:
         return this._hasNextPagePageStrategy;
@@ -227,15 +228,15 @@ export class PaginationController {
     return false;
   }
 
-  get loadMoreEnabled(): boolean {
+  public get loadMoreEnabled(): boolean {
     return this._loadMoreEnabled;
   }
 
-  get loadMoreText(): string {
+  public get loadMoreText(): string {
     return this._loadMoreText;
   }
 
-  get infinityScrollEnabled() {
+  public get infinityScrollEnabled() {
     return this._infinityScrollEnabled;
   }
 
@@ -244,7 +245,7 @@ export class PaginationController {
    * Showing 26-50 of 333 results sorted by Name, Ascending
    * Showing 0 results sorted by Name, Ascending
    */
-  get statusLabel(): string {
+  public get statusLabel(): string {
     const current = (this.page - 1) * this.limit;
     const from = current + 1;
     const to = Math.min(this.records, current + this.limit);
@@ -307,6 +308,7 @@ export class PaginationController {
 
   /**
    * Update paging config and all related fields
+   *
    * @param config
    * @param displayedRecords
    * @param loadMoreOperation
@@ -325,7 +327,7 @@ export class PaginationController {
       this._removedRows = 0;
     }
 
-    this.updateTotalPages();
+    this._updateTotalPages();
   }
 
   // /**
@@ -408,6 +410,7 @@ export class PaginationController {
 
   /**
    * Set new limit
+   *
    * @param limit
    */
   public setLimit(limit) {
@@ -416,12 +419,13 @@ export class PaginationController {
 
     this._pageChanged$.next({
       type: PageChangeType.LimitChanged,
-      payload: limit
+      payload: limit,
     });
   }
 
   /**
    * If page is activate page
+   *
    * @param page
    */
   public isActive(page): boolean {
@@ -430,17 +434,18 @@ export class PaginationController {
 
   /**
    * Go to page
+   *
    * @param page
    */
   public goToPage(page) {
     if (page >= 1 && this.page !== page) {
       this.page = page;
 
-      this.updateOffset();
+      this._updateOffset();
 
       this._pageChanged$.next({
         type: PageChangeType.Default,
-        payload: page
+        payload: page,
       });
     }
   }
@@ -460,7 +465,7 @@ export class PaginationController {
     if (this.hasNextPage) {
       this.page++;
 
-      this.updateOffset();
+      this._updateOffset();
 
       this._pageChanged$.next({
         type: PageChangeType.Default,
@@ -476,7 +481,7 @@ export class PaginationController {
     if (this.page > 1) {
       this.page = 1;
 
-      this.updateOffset();
+      this._updateOffset();
 
       this._pageChanged$.next({
         type: PageChangeType.Default,
@@ -492,7 +497,7 @@ export class PaginationController {
     if (this.page > 1) {
       this.page--;
 
-      this.updateOffset();
+      this._updateOffset();
 
       this._pageChanged$.next({
         type: PageChangeType.Default,
@@ -508,17 +513,18 @@ export class PaginationController {
     if (this.page !== this.pages) {
       this.page = this.pages;
 
-      this.updateOffset();
+      this._updateOffset();
 
       this._pageChanged$.next({
         type: PageChangeType.Default,
-        payload: this.page
+        payload: this.page,
       });
     }
   }
 
   /**
    * Update count of deleted rows. This count will be applied for offset calc
+   *
    * @param count
    */
   public removeRows(count: number) {
@@ -526,7 +532,7 @@ export class PaginationController {
   }
 
   public updatePagination() {
-    this.updateTotalPages();
+    this._updateTotalPages();
   }
 
   /**
@@ -539,6 +545,7 @@ export class PaginationController {
 
   /**
    * Update paging state
+   *
    * @param params
    */
   private _fromParams(params): void {
@@ -549,20 +556,20 @@ export class PaginationController {
     this.records = params.records;
     this.manual = params.manual;
 
-    this.pages = params.pages || 0
+    this.pages = params.pages || 0;
   }
 
   /**
    * Calc and update offset
    */
-  private updateOffset() {
+  private _updateOffset() {
     this.offset = this.limit * (this.page - 1);
   }
 
   /**
    * Calc and update total count of pages
    */
-  private updateTotalPages() {
+  private _updateTotalPages() {
     this.pages = Math.ceil(this.records / this.limit);
   }
 }
