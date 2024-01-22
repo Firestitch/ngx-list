@@ -5,14 +5,14 @@ import { takeUntil } from 'rxjs/operators';
 
 import { PaginationController } from '../classes/pagination-controller';
 import { SortingController } from '../classes/sorting-controller';
-import { PersistanceController } from './persistance-controller';
-
 import { FsListSortConfig } from '../interfaces';
 import {
   ExternalParams,
   ExternalQueryPagination,
   ExternalQuerySorting,
 } from '../interfaces/external-params.interface';
+
+import { PersistanceController } from './persistance-controller';
 
 
 export class ExternalParamsController {
@@ -45,7 +45,7 @@ export class ExternalParamsController {
     return {
       value: this._sortName,
       direction: this._sortDirection,
-    }
+    };
   }
 
   private get _enabled(): boolean {
@@ -161,7 +161,7 @@ export class ExternalParamsController {
         } else {
           this.clearSortingParams();
         }
-      })
+      });
   }
 
   private _updateSortingParams(name: string, direction: string) {
@@ -169,20 +169,21 @@ export class ExternalParamsController {
       // FIXME
       setTimeout(() => {
         this._router.navigate([], {
+          skipLocationChange: true,
           replaceUrl: true,
           relativeTo: this._route,
           queryParams: {
             sortName: name,
             sortDirection: direction,
           },
-          queryParamsHandling: 'merge'
-        }).then(() => {});
+          queryParamsHandling: 'merge',
+        }).then();
       });
     }
 
     if (this._persistance.enabled) {
       if (name && direction) {
-        this._persistance.saveDataToScope('sorting', { sortName: name, sortDirection: direction});
+        this._persistance.saveDataToScope('sorting', { sortName: name, sortDirection: direction });
       } else {
         this._persistance.saveDataToScope('sorting', null);
       }
@@ -193,11 +194,12 @@ export class ExternalParamsController {
     if (this._queryParamsEnabled) {
       setTimeout(() => {
         this._router.navigate([], {
+          skipLocationChange: true,
           replaceUrl: true,
           relativeTo: this._route,
           queryParams: params,
-          queryParamsHandling: 'merge'
-        }).then(() => {});
+          queryParamsHandling: 'merge',
+        }).then();
       });
     }
 

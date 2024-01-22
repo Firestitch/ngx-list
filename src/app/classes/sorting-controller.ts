@@ -1,15 +1,12 @@
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { Column, SortingDirection } from '../models/column.model';
-import { List } from './list-controller';
-import { FsListSortConfig } from '../interfaces';
+import { FsListSortConfig, SortingChangeEvent } from '../interfaces';
 import { ColumnAttributes } from '../models/column-attributes';
+import { Column, SortingDirection } from '../models/column.model';
 
-export interface SortingChangeEvent {
-  sortBy: string;
-  sortDirection: string;
-}
+import { List } from './list-controller';
+
 
 export class SortingController {
   public config: List;
@@ -24,30 +21,30 @@ export class SortingController {
 
   constructor() {}
 
-  get sortingChanged$(): Observable<SortingChangeEvent> {
+  public get sortingChanged$(): Observable<SortingChangeEvent> {
     return this._sortingChanged$.pipe(takeUntil(this._onDestroy));
   }
 
-  get initialized$(): Observable<boolean> {
+  public get initialized$(): Observable<boolean> {
     return this._initialized.pipe(takeUntil(this._onDestroy));
   }
 
-  get value(): FsListSortConfig | undefined {
+  public get value(): FsListSortConfig | undefined {
     if (this.sortingColumn) {
       return {
         value: this.sortingColumn.name,
         direction: this.sortingColumn.direction,
       };
-    } else {
-      return void 0;
     }
+
+    return undefined;
   }
 
-  get initialization(): boolean {
+  public get initialization(): boolean {
     return !this._initialized.getValue();
   }
 
-  get isDefined(): boolean {
+  public get isDefined(): boolean {
     return !!this.sortingColumn;
   }
 
@@ -65,6 +62,7 @@ export class SortingController {
 
   /**
    * Set Sortable Direction
+   *
    * @param direction
    */
   public sortDirection(direction) {
@@ -77,6 +75,7 @@ export class SortingController {
 
   /**
    * Sort By
+   *
    * @param column
    */
   public sortBy(column: Column) {
@@ -89,12 +88,15 @@ export class SortingController {
 
   /**
    * Same as sortBy, but need only column name as parameter for sort
+   *
    * @param name
    */
   public sortByColumnWithName(name: string) {
     const column = this.getColumn(name);
 
-    if (!column) { return; }
+    if (!column) {
+      return;
+    }
 
     this._setSortingColumn(column);
 
@@ -103,6 +105,7 @@ export class SortingController {
 
   /**
    * Init fake columns for sorting
+   *
    * @param columns
    */
   public initFakeColumns(columns) {
@@ -124,6 +127,7 @@ export class SortingController {
 
   /**
    * Set initial sorting
+   *
    * @param sort
    */
   public initialSortBy(sort: FsListSortConfig) {
@@ -137,6 +141,7 @@ export class SortingController {
       }
 
       this._initialization = false;
+
       return;
     }
 
@@ -151,7 +156,7 @@ export class SortingController {
     } else {
       this.sortByColumnWithName(sort.value);
 
-      const direction = (sort.direction === void 0 || sort.direction === 'asc')
+      const direction = (sort.direction === undefined || sort.direction === 'asc')
         ? SortingDirection.asc
         : SortingDirection.desc;
       this._setSortingDirection(direction);
@@ -165,9 +170,11 @@ export class SortingController {
    */
   public sortByFirstSortbale() {
     const column =
-      this.sortingColumns.find(col => col.sortable);
+      this.sortingColumns.find((col) => col.sortable);
 
-    if (!column) { return; }
+    if (!column) {
+      return;
+    }
 
     this.sortBy(column);
     this.sortDirection(column.direction || SortingDirection.asc);
@@ -175,7 +182,7 @@ export class SortingController {
 
   public getColumn(name: string): Column {
     return [...this.sortingColumns, ...this.fakeSortingColumns]
-      .find(col => col.name === name && col.sortable);
+      .find((col) => col.name === name && col.sortable);
   }
 
   /**
@@ -211,11 +218,13 @@ export class SortingController {
   }
 
   private _notifySortChanged() {
-    if (this.initialization) { return; }
+    if (this.initialization) {
+      return;
+    }
 
     this._sortingChanged$.next({
       sortBy: this.sortingColumn.name,
-      sortDirection: this.sortingColumn.direction
+      sortDirection: this.sortingColumn.direction,
     });
   }
 

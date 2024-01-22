@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
@@ -404,6 +404,8 @@ export class KitchenSinkComponent
       },
       fetch: (query) => {
         query.count = 50;
+
+        console.log('Fetch', query);
 
         return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
           .pipe(
