@@ -200,6 +200,6 @@ export class ExternalParamsController {
         url.searchParams.set(name,data[name]);
       });
 
-    history.replaceState({}, null, url.search);
+    history.replaceState({}, null, url.pathname + url.search);
   }
 }
