@@ -233,7 +233,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
    * Set event listeners for row
    */
   private _initRowEvents() {
-    Object.keys(this.rowEvents)
+    Object.keys(this.rowEvents || {})
       .forEach((event) => {
         if (this.rowEvents.hasOwnProperty(event)) {
           const listener = this._renderer
