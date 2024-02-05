@@ -116,52 +116,33 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   @HostBinding('class')
   public get rowCssClass() {
-    let cls = 'fs-list-row';
+    let classes = ['fs-list-row'];
 
     if (this.rowIndex % 2 !== 0) {
-      cls += ' fs-list-row-odd';
+      classes.push('fs-list-row-odd');
     }
     if (this.rowIndex % 2 === 0) {
-      cls += ' fs-list-row-even';
+      classes.push('fs-list-row-even');
     }
 
     if (this.row?.isGroup) {
-      cls += ' fs-list-row-group';
+      classes.push('fs-list-row-group');
     } else if ((this.row as any)?.isChild) { // TODO fix isChild & all
-      cls += ' fs-list-row-group-child';
+      classes.push('fs-list-row-group-child');
     } else if (this.row?.isGroupFooter) {
-      cls += ' fs-list-row-group-footer';
+      classes.push('fs-list-row-group-footer');
     } else {
-      cls += ' fs-list-row-body';
+      classes.push('fs-list-row-body');
     }
 
     if (this.rowClass) {
-      const options: FsListRowClassOptions = {
-        index: this.rowIndex,
-        type: this.row.type,
-      };
-
-      if (this.row.isGroup) {
-        options.groupIndex = this.row.index;
-      } else if ((this.row as any).isChild || this.row.isGroupFooter) { // TODO fix isChild & all
-        options.groupIndex = this.row.parent.index;
-      }
-
-      const resultClass = this.rowClass(this.row.data, options);
-
-      if (typeof resultClass === 'string') {
-        cls += ` ${resultClass}`;
-      } else if (typeof resultClass === 'object') {
-        const keys = Object.keys(resultClass);
-        for (const k of keys) {
-          if (resultClass[k] === true) {
-            cls += ` ${k}`;
-          }
-        }
-      }
+      classes = [
+        ...classes,
+        ...this._getRowClasses(this.rowClass),
+      ];
     }
 
-    return cls;
+    return classes.join(' ');
   }
 
   public get dragCellVisible(): boolean {
@@ -171,29 +152,29 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   public get leftDragDropEnabled(): boolean {
     return this.reorderEnabled
       && this.reorderPosition === ReorderPosition.Left
-      && this.activeFiltersCount == 0;
+      && this.activeFiltersCount === 0;
   }
 
   public get rightDragDropEnabled(): boolean {
     return this.reorderEnabled
       && this.reorderPosition === ReorderPosition.Right
-      && this.activeFiltersCount == 0;
+      && this.activeFiltersCount === 0;
   }
 
   public ngOnInit() {
-    this.initRowEvents();
-    this.initSelection();
+    this._initRowEvents();
+    this._initSelection();
 
     if (this.row && this.row.isGroup) {
       if (this.row && this.row.isGroup && this.groupActionsRaw) {
         this.rowActions = this.groupActionsRaw.map((action) => new RowAction(action));
 
-        this.filterActionsByCategories();
+        this._filterActionsByCategories();
       }
     } else if (this.rowActionsRaw) {
       this.rowActions = this.rowActionsRaw.map((action) => new RowAction(action));
 
-      this.filterActionsByCategories();
+      this._filterActionsByCategories();
     }
   }
 
@@ -204,7 +185,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
           action.checkShowStatus(this.row.data, this.rowIndex);
           action.updateLink(this.row.data);
         });
-        this.filterActionsByCategories();
+        this._filterActionsByCategories();
       }
 
       this._cdRef.markForCheck();
@@ -251,31 +232,60 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   /**
    * Set event listeners for row
    */
-  private initRowEvents() {
-    for (const event in this.rowEvents) {
-      if (this.rowEvents.hasOwnProperty(event)) {
-        const listener = this._renderer.listen(this.el.nativeElement, event, (evt) => {
-          // evt.preventDefault();
-          // evt.stopPropagation();
-
-          if (!this.reorderEnabled) {
-            this.rowEvents[event]({
-              event: evt,
-              row: this.row.data,
-              rowIndex: this.rowIndex,
+  private _initRowEvents() {
+    Object.keys(this.rowEvents)
+      .forEach((event) => {
+        if (this.rowEvents.hasOwnProperty(event)) {
+          const listener = this._renderer
+            .listen(this.el.nativeElement, event, (evt) => {
+              if (!this.reorderEnabled) {
+                this.rowEvents[event]({
+                  event: evt,
+                  row: this.row.data,
+                  rowIndex: this.rowIndex,
+                });
+              }
             });
-          }
-        });
 
-        this._eventListeners.push(listener);
+          this._eventListeners.push(listener);
+        }
+      });
+  }
+
+  private _getRowClasses(rowClass): string[] {
+    const classes = [];
+    const options: FsListRowClassOptions = {
+      index: this.rowIndex,
+      type: this.row.type,
+    };
+
+    if (this.row.isGroup) {
+      options.groupIndex = this.row.index;
+    } else if ((this.row as any).isChild || this.row.isGroupFooter) { // TODO fix isChild & all
+      options.groupIndex = this.row.parent.index;
+    }
+
+    const resultClass = rowClass(this.row.data, options);
+    if(resultClass) {
+      if (typeof resultClass === 'string') {
+        classes.push(resultClass);
+      } else if (typeof resultClass === 'object') {
+        const keys = Object.keys(resultClass);
+        for (const k of keys) {
+          if (resultClass[k] === true) {
+            classes.push(k);
+          }
+        }
       }
     }
+
+    return classes;
   }
 
   /**
    * Subscribe to selection change events
    */
-  private initSelection() {
+  private _initSelection() {
     if (this.selection) {
       this.selected = this.row && this.selection.isRowSelected(this.row.data);
 
@@ -309,7 +319,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     }
   }
 
-  private filterActionsByCategories() {
+  private _filterActionsByCategories() {
     this.menuRowActions = [];
     this.inlineRowActions = [];
     this.restoreAction = null;
