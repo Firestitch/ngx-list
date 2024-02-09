@@ -186,6 +186,7 @@ export interface FsListSelectionConfig {
 
 export interface FsListFetchSubscription {
   loadOffset?: boolean;
+  scrollIntoView?: boolean;
 }
 
 export type FsListAction = { customize?: boolean } & FsFilterAction;

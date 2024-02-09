@@ -88,8 +88,7 @@ export class List {
   public externalParams: ExternalParamsController;
   public selection: SelectionController;
   public filterConfig: FilterConfig = null;
-  public fetch$ = new Subject<FsListFetchSubscription | void>();
-  public fetchComplete$ = new Subject<void>();
+  public fetchComplete$ = new Subject<{ scrollIntoView?: boolean }>();
   public filtersReady$ = new Subject<void>();
   public status = true;
   public chips = false;
@@ -107,6 +106,7 @@ export class List {
 
   public onDestroy$ = new Subject();
 
+  private _fetch$ = new Subject<FsListFetchSubscription | void>();
   private readonly _filtersQuery = new BehaviorSubject<Record<string, any>>(null);
   private readonly _activeFiltersCount$ = this._filtersQuery
     .pipe(map((v) => Object.keys(v).length), shareReplay());
@@ -121,14 +121,14 @@ export class List {
   constructor(
     private _el: ElementRef,
     private config: FsListConfig = {},
-    private fsScroll: FsScrollService,
-    private selectionDialog: SelectionDialog,
-    private router: Router,
-    private route: ActivatedRoute,
-    private persistance: PersistanceController,
-    private inDialog: boolean,
+    private _fsScroll: FsScrollService,
+    private _selectionDialog: SelectionDialog,
+    private _router: Router,
+    private _route: ActivatedRoute,
+    private _persistance: PersistanceController,
+    private _inDialog: boolean,
   ) {
-    this.initialize(config);
+    this._initialize(config);
     this._headerConfig = new StyleConfig(config.header);
     this._groupCellConfig = new StyleConfig(config.cell);
     this._cellConfig = new StyleConfig(config.cell);
@@ -138,9 +138,12 @@ export class List {
 
     if (this.initialFetch) {
       this.dataController.setOperation(FsListState.Load);
-      this.fetch$.next();
+      this._fetch$.next();
     }
+  }
 
+  public get fetch$(): Observable<FsListFetchSubscription | void> {
+    return this._fetch$.asObservable();
   }
 
   public get hasSavedFilters(): boolean {
@@ -204,7 +207,7 @@ export class List {
     }
 
     this._initFilters();
-    this.initInfinityScroll();
+    this._initInfinityScroll();
   }
 
   public reload() {
@@ -217,7 +220,7 @@ export class List {
       this.dataController.clearRows();
       this.fsScrollInstance.reload();
     } else {
-      this.fetch$.next();
+      this._fetch$.next();
     }
   }
 
@@ -248,7 +251,6 @@ export class List {
         }
 
         if (!this.scrollable && !this.paging.loadMoreEnabled) {
-
           const contains = [].slice.call(document.querySelectorAll('.cdk-overlay-container')).some((overlay) => {
             return this._el.nativeElement.contains(overlay);
           });
@@ -267,12 +269,14 @@ export class List {
               take(1),
               takeUntil(this.onDestroy$),
             )
-            .subscribe(() => {
-              el.scrollIntoView({ behavior: 'smooth' });
+            .subscribe((event) => {
+              if(event?.scrollIntoView ?? true) {
+                el.scrollIntoView({ behavior: 'smooth' });
+              }
             });
         }
 
-        this.fetch$.next();
+        this._fetch$.next();
       });
 
     this.sorting.sortingChanged$
@@ -287,13 +291,13 @@ export class List {
           this.dataController.clearRows();
           this.fsScrollInstance.reload();
         } else {
-          this.fetch$.next();
+          this._fetch$.next();
         }
       });
 
     this._listenVisibleColumnChanges();
-    this.listenRowsRemove();
-    this.listenFetch();
+    this._listenRowsRemove();
+    this._listenFetch();
   }
 
   public getData(trackBy?: FsListTrackByFn) {
@@ -368,7 +372,19 @@ export class List {
    *
    * @param config
    */
-  private initialize(config: FsListConfig) {
+  private _initialize(config: FsListConfig) {
+    this._initVariables(config);
+    this._initDefaultOptions(config);
+    this._initRestore();
+    this._initActions(config.actions);
+    this._initPaging(config.paging, config.loadMore);
+    this._initSelection(config.selection, this._selectionDialog);
+    this._initGroups(config.group);
+    this._initExternalParamsController();
+    this._initializeData();
+  }
+
+  private _initVariables(config) {
     this.autoFocus = config.autoFocus;
     this.rowHighlight = config.rowHighlight ?? true;
     this.heading = config.heading;
@@ -391,17 +407,7 @@ export class List {
     this.beforeFetchFn = config.beforeFetch;
     this.afterInit = config.afterInit;
     this.style = config.style;
-
     this.columns.initConfig(config.column);
-    this.initDefaultOptions(config);
-    this.initRestore();
-    this.initActions(config.actions);
-    this.initPaging(config.paging, config.loadMore);
-    this.initSelection(config.selection, this.selectionDialog);
-    this.initGroups(config.group);
-    this.initExternalParamsController();
-
-    this.initializeData();
   }
 
   /**
@@ -409,7 +415,7 @@ export class List {
    *
    * @param config
    */
-  private initDefaultOptions(config) {
+  private _initDefaultOptions(config) {
     // We should prevent initial fetch in cases when it will be fetched in any case
     // As ex. scrollable or filter will do fetch in any cases
     if (config.initialFetch === false || config.scrollable) { // TODO fixme after tsmodel version update
@@ -425,7 +431,7 @@ export class List {
       this.filterInput = false;
     }
 
-    if (this.inDialog) {
+    if (this._inDialog) {
       this.queryParam = false;
     } else {
       this.queryParam = (config.queryParam === void 0)
@@ -450,13 +456,13 @@ export class List {
   /**
    * Init restore row action and append Show Deleted option into filters
    */
-  private initRestore() {
+  private _initRestore() {
     if (this.restore) {
       const restoreAction = new RowAction({
         label: this.restore.menuLabel || 'Restore',
         menu: true,
         click: (row) => {
-          this.restoreClick(this.restore.click, row);
+          this._restoreClick(this.restore.click, row);
         }, // TODO fix me, move to special file
         restore: true,
       });
@@ -488,14 +494,14 @@ export class List {
    * @param pagingConfig
    * @param loadMore
    */
-  private initPaging(pagingConfig: FsPaging | false, loadMore: FsListLoadMoreConfig | boolean) {
+  private _initPaging(pagingConfig: FsPaging | false, loadMore: FsListLoadMoreConfig | boolean) {
     this.paging.initWithConfig(pagingConfig, loadMore, !!this.scrollable);
   }
 
   /**
    * Split actions by categories
    */
-  private initActions(actions) {
+  private _initActions(actions) {
     if (actions) {
       this.actions.setActions(actions);
     }
@@ -505,7 +511,7 @@ export class List {
       || (this.groupActionsRaw && this.groupActionsRaw.length > 0);
   }
 
-  private initSelection(
+  private _initSelection(
     selectionConfig: FsListSelectionConfig,
     selectionDialog: SelectionDialog,
   ) {
@@ -515,25 +521,25 @@ export class List {
     }
   }
 
-  private initializeData() {
+  private _initializeData() {
     this.dataController.setAdditionalConfigs({
       scrollable: !!this.scrollable,
       loadMoreEnabled: this.paging.loadMoreEnabled,
     });
   }
 
-  private initGroups(groupConfig: FsListGroupConfig) {
+  private _initGroups(groupConfig: FsListGroupConfig) {
     if (groupConfig) {
       this.dataController.setGroupConfig(groupConfig);
       this.groupActionsRaw = groupConfig.actions;
     }
   }
 
-  private initExternalParamsController() {
+  private _initExternalParamsController() {
     this.externalParams = new ExternalParamsController(
-      this.router,
-      this.route,
-      this.persistance,
+      this._router,
+      this._route,
+      this._persistance,
       this.paging,
       this.sorting,
       this.queryParam,
@@ -543,8 +549,8 @@ export class List {
   /**
    * Subscribe to fetch$ event with debounce
    */
-  private listenFetch() {
-    let fetch$ = this.fetch$.asObservable();
+  private _listenFetch() {
+    let fetch$ = this.fetch$;
 
     // Should wait until saved filters not loaded
     if (!!this.filters) {
@@ -566,7 +572,7 @@ export class List {
         map((params: FsListFetchSubscription) => {
           let query = { ...this.filtersQuery };
 
-          if (this.paging.hasOffsetStrategy && params && params.loadOffset) {
+          if (this.paging.hasOffsetStrategy && params?.loadOffset) {
             query = Object.assign(query, this.paging.loadDeletedOffsetQuery);
           } else {
             const allRecordsRangeNeeded = (this.initialFetch
@@ -592,23 +598,24 @@ export class List {
             };
           }
 
-          return query;
+          return { params, query };
         }),
-        switchMap((query) => {
+        switchMap(({ params, query }) => {
           if (this.columns.loadFnConfigured && !this.columns.columnsFetched) {
             return this.columns.loadRemoteColumnConfigs()
               .pipe(
-                mapTo(query),
+                mapTo({ params, query }),
               );
           }
 
-          return of(query);
+          return of({ params, query });
         }),
-        switchMap((query) => {
+        switchMap(({ params, query }) => {
           if (this.beforeFetchFn) {
             return this.beforeFetchFn(query)
               .pipe(
-                catchError((error, source$) => {
+                map((beforeFetchQuery) => ({ params, query: beforeFetchQuery })),
+                catchError((error) => {
                   console.error(error);
 
                   return EMPTY;
@@ -616,9 +623,9 @@ export class List {
               );
           }
 
-          return of(query);
+          return of({ params, query });
         }),
-        switchMap((query) => {
+        switchMap(({ params, query }) => {
           const remoteFetch = this.fetchRemote(query)
             .pipe(
               catchError((error) => {
@@ -628,24 +635,22 @@ export class List {
               }),
             );
 
-          return combineLatest([of(query), remoteFetch]);
+          return combineLatest([of({ params, query }), remoteFetch]);
         }),
-        catchError((error, source$) => {
+        catchError((error) => {
           console.error(error);
 
           return EMPTY;
         }),
         takeUntil(this.onDestroy$),
       )
-      .subscribe((response) => {
+      .subscribe(([paramsQuery, response]) => {
         this.initialFetch = false;
-
-        this.completeFetch(response);
-      }, () => { }, () => {
+        this._completeFetch(paramsQuery.params, paramsQuery.query, response);
       });
   }
 
-  private listenRowsRemove() {
+  private _listenRowsRemove() {
     this.dataController.rowsRemoved$
       .pipe(
         takeUntil(this.onDestroy$),
@@ -656,16 +661,16 @@ export class List {
           const removedCount = rows.length;
 
           if (this.paging.hasPageStrategy) {
-            this.noDataPaginationUpdate(removedCount);
+            this._noDataPaginationUpdate(removedCount);
           } else {
             // Fetch more if has something for fetch
             if (this.dataController.hasData || this.paging.hasNextPage) {
               this.dataController.setOperation(FsListState.LoadMore);
 
               this.paging.removeRows(removedCount);
-              this.fetch$.next({ loadOffset: true });
+              this._fetch$.next({ loadOffset: true });
             } else {
-              this.noDataPaginationUpdate(removedCount);
+              this._noDataPaginationUpdate(removedCount);
             }
           }
         }
@@ -693,7 +698,7 @@ export class List {
       });
   }
 
-  private initInfinityScroll() {
+  private _initInfinityScroll() {
     if (this.fsScrollInstance) {
       return;
     }
@@ -705,7 +710,7 @@ export class List {
       }
 
 
-      this.fsScroll
+      this._fsScroll
         .component(this.scrollable.name)
         .pipe(
           takeUntil(this.onDestroy$),
@@ -740,7 +745,7 @@ export class List {
               }
 
               if (startLoading) {
-                this.fetch$.next();
+                this._fetch$.next();
                 fsScrollInstance.loading();
               }
             });
@@ -799,10 +804,10 @@ export class List {
       sorts: sortValues,
       sort: sortConfig,
       chips: this.chips,
-      init: this.filterInit.bind(this),
-      change: this.filterChange.bind(this),
+      init: this._filterInit.bind(this),
+      change: this._filterChange.bind(this),
       reload: (this.config.reload ?? true) ? this.reload.bind(this) : null,
-      sortChange: this.filterSort.bind(this),
+      sortChange: this._filterSort.bind(this),
     };
   }
 
@@ -811,14 +816,14 @@ export class List {
    *
    * @param filters
    */
-  private filterInit(filters) {
+  private _filterInit(filters) {
     if (this.filterInitCb) {
       this.filterInitCb(filters);
     }
 
     this._filtersQuery.next(filters);
 
-    this.checkRestoreFilter();
+    this._checkRestoreFilter();
   }
 
   /**
@@ -827,7 +832,7 @@ export class List {
    * @param filterQuery
    * @param filterSort
    */
-  private filterChange(filterQuery, filterSort) {
+  private _filterChange(filterQuery, filterSort) {
     if (this.filterChangeCb) {
       this.filterChangeCb(filterQuery, filterSort);
     }
@@ -837,7 +842,7 @@ export class List {
     this.restoreMode = false;
 
     // Restore option
-    this.checkRestoreFilter();
+    this._checkRestoreFilter();
 
     if (this.restore && this.restore.reload) {
       this.reload();
@@ -852,11 +857,11 @@ export class List {
       this.dataController.clearRows();
       this.fsScrollInstance.reload();
     } else {
-      this.fetch$.next();
+      this._fetch$.next();
     }
   }
 
-  private checkRestoreFilter() {
+  private _checkRestoreFilter() {
     // Restore option
     if (this.restore && this.filtersQuery[SHOW_DELETED_FILTERS_KEY]) {
       delete this.filtersQuery[SHOW_DELETED_FILTERS_KEY];
@@ -868,7 +873,7 @@ export class List {
   }
 
   // Callback when Filter sort has been changed
-  private filterSort(filterQuery, filterSort) {
+  private _filterSort(filterQuery, filterSort) {
     if (filterSort) {
       this.sorting.sortByColumnWithName(filterSort.value);
 
@@ -876,12 +881,12 @@ export class List {
       this.sorting.sortDirection(sortDirection);
     } else {
       // FIXME need to be refactored...
-      this.sorting.sortingColumn = void 0;
+      this.sorting.sortingColumn = undefined;
       this.reload();
     }
   }
 
-  private completeFetch([query, response]) {
+  private _completeFetch(params, query, response) {
     if (!this.paging.page) {
       this.paging.page = 1;
     }
@@ -907,23 +912,7 @@ export class List {
     this.dataController.setRowsFromResponse(response.data);
     ///
 
-    // Update selection params
-    if (this.selection) {
-
-      if (this.paging.enabled) {
-        this.selection.pageChanged(this.scrollable);
-        this.selection.updateVisibleRecordsCount(this.paging.getVisibleRecords());
-        this.selection.updateTotalRecordsCount(this.paging.records);
-      } else {
-        const count = response.paging && response.paging.records
-          || Array.isArray(response.data) && response.data.length;
-
-        this.selection.updateVisibleRecordsCount(count);
-        this.selection.updateTotalRecordsCount(count);
-      }
-
-      this.selection.selectedRowsIntersection(this.dataController.visibleRowsData);
-    }
+    this._completeFetchUpdateSelecton(response);
 
     if (this.emptyState?.validate && this.emptyStateTemplate) {
       this.emptyStateEnabled = this.emptyState.validate(query, cloneDeep(this.dataController.visibleRowsData));
@@ -941,8 +930,27 @@ export class List {
       this.paging.goLast();
     }
 
-    this.fetchComplete$.next();
+    this.fetchComplete$.next({ scrollIntoView: params?.scrollIntoView });
     this.loading$.next(false);
+  }
+
+  private _completeFetchUpdateSelecton(response) {
+    // Update selection params
+    if (this.selection) {
+      if (this.paging.enabled) {
+        this.selection.pageChanged(this.scrollable);
+        this.selection.updateVisibleRecordsCount(this.paging.getVisibleRecords());
+        this.selection.updateTotalRecordsCount(this.paging.records);
+      } else {
+        const count = response.paging && response.paging.records
+          || Array.isArray(response.data) && response.data.length;
+
+        this.selection.updateVisibleRecordsCount(count);
+        this.selection.updateTotalRecordsCount(count);
+      }
+
+      this.selection.selectedRowsIntersection(this.dataController.visibleRowsData);
+    }
   }
 
   /**
@@ -953,7 +961,7 @@ export class List {
    *
    * @param deletedCount
    */
-  private noDataPaginationUpdate(deletedCount) {
+  private _noDataPaginationUpdate(deletedCount) {
     if (!this.dataController.hasData) {
       if (this.paging.page > 1) {
         this.paging.goToPage(this.paging.page - 1 || 1);
@@ -979,7 +987,7 @@ export class List {
    * @param restoreClickCallback
    * @param row
    */
-  private restoreClick(restoreClickCallback, row) {
+  private _restoreClick(restoreClickCallback, row) {
     const restoreClickResult = restoreClickCallback(row);
 
     if (restoreClickResult instanceof Observable) {

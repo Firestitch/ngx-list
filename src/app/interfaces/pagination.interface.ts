@@ -11,6 +11,6 @@ export interface QueryOffsetStrategy {
 }
 
 export interface PageChange {
-  type: PageChangeType,
-  payload: any
+  type: PageChangeType;
+  payload: any;
 }
