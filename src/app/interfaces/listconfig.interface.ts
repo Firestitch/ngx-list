@@ -73,7 +73,7 @@ export interface FsListConfig {
   filterInit?: ChangeFn;
   filterChange?: ChangeFn;
   reload?: boolean;
-  style?: 'line' | 'card';
+  style?: 'line' | 'card' | 'basic';
 }
 
 export interface FsListGroupConfig {

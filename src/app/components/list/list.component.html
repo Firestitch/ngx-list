@@ -61,7 +61,8 @@
             [fsListContentInit]="list.afterContentInit" 
             [ngClass]="{
               'style-card': list.style === 'card',
-              'style-line': list.style ?? 'line' === 'line'
+              'style-basic': list.style === 'basic',
+              'style-line': (list.style || 'line') === 'line'
             }">
           <thead
             fs-list-head

@@ -81,6 +81,7 @@ export class KitchenSinkComponent
           value: 'custom',
         },
       ],
+      style: 'basic',
       loadMore: false,
       column: {
         load: () => {

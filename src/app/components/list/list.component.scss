@@ -192,7 +192,7 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
   }
 
   .fs-list-table.style-line,
-  .fs-list-table:not(.style-card) {
+  .fs-list-table:not(.style-card):not(.style-basic) {
     tbody {
       .fs-list-col {
         box-sizing: border-box;
