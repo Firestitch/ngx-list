@@ -1,8 +1,8 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  ViewChild,
+    ChangeDetectionStrategy,
+    Component,
+    OnInit,
+    ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -10,11 +10,11 @@ import { FsApi } from '@firestitch/api';
 import { nameValue } from '@firestitch/common';
 import { ActionMode, ItemDateMode, ItemType } from '@firestitch/filter';
 import {
-  ActionType,
-  FsListAbstractRow,
-  FsListComponent,
-  FsListConfig,
-  PaginationStrategy,
+    ActionType,
+    FsListAbstractRow,
+    FsListComponent,
+    FsListConfig,
+    PaginationStrategy,
 } from '@firestitch/list';
 
 import { BehaviorSubject, of } from 'rxjs';
@@ -410,7 +410,7 @@ export class KitchenSinkComponent
 
         console.log('Fetch', query);
 
-        return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
+        return this._fsApi.get('https://specify.firestitch.dev/api/dummy', query)
           .pipe(
             map((response) => ({ data: response.objects, paging: response.paging })),
           );

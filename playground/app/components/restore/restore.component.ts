@@ -68,7 +68,7 @@ export class RestoreComponent extends StrategyBaseComponent implements OnInit {
       fetch: (query) => {
         query.count = 500;
 
-        return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
+        return this._fsApi.get('https://specify.firestitch.dev/api/dummy', query)
           .pipe(
             map((response) => ({ data: response.objects, paging: response.paging })),
           );

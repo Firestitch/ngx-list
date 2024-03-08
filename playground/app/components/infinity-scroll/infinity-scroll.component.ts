@@ -136,7 +136,7 @@ export class InfinityScrollComponent extends StrategyBaseComponent implements On
         query.count = 12;
         query.limit = 3;
         const genders = ['men', 'women'];
-        return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
+        return this._fsApi.get('https://specify.firestitch.dev/api/dummy', query)
           .pipe(
             map(response => {
               response.objects.forEach((obj) => {

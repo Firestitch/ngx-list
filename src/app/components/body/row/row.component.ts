@@ -165,6 +165,10 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     this._initRowEvents();
     this._initSelection();
 
+    if (this.row) {
+      this._initRowActionsUpdate();
+    }
+
     if (this.row && this.row.isGroup) {
       if (this.row && this.row.isGroup && this.groupActionsRaw) {
         this.rowActions = this.groupActionsRaw.map((action) => new RowAction(action));
@@ -180,16 +184,20 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   public ngDoCheck() {
     if (this._rowDiffer.diff(this.row)) {
-      if (this.rowActions) {
-        this.rowActions.forEach((action) => {
-          action.checkShowStatus(this.row.data, this.rowIndex);
-          action.updateLink(this.row.data);
-        });
-        this._filterActionsByCategories();
-      }
-
-      this._cdRef.markForCheck();
+      this.updateRowActions();
     }
+  }
+
+  public updateRowActions() {
+    if (this.rowActions) {
+      this.rowActions.forEach((action) => {
+        action.checkShowStatus(this.row.data, this.rowIndex);
+        action.updateLink(this.row.data);
+      });
+      this._filterActionsByCategories();
+    }
+
+    this._cdRef.markForCheck();
   }
 
   public ngOnDestroy() {
@@ -250,6 +258,16 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
           this._eventListeners.push(listener);
         }
       });
+  }
+  
+  private _initRowActionsUpdate() : void {
+    this.row.actionsUpdate$
+    .pipe(
+      takeUntil(this._destroy$)
+    )
+    .subscribe(() => {
+      this.updateRowActions();
+    });
   }
 
   private _getRowClasses(rowClass): string[] {

@@ -1,13 +1,16 @@
+import { Observable, Subject } from 'rxjs';
 import { RowType } from '../enums/row-type.enum';
+import { FsListReorderData } from '../interfaces';
 import { ChildRow } from './row/child-row';
+import { GroupFooterRow } from './row/group-footer-row';
 import { GroupRow } from './row/group-row';
 import { SimpleRow } from './row/simple-row';
-import { FsListReorderData } from '../interfaces';
-import { GroupFooterRow } from './row/group-footer-row';
 
 export class Row {
 
   private _row: (SimpleRow | ChildRow | GroupRow);
+
+  private _actionsUpdate$ = new Subject();
 
   constructor(
     data: any = {},
@@ -31,6 +34,14 @@ export class Row {
 
   public get index(): number {
     return this._row.index;
+  }
+
+  public get actionsUpdate$(): Observable<any> {
+    return this._actionsUpdate$.asObservable();
+  }
+
+  public actionsUpdate(): void {
+    return this._actionsUpdate$.next();
   }
 
   public set index(value: number) {

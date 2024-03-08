@@ -49,6 +49,7 @@ import {
   FsListTrackByTargetRowFn,
 } from '../../interfaces';
 import { GroupExpandNotifierService } from '../../services/group-expand-notifier.service';
+import { FsBodyComponent } from '../body/body.component';
 import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.component';
 
 
@@ -103,6 +104,9 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   private _inDialog = !!this._dialogRef || !!this._drawerRef;
 
   private _destroy = new Subject();
+
+  @ViewChild(FsBodyComponent)
+  public body: FsBodyComponent;
 
   @ViewChild(FilterComponent)
   public set filterReference(component) {
@@ -431,6 +435,9 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
       .pipe(takeUntil(this._destroy))
       .subscribe((row) => {
         this.list.dataController.removeData(row);
+
+        this.body.rows
+        .forEach((row) => row.actionsUpdate())
       });
   }
 

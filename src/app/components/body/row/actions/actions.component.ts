@@ -105,6 +105,8 @@ export class FsRowActionsComponent {
         .subscribe(() => {
           this.rowRemoved.emit(row);
         });
+    } else {
+      this.rowRemoved.emit(row);
     }
   }
 }

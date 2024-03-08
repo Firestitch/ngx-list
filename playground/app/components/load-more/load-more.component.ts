@@ -49,7 +49,7 @@ export class LoadMoreComponent extends StrategyBaseComponent implements OnInit {
       fetch: (query) => {
         query.count = 30;
         const genders = ['men', 'women'];
-        return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
+        return this._fsApi.get('https://specify.firestitch.dev/api/dummy', query)
           .pipe(
             map(response => {
               response.objects.forEach((obj) => {

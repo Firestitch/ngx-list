@@ -106,7 +106,7 @@ export class SelectionReorderComponent extends StrategyBaseComponent implements 
         query.limit = 10;
         query.count = 10;
 
-        return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
+        return this._fsApi.get('https://specify.firestitch.dev/api/dummy', query)
           .pipe(
             map(response => ({ data: response.objects, paging: response.paging }))
           );

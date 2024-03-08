@@ -2,10 +2,10 @@ import { AfterContentInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FsApi } from '@firestitch/api';
 import { ItemType } from '@firestitch/filter';
 import {
-  FsListAbstractRow,
-  FsListComponent,
-  FsListConfig,
-  ReorderPosition,
+    FsListAbstractRow,
+    FsListComponent,
+    FsListConfig,
+    ReorderPosition,
 } from '@firestitch/list';
 
 import { of } from 'rxjs';
@@ -272,7 +272,7 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
         query.count = 500;
         query.limit = 20;
 
-        return this._fsApi.get('https://specify.dev.firestitch.com/api/dummy', query)
+        return this._fsApi.get('https://specify.firestitch.dev/api/dummy', query)
           .pipe(
             map(response => ({ data: response.objects, paging: response.paging })),
           );
