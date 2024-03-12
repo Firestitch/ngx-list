@@ -261,13 +261,15 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   }
   
   private _initRowActionsUpdate() : void {
-    this.row.actionsUpdate$
-    .pipe(
-      takeUntil(this._destroy$)
-    )
-    .subscribe(() => {
-      this.updateRowActions();
-    });
+    if(this.row.actionsUpdate$) {
+      this.row.actionsUpdate$
+      .pipe(
+        takeUntil(this._destroy$)
+      )
+      .subscribe(() => {
+        this.updateRowActions();
+      });
+    }
   }
 
   private _getRowClasses(rowClass): string[] {
