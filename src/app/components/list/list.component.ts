@@ -51,6 +51,7 @@ import {
 import { GroupExpandNotifierService } from '../../services/group-expand-notifier.service';
 import { FsBodyComponent } from '../body/body.component';
 import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.component';
+import { IPaginationState } from '../../interfaces/pagination-state.interface';
 
 
 @Component({
@@ -310,6 +311,10 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
    */
   public columnVisibility(name: string, show: boolean) {
     this.columnsVisibility([{ name, show }]);
+  }
+
+  public getPagingState(): IPaginationState {
+    return this.list.paging.state;
   }
 
   /**

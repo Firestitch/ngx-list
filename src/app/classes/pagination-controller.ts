@@ -12,6 +12,7 @@ import {
   QueryOffsetStrategy,
   QueryPageStrategy,
 } from '../interfaces';
+import { IPaginationState } from '../interfaces/pagination-state.interface';
 
 export class PaginationController {
 
@@ -251,6 +252,18 @@ export class PaginationController {
     const to = Math.min(this.records, current + this.limit);
 
     return `${from}-${to}`;
+  }
+
+  public get state(): IPaginationState {
+    return {
+      enabled: this.enabled,
+      strategy: this.strategy,
+      page: this.page,
+      offset: this.offset,
+      limit: this.limit,
+      records: this.records,
+      displayed: this.displayed,
+    }
   }
 
   public initWithConfig(

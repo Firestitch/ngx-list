@@ -60,6 +60,7 @@ export {
 } from './app/interfaces/listconfig.interface';
 export { QueryOffsetStrategy, QueryPageStrategy } from './app/interfaces/pagination.interface';
 export { SortingChangeEvent } from './app/interfaces/sorting-change-event.interface';
+export { IPaginationState } from './app/interfaces/pagination-state.interface';
 
 // Enums
 export { ActionType } from './app/enums/button-type.enum';
