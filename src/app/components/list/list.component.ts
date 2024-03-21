@@ -195,6 +195,10 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
     return this.list.filtersQuery;
   }
 
+  public get pagingState(): IPaginationState {
+    return this.list.paging.state;
+  }
+
   public ngAfterContentInit(): void {
     if (this.list.afterInit) {
       this.list.afterInit(this);
@@ -311,10 +315,6 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
    */
   public columnVisibility(name: string, show: boolean) {
     this.columnsVisibility([{ name, show }]);
-  }
-
-  public getPagingState(): IPaginationState {
-    return this.list.paging.state;
   }
 
   /**
