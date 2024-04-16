@@ -70,6 +70,8 @@ export class ColumnAttributes {
 
   // direction
   public set direction(value: 'asc' | 'desc') {
+    this.sortable = true;
+    
     this._direction$.next(value);
   }
 

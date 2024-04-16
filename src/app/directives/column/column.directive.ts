@@ -8,15 +8,15 @@ import {
 } from '@angular/core';
 
 // Directives
-import { FsListHeaderDirective } from '../header/header.directive';
 import { FsListCellDirective } from '../cell/cell.directive';
 import { FsListFooterDirective } from '../footer/footer.directive';
+import { FsListHeaderDirective } from '../header/header.directive';
 
 import { CellConfig } from '../../interfaces';
-import { FsListGroupHeaderDirective } from '../group-header/group-header.directive';
-import { FsListGroupFooterDirective } from '../group-footer/group-footer.directive';
-import { FsListGroupExpandTriggerDirective } from '../group-expand-trigger/group-expand-trigger.directive';
 import { ColumnAttributes } from '../../models/column-attributes';
+import { FsListGroupExpandTriggerDirective } from '../group-expand-trigger/group-expand-trigger.directive';
+import { FsListGroupFooterDirective } from '../group-footer/group-footer.directive';
+import { FsListGroupHeaderDirective } from '../group-header/group-header.directive';
 
 
 @Directive({
@@ -101,6 +101,15 @@ export class FsListColumnDirective {
     this._columnAttributes.sortableDefault = value;
   }
 
+  @Input()
+  public set sortableDirection(value: 'asc' | 'desc') {
+    this.sortable = true;
+    this._columnAttributes.direction = value;
+  }
+
+  /**
+   * @deprecated
+   */
   @Input()
   public set direction(value: 'asc' | 'desc') {
     this._columnAttributes.direction = value;

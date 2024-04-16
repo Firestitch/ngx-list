@@ -1,20 +1,19 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    OnInit,
-    ViewChild,
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { FsApi } from '@firestitch/api';
 import { nameValue } from '@firestitch/common';
 import { ActionMode, ItemDateMode, ItemType } from '@firestitch/filter';
 import {
-    ActionType,
-    FsListAbstractRow,
-    FsListComponent,
-    FsListConfig,
-    PaginationStrategy,
+  ActionType,
+  FsListAbstractRow,
+  FsListComponent,
+  FsListConfig,
+  PaginationStrategy,
 } from '@firestitch/list';
 
 import { BehaviorSubject, of } from 'rxjs';
@@ -35,8 +34,9 @@ export class KitchenSinkComponent
   extends StrategyBaseComponent
   implements OnInit {
 
-  @ViewChild('list', { static: true })
-  public list: FsListComponent; // Controller fs-list
+  @ViewChild(FsListComponent, { static: true })
+  public list: FsListComponent;
+  
   public config: FsListConfig;
 
   public linkVisible = true;
@@ -54,7 +54,6 @@ export class KitchenSinkComponent
   constructor(
     protected _apiStrategy: ApiStrategy,
     private _fsApi: FsApi,
-    private _router: Router,
   ) {
     super(_apiStrategy);
   }
@@ -70,10 +69,10 @@ export class KitchenSinkComponent
         limits: [5, 15, 50, 150, 250, 500, 1000],
         strategy: PaginationStrategy.Offset,
       },
-      sort: {
-        value: 'guid',
-        direction: 'desc',
-      },
+      // sort: {
+      //   value: 'guid',
+      //   direction: 'desc',
+      // },
       sorts: [
         {
           name: 'Custom Sort',
@@ -81,7 +80,6 @@ export class KitchenSinkComponent
           value: 'custom',
         },
       ],
-      style: 'basic',
       loadMore: false,
       column: {
         load: () => {
