@@ -49,6 +49,7 @@ export class Column {
   public footerColspanned = false;
 
   private _attributes: ColumnAttributes;
+  private _defaultDirection: 'asc' | 'desc';
 
   private _ordered = false;
 
@@ -128,11 +129,11 @@ export class Column {
   }
 
   public set ordered(value) {
-    this._ordered = value;
-
-    if (value && !this.sortingDirection) {
-      this.sortingDirection = SortingDirection.asc;
+    if (value && this._ordered !== value) {
+      this.sortingDirection = this._defaultDirection ?? SortingDirection.asc;
     }
+
+    this._ordered = value;
   }
 
   /**
@@ -209,5 +210,6 @@ export class Column {
     this.cellConfigs = new StyleConfig(config.cellConfigs);
     this.footerConfigs = new StyleConfig(config.footerConfigs);
     this.expandTrigger = config.expandTrigger;
+    this._defaultDirection = config.attributes.direction;
   }
 }
