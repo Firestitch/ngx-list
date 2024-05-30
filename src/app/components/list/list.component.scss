@@ -208,10 +208,6 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
       }
     }
 
-    .fs-list-row:hover .fs-list-col {
-      background-color: #f6f6f6;
-    }
-
     .fs-list-container {
       &.has-dragging {
         thead {
@@ -326,14 +322,15 @@ $primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default
   }
 }
 
-:host(.fs-list-no-highlight) {
+:host(.fs-list-row-highlight) {
   ::ng-deep {
-    .fs-list-row {
-      &:hover {
+    tbody {
+      .fs-list-row:hover {
         .fs-list-col {
-          background-color: initial;
+          background-color: #f6f6f6;
         }
       }
     }
   }
 }
+

@@ -48,10 +48,10 @@ import {
   FsListTrackByFn,
   FsListTrackByTargetRowFn,
 } from '../../interfaces';
+import { IPaginationState } from '../../interfaces/pagination-state.interface';
 import { GroupExpandNotifierService } from '../../services/group-expand-notifier.service';
 import { FsBodyComponent } from '../body/body.component';
 import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.component';
-import { IPaginationState } from '../../interfaces/pagination-state.interface';
 
 
 @Component({
@@ -69,8 +69,8 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
 
   @HostBinding('class.fs-list') public classFsList = true;
 
-  @HostBinding('class.fs-list-no-highlight')
-  public noRowsHighlight: boolean;
+  @HostBinding('class.fs-list-row-highlight')
+  public rowHighlight: boolean;
 
   @Input('config')
   public set config(config: FsListConfig) {
@@ -365,7 +365,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
       this._inDialog,
     );
 
-    this.noRowsHighlight = !this.list.rowHighlight;
+    this.rowHighlight = this.list.rowHighlight;
 
     this._waitFirstLoad();
 
