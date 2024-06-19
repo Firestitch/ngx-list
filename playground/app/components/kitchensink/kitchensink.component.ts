@@ -304,6 +304,7 @@ export class KitchenSinkComponent
 
             return { link: ['rows', row.guid], queryParams: { param: 1 } };
           },
+          className: 'test',
         },
         {
           label: 'Menu Upload',

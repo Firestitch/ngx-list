@@ -1,6 +1,6 @@
 <ng-container *ngIf="!restoreMode || (restoreMode && !restoreAction)">
   <ng-container *ngFor="let action of inlineRowActions; trackBy: trackByFn">
-    <fs-list-row-inline-action 
+    <fs-list-row-inline-action
       class="row-inline-action row-inline-action-{{action.type}}"
       [action]="action"
       [ngClass]="{'mobile-hide': action.menu === undefined}"
@@ -11,14 +11,14 @@
 </ng-container>
 
 <!-- Menu -->
-<fs-menu 
+<fs-menu
     class="row-menu-action"
     *ngIf="menuRowActions.length || (restoreMode && restoreAction)"
     #menuRef>
   <!-- Case when we have usual menu actions -->
   <ng-container *ngIf="!restoreMode || (restoreMode && !restoreAction)">
     <ng-container *ngFor="let action of inlineRowActions; trackBy: trackByFn">
-      <ng-template 
+      <ng-template
           class="hidden-mobile-menu-action"
           fs-menu-item
           [link]="action.routerLink?.link"
@@ -40,12 +40,13 @@
       <ng-container *ngIf="action.isGroup else simpleMenuItem">
         <fs-menu-group [label]="action.label | actionLabel:row">
           <ng-container *ngFor="let subAction of action.rowActions">
-            <ng-template 
+            <ng-template
                 fs-menu-item
                 [link]="subAction.routerLink?.link"
                 [queryParams]="subAction.routerLink?.queryParams"
                 [target]="subAction.routerLink?.target"
                 [hidden]="!subAction.isShown"
+                [class]="subAction.className"
                 (click)="actionClick(subAction, row, $event, menuRef);">
               <fs-list-row-menu-action
                 [icon]="subAction.icon"
@@ -60,12 +61,13 @@
         </fs-menu-group>
       </ng-container>
       <ng-template #simpleMenuItem>
-        <ng-template 
+        <ng-template
             fs-menu-item
             [link]="action.routerLink?.link"
             [queryParams]="action.routerLink?.queryParams"
             [target]="action.routerLink?.target"
             [hidden]="!action.isShown"
+            [class]="action.className"
             (click)="actionClick(action, row, $event, menuRef);">
           <fs-list-row-menu-action
             [icon]="action.icon"
