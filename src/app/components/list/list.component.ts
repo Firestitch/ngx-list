@@ -37,7 +37,9 @@ import { cloneDeep, mergeWith } from 'lodash-es';
 import { List } from '../../classes/list-controller';
 import { PersistanceController } from '../../classes/persistance-controller';
 import { ReorderController } from '../../classes/reorder-controller';
-import { FsListHeadingContainerDirective, FsListHeadingDirective, FsListSubheadingDirective } from '../../directives';
+import {
+  FsListHeadingContainerDirective, FsListHeadingDirective, FsListSubheadingDirective,
+} from '../../directives';
 import { FsListColumnDirective } from '../../directives/column/column.directive';
 import { FsListEmptyStateDirective } from '../../directives/empty-state/empty-state.directive';
 import { FS_LIST_DEFAULT_CONFIG } from '../../fs-list.providers';
@@ -70,7 +72,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   @HostBinding('class.fs-list') public classFsList = true;
 
   @HostBinding('class.fs-list-row-highlight')
-  public rowHighlight: boolean;
+  public rowHoverHighlight: boolean;
 
   @Input('config')
   public set config(config: FsListConfig) {
@@ -92,6 +94,9 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   @ContentChild(FsListSubheadingDirective, { read: TemplateRef })
   public subheadingTemplate: TemplateRef<any>;
 
+  @ViewChild(FsBodyComponent)
+  public body: FsBodyComponent;
+
   public list: List;
   public keywordVisible = true;
 
@@ -105,9 +110,6 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   private _inDialog = !!this._dialogRef || !!this._drawerRef;
 
   private _destroy = new Subject();
-
-  @ViewChild(FsBodyComponent)
-  public body: FsBodyComponent;
 
   @ViewChild(FilterComponent)
   public set filterReference(component) {
@@ -365,7 +367,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
       this._inDialog,
     );
 
-    this.rowHighlight = this.list.rowHighlight;
+    this.rowHoverHighlight = this.list.rowHoverHighlight;
 
     this._waitFirstLoad();
 
@@ -406,7 +408,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
         })
           .afterClosed()
           .pipe(
-            takeUntil(this.list.onDestroy$),
+            takeUntil(this.list.destroy$),
             takeUntil(this._destroy),
           )
           .subscribe((data) => {
@@ -427,7 +429,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
     this.list.sorting
       .sortingChanged$
       .pipe(
-        takeUntil(this.list.onDestroy$),
+        takeUntil(this.list.destroy$),
         takeUntil(this._destroy),
       )
       .subscribe((sort) => {
@@ -440,9 +442,8 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
       .pipe(takeUntil(this._destroy))
       .subscribe((row) => {
         this.list.dataController.removeData(row);
-
         this.body.rows
-        .forEach((row) => row.actionsUpdate())
+          .forEach((bodyRow) => bodyRow.actionsUpdate());
       });
   }
 
@@ -464,7 +465,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
         skip(1),
         filter((value) => !value),
         take(1),
-        takeUntil(this.list.onDestroy$),
+        takeUntil(this.list.destroy$),
         takeUntil(this._destroy),
       )
       .subscribe(() => {

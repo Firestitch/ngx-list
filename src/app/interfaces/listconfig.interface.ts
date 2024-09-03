@@ -2,6 +2,7 @@ import { FsFile } from '@firestitch/file';
 import {
   ChangeFn,
   FsFilterAction,
+  FsFilterAutoReload,
   FsFilterPersistance,
   IFilterConfigDateItem,
   IFilterConfigItem,
@@ -36,7 +37,7 @@ export interface FsListConfig {
   trackBy?: string;
   subheading?: string;
   status?: boolean;
-  rowHighlight?: boolean;
+  rowHoverHighlight?: boolean;
   chips?: boolean;
   column?: FsListColumnConfig;
   autoFocus?: boolean;
@@ -50,6 +51,7 @@ export interface FsListConfig {
   persist?: FsListPersitance;
   rowActions?: (FsListRowActionGroup | FsListRowAction)[];
   rowClass?: (row: any, options?: FsListRowClassOptions) => string;
+  rowHover?: boolean;
   actions?: FsListAction[];
   fetch?: FsListFetchFn;
   afterFetch?: FsListAfterFetchFn;
@@ -74,6 +76,7 @@ export interface FsListConfig {
   filterChange?: ChangeFn;
   reload?: boolean;
   style?: 'line' | 'card' | 'basic';
+  autoReload?: FsFilterAutoReload;
 }
 
 export interface FsListGroupConfig {

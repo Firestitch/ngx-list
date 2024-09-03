@@ -1,18 +1,21 @@
 import { ElementRef, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { ChangeFn, FilterConfig, IFilterSavedFiltersConfig, ItemType } from '@firestitch/filter';
+import {
+  ChangeFn, FilterConfig, FsFilterAutoReload, IFilterSavedFiltersConfig, ItemType,
+} from '@firestitch/filter';
 import { FsScrollInstance, FsScrollService } from '@firestitch/scroll';
 import { SelectionDialog } from '@firestitch/selection';
 
-import { BehaviorSubject, combineLatest, EMPTY, from, Observable, of, Subject, Subscription } from 'rxjs';
-import { catchError, debounceTime, map, mapTo, shareReplay, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import {
+  BehaviorSubject, combineLatest, EMPTY, from, Observable, of, Subject, Subscription,
+} from 'rxjs';
+import {
+  catchError, debounceTime, map, mapTo, shareReplay, switchMap, take, takeUntil, tap,
+} from 'rxjs/operators';
 
 import { cloneDeep } from 'lodash-es';
 
-import { SortingDirection } from '../models/column.model';
-
-// Interfaces
 import { PageChangeType } from '../enums/page-change-type.enum';
 import { FsListState } from '../enums/state.enum';
 import {
@@ -36,6 +39,7 @@ import {
   FsPaging,
   PageChange,
 } from '../interfaces';
+import { SortingDirection } from '../models/column.model';
 import { RowAction } from '../models/row-action.model';
 import { StyleConfig } from '../models/styleConfig.model';
 
@@ -48,7 +52,7 @@ import { PersistanceController } from './persistance-controller';
 import { SelectionController } from './selection-controller';
 import { SortingController } from './sorting-controller';
 
-const SHOW_DELETED_FILTERS_KEY = '_showDeleted_';
+const showDeletedFilterKey = 'showDeleted';
 
 
 export class List {
@@ -57,7 +61,7 @@ export class List {
   public trackBy: string;
   public subheading: string;
   public autoFocus: boolean;
-  public rowHighlight: boolean;
+  public rowHoverHighlight: boolean;
   public rowActionsRaw: any[];
   public groupActionsRaw: any[];
   public rowClass;
@@ -77,8 +81,6 @@ export class List {
   public afterContentInit: FsListAfterContentInitFn;
   public afterInit: FsListAfterInitFn;
   public style;
-  public initialized$ = new BehaviorSubject(false);
-  public loading$ = new BehaviorSubject(false);
   public hasRowActions;
   public paging = new PaginationController();
   public columns = new ColumnsController();
@@ -88,6 +90,7 @@ export class List {
   public externalParams: ExternalParamsController;
   public selection: SelectionController;
   public filterConfig: FilterConfig = null;
+  public loading$ = new BehaviorSubject(false);
   public fetchComplete$ = new Subject<{ scrollIntoView?: boolean }>();
   public filtersReady$ = new Subject<void>();
   public status = true;
@@ -95,6 +98,7 @@ export class List {
   public filterInput = true;
   public queryParam = false;
   public restoreMode = false;
+  public autoReload: FsFilterAutoReload;
 
   public initialFetch = true;
 
@@ -104,8 +108,8 @@ export class List {
 
   public fsScrollInstance: FsScrollInstance;
 
-  public onDestroy$ = new Subject();
-
+  private _destroy$ = new Subject();
+  private _initialized$ = new BehaviorSubject(false);
   private _fetch$ = new Subject<FsListFetchSubscription | void>();
   private readonly _filtersQuery = new BehaviorSubject<Record<string, any>>(null);
   private readonly _activeFiltersCount$ = this._filtersQuery
@@ -120,7 +124,7 @@ export class List {
 
   constructor(
     private _el: ElementRef,
-    private config: FsListConfig = {},
+    private _config: FsListConfig = {},
     private _fsScroll: FsScrollService,
     private _selectionDialog: SelectionDialog,
     private _router: Router,
@@ -128,12 +132,12 @@ export class List {
     private _persistance: PersistanceController,
     private _inDialog: boolean,
   ) {
-    this._initialize(config);
-    this._headerConfig = new StyleConfig(config.header);
-    this._groupCellConfig = new StyleConfig(config.cell);
-    this._cellConfig = new StyleConfig(config.cell);
-    this._footerConfig = new StyleConfig(config.footer);
-    this.initialized$.next(true);
+    this._initialize(_config);
+    this._headerConfig = new StyleConfig(_config.header);
+    this._groupCellConfig = new StyleConfig(_config.cell);
+    this._cellConfig = new StyleConfig(_config.cell);
+    this._footerConfig = new StyleConfig(_config.footer);
+    this._initialized$.next(true);
     this.subscribe();
 
     if (this.initialFetch) {
@@ -156,6 +160,14 @@ export class List {
 
   public get activeFiltersCount$(): Observable<number> {
     return this._activeFiltersCount$;
+  }
+
+  public get destroy$(): Observable<any> {
+    return this._destroy$;
+  }
+
+  public get initialized$(): Observable<boolean> {
+    return this._initialized$;
   }
 
   public fetchRemote(query) {
@@ -197,7 +209,7 @@ export class List {
 
     // Default sort by
     const externalSorting = this.externalParams.externalSorting;
-    const initialSortConfig = externalSorting || this.config.sort;
+    const initialSortConfig = externalSorting || this._config.sort;
     this.sorting.initialSortBy(initialSortConfig);
 
     if (externalSorting && !this.sorting.isDefined) {
@@ -230,7 +242,7 @@ export class List {
   public subscribe() {
     this.paging.pageChanged$
       .pipe(
-        takeUntil(this.onDestroy$),
+        takeUntil(this._destroy$),
       )
       .subscribe((event: PageChange) => {
         this.dataController.setOperation(FsListState.PageChange);
@@ -259,7 +271,7 @@ export class List {
 
           if (!contains) {
             const rect = this._el.nativeElement.getBoundingClientRect();
-            if ((rect.top + window.pageYOffset) < window.innerHeight) {
+            if ((Number(rect.top || 0) + window.pageYOffset) < window.innerHeight) {
               el = document.body;
             }
           }
@@ -267,7 +279,7 @@ export class List {
           this.fetchComplete$.asObservable()
             .pipe(
               take(1),
-              takeUntil(this.onDestroy$),
+              takeUntil(this._destroy$),
             )
             .subscribe((event) => {
               if(event?.scrollIntoView ?? true) {
@@ -281,7 +293,7 @@ export class List {
 
     this.sorting.sortingChanged$
       .pipe(
-        takeUntil(this.onDestroy$),
+        takeUntil(this._destroy$),
       )
       .subscribe(() => {
         this.dataController.setOperation(FsListState.Sort);
@@ -361,8 +373,8 @@ export class List {
 
     this.columns.destroy();
 
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
+    this._destroy$.next();
+    this._destroy$.complete();
 
     this.dataController.destroy();
   }
@@ -384,9 +396,9 @@ export class List {
     this._initializeData();
   }
 
-  private _initVariables(config) {
+  private _initVariables(config: FsListConfig) {
     this.autoFocus = config.autoFocus;
-    this.rowHighlight = config.rowHighlight ?? true;
+    this.rowHoverHighlight = config.rowHoverHighlight ?? true;
     this.heading = config.heading;
     this.trackBy = config.trackBy;
     this.subheading = config.subheading;
@@ -407,6 +419,7 @@ export class List {
     this.beforeFetchFn = config.beforeFetch;
     this.afterInit = config.afterInit;
     this.style = config.style;
+    this.autoReload = config.autoReload;
     this.columns.initConfig(config.column);
   }
 
@@ -434,7 +447,7 @@ export class List {
     if (this._inDialog) {
       this.queryParam = false;
     } else {
-      this.queryParam = (config.queryParam === void 0)
+      this.queryParam = (config.queryParam === undefined)
         ? true
         : config.queryParam;
     }
@@ -479,7 +492,7 @@ export class List {
 
       if (this.restore.filter !== false) {
         this.filters.push({
-          name: SHOW_DELETED_FILTERS_KEY,
+          name: showDeletedFilterKey,
           type: ItemType.Checkbox,
           label: this.restore.filterLabel || 'Show Deleted',
         });
@@ -553,7 +566,7 @@ export class List {
     let fetch$ = this.fetch$;
 
     // Should wait until saved filters not loaded
-    if (!!this.filters) {
+    if (this.filters) {
       fetch$ = combineLatest([fetch$, this.filtersReady$])
         .pipe(
           map(([params]) => params),
@@ -642,7 +655,7 @@ export class List {
 
           return EMPTY;
         }),
-        takeUntil(this.onDestroy$),
+        takeUntil(this._destroy$),
       )
       .subscribe(([paramsQuery, response]) => {
         this.initialFetch = false;
@@ -653,7 +666,7 @@ export class List {
   private _listenRowsRemove() {
     this.dataController.rowsRemoved$
       .pipe(
-        takeUntil(this.onDestroy$),
+        takeUntil(this._destroy$),
       )
       .subscribe((rows: any[]) => {
         if (this.paging.enabled) {
@@ -691,7 +704,7 @@ export class List {
   private _listenVisibleColumnChanges(): void {
     this.columns.visibleColumns$
       .pipe(
-        takeUntil(this.onDestroy$),
+        takeUntil(this._destroy$),
       )
       .subscribe(() => {
         this._updateSortingColumns();
@@ -705,7 +718,7 @@ export class List {
 
     if (this.scrollable) {
       // Scrollable status by default
-      if (this.scrollable.status === void 0) {
+      if (this.scrollable.status === undefined) {
         this.scrollable.status = true;
       }
 
@@ -713,7 +726,7 @@ export class List {
       this._fsScroll
         .component(this.scrollable.name)
         .pipe(
-          takeUntil(this.onDestroy$),
+          takeUntil(this._destroy$),
         )
         .subscribe((fsScrollInstance: FsScrollInstance) => {
           this.fsScrollInstance = fsScrollInstance;
@@ -752,7 +765,7 @@ export class List {
 
           this.dataController.remoteRowsChange$
             .pipe(
-              takeUntil(this.onDestroy$),
+              takeUntil(this._destroy$),
             )
             .subscribe(() => {
               fsScrollInstance.loaded();
@@ -804,9 +817,10 @@ export class List {
       sorts: sortValues,
       sort: sortConfig,
       chips: this.chips,
+      autoReload: this.autoReload,
       init: this._filterInit.bind(this),
       change: this._filterChange.bind(this),
-      reload: (this.config.reload ?? true) ? this.reload.bind(this) : null,
+      reload: (this._config.reload ?? true) ? this.reload.bind(this) : null,
       sortChange: this._filterSort.bind(this),
     };
   }
@@ -863,8 +877,8 @@ export class List {
 
   private _checkRestoreFilter() {
     // Restore option
-    if (this.restore && this.filtersQuery[SHOW_DELETED_FILTERS_KEY]) {
-      delete this.filtersQuery[SHOW_DELETED_FILTERS_KEY];
+    if (this.restore && this.filtersQuery[showDeletedFilterKey]) {
+      delete this.filtersQuery[showDeletedFilterKey];
 
       Object.assign(this.filtersQuery, this.restore.query);
 
@@ -994,11 +1008,10 @@ export class List {
       restoreClickResult
         .pipe(
           take(1),
-          takeUntil(this.onDestroy$),
+          takeUntil(this._destroy$),
         )
         .subscribe({
           next: () => this.reload(),
-          error: () => { },
         });
     }
   }

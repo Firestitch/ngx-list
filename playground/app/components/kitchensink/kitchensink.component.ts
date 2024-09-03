@@ -69,11 +69,14 @@ export class KitchenSinkComponent
         limits: [5, 15, 50, 150, 250, 500, 1000],
         strategy: PaginationStrategy.Offset,
       },
-      rowHighlight: true,
+      rowHoverHighlight: true,
       // sort: {
       //   value: 'guid',
       //   direction: 'desc',
       // },
+      autoReload: {
+        seconds: 10,
+      },
       sorts: [
         {
           name: 'Custom Sort',
