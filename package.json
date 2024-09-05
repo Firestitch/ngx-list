@@ -1,7 +1,7 @@
 {
   "name": "@firestitch/list",
   "title": "List",
-  "version": "13.1.0",
+  "version": "13.1.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-list"
@@ -49,7 +49,7 @@
     "@firestitch/chip": "^12.0.0",
     "@firestitch/clear": "^12.3.6",
     "@firestitch/common": "^12.3.0",
-    "@firestitch/component-tools": "^14.0.1",
+    "@firestitch/component-tools": "^13.1.1",
     "@firestitch/core": "^12.1.0",
     "@firestitch/date": "^12.4.5",
     "@firestitch/datepicker": "^12.12.0",
