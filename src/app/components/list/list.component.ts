@@ -317,6 +317,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
    */
   public columnVisibility(name: string, show: boolean) {
     this.columnsVisibility([{ name, show }]);
+    this.filterRef.updateSortings(this.list.sorting.makeSortingList());
   }
 
   /**

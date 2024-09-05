@@ -782,24 +782,7 @@ export class List {
       return;
     }
 
-    // Merge sorting and fake sorting cols
-    // Fake sorting cols it's cols which don't represented in table cols, like abstract cols
-    const sortValues =
-      [
-        ...this.sorting.sortingColumns,
-        ...this.sorting.fakeSortingColumns,
-      ].reduce((acc, column) => {
-
-        const sortingItem = {
-          name: column.title,
-          value: column.name,
-          default: this.sorting.sortingColumn && this.sorting.sortingColumn.name === column.name,
-        };
-
-        acc.push(sortingItem);
-
-        return acc;
-      }, []);
+    const sortValues = this.sorting.makeSortingList();
 
     const sortConfig = this.sorting.sortingColumn
       ? { value: this.sorting.sortingColumn.name, direction: this.sorting.sortingColumn.direction }

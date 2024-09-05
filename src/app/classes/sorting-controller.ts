@@ -180,6 +180,28 @@ export class SortingController {
     this.sortDirection(column.direction || SortingDirection.asc);
   }
 
+  /**
+   * Merge sorting and fake sorting cols
+   * Fake sorting cols it's cols which don't represented in table cols, like abstract cols
+   */
+  public makeSortingList() {
+    return [
+      ...this.sortingColumns,
+      ...this.fakeSortingColumns,
+    ].reduce((acc, column) => {
+
+      const sortingItem = {
+        name: column.title,
+        value: column.name,
+        default: this.sortingColumn && this.sortingColumn.name === column.name,
+      };
+
+      acc.push(sortingItem);
+
+      return acc;
+    }, []);
+  }
+
   public getColumn(name: string): Column {
     return [...this.sortingColumns, ...this.fakeSortingColumns]
       .find((col) => col.name === name && col.sortable);
