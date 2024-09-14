@@ -47,7 +47,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   @Input() public rowActionsRaw: any[] = [];
   @Input() public groupActionsRaw: any[] = [];
   @Input() public hasRowActions = false;
-  @Input() public rowEvents = {};
+  @Input() public rowEvents: any = {};
   @Input() public rowClass;
   @Input() public restoreMode = false;
   @Input() public rowIndex: number;
@@ -133,6 +133,10 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
       classes.push('fs-list-row-group-footer');
     } else {
       classes.push('fs-list-row-body');
+    }
+
+    if(this.rowEvents?.click) {
+      classes.push('fs-list-row-clickable');
     }
 
     if (this.rowClass) {
@@ -243,32 +247,28 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   private _initRowEvents() {
     Object.keys(this.rowEvents || {})
       .forEach((event) => {
-        if (this.rowEvents.hasOwnProperty(event)) {
-          const listener = this._renderer
-            .listen(this.el.nativeElement, event, (evt) => {
-              if (!this.reorderEnabled) {
-                this.rowEvents[event]({
-                  event: evt,
-                  row: this.row.data,
-                  rowIndex: this.rowIndex,
-                });
-              }
+        const listener = this._renderer
+          .listen(this.el.nativeElement, event, (evt) => {
+            this.rowEvents[event]({
+              event: evt,
+              row: this.row.data,
+              rowIndex: this.rowIndex,
             });
+          });
 
-          this._eventListeners.push(listener);
-        }
+        this._eventListeners.push(listener);
       });
   }
   
   private _initRowActionsUpdate() : void {
     if(this.row.actionsUpdate$) {
       this.row.actionsUpdate$
-      .pipe(
-        takeUntil(this._destroy$)
-      )
-      .subscribe(() => {
-        this.updateRowActions();
-      });
+        .pipe(
+          takeUntil(this._destroy$),
+        )
+        .subscribe(() => {
+          this.updateRowActions();
+        });
     }
   }
 

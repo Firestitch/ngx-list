@@ -395,8 +395,7 @@ export class KitchenSinkComponent
       rowClass: (row, options) => {
         return 'custom-row-class';
       },
-      rowEvents:
-      {
+      rowEvents: {
         mouseover: (event) => {
           // console.log('over', event);
         },

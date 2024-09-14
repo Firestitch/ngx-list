@@ -7,11 +7,11 @@ import {
   FsListReorderConfig,
   FsListReorderDoneCallback,
   FsListReorderMovedCallback,
-  FsListReorderMoveInGroupCallback
+  FsListReorderMoveInGroupCallback,
 } from '../interfaces';
 
-import { DataController } from './data-controller';
 import { ActionsController } from './actions-controller';
+import { DataController } from './data-controller';
 import { SelectionController } from './selection-controller';
 
 export enum ReorderPosition {
@@ -49,8 +49,6 @@ export class ReorderController implements OnDestroy {
   private _strategy = new BehaviorSubject<ReorderStrategy | null>(null);
 
   private _destroy$ = new Subject();
-
-  constructor() {}
 
   public get enabled() {
     return this._enabled$.getValue();
@@ -108,7 +106,9 @@ export class ReorderController implements OnDestroy {
     actionsController: ActionsController,
     selectionController: SelectionController,
   ) {
-    if (!data) { return }
+    if (!data) {
+      return; 
+    }
 
     this.menu = data.menu ?? false;
     this._setPosition(data.position ?? ReorderPosition.Left);
@@ -147,21 +147,21 @@ export class ReorderController implements OnDestroy {
           },
           disabled: () => {
             return this.reorderDisabled;
-          }
-        }
+          },
+        },
       );
 
       actionsController.addReorderDoneAction({
-          label: 'Done',
-          primary: false,
-          click: () => {
-            this.disableReorder();
-          },
-          disabled: () => {
-            return this.reorderDisabled;
-          },
-        }
-      )
+        label: 'Done',
+        primary: false,
+        click: () => {
+          this.disableReorder();
+        },
+        disabled: () => {
+          return this.reorderDisabled;
+        },
+      },
+      );
     }
   }
 

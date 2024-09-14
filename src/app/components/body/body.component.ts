@@ -6,7 +6,7 @@ import {
   Input,
   TemplateRef,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 
 import { ReorderPosition, ReorderStrategy } from '../../classes/reorder-controller';

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
 import { FsListConfig, ReorderPosition } from '@firestitch/list';
@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'toggle-reorder',
   templateUrl: './toggle.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToggleReorderComponent implements OnInit {
 
@@ -23,6 +24,11 @@ export class ToggleReorderComponent implements OnInit {
       status: false,
       filterInput: true,
       queryParam: false,
+      rowEvents: {
+        click: () => {
+          console.log('click'); 
+        },
+      },
       persist: false,
       reorder: {
         position: ReorderPosition.Left,
@@ -34,14 +40,14 @@ export class ToggleReorderComponent implements OnInit {
         },
         done: (data) => {
           console.log('reorder finished', data);
-        }
+        },
       },
-      fetch: query => {
+      fetch: (query) => {
         return this._fsApi.get('https://specify.firestitch.dev/api/dummy', query)
           .pipe(
-            map(response => ({ data: response.objects, paging: response.paging }))
+            map((response) => ({ data: response.objects, paging: response.paging })),
           );
-      }
+      },
     };
   }
 }

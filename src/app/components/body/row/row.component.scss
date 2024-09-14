@@ -19,6 +19,10 @@
   &.draggable-elem td {
     background-color: #c3c3c3;
   }
+
+  &.fs-list-row-clickable {
+    cursor: pointer;
+  }
 }
 
 
