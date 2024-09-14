@@ -1,7 +1,7 @@
+
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
-import { isObject } from 'lodash-es';
 
 import { PageChangeType } from '../enums/page-change-type.enum';
 import { PaginationStrategy } from '../enums/pagination-strategy.enum';
@@ -23,7 +23,6 @@ export class PaginationController {
   public page = 1; // Active page
   public offset = 0;
 
-  // public pagesArray = [];
   public displayed = 0;
 
   private _pages$ = new BehaviorSubject<number>(0); // Total pages
@@ -35,12 +34,9 @@ export class PaginationController {
   private _pageReset$ = new Subject<void>();
   private _onDestroy$ = new Subject();
 
-  private _loadMoreEnabled = false;
+  private _loadMoreConfig: FsListLoadMoreConfig;
   private _infinityScrollEnabled = false;
-  private _loadMoreText = 'Load More';
   private _limits = [10, 25, 50, 100, 200];
-
-  constructor() {}
 
   // Total pages
   public set pages(value: number) {
@@ -114,15 +110,18 @@ export class PaginationController {
 
   public get loadMoreQuery() {
     switch (this.strategy) {
-      case PaginationStrategy.Page:
+      case PaginationStrategy.Page: {
         return this.query;
-      case PaginationStrategy.Offset:
+      }
+
+      case PaginationStrategy.Offset: {
         const query = this.queryOffsetStrategy;
 
         query.limit = query.offset + query.limit;
         query.offset = 0;
 
         return query;
+      }
     }
 
     return {};
@@ -230,13 +229,29 @@ export class PaginationController {
   }
 
   public get loadMoreEnabled(): boolean {
-    return this._loadMoreEnabled;
+    return this._loadMoreConfig.enabled;
   }
 
-  public get loadMoreText(): string {
-    return this._loadMoreText;
+  public get loadMoreLabel(): string {
+    return this._loadMoreConfig.label;
   }
 
+  public get loadMoreButtonColor(): string {
+    return this._loadMoreConfig.buttonColor;
+  }
+
+  public get loadMoreButtonClass(): string {
+    if( this._loadMoreConfig.buttonType === 'basic' ) {
+      return ''; 
+    }
+
+    return `mat-${this._loadMoreConfig.buttonType}-button`;
+  }
+
+  public get loadMoreButtonType(): string {
+    return this._loadMoreConfig.buttonType;
+  }
+  
   public get infinityScrollEnabled() {
     return this._infinityScrollEnabled;
   }
@@ -263,7 +278,7 @@ export class PaginationController {
       limit: this.limit,
       records: this.records,
       displayed: this.displayed,
-    }
+    };
   }
 
   public initWithConfig(
@@ -284,9 +299,7 @@ export class PaginationController {
       this.strategy = config.strategy;
     }
 
-    if (loadMore) {
-      this.setLoadMore(loadMore);
-    }
+    this.setLoadMore(loadMore);
 
     this._infinityScrollEnabled = infinityScrollEnabled;
   }
@@ -390,11 +403,16 @@ export class PaginationController {
   // }
 
   public setLoadMore(config: FsListLoadMoreConfig | boolean) {
-    this._loadMoreEnabled = !!config;
+    const loadMoreConfig = typeof config === 'boolean' ? {
+      enabled: !!config,
+    } : config ;
 
-    if (this._loadMoreEnabled && isObject(config) && (config as FsListLoadMoreConfig).label) {
-      this._loadMoreText = (config as FsListLoadMoreConfig).label;
-    }
+    this._loadMoreConfig = {
+      enabled: true,
+      label: 'Load More',
+      buttonType: 'basic',
+      ...loadMoreConfig,
+    };
   }
 
   /**

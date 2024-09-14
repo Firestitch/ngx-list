@@ -17,7 +17,7 @@ import {
 import { Observable } from 'rxjs';
 
 import { ReorderPosition } from '../classes/reorder-controller';
-import { ActionType } from '../enums/button-type.enum';
+import { ActionType } from '../enums/action-type.enum';
 import { PaginationStrategy } from '../enums/pagination-strategy.enum';
 import { RowType } from '../enums/row-type.enum';
 import { FsListState } from '../enums/state.enum';
@@ -97,7 +97,10 @@ export interface FsListGroupConfig {
 }
 
 export interface FsListLoadMoreConfig {
+  enabled?: boolean,
   label?: string;
+  buttonColor?: 'primary' | 'accent' | 'warn';
+  buttonType?: 'flat' | 'raised' | 'stroked' | 'basic';
 }
 
 export interface FsListReorderConfig {

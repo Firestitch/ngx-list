@@ -1,4 +1,4 @@
-import { ActionType } from '../enums/button-type.enum';
+import { ActionType } from '../enums/action-type.enum';
 import {
   FsListRowActionFile,
   FsListRowActionLink,

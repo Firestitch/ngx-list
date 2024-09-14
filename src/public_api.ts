@@ -58,12 +58,12 @@ export {
   FsListTrackByTargetRowFn,
   FsPaging,
 } from './app/interfaces/listconfig.interface';
+export { IPaginationState } from './app/interfaces/pagination-state.interface';
 export { QueryOffsetStrategy, QueryPageStrategy } from './app/interfaces/pagination.interface';
 export { SortingChangeEvent } from './app/interfaces/sorting-change-event.interface';
-export { IPaginationState } from './app/interfaces/pagination-state.interface';
 
 // Enums
-export { ActionType } from './app/enums/button-type.enum';
+export { ActionType } from './app/enums/action-type.enum';
 export { PaginationStrategy } from './app/enums/pagination-strategy.enum';
 export { RowType } from './app/enums/row-type.enum';
 export { FsListState } from './app/enums/state.enum';

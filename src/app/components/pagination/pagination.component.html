@@ -24,6 +24,13 @@
 
 <ng-template #loadMoreButton>
   <div class="fs-list-load-more" *ngIf="pagination.hasNextPage">
-    <button mat-button (click)="pagination.goNext()">{{ pagination.loadMoreText }}</button>
+    <button 
+        mat-button
+        type="button"
+        [class]="pagination.loadMoreButtonClass"
+        [color]="pagination.loadMoreButtonColor"
+        (click)="pagination.goNext()">
+       {{ pagination.loadMoreLabel }}
+    </button>
   </div>
 </ng-template>
