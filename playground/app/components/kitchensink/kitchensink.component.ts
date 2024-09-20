@@ -84,7 +84,7 @@ export class KitchenSinkComponent
           value: 'custom',
         },
       ],
-      loadMore: true,
+      //loadMore: true,
       // loadMore: {
       //   buttonType: 'flat',
       //   buttonColor: 'primary',

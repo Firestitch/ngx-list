@@ -1,12 +1,12 @@
 import { Component, Inject } from '@angular/core';
-import { DrawerRef, DRAWER_DATA } from '@firestitch/drawer';
-import { FsListComponent } from '@firestitch/list';
-import { PaginationStrategy } from '@firestitch/list';
+
+import { DRAWER_DATA, DrawerRef } from '@firestitch/drawer';
+import { FsListComponent, PaginationStrategy } from '@firestitch/list';
 
 
 @Component({
   templateUrl: './configure.component.html',
-  styleUrls: ['./configure.component.scss']
+  styleUrls: ['./configure.component.scss'],
 })
 export class ConfigureComponent {
 
@@ -17,9 +17,9 @@ export class ConfigureComponent {
   public pagingStrategy = false;
   public loadMoreEnabled = false;
 
-  public constructor(
+  constructor(
     public drawer: DrawerRef<ConfigureComponent>,
-    @Inject(DRAWER_DATA) public data: any
+    @Inject(DRAWER_DATA) public data: any,
   ) {
     this.config = data.config;
     this.defaultConfig = data.defaultConfig;

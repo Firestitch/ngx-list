@@ -1,18 +1,19 @@
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
 import { isFunction, isObject } from 'lodash-es';
 
-import { FsListState } from '../enums/state.enum';
 import { RowType } from '../enums/row-type.enum';
+import { FsListState } from '../enums/state.enum';
 import {
   FsListAbstractRow,
   FsListGroupConfig,
-  FsListTrackByTargetRowFn
+  FsListTrackByTargetRowFn,
 } from '../interfaces/listconfig.interface';
-import { GroupRow } from '../models/row/group-row';
-import { ChildRow } from '../models/row/child-row';
 import { Row } from '../models/row';
+import { ChildRow } from '../models/row/child-row';
 import { GroupFooterRow } from '../models/row/group-footer-row';
+import { GroupRow } from '../models/row/group-row';
 
 
 export class DataController {
@@ -46,66 +47,64 @@ export class DataController {
 
   private readonly _destroy$ = new Subject<void>();
 
-  constructor() {}
-
-  get visibleRows$() {
-    return this._visibleRows$;
-  }
-
-  get visibleRows() {
-    return this._visibleRows$.getValue();
-  }
-
-  get visibleRowsData() {
+  public get visibleRowsData() {
     return this.visibleRows.map((row) => row.data);
   }
 
-  get rowsStack() {
+  public get rowsStack() {
     return this._rowsStack.slice();
   }
 
-  get groupEnabled() {
+  public get groupEnabled() {
     return this._groupEnabled;
   }
 
-  set groupEnabled(value: boolean) {
+  public set groupEnabled(value: boolean) {
     this._groupEnabled = value;
   }
 
-  get remoteRowsChange$() {
+  public get remoteRowsChange$() {
     return this._remoteRowsChange$.pipe(
       takeUntil(this._destroy$),
     );
   }
 
-  get rowsRemoved$() {
+  public get rowsRemoved$() {
     return this._rowsRemoved$.pipe(
       takeUntil(this._destroy$),
     );
   }
 
-  get hasData() {
+  public get hasData() {
     return this._hasData;
   }
 
-  get operation() {
+  public get operation() {
     return this._operation;
   }
 
-  set visibleRows(value: any[]) {
+  public get visibleRows$() {
+    return this._visibleRows$;
+  }
+
+  public set visibleRows(value: any[]) {
     this._visibleRows$.next(value);
     this._hasData = this.visibleRows.length > 0;
   }
 
-  get visibleRowsCount() {
+  public get visibleRows() {
+    return this._visibleRows$.getValue();
+  }
+
+  public get visibleRowsCount() {
     return this.visibleRows.length;
   }
 
-  get hasGroups() {
+  public get hasGroups() {
     return this._compareByFn && this._groupByFn;
   }
 
-  get reorderData() {
+  public get reorderData() {
     return this._rowsStack
       .map((row) => row.getReorderData());
   }
@@ -118,7 +117,7 @@ export class DataController {
       this._initialExpand = group.initialExpand ?? true;
 
       // group mode enabled by default
-      this._groupEnabled = (group.enabled !== void 0)
+      this._groupEnabled = (group.enabled !== undefined)
         ? group.enabled
         : true;
     }
@@ -186,7 +185,7 @@ export class DataController {
    */
   public replaceData(
     targetRow: FsListAbstractRow,
-    trackBy?: FsListTrackByTargetRowFn
+    trackBy?: FsListTrackByTargetRowFn,
   ) {
     const rowIndex = this._rowsStack.findIndex((listRow) => {
       return trackBy(listRow.data, targetRow);
@@ -196,15 +195,16 @@ export class DataController {
       this._rowsStack[rowIndex] = new Row(
         targetRow,
         RowType.Simple,
-        { initialExpand: this._initialExpand }
+        { initialExpand: this._initialExpand },
       );
 
       this._updateVisibleRows();
 
       return true;
-    } else {
-      return false;
     }
+ 
+    return false;
+    
 
   }
 
@@ -229,13 +229,13 @@ export class DataController {
       this._updateVisibleRows();
 
       return updateSuccess;
-    } else {
-      const updated = this.updateRow(rows, trackBy);
+    } 
+    const updated = this.updateRow(rows, trackBy);
 
-      this._updateVisibleRows();
+    this._updateVisibleRows();
 
-      return updated;
-    }
+    return updated;
+    
   }
 
   /**
@@ -263,7 +263,7 @@ export class DataController {
     if (removedRows.length > 0) {
       this._updateVisibleRows();
 
-      this._rowsRemoved$.next(removedRows)
+      this._rowsRemoved$.next(removedRows);
     }
 
     return !!removedRows.length;
@@ -302,7 +302,7 @@ export class DataController {
       });
     }
 
-    this._rowsStack = [ ...rowsStack ];
+    this._rowsStack = [...rowsStack];
   }
 
   public destroy() {
@@ -388,14 +388,14 @@ export class DataController {
     if (trackBy === void 0) {
       trackBy = (row, target) => {
         return row === target;
-      }
+      };
     }
 
     const targetIndex = this._rowsStack.findIndex((listRow) => trackBy(listRow.data, targetRow));
 
     if (targetIndex !== -1) {
       const updateTarget = this._rowsStack[targetIndex];
-      const updatedData = Object.assign({}, updateTarget.data, targetRow);
+      const updatedData = { ...updateTarget.data, ...targetRow };
 
       this._rowsStack[targetIndex] = new Row(
         updatedData,
@@ -403,7 +403,7 @@ export class DataController {
         {
           parent: updateTarget.parent,
           initialExpand: updateTarget.expanded,
-        }
+        },
       );
 
       return true;
@@ -419,7 +419,7 @@ export class DataController {
    */
   private removeRow(
     targetRow: FsListAbstractRow | null,
-    trackBy?: FsListTrackByTargetRowFn
+    trackBy?: FsListTrackByTargetRowFn,
   ) {
 
     const rows = this._rowsStack;
@@ -440,9 +440,11 @@ export class DataController {
    * Split existing rows by groups and store them for future use
    */
   private groupRowsBy(rows) {
-    if (!this._groupByFn || !this._compareByFn) { return rows }
+    if (!this._groupByFn || !this._compareByFn) {
+      return rows; 
+    }
 
-    let groupRows: GroupRow[] = [];
+    const groupRows: GroupRow[] = [];
     const footerRows = new Map();
 
     rows.forEach((row) => {

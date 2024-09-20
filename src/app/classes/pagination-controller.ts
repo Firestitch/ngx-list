@@ -298,7 +298,7 @@ export class PaginationController {
 
       this.strategy = config.strategy;
     }
-
+    
     this.setLoadMore(loadMore);
 
     this._infinityScrollEnabled = infinityScrollEnabled;
@@ -403,12 +403,16 @@ export class PaginationController {
   // }
 
   public setLoadMore(config: FsListLoadMoreConfig | boolean) {
-    const loadMoreConfig = typeof config === 'boolean' ? {
-      enabled: !!config,
-    } : config ;
+    const loadMoreConfig = typeof config === 'boolean' ? 
+      {
+        enabled: !!config,
+      } : {
+        enabled: true,
+        ...config,
+      } ;
 
     this._loadMoreConfig = {
-      enabled: true,
+      enabled: false,
       label: 'Load More',
       buttonType: 'basic',
       ...loadMoreConfig,
