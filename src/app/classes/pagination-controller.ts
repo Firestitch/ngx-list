@@ -406,10 +406,13 @@ export class PaginationController {
     const loadMoreConfig = typeof config === 'boolean' ? 
       {
         enabled: !!config,
-      } : {
-        enabled: true,
-        ...config,
-      } ;
+      } : 
+      (
+        config === undefined ? {} : {
+          ...config,
+          enabled: true,
+        }
+      );
 
     this._loadMoreConfig = {
       enabled: false,
