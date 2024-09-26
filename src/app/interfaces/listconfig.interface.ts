@@ -58,7 +58,6 @@ export interface FsListConfig {
   beforeFetch?: FsListBeforeFetchFn;
   afterContentInit?: FsListAfterContentInitFn;
   afterInit?: FsListAfterInitFn;
-  scrollable?: FsListScrollableConfig;
   selection?: FsListSelectionConfig;
   initialFetch?: boolean;
   rowEvents?: { [name: string]: (event) => void };
@@ -156,13 +155,6 @@ export interface FsListSortsConfig {
 export interface FsListSortConfig {
   value: string;
   direction?: 'asc' | 'desc';
-}
-
-export interface FsListScrollableConfig {
-  name: string;
-  activationDown?: number;
-  loaderDiametr?: number;
-  status?: boolean;
 }
 
 export interface FsListRestoreConfig {

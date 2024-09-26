@@ -84,7 +84,7 @@ export class ExternalParamsController {
 
     // Set initial pagination params
     // The same initial, but for sorting placed in list-controller "tranformTemplatesToColumns" method
-    if (this._paginator.enabled && !this._paginator.infinityScrollEnabled) {
+    if (this._paginator.enabled) {
       if (this._limit) {
         this._paginator.setLimit(this._limit);
       }

@@ -33,7 +33,6 @@ import {
   FsListNoResultsConfig,
   FsListPersitance,
   FsListRestoreConfig,
-  FsListScrollableConfig,
   FsListSelectionConfig,
   FsListTrackByFn,
   FsPaging,
@@ -72,7 +71,6 @@ export class List {
   public filterInitCb: ChangeFn;
   public filterChangeCb: ChangeFn;
   public savedFilters: IFilterSavedFiltersConfig;
-  public scrollable: FsListScrollableConfig;
   public noResults: FsListNoResultsConfig;
   public emptyState: FsListEmptyStateConfig;
   public fetchFn: FsListFetchFn;
@@ -219,7 +217,6 @@ export class List {
     }
 
     this._initFilters();
-    this._initInfinityScroll();
   }
 
   public reload() {
@@ -258,11 +255,11 @@ export class List {
           if (this.selection) {
             this.selection.updateVisibleRecordsCount(this.paging.getVisibleRecords());
             this.selection.updateTotalRecordsCount(this.paging.records);
-            this.selection.pageChanged(this.scrollable);
+            this.selection.pageChanged();
           }
         }
 
-        if (!this.scrollable && !this.paging.loadMoreEnabled) {
+        if (!this.paging.loadMoreEnabled) {
           const contains = [].slice.call(document.querySelectorAll('.cdk-overlay-container')).some((overlay) => {
             return this._el.nativeElement.contains(overlay);
           });
@@ -276,7 +273,8 @@ export class List {
             }
           }
 
-          this.fetchComplete$.asObservable()
+          this.fetchComplete$
+            .asObservable()
             .pipe(
               take(1),
               takeUntil(this._destroy$),
@@ -411,7 +409,6 @@ export class List {
     this.filterInitCb = config.filterInit;
     this.filterChangeCb = config.filterChange;
     this.savedFilters = config.savedFilters;
-    this.scrollable = config.scrollable;
     this.noResults = config.noResults;
     this.emptyState = config.emptyState;
     this.fetchFn = config.fetch;
@@ -508,7 +505,7 @@ export class List {
    * @param loadMore
    */
   private _initPaging(pagingConfig: FsPaging | false, loadMore: FsListLoadMoreConfig | boolean) {
-    this.paging.initWithConfig(pagingConfig, loadMore, !!this.scrollable);
+    this.paging.initWithConfig(pagingConfig, loadMore);
   }
 
   /**
@@ -536,7 +533,6 @@ export class List {
 
   private _initializeData() {
     this.dataController.setAdditionalConfigs({
-      scrollable: !!this.scrollable,
       loadMoreEnabled: this.paging.loadMoreEnabled,
     });
   }
@@ -711,69 +707,6 @@ export class List {
       });
   }
 
-  private _initInfinityScroll() {
-    if (this.fsScrollInstance) {
-      return;
-    }
-
-    if (this.scrollable) {
-      // Scrollable status by default
-      if (this.scrollable.status === undefined) {
-        this.scrollable.status = true;
-      }
-
-
-      this._fsScroll
-        .component(this.scrollable.name)
-        .pipe(
-          takeUntil(this._destroy$),
-        )
-        .subscribe((fsScrollInstance: FsScrollInstance) => {
-          this.fsScrollInstance = fsScrollInstance;
-          this._fsScrollSubscription = fsScrollInstance
-            .subscribe(() => {
-              let startLoading = false;
-              const operation = this.dataController.operation;
-
-              // Initial loading if initialFetch equals false
-              if (!this.initialFetch
-                && !this.paging.initialized
-                && operation !== FsListState.Reload
-              ) {
-
-                this.dataController.setOperation(FsListState.Load);
-                startLoading = true;
-
-              } else if (
-                operation === FsListState.Reload ||
-                operation === FsListState.Filter ||
-                operation === FsListState.Sort
-              ) {
-                startLoading = true;
-              } else if (this.paging.initialized && this.paging.hasNextPage) {
-                // Loading if content has been scrolled
-                startLoading = true;
-                this.dataController.setOperation(FsListState.Load);
-                this.paging.goNext();
-              }
-
-              if (startLoading) {
-                this._fetch$.next();
-                fsScrollInstance.loading();
-              }
-            });
-
-          this.dataController.remoteRowsChange$
-            .pipe(
-              takeUntil(this._destroy$),
-            )
-            .subscribe(() => {
-              fsScrollInstance.loaded();
-            });
-        });
-    }
-  }
-
   /**
    * Update and watch filter changes
    */
@@ -935,7 +868,7 @@ export class List {
     // Update selection params
     if (this.selection) {
       if (this.paging.enabled) {
-        this.selection.pageChanged(this.scrollable);
+        this.selection.pageChanged();
         this.selection.updateVisibleRecordsCount(this.paging.getVisibleRecords());
         this.selection.updateTotalRecordsCount(this.paging.records);
       } else {

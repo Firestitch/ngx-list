@@ -1,16 +1,14 @@
 @use '@angular/material' as mat;
 @use '~@firestitch/style/styles' as fs-style;
 
-@import '~@firestitch/component-tools/assets/playground.scss';
-@import "~@firestitch/message/styles";
-@import "~@firestitch/selection/styles.scss";
-@import "~@firestitch/chip/styles";
-@import "~@firestitch/drawer/styles";
-@import '~@firestitch/datepicker/styles';
-@import '~@firestitch/skeleton/styles';
+@import '@firestitch/component-tools/assets/playground.scss';
+@import "@firestitch/message/styles";
+@import "@firestitch/selection/styles.scss";
+@import "@firestitch/chip/styles";
+@import "@firestitch/drawer/styles";
+@import '@firestitch/datepicker/styles';
+@import '@firestitch/skeleton/styles';
 
 @include fs-style.core();
 @include fs-selection(mat.$blue-palette);
-//@include fs-chip($mat-blue);
 @include fs-drawer(mat.$blue-palette);
-//@include fs-date-picker(mat.$blue-palette);

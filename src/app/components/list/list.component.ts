@@ -180,14 +180,12 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
       (
         !this.reorderController.enabled ||
         (this.reorderController.enabled && this.reorderController.status)
-      ) &&
-      ((this.list.scrollable && this.list.scrollable.status) || !this.list.scrollable);
+      );
   }
 
   public get paginatorVisible(): boolean {
     return this.list.paging.enabled
       && !this.firstLoad
-      && !this.list.scrollable
       && !this.list.emptyStateEnabled
       && this.list.dataController.visibleRowsCount > 0
       && this.list.paging.pages > 1;

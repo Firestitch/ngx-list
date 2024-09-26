@@ -210,11 +210,9 @@ export class SelectionController {
     }
   }
 
-  public pageChanged(infinityScrollEnabled) {
+  public pageChanged() {
     if (this._selectedAll) {
-      if (!infinityScrollEnabled) {
-        this._resetSelection();
-      }
+      this._resetSelection();
     } else {
       this._selectedRecords = 0;
       this._getRows()

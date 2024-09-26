@@ -1,6 +1,6 @@
 <div class="status">
   <small>
-    <ng-container *ngIf="paging.enabled && !scrollable">
+    <ng-container *ngIf="paging.enabled">
       <ng-container *ngIf="paging.records > 0; else emptyResults">
         Showing <a [fsMenuTriggerFor]="limitsMenu">{{ paging.statusLabel }}</a> of {{ paging.records | number:'1.0':'en-US' }} results
       </ng-container>
@@ -10,15 +10,15 @@
       <ng-container *ngTemplateOutlet="sortedBy"></ng-container><!--
   --></ng-container><!--
 
-  --><ng-container *ngIf="(!paging.enabled || scrollable) && paging.displayed > 0">
+  --><ng-container *ngIf="(!paging.enabled) && paging.displayed > 0">
     <ng-container *ngIf="!scrollable; else scrollable">
       Showing
-      <span *ngIf="paging.displayed == 1">{{ paging.displayed }} result </span>
+      <span *ngIf="paging.displayed === 1">{{ paging.displayed }} result </span>
       <span *ngIf="paging.displayed > 1">{{ paging.displayed | number:'1.0':'en-US' }} results </span>
     </ng-container>
 
     <ng-template #scrollable>
-      <span *ngIf="paging.records == 1">{{ paging.records }} result </span>
+      <span *ngIf="paging.records === 1">{{ paging.records }} result </span>
       <span *ngIf="paging.records > 1">{{ paging.records | number:'1.0':'en-US' }} results </span>
     </ng-template>
     <ng-container *ngTemplateOutlet="sortedBy"></ng-container><!--
@@ -26,7 +26,7 @@
 
   --><fs-list-saved-filters class="saved-filters"></fs-list-saved-filters>
 
-    <fs-menu [hidden]="!paging.enabled || scrollable" #limitsMenu>
+    <fs-menu [hidden]="!paging.enabled" #limitsMenu>
       <ng-template
         ngFor
         let-limit

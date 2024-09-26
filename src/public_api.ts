@@ -52,7 +52,7 @@ export {
   FsListAbstractRow, FsListAction, FsListActionSelected, FsListCellConfig, FsListColumn, FsListColumnChangeFn, FsListColumnConfig, FsListColumnLoadFn, FsListConfig, FsListEmptyStateConfig, FsListFetchFn, FsListFetchOptions, FsListFetchSubscription, FsListFooterConfig, FsListGroupConfig, FsListHeaderConfig,
   FsListNoResultsConfig,
   FsListReorderConfig, FsListReorderData, FsListReorderDoneCallback, FsListReorderMoveInGroupCallback, FsListReorderMovedCallback, FsListRestoreConfig, FsListRowAction, FsListRowActionFile, FsListRowActionFileFn, FsListRowActionGroup, FsListRowActionLink,
-  FsListRowActionLinkFn, FsListRowClassOptions, FsListScrollableConfig,
+  FsListRowActionLinkFn, FsListRowClassOptions,
   FsListSelectionConfig,
   FsListSortsConfig, FsListStateValidationFn, FsListTrackByFn,
   FsListTrackByTargetRowFn,

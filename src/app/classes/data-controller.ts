@@ -40,7 +40,6 @@ export class DataController {
   private _initialExpand = true;
   private _groupEnabled = false;
 
-  private _infinityScrollEnabled: boolean;
   private _loadMoreEnabled: boolean;
 
   private _hasData = false;
@@ -123,8 +122,7 @@ export class DataController {
     }
   }
 
-  public setAdditionalConfigs(configs: { scrollable: boolean, loadMoreEnabled: boolean }) {
-    this._infinityScrollEnabled = configs.scrollable;
+  public setAdditionalConfigs(configs: { loadMoreEnabled: boolean }) {
     this._loadMoreEnabled = configs.loadMoreEnabled;
   }
 
@@ -133,29 +131,13 @@ export class DataController {
    * @param rows
    */
   public setRowsFromResponse(rows: any[]) {
-    if (this._infinityScrollEnabled) {
-      switch (this._operation) {
-        case FsListState.Filter:
-        case FsListState.Reload:
-        case FsListState.Sort: {
-          this._updateRowsStack(rows);
-        } break;
-
-        default: {
-          this._extendRowsStack(rows);
-        }
-      }
-
-      this._remoteRowsChange$.next();
-    } else {
-      if (
-        this._operation === FsListState.LoadMore ||
+    if (
+      this._operation === FsListState.LoadMore ||
         (this._operation === FsListState.PageChange && this._loadMoreEnabled)
-      ) {
-        this._extendRowsStack(rows);
-      } else {
-        this._updateRowsStack(rows);
-      }
+    ) {
+      this._extendRowsStack(rows);
+    } else {
+      this._updateRowsStack(rows);
     }
 
     this._operation = FsListState.Idle;

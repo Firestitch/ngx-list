@@ -35,7 +35,6 @@ export class PaginationController {
   private _onDestroy$ = new Subject();
 
   private _loadMoreConfig: FsListLoadMoreConfig;
-  private _infinityScrollEnabled = false;
   private _limits = [10, 25, 50, 100, 200];
 
   // Total pages
@@ -251,10 +250,6 @@ export class PaginationController {
   public get loadMoreButtonType(): string {
     return this._loadMoreConfig.buttonType;
   }
-  
-  public get infinityScrollEnabled() {
-    return this._infinityScrollEnabled;
-  }
 
   /**
    * SP-T1974
@@ -284,7 +279,6 @@ export class PaginationController {
   public initWithConfig(
     config: FsPaging | false,
     loadMore: FsListLoadMoreConfig | boolean,
-    infinityScrollEnabled = false,
   ) {
 
     if (config) {
@@ -300,8 +294,6 @@ export class PaginationController {
     }
     
     this.setLoadMore(loadMore);
-
-    this._infinityScrollEnabled = infinityScrollEnabled;
   }
 
   /**
