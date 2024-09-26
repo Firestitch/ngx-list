@@ -26,7 +26,6 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { getNormalizedPath } from '@firestitch/common';
 import { DrawerRef } from '@firestitch/drawer';
 import { FilterComponent } from '@firestitch/filter';
-import { FsScrollService } from '@firestitch/scroll';
 import { SelectionDialog } from '@firestitch/selection';
 
 import { Subject } from 'rxjs';
@@ -141,7 +140,6 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   constructor(
     public reorderController: ReorderController,
     @Optional() @Inject(FS_LIST_DEFAULT_CONFIG) private _defaultOptions: FsListConfig,
-    @Optional() private _scroll: FsScrollService,
     @Optional() private _dialogRef: MatDialogRef<any>,
     @Optional() private _drawerRef: DrawerRef<any>,
     private _el: ElementRef,
@@ -358,7 +356,6 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
     this.list = new List(
       this._el,
       listConfig,
-      this._scroll,
       this._selectionDialog,
       this._router,
       this._route,

@@ -4,11 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   ChangeFn, FilterConfig, FsFilterAutoReload, IFilterSavedFiltersConfig, ItemType,
 } from '@firestitch/filter';
-import { FsScrollInstance, FsScrollService } from '@firestitch/scroll';
 import { SelectionDialog } from '@firestitch/selection';
 
 import {
-  BehaviorSubject, combineLatest, EMPTY, from, Observable, of, Subject, Subscription,
+  BehaviorSubject, combineLatest, EMPTY, from, Observable, of, Subject,
 } from 'rxjs';
 import {
   catchError, debounceTime, map, mapTo, shareReplay, switchMap, take, takeUntil, tap,
@@ -104,8 +103,6 @@ export class List {
   public emptyStateEnabled = false;
   public emptyStateTemplate: TemplateRef<any>;
 
-  public fsScrollInstance: FsScrollInstance;
-
   private _destroy$ = new Subject();
   private _initialized$ = new BehaviorSubject(false);
   private _fetch$ = new Subject<FsListFetchSubscription | void>();
@@ -118,12 +115,9 @@ export class List {
   private readonly _cellConfig: StyleConfig;
   private readonly _footerConfig: StyleConfig;
 
-  private _fsScrollSubscription: Subscription;
-
   constructor(
     private _el: ElementRef,
     private _config: FsListConfig = {},
-    private _fsScroll: FsScrollService,
     private _selectionDialog: SelectionDialog,
     private _router: Router,
     private _route: ActivatedRoute,
@@ -221,16 +215,8 @@ export class List {
 
   public reload() {
     this.loading$.next(true);
-
     this.dataController.setOperation(FsListState.Reload);
-
-    if (this.fsScrollInstance) {
-      this.paging.resetPaging();
-      this.dataController.clearRows();
-      this.fsScrollInstance.reload();
-    } else {
-      this._fetch$.next();
-    }
+    this._fetch$.next();
   }
 
   /**
@@ -296,13 +282,7 @@ export class List {
       .subscribe(() => {
         this.dataController.setOperation(FsListState.Sort);
         this.paging.page = 1;
-
-        if (this.fsScrollInstance) {
-          this.dataController.clearRows();
-          this.fsScrollInstance.reload();
-        } else {
-          this._fetch$.next();
-        }
+        this._fetch$.next();
       });
 
     this._listenVisibleColumnChanges();
@@ -345,10 +325,6 @@ export class List {
   }
 
   public destroy() {
-    if (this._fsScrollSubscription) {
-      this._fsScrollSubscription.unsubscribe();
-    }
-
     if (this.paging) {
       this.paging.destroy();
     }
@@ -782,13 +758,7 @@ export class List {
 
     // Reset paging for request with correct offset
     this.paging.resetPaging();
-
-    if (this.fsScrollInstance) {
-      this.dataController.clearRows();
-      this.fsScrollInstance.reload();
-    } else {
-      this._fetch$.next();
-    }
+    this._fetch$.next();
   }
 
   private _checkRestoreFilter() {
