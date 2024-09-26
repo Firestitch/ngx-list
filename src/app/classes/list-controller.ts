@@ -10,7 +10,9 @@ import {
   BehaviorSubject, combineLatest, EMPTY, from, Observable, of, Subject,
 } from 'rxjs';
 import {
-  catchError, debounceTime, map, mapTo, shareReplay, switchMap, take, takeUntil, tap,
+  catchError, debounceTime,
+  delay,
+  map, mapTo, shareReplay, switchMap, take, takeUntil, tap,
 } from 'rxjs/operators';
 
 import { cloneDeep } from 'lodash-es';
@@ -213,10 +215,17 @@ export class List {
     this._initFilters();
   }
 
-  public reload() {
+  public reload(): Observable<any> {
     this.loading$.next(true);
     this.dataController.setOperation(FsListState.Reload);
     this._fetch$.next();
+
+    return this.fetchComplete$
+      .asObservable()
+      .pipe(      
+        take(1),  
+        delay(0),
+      );
   }
 
   /**

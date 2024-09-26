@@ -74,9 +74,9 @@ export class KitchenSinkComponent
       //   value: 'guid',
       //   direction: 'desc',
       // },
-      autoReload: {
-        seconds: 10,
-      },
+      // autoReload: {
+      //   seconds: 10,
+      // },
       sorts: [
         {
           name: 'Custom Sort',
