@@ -79,7 +79,7 @@ import { AppMaterialModule } from './material.module';
       { path: '', component: ExamplesComponent },
       { path: 'noresults', component: NoResultsComponent },
       { path: 'paging', component: PagingComponent },
-    ], { relativeLinkResolution: 'legacy' }),
+    ], {}),
     FsFileModule.forRoot({}),
   ],
   declarations: [
