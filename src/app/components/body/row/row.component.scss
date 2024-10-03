@@ -28,9 +28,8 @@
 
 td {
   &.drag-col {
-    // Percentage width doesn't work on IOS
-    // width: 1%;
-    width: 24px;
+    width: 1% !important;
+    white-space: nowrap;
     text-align: center;
     cursor: grab;
 

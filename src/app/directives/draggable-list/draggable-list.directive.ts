@@ -24,7 +24,6 @@ export class FsListDraggableListDirective {
   // Handlers
   private _dragToHandler = this.dragTo.bind(this);
   private _dragEndHandler = this.dragEnd.bind(this);
-  private _windowTouchMoveHandler = () => { };
 
   private _dragInProgress = false;
 
@@ -45,6 +44,10 @@ export class FsListDraggableListDirective {
     private _reorderController: ReorderController,
     private _renderer: Renderer2,
   ) { }
+  
+  private _windowTouchMoveHandler = () => { 
+    //
+  };
 
   public get dragStart$(): Observable<void> {
     return this._dragStart$.pipe(takeUntil(this._destroy$));
@@ -57,11 +60,6 @@ export class FsListDraggableListDirective {
   public get draggableItem(): Row {
     return this._rows[this._draggableElementIndex];
   }
-
-  private get _isMultipleDrag(): boolean {
-    return this._reorderController.multiple && this._selectedRowsDirectives.length > 1;
-  }
-
   public addDraggableDirective(dir: FsListDraggableRowDirective): void {
     this._draggableChildrenDirectives.push(dir);
   }
@@ -221,6 +219,11 @@ export class FsListDraggableListDirective {
     this._dragEnd$.next();
   }
 
+  private get _isMultipleDrag(): boolean {
+    return this._reorderController.multiple && this._selectedRowsDirectives.length > 1;
+  }
+
+
   /**
    * looking row elements and save their dims
    */
@@ -274,7 +277,7 @@ export class FsListDraggableListDirective {
       el.style.top = `${data.top}px`;
       el.classList.add('draggable');
 
-      this._containerElement.nativeElement.insertAdjacentElement('afterbegin', el);
+      this._containerElement.nativeElement.append(el);
 
       this._draggableElementPreview = el;
       this._draggableElementHeight = data.height;
