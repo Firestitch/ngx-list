@@ -211,7 +211,7 @@ export class SortingController {
    * Destroy
    */
   public destroy() {
-    this._onDestroy.next();
+    this._onDestroy.next(null);
     this._onDestroy.complete();
   }
 

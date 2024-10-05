@@ -41,7 +41,7 @@ export class Row {
   }
 
   public actionsUpdate(): void {
-    return this._actionsUpdate$.next();
+    return this._actionsUpdate$.next(null);
   }
 
   public set index(value: number) {

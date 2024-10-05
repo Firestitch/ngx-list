@@ -107,7 +107,7 @@ export class ExternalParamsController {
   }
 
   public destroy(): void {
-    this._destroy$.next();
+    this._destroy$.next(null);
     this._destroy$.complete();
   }
 

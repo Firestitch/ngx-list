@@ -209,7 +209,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
       listener();
     });
 
-    this._destroy$.next();
+    this._destroy$.next(null);
     this._destroy$.complete();
   }
 

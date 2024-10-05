@@ -112,7 +112,7 @@ export class FsListDraggableListDirective {
     window.document.addEventListener('touchend', this._dragEndHandler);
     window.document.addEventListener('touchcancel', this._dragEndHandler);
 
-    this._dragStart$.next();
+    this._dragStart$.next(null);
   }
 
 
@@ -216,7 +216,7 @@ export class FsListDraggableListDirective {
     window.document.removeEventListener('touchend', this._dragEndHandler);
     window.document.removeEventListener('touchcancel', this._dragEndHandler);
 
-    this._dragEnd$.next();
+    this._dragEnd$.next(null);
   }
 
   private get _isMultipleDrag(): boolean {

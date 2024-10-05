@@ -136,7 +136,7 @@ export class List {
 
     if (this.initialFetch) {
       this.dataController.setOperation(FsListState.Load);
-      this._fetch$.next();
+      this._fetch$.next(null);
     }
   }
 
@@ -218,7 +218,7 @@ export class List {
   public reload(): Observable<any> {
     this.loading$.next(true);
     this.dataController.setOperation(FsListState.Reload);
-    this._fetch$.next();
+    this._fetch$.next(null);
 
     return this.fetchComplete$
       .asObservable()
@@ -281,7 +281,7 @@ export class List {
             });
         }
 
-        this._fetch$.next();
+        this._fetch$.next(null);
       });
 
     this.sorting.sortingChanged$
@@ -291,7 +291,7 @@ export class List {
       .subscribe(() => {
         this.dataController.setOperation(FsListState.Sort);
         this.paging.page = 1;
-        this._fetch$.next();
+        this._fetch$.next(null);
       });
 
     this._listenVisibleColumnChanges();
@@ -356,7 +356,7 @@ export class List {
 
     this.columns.destroy();
 
-    this._destroy$.next();
+    this._destroy$.next(null);
     this._destroy$.complete();
 
     this.dataController.destroy();
@@ -767,7 +767,7 @@ export class List {
 
     // Reset paging for request with correct offset
     this.paging.resetPaging();
-    this._fetch$.next();
+    this._fetch$.next(null);
   }
 
   private _checkRestoreFilter() {

@@ -69,7 +69,7 @@ export class ActionsController {
 
   public clearActions() {
     this._actions = [];
-    this._destroy$.next();
+    this._destroy$.next(null);
   }
 
   public updateDisabledState(): void {

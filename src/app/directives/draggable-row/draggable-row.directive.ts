@@ -38,7 +38,7 @@ export class FsListDraggableRowDirective implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this._draggableList.removeDraggableDirective(this);
-    this._destroy$.next();
+    this._destroy$.next(null);
     this._destroy$.complete();
   }
 

@@ -229,7 +229,7 @@ export class ColumnsController {
   }
 
   public destroy() {
-    this._destroy$.next();
+    this._destroy$.next(null);
     this._destroy$.complete();
     this._columnsUpdated$.complete();
 
@@ -242,7 +242,7 @@ export class ColumnsController {
   }
 
   private _listenColumnVisibilityUpdates() {
-    this._columnsUpdated$.next();
+    this._columnsUpdated$.next(null);
 
     const columnsVisibility = this._columns.map((column) => {
       return column.visible$.pipe(skip(1))

@@ -291,7 +291,7 @@ export class DataController {
     this._destroyRowsStack();
     this._store.clear();
 
-    this._destroy$.next();
+    this._destroy$.next(null);
     this._destroy$.complete();
   }
 

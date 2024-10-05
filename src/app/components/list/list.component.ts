@@ -213,7 +213,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
       this.list.destroy();
     }
 
-    this._destroy.next();
+    this._destroy.next(null);
     this._destroy.complete();
   }
 
@@ -303,7 +303,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   public filterReady() {
-    this.list.filtersReady$.next();
+    this.list.filtersReady$.next(null);
     this._filterParamsReady = true;
     this._emitFiltersReadyEvent();
   }

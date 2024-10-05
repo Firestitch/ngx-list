@@ -298,7 +298,7 @@ export class SelectionController {
     this.closeSelectionDialog();
     this._selectionDialogRef = null;
 
-    this._destroy$.next();
+    this._destroy$.next(null);
     this._destroy$.complete();
 
     this._selectionChange.complete();
