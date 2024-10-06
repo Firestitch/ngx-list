@@ -3,7 +3,7 @@
 
 @import '../../styles/mixins';
 
-$primary-color: mat.get-color-from-palette(fs-style-variables.$palette) !default;
+$primary-color: mat.m2-get-color-from-palette(fs-style-variables.$palette) !default;
 
 :host {
   display: block;
