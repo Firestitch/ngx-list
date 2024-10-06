@@ -629,7 +629,7 @@ export class List {
               }),
             );
 
-          return combineLatest([of({ params, query }), remoteFetch]);
+          return combineLatest<any>([of({ params, query }), remoteFetch]);
         }),
         catchError((error) => {
           console.error(error);

@@ -106,7 +106,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   private _listColumnDirectives: QueryList<FsListColumnDirective>;
   private _filterRef: FilterComponent;
   private _filterParamsReady = false;
-  private _inDialog = !!this._dialogRef || !!this._drawerRef;
+  private _inDialog;
 
   private _destroy = new Subject();
 
@@ -151,7 +151,9 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
     private _route: ActivatedRoute,
     private _persistance: PersistanceController,
     private _location: Location,
-  ) { }
+  ) { 
+    this._inDialog = !!this._dialogRef || !!this._drawerRef;
+  }
 
   /**
    * Return reference for filter
