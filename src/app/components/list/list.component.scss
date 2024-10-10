@@ -196,15 +196,15 @@ $primary-color: mat.m2-get-color-from-palette(fs-style-variables.$palette) !defa
     tbody {
       .fs-list-col {
         box-sizing: border-box;
-        border-top: 1px solid #ddd;
+        border-top: 1px solid #e7e7e7;
       }
       
       .fs-list-row:first-child .fs-list-col {
-        border-top: 2px solid #ddd;
+        border-color: #c4c4c4;
       }
 
       .fs-list-row:last-child .fs-list-col {
-        border-bottom: 2px solid #ddd;
+        border-bottom: 1px solid #c4c4c4;
       }
     }
 
@@ -212,7 +212,7 @@ $primary-color: mat.m2-get-color-from-palette(fs-style-variables.$palette) !defa
       &.has-dragging {
         thead {
           th {
-            border-bottom: 2px solid #ddd;
+            border-color: #e7e7e7;
           }
         }
 

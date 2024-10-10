@@ -1,9 +1,14 @@
-:host ::ng-deep {
-  fs-list-row-inline-action {
-    margin-left: 5px;
+:host {
+  display: flex;
+  align-items: center;
 
-    &:first-child {
-      margin-left: 0;
+  ::ng-deep {
+    fs-list-row-inline-action {
+      margin-left: 5px;
+
+      &:first-child {
+        margin-left: 0;
+      }
     }
   }
 }

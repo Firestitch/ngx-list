@@ -20,7 +20,6 @@ import { FsScrollModule } from '@firestitch/scroll';
 import { FsSelectionModule } from '@firestitch/selection';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import {
@@ -58,7 +57,7 @@ import { AppMaterialModule } from './material.module';
   imports: [
     BrowserModule,
     FsListModule.forRoot({
-      style: 'card',
+      // style: 'card',
     }),
     FsScrollModule.forRoot(),
     FsFilterModule.forRoot(),
@@ -69,7 +68,6 @@ import { AppMaterialModule } from './material.module';
     FsExampleModule.forRoot(),
     FsMessageModule.forRoot(),
     FsSelectionModule,
-    ToastrModule.forRoot({ preventDuplicates: true }),
     FsPromptModule.forRoot(),
     FsApiModule,
     FsBadgeModule,

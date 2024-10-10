@@ -38,7 +38,6 @@ export class RestoreComponent extends StrategyBaseComponent implements OnInit {
       persist: false,
       restore: {
         query: { state: 'deleted' },
-        filterLabel: 'Show Deleted',
         menuLabel: 'Restore',
         click: (row, event) => {
           console.log('Restore', row, event);

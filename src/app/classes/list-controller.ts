@@ -234,55 +234,57 @@ export class List {
   public subscribe() {
     this.paging.pageChanged$
       .pipe(
-        takeUntil(this._destroy$),
-      )
-      .subscribe((event: PageChange) => {
-        this.dataController.setOperation(FsListState.PageChange);
-
-        // Remove all rows if limits was changed
-        if (event.type === PageChangeType.LimitChanged && this.paging.hasPageStrategy) {
-          this.dataController.clearRows();
-        }
-
-        if (this.paging.hasOffsetStrategy) {
-          this.paging.updatePagination();
-
-          if (this.selection) {
-            this.selection.updateVisibleRecordsCount(this.paging.getVisibleRecords());
-            this.selection.updateTotalRecordsCount(this.paging.records);
-            this.selection.pageChanged();
+        tap((event: PageChange) => {
+          this.dataController.setOperation(FsListState.PageChange);
+  
+          // Remove all rows if limits was changed
+          if (event.type === PageChangeType.LimitChanged && this.paging.hasPageStrategy) {
+            this.dataController.clearRows();
           }
-        }
-
-        if (!this.paging.loadMoreEnabled) {
-          const contains = [].slice.call(document.querySelectorAll('.cdk-overlay-container')).some((overlay) => {
-            return this._el.nativeElement.contains(overlay);
-          });
-
-          let el = this._el.nativeElement;
-
-          if (!contains) {
-            const rect = this._el.nativeElement.getBoundingClientRect();
-            if ((Number(rect.top || 0) + window.pageYOffset) < window.innerHeight) {
-              el = document.body;
+  
+          if (this.paging.hasOffsetStrategy) {
+            this.paging.updatePagination();
+  
+            if (this.selection) {
+              this.selection.updateVisibleRecordsCount(this.paging.getVisibleRecords());
+              this.selection.updateTotalRecordsCount(this.paging.records);
+              this.selection.pageChanged();
             }
           }
-
-          this.fetchComplete$
-            .asObservable()
-            .pipe(
-              take(1),
-              takeUntil(this._destroy$),
-            )
-            .subscribe((event) => {
-              if(event?.scrollIntoView ?? true) {
-                el.scrollIntoView({ behavior: 'smooth' });
-              }
+        }),
+        switchMap((event: any) => {
+          this._fetch$.next(null);
+          if (!this.paging.loadMoreEnabled) {
+            const contains = [].slice.call(document.querySelectorAll('.cdk-overlay-container')).some((overlay) => {
+              return this._el.nativeElement.contains(overlay);
             });
-        }
 
-        this._fetch$.next(null);
-      });
+            let el = this._el.nativeElement;
+
+            if (!contains) {
+              const rect = this._el.nativeElement.getBoundingClientRect();
+              if ((Number(rect.top || 0) + window.pageYOffset) < window.innerHeight) {
+                el = document.body;
+              }
+            }
+
+            return this.fetchComplete$
+              .asObservable()
+              .pipe(
+                take(1),
+                tap(() => {
+                  if(event?.scrollIntoView ?? true) {
+                    el.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }),
+              );
+          }
+
+          return of(null);
+        }),
+        takeUntil(this._destroy$),
+      )
+      .subscribe();
 
     this.sorting.sortingChanged$
       .pipe(
@@ -467,16 +469,14 @@ export class List {
       }
 
       this.rowActionsRaw.push(restoreAction);
-
-      if (!this.filters) {
-        this.filters = [];
-      }
+      this.filters = this.filters || [];
 
       if (this.restore.filter !== false) {
         this.filters.push({
           name: showDeletedFilterKey,
           type: ItemType.Checkbox,
           label: this.restore.filterLabel || 'Show Deleted',
+          default: null,
         });
       }
     }
