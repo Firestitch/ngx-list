@@ -246,7 +246,6 @@ export class KitchenSinkComponent
           click: (event) => {
             this.linkVisible = !this.linkVisible;
           },
-          icon: 'delete',
           primary: false,
           label: 'Toggle Link Visibility',
         },
@@ -266,7 +265,6 @@ export class KitchenSinkComponent
         {
           mode: ActionMode.Menu,
           label: 'Presets',
-          icon: 'arrow_drop_down',
           primary: false,
           items: [
             {
