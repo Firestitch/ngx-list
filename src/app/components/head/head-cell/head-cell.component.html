@@ -1,14 +1,23 @@
 <div class="wrap">
-    <span class="title">
-      <ng-template [ngIf]="!column.headerTemplate">{{column.title}}</ng-template>
-      <ng-template
-        [ngIf]="column.headerTemplate"
-        [ngTemplateOutlet]="column.headerTemplate"
-        [ngTemplateOutletContext]="cellContext">
-      </ng-template>
-    </span>
-  <div class="direction" *ngIf="column.ordered" [ngSwitch]="column.sortingDirection$ | async">
-    <mat-icon class="material-icons" role="img" aria-label="arrow_downward" *ngSwitchCase="'asc'">arrow_downward</mat-icon>
-    <mat-icon class="material-icons" role="img" aria-label="arrow_upward" *ngSwitchCase="'desc'">arrow_upward</mat-icon>
+  <span class="title">
+    <ng-template [ngIf]="!column.headerTemplate">
+      {{ column.title }}
+    </ng-template>
+    <ng-template
+      [ngIf]="column.headerTemplate"
+      [ngTemplateOutlet]="column.headerTemplate"
+      [ngTemplateOutletContext]="cellContext">
+    </ng-template>
+  </span>
+  <div
+      class="direction"
+      *ngIf="column.ordered"
+      [ngSwitch]="column.sortingDirection$ | async">
+    <mat-icon *ngSwitchCase="'asc'">
+      arrow_downward
+    </mat-icon>
+    <mat-icon *ngSwitchCase="'desc'">
+      arrow_upward
+    </mat-icon>
   </div>
 </div>

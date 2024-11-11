@@ -1,36 +1,65 @@
 <ng-container *ngIf="!pagination.loadMoreEnabled; else loadMoreButton">
   <ng-container *ngIf="pagination?.pages">
-    <a matRipple [matRippleRadius]="15" [matRippleCentered]="true" class="first" [class.disabled]="!pagination.hasPrevPage" (click)="pagination.goFirst()">
-      <i class="material-icons">first_page</i>
+    <a
+        matRipple
+        [matRippleRadius]="15"
+        [matRippleCentered]="true"
+        class="first"
+        [class.disabled]="!pagination.hasPrevPage"
+        (click)="pagination.goFirst()">
+      <mat-icon>
+        first_page
+      </mat-icon>
     </a>
-
-    <a matRipple [matRippleRadius]="15" [matRippleCentered]="true" class="previous" [class.disabled]="!pagination.hasPrevPage" (click)="pagination.goPrev()">
-      <i class="material-icons">keyboard_arrow_left</i>
+    <a
+        matRipple
+        [matRippleRadius]="15"
+        [matRippleCentered]="true"
+        class="previous"
+        [class.disabled]="!pagination.hasPrevPage"
+        (click)="pagination.goPrev()">
+      <mat-icon>
+        keyboard_arrow_left
+      </mat-icon>
     </a>
-
     <div class="number">
-      {{ pagination.page | fsFormatNumber }} of {{ pagination.pages | fsFormatNumber }}
+      {{ pagination.page | fsFormatNumber }} of      {{ pagination.pages | fsFormatNumber }}
     </div>
-
-    <a matRipple [matRippleRadius]="15" [matRippleCentered]="true" class="next" [class.disabled]="!pagination.hasNextPage" (click)="pagination.goNext()">
-      <i class="material-icons">keyboard_arrow_right</i>
+    <a
+        matRipple
+        [matRippleRadius]="15"
+        [matRippleCentered]="true"
+        class="next"
+        [class.disabled]="!pagination.hasNextPage"
+        (click)="pagination.goNext()">
+      <mat-icon>
+        keyboard_arrow_right
+      </mat-icon>
     </a>
-
-    <a matRipple [matRippleRadius]="15" [matRippleCentered]="true" class="last" [class.disabled]="!pagination.hasNextPage" (click)="pagination.goLast()">
-      <i class="material-icons">last_page</i>
+    <a
+        matRipple
+        [matRippleRadius]="15"
+        [matRippleCentered]="true"
+        class="last"
+        [class.disabled]="!pagination.hasNextPage"
+        (click)="pagination.goLast()">
+      <mat-icon>
+        last_page
+      </mat-icon>
     </a>
   </ng-container>
 </ng-container>
-
 <ng-template #loadMoreButton>
-  <div class="fs-list-load-more" *ngIf="pagination.hasNextPage">
-    <button 
+  <div
+      class="fs-list-load-more"
+      *ngIf="pagination.hasNextPage">
+    <button
         mat-button
         type="button"
         [class]="pagination.loadMoreButtonClass"
         [color]="pagination.loadMoreButtonColor"
         (click)="pagination.goNext()">
-       {{ pagination.loadMoreLabel }}
+      {{ pagination.loadMoreLabel }}
     </button>
   </div>
 </ng-template>
