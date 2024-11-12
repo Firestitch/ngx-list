@@ -120,12 +120,13 @@ $primary-color: mat.m2-get-color-from-palette(fs-style-variables.$palette) !defa
           fs-list-row-actions {
             display: none;
             position: absolute;
-            padding: 4px;
-            background: #d7d7d7;
+            padding: 1px;
+            background: #fefefe;
             border-radius: 5px;
             top: 50%;
             right: 5px;
             transform: translateY(-50%);
+            border: 1px solid #d1d1d1;
           }
         }
         
