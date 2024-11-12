@@ -316,7 +316,7 @@ export class SelectionController {
         this._onActionActions(data);
       });
 
-    this._selectionDialogRef.cancelled$()
+    this._selectionDialogRef.destroy$
       .pipe(
         takeUntil(this._destroy$),
       )
