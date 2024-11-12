@@ -81,7 +81,7 @@ export class List {
   public afterInit: FsListAfterInitFn;
   public style;
   public hasRowActions;
-  public actionsHover = false;
+  public rowActionsHover = false;
   public paging = new PaginationController();
   public columns = new ColumnsController();
   public actions = new ActionsController();
@@ -502,7 +502,7 @@ export class List {
       this.actions.setActions(config.actions);
     }
 
-    this.actionsHover = config.actionsHover ?? false;
+    this.rowActionsHover = config.rowActionsHover ?? false;
 
     this.hasRowActions =
       (this.rowActionsRaw && this.rowActionsRaw.length > 0)

@@ -236,7 +236,7 @@ export class KitchenSinkComponent
           console.log(data);
         },
       },
-      actionsHover: true,
+      rowActionsHover: true,
       actions: [
         {
           label: 'Columns',

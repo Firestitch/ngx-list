@@ -50,10 +50,10 @@ export interface FsListConfig {
   savedFilters?: IFilterSavedFiltersConfig;
   persist?: FsListPersitance;
   rowActions?: (FsListRowActionGroup | FsListRowAction)[];
+  rowActionsHover?: boolean;
   rowClass?: (row: any, options?: FsListRowClassOptions) => string;
   rowHover?: boolean;
   actions?: FsListAction[];
-  actionsHover?: boolean;
   fetch?: FsListFetchFn;
   afterFetch?: FsListAfterFetchFn;
   beforeFetch?: FsListBeforeFetchFn;
