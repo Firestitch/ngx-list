@@ -1,8 +1,13 @@
-<td *ngIf="leftDragDropEnabled" class="fs-list-col drag-col"></td>
-
-<td *ngIf="selection" class="fs-list-col fs-list-col-selection"></td>
+<td
+  *ngIf="leftDragDropEnabled"
+  class="fs-list-col drag-col">
+</td>
+<td
+  *ngIf="selection"
+  class="fs-list-col fs-list-col-selection">
+</td>
 <ng-container *ngFor="let column of columns; trackBy: trackByFn">
-  <td 
+  <td
     *ngIf="!column.footerColspanned"
     fs-list-footer-cell
     [column]="column"
@@ -13,9 +18,9 @@
     [attr.width]="column.width">
   </td>
 </ng-container>
-
 <!-- Drag -->
-<td *ngIf="rightDragDropEnabled" class="fs-list-col row-actions"></td>
-
+<td
+  *ngIf="rightDragDropEnabled"
+  class="fs-list-col actions-col">
+</td>
 <!-- Row Actions -->
-<td *ngIf="hasRowActions && !(reorderEnabled && reorderStrategy === ReorderStrategy.Manual)" class="fs-list-col drag-col"></td>

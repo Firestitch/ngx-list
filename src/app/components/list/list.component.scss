@@ -108,6 +108,32 @@ $primary-color: mat.m2-get-color-from-palette(fs-style-variables.$palette) !defa
     }
   }
 
+  &.has-actions-hover {
+    @media screen and (min-width: 800px) {
+      ::ng-deep {
+        .actions-col {
+          width: 0px;
+          position: relative;
+          overflow: visible;
+          padding: 0;
+
+          fs-list-row-actions {
+            display: none;
+            position: absolute;
+            top: -6px;
+            right: 5px;
+          }
+        }
+        
+        tr:hover {
+          fs-list-row-actions {
+            display: flex;
+          }
+        }
+      }
+    }
+  }
+
   .fs-list-header {
     .heading-container {
       display: flex;

@@ -157,7 +157,7 @@ export class KitchenSinkComponent
           label: 'Weekdays',
           type: ItemType.Chips,
           multiple: true,
-          values: (keyword) => {
+          values: () => {
             return new BehaviorSubject(this.weekdays)
               .pipe(
                 map((weekdays) => nameValue(weekdays, 'name', 'id')),
@@ -222,7 +222,7 @@ export class KitchenSinkComponent
 
           return of(filters);
         },
-        delete: (filter) => {
+        delete: () => {
           console.log('<====== Delete Saved Filter =====>');
 
           return of();
@@ -236,6 +236,7 @@ export class KitchenSinkComponent
           console.log(data);
         },
       },
+      actionsHover: true,
       actions: [
         {
           label: 'Columns',
@@ -243,14 +244,14 @@ export class KitchenSinkComponent
           primary: false,
         },
         {
-          click: (event) => {
+          click: () => {
             this.linkVisible = !this.linkVisible;
           },
           primary: false,
           label: 'Toggle Link Visibility',
         },
         {
-          click: (event) => {
+          click: () => {
             // this.list.enableOrder();
           },
           label: 'Kebab only button',
@@ -369,19 +370,19 @@ export class KitchenSinkComponent
           label: 'View Donations',
           rowActions: [
             {
-              click: (row, event) => {
+              click: (row) => {
                 console.log(row);
               },
               label: 'All',
             },
             {
-              click: (row, event) => {
+              click: (row) => {
                 console.log(row);
               },
               label: 'Complete',
             },
             {
-              click: (row, event) => {
+              click: (row) => {
                 console.log(row);
               },
               label: 'Overdue',
@@ -390,11 +391,11 @@ export class KitchenSinkComponent
         },
 
       ],
-      rowClass: (row, options) => {
+      rowClass: () => {
         return 'custom-row-class';
       },
       rowEvents: {
-        mouseover: (event) => {
+        mouseover: () => {
           // console.log('over', event);
         },
         click: (event) => {

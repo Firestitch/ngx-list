@@ -81,6 +81,7 @@ export class List {
   public afterInit: FsListAfterInitFn;
   public style;
   public hasRowActions;
+  public actionsHover = false;
   public paging = new PaginationController();
   public columns = new ColumnsController();
   public actions = new ActionsController();
@@ -373,7 +374,7 @@ export class List {
     this._initVariables(config);
     this._initDefaultOptions(config);
     this._initRestore();
-    this._initActions(config.actions);
+    this._initActions(config);
     this._initPaging(config.paging, config.loadMore);
     this._initSelection(config.selection, this._selectionDialog);
     this._initGroups(config.group);
@@ -496,10 +497,12 @@ export class List {
   /**
    * Split actions by categories
    */
-  private _initActions(actions) {
-    if (actions) {
-      this.actions.setActions(actions);
+  private _initActions(config) {
+    if (config.actions) {
+      this.actions.setActions(config.actions);
     }
+
+    this.actionsHover = config.actionsHover ?? false;
 
     this.hasRowActions =
       (this.rowActionsRaw && this.rowActionsRaw.length > 0)

@@ -1,4 +1,5 @@
-<div class="fs-list-container"
+<div
+    class="fs-list-container"
     [ngClass]="{
       'has-filter-keyword': hasFilterKeyword,
       'has-filters': list.filterConfig?.items.length,
@@ -6,12 +7,12 @@
       'has-status': hasStatus,
       'has-chips': list.chips,
       'has-actions': list.actions.hasActions,
+      'has-actions-hover': list.actionsHover,
       'first-load': firstLoad,
       'loading': list.loading$ | async
     }">
   <ng-template [ngTemplateOutlet]="listContainerContent"></ng-template>
 </div>
-
 <ng-template #listContainerContent>
   <ng-container *ngIf="list.dataController.visibleRows$ | async as listData">
     <div class="fs-list-header-container">
@@ -19,8 +20,8 @@
           class="fs-list-header"
           [ngClass]="{ 'no-wrap': reorderController.manualReorderActivated || !list.filterConfig?.items.length }">
         <ng-container
-            *ngIf="hasFilterKeyword"
-            [ngTemplateOutlet]="heading">
+          *ngIf="hasFilterKeyword"
+          [ngTemplateOutlet]="heading">
         </ng-container>
         <fs-filter
             class="fs-list-filter"
@@ -31,8 +32,8 @@
             (ready)="filterReady()">
           <ng-template fsFilterStatusBar>
             <ng-container
-                *ngIf="!hasFilterKeyword"
-                [ngTemplateOutlet]="heading">
+              *ngIf="!hasFilterKeyword"
+              [ngTemplateOutlet]="heading">
             </ng-container>
             <ng-container *ngIf="hasStatus">
               <fs-list-status
@@ -48,16 +49,14 @@
         </fs-filter>
       </div>
     </div>
-
     <ng-content select="[fs-list-content]"></ng-content>
-
     <!-- Table implementation -->
     <div class="fs-list-table-container">
       <ng-container *ngIf="!firstLoad && listData.length > 0 && !list.emptyStateEnabled">
-        <table 
-            class="fs-list-table" 
-            role="grid" 
-            [fsListContentInit]="list.afterContentInit" 
+        <table
+            class="fs-list-table"
+            role="grid"
+            [fsListContentInit]="list.afterContentInit"
             [ngClass]="{
               'style-card': list.style === 'card',
               'style-basic': list.style === 'basic',
@@ -78,7 +77,6 @@
             [reorderPosition]="reorderController.position$ | async"
             [reorderStrategy]="reorderController.strategy$ | async">
           </thead>
-
           <tbody
             fs-list-body
             fsListDraggableList
@@ -101,7 +99,6 @@
             [reorderStrategy]="reorderController.strategy$ | async"
             [reorderMultiple]="reorderController.multiple">
           </tbody>
-
           <tfoot
             fs-list-footer
             class="fs-list-footer"
@@ -122,14 +119,12 @@
         [loaderLines]="loaderLines">
       </fs-list-loader>
     </div>
-
     <fs-list-pagination
       *ngIf="paginatorVisible"
       class="fs-list-pagination"
       [rows]="listData"
       [pagination]="list.paging">
     </fs-list-pagination>
-
     <ng-container *ngIf="!firstLoad">
       <div
           *ngIf="listData.length === 0"
@@ -146,9 +141,10 @@
     </ng-container>
   </ng-container>
 </ng-template>
-
 <ng-template #heading>
-  <div class="heading-container" *ngIf="headingContainerTemplate || list.heading || list.subheading || headingTemplate">
+  <div
+      class="heading-container"
+      *ngIf="headingContainerTemplate || list.heading || list.subheading || headingTemplate">
     <ng-container *ngIf="headingContainerTemplate; else headingContainer">
       <ng-container
         [ngTemplateOutlet]="headingContainerTemplate"
@@ -156,12 +152,16 @@
       </ng-container>
     </ng-container>
     <ng-template #headingContainer>
-      <h2 class="heading" *ngIf="list.heading || headingTemplate">
-        {{list.heading}}
+      <h2
+          class="heading"
+          *ngIf="list.heading || headingTemplate">
+        {{ list.heading }}
         <ng-container [ngTemplateOutlet]="headingTemplate"></ng-container>
       </h2>
-      <div class="small subheading" *ngIf="list.subheading || subheadingTemplate">
-        {{list.subheading}}
+      <div
+          class="small subheading"
+          *ngIf="list.subheading || subheadingTemplate">
+        {{ list.subheading }}
         <ng-container [ngTemplateOutlet]="subheadingTemplate"></ng-container>
       </div>
     </ng-template>

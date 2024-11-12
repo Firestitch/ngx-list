@@ -1,17 +1,22 @@
 <tr class="fs-list-row">
   <!-- Drag -->
-  <th *ngIf="leftDragDropEnabled"
-      class="fs-list-col drag-col">
+  <th
+    *ngIf="leftDragDropEnabled"
+    class="fs-list-col drag-col">
   </th>
-
   <!-- Selection -->
-  <th *ngIf="selection && !(selection.disabled$ | async)" class="fs-list-col fs-list-col-selection">
-    <mat-checkbox (change)="selectAll($event)" [checked]="selectedAll"></mat-checkbox>
+  <th
+      *ngIf="selection && !(selection.disabled$ | async)"
+      class="fs-list-col fs-list-col-selection">
+    <mat-checkbox
+      (change)="selectAll($event)"
+      [checked]="selectedAll">
+    </mat-checkbox>
   </th>
-
   <!-- Content -->
-  <th 
-    fs-head-cell *ngFor="let column of columns; trackBy: trackByFn"
+  <th
+    fs-head-cell
+    *ngFor="let column of columns; trackBy: trackByFn"
     (click)="$event.stopPropagation(); sorting.sortBy(column)"
     [column]="column"
     [class.sorting]="column.sortable"
@@ -19,12 +24,14 @@
     [attr.colspan]="column.headerConfigs.colspan"
     [attr.width]="column.width">
   </th>
-
   <!-- Drag -->
-  <th *ngIf="rightDragDropEnabled"
-      class="fs-list-col drag-col">
+  <th
+    *ngIf="rightDragDropEnabled"
+    class="fs-list-col drag-col">
   </th>
-
   <!-- Row Actions -->
-  <th *ngIf="hasRowActions && !(reorderEnabled && reorderStrategy === ReorderStrategyEnum.Manual)" class="fs-list-col row-actions"></th>
+  <th
+    *ngIf="hasRowActions && !(reorderEnabled && reorderStrategy === ReorderStrategyEnum.Manual)"
+    class="fs-list-col actions-col">
+  </th>
 </tr>
