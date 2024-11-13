@@ -236,7 +236,7 @@ export class KitchenSinkComponent
           console.log(data);
         },
       },
-      rowActionsHover: true,
+      rowActionsHover: false,
       actions: [
         {
           label: 'Columns',
@@ -294,11 +294,9 @@ export class KitchenSinkComponent
           },
         },
         {
-          label: 'Link Btn',
-          type: ActionType.Raised,
+          icon: 'launch',
           menu: false,
           link: (row) => {
-
             return { link: ['rows', row.guid], queryParams: { param: 1 } };
           },
         },
