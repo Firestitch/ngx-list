@@ -134,7 +134,7 @@ export class PaginationController {
       : {
         page: this.page || 1,
         limit: this.limit || 10,
-        records: true,
+        recordCount: true,
       };
   }
 
@@ -148,14 +148,14 @@ export class PaginationController {
     return {
       offset: page * limit,
       limit,
-      records: true,
+      recordCount: true,
     };
   }
 
   public get queryManyStrategy(): QueryManyStrategy {
     return {
       ...this.queryOffsetStrategy,
-      records: false,
+      recordCount: false,
     };
   }
 
