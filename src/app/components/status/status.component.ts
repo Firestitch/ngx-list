@@ -68,7 +68,8 @@ export class FsStatusComponent implements OnInit, OnDestroy {
     this.list.fetchRemote({
       ...this.list.filtersQuery,
       offset: 0,
-      limit: 1,
+      limit: 0,
+      recordCount: true,
     })
       .subscribe((response) => {
         this.manyLabel = response.paging?.records || 0;
