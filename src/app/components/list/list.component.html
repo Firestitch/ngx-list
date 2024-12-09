@@ -23,30 +23,30 @@
           *ngIf="hasFilterKeyword"
           [ngTemplateOutlet]="heading">
         </ng-container>
-        <fs-filter
-            class="fs-list-filter"
-            *ngIf="list.filterConfig"
-            [filter]="list.filterConfig"
-            [showSortBy]="!list.status"
-            [showFilterInput]="list.filterInput"
-            (ready)="filterReady()">
-          <ng-template fsFilterStatusBar>
-            <ng-container
-              *ngIf="!hasFilterKeyword"
-              [ngTemplateOutlet]="heading">
-            </ng-container>
-            <ng-container *ngIf="hasStatus">
-              <fs-list-status
-                class="fs-list-status"
-                [ngClass]="{ 'hidden-mobile': !list.status }"
-                [rows]="listData"
-                [sorting]="list.sorting"
-                [paging]="list.paging"
-                [firstLoad]="firstLoad">
-              </fs-list-status>
-            </ng-container>
-          </ng-template>
-        </fs-filter>
+        @if (list.filterConfig) {
+          <fs-filter
+              class="fs-list-filter"
+              [filter]="list.filterConfig"
+              [showSortBy]="!list.status"
+              [showFilterInput]="list.filterInput"
+              (ready)="filterReady()">
+            <ng-template fsFilterStatusBar>
+              <ng-container
+                *ngIf="!hasFilterKeyword"
+                [ngTemplateOutlet]="heading">
+              </ng-container>
+              <ng-container *ngIf="hasStatus">
+                <fs-list-status
+                  class="fs-list-status"
+                  [ngClass]="{ 'hidden-mobile': !list.status }"
+                  [rows]="listData"
+                  [list]="list"
+                  [firstLoad]="firstLoad">
+                </fs-list-status>
+              </ng-container>
+            </ng-template>
+          </fs-filter>
+        }
       </div>
     </div>
     <ng-content select="[fs-list-content]"></ng-content>

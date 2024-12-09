@@ -153,6 +153,10 @@ export class List {
     return this._filtersQuery.getValue();
   }
 
+  public get filtersQuery$(): Observable<Record<string, any>> {
+    return this._filtersQuery.asObservable();
+  }
+
   public get activeFiltersCount$(): Observable<number> {
     return this._activeFiltersCount$;
   }
@@ -165,7 +169,7 @@ export class List {
     return this._initialized$;
   }
 
-  public fetchRemote(query) {
+  public fetchRemote(query): Observable<any> {
     const options: FsListFetchOptions = {
       state: this.dataController.operation,
     };
@@ -256,9 +260,10 @@ export class List {
         switchMap((event: any) => {
           this._fetch$.next(null);
           if (!this.paging.loadMoreEnabled) {
-            const contains = [].slice.call(document.querySelectorAll('.cdk-overlay-container')).some((overlay) => {
-              return this._el.nativeElement.contains(overlay);
-            });
+            const contains = [].slice.call(document.querySelectorAll('.cdk-overlay-container'))
+              .some((overlay) => {
+                return this._el.nativeElement.contains(overlay);
+              });
 
             let el = this._el.nativeElement;
 
@@ -716,7 +721,6 @@ export class List {
       persist: this.persist,
       items: this.filters || [],
       savedFilters: this.savedFilters,
-      // inline: this.inlineFilters,
       actions: this.actions.actions,
       queryParam: this.queryParam,
       autofocus: this.autoFocus,

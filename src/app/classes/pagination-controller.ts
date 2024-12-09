@@ -134,6 +134,7 @@ export class PaginationController {
       : {
         page: this.page || 1,
         limit: this.limit || 10,
+        records: true,
       };
   }
 
@@ -147,6 +148,7 @@ export class PaginationController {
     return {
       offset: page * limit,
       limit,
+      records: true,
     };
   }
 

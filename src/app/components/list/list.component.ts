@@ -472,7 +472,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
       });
   }
 
-  private _configMergeCustomizer(objValue: any, srcValue: any) {
+  private _configMergeCustomizer(objValue: any) {
     if (Array.isArray(objValue)) {
       return objValue;
     }

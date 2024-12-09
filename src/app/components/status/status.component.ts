@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   HostBinding,
+  inject,
   Input,
   OnDestroy,
   OnInit,
@@ -11,6 +12,7 @@ import {
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { List } from '../../classes/list-controller';
 import { PaginationController } from '../../classes/pagination-controller';
 import { SortingController } from '../../classes/sorting-controller';
 import { PaginationStrategy } from '../../enums';
@@ -26,8 +28,7 @@ import { SortingDirection } from '../../models/column.model';
 })
 export class FsStatusComponent implements OnInit, OnDestroy {
 
-  @Input() public paging: PaginationController;
-  @Input() public sorting: SortingController;
+  @Input() public list: List;
   @Input() public rows;
 
   @Input()
@@ -36,18 +37,41 @@ export class FsStatusComponent implements OnInit, OnDestroy {
   public firstLoad: boolean;
   
   public PaginationStrategy = PaginationStrategy;
-  
-  private _destroy$ = new Subject<void>();
+  public manyLabel = 'many';
+  public paging: PaginationController;
+  public sorting: SortingController;
 
-  constructor(private _cdRef: ChangeDetectorRef) {
-  }
+  private _destroy$ = new Subject<void>();
+  private _cdRef = inject(ChangeDetectorRef);
 
   public ngOnInit() {
+    this.paging = this.list.paging;
+    this.sorting = this.list.sorting;
     this.sorting.sortingChanged$
       .pipe(
         takeUntil(this._destroy$),
       )
       .subscribe(() => {
+        this._cdRef.markForCheck();
+      });
+
+    this.list.filtersQuery$
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe(() => {
+        this.manyLabel = 'many';
+      });
+  }
+
+  public manyClick() {
+    this.list.fetchRemote({
+      ...this.list.filtersQuery,
+      offset: 0,
+      limit: 1,
+    })
+      .subscribe((response) => {
+        this.manyLabel = response.paging?.records || 0;
         this._cdRef.markForCheck();
       });
   }
