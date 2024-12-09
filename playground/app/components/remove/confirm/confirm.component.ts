@@ -5,6 +5,7 @@ import { FsListAbstractRow, FsListComponent, FsListConfig, PaginationStrategy } 
 
 import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
+
 import { ApiStrategy } from '../../../services/api-strategy.service';
 import { StrategyBaseComponent } from '../../examples/strategy-base/strategy-base.component';
 
@@ -12,7 +13,7 @@ import { StrategyBaseComponent } from '../../examples/strategy-base/strategy-bas
 @Component({
   selector: 'remove-confirm',
   templateUrl: 'confirm.component.html',
-  styles: []
+  styles: [],
 })
 export class RemoveConfirmComponent extends StrategyBaseComponent implements OnInit {
 
@@ -22,7 +23,7 @@ export class RemoveConfirmComponent extends StrategyBaseComponent implements OnI
 
   constructor(
     protected _apiStrategy: ApiStrategy,
-    private _fsApi: FsApi
+    private _fsApi: FsApi,
   ) {
     super(_apiStrategy);
   }
@@ -48,9 +49,9 @@ export class RemoveConfirmComponent extends StrategyBaseComponent implements OnI
               { name: 'Object 3 Updated' },
               (listRow: FsListAbstractRow) => {
                 return listRow.name === 'Object 3';
-              }
+              },
             );
-          }
+          },
         },
         {
           label: 'Remove Row (Object 2)',
@@ -58,15 +59,15 @@ export class RemoveConfirmComponent extends StrategyBaseComponent implements OnI
             this.table.removeData(
               (listRow: FsListAbstractRow) => {
                 return listRow.name === 'Object 2';
-              }
+              },
             );
-          }
-        }
+          },
+        },
       ],
       rowEvents: {
         click: ({ row }) => {
           this.table.removeData([row]);
-        }
+        },
       },
       rowActions: [
         {
@@ -75,21 +76,22 @@ export class RemoveConfirmComponent extends StrategyBaseComponent implements OnI
             return of(1)
               .pipe(
                 delay(2000),
-              )
+              );
           },
           remove: {
             title: 'Confirm',
             template: 'Are you sure you would like to delete this record?',
           },
           icon: 'delete',
-          label: 'Remove'
-        }
+          label: 'Remove',
+        },
       ],
       fetch: (query) => {
         query.count = 500;
-        return this._fsApi.get('https://specify.firestitch.dev/api/dummy', query)
+
+        return this._fsApi.get('dummy', query)
           .pipe(
-            map(response => ({ data: response.objects, paging: response.paging })),
+            map((response) => ({ data: response.objects, paging: response.paging })),
           );
       },
     };

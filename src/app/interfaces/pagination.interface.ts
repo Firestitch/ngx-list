@@ -10,6 +10,11 @@ export interface QueryOffsetStrategy {
   limit?: number;
 }
 
+export interface QueryManyStrategy {
+  limit?: number;
+  records?: boolean;
+}
+
 export interface PageChange {
   type: PageChangeType;
   payload: any;

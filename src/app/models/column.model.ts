@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { isBoolean, isObject } from 'lodash-es';
 
 import { FsListGroupExpandTriggerDirective } from '../directives/group-expand-trigger/group-expand-trigger.directive';
-import { FsListColumnConfig } from '../interfaces/column-config.interface';
+import { ListColumnConfig } from '../interfaces/column-config.interface';
 
 import { ColumnAttributes } from './column-attributes';
 import { StyleConfig } from './styleConfig.model';
@@ -53,7 +53,10 @@ export class Column {
 
   private _ordered = false;
 
-  constructor(colConfig: FsListColumnConfig, colDefaults: any = false) {
+  constructor(
+    colConfig: ListColumnConfig, 
+    colDefaults: any = false,
+  ) {
     this._parseConfig(colConfig);
 
     this.colStyles = new StyleConfig({
@@ -196,7 +199,7 @@ export class Column {
     this._attributes.visible = value;
   }
 
-  private _parseConfig(config: FsListColumnConfig) {
+  private _parseConfig(config: ListColumnConfig) {
     this._attributes = config.attributes;
 
     this.headerTemplate = config.headerTemplate;

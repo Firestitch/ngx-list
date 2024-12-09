@@ -1,14 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { FsApi } from '@firestitch/api';
 import { ItemType } from '@firestitch/filter';
 import { FsListComponent, FsListConfig } from '@firestitch/list';
+
 import { map } from 'rxjs/operators';
 
 
 @Component({
   selector: 'filters',
   templateUrl: 'filters.component.html',
-  styles: []
+  styles: [],
 })
 export class FiltersComponent implements OnInit {
 
@@ -22,7 +24,7 @@ export class FiltersComponent implements OnInit {
 
     this.config = {
       paging: {
-        limits: [5, 15, 50]
+        limits: [5, 15, 50],
       },
       status: true,
       queryParam: false,
@@ -31,7 +33,7 @@ export class FiltersComponent implements OnInit {
         {
           name: 'keyword',
           type: ItemType.Keyword,
-          label: 'Search'
+          label: 'Search',
         },
         {
           name: 'simple_select',
@@ -42,19 +44,20 @@ export class FiltersComponent implements OnInit {
               { name: 'All', value: '__all' },
               { name: 'Option 1', value: 1 },
               { name: 'Option 2', value: 2 },
-              { name: 'Option 3', value: 3 }
+              { name: 'Option 3', value: 3 },
             ];
-          }
-        }
+          },
+        },
       ],
       fetch: (query) => {
         query.count = 3;
         query.limit = 3;
-        return this._fsApi.get('https://specify.firestitch.dev/api/dummy', query)
+
+        return this._fsApi.get('dummy', query)
           .pipe(
-            map(response => ({ data: response.objects, paging: response.paging })),
+            map((response) => ({ data: response.objects, paging: response.paging })),
           );
-      }
+      },
     };
   }
 }

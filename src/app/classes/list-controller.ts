@@ -576,7 +576,9 @@ export class List {
               || this.dataController.operation === FsListState.Reload
             ) && this.paging.loadMoreEnabled;
 
-            query = allRecordsRangeNeeded ? Object.assign(query, this.paging.loadMoreQuery) : Object.assign(query, this.paging.query);
+            query = allRecordsRangeNeeded ? 
+              Object.assign(query, this.paging.loadMoreQuery) : 
+              Object.assign(query, this.paging.query);
           }
 
           if (this.sorting.sortingColumn) {

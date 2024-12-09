@@ -8,28 +8,25 @@ import { PaginationStrategy } from '../enums/pagination-strategy.enum';
 import {
   FsListLoadMoreConfig,
   FsPaging,
+  IPaginationState,
   PageChange,
+  QueryManyStrategy,
   QueryOffsetStrategy,
   QueryPageStrategy,
 } from '../interfaces';
-import { IPaginationState } from '../interfaces/pagination-state.interface';
 
 export class PaginationController {
 
   public limit = 25;
   public records: number;
   public manual = false;
-
   public page = 1; // Active page
   public offset = 0;
-
   public displayed = 0;
 
   private _pages$ = new BehaviorSubject<number>(0); // Total pages
-
   private _strategy: PaginationStrategy = PaginationStrategy.None;
   private _removedRows = 0;
-
   private _pageChanged$ = new Subject<PageChange>();
   private _pageReset$ = new Subject<void>();
   private _onDestroy$ = new Subject();
@@ -102,6 +99,8 @@ export class PaginationController {
         return this.queryPageStrategy;
       case PaginationStrategy.Offset:
         return this.queryOffsetStrategy;
+      case PaginationStrategy.Many:
+        return this.queryManyStrategy;
     }
 
     return {};
@@ -148,6 +147,13 @@ export class PaginationController {
     return {
       offset: page * limit,
       limit,
+    };
+  }
+
+  public get queryManyStrategy(): QueryManyStrategy {
+    return {
+      ...this.queryOffsetStrategy,
+      records: false,
     };
   }
 
@@ -199,6 +205,13 @@ export class PaginationController {
   }
 
   /**
+   * Check if pagination in None Strategy Mode
+   */
+  public get hasManyStrategy(): boolean {
+    return this.strategy === PaginationStrategy.Many;
+  }
+
+  /**
    * If prev page can be activated
    *
    */
@@ -208,6 +221,8 @@ export class PaginationController {
         return this._hasPrevPagePageStrategy;
       case PaginationStrategy.Offset:
         return this._hasPrevPageOffsetStrategy;
+      case PaginationStrategy.Many:
+        return this._hasPrevPageManyStrategy;
     }
 
     return false;
@@ -222,6 +237,8 @@ export class PaginationController {
         return this._hasNextPagePageStrategy;
       case PaginationStrategy.Offset:
         return this._hasNextPageOffsetStrategy;
+      case PaginationStrategy.Many:
+        return true;
     }
 
     return false;
@@ -259,7 +276,9 @@ export class PaginationController {
   public get statusLabel(): string {
     const current = (this.page - 1) * this.limit;
     const from = current + 1;
-    const to = Math.min(this.records, current + this.limit);
+    const to = this.hasManyStrategy ?
+      current + this.limit : 
+      Math.min(this.records, current + this.limit);
 
     return `${from}-${to}`;
   }
@@ -308,6 +327,13 @@ export class PaginationController {
    */
   private get _hasPrevPageOffsetStrategy(): boolean {
     return this.offset >= this.limit && this.records > 1;
+  }
+
+  /**
+   * If pagination has prev page when Offset Strategy
+   */
+  private get _hasPrevPageManyStrategy(): boolean {
+    return this.offset >= this.limit;
   }
 
   /**
@@ -447,10 +473,11 @@ export class PaginationController {
     this.limit = limit;
     this.resetPaging();
 
-    this._pageChanged$.next({
-      type: PageChangeType.LimitChanged,
-      payload: limit,
-    });
+    this._pageChanged$
+      .next({
+        type: PageChangeType.LimitChanged,
+        payload: limit,
+      });
   }
 
   /**

@@ -13,6 +13,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { PaginationController } from '../../classes/pagination-controller';
 import { SortingController } from '../../classes/sorting-controller';
+import { PaginationStrategy } from '../../enums';
 import { SortingDirection } from '../../models/column.model';
 
 
@@ -33,7 +34,9 @@ export class FsStatusComponent implements OnInit, OnDestroy {
   @HostBinding('class.first-load')
   @HostBinding('class.fs-skeleton-placeholder')
   public firstLoad: boolean;
-
+  
+  public PaginationStrategy = PaginationStrategy;
+  
   private _destroy$ = new Subject<void>();
 
   constructor(private _cdRef: ChangeDetectorRef) {

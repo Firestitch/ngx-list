@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'sortable',
   templateUrl: 'sortable.component.html',
-  styles: []
+  styles: [],
 })
 export class SortableComponent implements OnInit {
 
@@ -43,14 +43,15 @@ export class SortableComponent implements OnInit {
         direction: 'desc',
       },
       paging: {
-        limits: [5, 15, 50, 150, 250, 500, 1000]
+        limits: [5, 15, 50, 150, 250, 500, 1000],
       },
       fetch: (query) => {
         query.count = 3;
         query.limit = 3;
-        return this._fsApi.get('https://specify.firestitch.dev/api/dummy', query)
+
+        return this._fsApi.get('dummy', query)
           .pipe(
-            map(response => ({ data: response.objects, paging: response.paging }))
+            map((response) => ({ data: response.objects, paging: response.paging })),
           );
       },
     };

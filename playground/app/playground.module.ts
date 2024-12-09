@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
-import { FsApiModule } from '@firestitch/api';
+import { FS_API_REQUEST_INTERCEPTOR, FsApiModule } from '@firestitch/api';
 import { FsBadgeModule } from '@firestitch/badge';
 import { FsDateModule } from '@firestitch/date';
 import { FsDatePickerModule } from '@firestitch/datepicker';
@@ -49,6 +49,7 @@ import { ConfigureComponent } from './components/configure';
 import { StrategyBaseComponent } from './components/examples/strategy-base/strategy-base.component';
 import { LoadMoreComponent } from './components/load-more';
 import { RestoreComponent } from './components/restore/restore.component';
+import { ApiInterceptorFactory } from './interceptors';
 import { AppMaterialModule } from './material.module';
 
 
@@ -109,7 +110,16 @@ import { AppMaterialModule } from './material.module';
     SelectionReorderComponent,
   ],
   providers: [
-    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'always' } },
+    { 
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, 
+      useValue: { floatLabel: 'always' }, 
+    },
+    {
+      provide: FS_API_REQUEST_INTERCEPTOR,
+      useFactory: ApiInterceptorFactory,
+      deps: [Injector],
+      multi: true,
+    },
   ],
 })
 export class PlaygroundModule {

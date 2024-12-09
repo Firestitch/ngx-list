@@ -15,8 +15,8 @@ import { map } from 'rxjs/operators';
       .custom-reorder {
         margin-bottom: 20px
       }
-    `
-  ]
+    `,
+  ],
 })
 export class CustomReorderComponent implements OnInit {
 
@@ -44,14 +44,14 @@ export class CustomReorderComponent implements OnInit {
         },
         done: (data) => {
           console.log('reorder finished', data);
-        }
+        },
       },
-      fetch: query => {
-        return this._fsApi.get('https://specify.firestitch.dev/api/dummy', query)
+      fetch: (query) => {
+        return this._fsApi.get('dummy', query)
           .pipe(
-            map(response => ({ data: response.objects, paging: response.paging })),
+            map((response) => ({ data: response.objects, paging: response.paging })),
           );
-      }
+      },
     };
   }
 

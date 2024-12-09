@@ -1,6 +1,6 @@
 import { FsListColumnDirective } from '../directives/column/column.directive';
 
-export type FsListColumnConfig = Partial<Pick<
+export type ListColumnConfig = Partial<Pick<
   FsListColumnDirective,
   'className' |
   'headerTemplate'  |

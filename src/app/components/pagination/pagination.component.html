@@ -1,58 +1,11 @@
-<ng-container *ngIf="!pagination.loadMoreEnabled; else loadMoreButton">
-  <ng-container *ngIf="pagination?.pages">
-    <a
-        matRipple
-        [matRippleRadius]="15"
-        [matRippleCentered]="true"
-        class="first"
-        [class.disabled]="!pagination.hasPrevPage"
-        (click)="pagination.goFirst()">
-      <mat-icon>
-        first_page
-      </mat-icon>
-    </a>
-    <a
-        matRipple
-        [matRippleRadius]="15"
-        [matRippleCentered]="true"
-        class="previous"
-        [class.disabled]="!pagination.hasPrevPage"
-        (click)="pagination.goPrev()">
-      <mat-icon>
-        keyboard_arrow_left
-      </mat-icon>
-    </a>
-    <div class="number">
-      {{ pagination.page | fsFormatNumber }} of      {{ pagination.pages | fsFormatNumber }}
-    </div>
-    <a
-        matRipple
-        [matRippleRadius]="15"
-        [matRippleCentered]="true"
-        class="next"
-        [class.disabled]="!pagination.hasNextPage"
-        (click)="pagination.goNext()">
-      <mat-icon>
-        keyboard_arrow_right
-      </mat-icon>
-    </a>
-    <a
-        matRipple
-        [matRippleRadius]="15"
-        [matRippleCentered]="true"
-        class="last"
-        [class.disabled]="!pagination.hasNextPage"
-        (click)="pagination.goLast()">
-      <mat-icon>
-        last_page
-      </mat-icon>
-    </a>
-  </ng-container>
-</ng-container>
-<ng-template #loadMoreButton>
-  <div
-      class="fs-list-load-more"
-      *ngIf="pagination.hasNextPage">
+@if (pagination.hasManyStrategy) {
+  <ng-container *ngTemplateOutlet="firstPageButton"></ng-container>
+  <ng-container *ngTemplateOutlet="prevPageButton"></ng-container>
+  {{ pagination.statusLabel }}
+  <ng-container *ngTemplateOutlet="nextPageButton"></ng-container>
+} @else if (pagination.loadMoreEnabled) {
+@if (pagination.hasNextPage) {
+  <div class="fs-list-load-more">
     <button
         mat-button
         type="button"
@@ -62,4 +15,63 @@
       {{ pagination.loadMoreLabel }}
     </button>
   </div>
+}
+} @else {
+  <ng-container *ngIf="pagination?.pages"></ng-container>
+  <ng-container *ngTemplateOutlet="firstPageButton"></ng-container>
+  <ng-container *ngTemplateOutlet="prevPageButton"></ng-container>
+  <div class="number">
+    {{ pagination.page | fsFormatNumber }} of    {{ pagination.pages | fsFormatNumber }}
+  </div>
+  <ng-container *ngTemplateOutlet="nextPageButton"></ng-container>
+  <a
+      matRipple
+      [matRippleRadius]="15"
+      [matRippleCentered]="true"
+      class="last"
+      [class.disabled]="!pagination.hasNextPage"
+      (click)="pagination.goLast()">
+    <mat-icon>
+      last_page
+    </mat-icon>
+  </a>
+}
+<ng-template #firstPageButton>
+  <a
+      matRipple
+      [matRippleRadius]="15"
+      [matRippleCentered]="true"
+      class="first"
+      [class.disabled]="!pagination.hasPrevPage"
+      (click)="pagination.goFirst()">
+    <mat-icon>
+      first_page
+    </mat-icon>
+  </a>
+</ng-template>
+<ng-template #prevPageButton>
+  <a
+      matRipple
+      [matRippleRadius]="15"
+      [matRippleCentered]="true"
+      class="previous"
+      [class.disabled]="!pagination.hasPrevPage"
+      (click)="pagination.goPrev()">
+    <mat-icon>
+      keyboard_arrow_left
+    </mat-icon>
+  </a>
+</ng-template>
+<ng-template #nextPageButton>
+  <a
+      matRipple
+      [matRippleRadius]="15"
+      [matRippleCentered]="true"
+      class="next"
+      [class.disabled]="!pagination.hasNextPage"
+      (click)="pagination.goNext()">
+    <mat-icon>
+      keyboard_arrow_right
+    </mat-icon>
+  </a>
 </ng-template>

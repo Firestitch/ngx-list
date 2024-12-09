@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { FsApi } from '@firestitch/api';
 import { FsListComponent, FsListConfig, PaginationStrategy } from '@firestitch/list';
 
 import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
+
 import { ApiStrategy } from '../../../services/api-strategy.service';
 import { StrategyBaseComponent } from '../../examples/strategy-base/strategy-base.component';
 
@@ -11,7 +13,7 @@ import { StrategyBaseComponent } from '../../examples/strategy-base/strategy-bas
 @Component({
   selector: 'remove-simple',
   templateUrl: 'simple.component.html',
-  styles: []
+  styles: [],
 })
 export class RemoveSimpleComponent extends StrategyBaseComponent implements OnInit {
 
@@ -21,7 +23,7 @@ export class RemoveSimpleComponent extends StrategyBaseComponent implements OnIn
 
   constructor(
     protected _apiStrategy: ApiStrategy,
-    private _fsApi: FsApi
+    private _fsApi: FsApi,
   ) {
     super(_apiStrategy);
   }
@@ -47,10 +49,10 @@ export class RemoveSimpleComponent extends StrategyBaseComponent implements OnIn
             this.table.removeData(
               (listRow: any) => {
                 return listRow.name === 'Object 2';
-              }
+              },
             );
-          }
-        }
+          },
+        },
       ],
       rowActions: [
         {
@@ -60,18 +62,19 @@ export class RemoveSimpleComponent extends StrategyBaseComponent implements OnIn
             return of(1)
               .pipe(
                 delay(2000),
-              )
+              );
           },
           remove: true,
           icon: 'delete',
-          label: 'Remove'
-        }
+          label: 'Remove',
+        },
       ],
       fetch: (query) => {
         query.count = 500;
-        return this._fsApi.get('https://specify.firestitch.dev/api/dummy', query)
+
+        return this._fsApi.get('dummy', query)
           .pipe(
-            map(response => ({ data: response.objects, paging: response.paging }))
+            map((response) => ({ data: response.objects, paging: response.paging })),
           );
       },
     };

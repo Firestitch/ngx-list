@@ -1,8 +1,8 @@
-import { isNumber } from 'lodash-es';
 import { BehaviorSubject, merge, Observable, Subject } from 'rxjs';
 import { skip, takeUntil, tap } from 'rxjs/operators';
 
-import { Column } from '../models/column.model';
+import { isNumber } from 'lodash-es';
+
 import {
   FsListColumnChangeFn,
   FsListColumnConfig,
@@ -11,6 +11,7 @@ import {
   FsListColumnTitleFn,
   FsListColumnTooltipFn,
 } from '../interfaces/listconfig.interface';
+import { Column } from '../models/column.model';
 
 
 export class ColumnsController {
@@ -68,7 +69,7 @@ export class ColumnsController {
 
         const tooltip = hasCustomTooltip
           ? this._columnTooltipFn(column.name, column.visible, disabled)
-          : void 0;
+          : undefined;
 
         return {
           template: column.headerTemplate,
@@ -77,7 +78,7 @@ export class ColumnsController {
           title: title,
           disabled: disabled,
           tooltip: tooltip,
-        }
+        };
       });
   }
 
@@ -194,12 +195,12 @@ export class ColumnsController {
   public loadRemoteColumnConfigs() {
     return this._loadFn()
       .pipe(
-        takeUntil(this._destroy$),
         tap((columnConfigs) => {
           this._columnsFetched = true;
           this.updateVisibilityForCols(columnConfigs);
-        })
-      )
+        }),
+        takeUntil(this._destroy$),
+      );
   }
 
   /**
@@ -207,7 +208,7 @@ export class ColumnsController {
    */
   public updateVisibleColumns() {
     this._visibleColumns$.next(
-      this._columns.filter((column) => column.visible) || []
+      this._columns.filter((column) => column.visible) || [],
     );
   }
 
@@ -233,19 +234,19 @@ export class ColumnsController {
     this._destroy$.complete();
     this._columnsUpdated$.complete();
 
-    this._columns = void 0;
-    this._visibleColumns$ = void 0;
-    this._defaultConfigs = void 0;
+    this._columns = undefined;
+    this._visibleColumns$ = undefined;
+    this._defaultConfigs = undefined;
 
-    this._loadFn = void 0;
-    this._changeFn = void 0;
+    this._loadFn = undefined;
+    this._changeFn = undefined;
   }
 
   private _listenColumnVisibilityUpdates() {
     this._columnsUpdated$.next(null);
 
     const columnsVisibility = this._columns.map((column) => {
-      return column.visible$.pipe(skip(1))
+      return column.visible$.pipe(skip(1));
     });
 
     merge(...columnsVisibility)
@@ -255,13 +256,13 @@ export class ColumnsController {
       )
       .subscribe(() => {
         this.updateVisibleColumns();
-      })
+      });
   }
 
   private _updateColspans(config, updateFlag) {
     this._columns.forEach((col, index) => {
 
-      if (col[config].colspan !== void 0) {
+      if (col[config].colspan !== undefined) {
         const spanTo = index + +col[config].colspan;
 
         if (!isNumber(spanTo)) {
@@ -275,7 +276,7 @@ export class ColumnsController {
           }
         }
       }
-    })
+    });
   }
 
 }

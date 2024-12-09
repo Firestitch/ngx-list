@@ -15,7 +15,7 @@ import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.c
 @Component({
   selector: 'selection-reorder',
   templateUrl: 'selection-reorder.component.html',
-  styles: []
+  styles: [],
 })
 export class SelectionReorderComponent extends StrategyBaseComponent implements OnInit {
 
@@ -44,7 +44,7 @@ export class SelectionReorderComponent extends StrategyBaseComponent implements 
           {
             type: SelectionActionType.Action,
             name: 'delete',
-            label: 'Delete'
+            label: 'Delete',
           },
           {
             type: SelectionActionType.Select,
@@ -52,13 +52,13 @@ export class SelectionReorderComponent extends StrategyBaseComponent implements 
             values: [
               {
                 name: 'TODO',
-                value: '1'
+                value: '1',
               },
               {
                 name: 'Done',
-                value: '2'
-              }
-            ]
+                value: '2',
+              },
+            ],
           },
         ],
         actionSelected: (action) => {
@@ -67,7 +67,7 @@ export class SelectionReorderComponent extends StrategyBaseComponent implements 
 
           return of(true).pipe(
             delay(2000),
-          )
+          );
         },
         allSelected: () => {
         },
@@ -79,15 +79,15 @@ export class SelectionReorderComponent extends StrategyBaseComponent implements 
               {
                 type: SelectionActionType.Action,
                 value: 'custom',
-                label: 'Custom Action'
+                label: 'Custom Action',
               },
-            ])
-          } else {
-            if (selectionRef) {
-              selectionRef.resetActions();
-            }
+            ]);
+          } 
+          if (selectionRef) {
+            selectionRef.resetActions();
           }
-        }
+          
+        },
       },
       reorder: {
         position: ReorderPosition.Left,
@@ -102,15 +102,15 @@ export class SelectionReorderComponent extends StrategyBaseComponent implements 
         },
         multiple: true,
       },
-      fetch: query => {
+      fetch: (query) => {
         query.limit = 10;
         query.count = 10;
 
-        return this._fsApi.get('https://specify.firestitch.dev/api/dummy', query)
+        return this._fsApi.get('dummy', query)
           .pipe(
-            map(response => ({ data: response.objects, paging: response.paging }))
+            map((response) => ({ data: response.objects, paging: response.paging })),
           );
-      }
+      },
     };
   }
 

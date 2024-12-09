@@ -1,13 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+
 import { FsApi } from '@firestitch/api';
 import { ActionType, FsListComponent, FsListConfig } from '@firestitch/list';
+
 import { map } from 'rxjs/operators';
 
 
 @Component({
   selector: 'actions',
-  templateUrl: 'actions.component.html',
-  styles: []
+  templateUrl: './actions.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActionsComponent implements OnInit {
 
@@ -22,11 +24,11 @@ export class ActionsComponent implements OnInit {
     this.config = {
       actions: [
         {
-          click: (event) => {
+          click: () => {
             // this.table.enableOrder();
           },
           label: 'Kebab only button',
-          menu: true
+          menu: true,
         },
         {
           click: (event) => {
@@ -50,7 +52,7 @@ export class ActionsComponent implements OnInit {
             console.log(event);
           },
           label: 'Primary Button',
-          menu: false
+          menu: false,
         },
         {
           click: (event) => {
@@ -58,7 +60,7 @@ export class ActionsComponent implements OnInit {
           },
           icon: 'delete',
           primary: false,
-          label: 'Secondary Button'
+          label: 'Secondary Button',
         },
         {
           click: (event) => {
@@ -73,13 +75,14 @@ export class ActionsComponent implements OnInit {
       fetch: (query) => {
         query.count = 3;
         query.limit = 3;
-        return this._fsApi.get('https://specify.firestitch.dev/api/dummy', query)
+
+        return this._fsApi.get('dummy', query)
           .pipe(
-            map(response => ({ data: response.objects, paging: response.paging }))
+            map((response) => ({ data: response.objects, paging: response.paging })),
           );
       },
       paging: false,
-      status: false
+      status: false,
     };
   }
 }

@@ -26,6 +26,7 @@ export class ManualReorderComponent implements OnInit {
         toggle: true,
         start: () => {
           console.log('reorder start');
+
           return of(null).pipe(delay(1000));
         },
         moved: (data) => {
@@ -33,15 +34,16 @@ export class ManualReorderComponent implements OnInit {
         },
         done: (data) => {
           console.log('reorder done', data);
+
           return of(null).pipe(delay(1000));
-        }
+        },
       },
       fetch: (query) => {
-        return this._fsApi.get('https://specify.firestitch.dev/api/dummy', query)
+        return this._fsApi.get('dummy', query)
           .pipe(
             map((response) => ({ data: response.objects, paging: response.paging })),
           );
-      }
+      },
     };
   }
 }

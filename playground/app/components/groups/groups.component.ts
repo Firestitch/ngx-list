@@ -1,19 +1,18 @@
 import { AfterContentInit, Component, OnInit, ViewChild } from '@angular/core';
+
 import { FsApi } from '@firestitch/api';
+import { FsExampleComponent } from '@firestitch/example';
 import { ItemType } from '@firestitch/filter';
 import {
-    FsListAbstractRow,
-    FsListComponent,
-    FsListConfig,
-    ReorderPosition,
+  FsListAbstractRow,
+  FsListComponent,
+  FsListConfig,
+  ReorderPosition,
 } from '@firestitch/list';
+import { SelectionActionType } from '@firestitch/selection';
 
 import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
-
-
-import { FsExampleComponent } from '@firestitch/example';
-import { SelectionActionType } from '@firestitch/selection';
 
 
 import { ApiStrategy } from '../../services/api-strategy.service';
@@ -61,7 +60,7 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
           label: 'Toggle Group Mode',
           click: () => {
             this.list.groupEnabled = !this.list.groupEnabled;
-          }
+          },
         },
         {
           label: 'Enable Selection',
@@ -71,7 +70,7 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
           },
           show: () => {
             return this.list.list.selection.disabled;
-          }
+          },
         },
         {
           label: 'Disable Selection',
@@ -81,7 +80,7 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
           },
           show: () => {
             return !this.list.list.selection.disabled;
-          }
+          },
         },
       ],
       trackBy: 'name',
@@ -92,7 +91,7 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
           {
             type: SelectionActionType.Action,
             name: 'delete',
-            label: 'Delete'
+            label: 'Delete',
           },
           {
             type: SelectionActionType.Select,
@@ -100,13 +99,13 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
             values: [
               {
                 name: 'TODO',
-                value: '1'
+                value: '1',
               },
               {
                 name: 'Done',
-                value: '2'
-              }
-            ]
+                value: '2',
+              },
+            ],
           },
         ],
         actionSelected: (action) => {
@@ -115,7 +114,7 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
 
           return of(true).pipe(
             delay(2000),
-          )
+          );
         },
         allSelected: () => {
         },
@@ -127,15 +126,15 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
               {
                 type: SelectionActionType.Action,
                 value: 'custom',
-                label: 'Custom Action'
+                label: 'Custom Action',
               },
-            ])
-          } else {
-            if (selectionRef) {
-              selectionRef.resetActions();
-            }
+            ]);
+          } 
+          if (selectionRef) {
+            selectionRef.resetActions();
           }
-        }
+          
+        },
       },
       reorder: {
         moveDrop: ({ row1, row2, group1, group2 }) => {
@@ -152,7 +151,7 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
         },
         done: (data) => {
           // console.log('reorder finished', data);
-        }
+        },
       },
       group: {
         groupBy: (row) => {
@@ -169,9 +168,9 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
             click: (row, event) => {
               console.log('Group Action Clicked');
             },
-            label: 'Group action'
-          }
-        ]
+            label: 'Group action',
+          },
+        ],
       },
       sort: {
         value: 'guid',
@@ -181,8 +180,8 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
         {
           name: 'keyword',
           type: ItemType.Keyword,
-          label: 'Search'
-        }
+          label: 'Search',
+        },
       ],
       rowActions: [
         {
@@ -190,7 +189,7 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
 
           },
           menu: true,
-          label: 'Go to Project'
+          label: 'Go to Project',
         },
         {
           label: 'Group 1',
@@ -201,7 +200,7 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
               },
               menu: true,
               icon: 'edit',
-              label: 'Edit'
+              label: 'Edit',
             },
             {
               click: (row, event) => {
@@ -209,7 +208,7 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
                 this.list.removeData(
                   (listRow: FsListAbstractRow) => {
                     return listRow.name === row.name;
-                  }
+                  },
                 );
               },
               menu: true,
@@ -218,9 +217,9 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
                 template: 'Are you sure you would like to delete this record?',
               },
               icon: 'delete',
-              label: 'Remove'
+              label: 'Remove',
             },
-          ]
+          ],
         },
         {
           label: 'View Donations',
@@ -229,22 +228,22 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
               click: (row, event) => {
 
               },
-              label: 'All'
+              label: 'All',
             },
             {
               click: (row, event) => {
 
               },
-              label: 'Complete'
+              label: 'Complete',
             },
             {
               click: (row, event) => {
 
               },
-              label: 'Overdue'
+              label: 'Overdue',
             },
-          ]
-        }
+          ],
+        },
 
       ],
       rowClass: (row, options) => {
@@ -258,23 +257,23 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
         },
         click: (event) => {
           console.log('row click', event);
-        }
+        },
       },
       header: {
         className: 'header-test-defaults-class',
-        align: 'left'
+        align: 'left',
       },
       cell: {
         className: 'cell-test-defaults-class',
-        align: 'left'
+        align: 'left',
       },
       fetch: (query) => {
         query.count = 500;
         query.limit = 20;
 
-        return this._fsApi.get('https://specify.firestitch.dev/api/dummy', query)
+        return this._fsApi.get('dummy', query)
           .pipe(
-            map(response => ({ data: response.objects, paging: response.paging })),
+            map((response) => ({ data: response.objects, paging: response.paging })),
           );
       },
     };
