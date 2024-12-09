@@ -7,14 +7,21 @@
       </a>
       of
       @if (paging.hasManyStrategy) {
-      @if (manyLabel === 'many') {
+      @if (many.status === 'many') {
         <a
             (click)="manyClick()"
             [matTooltip]="'Calculate number of records'">
           many
         </a>
       } @else {
-        {{ manyLabel }}
+      @if (many.status === 'loading') {
+        <mat-spinner
+          [diameter]="15"
+          [strokeWidth]="2">
+        </mat-spinner>
+      } @else {
+        {{ many.count | number:'1.0':'en-US' }}
+      }
       }
       } @else {
         {{ paging.records | number:'1.0':'en-US' }} results

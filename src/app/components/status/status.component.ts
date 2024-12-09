@@ -37,9 +37,15 @@ export class FsStatusComponent implements OnInit, OnDestroy {
   public firstLoad: boolean;
   
   public PaginationStrategy = PaginationStrategy;
-  public manyLabel = 'many';
   public paging: PaginationController;
   public sorting: SortingController;
+  public many: {
+    status: 'many' | 'loading' | 'loaded';
+    count: number;
+    } = { 
+      status: 'many',
+      count: 0,
+    };
 
   private _destroy$ = new Subject<void>();
   private _cdRef = inject(ChangeDetectorRef);
@@ -60,19 +66,25 @@ export class FsStatusComponent implements OnInit, OnDestroy {
         takeUntil(this._destroy$),
       )
       .subscribe(() => {
-        this.manyLabel = 'many';
+        this.many.status = 'many';
+        this._cdRef.markForCheck();
       });
   }
 
   public manyClick() {
+    this.many.status = 'loading';
     this.list.fetchRemote({
       ...this.list.filtersQuery,
       offset: 0,
       limit: 0,
       recordCount: true,
     })
+      .pipe(
+        takeUntil(this._destroy$),
+      )
       .subscribe((response) => {
-        this.manyLabel = response.paging?.records || 0;
+        this.many.count = response.paging?.records || 0;
+        this.many.status = 'loaded';
         this._cdRef.markForCheck();
       });
   }
