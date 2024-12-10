@@ -9,8 +9,8 @@ import {
   OnInit,
 } from '@angular/core';
 
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { catchError, takeUntil, tap } from 'rxjs/operators';
 
 import { List } from '../../classes/list-controller';
 import { PaginationController } from '../../classes/pagination-controller';
@@ -80,11 +80,19 @@ export class FsStatusComponent implements OnInit, OnDestroy {
       recordCount: true,
     })
       .pipe(
+        tap((response) => {
+          this.many.count = response.paging?.records || 0;
+          this.many.status = 'loaded';
+        }),
+        catchError(() => {
+          this.many.status = 'many';
+          this.many.count = null;
+
+          return of(null);
+        }),
         takeUntil(this._destroy$),
       )
-      .subscribe((response) => {
-        this.many.count = response.paging?.records || 0;
-        this.many.status = 'loaded';
+      .subscribe(() => {
         this._cdRef.markForCheck();
       });
   }
