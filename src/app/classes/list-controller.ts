@@ -90,22 +90,19 @@ export class List {
   public externalParams: ExternalParamsController;
   public selection: SelectionController;
   public filterConfig: FilterConfig = null;
-  public loading$ = new BehaviorSubject(false);
-  public fetchComplete$ = new Subject<{ scrollIntoView?: boolean }>();
-  public filtersReady$ = new Subject<void>();
   public status = true;
   public chips = false;
   public filterInput = true;
   public queryParam = false;
   public restoreMode = false;
   public autoReload: FsFilterAutoReload;
-
   public initialFetch = true;
-
-  // Empty state
   public emptyStateEnabled = false;
   public emptyStateTemplate: TemplateRef<any>;
 
+  private _loading$ = new BehaviorSubject(false);
+  private _fetchComplete$ = new Subject<{ scrollIntoView?: boolean }>();
+  private _filtersReady$ = new Subject<void>();
   private _destroy$ = new Subject();
   private _initialized$ = new BehaviorSubject(false);
   private _fetch$ = new Subject<FsListFetchSubscription | void>();
@@ -139,6 +136,18 @@ export class List {
       this.dataController.setOperation(FsListState.Load);
       this._fetch$.next(null);
     }
+  }
+
+  public get loading$(): Observable<boolean> {
+    return this._loading$.asObservable();
+  }
+
+  public filtersReady() {
+    this._filtersReady$.next(null);
+  }
+
+  public get filtersReady$(): Observable<void> {
+    return this._filtersReady$.asObservable();
   }
 
   public get fetch$(): Observable<FsListFetchSubscription | void> {
@@ -221,11 +230,11 @@ export class List {
   }
 
   public reload(): Observable<any> {
-    this.loading$.next(true);
+    this._loading$.next(true);
     this.dataController.setOperation(FsListState.Reload);
     this._fetch$.next(null);
 
-    return this.fetchComplete$
+    return this._fetchComplete$
       .asObservable()
       .pipe(      
         take(1),  
@@ -274,7 +283,7 @@ export class List {
               }
             }
 
-            return this.fetchComplete$
+            return this._fetchComplete$
               .asObservable()
               .pipe(
                 take(1),
@@ -387,6 +396,7 @@ export class List {
     this._initializeData();
   }
 
+  // eslint-disable-next-line max-statements
   private _initVariables(config: FsListConfig) {
     this.autoFocus = config.autoFocus;
     this.rowHoverHighlight = config.rowHoverHighlight ?? true;
@@ -556,7 +566,7 @@ export class List {
 
     // Should wait until saved filters not loaded
     if (this.filters) {
-      fetch$ = combineLatest([fetch$, this.filtersReady$])
+      fetch$ = combineLatest([fetch$, this._filtersReady$])
         .pipe(
           map(([params]) => params),
         );
@@ -566,7 +576,7 @@ export class List {
       .pipe(
         debounceTime(50),
         tap(() => {
-          this.loading$.next(true);
+          this._loading$.next(true);
         }),
         tap(() => {
           this.selection?.closeSelectionDialog();
@@ -782,7 +792,16 @@ export class List {
   private _checkRestoreFilter() {
     // Restore option
     if (this.restore && this.filtersQuery[showDeletedFilterKey]) {
-      delete this.filtersQuery[showDeletedFilterKey];
+      const filtersQuery = Object.keys(this.filtersQuery)
+        .filter((key) => key !== showDeletedFilterKey)
+        .reduce((acc, key) => {
+          return {
+            ...acc,
+            [key]: this.filtersQuery[key],
+          };
+        }, {});
+
+      this._filtersQuery.next(filtersQuery);
 
       Object.assign(this.filtersQuery, this.restore.query);
 
@@ -848,8 +867,8 @@ export class List {
       this.paging.goLast();
     }
 
-    this.fetchComplete$.next({ scrollIntoView: params?.scrollIntoView });
-    this.loading$.next(false);
+    this._fetchComplete$.next({ scrollIntoView: params?.scrollIntoView });
+    this._loading$.next(false);
   }
 
   private _completeFetchUpdateSelecton(response) {

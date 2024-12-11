@@ -305,7 +305,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   public filterReady() {
-    this.list.filtersReady$.next(null);
+    this.list.filtersReady();
     this._filterParamsReady = true;
     this._emitFiltersReadyEvent();
   }
