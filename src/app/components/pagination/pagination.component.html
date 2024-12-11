@@ -1,9 +1,4 @@
-<div
-    class="pagination-container"
-    [class]="'strategy-' + pagination.strategy"
-    [ngClass]="{ 
-      'paging': (paging$ | async),
-     }">
+<div class="pagination-container">
   @if (pagination.hasManyStrategy) {
     <ng-container *ngTemplateOutlet="strategyMany"></ng-container>
   } @else if (pagination.loadMoreEnabled) {
@@ -38,7 +33,7 @@
       [ngTemplateOutletContext]="{ disabled: !pagination.hasPrevPage }">
     </ng-container>
     <div class="number">
-      {{ pagination.page | fsFormatNumber }} of                                                                                                                                                                                                                                                                               {{ pagination.pages | fsFormatNumber }}
+      {{ pagination.page | fsFormatNumber }} of                                                                                                                                                                                                                                                                                                 {{ pagination.pages | fsFormatNumber }}
     </div>
     <ng-container
       [ngTemplateOutlet]="nextPageButton"
@@ -60,7 +55,7 @@
     [ngTemplateOutletContext]="{ disabled: !pagination.hasPrevPage }">
   </ng-container>
   <div class="number">
-    {{ pagination.statusLabel }}
+    {{ pagination.page }}
   </div>
   <ng-container
     [ngTemplateOutlet]="nextPageButton"

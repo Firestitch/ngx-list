@@ -6,12 +6,6 @@
   align-items: center;
   user-select: none;
   width: 100%;
-
-  &.paging.strategy-many {
-    .number {
-      visibility: hidden;
-    }
-  }
 }
 
 a {
