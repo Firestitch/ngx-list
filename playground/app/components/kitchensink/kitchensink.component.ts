@@ -53,7 +53,7 @@ export class KitchenSinkComponent
 
   constructor(
     protected _apiStrategy: ApiStrategy,
-    private _fsApi: FsApi,
+    private _api: FsApi,
   ) {
     super(_apiStrategy);
   }
@@ -67,7 +67,7 @@ export class KitchenSinkComponent
       queryParam: true,
       paging: {
         limits: [5, 15, 50, 150, 250, 500, 1000],
-        strategy: PaginationStrategy.Many,
+        strategy: PaginationStrategy.Offset,
       },
       rowHoverHighlight: true,
       // sort: {
@@ -409,11 +409,11 @@ export class KitchenSinkComponent
         align: 'left',
       },
       fetch: (query) => {
-        query.count = 50;
+        query.count = 100;
 
         console.log('Fetch', query);
 
-        return this._fsApi.get('dummy', query)
+        return this._api.get('dummy', query)
           .pipe(
             map((response) => ({ data: response.objects, paging: response.paging })),
           );

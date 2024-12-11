@@ -1,13 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 
-import { FsListConfig, PaginationStrategy } from '@firestitch/list';
+
 import { ItemType } from '@firestitch/filter';
+import { FsListConfig, PaginationStrategy } from '@firestitch/list';
+
+import { Observable } from 'rxjs';
 
 
 @Component({
-  templateUrl: 'paging.component.html',
-  styles: []
+  templateUrl: './paging.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PagingComponent implements OnInit {
 
@@ -23,18 +25,18 @@ export class PagingComponent implements OnInit {
         {
           name: 'keyword',
           type: ItemType.Keyword,
-          label: 'Search'
+          label: 'Search',
         },
       ],
       paging: {
         strategy: PaginationStrategy.Page,
       },
       heading: 'No Results',
-      fetch: (query) => {
-        return new Observable(observer => {
-          observer.next({ data: [{ guid: 'sss'}], paging: {} });
+      fetch: () => {
+        return new Observable((observer) => {
+          observer.next({ data: [{ guid: 'sss' }], paging: {} });
           observer.complete();
-      });
+        });
       },
     };
   }

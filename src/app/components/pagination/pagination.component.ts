@@ -1,14 +1,12 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   Input,
   OnDestroy,
   OnInit,
 } from '@angular/core';
 
-import { merge, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, filter, Observable, Subject, takeUntil, tap } from 'rxjs';
 
 import { PaginationController } from '../../classes/pagination-controller';
 
@@ -22,28 +20,47 @@ export class FsPaginationComponent implements OnInit, OnDestroy {
 
   @Input() public pagination: PaginationController;
   @Input() public rows;
+  @Input() public loading$: Observable<boolean>;
 
-  private _destroy$ = new Subject();
-
-  constructor(
-    private _cdRef: ChangeDetectorRef,
-  ) { }
+  private _destroy$ = new Subject<void>();
+  private _paging$ = new BehaviorSubject<boolean>(false);
 
   public ngOnInit(): void {
-    merge(
-      this.pagination.pageChanged$,
-      this.pagination.pages$,
-    )
+    this.loading$
       .pipe(
+        filter((loading) => !loading),
+        tap(() => this._paging$.next(false)),
         takeUntil(this._destroy$),
       )
-      .subscribe(() => {
-        this._cdRef.markForCheck();
-      });
+      .subscribe();
+  }
+
+  public get paging$(): Observable<boolean> {
+    return this._paging$.asObservable();
+  }
+
+  public first() {
+    this._paging$.next(true);
+    this.pagination.goFirst();
+  }
+
+  public prev() {
+    this._paging$.next(true);
+    this.pagination.goPrev();
+  }
+
+  public next() {
+    this._paging$.next(true);
+    this.pagination.goNext();
+  }
+
+  public last() {
+    this._paging$.next(true);
+    this.pagination.goLast();
   }
 
   public ngOnDestroy(): void {
-    this._destroy$.next(null);
+    this._destroy$.next();
     this._destroy$.complete();
   }
 

@@ -1,5 +1,4 @@
 
-import { Injector } from '@angular/core';
 
 import { FsApiConfig, makeInterceptorFactory } from '@firestitch/api';
 
@@ -18,12 +17,13 @@ export class ApiInterceptor implements HttpInterceptor {
   constructor(
     public config: FsApiConfig,
     public data,
-    private _injector: Injector,
   ) {
   }
 
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const domain = 'https://specify.local.firestitch.com/api/';
+    const domain = window.location.hostname === 'localhost' ? 
+      'https://specify.local.firestitch.com/api/' : 
+      'https://specify.firestitch.dev/api/';
     const url = domain.concat(req.url);
 
     return next.handle(req.clone({ url }));

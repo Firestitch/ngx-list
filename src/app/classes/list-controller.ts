@@ -260,7 +260,7 @@ export class List {
             this.paging.updatePagination();
   
             if (this.selection) {
-              this.selection.updateVisibleRecordsCount(this.paging.getVisibleRecords());
+              this.selection.updateVisibleRecordsCount(this.paging.getPageRecords());
               this.selection.updateTotalRecordsCount(this.paging.records);
               this.selection.pageChanged();
             }
@@ -829,10 +829,10 @@ export class List {
     }
 
     if (response.paging) {
-      const displayed = (Array.isArray(response.data) && response.data.length) || 0;
+      const pageRecords = (Array.isArray(response.data) && response.data.length) || 0;
       this.paging.updatePaging(
         response.paging,
-        displayed,
+        pageRecords,
         this.dataController.operation === FsListState.LoadMore,
       );
     } else if (this.paging.enabled) {
@@ -876,7 +876,7 @@ export class List {
     if (this.selection) {
       if (this.paging.enabled) {
         this.selection.pageChanged();
-        this.selection.updateVisibleRecordsCount(this.paging.getVisibleRecords());
+        this.selection.updateVisibleRecordsCount(this.paging.getPageRecords());
         this.selection.updateTotalRecordsCount(this.paging.records);
       } else {
         const count = response.paging && response.paging.records

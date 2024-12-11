@@ -1,6 +1,8 @@
 import { Component, Inject } from '@angular/core';
-import { ApiStrategy } from '../../../services/api-strategy.service';
+
 import { FS_LIST_DEFAULT_CONFIG, FsListConfig, PaginationStrategy } from '@firestitch/list';
+
+import { ApiStrategy } from '../../../services/api-strategy.service';
 
 
 @Component({
@@ -8,7 +10,7 @@ import { FS_LIST_DEFAULT_CONFIG, FsListConfig, PaginationStrategy } from '@fires
   templateUrl: './global-strategy.component.html',
   styleUrls: [
     './global-strategy.component.scss',
-  ]
+  ],
 })
 export class GlobalStrategyComponent {
 
@@ -17,7 +19,7 @@ export class GlobalStrategyComponent {
 
   constructor(
     public apiStrategy: ApiStrategy,
-    @Inject(FS_LIST_DEFAULT_CONFIG) private _defaultConfig: FsListConfig
+    @Inject(FS_LIST_DEFAULT_CONFIG) private _defaultConfig: FsListConfig,
   ) {}
 
   public selectStrategy(event) {

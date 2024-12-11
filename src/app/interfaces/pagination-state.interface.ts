@@ -5,5 +5,5 @@ export interface IPaginationState {
   offset: number;
   limit: number
   records: number;
-  displayed: number;
+  pageRecords: number;
 }

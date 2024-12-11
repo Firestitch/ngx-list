@@ -122,7 +122,8 @@
     <fs-list-pagination
       class="fs-list-pagination"
       [rows]="listData"
-      [pagination]="list.paging">
+      [pagination]="list.paging"
+      [loading$]="list.loading$">
     </fs-list-pagination>
     <ng-container *ngIf="!firstLoad">
       <div

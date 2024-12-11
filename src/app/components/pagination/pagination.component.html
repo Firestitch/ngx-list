@@ -1,77 +1,133 @@
-@if (pagination.hasManyStrategy) {
-  <ng-container *ngTemplateOutlet="firstPageButton"></ng-container>
-  <ng-container *ngTemplateOutlet="prevPageButton"></ng-container>
-  {{ pagination.statusLabel }}
-  <ng-container *ngTemplateOutlet="nextPageButton"></ng-container>
-} @else if (pagination.loadMoreEnabled) {
-@if (pagination.hasNextPage) {
-  <div class="fs-list-load-more">
-    <button
-        mat-button
-        type="button"
-        [class]="pagination.loadMoreButtonClass"
-        [color]="pagination.loadMoreButtonColor"
-        (click)="pagination.goNext()">
-      {{ pagination.loadMoreLabel }}
-    </button>
-  </div>
-}
-} @else {
-  <ng-container *ngIf="pagination?.pages"></ng-container>
-  <ng-container *ngTemplateOutlet="firstPageButton"></ng-container>
-  <ng-container *ngTemplateOutlet="prevPageButton"></ng-container>
+<div
+    class="pagination-container"
+    [class]="'strategy-' + pagination.strategy"
+    [ngClass]="{ 
+      'paging': (paging$ | async),
+     }">
+  @if (pagination.hasManyStrategy) {
+    <ng-container *ngTemplateOutlet="strategyMany"></ng-container>
+  } @else if (pagination.loadMoreEnabled) {
+    <ng-container *ngTemplateOutlet="strategyLoadMore"></ng-container>
+  } @else {
+    <ng-container *ngTemplateOutlet="strategyOffsetPage"></ng-container>
+  }
+</div>
+<ng-template #strategyLoadMore>
+  @if (pagination.hasNextPage) {
+    <div class="fs-list-load-more">
+      <button
+          mat-button
+          type="button"
+          [class]="pagination.loadMoreButtonClass"
+          [color]="pagination.loadMoreButtonColor"
+          (click)="next()">
+        {{ pagination.loadMoreLabel }}
+      </button>
+    </div>
+  }
+</ng-template>
+<ng-template #strategyOffsetPage>
+  @if (pagination.pageRecords > 0) {
+    <ng-container *ngIf="pagination?.pages"></ng-container>
+    <ng-container
+      [ngTemplateOutlet]="firstPageButton"
+      [ngTemplateOutletContext]="{ disabled: !pagination.hasPrevPage }">
+    </ng-container>
+    <ng-container
+      [ngTemplateOutlet]="prevPageButton"
+      [ngTemplateOutletContext]="{ disabled: !pagination.hasPrevPage }">
+    </ng-container>
+    <div class="number">
+      {{ pagination.page | fsFormatNumber }} of                                                                                                                                                                                                                                                                               {{ pagination.pages | fsFormatNumber }}
+    </div>
+    <ng-container
+      [ngTemplateOutlet]="nextPageButton"
+      [ngTemplateOutletContext]="{ disabled: !pagination.hasNextPage }">
+    </ng-container>
+    <ng-container
+      [ngTemplateOutlet]="lastPageButton"
+      [ngTemplateOutletContext]="{ disabled: !pagination.hasNextPage }">
+    </ng-container>
+  }
+</ng-template>
+<ng-template #strategyMany>
+  <ng-container
+    [ngTemplateOutlet]="firstPageButton"
+    [ngTemplateOutletContext]="{ disabled: !pagination.hasPrevPage }">
+  </ng-container>
+  <ng-container
+    [ngTemplateOutlet]="prevPageButton"
+    [ngTemplateOutletContext]="{ disabled: !pagination.hasPrevPage }">
+  </ng-container>
   <div class="number">
-    {{ pagination.page | fsFormatNumber }} of         {{ pagination.pages | fsFormatNumber }}
+    {{ pagination.statusLabel }}
   </div>
-  <ng-container *ngTemplateOutlet="nextPageButton"></ng-container>
-  <a
-      matRipple
-      [matRippleRadius]="15"
-      [matRippleCentered]="true"
-      class="last"
-      [class.disabled]="!pagination.hasNextPage"
-      (click)="pagination.goLast()">
-    <mat-icon>
-      last_page
-    </mat-icon>
-  </a>
-}
-<ng-template #firstPageButton>
+  <ng-container
+    [ngTemplateOutlet]="nextPageButton"
+    [ngTemplateOutletContext]="{ disabled: !pagination.hasNextPage }">
+  </ng-container>
+  <ng-container
+    [ngTemplateOutlet]="lastPageButton"
+    [ngTemplateOutletContext]="{ disabled: true }">
+  </ng-container>
+</ng-template>
+<ng-template
+    #firstPageButton
+    let-disabled="disabled">
   <a
       matRipple
       [matRippleRadius]="15"
       [matRippleCentered]="true"
       class="first"
-      [class.disabled]="!pagination.hasPrevPage"
-      (click)="pagination.goFirst()">
+      [class.disabled]="disabled"
+      (click)="first()">
     <mat-icon>
       first_page
     </mat-icon>
   </a>
 </ng-template>
-<ng-template #prevPageButton>
+<ng-template
+    #prevPageButton
+    let-disabled="disabled">
   <a
       matRipple
       [matRippleRadius]="15"
       [matRippleCentered]="true"
       class="previous"
-      [class.disabled]="!pagination.hasPrevPage"
-      (click)="pagination.goPrev()">
+      [class.disabled]="disabled"
+      (click)="prev()">
     <mat-icon>
       keyboard_arrow_left
     </mat-icon>
   </a>
 </ng-template>
-<ng-template #nextPageButton>
+<ng-template
+    #nextPageButton
+    let-disabled="disabled">
   <a
       matRipple
       [matRippleRadius]="15"
       [matRippleCentered]="true"
       class="next"
-      [class.disabled]="!pagination.hasNextPage"
-      (click)="pagination.goNext()">
+      [class.disabled]="disabled"
+      (click)="next()">
     <mat-icon>
       keyboard_arrow_right
+    </mat-icon>
+  </a>
+</ng-template>
+<ng-template
+    #lastPageButton
+    let-disabled="disabled">
+  <a
+      matRipple
+      [matRippleRadius]="15"
+      [matRippleCentered]="true"
+      class="last"
+      [class.disabled]="disabled"
+      (click)="last()">
+    <mat-icon>
+      last_page
     </mat-icon>
   </a>
 </ng-template>

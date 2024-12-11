@@ -1,4 +1,4 @@
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { isFunction, isObject } from 'lodash-es';
@@ -82,8 +82,8 @@ export class DataController {
     return this._operation;
   }
 
-  public get visibleRows$() {
-    return this._visibleRows$;
+  public get visibleRows$(): Observable<Row[]> {
+    return this._visibleRows$.asObservable();
   }
 
   public set visibleRows(value: any[]) {
@@ -186,8 +186,6 @@ export class DataController {
     }
  
     return false;
-    
-
   }
 
   /**
@@ -203,7 +201,7 @@ export class DataController {
       let updateSuccess = false;
 
       rows.forEach((item) => {
-        if (this.updateRow(item, trackBy)) {
+        if (this._updateRow(item, trackBy)) {
           updateSuccess = true;
         }
       });
@@ -212,19 +210,20 @@ export class DataController {
 
       return updateSuccess;
     } 
-    const updated = this.updateRow(rows, trackBy);
+    const updated = this._updateRow(rows, trackBy);
 
     this._updateVisibleRows();
 
     return updated;
-    
   }
 
   /**
    * Remove data for specified row
    * @param data
    */
-  public removeData(data: FsListAbstractRow | FsListAbstractRow[] | FsListTrackByTargetRowFn): boolean {
+  public removeData(
+    data: FsListAbstractRow | FsListAbstractRow[] | FsListTrackByTargetRowFn,
+  ): boolean {
     const removedRows = [];
 
     const defaultTrackBy = (row, target) => {
@@ -234,12 +233,12 @@ export class DataController {
     if (Array.isArray(data)) {
       //
       data.forEach((item) => {
-        removedRows.push(...this.removeRow(item, defaultTrackBy));
+        removedRows.push(...this._removeRow(item, defaultTrackBy));
       });
     } else if (isFunction(data)) {
-      removedRows.push(...this.removeRow(null, (data as FsListTrackByTargetRowFn)));
+      removedRows.push(...this._removeRow(null, (data as FsListTrackByTargetRowFn)));
     } else if (isObject(data)) {
-      removedRows.push(...this.removeRow(data, defaultTrackBy));
+      removedRows.push(...this._removeRow(data, defaultTrackBy));
     }
 
     if (removedRows.length > 0) {
@@ -252,12 +251,11 @@ export class DataController {
   }
 
   public swapRows(row1, row2, selectedRows?: Row[], isMultipleDrag = false) {
-    let tmpEl;
     const rowsStack = this._rowsStack;
     const row1GlobalIndex = rowsStack.indexOf(row1);
     const row2GlobalIndex = rowsStack.indexOf(row2);
 
-    tmpEl = rowsStack[row1GlobalIndex];
+    const tmpEl = rowsStack[row1GlobalIndex];
     rowsStack[row1GlobalIndex] = rowsStack[row2GlobalIndex];
     rowsStack[row2GlobalIndex] = tmpEl;
 
@@ -324,7 +322,7 @@ export class DataController {
 
     if (this.groupEnabled) {
       this._store.clear();
-      this._rowsStack = [...this.groupRowsBy(rows)];
+      this._rowsStack = [...this._groupRowsBy(rows)];
     } else {
       rows = rows.map((row) => {
         return new Row(
@@ -339,7 +337,7 @@ export class DataController {
 
   private _extendRowsStack(rows) {
     if (this.groupEnabled) {
-      this._rowsStack = [...this.groupRowsBy(rows)];
+      this._rowsStack = [...this._groupRowsBy(rows)];
     } else {
       rows = rows.map((row) => {
         return new Row(
@@ -358,16 +356,16 @@ export class DataController {
 
   private _updateVisibleRows() {
     this.visibleRows = this._rowsStack
-      .filter((row, index) => {
+      .filter((row) => {
         return (!(row as any).isChild && !row.isGroupFooter) || row.visible;
       });
   }
 
-  private updateRow(
+  private _updateRow(
     targetRow: FsListAbstractRow,
     trackBy?: (listRow: FsListAbstractRow, targetRow?: FsListAbstractRow) => boolean) {
 
-    if (trackBy === void 0) {
+    if (trackBy === undefined) {
       trackBy = (row, target) => {
         return row === target;
       };
@@ -399,7 +397,7 @@ export class DataController {
    * @param targetRow
    * @param trackBy
    */
-  private removeRow(
+  private _removeRow(
     targetRow: FsListAbstractRow | null,
     trackBy?: FsListTrackByTargetRowFn,
   ) {
@@ -421,13 +419,12 @@ export class DataController {
   /**
    * Split existing rows by groups and store them for future use
    */
-  private groupRowsBy(rows) {
+  private _groupRowsBy(rows) {
     if (!this._groupByFn || !this._compareByFn) {
       return rows; 
     }
 
     const groupRows: GroupRow[] = [];
-    const footerRows = new Map();
 
     rows.forEach((row) => {
       const mainGroup = this._groupByFn(row);

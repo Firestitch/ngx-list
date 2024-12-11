@@ -28,13 +28,13 @@
       }
       <ng-container *ngTemplateOutlet="sortedBy"></ng-container>
     </ng-container>
-    <ng-container *ngIf="(!paging.enabled) && paging.displayed > 0">
+    <ng-container *ngIf="(!paging.enabled) && paging.pageRecords > 0">
       Showing
-      <span *ngIf="paging.displayed === 1">
-        {{ paging.displayed }} result
+      <span *ngIf="paging.pageRecords === 1">
+        {{ paging.pageRecords }} result
       </span>
-      <span *ngIf="paging.displayed > 1">
-        {{ paging.displayed | number:'1.0':'en-US' }} results
+      <span *ngIf="paging.pageRecords > 1">
+        {{ paging.pageRecords | number:'1.0':'en-US' }} results
       </span>
       <ng-container *ngTemplateOutlet="sortedBy"></ng-container>
     </ng-container>
@@ -54,7 +54,7 @@
       </ng-template>
     </fs-menu>
     <fs-menu
-        [hidden]="!sorting.sortingColumn || paging.displayed === 0"
+        [hidden]="!sorting.sortingColumn || paging.pageRecords === 0"
         #orderColumnsMenu>
       <!-- Real sorting columns -->
       <ng-template
