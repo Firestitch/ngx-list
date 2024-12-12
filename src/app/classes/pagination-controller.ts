@@ -55,6 +55,10 @@ export class PaginationController {
     return this._offset;
   }
 
+  public get limit(): number {
+    return this._limit;
+  }
+
   public get records(): number {
     return this._records;
   }

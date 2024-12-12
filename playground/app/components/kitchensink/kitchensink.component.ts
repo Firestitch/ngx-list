@@ -67,7 +67,7 @@ export class KitchenSinkComponent
       queryParam: true,
       paging: {
         limits: [5, 15, 50, 150, 250, 500, 1000],
-        strategy: PaginationStrategy.Many,
+        strategy: PaginationStrategy.Offset,
       },
       rowHoverHighlight: true,
       // sort: {
@@ -409,7 +409,7 @@ export class KitchenSinkComponent
         align: 'left',
       },
       fetch: (query) => {
-        query.count = 100;
+        query.count = 10;
 
         console.log('Fetch', query);
 

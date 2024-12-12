@@ -22,7 +22,7 @@
   }
 </ng-template>
 <ng-template #strategyOffsetPage>
-  @if (pagination.pageRecords > 0) {
+  @if (pagination.records > pagination.limit) {
     <ng-container *ngIf="pagination?.pages"></ng-container>
     <ng-container
       [ngTemplateOutlet]="firstPageButton"
@@ -33,7 +33,7 @@
       [ngTemplateOutletContext]="{ disabled: !pagination.hasPrevPage }">
     </ng-container>
     <div class="number">
-      {{ pagination.page | fsFormatNumber }} of                                                                                                                                                                                                                                                                                                 {{ pagination.pages | fsFormatNumber }}
+      {{ pagination.page | fsFormatNumber }} of                                                                                                                                                                                                                                                                                                                                     {{ pagination.pages | fsFormatNumber }}
     </div>
     <ng-container
       [ngTemplateOutlet]="nextPageButton"
@@ -46,25 +46,27 @@
   }
 </ng-template>
 <ng-template #strategyMany>
-  <ng-container
-    [ngTemplateOutlet]="firstPageButton"
-    [ngTemplateOutletContext]="{ disabled: !pagination.hasPrevPage }">
-  </ng-container>
-  <ng-container
-    [ngTemplateOutlet]="prevPageButton"
-    [ngTemplateOutletContext]="{ disabled: !pagination.hasPrevPage }">
-  </ng-container>
-  <div class="number">
-    {{ pagination.page }}
-  </div>
-  <ng-container
-    [ngTemplateOutlet]="nextPageButton"
-    [ngTemplateOutletContext]="{ disabled: !pagination.hasNextPage }">
-  </ng-container>
-  <ng-container
-    [ngTemplateOutlet]="lastPageButton"
-    [ngTemplateOutletContext]="{ disabled: true }">
-  </ng-container>
+  @if (!(pagination.pageRecords ===0 && pagination.page === 1)) {
+    <ng-container
+      [ngTemplateOutlet]="firstPageButton"
+      [ngTemplateOutletContext]="{ disabled: !pagination.hasPrevPage }">
+    </ng-container>
+    <ng-container
+      [ngTemplateOutlet]="prevPageButton"
+      [ngTemplateOutletContext]="{ disabled: !pagination.hasPrevPage }">
+    </ng-container>
+    <div class="number">
+      {{ pagination.page }}
+    </div>
+    <ng-container
+      [ngTemplateOutlet]="nextPageButton"
+      [ngTemplateOutletContext]="{ disabled: !pagination.hasNextPage }">
+    </ng-container>
+    <ng-container
+      [ngTemplateOutlet]="lastPageButton"
+      [ngTemplateOutletContext]="{ disabled: true }">
+    </ng-container>
+  }
 </ng-template>
 <ng-template
     #firstPageButton
