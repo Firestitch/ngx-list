@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
 import { FsListComponent, FsListConfig, ReorderPosition } from '@firestitch/list';
@@ -9,15 +8,14 @@ import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 
 import { ApiStrategy } from '../../services/api-strategy.service';
-import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
-
+  
 
 @Component({
   selector: 'selection-reorder',
-  templateUrl: 'selection-reorder.component.html',
-  styles: [],
+  templateUrl: './selection-reorder.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SelectionReorderComponent extends StrategyBaseComponent implements OnInit {
+export class SelectionReorderComponent implements OnInit {
 
   @ViewChild('table', { static: true })
   public table: FsListComponent; // Controller fs-list
@@ -26,9 +24,7 @@ export class SelectionReorderComponent extends StrategyBaseComponent implements 
   constructor(
     protected _apiStrategy: ApiStrategy,
     private _fsApi: FsApi,
-    private _router: Router,
   ) {
-    super(_apiStrategy);
   }
 
   public ngOnInit() {

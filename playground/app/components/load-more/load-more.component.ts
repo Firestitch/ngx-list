@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
 import { ItemType } from '@firestitch/filter';
@@ -7,15 +7,14 @@ import { FsListComponent, FsListConfig, PaginationStrategy } from '@firestitch/l
 import { map } from 'rxjs/operators';
 
 import { ApiStrategy } from '../../services/api-strategy.service';
-import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
 
 
 @Component({
   selector: 'load-more',
-  templateUrl: 'load-more.component.html',
-  styles: [],
+  templateUrl: './load-more.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoadMoreComponent extends StrategyBaseComponent implements OnInit {
+export class LoadMoreComponent implements OnInit {
 
   @ViewChild('table', { static: true })
   public table: FsListComponent; // Controller fs-list
@@ -31,7 +30,6 @@ export class LoadMoreComponent extends StrategyBaseComponent implements OnInit {
     protected _apiStrategy: ApiStrategy,
     private _fsApi: FsApi,
   ) {
-    super(_apiStrategy);
   }
 
   public ngOnInit() {

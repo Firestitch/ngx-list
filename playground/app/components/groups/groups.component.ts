@@ -1,7 +1,6 @@
 import { AfterContentInit, Component, OnInit, ViewChild } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
-import { FsExampleComponent } from '@firestitch/example';
 import { ItemType } from '@firestitch/filter';
 import {
   FsListAbstractRow,
@@ -16,15 +15,14 @@ import { delay, map } from 'rxjs/operators';
 
 
 import { ApiStrategy } from '../../services/api-strategy.service';
-import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
 
 
 @Component({
   selector: 'groups',
-  templateUrl: 'groups.component.html',
+  templateUrl: './groups.component.html',
   styleUrls: ['./groups.component.scss'],
 })
-export class GroupsComponent extends StrategyBaseComponent implements OnInit, AfterContentInit {
+export class GroupsComponent implements OnInit, AfterContentInit {
 
   @ViewChild('list', { static: true })
   public list: FsListComponent; // Controller fs-list
@@ -43,8 +41,7 @@ export class GroupsComponent extends StrategyBaseComponent implements OnInit, Af
   constructor(
     protected _apiStrategy: ApiStrategy,
     private _fsApi: FsApi,
-    private example: FsExampleComponent) {
-    super(_apiStrategy);
+  ) {
   }
 
   public ngOnInit() {

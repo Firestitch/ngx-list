@@ -1,21 +1,22 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
-import { FsListAbstractRow, FsListComponent, FsListConfig, PaginationStrategy } from '@firestitch/list';
+import {
+  FsListAbstractRow, FsListComponent, FsListConfig, PaginationStrategy,
+} from '@firestitch/list';
 
 import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 
 import { ApiStrategy } from '../../../services/api-strategy.service';
-import { StrategyBaseComponent } from '../../examples/strategy-base/strategy-base.component';
 
 
 @Component({
   selector: 'remove-confirm',
-  templateUrl: 'confirm.component.html',
-  styles: [],
+  templateUrl: './confirm.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RemoveConfirmComponent extends StrategyBaseComponent implements OnInit {
+export class RemoveConfirmComponent implements OnInit {
 
   @ViewChild('table')
   public table: FsListComponent; // Controller fs-list
@@ -25,7 +26,6 @@ export class RemoveConfirmComponent extends StrategyBaseComponent implements OnI
     protected _apiStrategy: ApiStrategy,
     private _fsApi: FsApi,
   ) {
-    super(_apiStrategy);
   }
 
   public ngOnInit() {

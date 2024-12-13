@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
 import { FsListComponent, FsListConfig, PaginationStrategy } from '@firestitch/list';
@@ -7,15 +7,14 @@ import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 
 import { ApiStrategy } from '../../../services/api-strategy.service';
-import { StrategyBaseComponent } from '../../examples/strategy-base/strategy-base.component';
 
 
 @Component({
   selector: 'remove-simple',
-  templateUrl: 'simple.component.html',
-  styles: [],
+  templateUrl: './simple.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RemoveSimpleComponent extends StrategyBaseComponent implements OnInit {
+export class RemoveSimpleComponent implements OnInit {
 
   @ViewChild('table')
   public table: FsListComponent; // Controller fs-list
@@ -25,7 +24,6 @@ export class RemoveSimpleComponent extends StrategyBaseComponent implements OnIn
     protected _apiStrategy: ApiStrategy,
     private _fsApi: FsApi,
   ) {
-    super(_apiStrategy);
   }
 
   public ngOnInit() {

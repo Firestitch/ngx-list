@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
 import { ItemType } from '@firestitch/filter';
@@ -10,14 +9,14 @@ import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 
 import { ApiStrategy } from '../../services/api-strategy.service';
-import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
 
 
 @Component({
   selector: 'selection',
   templateUrl: './selection.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SelectionComponent extends StrategyBaseComponent implements OnInit {
+export class SelectionComponent implements OnInit {
 
   @ViewChild('table', { static: true })
   public table: FsListComponent; // Controller fs-list
@@ -26,9 +25,7 @@ export class SelectionComponent extends StrategyBaseComponent implements OnInit 
   constructor(
     protected _apiStrategy: ApiStrategy,
     private _fsApi: FsApi,
-    private _router: Router,
   ) {
-    super(_apiStrategy);
   }
 
   public ngOnInit() {
