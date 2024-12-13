@@ -53,6 +53,7 @@ import { FsListGroupExpandTriggerDirective } from './directives/group-expand-tri
 import { FsListGroupFooterDirective } from './directives/group-footer/group-footer.directive';
 import { FsListGroupHeaderDirective } from './directives/group-header/group-header.directive';
 import { FsListHeaderDirective } from './directives/header/header.directive';
+import { PaginationStrategy } from './enums';
 import { FS_LIST_CONFIG, FS_LIST_DEFAULT_CONFIG } from './fs-list.providers';
 import { FsListConfig } from './interfaces';
 import { ActionLabelPipe } from './pipes';
@@ -159,6 +160,12 @@ export class FsListModule {
 
 export function fsListConfigFactory(config: FsListConfig) {
   return merge({
+    queryParam: true,
+    chips: true,
+    paging: {
+      strategy: PaginationStrategy.Offset,
+      limit: 25,
+    },
     noResults: {
       message: 'No Results Found',
     },
