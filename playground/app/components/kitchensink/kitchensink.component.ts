@@ -13,14 +13,12 @@ import {
   FsListAbstractRow,
   FsListComponent,
   FsListConfig,
-  PaginationStrategy,
 } from '@firestitch/list';
 
 import { BehaviorSubject, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 
 import { ApiStrategy } from '../../services/api-strategy.service';
-import { StrategyBaseComponent } from '../examples/strategy-base/strategy-base.component';
 
 import { savedFilters } from './saved-filter';
 
@@ -31,8 +29,7 @@ import { savedFilters } from './saved-filter';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KitchenSinkComponent
-  extends StrategyBaseComponent
-  implements OnInit {
+implements OnInit {
 
   @ViewChild(FsListComponent, { static: true })
   public list: FsListComponent;
@@ -55,7 +52,6 @@ export class KitchenSinkComponent
     protected _apiStrategy: ApiStrategy,
     private _api: FsApi,
   ) {
-    super(_apiStrategy);
   }
 
   public ngOnInit() {
@@ -67,7 +63,6 @@ export class KitchenSinkComponent
       queryParam: true,
       paging: {
         limits: [5, 15, 50, 150, 250, 500, 1000],
-        strategy: PaginationStrategy.Offset,
       },
       rowHoverHighlight: true,
       // sort: {
@@ -409,7 +404,7 @@ export class KitchenSinkComponent
         align: 'left',
       },
       fetch: (query) => {
-        query.count = 10;
+        query.count = 100;
 
         console.log('Fetch', query);
 

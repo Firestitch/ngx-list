@@ -18,7 +18,6 @@ import { FsMenuModule } from '@firestitch/menu';
 import { FsPromptModule } from '@firestitch/prompt';
 import { FsScrollModule } from '@firestitch/scroll';
 
-import { merge } from 'lodash-es';
 
 import { FsBodyComponent } from './components/body/body.component';
 import { FsRowActionsComponent } from './components/body/row/actions/actions.component';
@@ -53,8 +52,7 @@ import { FsListGroupExpandTriggerDirective } from './directives/group-expand-tri
 import { FsListGroupFooterDirective } from './directives/group-footer/group-footer.directive';
 import { FsListGroupHeaderDirective } from './directives/group-header/group-header.directive';
 import { FsListHeaderDirective } from './directives/header/header.directive';
-import { PaginationStrategy } from './enums';
-import { FS_LIST_CONFIG, FS_LIST_DEFAULT_CONFIG } from './fs-list.providers';
+import { FS_LIST_CONFIG } from './fs-list.providers';
 import { FsListConfig } from './interfaces';
 import { ActionLabelPipe } from './pipes';
 
@@ -148,26 +146,7 @@ export class FsListModule {
       ngModule: FsListModule,
       providers: [
         { provide: FS_LIST_CONFIG, useValue: config },
-        {
-          provide: FS_LIST_DEFAULT_CONFIG,
-          useFactory: fsListConfigFactory,
-          deps: [FS_LIST_CONFIG],
-        },
       ],
     };
   }
-}
-
-export function fsListConfigFactory(config: FsListConfig) {
-  return merge({
-    queryParam: true,
-    chips: true,
-    paging: {
-      strategy: PaginationStrategy.Offset,
-      limit: 25,
-    },
-    noResults: {
-      message: 'No Results Found',
-    },
-  } as FsListConfig, config);
 }

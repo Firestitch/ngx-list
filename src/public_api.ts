@@ -1,12 +1,7 @@
-/*
- * Public API Surface of fs-menu
- */
-
-// Modules
 export { FsListModule } from './app/fs-list.module';
 
 // Providers
-export { FS_LIST_CONFIG, FS_LIST_DEFAULT_CONFIG } from './app/fs-list.providers';
+export { FS_LIST_CONFIG } from './app/fs-list.providers';
 
 // Components
 export { FsBodyComponent } from './app/components/body/body.component';

@@ -22,7 +22,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-
 import { getNormalizedPath } from '@firestitch/common';
 import { DrawerRef } from '@firestitch/drawer';
 import { FilterComponent } from '@firestitch/filter';
@@ -41,7 +40,8 @@ import {
 } from '../../directives';
 import { FsListColumnDirective } from '../../directives/column/column.directive';
 import { FsListEmptyStateDirective } from '../../directives/empty-state/empty-state.directive';
-import { FS_LIST_DEFAULT_CONFIG } from '../../fs-list.providers';
+import { PaginationStrategy } from '../../enums/pagination-strategy.enum';
+import { FS_LIST_CONFIG } from '../../fs-list.providers';
 import {
   FsListAbstractRow,
   FsListAction,
@@ -139,7 +139,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
 
   constructor(
     public reorderController: ReorderController,
-    @Optional() @Inject(FS_LIST_DEFAULT_CONFIG) private _defaultOptions: FsListConfig,
+    @Optional() @Inject(FS_LIST_CONFIG) private _config: FsListConfig,
     @Optional() private _dialogRef: MatDialogRef<any>,
     @Optional() private _drawerRef: DrawerRef<any>,
     private _el: ElementRef,
@@ -344,10 +344,20 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
       this.list.destroy();
     }
 
-    const defaultOpts = this._defaultOptions
-      ? cloneDeep(this._defaultOptions)
-      : {};
-    const listConfig = mergeWith(defaultOpts, config, this._configMergeCustomizer);
+    const defaultConfig: FsListConfig = {
+      queryParam: true,
+      chips: true,
+      paging: {
+        strategy: PaginationStrategy.Offset,
+        limit: 25,
+      },
+      noResults: {
+        message: 'No Results Found',
+      },
+    };
+    
+    const globalConfig = cloneDeep(this._config || {});
+    const listConfig = mergeWith(defaultConfig, globalConfig, config, this._configMergeCustomizer);
 
     if (listConfig.persist !== false) {
       this._restorePersistance(listConfig.persist);

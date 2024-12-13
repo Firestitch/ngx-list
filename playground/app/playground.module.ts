@@ -13,13 +13,14 @@ import { FsExampleModule } from '@firestitch/example';
 import { FsFileModule } from '@firestitch/file';
 import { FsFilterModule } from '@firestitch/filter';
 import { FsLabelModule } from '@firestitch/label';
-import { FsListModule } from '@firestitch/list';
 import { FsMessageModule } from '@firestitch/message';
 import { FsPromptModule } from '@firestitch/prompt';
 import { FsScrollModule } from '@firestitch/scroll';
 import { FsSelectionModule } from '@firestitch/selection';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { FsListModule } from '../../src/public_api';
 
 import { AppComponent } from './app.component';
 import {
@@ -30,7 +31,6 @@ import {
   ExamplesComponent,
   FiltersComponent,
   FiltersExtendedComponent,
-  GlobalStrategyComponent,
   GroupsComponent,
   KitchenSinkComponent,
   ManualReorderComponent,
@@ -46,7 +46,6 @@ import {
   ToggleReorderComponent,
 } from './components';
 import { ConfigureComponent } from './components/configure';
-import { StrategyBaseComponent } from './components/examples/strategy-base/strategy-base.component';
 import { LoadMoreComponent } from './components/load-more';
 import { RestoreComponent } from './components/restore/restore.component';
 import { ApiInterceptorFactory } from './interceptors';
@@ -57,10 +56,8 @@ import { AppMaterialModule } from './material.module';
   bootstrap: [AppComponent],
   imports: [
     BrowserModule,
-    FsListModule.forRoot({
-      // style: 'card',
-    }),
     FsScrollModule.forRoot(),
+    FsListModule,
     FsFilterModule.forRoot(),
     BrowserAnimationsModule,
     AppMaterialModule,
@@ -101,8 +98,6 @@ import { AppMaterialModule } from './material.module';
     PagingComponent,
     SelectionComponent,
     AgoComponent,
-    GlobalStrategyComponent,
-    StrategyBaseComponent,
     ConfigureComponent,
     GroupsComponent,
     EmptyStateComponent,

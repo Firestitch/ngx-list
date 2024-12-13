@@ -8,8 +8,7 @@ import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'sortable',
-  templateUrl: 'sortable.component.html',
-  styles: [],
+  templateUrl: './sortable.component.html',
 })
 export class SortableComponent implements OnInit {
 
