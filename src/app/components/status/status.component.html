@@ -1,33 +1,38 @@
 <div class="status">
   <small>
-    <ng-container *ngIf="paging.enabled">
+    @if (paging.enabled) {
       Showing
-      <a [fsMenuTriggerFor]="limitsMenu">
-        {{ paging.statusLabel }}
-      </a>
-      of
       @if (paging.hasManyStrategy) {
-      @if (many.status === 'many') {
-        <a
-            (click)="manyClick()"
-            [matTooltip]="'Calculate number of records'">
-          many
-        </a>
+        <ng-container [ngTemplateOutlet]="limitMenu"></ng-container>
+        of
+        @if (many.status === 'many') {
+          <a
+              (click)="manyClick()"
+              [matTooltip]="'Calculate number of ecords'">
+            many
+          </a>
+        } @else {
+          @if (many.status === 'loading') {
+            <mat-spinner
+              [diameter]="15"
+              [strokeWidth]="2">
+            </mat-spinner>
+          } @else {
+            {{ many.count | number:'1.0':'en-US' }}
+          }
+        }
       } @else {
-      @if (many.status === 'loading') {
-        <mat-spinner
-          [diameter]="15"
-          [strokeWidth]="2">
-        </mat-spinner>
-      } @else {
-        {{ many.count | number:'1.0':'en-US' }}
+        @if (paging.records) {
+          <ng-container [ngTemplateOutlet]="limitMenu"></ng-container>
+          of      
+          {{ paging.records | number:'1.0':'en-US' }}
+        } @else {
+          0
+        }
       }
-      }
-      } @else {
-        {{ paging.records | number:'1.0':'en-US' }} results
-      }
+      results
       <ng-container *ngTemplateOutlet="sortedBy"></ng-container>
-    </ng-container>
+    }
     <ng-container *ngIf="(!paging.enabled) && paging.pageRecords > 0">
       Showing
       <span *ngIf="paging.pageRecords === 1">
@@ -39,20 +44,6 @@
       <ng-container *ngTemplateOutlet="sortedBy"></ng-container>
     </ng-container>
     <fs-list-saved-filters class="saved-filters"></fs-list-saved-filters>
-    <fs-menu
-        [hidden]="!paging.enabled"
-        #limitsMenu>
-      <ng-template
-          ngFor
-          let-limit
-          [ngForOf]="paging.limits">
-        <ng-template
-            fs-menu-item
-            (click)="setLimit(limit)">
-          {{ limit }}
-        </ng-template>
-      </ng-template>
-    </fs-menu>
     <fs-menu
         [hidden]="!sorting.sortingColumn || paging.pageRecords === 0"
         #orderColumnsMenu>
@@ -98,6 +89,7 @@
         <ng-template #sortByTemplate>
           <a
               class="order-toggle"
+              r
               [fsMenuTriggerFor]="orderColumnsMenu">
             <ng-template [ngTemplateOutlet]="sorting.sortingColumn.headerTemplate"></ng-template>
           </a>
@@ -112,3 +104,20 @@
     </ng-template>
   </small>
 </div>
+<ng-template #limitMenu>
+  <a [fsMenuTriggerFor]="limitsMenuTrigger">
+    {{ paging.statusLabel }}
+  </a>
+  <fs-menu #limitsMenuTrigger>
+    <ng-template
+        ngFor
+        let-limit
+        [ngForOf]="paging.limits">
+      <ng-template
+          fs-menu-item
+          (click)="setLimit(limit)">
+        {{ limit }}
+      </ng-template>
+    </ng-template>
+  </fs-menu>
+</ng-template>
