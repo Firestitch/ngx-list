@@ -1,128 +1,128 @@
 <ng-container
-    *ngIf="action.isShown"
+    *ngIf="rowAction.isShown"
     [ngSwitch]="actionType">
   <!-- Basic button -->
   <ng-container *ngSwitchCase="'basic'">
-    <ng-container *ngIf="!action.routerLink; else link">
+    <ng-container *ngIf="!rowAction.routerLink; else link">
       <button
           type="button"
           mat-button
           (click)="actionClick($event)"
-          [ngClass]="action.classArray">
+          [ngClass]="rowAction.classArray">
         <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
       </button>
     </ng-container>
     <ng-template #link>
       <a
           mat-button
-          [routerLink]="action.routerLink.link"
-          [queryParams]="action.routerLink.queryParams">
+          [routerLink]="rowAction.routerLink.link"
+          [queryParams]="rowAction.routerLink.queryParams">
         <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
       </a>
     </ng-template>
   </ng-container>
   <!-- Raised button -->
   <ng-container *ngSwitchCase="'raised'">
-    <ng-container *ngIf="!action.routerLink; else link">
+    <ng-container *ngIf="!rowAction.routerLink; else link">
       <button
           type="button"
           mat-raised-button
           (click)="actionClick($event)"
-          [ngClass]="action.classArray">
+          [ngClass]="rowAction.classArray">
         <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
       </button>
     </ng-container>
     <ng-template #link>
       <a
           mat-raised-button
-          [routerLink]="action.routerLink.link"
-          [queryParams]="action.routerLink.queryParams">
+          [routerLink]="rowAction.routerLink.link"
+          [queryParams]="rowAction.routerLink.queryParams">
         <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
       </a>
     </ng-template>
   </ng-container>
   <!-- Icon button -->
   <ng-container *ngSwitchCase="'icon'">
-    <ng-container *ngIf="!action.routerLink; else link">
+    <ng-container *ngIf="!rowAction.routerLink; else link">
       <button
           type="button"
           mat-icon-button
           (click)="actionClick($event)"
-          [ngClass]="action.classArray">
+          [ngClass]="rowAction.classArray">
         <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
       </button>
     </ng-container>
     <ng-template #link>
       <a
           mat-icon-button
-          [routerLink]="action.routerLink.link"
-          [queryParams]="action.routerLink.queryParams">
+          [routerLink]="rowAction.routerLink.link"
+          [queryParams]="rowAction.routerLink.queryParams">
         <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
       </a>
     </ng-template>
   </ng-container>
   <!-- Fab button -->
   <ng-container *ngSwitchCase="'fab'">
-    <ng-container *ngIf="!action.routerLink; else link">
+    <ng-container *ngIf="!rowAction.routerLink; else link">
       <button
           type="button"
           mat-fab
           (click)="actionClick($event)"
-          [ngClass]="action.classArray">
+          [ngClass]="rowAction.classArray">
         <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
       </button>
     </ng-container>
     <ng-template #link>
       <a
           mat-fab
-          [routerLink]="action.routerLink.link"
-          [queryParams]="action.routerLink.queryParams">
+          [routerLink]="rowAction.routerLink.link"
+          [queryParams]="rowAction.routerLink.queryParams">
         <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
       </a>
     </ng-template>
   </ng-container>
   <!-- Mini Fab button -->
   <ng-container *ngSwitchCase="'mini-fab'">
-    <ng-container *ngIf="!action.routerLink; else link">
+    <ng-container *ngIf="!rowAction.routerLink; else link">
       <button
           type="button"
           mat-mini-fab
           (click)="actionClick($event)"
-          [ngClass]="action.classArray">
+          [ngClass]="rowAction.classArray">
         <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
       </button>
     </ng-container>
     <ng-template #link>
       <a
           mat-mini-fab
-          [routerLink]="action.routerLink.link"
-          [queryParams]="action.routerLink.queryParams">
+          [routerLink]="rowAction.routerLink.link"
+          [queryParams]="rowAction.routerLink.queryParams">
         <ng-template [ngTemplateOutlet]="buttonContent"></ng-template>
       </a>
     </ng-template>
   </ng-container>
   <ng-template #buttonContent>
-    <ng-container *ngIf="!action.fileConfig else uploadFileBtn">
-      <mat-icon *ngIf="action.icon">
-        {{ action.icon }}
+    <ng-container *ngIf="!rowAction.fileConfig else uploadFileBtn">
+      <mat-icon *ngIf="icon">
+        {{ icon }}
       </mat-icon>
-      {{ action.label }}
+      {{ rowAction.label }}
     </ng-container>
     <ng-template #uploadFileBtn>
       <fs-file
           class="action-button"
-          [accept]="action.fileConfig.accept || '*'"
-          [multiple]="action.fileConfig.multiple"
-          [minWidth]="action.fileConfig.minWidth"
-          [minHeight]="action.fileConfig.minHeight"
-          [imageWidth]="action.fileConfig.maxWidth"
-          [imageHeight]="action.fileConfig.maxHeight"
+          [accept]="rowAction.fileConfig.accept || '*'"
+          [multiple]="rowAction.fileConfig.multiple"
+          [minWidth]="rowAction.fileConfig.minWidth"
+          [minHeight]="rowAction.fileConfig.minHeight"
+          [imageWidth]="rowAction.fileConfig.maxWidth"
+          [imageHeight]="rowAction.fileConfig.maxHeight"
           (select)="fileSelected($event)"
-          (error)="action.fileConfig.error && action.fileConfig.error($event)">
-        <mat-icon *ngIf="action.icon">
-          {{ action.icon }}
+          (error)="rowAction.fileConfig.error && rowAction.fileConfig.error($event)">
+        <mat-icon *ngIf="icon">
+          {{ icon }}
         </mat-icon>
-        {{ action.label }}
+        {{ rowAction.label }}
       </fs-file>
     </ng-template>
   </ng-template>

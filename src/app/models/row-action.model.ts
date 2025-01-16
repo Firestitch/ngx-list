@@ -8,7 +8,7 @@ import {
 
 export class RowAction {
 
-  public icon: string;
+  public icon: string | ((row: any) => string);
   public menu: boolean;
   public remove: { title: string; template: string };
   public className: string;
@@ -37,6 +37,10 @@ export class RowAction {
 
   public get isGroup() {
     return this._isGroup;
+  }
+
+  public getRowIcon(row: any) {
+    return typeof this.icon === 'function' ? this.icon(row) : this.icon;
   }
 
   public _init(value: any) {

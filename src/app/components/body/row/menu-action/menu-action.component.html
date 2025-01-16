@@ -1,8 +1,9 @@
 <ng-container *ngIf="!file else withFile">
-  <mat-icon *ngIf="icon">{{icon}}</mat-icon>
-  {{label| actionLabel:row}}
+  <mat-icon *ngIf="icon">
+    {{ icon }}
+  </mat-icon>
+  {{ label| actionLabel:row }}
 </ng-container>
-
 <ng-template #withFile>
   <fs-file
       class="action-button"
@@ -16,7 +17,9 @@
       (select)="selectFile($event)"
       (error)="errorFile($event)"
       (cancel)="closeMenu()">
-    <mat-icon *ngIf="icon">{{icon}}</mat-icon>
-    {{label| actionLabel:row}}
+    <mat-icon *ngIf="icon">
+      {{ icon }}
+    </mat-icon>
+    {{ label| actionLabel:row }}
   </fs-file>
 </ng-template>

@@ -1,13 +1,15 @@
 import {
   ChangeDetectionStrategy,
   Component, EventEmitter,
-  Input, Output,
+  Input, OnChanges, OnInit, Output,
+  SimpleChanges,
 } from '@angular/core';
 
 import { FsMenuComponent } from '@firestitch/menu';
 
 import { FsListRowActionFile } from '../../../../interfaces/listconfig.interface';
 import { Row } from '../../../../models/row';
+import { RowAction } from '../../../../models/row-action.model';
 
 
 @Component({
@@ -15,16 +17,13 @@ import { Row } from '../../../../models/row';
   templateUrl: './menu-action.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FsRowMenuActionComponent {
+export class FsRowMenuActionComponent implements OnInit, OnChanges {
 
   @Input()
   public row: Row;
 
   @Input()
-  public icon: string;
-
-  @Input()
-  public label: string;
+  public rowAction: RowAction;
 
   @Input()
   public file: FsListRowActionFile;
@@ -35,9 +34,18 @@ export class FsRowMenuActionComponent {
   @Output()
   public fileError = new EventEmitter();
 
+  public icon: string;
+  public label: string;
+
   constructor(
     private _menu: FsMenuComponent,
   ) { }
+    
+  public ngOnChanges(changes: SimpleChanges): void {
+    if(changes.row) {
+      this.icon = this.rowAction.getRowIcon(this.row.data);
+    }
+  }
 
   public selectFile(event): void {
     this.fileSelect.emit(event);
@@ -51,5 +59,9 @@ export class FsRowMenuActionComponent {
 
   public closeMenu(): void {
     this._menu.closeMenu();
+  }
+
+  public ngOnInit(): void {
+    this.label = this.rowAction.label;
   }
 }

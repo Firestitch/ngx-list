@@ -289,11 +289,19 @@ implements OnInit {
           },
         },
         {
-          icon: 'launch',
-          menu: false,
-          link: (row) => {
-            return { link: ['rows', row.guid], queryParams: { param: 1 } };
+          icon: (row) => {
+            return row.checked  ? 'check_circle' : 'radio_button_unchecked';
           },
+          click: (row) => {
+            row.checked = !row.checked;
+            this.list.updateData([row], (listRow: FsListAbstractRow) => {
+              return listRow.guid === row.guid;
+            });
+          },
+          menu: false,
+          // link: (row) => {
+          //   return { link: ['rows', row.guid], queryParams: { param: 1 } };
+          // },
         },
         {
           label: (row) => {

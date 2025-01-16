@@ -199,7 +199,7 @@ export interface FsListRowAction {
   label?: string | FsListRowActionLabelFn;
   type?: ActionType;
   className?: string;
-  icon?: string;
+  icon?: string | ((row: any) => string);
   menu?: boolean;
   click?: (row, event, index) => void;
   link?: FsListRowActionLinkFn;

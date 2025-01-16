@@ -1,38 +1,68 @@
 <fs-list [config]="config">
-
-  <fs-list-column name="id" [sortable]="true" [sortableDirection]="'desc'">
+  <fs-list-column
+      name="id"
+      [sortable]="true"
+      [sortableDirection]="'desc'">
     <ng-template fs-list-header>
       №
     </ng-template>
-    <ng-template fs-list-cell let-index="index">
-      {{index}}
+    <ng-template
+        fs-list-cell
+        let-index="index">
+      {{ index }}
     </ng-template>
-    <ng-template fs-list-footer colspan="2">
+    <ng-template
+        fs-list-footer
+        colspan="2">
       2 colspan footer
     </ng-template>
   </fs-list-column>
-
-  <fs-list-column name="name" title="User Name" [sortable]="true" [sortableDefault]="true">
-    <ng-template fs-list-cell let-value="value" let-row="row">
-      {{value}}
+  <fs-list-column
+      name="name"
+      title="User Name"
+      [sortable]="true"
+      [sortableDefault]="true">
+    <ng-template
+        fs-list-cell
+        let-value="value"
+        let-row="row">
+      {{ value }}
     </ng-template>
   </fs-list-column>
-
-  <fs-list-column name="guid" title="GUID" [sortable]="true" align="right">
+  <fs-list-column
+      name="guid"
+      title="GUID"
+      [sortable]="true"
+      align="right">
     <ng-template fs-list-header>
-      <b>GUID</b>
+      <b>
+        GUID
+      </b>
     </ng-template>
-    <ng-template fs-list-cell let-guid="value" let-row="row">
+    <ng-template
+        fs-list-cell
+        let-guid="value"
+        let-row="row">
       {{ row.guid }}
     </ng-template>
-    <ng-template fs-list-footer colspan="2" align="right">
-       2 colspan footer right aligned
+    <ng-template
+        fs-list-footer
+        colspan="2"
+        align="right">
+      2 colspan footer right aligned
     </ng-template>
   </fs-list-column>
-
-  <fs-list-column name="link" title="Link" [show]="linkVisible">
-    <ng-template fs-list-cell let-guid="value" [class]="['myTestClass', 'myTestClass2']">
-      <a routerLink="/welcome">Simple Link</a>
+  <fs-list-column
+      name="link"
+      title="Link"
+      [show]="linkVisible">
+    <ng-template
+        fs-list-cell
+        let-guid="value"
+        [class]="['myTestClass', 'myTestClass2']">
+      <a routerLink="/welcome">
+        Simple Link
+      </a>
     </ng-template>
   </fs-list-column>
 </fs-list>

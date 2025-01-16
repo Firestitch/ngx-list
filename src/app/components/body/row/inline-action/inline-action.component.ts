@@ -3,13 +3,16 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 
 import { FsFile } from '@firestitch/file';
 
 import { ActionType } from '../../../../enums/action-type.enum';
+import { Row } from '../../../../models/row';
 import { RowAction } from '../../../../models/row-action.model';
 
 
@@ -19,12 +22,15 @@ import { RowAction } from '../../../../models/row-action.model';
   templateUrl: './inline-action.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FsRowInlineActionComponent implements OnInit {
+export class FsRowInlineActionComponent implements OnInit, OnChanges {
   
   public actionType: ActionType;
 
   @Input()
-  public action: RowAction;
+  public rowAction: RowAction;
+
+  @Input()
+  public row: Row;
 
   @Output()
   public clicked = new EventEmitter();
@@ -32,14 +38,22 @@ export class FsRowInlineActionComponent implements OnInit {
   @Output()
   public fileSelect = new EventEmitter<FsFile | FsFile[]>();
 
+  public icon: string;
+  
+  public ngOnChanges(changes: SimpleChanges): void {
+    if(changes.row) {
+      this.icon = this.rowAction.getRowIcon(this.row.data);
+    }
+  }
+
   public actionClick(event) {
     this.clicked.emit(event);
   }
 
   public ngOnInit(): void {
-    this.actionType = this.action.type;
+    this.actionType = this.rowAction.type;
 
-    if(!this.action.label && this.action.icon) {
+    if(!this.rowAction.label && this.rowAction.icon) {
       this.actionType = ActionType.Icon;
     }
   }
