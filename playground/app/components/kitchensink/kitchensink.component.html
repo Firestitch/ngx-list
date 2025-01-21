@@ -21,7 +21,8 @@
       name="name"
       title="User Name"
       [sortable]="true"
-      [sortableDefault]="true">
+      [sortableDefault]="true"
+      [customizable]="false">
     <ng-template
         fs-list-cell
         let-value="value"
@@ -31,7 +32,6 @@
   </fs-list-column>
   <fs-list-column
       name="guid"
-      title="GUID"
       [sortable]="true"
       align="right">
     <ng-template fs-list-header>

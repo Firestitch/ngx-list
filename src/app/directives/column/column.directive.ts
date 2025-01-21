@@ -4,23 +4,22 @@ import {
   Directive,
   Input,
   QueryList,
-  TemplateRef
+  TemplateRef,
 } from '@angular/core';
 
 // Directives
-import { FsListCellDirective } from '../cell/cell.directive';
-import { FsListFooterDirective } from '../footer/footer.directive';
-import { FsListHeaderDirective } from '../header/header.directive';
-
 import { CellConfig } from '../../interfaces';
 import { ColumnAttributes } from '../../models/column-attributes';
+import { FsListCellDirective } from '../cell/cell.directive';
+import { FsListFooterDirective } from '../footer/footer.directive';
 import { FsListGroupExpandTriggerDirective } from '../group-expand-trigger/group-expand-trigger.directive';
 import { FsListGroupFooterDirective } from '../group-footer/group-footer.directive';
 import { FsListGroupHeaderDirective } from '../group-header/group-header.directive';
+import { FsListHeaderDirective } from '../header/header.directive';
 
 
 @Directive({
-  selector: 'fs-list-column'
+  selector: 'fs-list-column',
 })
 export class FsListColumnDirective {
 
@@ -87,8 +86,8 @@ export class FsListColumnDirective {
   }
 
   @Input()
-  public set customize(value: boolean) {
-    this._columnAttributes.customize = value;
+  public set customizable(value: boolean) {
+    this._columnAttributes.customizable = value;
   }
 
   @Input()

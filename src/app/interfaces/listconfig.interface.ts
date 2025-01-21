@@ -257,14 +257,13 @@ export interface FsListColumnConfig {
   load?: FsListColumnLoadFn;
   change?: FsListColumnChangeFn;
   title?: FsListColumnTitleFn;
-  tooltip?: FsListColumnTooltipFn;
-  disabled?: FsListColumnDisabledFn;
   selected?: FsListColumnSelectedFn;
 }
 
 export interface FsListColumn {
   name: string;
-  show: boolean;
+  show?: boolean;
+  customizable?: boolean;
 }
 
 export interface FsListActionSelected extends FsSelectionActionSelected {

@@ -5,6 +5,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { ColumnsColumn } from '../../models';
+
 
 @Component({
   templateUrl: './customize-cols.component.html',
@@ -13,7 +15,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class CustomizeColsDialogComponent implements OnDestroy {
 
-  public columns = [];
+  public columns: ColumnsColumn[] = [];
   public saveDisabled = false;
   private _changeFn;
   private _destroy$ = new Subject();
@@ -46,7 +48,7 @@ export class CustomizeColsDialogComponent implements OnDestroy {
       });
 
     this.saveDisabled = true;
-    const changed = this._changeFn(data);
+    const changed = this._changeFn ? this._changeFn(data) : null;
 
     if (changed instanceof Observable) {
       changed

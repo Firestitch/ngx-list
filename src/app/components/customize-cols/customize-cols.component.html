@@ -1,23 +1,33 @@
-<h1 matDialogTitle>Customize Columns</h1>
+<h1 matDialogTitle>
+  Customize columns
+</h1>
 <mat-dialog-content>
   <div *ngFor="let column of columns">
-    <mat-checkbox [checked]="column.show" (change)="visibilityChange($event, column)" [disabled]="column.disabled">
-      <ng-container *ngIf="!column.title; else titleLable">
-        <ng-template [ngTemplateOutlet]="column.template"></ng-template>
-      </ng-container>
-      <ng-template #titleLable>
+    <mat-checkbox
+        [checked]="column.show"
+        (change)="visibilityChange($event, column)"
+        [disabled]="column.disabled">
+      @if (column.title) {
         {{ column.title }}
-      </ng-template>
-
-      <ng-container *ngIf="column.tooltip">
-        <mat-icon [matTooltip]="column.tooltip">
-          help
-        </mat-icon>
-      </ng-container>
+      } @else {
+        <ng-template [ngTemplateOutlet]="column.template"></ng-template>
+      }
     </mat-checkbox>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button type="button" mat-button color="primary" (click)="save()" [disabled]="saveDisabled">Save</button>
-  <button type="button" mat-button (click)="cancel()">Cancel</button>
+  <button
+      type="button"
+      mat-button
+      color="primary"
+      (click)="save()"
+      [disabled]="saveDisabled">
+    Save
+  </button>
+  <button
+      type="button"
+      mat-button
+      (click)="cancel()">
+    Cancel
+  </button>
 </mat-dialog-actions>

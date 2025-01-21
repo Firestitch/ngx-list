@@ -4,13 +4,12 @@ import { skip, takeUntil, tap } from 'rxjs/operators';
 import { isNumber } from 'lodash-es';
 
 import {
+  FsListColumn,
   FsListColumnChangeFn,
   FsListColumnConfig,
-  FsListColumnDisabledFn,
   FsListColumnLoadFn,
-  FsListColumnTitleFn,
-  FsListColumnTooltipFn,
-} from '../interfaces/listconfig.interface';
+} from '../interfaces';
+import { ColumnsColumn } from '../models';
 import { Column } from '../models/column.model';
 
 
@@ -21,9 +20,9 @@ export class ColumnsController {
   private _theadClass = '';
   private _loadFn: FsListColumnLoadFn;
   private _changeFn: FsListColumnChangeFn;
-  private _customizeFieldTitleFn: FsListColumnTitleFn;
-  private _customizeFieldDisabledFn: FsListColumnDisabledFn;
-  private _columnTooltipFn: FsListColumnTooltipFn;
+  // private _customizeFieldTitleFn: FsListColumnTitleFn;
+  // private _customizeFieldDisabledFn: FsListColumnDisabledFn;
+  //private _columnTooltipFn: FsListColumnTooltipFn;
 
   private _isConfigured = false;
   private _loadFnConfigured = false;
@@ -51,33 +50,15 @@ export class ColumnsController {
     return this._visibleColumnsShared$;
   }
 
-  public get columnsForDialog() {
-    const hasCustomTitle = !!this._customizeFieldTitleFn;
-    const hasCustomDisabledStatus = !!this._customizeFieldDisabledFn;
-    const hasCustomTooltip = !!this._columnTooltipFn;
-
+  public get columnsForDialog(): ColumnsColumn[] {
     return this._columns
-      .filter((column) => column.customize && !!column.name)
+      .filter((column) => column.customizable && !!column.name)
       .map((column) => {
-        const title = hasCustomTitle
-          ? this._customizeFieldTitleFn(column.name, column.title)
-          : column.name;
-
-        const disabled = hasCustomDisabledStatus
-          ? this._customizeFieldDisabledFn(column.name)
-          : false;
-
-        const tooltip = hasCustomTooltip
-          ? this._columnTooltipFn(column.name, column.visible, disabled)
-          : undefined;
-
         return {
           template: column.headerTemplate,
           name: column.name,
           show: column.visible,
-          title: title,
-          disabled: disabled,
-          tooltip: tooltip,
+          title: column.title,
         };
       });
   }
@@ -140,18 +121,6 @@ export class ColumnsController {
         this._changeFnConfigured = true;
       }
 
-      if (config.title) {
-        this._customizeFieldTitleFn = config.title;
-      }
-
-      if (config.disabled) {
-        this._customizeFieldDisabledFn = config.disabled;
-      }
-
-      if (config.tooltip) {
-        this._columnTooltipFn = config.tooltip;
-      }
-
       this._isConfigured = true;
     }
   }
@@ -165,7 +134,6 @@ export class ColumnsController {
 
     templates.forEach((column) => {
       const col = new Column(column, this._defaultConfigs);
-
 
       if (col.headerTemplate || col.title) {
         this._hasHeader = true;
@@ -195,9 +163,10 @@ export class ColumnsController {
   public loadRemoteColumnConfigs() {
     return this._loadFn()
       .pipe(
-        tap((columnConfigs) => {
+        tap((columnConfigs: FsListColumn[]) => {
           this._columnsFetched = true;
           this.updateVisibilityForCols(columnConfigs);
+          this.updateCustomizableForCols(columnConfigs);
         }),
         takeUntil(this._destroy$),
       );
@@ -216,17 +185,28 @@ export class ColumnsController {
    * Update visibility based on passed config
    * @param columnsConfig
    */
-  public updateVisibilityForCols(columnsConfig) {
+  public updateVisibilityForCols(columnsConfig: FsListColumn[]) {
     columnsConfig.forEach((columnConfig) => {
       const col = this._columns
         .find((column) => column.name === columnConfig.name);
 
       if (col) {
-        col.updateVisibility(columnConfig.show);
+        col.updateVisibility(columnConfig.show ?? true);
       }
     });
 
     this.updateVisibleColumns();
+  }
+
+  public updateCustomizableForCols(columnsConfig: FsListColumn[]) {
+    columnsConfig.forEach((columnConfig) => {
+      const col = this._columns
+        .find((column) => column.name === columnConfig.name);
+
+      if (col) {
+        col.updateCustomizable(columnConfig.customizable ?? true);
+      }
+    });
   }
 
   public destroy() {

@@ -88,6 +88,10 @@ implements OnInit {
         load: () => {
           return of([
             {
+              name: 'id',
+              customizable: false,
+            },
+            {
               name: 'name',
               show: true,
             },
@@ -96,16 +100,7 @@ implements OnInit {
         change: (columns) => {
           console.log('Column changed ', columns);
         },
-        tooltip: (name) => {
-          if (name === 'name') {
-            return 'Custom Tooltip "tip"';
-          }
-        },
-        disabled: (name) => {
-          if (name === 'name') {
-            return true;
-          }
-        },
+
       },
       filters: [
         {

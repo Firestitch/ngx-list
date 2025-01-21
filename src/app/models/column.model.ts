@@ -30,18 +30,12 @@ export class Column {
   public cellTemplate: TemplateRef<any>;
   public footerTemplate: TemplateRef<any>;
   public expandTrigger: QueryList<FsListGroupExpandTriggerDirective>;
-
   public headerConfigs: StyleConfig = new StyleConfig();
-
   public groupHeaderConfigs: StyleConfig = new StyleConfig();
   public groupFooterConfigs: StyleConfig = new StyleConfig();
-
   public cellConfigs: StyleConfig = new StyleConfig();
-
   public footerConfigs: StyleConfig = new StyleConfig();
-
   public colStyles: StyleConfig;
-
   public headerColspanned = false;
   public groupHeaderColspanned = false;
   public groupFooterColspanned = false;
@@ -50,7 +44,6 @@ export class Column {
 
   private _attributes: ColumnAttributes;
   private _defaultDirection: 'asc' | 'desc';
-
   private _ordered = false;
 
   constructor(
@@ -79,8 +72,8 @@ export class Column {
     return this._attributes.name;
   }
 
-  public get customize(): boolean {
-    return this._attributes.customize;
+  public get customizable(): boolean {
+    return this._attributes.customizable;
   }
 
   public get width(): string {
@@ -157,7 +150,7 @@ export class Column {
 
         case 'sortable': {
           if (isBoolean(defaults.sortable)) {
-            if (this.sortable === void 0) {
+            if (this.sortable === undefined) {
               this.sortable = defaults.sortable;
             }
           }
@@ -197,6 +190,10 @@ export class Column {
 
   public updateVisibility(value: boolean) {
     this._attributes.visible = value;
+  }
+
+  public updateCustomizable(value: boolean) {
+    this._attributes.customizable = value;
   }
 
   private _parseConfig(config: ListColumnConfig) {

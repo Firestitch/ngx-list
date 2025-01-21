@@ -6,7 +6,7 @@ export class ColumnAttributes {
 
   private _title: string;
   private _name: string;
-  private _customize = true;
+  private _customizable = true;
   private _sortable: boolean;
   private _sortableDefault: boolean;
   private _direction$ = new ColumnAsyncAttribute(null);
@@ -38,12 +38,12 @@ export class ColumnAttributes {
   }
 
   // customize
-  public set customize(value: boolean) {
-    this._customize = value;
+  public set customizable(value: boolean) {
+    this._customizable = value;
   }
 
-  public get customize(): boolean {
-    return this._customize;
+  public get customizable(): boolean {
+    return this._customizable;
   }
 
   // sortable
