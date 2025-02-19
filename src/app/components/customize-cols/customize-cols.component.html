@@ -2,17 +2,19 @@
   Customize columns
 </h1>
 <mat-dialog-content>
-  <div *ngFor="let column of columns">
-    <mat-checkbox
-        [checked]="column.show"
-        (change)="visibilityChange($event, column)"
-        [disabled]="column.disabled">
-      @if (column.title) {
-        {{ column.title }}
-      } @else {
-        <ng-template [ngTemplateOutlet]="column.template"></ng-template>
-      }
-    </mat-checkbox>
+  <div class="columns">
+    <div *ngFor="let column of columns">
+      <mat-checkbox
+          [checked]="column.show"
+          (change)="visibilityChange($event, column)"
+          [disabled]="column.disabled">
+        @if (column.title) {
+          {{ column.title }}
+        } @else {
+          <ng-template [ngTemplateOutlet]="column.template"></ng-template>
+        }
+      </mat-checkbox>
+    </div>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>
