@@ -11,7 +11,7 @@ import { FsDateModule } from '@firestitch/date';
 import { FsDatePickerModule } from '@firestitch/datepicker';
 import { FsExampleModule } from '@firestitch/example';
 import { FsFileModule } from '@firestitch/file';
-import { FsFilterModule } from '@firestitch/filter';
+import { ButtonStyle, FsFilterModule } from '@firestitch/filter';
 import { FsLabelModule } from '@firestitch/label';
 import { FsMessageModule } from '@firestitch/message';
 import { FsPromptModule } from '@firestitch/prompt';
@@ -58,7 +58,14 @@ import { AppMaterialModule } from './material.module';
     BrowserModule,
     FsScrollModule.forRoot(),
     FsListModule,
-    FsFilterModule.forRoot(),
+    FsFilterModule.forRoot({
+      queryParam: true,
+      chips: true,
+      button: {
+        label: '',
+      },
+      buttonStyle: ButtonStyle.Flat,
+    }),
     BrowserAnimationsModule,
     AppMaterialModule,
     FormsModule,

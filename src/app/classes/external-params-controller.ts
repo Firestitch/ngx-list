@@ -1,4 +1,4 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { merge, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -27,7 +27,6 @@ export class ExternalParamsController {
   private _destroy$ = new Subject<void>();
 
   constructor(
-    private _router: Router,
     private _route: ActivatedRoute,
     private _persistance: PersistanceController,
     private _paginator: PaginationController,
@@ -49,7 +48,7 @@ export class ExternalParamsController {
   }
 
   private get _enabled(): boolean {
-    return this._queryParamsEnabled || this._persistance.enabled;
+    return this._queryParamsEnabled || this._persistance.filtersEnabled;
   }
 
   private get _page(): number {
@@ -71,9 +70,12 @@ export class ExternalParamsController {
   public initialize() {
 
     // Restore from localStorage parameters if persistance enabled
-    if (this._persistance.enabled) {
-      this._restorePaginationParams(this._persistance.getDataFromScope('paging'));
-      this._restoreSortingParams(this._persistance.getDataFromScope('sorting'));
+    if (this._persistance.pagingEnabled) {
+      this._restorePaginationParams(this._persistance.getPaging());
+    }
+
+    if (this._persistance.sortingEnabled) {
+      this._restoreSortingParams(this._persistance.getSorting());
     }
 
     // Restore from queryParams and override if persistance already had values for those params
@@ -91,7 +93,6 @@ export class ExternalParamsController {
 
       if (this._page) {
         this._paginator.goToPage(this._page);
-
       }
     }
 
@@ -172,11 +173,11 @@ export class ExternalParamsController {
       });
     }
 
-    if (this._persistance.enabled) {
+    if (this._persistance.filtersEnabled) {
       if (name && direction) {
-        this._persistance.saveDataToScope('sorting', { sortName: name, sortDirection: direction });
+        this._persistance.setSorting({ sortName: name, sortDirection: direction });
       } else {
-        this._persistance.saveDataToScope('sorting', null);
+        this._persistance.setSorting(null);
       }
     }
   }
@@ -186,8 +187,8 @@ export class ExternalParamsController {
       this._replaceState(params);
     }
 
-    if (this._persistance.enabled) {
-      this._persistance.saveDataToScope('paging', params);
+    if (this._persistance.filtersEnabled) {
+      this._persistance.setPaging(params);
     }
   }
 

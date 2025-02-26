@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import {
   AfterContentInit,
   ChangeDetectionStrategy, ChangeDetectorRef,
@@ -8,7 +7,9 @@ import {
   ElementRef,
   EventEmitter,
   HostBinding,
+  inject,
   Inject,
+  Injector,
   Input,
   OnDestroy,
   OnInit,
@@ -18,11 +19,10 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { getNormalizedPath } from '@firestitch/common';
 import { DrawerRef } from '@firestitch/drawer';
 import { FilterComponent } from '@firestitch/filter';
 import { SelectionDialog } from '@firestitch/selection';
@@ -106,10 +106,9 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   private _listColumnDirectives: QueryList<FsListColumnDirective>;
   private _filterRef: FilterComponent;
   private _filterParamsReady = false;
-  private _inDialog;
-
   private _destroy = new Subject();
-
+  private _injector = inject(Injector);
+  
   @ViewChild(FilterComponent)
   public set filterReference(component) {
     this._filterRef = component;
@@ -136,23 +135,21 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
       this.list.emptyStateTemplate = template;
     }
   }
+  
+  private _dialogRef = inject(MatDialogRef, { optional: true });
+  private _drawerRef = inject(DrawerRef, { optional: true });  
 
   constructor(
     public reorderController: ReorderController,
     @Optional() @Inject(FS_LIST_CONFIG) private _config: FsListConfig,
-    @Optional() private _dialogRef: MatDialogRef<any>,
-    @Optional() private _drawerRef: DrawerRef<any>,
     private _el: ElementRef,
     private _selectionDialog: SelectionDialog,
     private _dialog: MatDialog,
     private _cdRef: ChangeDetectorRef,
     private _groupExpandNotifier: GroupExpandNotifierService,
-    private _router: Router,
     private _route: ActivatedRoute,
     private _persistance: PersistanceController,
-    private _location: Location,
   ) { 
-    this._inDialog = !!this._dialogRef || !!this._drawerRef;
   }
 
   /**
@@ -334,6 +331,10 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
     }
   }
 
+  public get inDialog() {
+    return !!this._dialogRef || !!this._drawerRef;
+  }
+
   /**
    * Initialize config for list
    *
@@ -369,10 +370,9 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
       this._el,
       listConfig,
       this._selectionDialog,
-      this._router,
       this._route,
       this._persistance,
-      this._inDialog,
+      this.inDialog,
     );
 
     this.rowHoverHighlight = this.list.rowHoverHighlight;
@@ -409,6 +409,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
         }
 
         this._dialog.open(CustomizeColsDialogComponent, {
+          injector: this._injector,
           data: {
             columns: this.list.columns.columnsForDialog,
             changeFn: this.list.columns.changeFn,
@@ -489,7 +490,6 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private _restorePersistance(persistConfig: FsListPersitance) {
-    const namespace = getNormalizedPath(this._location);
-    this._persistance.setConfig(persistConfig, namespace, this._inDialog);
+    this._persistance.init(persistConfig, this.inDialog);
   }
 }

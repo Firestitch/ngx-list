@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, Inject, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
 
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { PersistanceController } from '../../classes/persistance-controller';
 import { ColumnsColumn } from '../../models';
 
 
@@ -17,15 +18,17 @@ export class CustomizeColsDialogComponent implements OnDestroy {
 
   public columns: ColumnsColumn[] = [];
   public saveDisabled = false;
+  public columnsEnabled = false;
+
   private _changeFn;
   private _destroy$ = new Subject();
+  private _persistance = inject(PersistanceController);
+  private _dialog = inject(MatDialogRef);
+  private _data = inject(MAT_DIALOG_DATA);
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) data,
-    private _dialog: MatDialogRef<any>,
-  ) {
-    this.columns = data.columns;
-    this._changeFn = data.changeFn;
+  constructor() {
+    this.columns = this._data.columns;
+    this._changeFn = this._data.changeFn;
   }
 
   public ngOnDestroy(): void {
@@ -46,6 +49,10 @@ export class CustomizeColsDialogComponent implements OnDestroy {
           show: column.show,
         };
       });
+
+    if(this._persistance.columnsEnabled) {
+      this._persistance.setColumns(data);
+    }
 
     this.saveDisabled = true;
     const changed = this._changeFn ? this._changeFn(data) : null;

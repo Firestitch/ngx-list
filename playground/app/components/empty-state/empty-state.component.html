@@ -1,15 +1,33 @@
 <div class="controls">
-
   <div class="info">
-    <p *ngIf="state === 'data'"><b>Currently list has data:</b> {{ tmpData | json }}</p>
-    <p *ngIf="state === 'empty'"><b>Currently list received empty response</b></p>
-
-    <p *ngIf="valid">Validation function returns <b style="color: green">TRUE</b></p>
-    <p *ngIf="!valid">Validation function returns <b style="color: red">FALSE</b></p>
+    <p *ngIf="state === 'data'">
+      <b>
+        Currently list has data:
+      </b>
+      {{ tmpData | json }}
+    </p>
+    <p *ngIf="state === 'empty'">
+      <b>
+        Currently list received empty response
+      </b>
+    </p>
+    <p *ngIf="valid">
+      Validation function returns
+      <b style="color: green">
+        TRUE
+      </b>
+    </p>
+    <p *ngIf="!valid">
+      Validation function returns
+      <b style="color: red">
+        FALSE
+      </b>
+    </p>
   </div>
-
   <div class="actions">
-    <button mat-raised-button (click)="toggleEmptyDataStates()">
+    <button
+        mat-stroked-button
+        (click)="toggleEmptyDataStates()">
       <ng-container *ngIf="state === 'empty'; else dataState">
         Toggle To Data State
       </ng-container>
@@ -17,8 +35,9 @@
         Toggle To Empty State
       </ng-template>
     </button>
-
-    <button mat-raised-button (click)="toggleValidState()">
+    <button
+        mat-stroked-button
+        (click)="toggleValidState()">
       <ng-container *ngIf="!valid; else validState">
         Toggle Valid Empty State
       </ng-container>
@@ -29,37 +48,51 @@
   </div>
 </div>
 <fs-list [config]="config">
-
   <fs-list-column>
     <ng-template fs-list-header>
       №
     </ng-template>
-    <ng-template fs-list-cell let-index="index">
-      {{index}}
+    <ng-template
+        fs-list-cell
+        let-index="index">
+      {{ index }}
     </ng-template>
   </fs-list-column>
-
-  <fs-list-column name="name" title="Name" [sortable]="true">
-    <ng-template fs-list-cell let-value="value" let-row="row">
-      {{value}}
+  <fs-list-column
+      name="name"
+      title="Name"
+      [sortable]="true">
+    <ng-template
+        fs-list-cell
+        let-value="value"
+        let-row="row">
+      {{ value }}
     </ng-template>
   </fs-list-column>
-
-  <fs-list-column name="guid" title="GUID" [sortable]="true">
-    <ng-template fs-list-cell let-guid="value" let-row="row">
+  <fs-list-column
+      name="guid"
+      title="GUID"
+      [sortable]="true">
+    <ng-template
+        fs-list-cell
+        let-guid="value"
+        let-row="row">
       {{ row.guid }}
     </ng-template>
   </fs-list-column>
-
   <ng-container fs-list-content>
     content
   </ng-container>
-
   <ng-template fs-list-empty-state>
     <div class="empty-state">
-      <p>Currently there are no events</p>
-
-      <button mat-raised-button color="primary">Create your first event</button>
+      <p>
+        Currently there are no events
+      </p>
+      <button
+          mat-stroked-button
+          color="primary">
+        Create your first event
+      </button>
     </div>
   </ng-template>
 </fs-list>

@@ -3,7 +3,6 @@ import {
   ChangeFn,
   FsFilterAction,
   FsFilterAutoReload,
-  FsFilterPersistance,
   IFilterConfigDateItem,
   IFilterConfigItem,
   IFilterSavedFiltersConfig,
@@ -278,7 +277,16 @@ export interface FsListFetchOptions {
   state: FsListState;
 }
 
-export type FsListPersitance = FsFilterPersistance;
+export interface FsListPersistanceConfig {
+  name?: string;
+  timeout?: number;
+  persistFilter?: boolean;
+  persistPaging?: boolean;
+  persistSorting?: boolean;
+  persistColumn?: boolean;
+}
+
+export type FsListPersitance = boolean | FsListPersistanceConfig;
 export type FsListStateValidationFn = (filters: any, rows: FsListAbstractRow[]) => boolean;
 export type FsListFetchFn =
   (query: Record<string, any>, options: FsListFetchOptions) =>

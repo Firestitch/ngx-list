@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
-import { ActionType, FsListComponent, FsListConfig } from '@firestitch/list';
+import { ButtonStyle } from '@firestitch/filter';
+import { FsListComponent, FsListConfig } from '@firestitch/list';
 
 import { map } from 'rxjs/operators';
 
@@ -36,7 +37,7 @@ export class ActionsComponent implements OnInit {
           },
           label: 'Basic Primary',
           menu: false,
-          type: ActionType.Basic,
+          style: ButtonStyle.Basic,
         },
         {
           click: (event) => {
@@ -45,7 +46,7 @@ export class ActionsComponent implements OnInit {
           label: 'Basic Secondary',
           menu: false,
           primary: false,
-          type: ActionType.Basic,
+          style: ButtonStyle.Basic,
         },
         {
           click: (event) => {
@@ -69,7 +70,7 @@ export class ActionsComponent implements OnInit {
           className: 'mat-accent',
           icon: 'favorite',
           menu: false,
-          type: ActionType.Icon,
+          style: ButtonStyle.Icon,
         },
       ],
       fetch: (query) => {

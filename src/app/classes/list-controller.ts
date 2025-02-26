@@ -1,5 +1,5 @@
 import { ElementRef, TemplateRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import {
   ChangeFn, FilterConfig, FsFilterAutoReload, IFilterSavedFiltersConfig, ItemType,
@@ -82,11 +82,11 @@ export class List {
   public style;
   public hasRowActions;
   public rowActionsHover = false;
-  public paging = new PaginationController();
-  public columns = new ColumnsController();
-  public actions = new ActionsController();
-  public dataController = new DataController();
-  public sorting = new SortingController();
+  public paging: PaginationController;
+  public columns: ColumnsController;
+  public actions: ActionsController;
+  public dataController: DataController;
+  public sorting: SortingController;
   public externalParams: ExternalParamsController;
   public selection: SelectionController;
   public filterConfig: FilterConfig = null;
@@ -119,11 +119,16 @@ export class List {
     private _el: ElementRef,
     private _config: FsListConfig = {},
     private _selectionDialog: SelectionDialog,
-    private _router: Router,
     private _route: ActivatedRoute,
     private _persistance: PersistanceController,
     private _inDialog: boolean,
   ) {
+    this.columns = new ColumnsController(this._persistance);
+    this.actions = new ActionsController();
+    this.paging = new PaginationController();
+    this.dataController = new DataController();
+    this.sorting = new SortingController();
+
     this._initialize(_config);
     this._headerConfig = new StyleConfig(_config.header);
     this._groupCellConfig = new StyleConfig(_config.cell);
@@ -549,7 +554,6 @@ export class List {
 
   private _initExternalParamsController() {
     this.externalParams = new ExternalParamsController(
-      this._router,
       this._route,
       this._persistance,
       this.paging,
@@ -615,7 +619,7 @@ export class List {
           return { params, query };
         }),
         switchMap(({ params, query }) => {
-          if (this.columns.loadFnConfigured && !this.columns.columnsFetched) {
+          if (!this.columns.columnsFetched) {
             return this.columns.loadRemoteColumnConfigs()
               .pipe(
                 mapTo({ params, query }),

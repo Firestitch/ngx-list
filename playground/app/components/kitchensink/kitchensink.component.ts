@@ -58,7 +58,9 @@ implements OnInit {
     this.config = {
       status: true,
       chips: true,
-      persist: false,
+      persist: {
+        name: 'kitchensink',
+      },
       filterInput: true,
       queryParam: true,
       paging: {
@@ -265,14 +267,6 @@ implements OnInit {
         },
       ],
       rowActions: [
-        {
-          label: 'Simple Btn',
-          type: ActionType.Raised,
-          menu: false,
-          click: (row) => {
-            console.log('simple btn clicked', row);
-          },
-        },
         {
           label: 'Upload',
           type: ActionType.Raised,

@@ -1,4 +1,4 @@
-import { BehaviorSubject, merge, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, merge, Observable, of, Subject } from 'rxjs';
 import { skip, takeUntil, tap } from 'rxjs/operators';
 
 import { isNumber } from 'lodash-es';
@@ -12,6 +12,8 @@ import {
 import { ColumnsColumn } from '../models';
 import { Column } from '../models/column.model';
 
+import { PersistanceController } from './persistance-controller';
+
 
 export class ColumnsController {
 
@@ -20,12 +22,7 @@ export class ColumnsController {
   private _theadClass = '';
   private _loadFn: FsListColumnLoadFn;
   private _changeFn: FsListColumnChangeFn;
-  // private _customizeFieldTitleFn: FsListColumnTitleFn;
-  // private _customizeFieldDisabledFn: FsListColumnDisabledFn;
-  //private _columnTooltipFn: FsListColumnTooltipFn;
-
   private _isConfigured = false;
-  private _loadFnConfigured = false;
   private _changeFnConfigured = false;
   private _columnsFetched = false;
   private _hasHeader = false;
@@ -36,7 +33,11 @@ export class ColumnsController {
   private _columnsUpdated$ = new Subject<void>();
   private _destroy$ = new Subject<void>();
 
-  constructor() {}
+  constructor(
+    private _persistance: PersistanceController,
+  ) {
+    this._loadFn = () => of([]);
+  }
 
   public get columns() {
     return this._columns.slice();
@@ -83,10 +84,6 @@ export class ColumnsController {
     return this._isConfigured;
   }
 
-  public get loadFnConfigured() {
-    return this._loadFnConfigured;
-  }
-
   public get changeFnConfigured() {
     return this._changeFnConfigured;
   }
@@ -113,9 +110,8 @@ export class ColumnsController {
     if (config) {
       if (config.load) {
         this._loadFn = config.load;
-        this._loadFnConfigured = true;
       }
-
+      
       if (config.change) {
         this._changeFn = config.change;
         this._changeFnConfigured = true;
@@ -163,10 +159,15 @@ export class ColumnsController {
   public loadRemoteColumnConfigs() {
     return this._loadFn()
       .pipe(
-        tap((columnConfigs: FsListColumn[]) => {
+        tap((column: FsListColumn[]) => {
           this._columnsFetched = true;
-          this.updateVisibilityForCols(columnConfigs);
-          this.updateCustomizableForCols(columnConfigs);
+          this.updateVisibilityForCols(column);
+          this.updateCustomizableForCols(column);
+        }),
+        tap(() => {
+          if (this._persistance.columnsEnabled) {
+            this.updateVisibilityForCols(this._persistance.getColumns());
+          }
         }),
         takeUntil(this._destroy$),
       );
