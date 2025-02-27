@@ -725,14 +725,12 @@ export class List {
     }
 
     const sortValues = this.sorting.makeSortingList();
-
     const sortConfig = this.sorting.sortingColumn
       ? { value: this.sorting.sortingColumn.name, direction: this.sorting.sortingColumn.direction }
       : null;
 
     // Config
     this.filterConfig = {
-      persist: this.persist,
       items: this.filters || [],
       savedFilters: this.savedFilters,
       actions: this.actions.actions,
@@ -747,6 +745,13 @@ export class List {
       reload: (this._config.reload ?? true) ? this.reload.bind(this) : null,
       sortChange: this._filterSort.bind(this),
     };
+
+    if(this._persistance.queryEnabled) {
+      this.filterConfig.persist =  {
+        name: this._persistance.name,
+        persistQuery: true,
+      };
+    }
   }
 
   /**

@@ -284,6 +284,7 @@ export interface FsListPersistanceConfig {
   persistPaging?: boolean;
   persistSorting?: boolean;
   persistColumn?: boolean;
+  persistQuery?: boolean;
 }
 
 export type FsListPersitance = boolean | FsListPersistanceConfig;

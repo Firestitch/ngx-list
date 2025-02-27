@@ -15,10 +15,12 @@ export class PersistanceController {
   public columnsEnabled = false;
   public pagingEnabled = false;
   public sortingEnabled = false;
+  public queryEnabled = false;
+  public name: string;
 
-  private _store = inject(FsStore);
-  private _name: string;
+  private _store = inject(FsStore);  
   private _data: any = {};
+  private readonly _storeKey = 'fs-list-persist';
 
   private _location = inject(Location);
 
@@ -31,7 +33,8 @@ export class PersistanceController {
       this.columnsEnabled = config.persistColumn;
       this.pagingEnabled = config.persistPaging;
       this.sortingEnabled = config.persistSorting;
-      this._name = config.name;
+      this.queryEnabled = config.persistQuery;
+      this.name = config.name;
       this._data = this._get() || {};
     }
   }
@@ -62,32 +65,35 @@ export class PersistanceController {
 
   private _set(key: string, value: any) {
     this._data[key] = value;
-    const storeData = this._store.get('fs-list-persist') || {};
-    storeData[this._name] = this._data;
+    const storeData = this._store.get(this._storeKey) || {};
+    storeData[this.name] = this._data;
 
-    this._store.set('fs-list-persist', storeData);
+    this._store.set(this._storeKey, storeData);
   }
 
   private _get() {
-    const storeData = this._store.get('fs-list-persist');
+    const storeData = this._store.get(this._storeKey);
 
     if (storeData) {
-      return storeData[this._name];
+      return storeData[this.name];
     }
  
     return {};
   }
 
   private _initConfig(config: FsListPersitance, inDialog: boolean): FsListPersistanceConfig {
-    let persistanceConfig = this._getDefaultConfig(config);
+    let persistanceConfig = this._getConfig(config);
 
     if(persistanceConfig) {
+      const persist = !inDialog || !!persistanceConfig.name;
+
       persistanceConfig = {
         name: persistanceConfig.name || getNormalizedPath(this._location),
-        persistFilter: !inDialog || !!persistanceConfig.name,
-        persistPaging: !inDialog || !!persistanceConfig.name,
-        persistSorting: !inDialog || !!persistanceConfig.name,
-        persistColumn: !inDialog || !!persistanceConfig.name,
+        persistFilter: persist,
+        persistPaging: persist,
+        persistSorting: persist,
+        persistColumn: persist,
+        persistQuery: persist,
         ...persistanceConfig,
       };
     }
@@ -95,7 +101,7 @@ export class PersistanceController {
     return persistanceConfig;
   }
 
-  private _getDefaultConfig(config: FsListPersitance): FsListPersistanceConfig {
+  private _getConfig(config: FsListPersitance): FsListPersistanceConfig {
     if(config) {
       return {
         ...(config === true ? {} : config),

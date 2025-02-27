@@ -16,11 +16,9 @@ import {
 } from '@firestitch/list';
 
 import { BehaviorSubject, of } from 'rxjs';
-import { delay, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { ApiStrategy } from '../../services/api-strategy.service';
-
-import { savedFilters } from './saved-filter';
 
 
 @Component({
@@ -172,54 +170,54 @@ implements OnInit {
       afterContentInit: (query, data) => {
         console.log('AfterContent Init', query, data);
       },
-      savedFilters: {
-        load: () => {
-          console.log('<====== Load Saved Filters =====>');
+      // savedFilters: {
+      //   load: () => {
+      //     console.log('<====== Load Saved Filters =====>');
 
-          return of(savedFilters)
-            .pipe(
-              delay(100),
-            );
-        },
-        save: (filter) => {
-          console.log('<====== Save Filter =====>');
-          const filterIndex = savedFilters.findIndex((f) => {
-            return f.id === filter.id;
-          });
+      //     return of(savedFilters)
+      //       .pipe(
+      //         delay(100),
+      //       );
+      //   },
+      //   save: (filter) => {
+      //     console.log('<====== Save Filter =====>');
+      //     const filterIndex = savedFilters.findIndex((f) => {
+      //       return f.id === filter.id;
+      //     });
 
-          if (filterIndex > -1) {
-            // Here I'm emulating like backend returend filter which automatically activated
-            filter.active = true;
-            savedFilters[filterIndex] = filter;
-          } else {
-            // Here I'm emulating like backend returend new filter with ID to me
-            filter = {
-              ...filter,
-              id: 999,
-            };
-            savedFilters.push(filter);
-          }
+      //     if (filterIndex > -1) {
+      //       // Here I'm emulating like backend returend filter which automatically activated
+      //       filter.active = true;
+      //       savedFilters[filterIndex] = filter;
+      //     } else {
+      //       // Here I'm emulating like backend returend new filter with ID to me
+      //       filter = {
+      //         ...filter,
+      //         id: 999,
+      //       };
+      //       savedFilters.push(filter);
+      //     }
 
-          console.log('Save Filter', filter);
-          console.log('Saved Filters: ', savedFilters);
+      //     console.log('Save Filter', filter);
+      //     console.log('Saved Filters: ', savedFilters);
 
-          return of(filter)
-            .pipe(
-              delay(1500),
-            );
-        },
-        order: (filters) => {
-          console.log('<====== Order Saved Filters =====>');
-          console.log('order filters', filters);
+      //     return of(filter)
+      //       .pipe(
+      //         delay(1500),
+      //       );
+      //   },
+      //   order: (filters) => {
+      //     console.log('<====== Order Saved Filters =====>');
+      //     console.log('order filters', filters);
 
-          return of(filters);
-        },
-        delete: () => {
-          console.log('<====== Delete Saved Filter =====>');
+      //     return of(filters);
+      //   },
+      //   delete: () => {
+      //     console.log('<====== Delete Saved Filter =====>');
 
-          return of();
-        },
-      },
+      //     return of();
+      //   },
+      // },
       reorder: {
         start: () => {
           console.log('reorder started');
