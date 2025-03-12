@@ -7,8 +7,8 @@
     </ng-template>
     <ng-template
         fs-list-cell
-        let-index="index">
-      {{ index }}
+        let-row="row">
+      {{ row.index }}
     </ng-template>
     <ng-template
         fs-list-footer
@@ -28,9 +28,8 @@
     </ng-template>
     <ng-template
         fs-list-cell
-        let-value="value"
         let-row="row">
-      {{ value }}
+      {{ row.value }}
     </ng-template>
   </fs-list-column>
   <fs-list-column
@@ -39,7 +38,6 @@
       [sortable]="true">
     <ng-template
         fs-list-cell
-        let-guid="value"
         let-row="row">
       {{ row.guid }}
     </ng-template>
@@ -53,7 +51,7 @@
   <fs-list-column title="Link">
     <ng-template
         fs-list-cell
-        let-guid="value"
+        let-row="row"
         [class]="['myTestClass', 'myTestClass2']">
       <a routerLink="/welcome">
         Simple Link

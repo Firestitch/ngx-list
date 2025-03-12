@@ -1,13 +1,21 @@
-<fs-list [config]="config" #table>
-
-  <fs-list-column name="name" title="Name">
-    <ng-template fs-list-cell let-value="value" let-row="row">
-      {{ value }}
+<fs-list
+    [config]="config"
+    #table>
+  <fs-list-column
+      name="name"
+      title="Name">
+    <ng-template
+        fs-list-cell
+        let-row="row">
+      {{ row.value }}
     </ng-template>
   </fs-list-column>
-
-  <fs-list-column name="guid" title="Last Sign-In">
-    <ng-template fs-list-cell let-row="row">
+  <fs-list-column
+      name="guid"
+      title="Last Sign-In">
+    <ng-template
+        fs-list-cell
+        let-row="row">
       <fs-date-ago [date]="row.time"></fs-date-ago>
     </ng-template>
   </fs-list-column>

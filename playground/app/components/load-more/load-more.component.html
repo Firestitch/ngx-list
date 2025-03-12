@@ -9,10 +9,10 @@
       <fs-list-column name="avatar">
         <ng-template
             fs-list-cell
-            let-value="value">
+            let-row="row">
           <fs-badge
             [size]="60"
-            [image]="value"
+            [image]="row.value"
             tooltip="Tooltip">
           </fs-badge>
         </ng-template>
@@ -29,9 +29,8 @@
         </ng-template>
         <ng-template
             fs-list-cell
-            let-value="value"
             let-row="row">
-          {{ value }}
+          {{ row.value }}
         </ng-template>
       </fs-list-column>
       <fs-list-column
@@ -39,8 +38,8 @@
           title="Birth day">
         <ng-template
             fs-list-cell
-            let-value="value">
-          {{ value | fsDateFormat:'full-day-date' }}
+            let-row="row">
+          {{ row.value | fsDateFormat:'full-day-date' }}
         </ng-template>
       </fs-list-column>
     </fs-list>

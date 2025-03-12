@@ -1,16 +1,25 @@
 <fs-list [config]="config">
-
-  <fs-list-column name="name" title="Name">
+  <fs-list-column
+      name="name"
+      title="Name">
     <ng-template fs-list-header>
-      <b>User</b> name
+      <b>
+        User
+      </b>
+      name
     </ng-template>
-    <ng-template fs-list-cell let-value="value" let-row="row">
-      {{ value }}
+    <ng-template
+        fs-list-cell
+        let-row="row">
+      {{ row.value }}
     </ng-template>
   </fs-list-column>
-
-  <fs-list-column name="guid" title="GUID">
-    <ng-template fs-list-cell let-guid="value" let-row="row">
+  <fs-list-column
+      name="guid"
+      title="GUID">
+    <ng-template
+        fs-list-cell
+        let-row="row">
       {{ row.guid }}
     </ng-template>
   </fs-list-column>
