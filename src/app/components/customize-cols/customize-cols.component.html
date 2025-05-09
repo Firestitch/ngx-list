@@ -15,21 +15,29 @@
         }
       </mat-checkbox>
     </div>
+    @if (!columns.length) {
+      <div class="no-results">
+        No results found
+      </div>
+    }
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>
+  @if (columns.length) {
+    <button
+        type="button"
+        mat-button
+        color="primary"
+        (click)="save()"
+        [disabled]="saveDisabled">
+      Save
+    </button>
+  }
   <button
       type="button"
       mat-button
-      color="primary"
-      (click)="save()"
-      [disabled]="saveDisabled">
-    Save
-  </button>
-  <button
-      type="button"
-      mat-button
+      [color]="columns.length ? null : 'primary'"
       (click)="cancel()">
-    Cancel
+    {{ columns.length ? 'Cancel' : 'Done' }}
   </button>
 </mat-dialog-actions>
