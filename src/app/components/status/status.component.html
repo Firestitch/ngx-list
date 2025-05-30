@@ -8,7 +8,7 @@
         @if (many.status === 'many') {
           <a
               (click)="manyClick()"
-              [matTooltip]="'Calculate number of ecords'">
+              [matTooltip]="'Calculate number of results'">
             many
           </a>
         } @else {
@@ -18,7 +18,11 @@
               [strokeWidth]="2">
             </mat-spinner>
           } @else {
-            {{ many.count | number:'1.0':'en-US' }}
+            <a
+                (click)="manyClick()"
+                [matTooltip]="'Recalculate number of results'">
+              {{ many.count | number:'1.0':'en-US' }}
+            </a>
           }
         }
       } @else {
