@@ -409,6 +409,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
         }
 
         this._dialog.open(CustomizeColsDialogComponent, {
+          autoFocus: false,
           injector: this._injector,
           data: {
             columns: this.list.columns.columnsForDialog,
