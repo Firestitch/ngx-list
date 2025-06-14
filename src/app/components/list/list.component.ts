@@ -27,8 +27,8 @@ import { DrawerRef } from '@firestitch/drawer';
 import { FilterComponent } from '@firestitch/filter';
 import { SelectionDialog } from '@firestitch/selection';
 
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { filter, map, skip, take, takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { filter, skip, take, takeUntil } from 'rxjs/operators';
 
 import { cloneDeep, mergeWith } from 'lodash-es';
 
@@ -107,21 +107,11 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   private _filterParamsReady = false;
   private _destroy = new Subject();
   private _injector = inject(Injector);
-  private _keywordVisible$ = new BehaviorSubject(false);
   
   @ViewChild(FilterComponent)
   public set filterReference(component) {
     this._filterRef = component;
     this.list.actions.setFilterRef(component);
-
-    this._filterRef.keywordVisible$
-      .pipe(
-        takeUntil(this._destroy),
-      )
-      .subscribe((visible) => {
-        this._keywordVisible$.next(visible);  
-      });
-
     this._emitFiltersReadyEvent();
   }
 
@@ -165,17 +155,6 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
    */
   public get filterRef(): FilterComponent {
     return this._filterRef;
-  }
-  
-  public get keywordVisible$(): Observable<boolean> {
-    return this._keywordVisible$.asObservable();
-  }
-
-  public get keywordNotVisible$(): Observable<boolean> {
-    return this._keywordVisible$
-      .pipe(
-        map((visible) => !visible),
-      );
   }
 
   public set groupEnabled(value: boolean) {

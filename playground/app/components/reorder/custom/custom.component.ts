@@ -32,7 +32,6 @@ export class CustomReorderComponent implements OnInit {
       heading: 'Reorder',
       subheading: 'With Custom strategy and positioned to right',
       status: false,
-      filterInput: true,
       reorder: {
         position: ReorderPosition.Left,
         disabled: true,

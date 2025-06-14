@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
+import { ItemType } from '@firestitch/filter';
 import { FsListConfig, ReorderPosition } from '@firestitch/list';
 
 import { map } from 'rxjs/operators';
@@ -22,13 +23,20 @@ export class ToggleReorderComponent implements OnInit {
       heading: 'Reorder',
       subheading: 'With Always strategy and positioned to left',
       status: false,
-      filterInput: true,
       queryParam: false,
       rowEvents: {
         click: () => {
           console.log('click'); 
         },
       },
+      filters: [
+        {
+          name: 'keyword',
+          type: ItemType.Keyword,
+          label: 'Search',
+          hide: true,
+        },
+      ],
       persist: false,
       reorder: {
         position: ReorderPosition.Left,

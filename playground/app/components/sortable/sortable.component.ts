@@ -23,7 +23,6 @@ export class SortableComponent implements OnInit {
     this.config = {
       heading: 'Sortable',
       status: true,
-      filterInput: false,
       queryParam: false,
       persist: false,
       sorts: [

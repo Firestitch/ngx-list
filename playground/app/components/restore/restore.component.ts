@@ -30,7 +30,6 @@ export class RestoreComponent implements OnInit {
 
     this.config = {
       status: true,
-      filterInput: true,
       queryParam: false,
       persist: false,
       restore: {

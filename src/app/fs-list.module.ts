@@ -75,7 +75,6 @@ import { ActionLabelPipe } from './pipes';
     FsCommonModule,
   ],
   declarations: [
-    // Components
     FsListComponent,
     FsRowComponent,
     FsRowActionsComponent,
@@ -89,14 +88,12 @@ import { ActionLabelPipe } from './pipes';
     FsListSavedFiltersComponent,
     FsListManageSavedFiltersComponent,
 
-    // Internal Components
     FsHeadComponent,
     FsHeadCellComponent,
     FsBodyComponent,
     FsFooterComponent,
     FsPaginationComponent,
 
-    // Directives
     FsListColumnDirective,
     FsListCellDirective,
     FsListHeaderDirective,

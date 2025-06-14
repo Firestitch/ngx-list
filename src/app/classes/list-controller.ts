@@ -92,7 +92,6 @@ export class List {
   public filterConfig: FilterConfig = null;
   public status = true;
   public chips = false;
-  public filterInput = true;
   public queryParam = false;
   public restoreMode = false;
   public autoReload: FsFilterAutoReload;
@@ -445,9 +444,6 @@ export class List {
     if (config.chips) {
       this.chips = config.chips;
     }
-    if (config.filterInput === false) {
-      this.filterInput = false;
-    }
 
     if (this._inDialog) {
       this.queryParam = false;
@@ -744,6 +740,8 @@ export class List {
       change: this._filterChange.bind(this),
       reload: (this._config.reload ?? true) ? this.reload.bind(this) : null,
       sortChange: this._filterSort.bind(this),
+      heading: this.heading,
+      subheading: this.subheading,
     };
 
     if(this._persistance.queryEnabled) {

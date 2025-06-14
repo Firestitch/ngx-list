@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
 import { ItemType } from '@firestitch/filter';
@@ -9,8 +9,8 @@ import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'filters-extended',
-  templateUrl: 'filters-extended.component.html',
-  styles: [],
+  templateUrl: './filters-extended.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FiltersExtendedComponent implements OnInit {
 

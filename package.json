@@ -1,7 +1,7 @@
 {
   "name": "@firestitch/list",
   "title": "List",
-  "version": "18.0.33",
+  "version": "18.0.34",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-list"
@@ -57,7 +57,7 @@
     "@firestitch/drawer": "^18.0.1",
     "@firestitch/example": "^18.0.7",
     "@firestitch/file": "^18.0.6",
-    "@firestitch/filter": "^18.0.40",
+    "@firestitch/filter": "^18.0.42",
     "@firestitch/form": "^18.0.9",
     "@firestitch/html": "^18.0.0",
     "@firestitch/iframe": "^18.0.0",

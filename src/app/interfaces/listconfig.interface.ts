@@ -40,7 +40,6 @@ export interface FsListConfig {
   chips?: boolean;
   column?: FsListColumnConfig;
   autoFocus?: boolean;
-  filterInput?: boolean;
   queryParam?: boolean;
   paging?: FsPaging | false;
   loadMore?: FsListLoadMoreConfig | boolean;

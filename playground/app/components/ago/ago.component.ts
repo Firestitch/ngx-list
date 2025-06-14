@@ -11,13 +11,13 @@ import {
   subHours,
   subMinutes,
   subMonths,
-  subYears
+  subYears,
 } from 'date-fns';
 
 @Component({
   selector: 'ago',
   templateUrl: 'ago.component.html',
-  styles: []
+  styles: [],
 })
 export class AgoComponent implements OnInit {
 
@@ -29,36 +29,36 @@ export class AgoComponent implements OnInit {
   public dataArray = [
     {
       name: '1 year ago',
-      time: subYears(this.date, 1)
+      time: subYears(this.date, 1),
     },
     {
       name: '1 month ago',
-      time: subMonths(this.date, 1)
+      time: subMonths(this.date, 1),
     },
     {
       name: '1 hour ago',
-      time: subHours(this.date, 1)
+      time: subHours(this.date, 1),
     },
     {
       name: '1 day ago',
-      time: subDays(this.date, 1)
+      time: subDays(this.date, 1),
     },
     {
       name: '1 minute ago',
-      time: subMinutes(this.date, 1)
+      time: subMinutes(this.date, 1),
     },
     {
       name: 'Now',
-      time: this.date
+      time: this.date,
     },
     {
       name: '1 month from now',
-      time: addMonths(this.date, 1)
+      time: addMonths(this.date, 1),
     },
     {
       name: '1 year from now',
-      time: addYears(this.date, 1)
-    }
+      time: addYears(this.date, 1),
+    },
   ];
 
   constructor() {}
@@ -68,11 +68,10 @@ export class AgoComponent implements OnInit {
     this.config = {
       heading: 'Ago',
       status: false,
-      filterInput: false,
       paging: false,
       filters: [],
       fetch: () => {
-        return of({ data: this.dataArray })
+        return of({ data: this.dataArray });
       },
     };
   }

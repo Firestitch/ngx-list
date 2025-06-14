@@ -31,7 +31,6 @@ export class SelectionReorderComponent implements OnInit {
     this.config = {
       trackBy: 'name',
       status: false,
-      filterInput: true,
       queryParam: false,
       persist: false,
       selection: {

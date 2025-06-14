@@ -59,7 +59,6 @@ implements OnInit {
       persist: {
         name: 'kitchensink',
       },
-      filterInput: true,
       queryParam: true,
       paging: {
         limits: [5, 15, 50, 150, 250, 500, 1000],

@@ -35,7 +35,6 @@ export class RemoveConfirmComponent implements OnInit {
       heading: 'Remove',
       subheading: 'Remove action with list integrated confirmation or click on row for delete',
       status: false,
-      filterInput: true,
       queryParam: false,
       persist: false,
       paging: {
@@ -47,6 +46,12 @@ export class RemoveConfirmComponent implements OnInit {
           name: 'fromDateFrom',
           type: ItemType.Date,
           label: 'Requested date from',
+        },
+        {
+          name: 'keyword',
+          type: ItemType.Keyword,
+          label: 'Search',
+          hide: true,
         },
       ],
       actions: [

@@ -55,21 +55,6 @@ $primary-color: mat.m2-get-color-from-palette(fs-style-variables.$palette) !defa
     }
   }
 
-  &:not(.has-filter-keyword) {
-    .fs-list-header {
-      display: flex;
-      margin-bottom: 4px;
-
-      .heading-container {
-        flex: 1;
-      }
-
-      fs-filter {
-        display: flex;
-      }
-    }
-  }
-
   &.has-filters {
     .heading-container {
       margin-bottom: 4px;

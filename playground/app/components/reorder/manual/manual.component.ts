@@ -21,6 +21,8 @@ export class ManualReorderComponent implements OnInit {
     this.config = {
       status: true,
       persist: false,
+      heading: 'Reorder',
+      subheading: 'With Manual strategy and positioned to right',
       reorder: {
         position: ReorderPosition.Right,
         toggle: true,

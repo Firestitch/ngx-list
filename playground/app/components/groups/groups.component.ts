@@ -48,7 +48,6 @@ export class GroupsComponent implements OnInit, AfterContentInit {
 
     this.config = {
       status: true,
-      filterInput: true,
       paging: false,
       queryParam: false,
       persist: false,
@@ -143,26 +142,28 @@ export class GroupsComponent implements OnInit, AfterContentInit {
         start: () => {
           // console.log('reorder started');
         },
-        moved: (data) => {
+        moved: () => {
           // console.log('reorder moved', data);
         },
-        done: (data) => {
+        done: () => {
           // console.log('reorder finished', data);
         },
       },
       group: {
         groupBy: (row) => {
-          return row.group;
+          return {
+            groupIndex: row.groupIndex,
+          };
         },
         compareBy: (group) => {
-          return group.id;
+          return group.groupIndex;
         },
-        footer: (group) => {
+        footer: () => {
           return true;
         },
         actions: [
           {
-            click: (row, event) => {
+            click: () => {
               console.log('Group Action Clicked');
             },
             label: 'Group action',

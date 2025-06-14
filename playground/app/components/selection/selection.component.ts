@@ -33,7 +33,6 @@ export class SelectionComponent implements OnInit {
     this.config = {
       trackBy: 'name',
       status: true,
-      filterInput: true,
       queryParam: false,
       persist: false,
       selection: {
