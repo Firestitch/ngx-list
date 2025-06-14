@@ -1,36 +1,62 @@
-<div fsDrawerContent class="content">
-
-  <h2>Configure</h2>
-
+<div
+    fsDrawerContent
+    class="content">
+  <h2>
+    Configure
+  </h2>
   <div class="configs">
-
     <mat-form-field>
-      <input matInput placeholder="Heading" type="text" [(ngModel)]="config.heading" (ngModelChange)="reload()" fsModelChange>
+      <input
+        matInput
+        placeholder="Heading"
+        type="text"
+        [(ngModel)]="config.heading"
+        (ngModelChange)="reload()"
+        fsModelChange>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Subheading" type="text" [(ngModel)]="config.subheading" (ngModelChange)="reload()" fsModelChange>
+      <input
+        matInput
+        placeholder="Subheading"
+        type="text"
+        [(ngModel)]="config.subheading"
+        (ngModelChange)="reload()"
+        fsModelChange>
     </mat-form-field>
-
     <fs-label-field>
-      <fs-label>Flags</fs-label>
-
+      <fs-label>
+        Flags
+      </fs-label>
       <!-- <mat-checkbox [(ngModel)]="config.status" [value]="true" (ngModelChange)="reload()">Show Status</mat-checkbox>
       <mat-checkbox [(ngModel)]="config.chips" [value]="true" (ngModelChange)="reload()">Show Chips</mat-checkbox>
       <mat-checkbox [(ngModel)]="config.filterInput" [value]="true" (ngModelChange)="reload()">Show Filter Input</mat-checkbox> -->
     </fs-label-field>
-
-    <mat-form-field >
-      <mat-select placeholder="Paging Strategy" [(ngModel)]="pagingStrategy" name="strategy" (ngModelChange)="pagingChange($event)">
-        <mat-option [value]="false">Disabled</mat-option>
-        <mat-option [value]="'page'">Page</mat-option>
-        <mat-option [value]="'offset'">Offset</mat-option>
+    <mat-form-field>
+      <mat-select
+          placeholder="Paging Strategy"
+          [(ngModel)]="pagingStrategy"
+          name="strategy"
+          (ngModelChange)="pagingChange($event)">
+        <mat-option [value]="false">
+          Disabled
+        </mat-option>
+        <mat-option [value]="'page'">
+          Page
+        </mat-option>
+        <mat-option [value]="'offset'">
+          Offset
+        </mat-option>
       </mat-select>
     </mat-form-field>
-
     <fs-label-field>
-      <fs-label>LoadMore</fs-label>
-
-      <mat-checkbox [(ngModel)]="config.loadMore" (change)="loadMore($event)">Enable Load More</mat-checkbox>
+      <fs-label>
+        LoadMore
+      </fs-label>
+      <mat-checkbox
+          [(ngModel)]="config.loadMore"
+          (change)="loadMore($event)">
+        Enable Load More
+      </mat-checkbox>
     </fs-label-field>
   </div>
 </div>

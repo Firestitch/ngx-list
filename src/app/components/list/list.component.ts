@@ -27,8 +27,8 @@ import { DrawerRef } from '@firestitch/drawer';
 import { FilterComponent } from '@firestitch/filter';
 import { SelectionDialog } from '@firestitch/selection';
 
-import { Observable, Subject } from 'rxjs';
-import { filter, skip, take, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { filter, map, skip, take, takeUntil } from 'rxjs/operators';
 
 import { cloneDeep, mergeWith } from 'lodash-es';
 
@@ -97,7 +97,6 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   public body: FsBodyComponent;
 
   public list: List;
-  public keywordVisible = true;
 
   // Event will fired if action remove: true will clicked
   public rowRemoved = new EventEmitter();
@@ -108,11 +107,20 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   private _filterParamsReady = false;
   private _destroy = new Subject();
   private _injector = inject(Injector);
+  private _keywordVisible$ = new BehaviorSubject(false);
   
   @ViewChild(FilterComponent)
   public set filterReference(component) {
     this._filterRef = component;
     this.list.actions.setFilterRef(component);
+
+    this._filterRef.keywordVisible$
+      .pipe(
+        takeUntil(this._destroy),
+      )
+      .subscribe((visible) => {
+        this._keywordVisible$.next(visible);  
+      });
 
     this._emitFiltersReadyEvent();
   }
@@ -158,6 +166,17 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   public get filterRef(): FilterComponent {
     return this._filterRef;
   }
+  
+  public get keywordVisible$(): Observable<boolean> {
+    return this._keywordVisible$.asObservable();
+  }
+
+  public get keywordNotVisible$(): Observable<boolean> {
+    return this._keywordVisible$
+      .pipe(
+        map((visible) => !visible),
+      );
+  }
 
   public set groupEnabled(value: boolean) {
     this.list.groupEnabled(value);
@@ -165,10 +184,6 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
 
   public get groupEnabled() {
     return this.list.dataController.groupEnabled;
-  }
-
-  public get hasFilterKeyword(): boolean {
-    return this.list.filterInput && this.keywordVisible;
   }
 
   public get hasStatus() {
@@ -325,8 +340,6 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   private _emitFiltersReadyEvent(): void {
     if (!!this.filterRef && this._filterParamsReady) {
       this.filtersReady.emit();
-
-      this.keywordVisible = this.filterRef.hasKeyword;
       this._cdRef.markForCheck();
     }
   }

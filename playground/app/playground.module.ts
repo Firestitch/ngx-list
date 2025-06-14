@@ -15,7 +15,6 @@ import { ButtonStyle, FsFilterModule } from '@firestitch/filter';
 import { FsLabelModule } from '@firestitch/label';
 import { FsMessageModule } from '@firestitch/message';
 import { FsPromptModule } from '@firestitch/prompt';
-import { FsScrollModule } from '@firestitch/scroll';
 import { FsSelectionModule } from '@firestitch/selection';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -56,8 +55,11 @@ import { AppMaterialModule } from './material.module';
   bootstrap: [AppComponent],
   imports: [
     BrowserModule,
-    FsScrollModule.forRoot(),
-    FsListModule,
+    FsListModule.forRoot({
+      paging: {
+        limit: 5,
+      },
+    }),
     FsFilterModule.forRoot({
       queryParam: true,
       chips: true,

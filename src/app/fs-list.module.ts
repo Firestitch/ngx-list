@@ -16,7 +16,6 @@ import { FsFileModule } from '@firestitch/file';
 import { FsFilterModule } from '@firestitch/filter';
 import { FsMenuModule } from '@firestitch/menu';
 import { FsPromptModule } from '@firestitch/prompt';
-import { FsScrollModule } from '@firestitch/scroll';
 
 
 import { FsBodyComponent } from './components/body/body.component';
@@ -69,7 +68,6 @@ import { ActionLabelPipe } from './pipes';
     MatRippleModule,
     FsFilterModule,
     FsMenuModule,
-    FsScrollModule,
     FsPromptModule,
     MatDialogModule,
     MatTooltipModule,

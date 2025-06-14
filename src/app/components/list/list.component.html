@@ -1,7 +1,7 @@
 <div
     class="fs-list-container"
     [ngClass]="{
-      'has-filter-keyword': hasFilterKeyword,
+      'has-filter-keyword': keywordVisible$ | async,
       'has-filters': list.filterConfig?.items.length,
       'has-heading': list.heading || headingTemplate,
       'has-status': hasStatus,
@@ -19,10 +19,9 @@
       <div
           class="fs-list-header"
           [ngClass]="{ 'no-wrap': reorderController.manualReorderActivated || !list.filterConfig?.items.length }">
-        <ng-container
-          *ngIf="hasFilterKeyword"
-          [ngTemplateOutlet]="heading">
-        </ng-container>
+        @if (keywordVisible$ | async) {
+          <ng-container [ngTemplateOutlet]="heading"></ng-container>
+        }
         @if (list.filterConfig) {
           <fs-filter
               class="fs-list-filter"
@@ -31,10 +30,9 @@
               [showFilterInput]="list.filterInput"
               (ready)="filterReady()">
             <ng-template fsFilterStatusBar>
-              <ng-container
-                *ngIf="!hasFilterKeyword"
-                [ngTemplateOutlet]="heading">
-              </ng-container>
+              @if (keywordNotVisible$ | async) {
+                <ng-container [ngTemplateOutlet]="heading"></ng-container>
+              }
               <ng-container *ngIf="hasStatus">
                 <fs-list-status
                   class="fs-list-status"

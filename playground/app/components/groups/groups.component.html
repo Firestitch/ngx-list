@@ -37,7 +37,7 @@
       name="name"
       [sortable]="true">
     <ng-template fs-list-header>
-      User Name
+      Name
     </ng-template>
     <ng-template
         fs-list-group-header
@@ -58,7 +58,7 @@
         fs-list-cell
         let-row="row"
         let-group="group">
-      {{ row.value }}
+      {{ row.name }}
     </ng-template>
   </fs-list-column>
   <fs-list-column

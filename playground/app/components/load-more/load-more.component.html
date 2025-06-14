@@ -1,47 +1,15 @@
-<div
-    fsScroll
-    name="list-scroll"
-    style="height: 600px">
-  <div fsScrollContent>
-    <fs-list
-        [config]="config"
-        #table>
-      <fs-list-column name="avatar">
-        <ng-template
-            fs-list-cell
-            let-row="row">
-          <fs-badge
-            [size]="60"
-            [image]="row.value"
-            tooltip="Tooltip">
-          </fs-badge>
-        </ng-template>
-      </fs-list-column>
-      <fs-list-column
-          name="name"
-          title="Name"
-          [sortable]="true">
-        <ng-template fs-list-header>
-          <b>
-            User
-          </b>
-          name
-        </ng-template>
-        <ng-template
-            fs-list-cell
-            let-row="row">
-          {{ row.value }}
-        </ng-template>
-      </fs-list-column>
-      <fs-list-column
-          name="date"
-          title="Birth day">
-        <ng-template
-            fs-list-cell
-            let-row="row">
-          {{ row.value | fsDateFormat:'full-day-date' }}
-        </ng-template>
-      </fs-list-column>
-    </fs-list>
-  </div>
-</div>
+<fs-list [config]="config">
+  <fs-list-column
+      name="name"
+      title="Name"
+      [sortable]="true">
+    <ng-template fs-list-header>
+      Name
+    </ng-template>
+    <ng-template
+        fs-list-cell
+        let-row="row">
+      {{ row.name }}
+    </ng-template>
+  </fs-list-column>
+</fs-list>

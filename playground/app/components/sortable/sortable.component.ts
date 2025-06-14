@@ -37,10 +37,6 @@ export class SortableComponent implements OnInit {
           direction: 'desc',
         },
       ],
-      sort: {
-        value: 'last_login',
-        direction: 'desc',
-      },
       paging: {
         limits: [5, 15, 50, 150, 250, 500, 1000],
       },

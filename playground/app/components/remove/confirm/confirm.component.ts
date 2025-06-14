@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
+import { ItemType } from '@firestitch/filter';
 import {
   FsListAbstractRow, FsListComponent, FsListConfig, PaginationStrategy,
 } from '@firestitch/list';
@@ -41,6 +42,13 @@ export class RemoveConfirmComponent implements OnInit {
         limits: [5, 15, 50],
         strategy: PaginationStrategy.Page,
       },
+      filters: [
+        {
+          name: 'fromDateFrom',
+          type: ItemType.Date,
+          label: 'Requested date from',
+        },
+      ],
       actions: [
         {
           label: 'Update Row (Object 3)',
@@ -71,7 +79,7 @@ export class RemoveConfirmComponent implements OnInit {
       },
       rowActions: [
         {
-          click: (row, event) => {
+          click: (  ) => {
             // If Observable will be returnet List will wait till it isn't completed
             return of(1)
               .pipe(

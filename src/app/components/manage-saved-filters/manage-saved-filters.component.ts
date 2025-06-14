@@ -35,7 +35,6 @@ export class FsListManageSavedFiltersComponent {
   private _initList(): void {
     this.config = {
       status: false,
-      filterInput: false,
       queryParam: false,
       persist: false,
       paging: false,
