@@ -1,23 +1,42 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, ViewChild } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
-import { FsListConfig, ReorderPosition } from '@firestitch/list';
+import { FsListComponent, FsListConfig, ReorderPosition } from '@firestitch/list';
 
-import { of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
+
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
 @Component({
   selector: 'manual-reorder',
   templateUrl: './manual.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManualReorderComponent implements OnInit {
 
+  @ViewChild(FsListComponent, { static: true })
+  public list: FsListComponent;
+
   public config: FsListConfig = null;
 
-  constructor(private _fsApi: FsApi) { }
+  private _notReordering$ = new BehaviorSubject<boolean>(true);
+  private _destroyRef = inject(DestroyRef);
+
+  constructor(
+    private _fsApi: FsApi,
+  ) { }
 
   public ngOnInit() {
+    this.list.reorderController.enabled$
+      .pipe(
+        takeUntilDestroyed(this._destroyRef),
+      )
+      .subscribe((enabled) => {
+        this._notReordering$.next(!enabled);
+      });
+
     this.config = {
       status: true,
       persist: false,
@@ -48,4 +67,9 @@ export class ManualReorderComponent implements OnInit {
       },
     };
   }
+  
+  public get notReordering$(): Observable<boolean> {
+    return this._notReordering$.asObservable();
+  }
+
 }

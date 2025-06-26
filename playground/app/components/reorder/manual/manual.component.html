@@ -12,6 +12,15 @@
         fs-list-cell
         let-row="row">
       {{ row.value }}
+      @if (notReordering$ | async) {
+        <table>
+          <tr>
+            <td>
+              Table content
+            </td>
+          </tr>
+        </table>
+      }
     </ng-template>
   </fs-list-column>
   <fs-list-column
