@@ -213,16 +213,16 @@ $primary-color: mat.m2-get-color-from-palette(fs-style-variables.$palette) !defa
   .fs-list-table.style-line,
   .fs-list-table:not(.style-card):not(.style-basic) {
     tbody {
-      .fs-list-col {
+      td {
         box-sizing: border-box;
         border-top: 1px solid #e7e7e7;
       }
       
-      .fs-list-row:first-child .fs-list-col {
+      tr:first-child td {
         border-color: #c4c4c4;
       }
 
-      .fs-list-row:last-child .fs-list-col {
+      tr:last-child td {
         border-bottom: 1px solid #c4c4c4;
       }
     }
