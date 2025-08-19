@@ -1,5 +1,6 @@
 @use '@angular/material' as mat;
 @use '@firestitch/style/styles' as fs-style;
+@use '../src/app/styles.scss' as fs-list;
 
 @import '@firestitch/component-tools/assets/playground.scss';
 @import "@firestitch/message/styles";
@@ -12,3 +13,6 @@
 @include fs-style.core();
 @include fs-selection(mat.$m2-blue-palette);
 @include fs-drawer(mat.$m2-blue-palette);
+
+// Use this to include the table styles manually
+// @include fs-list.core();
