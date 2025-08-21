@@ -32,9 +32,7 @@ import { FsHeadCellComponent } from './components/head/head-cell/head-cell.compo
 import { FsHeadComponent } from './components/head/head.component';
 import { FsListComponent } from './components/list/list.component';
 import { FsListLoaderComponent } from './components/loader/loader.component';
-import { FsListManageSavedFiltersComponent } from './components/manage-saved-filters/manage-saved-filters.component';
 import { FsPaginationComponent } from './components/pagination/pagination.component';
-import { FsListSavedFiltersComponent } from './components/saved-filters/saved-filters.component';
 import { FsStatusComponent } from './components/status/status.component';
 import {
   FsListHeadingContainerDirective, FsListHeadingDirective, FsListSubheadingDirective,
@@ -85,15 +83,11 @@ import { ActionLabelPipe } from './pipes';
     FsFooterCellComponent,
     FsStatusComponent,
     FsListLoaderComponent,
-    FsListSavedFiltersComponent,
-    FsListManageSavedFiltersComponent,
-
     FsHeadComponent,
     FsHeadCellComponent,
     FsBodyComponent,
     FsFooterComponent,
     FsPaginationComponent,
-
     FsListColumnDirective,
     FsListCellDirective,
     FsListHeaderDirective,

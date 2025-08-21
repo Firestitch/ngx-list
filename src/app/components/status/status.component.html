@@ -47,7 +47,6 @@
       </span>
       <ng-container *ngTemplateOutlet="sortedBy"></ng-container>
     </ng-container>
-    <fs-list-saved-filters class="saved-filters"></fs-list-saved-filters>
     <fs-menu
         [hidden]="!sorting.sortingColumn || paging.pageRecords === 0"
         #orderColumnsMenu>
