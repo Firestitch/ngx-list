@@ -15,13 +15,21 @@ import { Column } from '../../models/column.model';
 import { Row } from '../../models/row';
 
 import { FsRowComponent } from './row/row.component';
+import { NgFor } from '@angular/common';
+import { FsListDraggableRowDirective } from '../../directives/draggable-row/draggable-row.directive';
 
 
 @Component({
-  selector: '[fs-list-body]',
-  templateUrl: './body.component.html',
-  styleUrls: ['./body.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: '[fs-list-body]',
+    templateUrl: './body.component.html',
+    styleUrls: ['./body.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgFor,
+        FsRowComponent,
+        FsListDraggableRowDirective,
+    ],
 })
 export class FsBodyComponent {
 

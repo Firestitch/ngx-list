@@ -8,12 +8,23 @@ import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 
 import { ApiStrategy } from '../../services/api-strategy.service';
+import { FsListComponent as FsListComponent_1 } from '../../../../src/app/components/list/list.component';
+import { FsListColumnDirective } from '../../../../src/app/directives/column/column.directive';
+import { FsListHeaderDirective } from '../../../../src/app/directives/header/header.directive';
+import { FsListCellDirective } from '../../../../src/app/directives/cell/cell.directive';
   
 
 @Component({
-  selector: 'selection-reorder',
-  templateUrl: './selection-reorder.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'selection-reorder',
+    templateUrl: './selection-reorder.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FsListComponent_1,
+        FsListColumnDirective,
+        FsListHeaderDirective,
+        FsListCellDirective,
+    ],
 })
 export class SelectionReorderComponent implements OnInit {
 

@@ -1,3 +1,4 @@
+import { AsyncPipe, NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   AfterContentInit,
   ChangeDetectionStrategy, ChangeDetectorRef,
@@ -24,7 +25,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { DrawerRef } from '@firestitch/drawer';
-import { FilterComponent } from '@firestitch/filter';
+import { FilterComponent, FilterStatusBarDirective } from '@firestitch/filter';
 import { SelectionDialog } from '@firestitch/selection';
 
 import { Observable, Subject } from 'rxjs';
@@ -39,7 +40,10 @@ import {
   FsListHeadingContainerDirective, FsListHeadingDirective, FsListSubheadingDirective,
 } from '../../directives';
 import { FsListColumnDirective } from '../../directives/column/column.directive';
+import { FsListContentInitDirective } from '../../directives/content-init/content-init.directive';
+import { FsListDraggableListDirective } from '../../directives/draggable-list/draggable-list.directive';
 import { FsListEmptyStateDirective } from '../../directives/empty-state/empty-state.directive';
+import { FsListFooterDirective } from '../../directives/footer/footer.directive';
 import { PaginationStrategy } from '../../enums/pagination-strategy.enum';
 import { FS_LIST_CONFIG } from '../../fs-list.providers';
 import {
@@ -53,6 +57,11 @@ import { IPaginationState } from '../../interfaces/pagination-state.interface';
 import { GroupExpandNotifierService } from '../../services/group-expand-notifier.service';
 import { FsBodyComponent } from '../body/body.component';
 import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.component';
+import { FsFooterComponent } from '../footer/footer.component';
+import { FsHeadComponent } from '../head/head.component';
+import { FsListLoaderComponent } from '../loader/loader.component';
+import { FsPaginationComponent } from '../pagination/pagination.component';
+import { FsStatusComponent } from '../status/status.component';
 
 
 @Component({
@@ -64,6 +73,24 @@ import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.c
     GroupExpandNotifierService,
     PersistanceController,
     ReorderController,
+  ],
+  standalone: true,
+  imports: [
+    NgClass,
+    NgTemplateOutlet,
+    NgIf,
+    FilterComponent,
+    FilterStatusBarDirective,
+    FsStatusComponent,
+    FsListContentInitDirective,
+    FsHeadComponent,
+    FsBodyComponent,
+    FsListDraggableListDirective,
+    FsFooterComponent,
+    FsListFooterDirective,
+    FsListLoaderComponent,
+    FsPaginationComponent,
+    AsyncPipe,
   ],
 })
 export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {

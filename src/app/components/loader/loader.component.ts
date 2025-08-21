@@ -8,13 +8,16 @@ import {
 } from '@angular/core';
 
 import { random } from 'lodash-es';
+import { NgFor } from '@angular/common';
 
 
 @Component({
-  selector: 'fs-list-loader',
-  templateUrl: './loader.component.html',
-  styleUrls: ['./loader.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-list-loader',
+    templateUrl: './loader.component.html',
+    styleUrls: ['./loader.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgFor],
 })
 export class FsListLoaderComponent implements OnInit, OnChanges {
 

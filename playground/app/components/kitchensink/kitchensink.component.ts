@@ -4,6 +4,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 import { FsApi } from '@firestitch/api';
 import { nameValue } from '@firestitch/common';
@@ -16,15 +17,31 @@ import {
 } from '@firestitch/list';
 
 import { BehaviorSubject, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { delay, map } from 'rxjs/operators';
 
+import { FsListComponent as FsListComponent_1 } from '../../../../src/app/components/list/list.component';
+import { FsListCellDirective } from '../../../../src/app/directives/cell/cell.directive';
+import { FsListColumnDirective } from '../../../../src/app/directives/column/column.directive';
+import { FsListFooterDirective } from '../../../../src/app/directives/footer/footer.directive';
+import { FsListHeaderDirective } from '../../../../src/app/directives/header/header.directive';
 import { ApiStrategy } from '../../services/api-strategy.service';
+
+import { SavedFilters } from './saved-filter';
 
 
 @Component({
   selector: 'kitchensink',
   templateUrl: './kitchensink.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    FsListComponent_1,
+    FsListColumnDirective,
+    FsListHeaderDirective,
+    FsListCellDirective,
+    FsListFooterDirective,
+    RouterLink,
+  ],
 })
 export class KitchenSinkComponent
 implements OnInit {
@@ -169,54 +186,51 @@ implements OnInit {
       afterContentInit: (query, data) => {
         console.log('AfterContent Init', query, data);
       },
-      // savedFilters: {
-      //   load: () => {
-      //     console.log('<====== Load Saved Filters =====>');
+      savedFilters: {
+        load: () => {
+          console.log('<====== Load Saved Filters =====>');
 
-      //     return of(savedFilters)
-      //       .pipe(
-      //         delay(100),
-      //       );
-      //   },
-      //   save: (filter) => {
-      //     console.log('<====== Save Filter =====>');
-      //     const filterIndex = savedFilters.findIndex((f) => {
-      //       return f.id === filter.id;
-      //     });
+          return of(SavedFilters);
+        },
+        save: (filter) => {
+          console.log('<====== Save Filter =====>');
+          const filterIndex = SavedFilters.findIndex((f) => {
+            return f.id === filter.id;
+          });
 
-      //     if (filterIndex > -1) {
-      //       // Here I'm emulating like backend returend filter which automatically activated
-      //       filter.active = true;
-      //       savedFilters[filterIndex] = filter;
-      //     } else {
-      //       // Here I'm emulating like backend returend new filter with ID to me
-      //       filter = {
-      //         ...filter,
-      //         id: 999,
-      //       };
-      //       savedFilters.push(filter);
-      //     }
+          if (filterIndex > -1) {
+            // Here I'm emulating like backend returend filter which automatically activated
+            filter.active = true;
+            SavedFilters[filterIndex] = filter;
+          } else {
+            // Here I'm emulating like backend returend new filter with ID to me
+            filter = {
+              ...filter,
+              id: 999,
+            };
+            SavedFilters.push(filter);
+          }
 
-      //     console.log('Save Filter', filter);
-      //     console.log('Saved Filters: ', savedFilters);
+          console.log('Save Filter', filter);
+          console.log('Saved Filters: ', SavedFilters);
 
-      //     return of(filter)
-      //       .pipe(
-      //         delay(1500),
-      //       );
-      //   },
-      //   order: (filters) => {
-      //     console.log('<====== Order Saved Filters =====>');
-      //     console.log('order filters', filters);
+          return of(filter)
+            .pipe(
+              delay(1500),
+            );
+        },
+        order: (filters) => {
+          console.log('<====== Order Saved Filters =====>');
+          console.log('order filters', filters);
 
-      //     return of(filters);
-      //   },
-      //   delete: () => {
-      //     console.log('<====== Delete Saved Filter =====>');
+          return of(filters);
+        },
+        delete: () => {
+          console.log('<====== Delete Saved Filter =====>');
 
-      //     return of();
-      //   },
-      // },
+          return of();
+        },
+      },
       reorder: {
         start: () => {
           console.log('reorder started');

@@ -4,12 +4,23 @@ import { FsApi } from '@firestitch/api';
 import { ActionType, FsListComponent, FsListConfig } from '@firestitch/list';
 
 import { map } from 'rxjs/operators';
+import { FsListComponent as FsListComponent_1 } from '../../../../src/app/components/list/list.component';
+import { FsListColumnDirective } from '../../../../src/app/directives/column/column.directive';
+import { FsListHeaderDirective } from '../../../../src/app/directives/header/header.directive';
+import { FsListCellDirective } from '../../../../src/app/directives/cell/cell.directive';
 
 
 @Component({
-  selector: 'row-actions',
-  templateUrl: './row-actions.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'row-actions',
+    templateUrl: './row-actions.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FsListComponent_1,
+        FsListColumnDirective,
+        FsListHeaderDirective,
+        FsListCellDirective,
+    ],
 })
 export class RowActionsComponent implements OnInit {
 

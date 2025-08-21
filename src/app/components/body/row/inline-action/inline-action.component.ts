@@ -9,18 +9,41 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-import { FsFile } from '@firestitch/file';
+import { FsFile, FsFileModule } from '@firestitch/file';
 
 import { ActionType } from '../../../../enums/action-type.enum';
 import { Row } from '../../../../models/row';
 import { RowAction } from '../../../../models/row-action.model';
+import { NgIf, NgSwitch, NgSwitchCase, NgClass, NgTemplateOutlet } from '@angular/common';
+import { MatButton, MatAnchor, MatIconButton, MatIconAnchor, MatFabButton, MatFabAnchor, MatMiniFabButton, MatMiniFabAnchor } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
+import { MatIcon } from '@angular/material/icon';
 
 
 @Component({
-  selector: 'fs-list-row-inline-action',
-  styleUrls: ['./inline-action.component.scss'],
-  templateUrl: './inline-action.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-list-row-inline-action',
+    styleUrls: ['./inline-action.component.scss'],
+    templateUrl: './inline-action.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgSwitch,
+        NgSwitchCase,
+        MatButton,
+        NgClass,
+        NgTemplateOutlet,
+        MatAnchor,
+        RouterLink,
+        MatIconButton,
+        MatIconAnchor,
+        MatFabButton,
+        MatFabAnchor,
+        MatMiniFabButton,
+        MatMiniFabAnchor,
+        MatIcon,
+        FsFileModule,
+    ],
 })
 export class FsRowInlineActionComponent implements OnInit, OnChanges {
   

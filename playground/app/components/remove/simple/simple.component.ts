@@ -7,12 +7,27 @@ import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 
 import { ApiStrategy } from '../../../services/api-strategy.service';
+import { FsListComponent as FsListComponent_1 } from '../../../../../src/app/components/list/list.component';
+import { FsListColumnDirective } from '../../../../../src/app/directives/column/column.directive';
+import { FsListHeaderDirective } from '../../../../../src/app/directives/header/header.directive';
+import { FsListCellDirective } from '../../../../../src/app/directives/cell/cell.directive';
+import { FsListFooterDirective } from '../../../../../src/app/directives/footer/footer.directive';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
-  selector: 'remove-simple',
-  templateUrl: './simple.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'remove-simple',
+    templateUrl: './simple.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FsListComponent_1,
+        FsListColumnDirective,
+        FsListHeaderDirective,
+        FsListCellDirective,
+        FsListFooterDirective,
+        RouterLink,
+    ],
 })
 export class RemoveSimpleComponent implements OnInit {
 

@@ -48,7 +48,6 @@ import { ConfigureComponent } from './components/configure';
 import { LoadMoreComponent } from './components/load-more';
 import { RestoreComponent } from './components/restore/restore.component';
 import { ApiInterceptorFactory } from './interceptors';
-import { AppMaterialModule } from './material.module';
 
 
 @NgModule({
@@ -69,7 +68,6 @@ import { AppMaterialModule } from './material.module';
       buttonStyle: ButtonStyle.Flat,
     }),
     BrowserAnimationsModule,
-    AppMaterialModule,
     FormsModule,
     FsLabelModule,
     FsExampleModule.forRoot(),
@@ -86,9 +84,6 @@ import { AppMaterialModule } from './material.module';
       { path: 'paging', component: PagingComponent },
     ], {}),
     FsFileModule.forRoot({}),
-  ],
-  declarations: [
-    AppComponent,
     ExamplesComponent,
     KitchenSinkComponent,
     ToggleReorderComponent,
@@ -113,6 +108,7 @@ import { AppMaterialModule } from './material.module';
     LoadMoreComponent,
     SelectionReorderComponent,
   ],
+  declarations: [AppComponent],
   providers: [
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,

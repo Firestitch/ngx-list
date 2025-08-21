@@ -19,7 +19,8 @@ import { FsListHeaderDirective } from '../header/header.directive';
 
 
 @Directive({
-  selector: 'fs-list-column',
+    selector: 'fs-list-column',
+    standalone: true,
 })
 export class FsListColumnDirective {
 

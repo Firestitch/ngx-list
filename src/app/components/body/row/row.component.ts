@@ -15,7 +15,7 @@ import {
   ViewChildren,
 } from '@angular/core';
 
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatCheckboxChange, MatCheckbox } from '@angular/material/checkbox';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -30,13 +30,29 @@ import { FsListRowClassOptions } from '../../../interfaces';
 import { Column } from '../../../models/column.model';
 import { Row } from '../../../models/row';
 import { RowAction } from '../../../models/row-action.model';
+import { NgIf, NgTemplateOutlet, NgFor, NgClass, AsyncPipe } from '@angular/common';
+import { FsCellComponent } from './cell/cell.component';
+import { FsRowActionsComponent } from './actions/actions.component';
+import { MatIcon } from '@angular/material/icon';
 
 
 @Component({
-  selector: '[fs-list-row]',
-  templateUrl: './row.component.html',
-  styleUrls: ['./row.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: '[fs-list-row]',
+    templateUrl: './row.component.html',
+    styleUrls: ['./row.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgTemplateOutlet,
+        MatCheckbox,
+        NgFor,
+        FsCellComponent,
+        NgClass,
+        FsRowActionsComponent,
+        MatIcon,
+        AsyncPipe,
+    ],
 })
 export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 

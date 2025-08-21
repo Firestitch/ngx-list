@@ -3,7 +3,10 @@ import { Row } from '../models/row';
 
 
 
-@Pipe({ name: 'actionLabel' })
+@Pipe({
+    name: 'actionLabel',
+    standalone: true
+})
 export class ActionLabelPipe implements PipeTransform {
   public transform(label, row: Row) {
     if (typeof label === 'function') {

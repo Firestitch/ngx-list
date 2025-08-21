@@ -2,7 +2,10 @@ import { Directive, HostListener, Input } from '@angular/core';
 import { GroupExpandNotifierService } from '../../services/group-expand-notifier.service';
 
 
-@Directive({ selector: '[fsListGroupExpandTrigger]' })
+@Directive({
+    selector: '[fsListGroupExpandTrigger]',
+    standalone: true
+})
 export class FsListGroupExpandTriggerDirective {
 
   @HostListener('click', ['$event'])

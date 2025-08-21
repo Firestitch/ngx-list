@@ -17,14 +17,28 @@ import { PaginationController } from '../../classes/pagination-controller';
 import { SortingController } from '../../classes/sorting-controller';
 import { PaginationStrategy } from '../../enums';
 import { SortingDirection } from '../../models/column.model';
+import { NgTemplateOutlet, NgIf, NgFor, DecimalPipe } from '@angular/common';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { FsMenuModule } from '@firestitch/menu';
 
 
 @Component({
-  selector: 'fs-list-status',
-  templateUrl: './status.component.html',
-  styleUrls: ['./status.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  preserveWhitespaces: true,
+    selector: 'fs-list-status',
+    templateUrl: './status.component.html',
+    styleUrls: ['./status.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    preserveWhitespaces: true,
+    standalone: true,
+    imports: [
+        NgTemplateOutlet,
+        MatTooltip,
+        MatProgressSpinner,
+        NgIf,
+        FsMenuModule,
+        NgFor,
+        DecimalPipe,
+    ],
 })
 export class FsStatusComponent implements OnInit, OnDestroy {
 

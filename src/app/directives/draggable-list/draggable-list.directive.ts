@@ -10,7 +10,8 @@ import { FsListDraggableRowDirective } from '../draggable-row/draggable-row.dire
 
 
 @Directive({
-  selector: '[fsListDraggableList]',
+    selector: '[fsListDraggableList]',
+    standalone: true,
 })
 export class FsListDraggableListDirective {
   // Draggable Element

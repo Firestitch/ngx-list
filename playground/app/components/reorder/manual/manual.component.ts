@@ -7,12 +7,25 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FsListComponent as FsListComponent_1 } from '../../../../../src/app/components/list/list.component';
+import { FsListColumnDirective } from '../../../../../src/app/directives/column/column.directive';
+import { FsListHeaderDirective } from '../../../../../src/app/directives/header/header.directive';
+import { FsListCellDirective } from '../../../../../src/app/directives/cell/cell.directive';
+import { AsyncPipe } from '@angular/common';
 
 
 @Component({
-  selector: 'manual-reorder',
-  templateUrl: './manual.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'manual-reorder',
+    templateUrl: './manual.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FsListComponent_1,
+        FsListColumnDirective,
+        FsListHeaderDirective,
+        FsListCellDirective,
+        AsyncPipe,
+    ],
 })
 export class ManualReorderComponent implements OnInit {
 

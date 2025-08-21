@@ -9,7 +9,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatCheckboxChange, MatCheckbox } from '@angular/material/checkbox';
 
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -21,13 +21,24 @@ import {
 import { SelectionChangeType, SelectionController } from '../../classes/selection-controller';
 import { SortingController } from '../../classes/sorting-controller';
 import { Column } from '../../models/column.model';
+import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
+import { FsHeadCellComponent } from './head-cell/head-cell.component';
 
 
 @Component({
-  selector: '[fs-list-head]',
-  templateUrl: './head.component.html',
-  styleUrls: ['./head.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: '[fs-list-head]',
+    templateUrl: './head.component.html',
+    styleUrls: ['./head.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        MatCheckbox,
+        NgFor,
+        FsHeadCellComponent,
+        NgClass,
+        AsyncPipe,
+    ],
 })
 export class FsHeadComponent implements OnInit, OnDestroy {
 

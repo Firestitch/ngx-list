@@ -15,12 +15,37 @@ import { delay, map } from 'rxjs/operators';
 
 
 import { ApiStrategy } from '../../services/api-strategy.service';
+import { FsListComponent as FsListComponent_1 } from '../../../../src/app/components/list/list.component';
+import { FsListColumnDirective } from '../../../../src/app/directives/column/column.directive';
+import { FsListHeaderDirective } from '../../../../src/app/directives/header/header.directive';
+import { FsListGroupHeaderDirective } from '../../../../src/app/directives/group-header/group-header.directive';
+import { FsListGroupFooterDirective } from '../../../../src/app/directives/group-footer/group-footer.directive';
+import { FsListCellDirective } from '../../../../src/app/directives/cell/cell.directive';
+import { FsListFooterDirective } from '../../../../src/app/directives/footer/footer.directive';
+import { MatIconButton } from '@angular/material/button';
+import { FsListGroupExpandTriggerDirective } from '../../../../src/app/directives/group-expand-trigger/group-expand-trigger.directive';
+import { MatIcon } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
-  selector: 'groups',
-  templateUrl: './groups.component.html',
-  styleUrls: ['./groups.component.scss'],
+    selector: 'groups',
+    templateUrl: './groups.component.html',
+    styleUrls: ['./groups.component.scss'],
+    standalone: true,
+    imports: [
+        FsListComponent_1,
+        FsListColumnDirective,
+        FsListHeaderDirective,
+        FsListGroupHeaderDirective,
+        FsListGroupFooterDirective,
+        FsListCellDirective,
+        FsListFooterDirective,
+        MatIconButton,
+        FsListGroupExpandTriggerDirective,
+        MatIcon,
+        RouterLink,
+    ],
 })
 export class GroupsComponent implements OnInit, AfterContentInit {
 

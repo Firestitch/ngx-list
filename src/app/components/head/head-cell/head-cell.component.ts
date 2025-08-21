@@ -8,13 +8,24 @@ import {
 } from '@angular/core';
 
 import { FsCellComponent } from '../../body/row/cell/cell.component';
+import { NgIf, NgTemplateOutlet, NgSwitch, NgSwitchCase, AsyncPipe } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
 
 
 @Component({
-  selector: '[fs-head-cell]',
-  templateUrl: './head-cell.component.html',
-  styleUrls: ['./head-cell.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: '[fs-head-cell]',
+    templateUrl: './head-cell.component.html',
+    styleUrls: ['./head-cell.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgTemplateOutlet,
+        NgSwitch,
+        NgSwitchCase,
+        MatIcon,
+        AsyncPipe,
+    ],
 })
 export class FsHeadCellComponent extends FsCellComponent implements DoCheck {
 

@@ -10,12 +10,23 @@ import { FsMenuComponent } from '@firestitch/menu';
 import { FsListRowActionFile } from '../../../../interfaces/listconfig.interface';
 import { Row } from '../../../../models/row';
 import { RowAction } from '../../../../models/row-action.model';
+import { NgIf } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { FsFileModule } from '@firestitch/file';
+import { ActionLabelPipe } from '../../../../pipes/action-label';
 
 
 @Component({
-  selector: 'fs-list-row-menu-action',
-  templateUrl: './menu-action.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-list-row-menu-action',
+    templateUrl: './menu-action.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        MatIcon,
+        FsFileModule,
+        ActionLabelPipe,
+    ],
 })
 export class FsRowMenuActionComponent implements OnInit, OnChanges {
 

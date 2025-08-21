@@ -9,7 +9,8 @@ import { FsListDraggableListDirective } from '../draggable-list/draggable-list.d
 
 
 @Directive({
-  selector: '[fsListDraggableRow]',
+    selector: '[fsListDraggableRow]',
+    standalone: true,
 })
 export class FsListDraggableRowDirective implements OnInit, OnDestroy {
 

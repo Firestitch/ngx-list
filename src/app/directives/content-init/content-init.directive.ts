@@ -2,7 +2,8 @@ import { AfterViewInit, Directive, Input } from '@angular/core';
 
 
 @Directive({
-  selector: '[fsListContentInit]'
+    selector: '[fsListContentInit]',
+    standalone: true
 })
 export class FsListContentInitDirective implements AfterViewInit {
 

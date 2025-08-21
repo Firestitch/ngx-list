@@ -1,7 +1,10 @@
 import { Directive, Input } from '@angular/core';
 
 
-@Directive({ selector: '[fs-list-cell]' })
+@Directive({
+    selector: '[fs-list-cell]',
+    standalone: true
+})
 export class FsListCellDirective {
 
   @Input() public colspan;

@@ -5,18 +5,31 @@ import { FsApi } from '@firestitch/api';
 import { FsListComponent, FsListConfig, ReorderPosition } from '@firestitch/list';
 
 import { map } from 'rxjs/operators';
+import { MatButton } from '@angular/material/button';
+import { FsListComponent as FsListComponent_1 } from '../../../../../src/app/components/list/list.component';
+import { FsListColumnDirective } from '../../../../../src/app/directives/column/column.directive';
+import { FsListHeaderDirective } from '../../../../../src/app/directives/header/header.directive';
+import { FsListCellDirective } from '../../../../../src/app/directives/cell/cell.directive';
 
 
 @Component({
-  selector: 'custom-reorder',
-  templateUrl: './custom.component.html',
-  styles: [
-    `
+    selector: 'custom-reorder',
+    templateUrl: './custom.component.html',
+    styles: [
+        `
       .custom-reorder {
         margin-bottom: 20px
       }
     `,
-  ],
+    ],
+    standalone: true,
+    imports: [
+        MatButton,
+        FsListComponent_1,
+        FsListColumnDirective,
+        FsListHeaderDirective,
+        FsListCellDirective,
+    ],
 })
 export class CustomReorderComponent implements OnInit {
 

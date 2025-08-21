@@ -1,21 +1,4 @@
-import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatRippleModule } from '@angular/material/core';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatTooltipModule } from '@angular/material/tooltip';
-
-import { FsCommonModule } from '@firestitch/common';
-import { FsFileModule } from '@firestitch/file';
-import { FsFilterModule } from '@firestitch/filter';
-import { FsMenuModule } from '@firestitch/menu';
-import { FsPromptModule } from '@firestitch/prompt';
 
 
 import { FsBodyComponent } from './components/body/body.component';
@@ -56,23 +39,6 @@ import { ActionLabelPipe } from './pipes';
 
 @NgModule({
   imports: [
-    CommonModule,
-    RouterModule,
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule,
-    MatProgressSpinnerModule,
-    MatCheckboxModule,
-    MatRippleModule,
-    FsFilterModule,
-    FsMenuModule,
-    FsPromptModule,
-    MatDialogModule,
-    MatTooltipModule,
-    FsFileModule,
-    FsCommonModule,
-  ],
-  declarations: [
     FsListComponent,
     FsRowComponent,
     FsRowActionsComponent,
@@ -103,11 +69,7 @@ import { ActionLabelPipe } from './pipes';
     FsListSubheadingDirective,
     FsListHeadingDirective,
     FsListHeadingContainerDirective,
-
-    // Dialog
     CustomizeColsDialogComponent,
-
-    //Pipes
     ActionLabelPipe,
   ],
   exports: [

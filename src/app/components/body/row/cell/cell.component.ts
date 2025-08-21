@@ -11,12 +11,15 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { Column } from '../../../../models/column.model';
+import { NgTemplateOutlet } from '@angular/common';
 
 
 @Component({
-  selector: '[fs-cell]',
-  templateUrl: './cell.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: '[fs-cell]',
+    templateUrl: './cell.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgTemplateOutlet],
 })
 export class FsCellComponent implements OnInit, OnChanges, DoCheck, OnDestroy {
 

@@ -13,11 +13,22 @@ import {
   subMonths,
   subYears,
 } from 'date-fns';
+import { FsListComponent as FsListComponent_1 } from '../../../../src/app/components/list/list.component';
+import { FsListColumnDirective } from '../../../../src/app/directives/column/column.directive';
+import { FsListCellDirective } from '../../../../src/app/directives/cell/cell.directive';
+import { FsDateModule } from '@firestitch/date';
 
 @Component({
-  selector: 'ago',
-  templateUrl: 'ago.component.html',
-  styles: [],
+    selector: 'ago',
+    templateUrl: 'ago.component.html',
+    styles: [],
+    standalone: true,
+    imports: [
+        FsListComponent_1,
+        FsListColumnDirective,
+        FsListCellDirective,
+        FsDateModule,
+    ],
 })
 export class AgoComponent implements OnInit {
 

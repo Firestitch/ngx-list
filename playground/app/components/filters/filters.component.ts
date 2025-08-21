@@ -5,12 +5,23 @@ import { ItemType } from '@firestitch/filter';
 import { FsListComponent, FsListConfig } from '@firestitch/list';
 
 import { map } from 'rxjs/operators';
+import { FsListComponent as FsListComponent_1 } from '../../../../src/app/components/list/list.component';
+import { FsListColumnDirective } from '../../../../src/app/directives/column/column.directive';
+import { FsListHeaderDirective } from '../../../../src/app/directives/header/header.directive';
+import { FsListCellDirective } from '../../../../src/app/directives/cell/cell.directive';
 
 
 @Component({
-  selector: 'filters',
-  templateUrl: 'filters.component.html',
-  styles: [],
+    selector: 'filters',
+    templateUrl: 'filters.component.html',
+    styles: [],
+    standalone: true,
+    imports: [
+        FsListComponent_1,
+        FsListColumnDirective,
+        FsListHeaderDirective,
+        FsListCellDirective,
+    ],
 })
 export class FiltersComponent implements OnInit {
 

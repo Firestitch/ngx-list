@@ -7,12 +7,15 @@ import {
 import { ReorderPosition, ReorderStrategy } from '../../classes/reorder-controller';
 import { SelectionController } from '../../classes/selection-controller';
 import { Column } from '../../models/column.model';
+import { FsFooterRowComponent } from './footer-row/footer-row.component';
 
 @Component({
-  selector: '[fs-list-footer]',
-  templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: '[fs-list-footer]',
+    templateUrl: './footer.component.html',
+    styleUrls: ['./footer.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [FsFooterRowComponent],
 })
 export class FsFooterComponent {
 

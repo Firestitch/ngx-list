@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 
 
 @Component({
-  selector: 'app-style',
-  templateUrl: 'style.component.html',
+    selector: 'app-style',
+    templateUrl: 'style.component.html',
+    standalone: true,
 })
 export class StyleComponent {
 
