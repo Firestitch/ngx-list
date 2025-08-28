@@ -16,7 +16,7 @@ import {
   FsListConfig,
 } from '@firestitch/list';
 
-import { BehaviorSubject, of } from 'rxjs';
+import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 
 import { FsListComponent as FsListComponent_1 } from '../../../../src/app/components/list/list.component';
@@ -125,12 +125,12 @@ implements OnInit {
           label: 'Search',
         },
         {
-          name: 'simple_select',
+          name: 'singleSelect',
           type: ItemType.Select,
           label: 'Simple Select',
           values: () => {
             return [
-              { name: 'All', value: '__all' },
+              { name: 'All', value: null },
               { name: 'Option 1', value: 1 },
               { name: 'Option 2', value: 2 },
               { name: 'Option 3', value: 3 },
@@ -148,7 +148,7 @@ implements OnInit {
           label: 'Date',
         },
         {
-          name: 'date_scroll',
+          name: 'dateScroll',
           type: ItemType.Date,
           mode: ItemDateMode.ScrollMonthYear,
           label: 'Month Scroll Picker',
@@ -159,12 +159,12 @@ implements OnInit {
           label: 'Checkbox',
         },
         {
-          name: 'days_chips',
+          name: 'daysChips',
           label: 'Weekdays',
           type: ItemType.Chips,
           multiple: true,
           values: () => {
-            return new BehaviorSubject(this.weekdays)
+            return of(this.weekdays)
               .pipe(
                 map((weekdays) => nameValue(weekdays, 'name', 'id')),
               );

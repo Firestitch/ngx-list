@@ -21,11 +21,9 @@
         @if (list.filterConfig) {
           <fs-filter
               class="fs-list-filter"
-              [filter]="list.filterConfig"
-              [showSortBy]="!list.status"
-              (ready)="filterReady()">
-            <ng-template fsFilterStatusBar>
-              <ng-container *ngIf="hasStatus">
+              [config]="list.filterConfig">
+            <ng-container *ngIf="hasStatus">
+              <ng-template fsFilterStatusBar>
                 <fs-list-status
                   class="fs-list-status"
                   [ngClass]="{ 'hidden-mobile': !list.status }"
@@ -33,8 +31,8 @@
                   [list]="list"
                   [firstLoad]="firstLoad">
                 </fs-list-status>
-              </ng-container>
-            </ng-template>
+              </ng-template>
+            </ng-container>
           </fs-filter>
         }
       </div>

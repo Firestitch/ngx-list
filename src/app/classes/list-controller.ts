@@ -106,9 +106,6 @@ export class List {
   private _initialized$ = new BehaviorSubject(false);
   private _fetch$ = new Subject<FsListFetchSubscription | void>();
   private readonly _filtersQuery = new BehaviorSubject<Record<string, any>>(null);
-  private readonly _activeFiltersCount$ = this._filtersQuery
-    .pipe(map((v) => Object.keys(v).length), shareReplay());
-
   private readonly _headerConfig: StyleConfig;
   private readonly _groupCellConfig: StyleConfig;
   private readonly _cellConfig: StyleConfig;
@@ -167,11 +164,18 @@ export class List {
   }
 
   public get filtersQuery$(): Observable<Record<string, any>> {
-    return this._filtersQuery.asObservable();
+    return this._filtersQuery.asObservable()
+      .pipe(
+        map((v) => v || {}),
+      );
   }
 
   public get activeFiltersCount$(): Observable<number> {
-    return this._activeFiltersCount$;
+    return this.filtersQuery$
+      .pipe(
+        map((v) => Object.keys(v).length),
+        shareReplay(),
+      );
   }
 
   public get destroy$(): Observable<any> {
@@ -757,14 +761,12 @@ export class List {
    *
    * @param filters
    */
-  private _filterInit(filters) {
+  private _filterInit(query) {
     if (this.filterInitCb) {
-      this.filterInitCb(filters);
+      this.filterInitCb(query);
     }
 
-    this._filtersQuery.next(filters);
-
-    this._checkRestoreFilter();
+    this.filtersReady();
   }
 
   /**
