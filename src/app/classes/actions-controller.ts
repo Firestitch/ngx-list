@@ -1,6 +1,7 @@
+import { FilterComponent } from '@firestitch/filter';
+
 import { Observable, Subject } from 'rxjs';
 
-import { FilterComponent } from '@firestitch/filter';
 import { FsListAction } from '../interfaces/listconfig.interface';
 
 
@@ -48,9 +49,9 @@ export class ActionsController {
     action.click = () => {
       this._filterRef.updateActions([this._doneAction]);
       this._filterRef.hideKeywordField();
-      this._filterRef.hideFiltersBtn();
+      this._filterRef.hideFilters();
       actionClickFn(null);
-    }
+    };
 
     this._reorderAction = action;
   }
@@ -62,9 +63,9 @@ export class ActionsController {
     this._doneAction.click = () => {
       this._filterRef.updateActions(this._actions);
       this._filterRef.showKeywordField();
-      this._filterRef.showFiltersBtn();
+      this._filterRef.showFilters();
       actionClickFn(null);
-    }
+    };
   }
 
   public clearActions() {

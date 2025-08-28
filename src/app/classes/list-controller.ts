@@ -724,7 +724,6 @@ export class List {
       return;
     }
 
-    const sortValues = this.sorting.makeSortingList();
     const sortConfig = this.sorting.sortingColumn
       ? { value: this.sorting.sortingColumn.name, direction: this.sorting.sortingColumn.direction }
       : null;
@@ -736,7 +735,6 @@ export class List {
       actions: this.actions.actions,
       queryParam: this.queryParam,
       autofocus: this.autoFocus,
-      sorts: sortValues,
       sort: sortConfig,
       chips: this.chips,
       autoReload: this.autoReload,
@@ -751,7 +749,6 @@ export class List {
     if(this._persistance.queryEnabled) {
       this.filterConfig.persist =  {
         name: this._persistance.name,
-        persistQuery: true,
       };
     }
   }
