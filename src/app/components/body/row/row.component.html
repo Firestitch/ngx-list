@@ -5,7 +5,7 @@
 <!-- Selection -->
 <ng-container *ngIf="selection && !(selection.disabled$ | async)">
   <td class="fs-list-col fs-list-col-selection">
-    <ng-container *ngIf="!row.isGroupFooter">
+    <ng-container *ngIf="!isGroupFooterRow()">
       <mat-checkbox
         (change)="selectRow($event)"
         [checked]="selected"
@@ -18,18 +18,18 @@
 <ng-container *ngFor="let column of columns; trackBy: trackByFn; let isFirst = first">
   <td
     fs-cell
-    *ngIf="(isGroupRow && !column.groupHeaderColspanned)
-        || (isGroupFooterRow && !column.groupFooterColspanned)
-        || (!isGroupRow && !isGroupFooterRow && !column.cellColspanned)"
+    *ngIf="(isGroupRow() && !column.groupHeaderColspanned)
+        || (isGroupFooterRow() && !column.groupFooterColspanned)
+        || (!isGroupRow() && !isGroupFooterRow() && !column.cellColspanned)"
     [column]="column"
-    [row]="row"
+    [row]="row()"
     [rowIndex]="rowIndex"
-    [class]="(isGroupRow && column.groupHeaderConfigs.classesString)
-        || (isGroupFooterRow && column.groupFooterConfigs.classesString)
-        || (!isGroupFooterRow && column.cellConfigs.classesString)"
+    [class]="(isGroupRow() && column.groupHeaderConfigs.classesString)
+        || (isGroupFooterRow() && column.groupFooterConfigs.classesString)
+        || (!isGroupFooterRow() && column.cellConfigs.classesString)"
     [ngClass]="{ 'primary-col': isFirst }"
-    [attr.colspan]="(isGroupRow && column.groupHeaderConfigs.colspan)
-        || (isGroupFooterRow && column.groupFooterConfigs.colspan)
+    [attr.colspan]="(isGroupRow() && column.groupHeaderConfigs.colspan)
+        || (isGroupFooterRow() && column.groupFooterConfigs.colspan)
         || column.cellConfigs.colspan"
     [attr.width]="column.width">
   </td>
@@ -42,9 +42,9 @@
 <td
     *ngIf="hasRowActions && !(reorderEnabled && reorderStrategy === ReorderStrategy.Manual)"
     class="fs-list-col actions-col">
-  <ng-container *ngIf="!isGroupFooterRow">
+  <ng-container *ngIf="!isGroupFooterRow()">
     <fs-list-row-actions
-      [row]="row"
+      [row]="row()"
       [index]="rowIndex"
       [rowActions]="rowActions"
       [menuRowActions]="menuRowActions"
@@ -56,7 +56,7 @@
   </ng-container>
 </td>
 <ng-template #dragCell>
-  <ng-container *ngIf="dragCellVisible && !isGroupFooterRow; else emptyCell">
+  <ng-container *ngIf="dragCellVisible() && !isGroupFooterRow(); else emptyCell">
     <td
         class="fs-list-col drag-col"
         [class.drag-disabled]="isDragDisabled"

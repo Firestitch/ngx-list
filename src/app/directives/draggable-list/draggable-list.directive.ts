@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { ReorderController, ReorderStrategy } from '../../classes/reorder-controller';
 import { FsListDragChildRowElement } from '../../interfaces/draggable-list.interface';
-import { Row } from '../../models/row';
+import { isChildRow, isGroupRow, Row } from '../../models/row';
 import { FsListDraggableRowDirective } from '../draggable-row/draggable-row.directive';
 
 
@@ -45,8 +45,8 @@ export class FsListDraggableListDirective {
     private _reorderController: ReorderController,
     private _renderer: Renderer2,
   ) { }
-  
-  private _windowTouchMoveHandler = () => { 
+
+  private _windowTouchMoveHandler = () => {
     //
   };
 
@@ -135,9 +135,9 @@ export class FsListDraggableListDirective {
     // Can not drag before first group and after last group
     const swapWithBoundaryGroupElement =
       (elemIndex === 0 || elemIndex === this._rows.length - 1)
-      && targetRow.isGroup
+      && isGroupRow(targetRow)
       // TODO fix isChild & all
-      && (this.draggableItem as any).isChild;
+      && (isChildRow(this.draggableItem));
 
 
     if (!swapWithBoundaryGroupElement) {
@@ -397,7 +397,7 @@ export class FsListDraggableListDirective {
       .forEach((dir: FsListDraggableRowDirective) => {
         const isRowSelected = this._reorderController.selectionController?.isRowSelected(dir.row.data);
 
-        if (isRowSelected && !dir.row.isGroup) {
+        if (isRowSelected && !isGroupRow(dir.row)) {
           this._selectedRowsDirectives.push(dir);
         }
       });

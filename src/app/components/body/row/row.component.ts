@@ -1,21 +1,25 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  computed,
   DoCheck,
   ElementRef,
   EventEmitter,
   HostBinding,
+  input,
   Input,
   KeyValueDiffer,
   KeyValueDiffers,
   OnDestroy,
   OnInit,
   Renderer2,
-  ViewChildren,
 } from '@angular/core';
+import { NgIf, NgTemplateOutlet, NgFor, NgClass, AsyncPipe } from '@angular/common';
 
 import { MatCheckboxChange, MatCheckbox } from '@angular/material/checkbox';
+import { MatIcon } from '@angular/material/icon';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -28,12 +32,10 @@ import { SelectionController } from '../../../classes/selection-controller';
 import { FsListDraggableListDirective } from '../../../directives/draggable-list/draggable-list.directive';
 import { FsListRowClassOptions } from '../../../interfaces';
 import { Column } from '../../../models/column.model';
-import { Row } from '../../../models/row';
+import { isChildRow, isChildTypeRow, isGroupFooterRow, isGroupRow, Row } from '../../../models/row';
 import { RowAction } from '../../../models/row-action.model';
-import { NgIf, NgTemplateOutlet, NgFor, NgClass, AsyncPipe } from '@angular/common';
 import { FsCellComponent } from './cell/cell.component';
 import { FsRowActionsComponent } from './actions/actions.component';
-import { MatIcon } from '@angular/material/icon';
 
 
 @Component({
@@ -41,6 +43,9 @@ import { MatIcon } from '@angular/material/icon';
     templateUrl: './row.component.html',
     styleUrls: ['./row.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+      '[class]': "this.rowCustomClass()",
+    },
     standalone: true,
     imports: [
         NgIf,
@@ -54,12 +59,13 @@ import { MatIcon } from '@angular/material/icon';
         AsyncPipe,
     ],
 })
-export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
+export class FsRowComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy {
 
   @HostBinding('attr.role')
   public role = 'row';
 
-  @Input() public row: Row;
+  public row = input<Row>();
+
   @Input() public rowActionsRaw: any[] = [];
   @Input() public groupActionsRaw: any[] = [];
   @Input() public hasRowActions = false;
@@ -79,10 +85,6 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
   @Input() public reorderPosition: ReorderPosition | null;
   @Input() public reorderStrategy: ReorderStrategy | null;
   @Input() public reorderMultiple: boolean;
-
-
-  @ViewChildren('td')
-  public cellRefs;
 
   public readonly ReorderPosition = ReorderPosition;
   public readonly ReorderStrategy = ReorderStrategy;
@@ -107,18 +109,6 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     this._rowDiffer = _differs.find({}).create();
   }
 
-  public get isGroupRow(): boolean {
-    return this.row.isGroup;
-  }
-
-  public get isGroupChildRow(): boolean {
-    return this.row.isGroupChild;
-  }
-
-  public get isGroupFooterRow(): boolean {
-    return this.row.isGroupFooter;
-  }
-
   public get isDragDisabled(): boolean {
     return !this.selected && this.reorderMultiple && !!this.selection.selectedRows.size;
   }
@@ -130,8 +120,11 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     return multiple && this.selected;
   }
 
-  @HostBinding('class')
-  public get rowCssClass() {
+  public rowCustomClass = computed(() => {
+    if (!this.row()) {
+      return;
+    }
+
     let classes = ['fs-list-row'];
 
     if (this.rowIndex % 2 !== 0) {
@@ -141,11 +134,11 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
       classes.push('fs-list-row-even');
     }
 
-    if (this.row?.isGroup) {
+    if (isGroupRow(this.row())) {
       classes.push('fs-list-row-group');
-    } else if ((this.row as any)?.isChild) { // TODO fix isChild & all
+    } else if (isChildRow(this.row())) {
       classes.push('fs-list-row-group-child');
-    } else if (this.row?.isGroupFooter) {
+    } else if (isGroupFooterRow(this.row())) {
       classes.push('fs-list-row-group-footer');
     } else {
       classes.push('fs-list-row-body');
@@ -163,11 +156,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     }
 
     return classes.join(' ');
-  }
-
-  public get dragCellVisible(): boolean {
-    return !this.row.isGroup;
-  }
+  });
 
   public get leftDragDropEnabled(): boolean {
     return this.reorderEnabled
@@ -183,18 +172,15 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   public ngOnInit() {
     this._initRowEvents();
-    this._initSelection();
 
-    if (this.row) {
+    if (this.row()) {
       this._initRowActionsUpdate();
     }
 
-    if (this.row && this.row.isGroup) {
-      if (this.row && this.row.isGroup && this.groupActionsRaw) {
-        this.rowActions = this.groupActionsRaw.map((action) => new RowAction(action));
+    if (this.row() && isGroupRow(this.row()) && this.groupActionsRaw) {
+      this.rowActions = this.groupActionsRaw.map((action) => new RowAction(action));
 
-        this._filterActionsByCategories();
-      }
+      this._filterActionsByCategories();
     } else if (this.rowActionsRaw) {
       this.rowActions = this.rowActionsRaw.map((action) => new RowAction(action));
 
@@ -208,11 +194,27 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
     }
   }
 
+  public ngAfterViewInit(): void {
+    this._initSelection();
+  }
+
+  public isGroupRow = computed(() => {
+    return isGroupRow(this.row());
+  });
+
+  public isGroupFooterRow = computed(() => {
+    return isGroupFooterRow(this.row());
+  });
+
+  public dragCellVisible = computed(() => {
+    return !isGroupRow(this.row());
+  });
+
   public updateRowActions() {
     if (this.rowActions) {
       this.rowActions.forEach((action) => {
-        action.checkShowStatus(this.row.data, this.rowIndex);
-        action.updateLink(this.row.data);
+        action.checkShowStatus(this.row().data, this.rowIndex);
+        action.updateLink(this.row().data);
       });
       this._filterActionsByCategories();
     }
@@ -235,7 +237,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
    * @param event
    */
   public selectRow(event: MatCheckboxChange) {
-    this.selection.rowSelectionChange(this.row, event.checked);
+    this.selection.rowSelectionChange(this.row(), event.checked);
     this._cdRef.markForCheck();
   }
 
@@ -267,7 +269,7 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
           .listen(this.el.nativeElement, event, (evt) => {
             this.rowEvents[event]({
               event: evt,
-              row: this.row.data,
+              row: this.row().data,
               rowIndex: this.rowIndex,
             });
           });
@@ -275,10 +277,10 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
         this._eventListeners.push(listener);
       });
   }
-  
+
   private _initRowActionsUpdate() : void {
-    if(this.row.actionsUpdate$) {
-      this.row.actionsUpdate$
+    if(this.row().actionsUpdated$) {
+      this.row().actionsUpdated$
         .pipe(
           takeUntil(this._destroy$),
         )
@@ -290,18 +292,19 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
 
   private _getRowClasses(rowClass): string[] {
     const classes = [];
+    const currentRow = this.row();
     const options: FsListRowClassOptions = {
       index: this.rowIndex,
-      type: this.row.type,
+      type: currentRow.type,
     };
 
-    if (this.row.isGroup) {
-      options.groupIndex = this.row.index;
-    } else if ((this.row as any).isChild || this.row.isGroupFooter) { // TODO fix isChild & all
-      options.groupIndex = this.row.parent.index;
+    if (isGroupRow(currentRow)) {
+      options.groupIndex = currentRow.index;
+    } else if (isChildTypeRow(currentRow)) {
+      options.groupIndex = currentRow.parent.index;
     }
 
-    const resultClass = rowClass(this.row.data, options);
+    const resultClass = rowClass(this.row().data, options);
     if(resultClass) {
       if (typeof resultClass === 'string') {
         classes.push(resultClass);
@@ -322,8 +325,8 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
    * Subscribe to selection change events
    */
   private _initSelection() {
-    if (this.selection) {
-      this.selected = this.row && this.selection.isRowSelected(this.row.data);
+    if (this.selection && this.row()) {
+      this.selected = this.selection.isRowSelected(this.row().data);
 
       this.selection.selectionChange$
         .pipe(
@@ -336,10 +339,12 @@ export class FsRowComponent implements OnInit, DoCheck, OnDestroy {
           takeUntil(this._destroy$),
         )
         .subscribe(() => {
-          this.selected = this.row && this.selection.isRowSelected(this.row.data);
+          const currentRow = this.row();
 
-          if (this.row?.isGroup) {
-            const groupSelection = this.selection.isGroupSelected(this.row);
+          this.selected = currentRow && this.selection.isRowSelected(currentRow.data);
+
+          if (isGroupRow(currentRow)) {
+            const groupSelection = this.selection.isGroupSelected(currentRow);
 
             if (groupSelection === 'indeterminate') {
               this.selected = true;

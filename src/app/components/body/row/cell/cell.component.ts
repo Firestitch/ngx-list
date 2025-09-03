@@ -1,17 +1,23 @@
 import {
   ChangeDetectionStrategy,
-  Component, DoCheck,
+  Component,
+  effect,
   HostBinding,
-  Input, OnChanges, OnDestroy,
-  OnInit, SimpleChanges,
+  input,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
   TemplateRef,
 } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { Column } from '../../../../models/column.model';
-import { NgTemplateOutlet } from '@angular/common';
+import { isChildTypeRow, isGroupFooterRow, isGroupRow, Row } from '../../../../models';
 
 
 @Component({
@@ -21,36 +27,39 @@ import { NgTemplateOutlet } from '@angular/common';
     standalone: true,
     imports: [NgTemplateOutlet],
 })
-export class FsCellComponent implements OnInit, OnChanges, DoCheck, OnDestroy {
+export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
 
   @HostBinding('class.fs-list-col') public isColl = true;
 
   @HostBinding('attr.role') public role = 'gridcell';
 
   @Input() public column: Column;
-  @Input() public row: any; // tmp
   @Input() public rowIndex: number;
+  public row = input<Row>();
 
   public cellContext: any = {};
   public cellTemplate: TemplateRef<any>;
 
   private _destroy$ = new Subject<void>();
 
-  public ngOnInit() {
-    this._listenGroupOpen();
+  constructor() {
+    effect(() => {
+      const currentRow = this.row();
+
+      if (currentRow) {
+        this.cellContext.groupIndex = currentRow.index;
+      }
+    });
   }
 
-  public ngDoCheck() {
-    // TODO fixme remove or improve
-    if (this.row) {
-      this.cellContext.groupIndex = this.row.index;
-    }
+  public ngOnInit() {
+    this._listenGroupOpen();
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.rowIndex?.currentValue !== changes.rowIndex?.previousValue) {
       this.cellContext.index = this.rowIndex;
-      this.cellContext.groupIndex = this.row.index;
+      this.cellContext.groupIndex = this.row().index;
     }
 
     if (changes.column?.currentValue !== changes.column?.previousValue) {
@@ -65,42 +74,49 @@ export class FsCellComponent implements OnInit, OnChanges, DoCheck, OnDestroy {
   }
 
   private _initCellContext() {
+    const currentRow = this.row();
+
     this.cellContext.index = this.rowIndex;
 
-    if (this.row) {
-      if (this.row.isGroup) {
-        this.cellContext.groupIndex = this.row.index;
-      } else if (this.row.isChild || this.row.isGroupFooter) {
-        this.cellContext.groupIndex = this.row.index;
-        this.cellContext.groupRow = this.row.parent.data;
-        this.cellContext.group = this.row.parent.data;
+    if (currentRow) {
+      if (isGroupRow(currentRow)) {
+        this.cellContext.groupIndex = currentRow.index;
+      } else if (isChildTypeRow(currentRow)) {
+        this.cellContext.groupIndex = currentRow.index;
+        this.cellContext.groupRow = currentRow.parent.data;
+        this.cellContext.group = currentRow.parent.data;
       }
 
-      if (this.row.isGroup) {
-        this.cellContext.group = this.row.data;
-        this.cellContext.groupChildren = this.row.children
+      if (isGroupRow(currentRow)) {
+        this.cellContext.group = currentRow.data;
+        this.cellContext.groupChildren = currentRow.children
           .map((child) => child.data);
-      } else if (this.row.isGroupFooter) {
-        this.cellContext.group = this.row.parent.data;
-        this.cellContext.groupIndex = this.row.index;
-        this.cellContext.groupChildren = this.row.parent.children
+      } else if (isGroupFooterRow(currentRow)) {
+        this.cellContext.group = currentRow.parent.data;
+        this.cellContext.groupIndex = currentRow.index;
+        this.cellContext.groupChildren = currentRow.parent.children
           .map((child) => child.data);
       }
     }
 
     this.cellContext.column = this.column;
-    if (this.row) {
-      this.cellContext.$implicit = this.row.data;
-      this.cellContext.row = this.row.data;
-      this.cellContext.value = this.row.data[this.column.name];
-      this.cellContext.expanded = this.row.expanded;
+    if (currentRow) {
+      this.cellContext.$implicit = currentRow.data;
+      this.cellContext.row = currentRow.data;
+      this.cellContext.value = currentRow.data[this.column.name];
+
+      if (isGroupRow(currentRow)) {
+        this.cellContext.expanded = currentRow.expanded;
+      }
     }
   }
 
   private _initCellTemplate() {
-    if (this.row?.isGroup) {
+    const currentRow = this.row();
+
+    if (currentRow && isGroupRow(currentRow)) {
       this.cellTemplate = this.column.groupHeaderTemplate || this.column.cellTemplate;
-    } else if (this.row?.isGroupFooter) {
+    } else if (currentRow && isGroupFooterRow(currentRow)) {
       this.cellTemplate = this.column.groupFooterTemplate || this.column.cellTemplate;
     } else {
       this.cellTemplate = this.column.cellTemplate;
@@ -108,8 +124,10 @@ export class FsCellComponent implements OnInit, OnChanges, DoCheck, OnDestroy {
   }
 
   private _listenGroupOpen() {
-    if (this.row && this.row.isGroup) {
-      this.row.expanded$
+    const currentRow = this.row();
+
+    if (currentRow && isGroupRow(currentRow)) {
+      currentRow.expanded$
         .pipe(
           takeUntil(this._destroy$),
         )

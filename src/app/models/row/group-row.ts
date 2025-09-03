@@ -1,63 +1,74 @@
-import { BehaviorSubject } from 'rxjs';
-import { BaseRow } from './base-row';
+import { BehaviorSubject, Observable } from 'rxjs';
+
+import { BaseRow, IBaseRow } from './_base-row';
 import { RowType } from '../../enums/row-type.enum';
-import { ChildRow } from './child-row';
-import { GroupFooterRow } from './group-footer-row';
+import { IGroupFooterRow } from './group-footer-row';
+import { IChildRow } from './child-row';
 
-export class GroupRow extends BaseRow {
 
-  public children: (ChildRow | GroupFooterRow)[] = [];
+export interface IGroupRow extends IBaseRow {
+  type: RowType.Group;
+
+  childrenData: unknown[];
+  expanded: boolean;
+  expanded$: Observable<boolean>;
+  toggleRowExpandStatus(): void;
+  children: (IChildRow | IGroupFooterRow)[];
+}
+
+export class GroupRow extends BaseRow<RowType.Group> implements IGroupRow {
+
+  protected readonly _rowType: RowType.Group = RowType.Group;
+
+  private _children: (IChildRow | IGroupFooterRow)[] = [];
 
   private readonly _expanded = new BehaviorSubject<boolean>(false);
 
   constructor(
-    data: any = {},
+    data: object = {},
     initialExpand = false,
   ) {
-    super(data, RowType.Group);
+    super(data);
 
     if (initialExpand) {
       this._expanded.next(initialExpand);
     }
   }
 
+  public get children(): (IChildRow | IGroupFooterRow)[] {
+    return this._children;
+  }
+
   public get childrenData() {
-    return this.children
+    return this._children
         .map((child) => child.data);
   }
 
-  public get isGroup(): boolean {
-    return true;
-  }
 
-  public get expanded() {
+  public get expanded(): boolean {
     return this._expanded.getValue();
   }
 
-  public get expanded$() {
+  public get expanded$(): Observable<boolean> {
     return this._expanded.asObservable();
   }
 
-  public updateChildrenIndexes() {
-    this.children.forEach((row, index) => {
-      row.index = index;
-    });
+  public toggleRowExpandStatus(): void {
+    this._expanded.next(!this.expanded);
+
+    this._updateChildrenVisibility();
   }
 
-  public updateChildrenVisibility() {
-    this.children.forEach((row) => {
+  public destroy() {
+    this._children.forEach((child) => child.destroy());
+
+    this._expanded.complete();
+  }
+
+  private _updateChildrenVisibility(): void {
+    this._children.forEach((row) => {
       row.visible = this.expanded;
     })
   }
 
-  public toggleRowExpandStatus() {
-    this._expanded.next(!this.expanded);
-
-    this.updateChildrenVisibility();
-  }
-
-  public destroy() {
-    this.children.forEach((child) => child.destroy());
-    this._expanded.complete();
-  }
 }

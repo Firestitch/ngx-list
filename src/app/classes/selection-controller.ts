@@ -6,7 +6,7 @@ import { take, takeUntil } from 'rxjs/operators';
 import { get as _get } from 'lodash-es';
 
 import { FsListSelectionConfig } from '../interfaces';
-import { Row } from '../models/row';
+import { isChildRow, isGroupRow, Row } from '../models/row';
 
 export enum SelectionChangeType {
   AllVisibleSelectionChange = 'AllVisibleSelectionChange',
@@ -125,7 +125,7 @@ export class SelectionController {
       rows.forEach((row) => {
         const identifier = this._rowIdentifier(row.data);
 
-        if (row.isGroup) {
+        if (isGroupRow(row)) {
           this._setNumberOfSelectedChildrenInGroup(identifier, row.children.length);
         } else {
           this.selectedRows.set(identifier, row.data);
@@ -136,7 +136,7 @@ export class SelectionController {
       rows.forEach((row) => {
         const identifier = this._rowIdentifier(row.data);
 
-        if (row.isGroup) {
+        if (isGroupRow(row)) {
           this._setNumberOfSelectedChildrenInGroup(identifier, 0);
         } else {
           this.selectedRows.delete(identifier);
@@ -521,12 +521,12 @@ export class SelectionController {
   private _selectRow(row) {
     const identifier = this._rowIdentifier(row.data);
 
-    if (row.isGroup) {
+    if (isGroupRow(row)) {
       row.children.forEach((childRow) => {
         this._selectRow(childRow);
       });
     } else {
-      if (row.isChild) {
+      if (isChildRow(row)) {
         this._selectChildRow(row);
       }
 
@@ -538,14 +538,14 @@ export class SelectionController {
   private _deselectRow(row) {
     const identifier = this._rowIdentifier(row.data);
 
-    if (row.isGroup) {
+    if (isGroupRow(row)) {
       this.selectedGroups.delete(identifier);
 
       row.children.forEach((childRow) => {
         this._deselectRow(childRow);
       });
     } else {
-      if (row.isChild && this.selectedRows.has(identifier)) {
+      if (isChildRow(row) && this.selectedRows.has(identifier)) {
         this._deselectChildRow(row);
       }
 

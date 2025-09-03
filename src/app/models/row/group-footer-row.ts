@@ -1,18 +1,24 @@
-import { BaseRow } from './base-row';
+import { BaseRow } from './_base-row';
 import { RowType } from '../../enums/row-type.enum';
-import { GroupRow } from './group-row';
+import { IGroupRow } from './group-row';
+import { IBaseChildRow } from './child-row';
 
+export interface IGroupFooterRow extends IBaseChildRow {
+  type: RowType.GroupFooter;
+}
 
-export class GroupFooterRow extends BaseRow {
+export class GroupFooterRow extends BaseRow<RowType.GroupFooter> implements IGroupFooterRow{
 
-  public visible = true;
-  private readonly _parent: GroupRow;
+  protected readonly _rowType: RowType.GroupFooter = RowType.GroupFooter;
+
+  private _visible = true;
+  private readonly _parent: IGroupRow;
 
   constructor(
-    data: any = {},
-    parent: GroupRow = null,
+    data: object = {},
+    parent: IGroupRow = null,
   ) {
-    super(data, RowType.GroupFooter);
+    super(data);
 
     this._parent = parent;
 
@@ -22,12 +28,17 @@ export class GroupFooterRow extends BaseRow {
     }
   }
 
-  public get parent(): GroupRow {
-    return this._parent;
+
+  public get visible(): boolean {
+    return this._visible;
   }
 
-  public get isGroupFooter(): boolean {
-    return true;
+  public set visible(value: boolean) {
+    this._visible = value;
+  }
+
+  public get parent(): IGroupRow {
+    return this._parent;
   }
 
   public destroy() {}

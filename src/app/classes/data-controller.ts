@@ -5,15 +5,11 @@ import { isFunction, isObject } from 'lodash-es';
 
 import { RowType } from '../enums/row-type.enum';
 import { FsListState } from '../enums/state.enum';
-import {
-  FsListAbstractRow,
-  FsListGroupConfig,
-  FsListTrackByTargetRowFn,
-} from '../interfaces/listconfig.interface';
-import { Row } from '../models/row';
-import { ChildRow } from '../models/row/child-row';
-import { GroupFooterRow } from '../models/row/group-footer-row';
-import { GroupRow } from '../models/row/group-row';
+import { FsListAbstractRow, FsListGroupConfig, FsListTrackByTargetRowFn, } from '../interfaces/listconfig.interface';
+import { makeRowFactory, Row, isChildTypeRow, isGroupRow } from '../models/row';
+import { IChildRow } from '../models/row/child-row';
+import { IGroupFooterRow } from '../models/row/group-footer-row';
+import { IGroupRow } from '../models/row/group-row';
 
 
 export class DataController {
@@ -105,7 +101,7 @@ export class DataController {
 
   public get reorderData() {
     return this._rowsStack
-      .map((row) => row.getReorderData());
+      .map((row) => row.reorderData());
   }
 
   public setGroupConfig(group: FsListGroupConfig) {
@@ -167,25 +163,20 @@ export class DataController {
    */
   public replaceData(
     targetRow: FsListAbstractRow,
-    trackBy?: FsListTrackByTargetRowFn,
-  ) {
+    trackBy: FsListTrackByTargetRowFn,
+  ): boolean {
     const rowIndex = this._rowsStack.findIndex((listRow) => {
       return trackBy(listRow.data, targetRow);
     });
 
-    if (rowIndex > -1) {
-      this._rowsStack[rowIndex] = new Row(
-        targetRow,
-        RowType.Simple,
-        { initialExpand: this._initialExpand },
-      );
-
-      this._updateVisibleRows();
-
-      return true;
+    if (rowIndex === -1) {
+      return false;
     }
- 
-    return false;
+
+    this._rowsStack[rowIndex] = makeRowFactory(targetRow, RowType.Simple);
+    this._updateVisibleRows();
+
+    return true;
   }
 
   /**
@@ -209,7 +200,7 @@ export class DataController {
       this._updateVisibleRows();
 
       return updateSuccess;
-    } 
+    }
     const updated = this._updateRow(rows, trackBy);
 
     this._updateVisibleRows();
@@ -294,8 +285,8 @@ export class DataController {
   }
 
   public toggleRowGroup(rowData) {
-    const row = this.visibleRows.find((visibleRow) => visibleRow.data === rowData );
-    row.toggleRowExpandStatus();
+    const row: IGroupRow = this.visibleRows.find((visibleRow) => visibleRow.data === rowData );
+    row?.toggleRowExpandStatus();
 
     this._updateVisibleRows();
   }
@@ -303,10 +294,11 @@ export class DataController {
   public finishReorder(): void {
     // TODO fixme remove or improve
     if (this.groupEnabled) {
-      let group;
+      let group: IGroupRow;
+
       this._rowsStack
         .forEach((row, index) => {
-          if (row.isGroup && row !== group) {
+          if (isGroupRow(row) && row !== group) {
             group = row;
           } else {
             row.index = index - this._rowsStack.indexOf(group) - 1;
@@ -325,11 +317,7 @@ export class DataController {
       this._rowsStack = [...this._groupRowsBy(rows)];
     } else {
       rows = rows.map((row) => {
-        return new Row(
-          row,
-          RowType.Simple,
-          { initialExpand: this._initialExpand },
-        );
+        return makeRowFactory(row, RowType.Simple);
       });
       this._rowsStack = [...rows];
     }
@@ -340,11 +328,7 @@ export class DataController {
       this._rowsStack = [...this._groupRowsBy(rows)];
     } else {
       rows = rows.map((row) => {
-        return new Row(
-          row,
-          RowType.Simple,
-          { initialExpand: this._initialExpand },
-        );
+        return makeRowFactory(row, RowType.Simple);
       });
       this._rowsStack = [...this._rowsStack, ...rows];
     }
@@ -356,8 +340,8 @@ export class DataController {
 
   private _updateVisibleRows() {
     this.visibleRows = this._rowsStack
-      .filter((row) => {
-        return (!(row as any).isChild && !row.isGroupFooter) || row.visible;
+      .filter((row: Row) => {
+        return !isChildTypeRow(row) || row.visible;
       });
   }
 
@@ -377,12 +361,12 @@ export class DataController {
       const updateTarget = this._rowsStack[targetIndex];
       const updatedData = { ...updateTarget.data, ...targetRow };
 
-      this._rowsStack[targetIndex] = new Row(
+      this._rowsStack[targetIndex] = makeRowFactory(
         updatedData,
         updateTarget.type,
         {
-          parent: updateTarget.parent,
-          initialExpand: updateTarget.expanded,
+          parent: (updateTarget as IChildRow).parent,
+          initialExpand: (updateTarget as IGroupRow).expanded,
         },
       );
 
@@ -421,34 +405,32 @@ export class DataController {
    */
   private _groupRowsBy(rows) {
     if (!this._groupByFn || !this._compareByFn) {
-      return rows; 
+      return rows;
     }
 
-    const groupRows: GroupRow[] = [];
+    const groupRows: IGroupRow[] = [];
 
     rows.forEach((row) => {
-      const mainGroup = this._groupByFn(row);
-      const mainGroupKey = this._compareByFn(mainGroup);
+      const groupData = this._groupByFn(row);
+      const groupKey = this._compareByFn(groupData);
 
-      if (!this._store.has(mainGroupKey)) {
-        const group = new GroupRow(
-          mainGroup,
-          this._initialExpand,
-        );
+      let group: IGroupRow = this._store.get(groupKey);
+
+      if (!group) {
+        group = makeRowFactory(
+          groupData,
+          RowType.Group,
+          { initialExpand: this._initialExpand },
+        ) as IGroupRow;
 
         group.index = groupRows.length;
         groupRows.push(group);
 
-        const childRow = new ChildRow(row, group);
-
-        this._store.set(mainGroupKey, group);
-        group.children.push(childRow);
-      } else {
-        const group = this._store.get(mainGroupKey);
-        const childRow = new ChildRow(row, group);
-
-        group.children.push(childRow);
+        this._store.set(groupKey, group);
       }
+
+      const childRow = makeRowFactory(row, RowType.GroupChild, { parent: group }) as IChildRow;
+      group.children.push(childRow);
     });
 
     groupRows.forEach((groupRow) => {
@@ -462,13 +444,14 @@ export class DataController {
 
       if (footerIndex !== -1) {
         const footerRow = groupRow.children.splice(footerIndex, footerIndex + 1)[0];
-        groupRow.children.push(new GroupFooterRow(footerRow.data, groupRow));
+        const newRow = makeRowFactory(footerRow.data, RowType.GroupFooter, { parent: groupRow});
+        groupRow.children.push(newRow as IGroupFooterRow);
       }
     });
 
     return Array.from(this._store.values())
       .reduce((acc, item) => {
-        if (item.isGroup) {
+        if (isGroupRow(item)) {
           acc.push(item, ...item.children);
         } else {
           acc.push(item);

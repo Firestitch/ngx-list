@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { ReorderController } from '../../classes/reorder-controller';
-import { Row } from '../../models/row';
+import { Row, isChildTypeRow } from '../../models/row';
 import { FsListDraggableListDirective } from '../draggable-list/draggable-list.directive';
 
 
@@ -75,8 +75,8 @@ export class FsListDraggableRowDirective implements OnInit, OnDestroy {
       {
         row1: currentEl?.data,
         row2: targetEl?.data,
-        group1: currentEl?.parent?.data,
-        group2: targetEl?.parent?.data,
+        group1: isChildTypeRow(currentEl) ? currentEl.parent?.data : null,
+        group2: isChildTypeRow(targetEl) ? targetEl.parent?.data : null,
       },
     );
 

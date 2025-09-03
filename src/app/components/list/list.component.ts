@@ -62,6 +62,7 @@ import { FsHeadComponent } from '../head/head.component';
 import { FsListLoaderComponent } from '../loader/loader.component';
 import { FsPaginationComponent } from '../pagination/pagination.component';
 import { FsStatusComponent } from '../status/status.component';
+import { Row } from '../../models';
 
 
 @Component({
@@ -134,7 +135,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   private _filterParamsReady = false;
   private _destroy = new Subject();
   private _injector = inject(Injector);
-  
+
   @ViewChild(FilterComponent)
   public set filterReference(component) {
     this._filterRef = component;
@@ -160,9 +161,9 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
       this.list.emptyStateTemplate = template;
     }
   }
-  
+
   private _dialogRef = inject(MatDialogRef, { optional: true });
-  private _drawerRef = inject(DrawerRef, { optional: true });  
+  private _drawerRef = inject(DrawerRef, { optional: true });
 
   constructor(
     public reorderController: ReorderController,
@@ -174,7 +175,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
     private _groupExpandNotifier: GroupExpandNotifierService,
     private _route: ActivatedRoute,
     private _persistance: PersistanceController,
-  ) { 
+  ) {
   }
 
   /**
@@ -375,7 +376,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
         message: 'No Results Found',
       },
     };
-    
+
     const globalConfig = cloneDeep(this._config || {});
     const listConfig = mergeWith(defaultConfig, globalConfig, config, this._configMergeCustomizer);
 
@@ -471,8 +472,8 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
       .pipe(takeUntil(this._destroy))
       .subscribe((row) => {
         this.list.dataController.removeData(row);
-        this.body.rows
-          .forEach((bodyRow) => bodyRow.actionsUpdate());
+        this.list.dataController.visibleRows
+          .forEach((row: Row) => row.updateActions());
       });
   }
 

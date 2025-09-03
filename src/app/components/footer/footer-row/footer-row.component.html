@@ -11,7 +11,7 @@
     *ngIf="!column.footerColspanned"
     fs-list-footer-cell
     [column]="column"
-    [row]="row"
+    [row]="row()"
     [rowIndex]="rowIndex"
     [ngClass]="column.footerConfigs.classesArray"
     [attr.colspan]="column.footerConfigs.colspan"

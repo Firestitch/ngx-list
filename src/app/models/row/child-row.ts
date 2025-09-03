@@ -1,41 +1,58 @@
-import { BaseRow } from './base-row';
+import { BaseRow, IBaseRow } from './_base-row';
 import { RowType } from '../../enums/row-type.enum';
-import { GroupRow } from './group-row';
+import { IGroupRow } from './group-row';
 import { FsListReorderData } from '../../interfaces';
 
+export interface IBaseChildRow extends IBaseRow {
+  type: RowType.GroupChild | RowType.GroupFooter;
 
-export class ChildRow extends BaseRow {
+  parent: IGroupRow;
+  visible: boolean;
+}
 
-  public visible = true;
-  private readonly _parent: GroupRow;
+export interface IChildRow extends IBaseChildRow {
+  type: RowType.GroupChild;
+}
+
+export class ChildRow extends BaseRow<RowType.GroupChild> implements IChildRow {
+
+  protected readonly _rowType: RowType.GroupChild = RowType.GroupChild;
+
+  private _visible = true;
+  private readonly _parent: IGroupRow;
 
   constructor(
-    data: any = {},
-    parent: GroupRow = null,
+    data: object = {},
+    parent: IGroupRow = null,
   ) {
-    super(data, RowType.GroupChild);
+    super(data);
 
     this._parent = parent;
 
     if (this.parent) {
-      this.visible = this._parent.expanded;
+      this._visible = this._parent.expanded;
       this.index = this.parent.children.length;
     }
   }
 
-  public get parent(): GroupRow {
+
+  public get visible(): boolean {
+    return this._visible;
+  }
+
+  public set visible(value: boolean) {
+    this._visible = value;
+  }
+
+  public get parent(): IGroupRow {
     return this._parent;
   }
 
-  public get isChild(): boolean {
-    return true;
-  }
-
-  public getReorderData(): FsListReorderData {
+  public reorderData(): FsListReorderData {
     return {
       type: this._rowType,
       data: this.data,
-      parent: this.parent.getReorderData(),
+      parent: this.parent.reorderData(),
     }
   }
 
