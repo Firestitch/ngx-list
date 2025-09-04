@@ -96,9 +96,10 @@ export class FsHeadComponent implements OnInit, OnDestroy {
    * Track By for improve change detection
    *
    * @param index
+   * @param column
    */
-  public trackByFn(index) {
-    return index;
+  public trackByFn(index: number, column: Column) {
+    return column.name || column.title || index;
   }
 
   /**
