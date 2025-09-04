@@ -763,6 +763,8 @@ export class List {
       this.filterInitCb(query);
     }
 
+    this._filtersQuery.next(query);
+
     this.filtersReady();
   }
 
