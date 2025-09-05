@@ -25,7 +25,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { DrawerRef } from '@firestitch/drawer';
-import { FilterComponent, FilterStatusBarDirective } from '@firestitch/filter';
+import { FilterComponent, FilterHeadingDirective, FilterStatusBarDirective } from '@firestitch/filter';
 import { SelectionDialog } from '@firestitch/selection';
 
 import { Observable, Subject } from 'rxjs';
@@ -37,7 +37,7 @@ import { List } from '../../classes/list-controller';
 import { PersistanceController } from '../../classes/persistance-controller';
 import { ReorderController } from '../../classes/reorder-controller';
 import {
-  FsListHeadingContainerDirective, FsListHeadingDirective, FsListSubheadingDirective,
+  FsListHeadingDirective,
 } from '../../directives';
 import { FsListColumnDirective } from '../../directives/column/column.directive';
 import { FsListContentInitDirective } from '../../directives/content-init/content-init.directive';
@@ -54,6 +54,7 @@ import {
   FsListTrackByTargetRowFn,
 } from '../../interfaces';
 import { IPaginationState } from '../../interfaces/pagination-state.interface';
+import { Row } from '../../models';
 import { GroupExpandNotifierService } from '../../services/group-expand-notifier.service';
 import { FsBodyComponent } from '../body/body.component';
 import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.component';
@@ -62,7 +63,6 @@ import { FsHeadComponent } from '../head/head.component';
 import { FsListLoaderComponent } from '../loader/loader.component';
 import { FsPaginationComponent } from '../pagination/pagination.component';
 import { FsStatusComponent } from '../status/status.component';
-import { Row } from '../../models';
 
 
 @Component({
@@ -82,6 +82,7 @@ import { Row } from '../../models';
     NgIf,
     FilterComponent,
     FilterStatusBarDirective,
+    FilterHeadingDirective,
     FsStatusComponent,
     FsListContentInitDirective,
     FsHeadComponent,
@@ -114,12 +115,6 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
 
   @ContentChild(FsListHeadingDirective, { read: TemplateRef })
   public headingTemplate: TemplateRef<any>;
-
-  @ContentChild(FsListHeadingContainerDirective, { read: TemplateRef })
-  public headingContainerTemplate: TemplateRef<any>;
-
-  @ContentChild(FsListSubheadingDirective, { read: TemplateRef })
-  public subheadingTemplate: TemplateRef<any>;
 
   @ViewChild(FsBodyComponent)
   public body: FsBodyComponent;
@@ -473,7 +468,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
       .subscribe((row) => {
         this.list.dataController.removeData(row);
         this.list.dataController.visibleRows
-          .forEach((row: Row) => row.updateActions());
+          .forEach((item: Row) => item.updateActions());
       });
   }
 

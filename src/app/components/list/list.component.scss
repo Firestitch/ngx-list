@@ -52,12 +52,6 @@ $primary-color: mat.m2-get-color-from-palette(fs-style-variables.$palette) !defa
 .fs-list-container {
   width: 100%;
 
-  &:not(.has-filters):not(.has-actions):not(.has-heading) {
-    .fs-list-header-container {
-      display: none;
-    }
-  }
-
   &.has-filters {
     .heading-container {
       margin-bottom: 4px;

@@ -14,6 +14,7 @@ import {
   FsListAbstractRow,
   FsListComponent,
   FsListConfig,
+  FsListHeadingDirective,
 } from '@firestitch/list';
 
 import { of } from 'rxjs';
@@ -40,6 +41,7 @@ import { SavedFilters } from './saved-filter';
     FsListHeaderDirective,
     FsListCellDirective,
     FsListFooterDirective,
+    FsListHeadingDirective,
     RouterLink,
   ],
 })
@@ -100,6 +102,8 @@ implements OnInit {
       //   buttonType: 'flat',
       //   buttonColor: 'primary',
       // },
+      heading: 'Heading',
+      subheading: 'Subheading',
       column: {
         load: () => {
           return of([

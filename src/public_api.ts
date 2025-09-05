@@ -20,7 +20,7 @@ export { FsPaginationComponent } from './app/components/pagination/pagination.co
 export { FsStatusComponent } from './app/components/status/status.component';
 
 // Directives
-export { FsListHeadingContainerDirective, FsListHeadingDirective, FsListSubheadingDirective } from './app/directives';
+export { FsListHeadingDirective } from './app/directives';
 export { FsListCellDirective } from './app/directives/cell/cell.directive';
 export { FsListColumnDirective } from './app/directives/column/column.directive';
 export { FsListContentDirective } from './app/directives/content/content.directive';
@@ -46,7 +46,7 @@ export { CellConfig } from './app/interfaces/cellconfig.interface';
 export {
   FsListAbstractRow, FsListAction, FsListActionSelected, FsListCellConfig, FsListColumn, FsListColumnChangeFn, FsListColumnConfig, FsListColumnLoadFn, FsListConfig, FsListEmptyStateConfig, FsListFetchFn, FsListFetchOptions, FsListFetchSubscription, FsListFooterConfig, FsListGroupConfig, FsListHeaderConfig,
   FsListNoResultsConfig,
-  FsListReorderConfig, FsListReorderData, FsListReorderDoneCallback, FsListReorderMoveInGroupCallback, FsListReorderMovedCallback, FsListRestoreConfig, FsListRowAction, FsListRowActionFile, FsListRowActionFileFn, FsListRowActionGroup, FsListRowActionLink,
+  FsListReorderConfig, FsListReorderData, FsListReorderDoneCallback, FsListReorderMovedCallback, FsListReorderMoveInGroupCallback, FsListRestoreConfig, FsListRowAction, FsListRowActionFile, FsListRowActionFileFn, FsListRowActionGroup, FsListRowActionLink,
   FsListRowActionLinkFn, FsListRowClassOptions,
   FsListSelectionConfig,
   FsListSortsConfig, FsListStateValidationFn, FsListTrackByFn,

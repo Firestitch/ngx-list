@@ -2,7 +2,6 @@
     class="fs-list-container"
     [ngClass]="{
       'has-filters': list.filterConfig?.items.length,
-      'has-heading': list.heading || headingTemplate,
       'has-status': hasStatus,
       'has-chips': list.chips,
       'has-actions': list.actions.hasActions,
@@ -33,6 +32,11 @@
                 </fs-list-status>
               </ng-template>
             </ng-container>
+            @if (headingTemplate) {
+              <ng-template fsFilterHeading>
+                <ng-template [ngTemplateOutlet]="headingTemplate"></ng-template>
+              </ng-template>
+            }
           </fs-filter>
         }
       </div>

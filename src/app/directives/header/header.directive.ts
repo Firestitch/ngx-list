@@ -1,8 +1,8 @@
 import { Directive, Input } from '@angular/core';
 
 @Directive({
-    selector: '[fs-list-header]',
-    standalone: true
+  selector: '[fs-list-header]',
+  standalone: true,
 })
 export class FsListHeaderDirective {
   @Input() public colspan;

@@ -17,9 +17,7 @@ import { FsListComponent } from './components/list/list.component';
 import { FsListLoaderComponent } from './components/loader/loader.component';
 import { FsPaginationComponent } from './components/pagination/pagination.component';
 import { FsStatusComponent } from './components/status/status.component';
-import {
-  FsListHeadingContainerDirective, FsListHeadingDirective, FsListSubheadingDirective,
-} from './directives';
+import { FsListHeadingDirective } from './directives';
 import { FsListCellDirective } from './directives/cell/cell.directive';
 import { FsListColumnDirective } from './directives/column/column.directive';
 import { FsListContentInitDirective } from './directives/content-init/content-init.directive';
@@ -66,9 +64,7 @@ import { ActionLabelPipe } from './pipes';
     FsListEmptyStateDirective,
     FsListContentDirective,
     FsListContentInitDirective,
-    FsListSubheadingDirective,
     FsListHeadingDirective,
-    FsListHeadingContainerDirective,
     CustomizeColsDialogComponent,
     ActionLabelPipe,
   ],
@@ -86,9 +82,7 @@ import { ActionLabelPipe } from './pipes';
     FsListGroupExpandTriggerDirective,
     FsListEmptyStateDirective,
     FsListContentDirective,
-    FsListSubheadingDirective,
     FsListHeadingDirective,
-    FsListHeadingContainerDirective,
   ],
 })
 export class FsListModule {
