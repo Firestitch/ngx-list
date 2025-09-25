@@ -9,8 +9,8 @@ import { List } from './list-controller';
 
 
 export class SortingController {
-  public config: List;
 
+  public config: List;
   public sortingColumns: Column[] = [];
   public fakeSortingColumns: Column[] = [];
   public sortingColumn: Column;

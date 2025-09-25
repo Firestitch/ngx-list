@@ -1,3 +1,4 @@
+import { DecimalPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -9,6 +10,11 @@ import {
   OnInit,
 } from '@angular/core';
 
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatTooltip } from '@angular/material/tooltip';
+
+import { FsMenuModule } from '@firestitch/menu';
+
 import { of, Subject } from 'rxjs';
 import { catchError, takeUntil, tap } from 'rxjs/operators';
 
@@ -17,28 +23,24 @@ import { PaginationController } from '../../classes/pagination-controller';
 import { SortingController } from '../../classes/sorting-controller';
 import { PaginationStrategy } from '../../enums';
 import { SortingDirection } from '../../models/column.model';
-import { NgTemplateOutlet, NgIf, NgFor, DecimalPipe } from '@angular/common';
-import { MatTooltip } from '@angular/material/tooltip';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { FsMenuModule } from '@firestitch/menu';
 
 
 @Component({
-    selector: 'fs-list-status',
-    templateUrl: './status.component.html',
-    styleUrls: ['./status.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    preserveWhitespaces: true,
-    standalone: true,
-    imports: [
-        NgTemplateOutlet,
-        MatTooltip,
-        MatProgressSpinner,
-        NgIf,
-        FsMenuModule,
-        NgFor,
-        DecimalPipe,
-    ],
+  selector: 'fs-list-status',
+  templateUrl: './status.component.html',
+  styleUrls: ['./status.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  preserveWhitespaces: true,
+  standalone: true,
+  imports: [
+    NgTemplateOutlet,
+    MatTooltip,
+    MatProgressSpinner,
+    NgIf,
+    FsMenuModule,
+    NgFor,
+    DecimalPipe,
+  ],
 })
 export class FsStatusComponent implements OnInit, OnDestroy {
 

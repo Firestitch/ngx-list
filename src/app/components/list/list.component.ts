@@ -458,7 +458,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
         takeUntil(this._destroy),
       )
       .subscribe((sort) => {
-        this._filterRef.updateSort(sort);
+        this._filterRef.updateSort(sort, false);
       });
   }
 
