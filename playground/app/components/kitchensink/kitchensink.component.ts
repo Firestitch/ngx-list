@@ -187,6 +187,15 @@ implements OnInit {
           isolate: { label: 'Show Deleted', value: 'deleted' },
         },
       ],
+      restore: {
+        query: { state: 'deleted' },
+        filterLabel: 'Show Deleted',
+        menuLabel: 'Restore',
+        reload: true,
+        click: (row) => {
+          return of({ id: row.id, state: 'active' });
+        },
+      },
       afterContentInit: (query, data) => {
         console.log('AfterContent Init', query, data);
       },

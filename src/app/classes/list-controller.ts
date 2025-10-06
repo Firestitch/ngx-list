@@ -763,6 +763,8 @@ export class List {
       this.filterInitCb(query);
     }
 
+    query = this._processRestoreQuery(query);
+
     this._filtersQuery.next(query);
 
     this.filtersReady();
@@ -771,20 +773,17 @@ export class List {
   /**
    * Callback when Filter has been changed
    *
-   * @param filterQuery
-   * @param filterSort
+   * @param query
+   * @param sort
    */
-  private _filterChange(filterQuery, filterSort) {
+  private _filterChange(query, sort) {
     if (this.filterChangeCb) {
-      this.filterChangeCb(filterQuery, filterSort);
+      this.filterChangeCb(query, sort);
     }
 
-    this._filtersQuery.next(filterQuery);
+    query = this._processRestoreQuery(query);
 
-    this.restoreMode = false;
-
-    // Restore option
-    this._checkRestoreFilter();
+    this._filtersQuery.next(query);
 
     if (this.restore && this.restore.reload) {
       this.reload();
@@ -797,24 +796,28 @@ export class List {
     this._fetch$.next(null);
   }
 
-  private _checkRestoreFilter() {
+  private _processRestoreQuery(query) {
+    this.restoreMode = false;
     // Restore option
-    if (this.restore && this.filtersQuery[showDeletedFilterKey]) {
-      const filtersQuery = Object.keys(this.filtersQuery)
+    if (this.restore && query[showDeletedFilterKey]) {
+      query = Object.keys(query)
         .filter((key) => key !== showDeletedFilterKey)
         .reduce((acc, key) => {
           return {
             ...acc,
-            [key]: this.filtersQuery[key],
+            [key]: query[key],
           };
         }, {});
 
-      this._filtersQuery.next(filtersQuery);
-
-      Object.assign(this.filtersQuery, this.restore.query);
+      query = {
+        ...query,
+        ...this.restore.query,
+      };
 
       this.restoreMode = true;
     }
+
+    return query;
   }
 
   // Callback when Filter sort has been changed
