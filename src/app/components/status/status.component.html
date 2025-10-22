@@ -83,23 +83,19 @@
         sorted by
         <ng-container *ngIf="sorting.sortingColumn.title; else sortByTemplate">
           <a
-              class="order-toggle"
+              class="sort-toggle"
               [fsMenuTriggerFor]="orderColumnsMenu">
             {{ sorting.sortingColumn.title }}
           </a>
-          ,
         </ng-container>
         <ng-template #sortByTemplate>
           <a
-              class="order-toggle"
+              class="sort-toggle"
               [fsMenuTriggerFor]="orderColumnsMenu">
             <ng-template [ngTemplateOutlet]="sorting.sortingColumn.headerTemplate"></ng-template>
           </a>
-          ,
         </ng-template>
-        <a
-            class="order-toggle"
-            (click)="toggleDirection()">
+        <a (click)="toggleDirection()">
           {{ sorting.sortingColumn.fullNameDirection }}
         </a>
       </ng-container>

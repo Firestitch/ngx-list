@@ -10,8 +10,13 @@
   }
 }
 
-.order-toggle {
+.sort-toggle {
   white-space: nowrap;
+  display: inline-flex;
+
+  &:after {
+    content: ', ';
+  }
 }
 
 a {
