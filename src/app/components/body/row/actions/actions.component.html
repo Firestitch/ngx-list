@@ -1,5 +1,5 @@
-<ng-container *ngIf="!restoreMode || (restoreMode && !restoreAction)">
-  <ng-container *ngFor="let action of inlineRowActions; trackBy: trackByFn">
+@if (!restoreMode || (restoreMode && !restoreAction)) {
+  @for (action of inlineRowActions; track trackByFn($index)) {
     <fs-list-row-inline-action
       class="row-inline-action row-inline-action-{{action.type}}"
       [rowAction]="action"
@@ -8,64 +8,23 @@
       (clicked)="actionClick(action, row, $event)"
       (fileSelect)="action.fileConfig.select($event, row, index)">
     </fs-list-row-inline-action>
-  </ng-container>
-</ng-container>
+  }
+}
 <!-- Menu -->
-<fs-menu
-    class="row-menu-action"
-    *ngIf="menuRowActions.length || (restoreMode && restoreAction)"
-    #menuRef>
-  <!-- Case when we have usual menu actions -->
-  <ng-container *ngIf="!restoreMode || (restoreMode && !restoreAction)">
-    <ng-container *ngFor="let action of inlineRowActions; trackBy: trackByFn">
-      <ng-template
-          class="hidden-mobile-menu-action"
-          fs-menu-item
-          [link]="action.routerLink?.link"
-          [queryParams]="action.routerLink?.queryParams"
-          [target]="action.routerLink?.target"
-          [hidden]="action.menu !== undefined && !action.isShown">
-        <fs-list-row-menu-action
-          [rowAction]="action"
-          [row]="row"
-          [file]="action.fileConfig"
-          (fileSelect)="action.fileConfig.select($event, row, index)"
-          (fileError)="action.fileConfig.error && action.fileConfig.error($event)">
-        </fs-list-row-menu-action>
-      </ng-template>
-    </ng-container>
-    <ng-container *ngFor="let action of menuRowActions; trackBy: trackByFn">
-      <ng-container *ngIf="action.isGroup else simpleMenuItem">
-        <fs-menu-group [label]="action.label | actionLabel:row">
-          <ng-container *ngFor="let subAction of action.rowActions">
-            <ng-template
-                fs-menu-item
-                [link]="subAction.routerLink?.link"
-                [queryParams]="subAction.routerLink?.queryParams"
-                [target]="subAction.routerLink?.target"
-                [hidden]="!subAction.isShown"
-                [class]="subAction.className"
-                (click)="actionClick(subAction, row, $event, menuRef);">
-              <fs-list-row-menu-action
-                [rowAction]="subAction"
-                [row]="row"
-                [file]="subAction.fileConfig"
-                (fileSelect)="subAction.fileConfig.select($event, row, index)"
-                (fileError)="subAction.fileConfig.error && subAction.fileConfig.error($event)">
-              </fs-list-row-menu-action>
-            </ng-template>
-          </ng-container>
-        </fs-menu-group>
-      </ng-container>
-      <ng-template #simpleMenuItem>
+@if (menuRowActions.length || (restoreMode && restoreAction)) {
+  <fs-menu
+      class="row-menu-action"
+      #menuRef>
+    <!-- Case when we have usual menu actions -->
+    @if (!restoreMode || (restoreMode && !restoreAction)) {
+      @for (action of inlineRowActions; track trackByFn($index)) {
         <ng-template
+            class="hidden-mobile-menu-action"
             fs-menu-item
             [link]="action.routerLink?.link"
             [queryParams]="action.routerLink?.queryParams"
             [target]="action.routerLink?.target"
-            [hidden]="!action.isShown"
-            [class]="action.className"
-            (click)="actionClick(action, row, $event, menuRef);">
+            [hidden]="action.menu !== undefined && !action.isShown">
           <fs-list-row-menu-action
             [rowAction]="action"
             [row]="row"
@@ -74,18 +33,61 @@
             (fileError)="action.fileConfig.error && action.fileConfig.error($event)">
           </fs-list-row-menu-action>
         </ng-template>
+      }
+      @for (action of menuRowActions; track trackByFn($index)) {
+        @if (action.isGroup) {
+          <fs-menu-group [label]="action.label | actionLabel:row">
+            @for (subAction of action.rowActions; track subAction) {
+              <ng-template
+                  fs-menu-item
+                  [link]="subAction.routerLink?.link"
+                  [queryParams]="subAction.routerLink?.queryParams"
+                  [target]="subAction.routerLink?.target"
+                  [hidden]="!subAction.isShown"
+                  [class]="subAction.className"
+                  (click)="actionClick(subAction, row, $event, menuRef);">
+                <fs-list-row-menu-action
+                  [rowAction]="subAction"
+                  [row]="row"
+                  [file]="subAction.fileConfig"
+                  (fileSelect)="subAction.fileConfig.select($event, row, index)"
+                  (fileError)="subAction.fileConfig.error && subAction.fileConfig.error($event)">
+                </fs-list-row-menu-action>
+              </ng-template>
+            }
+          </fs-menu-group>
+        } @else {
+          <ng-template
+              fs-menu-item
+              [link]="action.routerLink?.link"
+              [queryParams]="action.routerLink?.queryParams"
+              [target]="action.routerLink?.target"
+              [hidden]="!action.isShown"
+              [class]="action.className"
+              (click)="actionClick(action, row, $event, menuRef);">
+            <fs-list-row-menu-action
+              [rowAction]="action"
+              [row]="row"
+              [file]="action.fileConfig"
+              (fileSelect)="action.fileConfig.select($event, row, index)"
+              (fileError)="action.fileConfig.error && action.fileConfig.error($event)">
+            </fs-list-row-menu-action>
+          </ng-template>
+        }
+      }
+    }
+    <!-- Case when we have restore mode enabled and must hide menu actions -->
+    @if (restoreMode && restoreAction) {
+      <ng-template
+          fs-menu-item
+          (click)="actionClick(restoreAction, row, $event, menuRef)">
+        @if (restoreAction.icon) {
+          <mat-icon>
+            {{ restoreAction.icon }}
+          </mat-icon>
+        }
+        {{ restoreAction.label | actionLabel:row }}
       </ng-template>
-    </ng-container>
-  </ng-container>
-  <!-- Case when we have restore mode enabled and must hide menu actions -->
-  <ng-container *ngIf="restoreMode && restoreAction">
-    <ng-template
-        fs-menu-item
-        (click)="actionClick(restoreAction, row, $event, menuRef)">
-      <mat-icon *ngIf="restoreAction.icon">
-        {{ restoreAction.icon }}
-      </mat-icon>
-      {{ restoreAction.label | actionLabel:row }}
-    </ng-template>
-  </ng-container>
-</fs-menu>
+    }
+  </fs-menu>
+}

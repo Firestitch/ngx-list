@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -33,13 +33,11 @@ import { FsHeadCellComponent } from './head-cell/head-cell.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    NgIf,
     MatCheckbox,
-    NgFor,
     FsHeadCellComponent,
     NgClass,
-    AsyncPipe,
-  ],
+    AsyncPipe
+],
 })
 export class FsHeadComponent implements OnInit, OnDestroy {
 

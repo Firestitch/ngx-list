@@ -13,7 +13,7 @@ import { take, takeUntil } from 'rxjs/operators';
 
 import { Row } from '../../../../models/row';
 import { RowAction } from '../../../../models/row-action.model';
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { FsRowInlineActionComponent } from '../inline-action/inline-action.component';
 import { FsMenuModule } from '@firestitch/menu';
 import { FsRowMenuActionComponent } from '../menu-action/menu-action.component';
@@ -28,15 +28,13 @@ import { ActionLabelPipe } from '../../../../pipes/action-label';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        NgIf,
-        NgFor,
-        FsRowInlineActionComponent,
-        NgClass,
-        FsMenuModule,
-        FsRowMenuActionComponent,
-        MatIcon,
-        ActionLabelPipe,
-    ],
+    FsRowInlineActionComponent,
+    NgClass,
+    FsMenuModule,
+    FsRowMenuActionComponent,
+    MatIcon,
+    ActionLabelPipe
+],
 })
 export class FsRowActionsComponent {
 

@@ -1,5 +1,5 @@
 <div
-    class="fs-list-container"
+  class="fs-list-container"
     [ngClass]="{
       'has-filters': list.filterConfig?.items.length,
       'has-status': hasStatus,
@@ -12,16 +12,16 @@
   <ng-template [ngTemplateOutlet]="listContainerContent"></ng-template>
 </div>
 <ng-template #listContainerContent>
-  <ng-container *ngIf="list.dataController.visibleRows$ | async as listData">
+  @if (list.dataController.visibleRows$ | async; as listData) {
     <div class="fs-list-header-container">
       <div
-          class="fs-list-header"
-          [ngClass]="{ 'no-wrap': reorderController.manualReorderActivated || !list.filterConfig?.items.length }">
+        class="fs-list-header"
+        [ngClass]="{ 'no-wrap': reorderController.manualReorderActivated || !list.filterConfig?.items.length }">
         @if (list.filterConfig) {
           <fs-filter
-              class="fs-list-filter"
-              [config]="list.filterConfig">
-            <ng-container *ngIf="hasStatus">
+            class="fs-list-filter"
+            [config]="list.filterConfig">
+            @if (hasStatus) {
               <ng-template fsFilterStatusBar>
                 <fs-list-status
                   class="fs-list-status"
@@ -31,7 +31,7 @@
                   [firstLoad]="firstLoad">
                 </fs-list-status>
               </ng-template>
-            </ng-container>
+            }
             @if (headingTemplate) {
               <ng-template fsFilterHeading>
                 <ng-template [ngTemplateOutlet]="headingTemplate"></ng-template>
@@ -44,31 +44,32 @@
     <ng-content select="[fs-list-content]"></ng-content>
     <!-- Table implementation -->
     <div class="fs-list-table-container">
-      <ng-container *ngIf="!firstLoad && listData.length > 0 && !list.emptyStateEnabled">
+      @if (!firstLoad && listData.length > 0 && !list.emptyStateEnabled) {
         <table
-            class="fs-list-table"
-            role="grid"
-            [fsListContentInit]="list.afterContentInit"
+          class="fs-list-table"
+          role="grid"
+          [fsListContentInit]="list.afterContentInit"
             [ngClass]="{
               'style-card': list.style === 'card',
               'style-basic': list.style === 'basic',
               'style-line': (list.style || 'line') === 'line'
             }">
-          <thead
-            fs-list-head
-            class="fs-list-head"
-            role="rowgroup"
-            *ngIf="list.columns.hasHeader"
-            [ngClass]="list.columns.theadClass"
-            [columns]="list.columns.visibleColumns$ | async"
-            [sorting]="list.sorting"
-            [selection]="list.selection"
-            [hasRowActions]="list.hasRowActions"
-            [activeFiltersCount]="list.activeFiltersCount$ | async"
-            [reorderEnabled]="reorderController.enabled$ | async"
-            [reorderPosition]="reorderController.position$ | async"
-            [reorderStrategy]="reorderController.strategy$ | async">
-          </thead>
+          @if (list.columns.hasHeader) {
+            <thead
+              fs-list-head
+              class="fs-list-head"
+              role="rowgroup"
+              [ngClass]="list.columns.theadClass"
+              [columns]="list.columns.visibleColumns$ | async"
+              [sorting]="list.sorting"
+              [selection]="list.selection"
+              [hasRowActions]="list.hasRowActions"
+              [activeFiltersCount]="list.activeFiltersCount$ | async"
+              [reorderEnabled]="reorderController.enabled$ | async"
+              [reorderPosition]="reorderController.position$ | async"
+              [reorderStrategy]="reorderController.strategy$ | async">
+            </thead>
+          }
           <tbody
             fs-list-body
             fsListDraggableList
@@ -91,44 +92,48 @@
             [reorderStrategy]="reorderController.strategy$ | async"
             [reorderMultiple]="reorderController.multiple">
           </tbody>
-          <tfoot
-            fs-list-footer
-            class="fs-list-footer"
-            *ngIf="list.columns.hasFooter"
-            [columns]="list.columns.visibleColumns$ | async"
-            [selection]="list.selection"
-            [hasRowActions]="list.hasRowActions"
-            [activeFiltersCount]="list.activeFiltersCount$ | async"
-            [reorderEnabled]="reorderController.enabled$ | async"
-            [reorderPosition]="reorderController.position$ | async"
-            [reorderStrategy]="reorderController.strategy$ | async">
-          </tfoot>
+          @if (list.columns.hasFooter) {
+            <tfoot
+              fs-list-footer
+              class="fs-list-footer"
+              [columns]="list.columns.visibleColumns$ | async"
+              [selection]="list.selection"
+              [hasRowActions]="list.hasRowActions"
+              [activeFiltersCount]="list.activeFiltersCount$ | async"
+              [reorderEnabled]="reorderController.enabled$ | async"
+              [reorderPosition]="reorderController.position$ | async"
+              [reorderStrategy]="reorderController.strategy$ | async">
+            </tfoot>
+          }
         </table>
-      </ng-container>
-      <fs-list-loader
-        *ngIf="firstLoad"
-        [columns]="list.columns.columns"
-        [loaderLines]="loaderLines">
-      </fs-list-loader>
+      }
+      @if (firstLoad) {
+        <fs-list-loader
+          [columns]="list.columns.columns"
+          [loaderLines]="loaderLines">
+        </fs-list-loader>
+      }
     </div>
     <fs-list-pagination
       class="fs-list-pagination"
       [rows]="listData"
       [pagination]="list.paging">
     </fs-list-pagination>
-    <ng-container *ngIf="!firstLoad">
-      <div
-          *ngIf="listData.length === 0"
-          class="fs-list-no-results-container">
+    @if (!firstLoad) {
+      @if (listData.length === 0) {
         <div
-            *ngIf="list.noResults?.message && !list.emptyStateEnabled"
-            class="fs-list-no-results">
-          {{ list.noResults?.message }}
+          class="fs-list-no-results-container">
+          @if (list.noResults?.message && !list.emptyStateEnabled) {
+            <div
+              class="fs-list-no-results">
+              {{ list.noResults?.message }}
+            </div>
+          }
+          @if (list.emptyStateEnabled) {
+            <ng-template [ngTemplateOutlet]="list.emptyStateTemplate"></ng-template>
+          }
         </div>
-        <ng-container *ngIf="list.emptyStateEnabled">
-          <ng-template [ngTemplateOutlet]="list.emptyStateTemplate"></ng-template>
-        </ng-container>
-      </div>
-    </ng-container>
-  </ng-container>
+      }
+    }
+  }
 </ng-template>

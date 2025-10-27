@@ -3,18 +3,20 @@
 </h1>
 <mat-dialog-content>
   <div class="columns">
-    <div *ngFor="let column of columns">
-      <mat-checkbox
+    @for (column of columns; track column) {
+      <div>
+        <mat-checkbox
           [checked]="column.show"
           (change)="visibilityChange($event, column)"
           [disabled]="column.disabled">
-        @if (column.title) {
-          {{ column.title }}
-        } @else {
-          <ng-template [ngTemplateOutlet]="column.template"></ng-template>
-        }
-      </mat-checkbox>
-    </div>
+          @if (column.title) {
+            {{ column.title }}
+          } @else {
+            <ng-template [ngTemplateOutlet]="column.template"></ng-template>
+          }
+        </mat-checkbox>
+      </div>
+    }
     @if (!columns.length) {
       <div class="no-results">
         No results found
@@ -25,19 +27,19 @@
 <mat-dialog-actions>
   @if (columns.length) {
     <button
-        type="button"
-        mat-button
-        color="primary"
-        (click)="save()"
-        [disabled]="saveDisabled">
+      type="button"
+      mat-button
+      color="primary"
+      (click)="save()"
+      [disabled]="saveDisabled">
       Save
     </button>
   }
   <button
-      type="button"
-      mat-button
-      [color]="columns.length ? null : 'primary'"
-      (click)="cancel()">
+    type="button"
+    mat-button
+    [color]="columns.length ? null : 'primary'"
+    (click)="cancel()">
     {{ columns.length ? 'Cancel' : 'Done' }}
   </button>
 </mat-dialog-actions>

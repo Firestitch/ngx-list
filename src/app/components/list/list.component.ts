@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   AfterContentInit,
   ChangeDetectionStrategy, ChangeDetectorRef,
@@ -79,7 +79,6 @@ import { FsStatusComponent } from '../status/status.component';
   imports: [
     NgClass,
     NgTemplateOutlet,
-    NgIf,
     FilterComponent,
     FilterStatusBarDirective,
     FilterHeadingDirective,
@@ -92,8 +91,8 @@ import { FsStatusComponent } from '../status/status.component';
     FsListFooterDirective,
     FsListLoaderComponent,
     FsPaginationComponent,
-    AsyncPipe,
-  ],
+    AsyncPipe
+],
 })
 export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
 

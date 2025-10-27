@@ -16,7 +16,7 @@ import {
   OnInit,
   Renderer2,
 } from '@angular/core';
-import { NgIf, NgTemplateOutlet, NgFor, NgClass, AsyncPipe } from '@angular/common';
+import { NgTemplateOutlet, NgClass, AsyncPipe } from '@angular/common';
 
 import { MatCheckboxChange, MatCheckbox } from '@angular/material/checkbox';
 import { MatIcon } from '@angular/material/icon';
@@ -48,16 +48,14 @@ import { FsRowActionsComponent } from './actions/actions.component';
     },
     standalone: true,
     imports: [
-        NgIf,
-        NgTemplateOutlet,
-        MatCheckbox,
-        NgFor,
-        FsCellComponent,
-        NgClass,
-        FsRowActionsComponent,
-        MatIcon,
-        AsyncPipe,
-    ],
+    NgTemplateOutlet,
+    MatCheckbox,
+    FsCellComponent,
+    NgClass,
+    FsRowActionsComponent,
+    MatIcon,
+    AsyncPipe
+],
 })
 export class FsRowComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy {
 

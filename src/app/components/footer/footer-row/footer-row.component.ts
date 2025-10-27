@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import { FsRowComponent } from '../../body/row/row.component';
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { FsFooterCellComponent } from './footer-cell/footer-cell.component';
 
 
@@ -19,11 +19,9 @@ import { FsFooterCellComponent } from './footer-cell/footer-cell.component';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        NgIf,
-        NgFor,
-        FsFooterCellComponent,
-        NgClass,
-    ],
+    FsFooterCellComponent,
+    NgClass
+],
 })
 export class FsFooterRowComponent extends FsRowComponent {
 

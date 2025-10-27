@@ -1,49 +1,55 @@
 <div class="controls">
   <div class="info">
-    <p *ngIf="state === 'data'">
-      <b>
-        Currently list has data:
-      </b>
-      {{ tmpData | json }}
-    </p>
-    <p *ngIf="state === 'empty'">
-      <b>
-        Currently list received empty response
-      </b>
-    </p>
-    <p *ngIf="valid">
-      Validation function returns
-      <b style="color: green">
-        TRUE
-      </b>
-    </p>
-    <p *ngIf="!valid">
-      Validation function returns
-      <b style="color: red">
-        FALSE
-      </b>
-    </p>
+    @if (state === 'data') {
+      <p>
+        <b>
+          Currently list has data:
+        </b>
+        {{ tmpData | json }}
+      </p>
+    }
+    @if (state === 'empty') {
+      <p>
+        <b>
+          Currently list received empty response
+        </b>
+      </p>
+    }
+    @if (valid) {
+      <p>
+        Validation function returns
+        <b style="color: green">
+          TRUE
+        </b>
+      </p>
+    }
+    @if (!valid) {
+      <p>
+        Validation function returns
+        <b style="color: red">
+          FALSE
+        </b>
+      </p>
+    }
   </div>
   <div class="actions">
     <button
-        mat-stroked-button
-        (click)="toggleEmptyDataStates()">
-      <ng-container *ngIf="state === 'empty'; else dataState">
+      mat-stroked-button
+      (click)="toggleEmptyDataStates()">
+      @if (state === 'empty') {
         Toggle To Data State
-      </ng-container>
-      <ng-template #dataState>
+      } @else {
         Toggle To Empty State
-      </ng-template>
+      }
     </button>
     <button
-        mat-stroked-button
-        (click)="toggleValidState()">
-      <ng-container *ngIf="!valid; else validState">
+      mat-stroked-button
+      (click)="toggleValidState()">
+      @if (!valid) {
         Toggle Valid Empty State
-      </ng-container>
-      <ng-template #validState>
+      } @else {
         Toggle InValid Empty State
-      </ng-template>
+      }
     </button>
   </div>
 </div>
@@ -53,28 +59,28 @@
       №
     </ng-template>
     <ng-template
-        fs-list-cell
-        let-row="row">
+      fs-list-cell
+      let-row="row">
       {{ row.index }}
     </ng-template>
   </fs-list-column>
   <fs-list-column
-      name="name"
-      title="Name"
-      [sortable]="true">
+    name="name"
+    title="Name"
+    [sortable]="true">
     <ng-template
-        fs-list-cell
-        let-row="row">
+      fs-list-cell
+      let-row="row">
       {{ row.value }}
     </ng-template>
   </fs-list-column>
   <fs-list-column
-      name="guid"
-      title="GUID"
-      [sortable]="true">
+    name="guid"
+    title="GUID"
+    [sortable]="true">
     <ng-template
-        fs-list-cell
-        let-row="row">
+      fs-list-cell
+      let-row="row">
       {{ row.guid }}
     </ng-template>
   </fs-list-column>
@@ -87,8 +93,8 @@
         Currently there are no events
       </p>
       <button
-          mat-stroked-button
-          color="primary">
+        mat-stroked-button
+        color="primary">
         Create your first event
       </button>
     </div>

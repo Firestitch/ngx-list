@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import { FsCellComponent } from '../../body/row/cell/cell.component';
-import { NgIf, NgTemplateOutlet, NgSwitch, NgSwitchCase, AsyncPipe } from '@angular/common';
+import { NgTemplateOutlet, AsyncPipe } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 
 
@@ -19,13 +19,10 @@ import { MatIcon } from '@angular/material/icon';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        NgIf,
-        NgTemplateOutlet,
-        NgSwitch,
-        NgSwitchCase,
-        MatIcon,
-        AsyncPipe,
-    ],
+    NgTemplateOutlet,
+    MatIcon,
+    AsyncPipe
+],
 })
 export class FsHeadCellComponent extends FsCellComponent implements DoCheck {
 

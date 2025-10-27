@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import { FsListComponent, FsListConfig } from '@firestitch/list';
 import { ItemType } from '@firestitch/filter';
 import { delay, switchMap } from 'rxjs/operators';
-import { NgIf, JsonPipe } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { FsListComponent as FsListComponent_1 } from '../../../../src/app/components/list/list.component';
 import { FsListColumnDirective } from '../../../../src/app/directives/column/column.directive';
@@ -22,16 +22,15 @@ import { FsListEmptyStateDirective } from '../../../../src/app/directives/empty-
     ],
     standalone: true,
     imports: [
-        NgIf,
-        MatButton,
-        FsListComponent_1,
-        FsListColumnDirective,
-        FsListHeaderDirective,
-        FsListCellDirective,
-        FsListContentDirective,
-        FsListEmptyStateDirective,
-        JsonPipe,
-    ],
+    MatButton,
+    FsListComponent_1,
+    FsListColumnDirective,
+    FsListHeaderDirective,
+    FsListCellDirective,
+    FsListContentDirective,
+    FsListEmptyStateDirective,
+    JsonPipe
+],
 })
 export class EmptyStateComponent implements OnInit {
 

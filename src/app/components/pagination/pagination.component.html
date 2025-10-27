@@ -11,11 +11,11 @@
   @if (pagination.hasNextPage) {
     <div class="fs-list-load-more">
       <button
-          mat-button
-          type="button"
-          [class]="pagination.loadMoreButtonClass"
-          [color]="pagination.loadMoreButtonColor"
-          (click)="next()">
+        mat-button
+        type="button"
+        [class]="pagination.loadMoreButtonClass"
+        [color]="pagination.loadMoreButtonColor"
+        (click)="next()">
         {{ pagination.loadMoreLabel }}
       </button>
     </div>
@@ -23,7 +23,8 @@
 </ng-template>
 <ng-template #strategyOffsetPage>
   @if (pagination.records > pagination.limit) {
-    <ng-container *ngIf="pagination?.pages"></ng-container>
+    @if (pagination?.pages) {
+    }
     <ng-container
       [ngTemplateOutlet]="firstPageButton"
       [ngTemplateOutletContext]="{ disabled: !pagination.hasPrevPage }">
@@ -69,60 +70,60 @@
   }
 </ng-template>
 <ng-template
-    #firstPageButton
-    let-disabled="disabled">
+  #firstPageButton
+  let-disabled="disabled">
   <a
-      matRipple
-      [matRippleRadius]="15"
-      [matRippleCentered]="true"
-      class="first"
-      [class.disabled]="disabled"
-      (click)="first()">
+    matRipple
+    [matRippleRadius]="15"
+    [matRippleCentered]="true"
+    class="first"
+    [class.disabled]="disabled"
+    (click)="first()">
     <mat-icon>
       first_page
     </mat-icon>
   </a>
 </ng-template>
 <ng-template
-    #prevPageButton
-    let-disabled="disabled">
+  #prevPageButton
+  let-disabled="disabled">
   <a
-      matRipple
-      [matRippleRadius]="15"
-      [matRippleCentered]="true"
-      class="previous"
-      [class.disabled]="disabled"
-      (click)="prev()">
+    matRipple
+    [matRippleRadius]="15"
+    [matRippleCentered]="true"
+    class="previous"
+    [class.disabled]="disabled"
+    (click)="prev()">
     <mat-icon>
       keyboard_arrow_left
     </mat-icon>
   </a>
 </ng-template>
 <ng-template
-    #nextPageButton
-    let-disabled="disabled">
+  #nextPageButton
+  let-disabled="disabled">
   <a
-      matRipple
-      [matRippleRadius]="15"
-      [matRippleCentered]="true"
-      class="next"
-      [class.disabled]="disabled"
-      (click)="next()">
+    matRipple
+    [matRippleRadius]="15"
+    [matRippleCentered]="true"
+    class="next"
+    [class.disabled]="disabled"
+    (click)="next()">
     <mat-icon>
       keyboard_arrow_right
     </mat-icon>
   </a>
 </ng-template>
 <ng-template
-    #lastPageButton
-    let-disabled="disabled">
+  #lastPageButton
+  let-disabled="disabled">
   <a
-      matRipple
-      [matRippleRadius]="15"
-      [matRippleCentered]="true"
-      class="last"
-      [class.disabled]="disabled"
-      (click)="last()">
+    matRipple
+    [matRippleRadius]="15"
+    [matRippleCentered]="true"
+    class="last"
+    [class.disabled]="disabled"
+    (click)="last()">
     <mat-icon>
       last_page
     </mat-icon>

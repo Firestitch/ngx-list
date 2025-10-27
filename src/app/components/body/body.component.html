@@ -1,4 +1,4 @@
-<ng-container *ngFor="let row of rows; let i = index;">
+@for (row of rows; track row; let i = $index) {
   <tr
     fs-list-row
     fsListDraggableRow
@@ -19,4 +19,4 @@
     [reorderStrategy]="reorderStrategy"
     [reorderMultiple]="reorderMultiple">
   </tr>
-</ng-container>
+}

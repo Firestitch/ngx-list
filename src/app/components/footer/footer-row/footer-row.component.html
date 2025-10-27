@@ -1,26 +1,24 @@
-<td
-  *ngIf="leftDragDropEnabled"
-  class="fs-list-col drag-col">
-</td>
-<td
-  *ngIf="selection"
-  class="fs-list-col fs-list-col-selection">
-</td>
-<ng-container *ngFor="let column of columns; trackBy: trackByFn">
-  <td
-    *ngIf="!column.footerColspanned"
-    fs-list-footer-cell
-    [column]="column"
-    [row]="row()"
-    [rowIndex]="rowIndex"
-    [ngClass]="column.footerConfigs.classesArray"
-    [attr.colspan]="column.footerConfigs.colspan"
-    [attr.width]="column.width">
-  </td>
-</ng-container>
+@if (leftDragDropEnabled) {
+  <td class="fs-list-col drag-col"></td>
+}
+@if (selection) {
+  <td class="fs-list-col fs-list-col-selection"></td>
+}
+@for (column of columns; track trackByFn($index)) {
+  @if (!column.footerColspanned) {
+    <td
+      fs-list-footer-cell
+      [column]="column"
+      [row]="row()"
+      [rowIndex]="rowIndex"
+      [ngClass]="column.footerConfigs.classesArray"
+      [attr.colspan]="column.footerConfigs.colspan"
+      [attr.width]="column.width">
+    </td>
+  }
+}
 <!-- Drag -->
-<td
-  *ngIf="rightDragDropEnabled"
-  class="fs-list-col actions-col">
-</td>
+@if (rightDragDropEnabled) {
+  <td class="fs-list-col actions-col"></td>
+}
 <!-- Row Actions -->

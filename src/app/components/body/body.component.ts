@@ -15,7 +15,7 @@ import { Column } from '../../models/column.model';
 import { Row } from '../../models/row';
 
 import { FsRowComponent } from './row/row.component';
-import { NgFor } from '@angular/common';
+
 import { FsListDraggableRowDirective } from '../../directives/draggable-row/draggable-row.directive';
 
 
@@ -26,10 +26,9 @@ import { FsListDraggableRowDirective } from '../../directives/draggable-row/drag
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        NgFor,
-        FsRowComponent,
-        FsListDraggableRowDirective,
-    ],
+    FsRowComponent,
+    FsListDraggableRowDirective
+],
 })
 export class FsBodyComponent {
 

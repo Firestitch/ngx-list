@@ -6,7 +6,7 @@ import {
 
 
 import { PaginationController } from '../../classes/pagination-controller';
-import { NgTemplateOutlet, NgIf } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { MatRipple } from '@angular/material/core';
 import { MatIcon } from '@angular/material/icon';
@@ -19,13 +19,12 @@ import { FsCommonModule } from '@firestitch/common';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        NgTemplateOutlet,
-        MatButton,
-        NgIf,
-        MatRipple,
-        MatIcon,
-        FsCommonModule,
-    ],
+    NgTemplateOutlet,
+    MatButton,
+    MatRipple,
+    MatIcon,
+    FsCommonModule
+],
 })
 export class FsPaginationComponent {
 

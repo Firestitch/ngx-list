@@ -1,16 +1,22 @@
 <table>
   <thead>
     <tr>
-      <th *ngFor="let col of cols; let column = index" [width]="widths[column] + '%'">
-        <div class="fs-skeleton-placeholder" [style.width]="(placeholderWidths[0][column]/2)  + '%'"></div>
-      </th>
+      @for (col of cols; track col; let column = $index) {
+        <th [width]="widths[column] + '%'">
+          <div class="fs-skeleton-placeholder" [style.width]="(placeholderWidths[0][column]/2)  + '%'"></div>
+        </th>
+      }
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let row of rows; let index=index">
-      <td *ngFor="let col of cols; let column = index">
-        <div class="fs-skeleton-placeholder" [style.width]="placeholderWidths[index][column] + '%'"></div>
-      </td>
-    </tr>
+    @for (row of rows; track row; let index = $index) {
+      <tr>
+        @for (col of cols; track col; let column = $index) {
+          <td>
+            <div class="fs-skeleton-placeholder" [style.width]="placeholderWidths[index][column] + '%'"></div>
+          </td>
+        }
+      </tr>
+    }
   </tbody>
 </table>
