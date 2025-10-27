@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild, inject } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
 import { ButtonStyle } from '@firestitch/filter';
@@ -24,12 +24,12 @@ import { FsListCellDirective } from '../../../../src/app/directives/cell/cell.di
     ],
 })
 export class ActionsComponent implements OnInit {
+  private _fsApi = inject(FsApi);
+
 
   @ViewChild('table')
   public table: FsListComponent;
   public config: FsListConfig;
-
-  constructor(private _fsApi: FsApi) { }
 
   public ngOnInit() {
 

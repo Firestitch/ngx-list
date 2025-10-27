@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component, EventEmitter,
-  Input, OnChanges, OnInit, Output,
-  SimpleChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 
 import { FsMenuComponent } from '@firestitch/menu';
 
@@ -28,6 +23,8 @@ import { ActionLabelPipe } from '../../../../pipes/action-label';
 ],
 })
 export class FsRowMenuActionComponent implements OnInit, OnChanges {
+  private _menu = inject(FsMenuComponent);
+
 
   @Input()
   public row: Row;
@@ -46,10 +43,6 @@ export class FsRowMenuActionComponent implements OnInit, OnChanges {
 
   public icon: string;
   public label: string;
-
-  constructor(
-    private _menu: FsMenuComponent,
-  ) { }
     
   public ngOnChanges(changes: SimpleChanges): void {
     if(changes.row) {

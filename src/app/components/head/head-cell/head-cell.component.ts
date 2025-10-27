@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  DoCheck,
-  KeyValueDiffer,
-  KeyValueDiffers,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, KeyValueDiffer, KeyValueDiffers, inject } from '@angular/core';
 
 import { FsCellComponent } from '../../body/row/cell/cell.component';
 import { NgTemplateOutlet, AsyncPipe } from '@angular/common';
@@ -25,15 +18,15 @@ import { MatIcon } from '@angular/material/icon';
 ],
 })
 export class FsHeadCellComponent extends FsCellComponent implements DoCheck {
+  private _cdRef = inject(ChangeDetectorRef);
+  private _differs = inject(KeyValueDiffers);
+
 
   public cellContext: any = {};
 
   private _columnDiffer: KeyValueDiffer<string, any>;
 
-  constructor(
-    private _cdRef: ChangeDetectorRef,
-    private _differs: KeyValueDiffers,
-  ) {
+  constructor() {
     super();
     this._columnDiffer = this._differs.find({}).create();
   }

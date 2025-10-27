@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, Component, OnInit, ViewChild, inject } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
 import { ItemType } from '@firestitch/filter';
@@ -48,6 +48,9 @@ import { RouterLink } from '@angular/router';
     ],
 })
 export class GroupsComponent implements OnInit, AfterContentInit {
+  protected _apiStrategy = inject(ApiStrategy);
+  private _fsApi = inject(FsApi);
+
 
   @ViewChild('list', { static: true })
   public list: FsListComponent; // Controller fs-list
@@ -62,12 +65,6 @@ export class GroupsComponent implements OnInit, AfterContentInit {
     { id: 6, name: 'Saturday' },
     { id: 7, name: 'Sunday' },
   ];
-
-  constructor(
-    protected _apiStrategy: ApiStrategy,
-    private _fsApi: FsApi,
-  ) {
-  }
 
   public ngOnInit() {
 

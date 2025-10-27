@@ -29,6 +29,8 @@ import { FsListHeaderDirective } from '../../../../../src/app/directives/header/
   ],
 })
 export class ManualReorderComponent implements OnInit {
+  private _fsApi = inject(FsApi);
+
 
   @ViewChild(FsListComponent, { static: true })
   public list: FsListComponent;
@@ -37,10 +39,6 @@ export class ManualReorderComponent implements OnInit {
 
   private _notReordering$ = new BehaviorSubject<boolean>(true);
   private _destroyRef = inject(DestroyRef);
-
-  constructor(
-    private _fsApi: FsApi,
-  ) { }
 
   public ngOnInit() {
     this.list.reorderController.enabled$

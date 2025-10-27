@@ -1,4 +1,4 @@
-import { Directive, HostListener, Input } from '@angular/core';
+import { Directive, HostListener, Input, inject } from '@angular/core';
 import { GroupExpandNotifierService } from '../../services/group-expand-notifier.service';
 
 
@@ -7,6 +7,8 @@ import { GroupExpandNotifierService } from '../../services/group-expand-notifier
     standalone: true
 })
 export class FsListGroupExpandTriggerDirective {
+  private _expandNotifier = inject(GroupExpandNotifierService);
+
 
   @HostListener('click', ['$event'])
   public click(event) {
@@ -17,6 +19,4 @@ export class FsListGroupExpandTriggerDirective {
 
   @Input()
   public row;
-
-  constructor(private _expandNotifier: GroupExpandNotifierService) {}
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { FsApi } from '@firestitch/api';
@@ -32,13 +32,14 @@ import { FsListCellDirective } from '../../../../../src/app/directives/cell/cell
     ],
 })
 export class CustomReorderComponent implements OnInit {
+  private _fsApi = inject(FsApi);
+  private _router = inject(Router);
+
 
   @ViewChild('table', { static: true })
   public table: FsListComponent; // Controller fs-list
 
   public config: FsListConfig = null;
-
-  constructor(private _fsApi: FsApi, private _router: Router) { }
 
   public ngOnInit() {
     this.config = {

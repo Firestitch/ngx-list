@@ -1,21 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  computed,
-  DoCheck,
-  ElementRef,
-  EventEmitter,
-  HostBinding,
-  input,
-  Input,
-  KeyValueDiffer,
-  KeyValueDiffers,
-  OnDestroy,
-  OnInit,
-  Renderer2,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, DoCheck, ElementRef, EventEmitter, HostBinding, input, Input, KeyValueDiffer, KeyValueDiffers, OnDestroy, OnInit, Renderer2, inject } from '@angular/core';
 import { NgTemplateOutlet, NgClass, AsyncPipe } from '@angular/common';
 
 import { MatCheckboxChange, MatCheckbox } from '@angular/material/checkbox';
@@ -58,6 +41,12 @@ import { FsRowActionsComponent } from './actions/actions.component';
 ],
 })
 export class FsRowComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy {
+  el = inject(ElementRef);
+  private _cdRef = inject(ChangeDetectorRef);
+  private _differs = inject(KeyValueDiffers);
+  private _renderer = inject(Renderer2);
+  private _draggableList = inject(FsListDraggableListDirective);
+
 
   @HostBinding('attr.role')
   public role = 'row';
@@ -97,13 +86,9 @@ export class FsRowComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy
   private _eventListeners = [];
   private _destroy$ = new Subject();
 
-  constructor(
-    public el: ElementRef,
-    private _cdRef: ChangeDetectorRef,
-    private _differs: KeyValueDiffers,
-    private _renderer: Renderer2,
-    private _draggableList: FsListDraggableListDirective,
-  ) {
+  constructor() {
+    const _differs = this._differs;
+
     this._rowDiffer = _differs.find({}).create();
   }
 

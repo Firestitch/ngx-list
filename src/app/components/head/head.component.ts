@@ -1,14 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef, inject } from '@angular/core';
 
 import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 
@@ -40,6 +31,8 @@ import { FsHeadCellComponent } from './head-cell/head-cell.component';
 ],
 })
 export class FsHeadComponent implements OnInit, OnDestroy {
+  private _cdRef = inject(ChangeDetectorRef);
+
 
   @Input() public sorting: SortingController;
   @Input() public columns: Column[];
@@ -57,8 +50,6 @@ export class FsHeadComponent implements OnInit, OnDestroy {
   public readonly ReorderStrategyEnum = ReorderStrategy;
 
   private _destroy$ = new Subject();
-
-  constructor(private _cdRef: ChangeDetectorRef) { }
 
   public get leftDragDropEnabled(): boolean {
     return this.reorderEnabled

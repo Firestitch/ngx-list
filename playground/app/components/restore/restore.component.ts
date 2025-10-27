@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild, inject } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
 import { ItemType } from '@firestitch/filter';
@@ -30,16 +30,13 @@ import { RouterLink } from '@angular/router';
     ],
 })
 export class RestoreComponent implements OnInit {
+  protected _apiStrategy = inject(ApiStrategy);
+  private _fsApi = inject(FsApi);
+
 
   @ViewChild('table', { static: true })
   public table: FsListComponent; // Controller fs-list
   public config: FsListConfig;
-
-  constructor(
-    protected _apiStrategy: ApiStrategy,
-    private _fsApi: FsApi,
-  ) {
-  }
 
   public ngOnInit() {
 

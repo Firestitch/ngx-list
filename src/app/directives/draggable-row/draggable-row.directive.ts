@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, Input, OnDestroy, OnInit, Renderer2, inject } from '@angular/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -13,18 +13,16 @@ import { FsListDraggableListDirective } from '../draggable-list/draggable-list.d
     standalone: true,
 })
 export class FsListDraggableRowDirective implements OnInit, OnDestroy {
+  private _el = inject(ElementRef);
+  private _renderer = inject(Renderer2);
+  private _reorderController = inject(ReorderController);
+  private _draggableList = inject(FsListDraggableListDirective);
+
 
   @Input()
   public row: Row;
 
   private _destroy$ = new Subject<void>();
-
-  constructor(
-    private _el: ElementRef,
-    private _renderer: Renderer2,
-    private _reorderController: ReorderController,
-    private _draggableList: FsListDraggableListDirective,
-  ) { }
 
   public get elRef(): ElementRef {
     return this._el;

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild, inject } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
 import { ItemType } from '@firestitch/filter';
@@ -25,12 +25,12 @@ import { FsListHeaderDirective } from '../../../../src/app/directives/header/hea
   ],
 })
 export class FiltersExtendedComponent implements OnInit {
+  private _fsApi = inject(FsApi);
+
 
   @ViewChild('table', { static: true })
   public table: FsListComponent;
   public config: FsListConfig;
-
-  constructor(private _fsApi: FsApi) { }
 
   public ngOnInit() {
 

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { FsApi } from '@firestitch/api';
@@ -47,6 +42,9 @@ import { SavedFilters } from './saved-filter';
 })
 export class KitchenSinkComponent
 implements OnInit {
+  protected _apiStrategy = inject(ApiStrategy);
+  private _api = inject(FsApi);
+
 
   @ViewChild(FsListComponent, { static: true })
   public list: FsListComponent;
@@ -64,12 +62,6 @@ implements OnInit {
     { id: 6, name: 'Saturday' },
     { id: 7, name: 'Sunday' },
   ];
-
-  constructor(
-    protected _apiStrategy: ApiStrategy,
-    private _api: FsApi,
-  ) {
-  }
 
   public ngOnInit() {
     this.config = {

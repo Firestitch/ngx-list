@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, inject } from '@angular/core';
 
 import { FsPrompt } from '@firestitch/prompt';
 
@@ -37,6 +32,8 @@ import { ActionLabelPipe } from '../../../../pipes/action-label';
 ],
 })
 export class FsRowActionsComponent {
+  private _prompt = inject(FsPrompt);
+
 
   @Input()
   public row: Row;
@@ -63,10 +60,6 @@ export class FsRowActionsComponent {
   public restoreAction: RowAction;
 
   private _destroy$ = new Subject();
-
-  constructor(
-    private _prompt: FsPrompt,
-  ) { }
 
   public actionClick(action: RowAction, row: any, event: any, menuRef?) {
     if (action.remove) {

@@ -1,25 +1,5 @@
 import { AsyncPipe, NgClass, NgTemplateOutlet } from '@angular/common';
-import {
-  AfterContentInit,
-  ChangeDetectionStrategy, ChangeDetectorRef,
-  Component,
-  ContentChild,
-  ContentChildren,
-  ElementRef,
-  EventEmitter,
-  HostBinding,
-  inject,
-  Inject,
-  Injector,
-  Input,
-  OnDestroy,
-  OnInit,
-  Optional,
-  Output,
-  QueryList,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ContentChildren, ElementRef, EventEmitter, HostBinding, Injector, Input, OnDestroy, OnInit, Output, QueryList, TemplateRef, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -91,10 +71,20 @@ import { FsStatusComponent } from '../status/status.component';
     FsListFooterDirective,
     FsListLoaderComponent,
     FsPaginationComponent,
-    AsyncPipe
-],
+    AsyncPipe,
+  ],
 })
 export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
+  reorderController = inject(ReorderController);
+  private _config = inject<FsListConfig>(FS_LIST_CONFIG, { optional: true });
+  private _el = inject(ElementRef);
+  private _selectionDialog = inject(SelectionDialog);
+  private _dialog = inject(MatDialog);
+  private _cdRef = inject(ChangeDetectorRef);
+  private _groupExpandNotifier = inject(GroupExpandNotifierService);
+  private _route = inject(ActivatedRoute);
+  private _persistance = inject(PersistanceController);
+
 
   @HostBinding('class.fs-list') public classFsList = true;
 
@@ -158,19 +148,6 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
 
   private _dialogRef = inject(MatDialogRef, { optional: true });
   private _drawerRef = inject(DrawerRef, { optional: true });
-
-  constructor(
-    public reorderController: ReorderController,
-    @Optional() @Inject(FS_LIST_CONFIG) private _config: FsListConfig,
-    private _el: ElementRef,
-    private _selectionDialog: SelectionDialog,
-    private _dialog: MatDialog,
-    private _cdRef: ChangeDetectorRef,
-    private _groupExpandNotifier: GroupExpandNotifierService,
-    private _route: ActivatedRoute,
-    private _persistance: PersistanceController,
-  ) {
-  }
 
   /**
    * Return reference for filter

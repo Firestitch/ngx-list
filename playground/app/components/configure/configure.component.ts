@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { DRAWER_DATA, DrawerRef } from '@firestitch/drawer';
 import { FsListComponent, PaginationStrategy } from '@firestitch/list';
@@ -26,6 +26,9 @@ import { MatCheckbox } from '@angular/material/checkbox';
     ],
 })
 export class ConfigureComponent {
+  drawer = inject<DrawerRef<ConfigureComponent>>(DrawerRef);
+  data = inject(DRAWER_DATA);
+
 
   public config;
   public defaultConfig;
@@ -34,10 +37,9 @@ export class ConfigureComponent {
   public pagingStrategy = false;
   public loadMoreEnabled = false;
 
-  constructor(
-    public drawer: DrawerRef<ConfigureComponent>,
-    @Inject(DRAWER_DATA) public data: any,
-  ) {
+  constructor() {
+    const data = this.data;
+
     this.config = data.config;
     this.defaultConfig = data.defaultConfig;
     this.list = data.list;

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
 import { ItemType } from '@firestitch/filter';
@@ -24,10 +24,10 @@ import { FsListCellDirective } from '../../../../../src/app/directives/cell/cell
     ],
 })
 export class ToggleReorderComponent implements OnInit {
+  private _fsApi = inject(FsApi);
+
 
   public config: FsListConfig = null;
-
-  constructor(private _fsApi: FsApi) { }
 
   public ngOnInit() {
     this.config = {

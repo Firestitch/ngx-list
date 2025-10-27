@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
 import { FsListConfig } from '@firestitch/list';
@@ -25,6 +25,9 @@ import { FsListCellDirective } from '../../../../src/app/directives/cell/cell.di
     ],
 })
 export class LoadMoreComponent implements OnInit {
+  protected _apiStrategy = inject(ApiStrategy);
+  private _fsApi = inject(FsApi);
+
 
   public config: FsListConfig;
 
@@ -33,12 +36,6 @@ export class LoadMoreComponent implements OnInit {
     { value: 'moderator', viewValue: 'Moderator' },
     { value: 'user', viewValue: 'User' },
   ];
-
-  constructor(
-    protected _apiStrategy: ApiStrategy,
-    private _fsApi: FsApi,
-  ) {
-  }
 
   public ngOnInit() {
 

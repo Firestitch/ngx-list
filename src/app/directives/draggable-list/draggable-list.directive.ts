@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Directive, ElementRef, Input, NgZone, Renderer2 } from '@angular/core';
+import { ChangeDetectorRef, Directive, ElementRef, Input, NgZone, Renderer2, inject } from '@angular/core';
 
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -14,6 +14,12 @@ import { FsListDraggableRowDirective } from '../draggable-row/draggable-row.dire
     standalone: true,
 })
 export class FsListDraggableListDirective {
+  private _cdRef = inject(ChangeDetectorRef);
+  private _zone = inject(NgZone);
+  private _containerElement = inject(ElementRef);
+  private _reorderController = inject(ReorderController);
+  private _renderer = inject(Renderer2);
+
   // Draggable Element
   private _draggableElement: HTMLElement;
   private _draggableElementPreview: HTMLElement;
@@ -37,14 +43,6 @@ export class FsListDraggableListDirective {
   private _draggableChildrenDirectives: FsListDraggableRowDirective[] = [];
   private _selectedRowsDirectives: FsListDraggableRowDirective[] = [];
   private _destroy$ = new Subject();
-
-  constructor(
-    private _cdRef: ChangeDetectorRef,
-    private _zone: NgZone,
-    private _containerElement: ElementRef,
-    private _reorderController: ReorderController,
-    private _renderer: Renderer2,
-  ) { }
 
   private _windowTouchMoveHandler = () => {
     //
