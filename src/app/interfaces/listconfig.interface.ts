@@ -203,8 +203,13 @@ export interface FsListRowAction {
   link?: FsListRowActionLinkFn;
   file?: FsListRowActionFile;
   show?: (row, index: number) => boolean;
-  remove?: { title?: string; template?: string } | boolean;
+  remove?: FsListRowActionRemove | boolean;
   restore?: boolean;
+}
+
+export interface FsListRowActionRemove {
+  title?: string;
+  template?: string;
 }
 
 export type FsListRowActionFileFn = (selection: FsFile | FsFile[], row: FsListAbstractRow, index: number) => void;

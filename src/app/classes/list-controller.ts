@@ -34,13 +34,14 @@ import {
   FsListNoResultsConfig,
   FsListPersitance,
   FsListRestoreConfig,
+  FsListRowAction,
+  FsListRowActionGroup,
   FsListSelectionConfig,
   FsListTrackByFn,
   FsPaging,
   PageChange,
 } from '../interfaces';
 import { SortingDirection } from '../models/column.model';
-import { RowAction } from '../models/row-action.model';
 import { StyleConfig } from '../models/styleConfig.model';
 
 import { ColumnsController } from './columns-controller';
@@ -62,7 +63,7 @@ export class List {
   public subheading: string;
   public autoFocus: boolean;
   public rowHoverHighlight: boolean;
-  public rowActionsRaw: any[];
+  public rowActionsRaw: (FsListRowActionGroup | FsListRowAction)[];
   public groupActionsRaw: any[];
   public rowClass;
   public rowEvents: any;
@@ -476,14 +477,14 @@ export class List {
    */
   private _initRestore() {
     if (this.restore) {
-      const restoreAction = new RowAction({
+      const restoreAction = {
         label: this.restore.menuLabel || 'Restore',
         menu: true,
         click: (row) => {
           this._restoreClick(this.restore.click, row);
         }, // TODO fix me, move to special file
         restore: true,
-      });
+      };
 
       if (!this.rowActionsRaw) {
         this.rowActionsRaw = [];

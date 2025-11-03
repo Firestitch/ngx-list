@@ -1,39 +1,37 @@
+import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, inject } from '@angular/core';
 
+import { MatIcon } from '@angular/material/icon';
+
+import { FsMenuModule } from '@firestitch/menu';
 import { FsPrompt } from '@firestitch/prompt';
 
 import { Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
-
 import { Row } from '../../../../models/row';
 import { RowAction } from '../../../../models/row-action.model';
-import { NgClass } from '@angular/common';
-import { FsRowInlineActionComponent } from '../inline-action/inline-action.component';
-import { FsMenuModule } from '@firestitch/menu';
-import { FsRowMenuActionComponent } from '../menu-action/menu-action.component';
-import { MatIcon } from '@angular/material/icon';
 import { ActionLabelPipe } from '../../../../pipes/action-label';
+import { FsRowInlineActionComponent } from '../inline-action/inline-action.component';
+import { FsRowMenuActionComponent } from '../menu-action/menu-action.component';
 
 
 @Component({
-    selector: 'fs-list-row-actions',
-    templateUrl: './actions.component.html',
-    styleUrls: ['./actions.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
+  selector: 'fs-list-row-actions',
+  templateUrl: './actions.component.html',
+  styleUrls: ['./actions.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
     FsRowInlineActionComponent,
     NgClass,
     FsMenuModule,
     FsRowMenuActionComponent,
     MatIcon,
-    ActionLabelPipe
-],
+    ActionLabelPipe,
+  ],
 })
 export class FsRowActionsComponent {
-  private _prompt = inject(FsPrompt);
-
 
   @Input()
   public row: Row;
@@ -60,12 +58,14 @@ export class FsRowActionsComponent {
   public restoreAction: RowAction;
 
   private _destroy$ = new Subject();
+  private _prompt = inject(FsPrompt);
+
 
   public actionClick(action: RowAction, row: any, event: any, menuRef?) {
     if (action.remove) {
-      if (typeof action.remove === 'boolean') {
-        this._removeAction(action, row.data, event, this.index);
-      } else {
+      if (
+        action.remove instanceof Object
+      ) {
         this._prompt.confirm({
           title: action.remove.title,
           template: action.remove.template,
@@ -78,6 +78,9 @@ export class FsRowActionsComponent {
           .subscribe(() => {
             this._removeAction(action, row.data, event, this.index);
           });
+      } else {
+        this._removeAction(action, row.data, event, this.index);
+
       }
     } else {
       action.click(row.data, event, this.index, menuRef);

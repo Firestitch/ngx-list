@@ -83,6 +83,7 @@ import { ActionLabelPipe } from './pipes';
     FsListEmptyStateDirective,
     FsListContentDirective,
     FsListHeadingDirective,
+    FsListDraggableListDirective,
   ],
 })
 export class FsListModule {

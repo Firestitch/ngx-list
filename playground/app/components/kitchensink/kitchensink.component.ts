@@ -285,7 +285,7 @@ implements OnInit {
       rowActions: [
         {
           label: 'Upload',
-          type: ActionType.Raised,
+          type: ActionType.Basic,
           menu: false,
           file: {
             select: (file) => {
@@ -334,7 +334,6 @@ implements OnInit {
               link: (row) => {
                 return { link: ['rows', row.guid], queryParams: { param: 1 } };
               },
-              icon: 'edit',
               label: 'Edit',
             },
             {
@@ -359,7 +358,6 @@ implements OnInit {
                 title: 'Confirm',
                 template: 'Are you sure you would like to delete this record?',
               },
-              icon: 'delete',
               label: 'Remove',
             },
             {

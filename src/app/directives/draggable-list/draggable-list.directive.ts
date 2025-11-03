@@ -5,15 +5,16 @@ import { takeUntil } from 'rxjs/operators';
 
 import { ReorderController, ReorderStrategy } from '../../classes/reorder-controller';
 import { FsListDragChildRowElement } from '../../interfaces/draggable-list.interface';
-import { isChildRow, isGroupRow, Row } from '../../models/row';
+import { Row, isChildRow, isGroupRow } from '../../models/row';
 import { FsListDraggableRowDirective } from '../draggable-row/draggable-row.directive';
 
 
 @Directive({
-    selector: '[fsListDraggableList]',
-    standalone: true,
+  selector: '[fsListDraggableList]',
+  standalone: true,
 })
 export class FsListDraggableListDirective {
+  
   private _cdRef = inject(ChangeDetectorRef);
   private _zone = inject(NgZone);
   private _containerElement = inject(ElementRef);

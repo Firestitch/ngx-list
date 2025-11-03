@@ -9,8 +9,6 @@ import { GroupsComponent } from '../groups/groups.component';
 import { KitchenSinkComponent } from '../kitchensink/kitchensink.component';
 import { LoadMoreComponent } from '../load-more/load-more.component';
 import { NoResultsComponent } from '../no-results/no-results.component';
-import { RemoveConfirmComponent } from '../remove/confirm/confirm.component';
-import { RemoveSimpleComponent } from '../remove/simple/simple.component';
 import { ManualReorderComponent } from '../reorder/manual/manual.component';
 import { ToggleReorderComponent } from '../reorder/toggle/toggle.component';
 import { RestoreComponent } from '../restore/restore.component';
@@ -29,8 +27,6 @@ import { StyleComponent } from '../style/style.component';
     FsExampleModule,
     KitchenSinkComponent,
     GroupsComponent,
-    RemoveSimpleComponent,
-    RemoveConfirmComponent,
     FiltersComponent,
     RestoreComponent,
     SortableComponent,

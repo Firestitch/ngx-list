@@ -1,7 +1,7 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, DoCheck, ElementRef, EventEmitter, HostBinding, input, Input, KeyValueDiffer, KeyValueDiffers, OnDestroy, OnInit, Renderer2, inject } from '@angular/core';
-import { NgTemplateOutlet, NgClass, AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgClass, NgTemplateOutlet } from '@angular/common';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, ElementRef, EventEmitter, HostBinding, Input, KeyValueDiffer, KeyValueDiffers, OnDestroy, OnInit, Renderer2, computed, inject, input } from '@angular/core';
 
-import { MatCheckboxChange, MatCheckbox } from '@angular/material/checkbox';
+import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 import { MatIcon } from '@angular/material/icon';
 
 import { Subject } from 'rxjs';
@@ -15,38 +15,33 @@ import { SelectionController } from '../../../classes/selection-controller';
 import { FsListDraggableListDirective } from '../../../directives/draggable-list/draggable-list.directive';
 import { FsListRowClassOptions } from '../../../interfaces';
 import { Column } from '../../../models/column.model';
-import { isChildRow, isChildTypeRow, isGroupFooterRow, isGroupRow, Row } from '../../../models/row';
+import { Row, isChildRow, isChildTypeRow, isGroupFooterRow, isGroupRow } from '../../../models/row';
 import { RowAction } from '../../../models/row-action.model';
-import { FsCellComponent } from './cell/cell.component';
+
 import { FsRowActionsComponent } from './actions/actions.component';
+import { FsCellComponent } from './cell/cell.component';
 
 
 @Component({
-    selector: '[fs-list-row]',
-    templateUrl: './row.component.html',
-    styleUrls: ['./row.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: {
-      '[class]': "this.rowCustomClass()",
-    },
-    standalone: true,
-    imports: [
+  selector: '[fs-list-row]',
+  templateUrl: './row.component.html',
+  styleUrls: ['./row.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class]': 'this.rowCustomClass()',
+  },
+  standalone: true,
+  imports: [
     NgTemplateOutlet,
     MatCheckbox,
     FsCellComponent,
     NgClass,
     FsRowActionsComponent,
     MatIcon,
-    AsyncPipe
-],
+    AsyncPipe,
+  ],
 })
 export class FsRowComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy {
-  el = inject(ElementRef);
-  private _cdRef = inject(ChangeDetectorRef);
-  private _differs = inject(KeyValueDiffers);
-  private _renderer = inject(Renderer2);
-  private _draggableList = inject(FsListDraggableListDirective);
-
 
   @HostBinding('attr.role')
   public role = 'row';
@@ -82,26 +77,17 @@ export class FsRowComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy
   public selected = false;
   public indeterminateSelected: boolean | 'indeterminate' = false;
 
-  private _rowDiffer: KeyValueDiffer<any, any>;
-  private _eventListeners = [];
-  private _destroy$ = new Subject();
+  public isGroupRow = computed(() => {
+    return isGroupRow(this.row());
+  });
 
-  constructor() {
-    const _differs = this._differs;
+  public isGroupFooterRow = computed(() => {
+    return isGroupFooterRow(this.row());
+  });
 
-    this._rowDiffer = _differs.find({}).create();
-  }
-
-  public get isDragDisabled(): boolean {
-    return !this.selected && this.reorderMultiple && !!this.selection.selectedRows.size;
-  }
-
-  @HostBinding('class.multiple-selection')
-  public get isMultipleSelection() {
-    const multiple = this.reorderMultiple;
-
-    return multiple && this.selected;
-  }
+  public dragCellVisible = computed(() => {
+    return !isGroupRow(this.row());
+  });
 
   public rowCustomClass = computed(() => {
     if (!this.row()) {
@@ -141,6 +127,32 @@ export class FsRowComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy
     return classes.join(' ');
   });
 
+  private _rowDiffer: KeyValueDiffer<any, any>;
+  private _eventListeners = [];
+  private _destroy$ = new Subject();
+  private _el = inject(ElementRef);
+  private _cdRef = inject(ChangeDetectorRef);
+  private _differs = inject(KeyValueDiffers);
+  private _renderer = inject(Renderer2);
+  private _draggableList = inject(FsListDraggableListDirective, { optional: true });
+
+  constructor() {
+    const _differs = this._differs;
+
+    this._rowDiffer = _differs.find({}).create();
+  }
+
+  public get isDragDisabled(): boolean {
+    return !this.selected && this.reorderMultiple && !!this.selection.selectedRows.size;
+  }
+
+  @HostBinding('class.multiple-selection')
+  public get isMultipleSelection() {
+    const multiple = this.reorderMultiple;
+
+    return multiple && this.selected;
+  }
+
   public get leftDragDropEnabled(): boolean {
     return this.reorderEnabled
       && this.reorderPosition === ReorderPosition.Left
@@ -158,16 +170,18 @@ export class FsRowComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy
 
     if (this.row()) {
       this._initRowActionsUpdate();
-    }
 
-    if (this.row() && isGroupRow(this.row()) && this.groupActionsRaw) {
-      this.rowActions = this.groupActionsRaw.map((action) => new RowAction(action));
+      if(isGroupRow(this.row())) {
+        if (this.row() && this.groupActionsRaw) {
+          this.rowActions = this.groupActionsRaw.map((action) => new RowAction(action));
 
-      this._filterActionsByCategories();
-    } else if (this.rowActionsRaw) {
-      this.rowActions = this.rowActionsRaw.map((action) => new RowAction(action));
+          this._filterActionsByCategories();
+        }
+      } else if (this.rowActionsRaw) {
+        this.rowActions = this.rowActionsRaw.map((action) => new RowAction(action));
 
-      this._filterActionsByCategories();
+        this._filterActionsByCategories();
+      }
     }
   }
 
@@ -180,18 +194,6 @@ export class FsRowComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy
   public ngAfterViewInit(): void {
     this._initSelection();
   }
-
-  public isGroupRow = computed(() => {
-    return isGroupRow(this.row());
-  });
-
-  public isGroupFooterRow = computed(() => {
-    return isGroupFooterRow(this.row());
-  });
-
-  public dragCellVisible = computed(() => {
-    return !isGroupRow(this.row());
-  });
 
   public updateRowActions() {
     if (this.rowActions) {
@@ -238,7 +240,7 @@ export class FsRowComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy
       event.preventDefault();
       event.stopPropagation();
 
-      this._draggableList.dragStart(this.el.nativeElement);
+      this._draggableList.dragStart(this._el.nativeElement);
     }
   }
 
@@ -249,7 +251,7 @@ export class FsRowComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy
     Object.keys(this.rowEvents || {})
       .forEach((event) => {
         const listener = this._renderer
-          .listen(this.el.nativeElement, event, (evt) => {
+          .listen(this._el.nativeElement, event, (evt) => {
             this.rowEvents[event]({
               event: evt,
               row: this.row().data,

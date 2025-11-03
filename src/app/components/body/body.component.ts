@@ -11,24 +11,23 @@ import {
 
 import { ReorderPosition, ReorderStrategy } from '../../classes/reorder-controller';
 import { SelectionController } from '../../classes/selection-controller';
+import { FsListDraggableRowDirective } from '../../directives/draggable-row/draggable-row.directive';
 import { Column } from '../../models/column.model';
 import { Row } from '../../models/row';
 
 import { FsRowComponent } from './row/row.component';
 
-import { FsListDraggableRowDirective } from '../../directives/draggable-row/draggable-row.directive';
-
 
 @Component({
-    selector: '[fs-list-body]',
-    templateUrl: './body.component.html',
-    styleUrls: ['./body.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
+  selector: '[fs-list-body]',
+  templateUrl: './body.component.html',
+  styleUrls: ['./body.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
     FsRowComponent,
-    FsListDraggableRowDirective
-],
+    FsListDraggableRowDirective,
+  ],
 })
 export class FsBodyComponent {
 

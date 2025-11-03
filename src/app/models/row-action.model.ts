@@ -3,6 +3,7 @@ import {
   FsListRowActionFile,
   FsListRowActionLink,
   FsListRowActionLinkFn,
+  FsListRowActionRemove,
 } from '../interfaces';
 
 
@@ -10,7 +11,7 @@ export class RowAction {
 
   public icon: string | ((row: any) => string);
   public menu: boolean;
-  public remove: { title: string; template: string };
+  public remove: FsListRowActionRemove | boolean;
   public className: string;
   public type: ActionType;
   public show: Function;
