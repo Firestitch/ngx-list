@@ -649,6 +649,7 @@ export class List {
             .pipe(
               catchError((error) => {
                 console.error(error);
+                this._loading$.next(false);
 
                 return EMPTY;
               }),
