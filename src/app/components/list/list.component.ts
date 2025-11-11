@@ -75,16 +75,8 @@ import { FsStatusComponent } from '../status/status.component';
   ],
 })
 export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
-  reorderController = inject(ReorderController);
-  private _config = inject<FsListConfig>(FS_LIST_CONFIG, { optional: true });
-  private _el = inject(ElementRef);
-  private _selectionDialog = inject(SelectionDialog);
-  private _dialog = inject(MatDialog);
-  private _cdRef = inject(ChangeDetectorRef);
-  private _groupExpandNotifier = inject(GroupExpandNotifierService);
-  private _route = inject(ActivatedRoute);
-  private _persistance = inject(PersistanceController);
-
+  
+  public reorderController = inject(ReorderController);
 
   @HostBinding('class.fs-list') public classFsList = true;
 
@@ -119,6 +111,14 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   private _filterParamsReady = false;
   private _destroy = new Subject();
   private _injector = inject(Injector);
+  private _config = inject<FsListConfig>(FS_LIST_CONFIG, { optional: true });
+  private _el = inject(ElementRef);
+  private _selectionDialog = inject(SelectionDialog);
+  private _dialog = inject(MatDialog);
+  private _cdRef = inject(ChangeDetectorRef);
+  private _groupExpandNotifier = inject(GroupExpandNotifierService);
+  private _route = inject(ActivatedRoute);
+  private _persistance = inject(PersistanceController);
 
   @ViewChild(FilterComponent)
   public set filterReference(component) {

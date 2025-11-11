@@ -238,8 +238,9 @@ export class List {
     this._initFilters();
   }
 
-  public reload(): Observable<any> {
+  public reload(query?: Record<string, any>): Observable<any> {
     this._loading$.next(true);
+    this._filtersQuery.next(query);
     this.dataController.setOperation(FsListState.Reload);
     this._fetch$.next(null);
 
