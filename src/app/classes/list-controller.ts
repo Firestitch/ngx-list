@@ -242,9 +242,8 @@ export class List {
     this._initFilters();
   }
 
-  public reload(query?: Record<string, any>): Observable<any> {
+  public reload(): Observable<any> {
     this._loading$.next(true);
-    this._filtersQuery.next(query);
     this.dataController.setOperation(FsListState.Reload);
     this._fetch$.next(null);
 
@@ -748,7 +747,7 @@ export class List {
       autoReload: this.autoReload,
       init: this._filterInit.bind(this),
       change: this._filterChange.bind(this),
-      reload: (this._config.reload ?? true) ? this.reload.bind(this) : null,
+      reload: (this._config.reload ?? true) ? this._filterReload.bind(this) : null,
       sortChange: this._filterSort.bind(this),
       heading: this.heading,
       subheading: this.subheading,
@@ -759,6 +758,11 @@ export class List {
         name: this._persistance.name,
       };
     }
+  }
+
+  private _filterReload(query: Record<string, any>) {
+    this._filtersQuery.next(query);
+    this.reload();
   }
 
   /**
