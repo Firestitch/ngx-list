@@ -8,8 +8,8 @@ import { DrawerRef } from '@firestitch/drawer';
 import { FilterComponent, FilterHeadingDirective, FilterStatusBarDirective } from '@firestitch/filter';
 import { SelectionDialog } from '@firestitch/selection';
 
-import { Subject } from 'rxjs';
-import { filter, skip, take, takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { delay, filter, skip, take, takeUntil } from 'rxjs/operators';
 
 import { cloneDeep, mergeWith } from 'lodash-es';
 
@@ -225,8 +225,14 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
     this.list.paging.goLast();
   }
 
-  public reload() {
+  public reload(): Observable<{ scrollIntoView?: boolean }> {
     this.filterRef.reload();
+
+    return this.list.fetchComplete$
+      .pipe(      
+        take(1),  
+        delay(0),
+      );
   }
 
   public getData(trackBy?: FsListTrackByFn) {

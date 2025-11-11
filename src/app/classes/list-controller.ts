@@ -156,6 +156,10 @@ export class List {
     return this._fetch$.asObservable();
   }
 
+  public get fetchComplete$(): Observable<{ scrollIntoView?: boolean }> {
+    return this._fetchComplete$.asObservable();
+  }
+
   public get hasSavedFilters(): boolean {
     return !!this.filterConfig.savedFilters;
   }
