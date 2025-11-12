@@ -42,9 +42,6 @@ import { SavedFilters } from './saved-filter';
 })
 export class KitchenSinkComponent
 implements OnInit {
-  protected _apiStrategy = inject(ApiStrategy);
-  private _api = inject(FsApi);
-
 
   @ViewChild(FsListComponent, { static: true })
   public list: FsListComponent;
@@ -63,10 +60,14 @@ implements OnInit {
     { id: 7, name: 'Sunday' },
   ];
 
+  protected _apiStrategy = inject(ApiStrategy);
+  private _api = inject(FsApi);
+
   public ngOnInit() {
     this.config = {
       status: true,
       chips: true,
+      reload: false,
       persist: {
         name: 'kitchensink',
       },
@@ -253,13 +254,6 @@ implements OnInit {
         },
         {
           click: () => {
-            this.linkVisible = !this.linkVisible;
-          },
-          primary: false,
-          label: 'Toggle Link Visibility',
-        },
-        {
-          click: () => {
             // this.list.enableOrder();
           },
           label: 'Kebab only button',
@@ -273,11 +267,20 @@ implements OnInit {
         },
         {
           mode: ActionMode.Menu,
-          label: 'Presets',
-          primary: false,
+          label: 'Functions',
+          menu: true,
           items: [
             {
-              label: 'Today',
+              click: () => {
+                this.linkVisible = !this.linkVisible;
+              },
+              label: 'Toggle Link Visibility',
+            },
+            {
+              label: 'Reload',
+              click: () => {
+                this.list.reload();
+              },
             },
           ],
         },
