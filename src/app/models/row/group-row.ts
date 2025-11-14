@@ -1,9 +1,10 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { BaseRow, IBaseRow } from './_base-row';
 import { RowType } from '../../enums/row-type.enum';
-import { IGroupFooterRow } from './group-footer-row';
+
+import { BaseRow, IBaseRow } from './_base-row';
 import { IChildRow } from './child-row';
+import { IGroupFooterRow } from './group-footer-row';
 
 
 export interface IGroupRow extends IBaseRow {
@@ -41,7 +42,7 @@ export class GroupRow extends BaseRow<RowType.Group> implements IGroupRow {
 
   public get childrenData() {
     return this._children
-        .map((child) => child.data);
+      .map((child) => child.data);
   }
 
 
@@ -68,7 +69,7 @@ export class GroupRow extends BaseRow<RowType.Group> implements IGroupRow {
   private _updateChildrenVisibility(): void {
     this._children.forEach((row) => {
       row.visible = this.expanded;
-    })
+    });
   }
 
 }

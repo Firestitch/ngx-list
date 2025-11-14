@@ -1,7 +1,9 @@
-import { BaseRow, IBaseRow } from './_base-row';
 import { RowType } from '../../enums/row-type.enum';
-import { IGroupRow } from './group-row';
 import { FsListReorderData } from '../../interfaces';
+
+import { BaseRow, IBaseRow } from './_base-row';
+import { IGroupRow } from './group-row';
+
 
 export interface IBaseChildRow extends IBaseRow {
   type: RowType.GroupChild | RowType.GroupFooter;
@@ -53,7 +55,7 @@ export class ChildRow extends BaseRow<RowType.GroupChild> implements IChildRow {
       type: this._rowType,
       data: this.data,
       parent: this.parent.reorderData(),
-    }
+    };
   }
 
   public destroy() {}

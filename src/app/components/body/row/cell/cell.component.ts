@@ -18,7 +18,7 @@ import { skip, takeUntil } from 'rxjs/operators';
 
 import { isChildTypeRow, isGroupFooterRow, isGroupRow, Row } from '../../../../models';
 import { Column } from '../../../../models/column.model';
-import { SimpleRow } from '../../../../models/row/simple-row';
+import { BaseRow } from '../../../../models/row/_base-row';
 
 
 @Component({
@@ -115,7 +115,7 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
 
   private _listenRowDataChange() {
     const currentRow = this.row();
-    if(currentRow instanceof SimpleRow) {
+    if(currentRow instanceof BaseRow) {
       currentRow.data$
         .pipe(
           skip(1),
