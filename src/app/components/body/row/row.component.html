@@ -3,7 +3,7 @@
   <ng-container *ngTemplateOutlet="dragCell"></ng-container>
 }
 <!-- Selection -->
-@if (selection && !(selection.disabled$ | async)) {
+@if (selection && (selection.enabled$ | async)) {
   <td class="fs-list-col fs-list-col-selection">
     @if (!isGroupFooterRow()) {
       <mat-checkbox

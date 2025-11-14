@@ -1,32 +1,32 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
 
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatButton } from '@angular/material/button';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { PersistanceController } from '../../classes/persistance-controller';
 import { ColumnsColumn } from '../../models';
-import { CdkScrollable } from '@angular/cdk/scrolling';
-import { NgTemplateOutlet } from '@angular/common';
-import { MatCheckbox } from '@angular/material/checkbox';
-import { MatButton } from '@angular/material/button';
 
 
 @Component({
-    templateUrl: './customize-cols.component.html',
-    styleUrls: ['./customize-cols.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
+  templateUrl: './customize-cols.component.html',
+  styleUrls: ['./customize-cols.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
     MatDialogTitle,
     CdkScrollable,
     MatDialogContent,
     MatCheckbox,
     NgTemplateOutlet,
     MatDialogActions,
-    MatButton
-],
+    MatButton,
+  ],
 })
 export class CustomizeColsDialogComponent implements OnDestroy {
 

@@ -1,4 +1,5 @@
 import { RowType } from '../enums/row-type.enum';
+
 import { ChildRow, IChildRow } from './row/child-row';
 import { GroupFooterRow, IGroupFooterRow } from './row/group-footer-row';
 import { GroupRow, IGroupRow } from './row/group-row';

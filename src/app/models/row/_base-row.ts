@@ -1,4 +1,4 @@
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { RowType } from '../../enums/row-type.enum';
 import { FsListReorderData } from '../../interfaces';
@@ -21,17 +21,24 @@ export abstract class BaseRow<T = RowType> implements IBaseRow{
   private _index: number;
   private _readyToSwap = true;
   private _actionsUpdated$ = new Subject<void>();
-
-  private _data: object = {};
+  private _data$ = new BehaviorSubject<object>({});
 
   constructor(
     data: object = {},
   ) {
-    this._data = data;
+    this._data$.next(data);
   }
 
   public get data(): object {
-    return this._data;
+    return this._data$.getValue();
+  }
+  
+  public set data(value: object) {
+    this._data$.next(value);
+  }
+
+  public get data$(): Observable<object> {
+    return this._data$.asObservable();
   }
 
   public get type(): T {
@@ -67,7 +74,7 @@ export abstract class BaseRow<T = RowType> implements IBaseRow{
       type: this._rowType as RowType,
       data: this.data,
       parent: null,
-    }
+    };
   }
 
   public abstract destroy();

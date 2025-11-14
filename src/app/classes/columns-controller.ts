@@ -29,7 +29,6 @@ export class ColumnsController {
   private _hasFooter = false;
   private _columns: Column[] = [];
   private _defaultConfigs;
-
   private _columnsUpdated$ = new Subject<void>();
   private _destroy$ = new Subject<void>();
 

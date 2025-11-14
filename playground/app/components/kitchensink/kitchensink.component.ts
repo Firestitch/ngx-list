@@ -1,5 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+
+import { MatFormField } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
 
 import { FsApi } from '@firestitch/api';
 import { nameValue } from '@firestitch/common';
@@ -38,6 +42,9 @@ import { SavedFilters } from './saved-filter';
     FsListFooterDirective,
     FsListHeadingDirective,
     RouterLink,
+    FormsModule,
+    MatFormField,
+    MatInput,
   ],
 })
 export class KitchenSinkComponent
@@ -282,6 +289,14 @@ implements OnInit {
                 this.list.reload();
               },
             },
+            {
+              label: 'Update Row Data',
+              click: () => {
+                this.list.updateData([{ input: 'Input updated' }], (listRow: FsListAbstractRow) => {
+                  return listRow.index === 0;
+                });
+              },
+            },
           ],
         },
       ],
@@ -443,5 +458,12 @@ implements OnInit {
 
   public onClick(row, event) {
     console.log(row, event);
+  }
+
+  public inputChange(index, input) {
+    this.list
+      .updateData([{ name: `Name input: ${  input}` }], (listRow: FsListAbstractRow) => {
+        return listRow.index === index;
+      });
   }
 }

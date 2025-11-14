@@ -5,8 +5,8 @@ import { isFunction, isObject } from 'lodash-es';
 
 import { RowType } from '../enums/row-type.enum';
 import { FsListState } from '../enums/state.enum';
-import { FsListAbstractRow, FsListGroupConfig, FsListTrackByTargetRowFn, } from '../interfaces/listconfig.interface';
-import { makeRowFactory, Row, isChildTypeRow, isGroupRow } from '../models/row';
+import { FsListAbstractRow, FsListGroupConfig, FsListTrackByTargetRowFn } from '../interfaces/listconfig.interface';
+import { Row, isChildTypeRow, isGroupRow, makeRowFactory } from '../models/row';
 import { IChildRow } from '../models/row/child-row';
 import { IGroupFooterRow } from '../models/row/group-footer-row';
 import { IGroupRow } from '../models/row/group-row';
@@ -157,29 +157,6 @@ export class DataController {
   }
 
   /**
-   * Replace data for specified row
-   * @param targetRow
-   * @param trackBy
-   */
-  public replaceData(
-    targetRow: FsListAbstractRow,
-    trackBy: FsListTrackByTargetRowFn,
-  ): boolean {
-    const rowIndex = this._rowsStack.findIndex((listRow) => {
-      return trackBy(listRow.data, targetRow);
-    });
-
-    if (rowIndex === -1) {
-      return false;
-    }
-
-    this._rowsStack[rowIndex] = makeRowFactory(targetRow, RowType.Simple);
-    this._updateVisibleRows();
-
-    return true;
-  }
-
-  /**
    * Update data for specified row
    * @param rows
    * @param trackBy
@@ -197,15 +174,10 @@ export class DataController {
         }
       });
 
-      this._updateVisibleRows();
-
       return updateSuccess;
     }
-    const updated = this._updateRow(rows, trackBy);
-
-    this._updateVisibleRows();
-
-    return updated;
+   
+    return this._updateRow(rows, trackBy);
   }
 
   /**
@@ -346,7 +318,7 @@ export class DataController {
   }
 
   private _updateRow(
-    targetRow: FsListAbstractRow,
+    updatedRow: FsListAbstractRow,
     trackBy?: (listRow: FsListAbstractRow, targetRow?: FsListAbstractRow) => boolean) {
 
     if (trackBy === undefined) {
@@ -355,20 +327,14 @@ export class DataController {
       };
     }
 
-    const targetIndex = this._rowsStack.findIndex((listRow) => trackBy(listRow.data, targetRow));
+    const targetIndex = this._rowsStack
+      .findIndex((listRow) => trackBy(listRow.data, updatedRow));
 
     if (targetIndex !== -1) {
-      const updateTarget = this._rowsStack[targetIndex];
-      const updatedData = { ...updateTarget.data, ...targetRow };
-
-      this._rowsStack[targetIndex] = makeRowFactory(
-        updatedData,
-        updateTarget.type,
-        {
-          parent: (updateTarget as IChildRow).parent,
-          initialExpand: (updateTarget as IGroupRow).expanded,
-        },
-      );
+      const targetRow = this._rowsStack[targetIndex];
+      const updatedData = { ...targetRow.data, ...updatedRow };
+      
+      targetRow.data = updatedData;
 
       return true;
     }
@@ -444,7 +410,7 @@ export class DataController {
 
       if (footerIndex !== -1) {
         const footerRow = groupRow.children.splice(footerIndex, footerIndex + 1)[0];
-        const newRow = makeRowFactory(footerRow.data, RowType.GroupFooter, { parent: groupRow});
+        const newRow = makeRowFactory(footerRow.data, RowType.GroupFooter, { parent: groupRow });
         groupRow.children.push(newRow as IGroupFooterRow);
       }
     });

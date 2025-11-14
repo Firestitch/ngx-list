@@ -36,9 +36,7 @@
       [sortable]="true"
       align="right">
     <ng-template fs-list-header>
-      <b>
-        GUID
-      </b>
+      GUID
     </ng-template>
     <ng-template
         fs-list-cell
@@ -50,6 +48,21 @@
         colspan="2"
         align="right">
       2 colspan footer right aligned
+    </ng-template>
+  </fs-list-column>
+  <fs-list-column>
+    <ng-template fs-list-header>
+      Input
+    </ng-template>
+    <ng-template
+        fs-list-cell
+        let-row="row">
+      <mat-form-field class="form-field-padless">
+        <input
+          matInput
+          (ngModelChange)="inputChange(row.index, $event)"
+          [(ngModel)]="row.input">
+      </mat-form-field>
     </ng-template>
   </fs-list-column>
   <fs-list-column

@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,21 +12,21 @@ import {
   SimpleChanges,
   TemplateRef,
 } from '@angular/core';
-import { NgTemplateOutlet } from '@angular/common';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { skip, takeUntil } from 'rxjs/operators';
 
-import { Column } from '../../../../models/column.model';
 import { isChildTypeRow, isGroupFooterRow, isGroupRow, Row } from '../../../../models';
+import { Column } from '../../../../models/column.model';
+import { SimpleRow } from '../../../../models/row/simple-row';
 
 
 @Component({
-    selector: '[fs-cell]',
-    templateUrl: './cell.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [NgTemplateOutlet],
+  selector: '[fs-cell]',
+  templateUrl: './cell.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgTemplateOutlet],
 })
 export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
 
@@ -53,6 +54,7 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public ngOnInit() {
+    this._listenRowDataChange();
     this._listenGroupOpen();
   }
 
@@ -108,6 +110,20 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
       if (isGroupRow(currentRow)) {
         this.cellContext.expanded = currentRow.expanded;
       }
+    }
+  }
+
+  private _listenRowDataChange() {
+    const currentRow = this.row();
+    if(currentRow instanceof SimpleRow) {
+      currentRow.data$
+        .pipe(
+          skip(1),
+          takeUntil(this._destroy$),
+        )
+        .subscribe(() => {
+          this._initCellContext();
+        });
     }
   }
 

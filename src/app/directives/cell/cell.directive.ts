@@ -2,8 +2,8 @@ import { Directive, Input } from '@angular/core';
 
 
 @Directive({
-    selector: '[fs-list-cell]',
-    standalone: true
+  selector: '[fs-list-cell]',
+  standalone: true,
 })
 export class FsListCellDirective {
 

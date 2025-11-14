@@ -6,9 +6,9 @@
     @for (column of columns; track column) {
       <div>
         <mat-checkbox
-          [checked]="column.show"
-          (change)="visibilityChange($event, column)"
-          [disabled]="column.disabled">
+            [checked]="column.show"
+            (change)="visibilityChange($event, column)"
+            [disabled]="column.disabled">
           @if (column.title) {
             {{ column.title }}
           } @else {
@@ -27,19 +27,19 @@
 <mat-dialog-actions>
   @if (columns.length) {
     <button
-      type="button"
-      mat-button
-      color="primary"
-      (click)="save()"
-      [disabled]="saveDisabled">
+        type="button"
+        mat-button
+        color="primary"
+        (click)="save()"
+        [disabled]="saveDisabled">
       Save
     </button>
   }
   <button
-    type="button"
-    mat-button
-    [color]="columns.length ? null : 'primary'"
-    (click)="cancel()">
+      type="button"
+      mat-button
+      [color]="columns.length ? null : 'primary'"
+      (click)="cancel()">
     {{ columns.length ? 'Cancel' : 'Done' }}
   </button>
 </mat-dialog-actions>

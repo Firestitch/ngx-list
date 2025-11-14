@@ -37,7 +37,7 @@ import { IPaginationState } from '../../interfaces/pagination-state.interface';
 import { Row } from '../../models';
 import { GroupExpandNotifierService } from '../../services/group-expand-notifier.service';
 import { FsBodyComponent } from '../body/body.component';
-import { CustomizeColsDialogComponent } from '../customize-cols/customize-cols.component';
+import { CustomizeColsDialogComponent } from '../customize-cols';
 import { FsFooterComponent } from '../footer/footer.component';
 import { FsHeadComponent } from '../head/head.component';
 import { FsListLoaderComponent } from '../loader/loader.component';
@@ -250,13 +250,6 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
     return this.list.dataController.updateData(rows, trackBy);
   }
 
-  public replaceRow(
-    row: FsListAbstractRow,
-    trackBy?: FsListTrackByTargetRowFn,
-  ): boolean {
-    return this.list.dataController.replaceData(row, trackBy);
-  }
-
   public updateSelectionConfig(config: FsListSelectionConfig) {
     this.list.selection.updateConfig(config);
   }
@@ -421,7 +414,6 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
           .subscribe((data) => {
             if (data) {
               this.list.columns.updateVisibilityForCols(data);
-
               this._cdRef.markForCheck();
             }
           });

@@ -22,6 +22,7 @@ import { List } from '../../classes/list-controller';
 import { PaginationController } from '../../classes/pagination-controller';
 import { SortingController } from '../../classes/sorting-controller';
 import { PaginationStrategy } from '../../enums';
+import { Row } from '../../models';
 import { SortingDirection } from '../../models/column.model';
 
 
@@ -45,7 +46,7 @@ import { SortingDirection } from '../../models/column.model';
 export class FsStatusComponent implements OnInit, OnDestroy {
 
   @Input() public list: List;
-  @Input() public rows;
+  @Input() public rows: Row[];
 
   @Input()
   @HostBinding('class.first-load')

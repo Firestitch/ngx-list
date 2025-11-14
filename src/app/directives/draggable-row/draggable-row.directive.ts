@@ -9,20 +9,19 @@ import { FsListDraggableListDirective } from '../draggable-list/draggable-list.d
 
 
 @Directive({
-    selector: '[fsListDraggableRow]',
-    standalone: true,
+  selector: '[fsListDraggableRow]',
+  standalone: true,
 })
 export class FsListDraggableRowDirective implements OnInit, OnDestroy {
-  private _el = inject(ElementRef);
-  private _renderer = inject(Renderer2);
-  private _reorderController = inject(ReorderController);
-  private _draggableList = inject(FsListDraggableListDirective);
-
 
   @Input()
   public row: Row;
 
   private _destroy$ = new Subject<void>();
+  private _el = inject(ElementRef);
+  private _renderer = inject(Renderer2);
+  private _reorderController = inject(ReorderController);
+  private _draggableList = inject(FsListDraggableListDirective);
 
   public get elRef(): ElementRef {
     return this._el;

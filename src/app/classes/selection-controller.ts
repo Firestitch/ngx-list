@@ -1,7 +1,7 @@
 import { SelectionDialog, SelectionRef } from '@firestitch/selection';
 
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { map, take, takeUntil } from 'rxjs/operators';
 
 import { get as _get } from 'lodash-es';
 
@@ -70,6 +70,13 @@ export class SelectionController {
 
   public get disabled$(): Observable<boolean> {
     return this._disabled$.asObservable();
+  }
+
+  public get enabled$(): Observable<boolean> {
+    return this._disabled$.asObservable()
+      .pipe(
+        map((disabled) => !disabled),
+      );
   }
 
   public get selectedAll() {
