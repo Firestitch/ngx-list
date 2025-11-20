@@ -34,8 +34,7 @@ export class ColumnsController {
 
   constructor(
     private _persistance: PersistanceController,
-  ) {
-  }
+  ) {}
 
   public get columns() {
     return this._columns.slice();
@@ -158,7 +157,15 @@ export class ColumnsController {
           this._columnsFetched = true;
           this.updateVisibilityForCols(columns);
           this.updateCustomizableForCols(columns);
-          this._initFn(this.columns);
+          this._initFn(
+            this._columns
+              .filter((column) => column.customizable && !!column.name)
+              .map<FsListColumn>((column) => {
+                return {
+                  name: column.name,
+                  show: column.visible,
+                };
+              }));
         }),
         takeUntil(this._destroy$),
       );
