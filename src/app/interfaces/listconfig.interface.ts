@@ -259,6 +259,7 @@ export type FsListColumnSelectedFn = (name: string, show: boolean) => boolean;
 export interface FsListColumnConfig {
   load?: FsListColumnLoadFn;
   change?: FsListColumnChangeFn;
+  init?: FsListColumnChangeFn;
   title?: FsListColumnTitleFn;
   selected?: FsListColumnSelectedFn;
 }

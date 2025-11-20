@@ -22,8 +22,8 @@ export class ColumnsController {
   private _theadClass = '';
   private _loadFn: FsListColumnLoadFn;
   private _changeFn: FsListColumnChangeFn;
+  private _initFn: FsListColumnChangeFn;
   private _isConfigured = false;
-  private _changeFnConfigured = false;
   private _columnsFetched = false;
   private _hasHeader = false;
   private _hasFooter = false;
@@ -35,7 +35,6 @@ export class ColumnsController {
   constructor(
     private _persistance: PersistanceController,
   ) {
-    this._loadFn = () => of([]);
   }
 
   public get columns() {
@@ -83,10 +82,6 @@ export class ColumnsController {
     return this._isConfigured;
   }
 
-  public get changeFnConfigured() {
-    return this._changeFnConfigured;
-  }
-
   public get changeFn() {
     return this._changeFn;
   }
@@ -106,18 +101,19 @@ export class ColumnsController {
    * @param config
    */
   public initConfig(config: FsListColumnConfig) {
-    if (config) {
-      if (config.load) {
-        this._loadFn = config.load;
-      }
+    this._loadFn = config?.load ? config.load : () => {
+      return of(this._persistance.columnsEnabled ? this._persistance.getColumns() : []);
+    };
       
-      if (config.change) {
-        this._changeFn = config.change;
-        this._changeFnConfigured = true;
-      }
+    this._changeFn = config?.change ? config.change : () => {
+      //
+    };
 
-      this._isConfigured = true;
-    }
+    this._initFn = config?.init ? config.init : () => {
+      //
+    };
+
+    this._isConfigured = !!config;
   }
 
   /**
@@ -158,15 +154,11 @@ export class ColumnsController {
   public loadRemoteColumnConfigs() {
     return this._loadFn()
       .pipe(
-        tap((column: FsListColumn[]) => {
+        tap((columns: FsListColumn[]) => {
           this._columnsFetched = true;
-          this.updateVisibilityForCols(column);
-          this.updateCustomizableForCols(column);
-        }),
-        tap(() => {
-          if (this._persistance.columnsEnabled) {
-            this.updateVisibilityForCols(this._persistance.getColumns());
-          }
+          this.updateVisibilityForCols(columns);
+          this.updateCustomizableForCols(columns);
+          this._initFn(this.columns);
         }),
         takeUntil(this._destroy$),
       );
@@ -220,6 +212,7 @@ export class ColumnsController {
 
     this._loadFn = undefined;
     this._changeFn = undefined;
+    this._initFn = undefined;
   }
 
   private _listenColumnVisibilityUpdates() {

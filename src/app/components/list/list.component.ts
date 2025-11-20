@@ -401,14 +401,15 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
           actionClickFn(null);
         }
 
-        this._dialog.open(CustomizeColsDialogComponent, {
-          autoFocus: false,
-          injector: this._injector,
-          data: {
-            columns: this.list.columns.columnsForDialog,
-            changeFn: this.list.columns.changeFn,
-          },
-        })
+        this._dialog
+          .open(CustomizeColsDialogComponent, {
+            autoFocus: false,
+            injector: this._injector,
+            data: {
+              columns: this.list.columns.columnsForDialog,
+              changeFn: this.list.columns.changeFn,
+            },
+          })
           .afterClosed()
           .pipe(
             takeUntil(this.list.destroy$),

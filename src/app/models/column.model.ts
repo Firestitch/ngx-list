@@ -142,37 +142,38 @@ export class Column {
       defaults = {};
     }
 
-    allowedDefaults.forEach((key) => {
-      switch (key) {
-        case 'title': {
-          this.title = this.title || defaults.title;
-        } break;
+    allowedDefaults
+      .forEach((key) => {
+        switch (key) {
+          case 'title': {
+            this.title = this.title || defaults.title;
+          } break;
 
-        case 'sortable': {
-          if (isBoolean(defaults.sortable)) {
-            if (this.sortable === undefined) {
-              this.sortable = defaults.sortable;
+          case 'sortable': {
+            if (isBoolean(defaults.sortable)) {
+              if (this.sortable === undefined) {
+                this.sortable = defaults.sortable;
+              }
             }
-          }
-        } break;
+          } break;
 
-        case 'class': {
-          this.headerConfigs.mergeClassByPriority(this.colStyles, defaults.header);
-          this.groupHeaderConfigs.mergeClassByPriority(this.colStyles, defaults.cell);
-          this.groupFooterConfigs.mergeClassByPriority(this.colStyles, defaults.cell);
-          this.cellConfigs.mergeClassByPriority(this.colStyles, defaults.cell);
-          this.footerConfigs.mergeClassByPriority(this.colStyles, defaults.footer);
-        } break;
+          case 'class': {
+            this.headerConfigs.mergeClassByPriority(this.colStyles, defaults.header);
+            this.groupHeaderConfigs.mergeClassByPriority(this.colStyles, defaults.cell);
+            this.groupFooterConfigs.mergeClassByPriority(this.colStyles, defaults.cell);
+            this.cellConfigs.mergeClassByPriority(this.colStyles, defaults.cell);
+            this.footerConfigs.mergeClassByPriority(this.colStyles, defaults.footer);
+          } break;
 
-        case 'align': {
-          this.headerConfigs.mergeAlignByPriority(this.colStyles, defaults.header);
-          this.groupHeaderConfigs.mergeAlignByPriority(this.colStyles, defaults.cell);
-          this.groupFooterConfigs.mergeAlignByPriority(this.colStyles, defaults.cell);
-          this.cellConfigs.mergeAlignByPriority(this.colStyles, defaults.cell);
-          this.footerConfigs.mergeAlignByPriority(this.colStyles, defaults.footer);
-        } break;
-      }
-    });
+          case 'align': {
+            this.headerConfigs.mergeAlignByPriority(this.colStyles, defaults.header);
+            this.groupHeaderConfigs.mergeAlignByPriority(this.colStyles, defaults.cell);
+            this.groupFooterConfigs.mergeAlignByPriority(this.colStyles, defaults.cell);
+            this.cellConfigs.mergeAlignByPriority(this.colStyles, defaults.cell);
+            this.footerConfigs.mergeAlignByPriority(this.colStyles, defaults.footer);
+          } break;
+        }
+      });
 
     this.headerConfigs.updateClasesArray();
     this.groupHeaderConfigs.updateClasesArray();

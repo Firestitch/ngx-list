@@ -107,6 +107,9 @@ export class KitchenSinkComponent implements OnInit {
       heading: 'Heading',
       subheading: 'Subheading',
       column: {
+        init: (columns) => {
+          console.log('Column initialized ', columns);
+        },
         load: () => {
           return of<FsListColumn[]>([
             {
@@ -114,7 +117,7 @@ export class KitchenSinkComponent implements OnInit {
               customizable: false,
             },
             {
-              name: 'Name',
+              name: 'name',
               show: true,
             },
           ]);
