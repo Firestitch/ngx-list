@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
@@ -11,6 +11,7 @@ import { ActionMode, ItemDateMode, ItemType } from '@firestitch/filter';
 import {
   ActionType,
   FsListAbstractRow,
+  FsListColumn,
   FsListComponent,
   FsListConfig,
   FsListHeadingDirective,
@@ -18,6 +19,7 @@ import {
 
 import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
+
 
 import { FsListComponent as FsListComponent_1 } from '../../../../src/app/components/list/list.component';
 import { FsListCellDirective } from '../../../../src/app/directives/cell/cell.directive';
@@ -47,8 +49,7 @@ import { SavedFilters } from './saved-filter';
     MatInput,
   ],
 })
-export class KitchenSinkComponent
-implements OnInit {
+export class KitchenSinkComponent implements OnInit {
 
   @ViewChild(FsListComponent, { static: true })
   public list: FsListComponent;
@@ -69,7 +70,8 @@ implements OnInit {
 
   protected _apiStrategy = inject(ApiStrategy);
   private _api = inject(FsApi);
-
+  private _destroyRef = inject(DestroyRef);
+  
   public ngOnInit() {
     this.config = {
       status: true,
@@ -106,13 +108,13 @@ implements OnInit {
       subheading: 'Subheading',
       column: {
         load: () => {
-          return of([
+          return of<FsListColumn[]>([
             {
               name: 'id',
               customizable: false,
             },
             {
-              name: 'name',
+              name: 'Name',
               show: true,
             },
           ]);

@@ -11,21 +11,21 @@
     }
   </span>
   @if (column.ordered) {
-    <div
-      class="direction"
-      >
-      @switch (column.sortingDirection$ | async) {
-        @case ('asc') {
-          <mat-icon>
-            arrow_downward
-          </mat-icon>
-        }
-        @case ('desc') {
-          <mat-icon>
-            arrow_upward
-          </mat-icon>
-        }
+    @switch (column.sortingDirection$ | async) {
+      @case ('asc') {
+        <mat-icon>
+          arrow_downward
+        </mat-icon>
       }
-    </div>
+      @case ('desc') {
+        <mat-icon>
+          arrow_upward
+        </mat-icon>
+      }
+    }
+  } @else if (column.sortable) {
+    <mat-icon>
+      unfold_more
+    </mat-icon>
   }
 </div>

@@ -15,7 +15,7 @@ export enum SortingDirection {
   desc = 'desc'
 }
 
-const ALLOWED_DEFAULTS = [
+const allowedDefaults = [
   'title',
   'sortable',
   'align',
@@ -142,7 +142,7 @@ export class Column {
       defaults = {};
     }
 
-    ALLOWED_DEFAULTS.forEach((key) => {
+    allowedDefaults.forEach((key) => {
       switch (key) {
         case 'title': {
           this.title = this.title || defaults.title;

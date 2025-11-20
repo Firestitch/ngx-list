@@ -1,14 +1,11 @@
 <tr class="fs-list-row">
   <!-- Drag -->
   @if (leftDragDropEnabled) {
-    <th
-      class="fs-list-col drag-col">
-    </th>
+    <th class="fs-list-col drag-col"></th>
   }
   <!-- Selection -->
   @if (selection && !(selection.disabled$ | async)) {
-    <th
-      class="fs-list-col fs-list-col-selection">
+    <th class="fs-list-col fs-list-col-selection">
       <mat-checkbox
         (change)="selectAll($event)"
         [checked]="selectedAll">
@@ -29,14 +26,10 @@
   }
   <!-- Drag -->
   @if (rightDragDropEnabled) {
-    <th
-      class="fs-list-col drag-col">
-    </th>
+    <th class="fs-list-col drag-col"></th>
   }
   <!-- Row Actions -->
   @if (hasRowActions && !(reorderEnabled && reorderStrategy === ReorderStrategyEnum.Manual)) {
-    <th
-      class="fs-list-col actions-col">
-    </th>
+    <th class="fs-list-col actions-col"></th>
   }
 </tr>

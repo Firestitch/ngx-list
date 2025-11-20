@@ -34,7 +34,7 @@ import {
   FsListTrackByTargetRowFn,
 } from '../../interfaces';
 import { IPaginationState } from '../../interfaces/pagination-state.interface';
-import { Row } from '../../models';
+import { Column, Row } from '../../models';
 import { GroupExpandNotifierService } from '../../services/group-expand-notifier.service';
 import { FsBodyComponent } from '../body/body.component';
 import { CustomizeColsDialogComponent } from '../customize-cols';
@@ -304,7 +304,6 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
    */
   public columnVisibility(name: string, show: boolean) {
     this.columnsVisibility([{ name, show }]);
-    // this.filterRef.updateSortings(this.list.sorting.makeSortingList());
   }
 
   /**
@@ -312,6 +311,10 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
    */
   public columnsVisibility(columns: { name: string; show: boolean }[]) {
     this.list.columns.updateVisibilityForCols(columns);
+  }
+
+  public get visibleColumns$(): Observable<Column[]> {
+    return this.list.columns.visibleColumns$;
   }
 
   private _emitFiltersReadyEvent(): void {
