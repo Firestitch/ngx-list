@@ -8,33 +8,33 @@ import { SelectionActionType } from '@firestitch/selection';
 import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 
-import { ApiStrategy } from '../../services/api-strategy.service';
 import { FsListComponent as FsListComponent_1 } from '../../../../src/app/components/list/list.component';
+import { FsListCellDirective } from '../../../../src/app/directives/cell/cell.directive';
 import { FsListColumnDirective } from '../../../../src/app/directives/column/column.directive';
 import { FsListHeaderDirective } from '../../../../src/app/directives/header/header.directive';
-import { FsListCellDirective } from '../../../../src/app/directives/cell/cell.directive';
+import { ApiStrategy } from '../../services/api-strategy.service';
 
 
 @Component({
-    selector: 'selection',
-    templateUrl: './selection.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        FsListComponent_1,
-        FsListColumnDirective,
-        FsListHeaderDirective,
-        FsListCellDirective,
-    ],
+  selector: 'selection',
+  templateUrl: './selection.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    FsListComponent_1,
+    FsListColumnDirective,
+    FsListHeaderDirective,
+    FsListCellDirective,
+  ],
 })
 export class SelectionComponent implements OnInit {
-  protected _apiStrategy = inject(ApiStrategy);
-  private _fsApi = inject(FsApi);
-
 
   @ViewChild('table', { static: true })
   public table: FsListComponent; // Controller fs-list
   public config: FsListConfig;
+
+  protected _apiStrategy = inject(ApiStrategy);
+  private _api = inject(FsApi);
 
   public ngOnInit() {
 
@@ -66,14 +66,19 @@ export class SelectionComponent implements OnInit {
             ],
           },
         ],
-        actionSelected: (action) => {
+        actionSelected: () => {
           return of(true).pipe(
             delay(2000),
           );
         },
         allSelected: () => {
+          //
         },
         cancelled: () => {
+          //
+        },
+        selectable: (row, index) => {
+          return index % 2 === 0;
         },
         selectionChanged: (data, allSelected, selectionRef) => {
           if (data.find((row) => row.name === 'Object 1')) {
@@ -104,7 +109,7 @@ export class SelectionComponent implements OnInit {
       fetch: (query) => {
         query.count = 500;
 
-        return this._fsApi.get('dummy', query)
+        return this._api.get('dummy', query)
           .pipe(
             map((response) => ({ data: response.objects, paging: response.paging })),
           );

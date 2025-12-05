@@ -177,6 +177,7 @@ export interface FsListSelectionConfig {
   cancelled?: () => void;
   disabled?: boolean;
   selectAll?: boolean;
+  selectable?: (row: FsListAbstractRow, index: number) => boolean;
   selectionChanged?: (data: any, selectedAll: boolean, selectionRef: SelectionRef) =>
     FsSelectionDialogConfigAction[] | Observable<FsSelectionDialogConfigAction[] | void> | void;
 }

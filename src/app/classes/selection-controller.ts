@@ -23,7 +23,7 @@ export class SelectionController {
   public selectionChangedFn;
   public actionSelectedFn;
   public allSelectedFn;
-
+  public selectableFn;
   public cancelledFn;
 
   // Store for selected visible rows
@@ -55,6 +55,7 @@ export class SelectionController {
     private _trackBy: string,
     private _selectionDialog: SelectionDialog,
   ) {
+    this.selectableFn = config.selectable;
     this.actions = config.actions ? [...config.actions] : [];
     this.actionSelectedFn = config.actionSelected;
     this.allSelectedFn = config.allSelected;
@@ -70,6 +71,14 @@ export class SelectionController {
 
   public get disabled$(): Observable<boolean> {
     return this._disabled$.asObservable();
+  }
+
+  public selectable(row: Row, index: number): boolean {
+    if (this.selectableFn) {
+      return this.selectableFn(row.data, index);
+    }
+
+    return true;
   }
 
   public get enabled$(): Observable<boolean> {

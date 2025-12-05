@@ -8,6 +8,7 @@
     @if (!isGroupFooterRow()) {
       <mat-checkbox
         (change)="selectRow($event)"
+        [disabled]="!selection.selectable(row(), rowIndex)"
         [checked]="selected"
         [indeterminate]="indeterminateSelected">
       </mat-checkbox>

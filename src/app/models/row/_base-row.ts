@@ -10,7 +10,6 @@ export interface IBaseRow {
   actionsUpdated$: Observable<void>;
   updateActions(): void;
   reorderData(): FsListReorderData;
-
   destroy(): void;
 }
 
