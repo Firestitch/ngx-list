@@ -1,10 +1,15 @@
 import { AsyncPipe, NgClass, NgTemplateOutlet } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, ElementRef, EventEmitter, HostBinding, Input, KeyValueDiffer, KeyValueDiffers, OnDestroy, OnInit, Renderer2, computed, inject, input } from '@angular/core';
+import {
+  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component,
+  ElementRef, EventEmitter, HostBinding, Input,
+  OnDestroy, OnInit, Renderer2,
+  computed, inject, input,
+} from '@angular/core';
 
 import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 import { MatIcon } from '@angular/material/icon';
 
-import { Subject } from 'rxjs';
+import { Subject, merge } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import {
@@ -41,7 +46,8 @@ import { FsCellComponent } from './cell/cell.component';
     AsyncPipe,
   ],
 })
-export class FsRowComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy {
+export class FsRowComponent 
+implements OnInit, AfterViewInit, OnDestroy {
 
   @HostBinding('attr.role')
   public role = 'row';
@@ -127,20 +133,12 @@ export class FsRowComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy
     return classes.join(' ');
   });
 
-  private _rowDiffer: KeyValueDiffer<any, any>;
   private _eventListeners = [];
   private _destroy$ = new Subject();
   private _el = inject(ElementRef);
   private _cdRef = inject(ChangeDetectorRef);
-  private _differs = inject(KeyValueDiffers);
   private _renderer = inject(Renderer2);
   private _draggableList = inject(FsListDraggableListDirective, { optional: true });
-
-  constructor() {
-    const _differs = this._differs;
-
-    this._rowDiffer = _differs.find({}).create();
-  }
 
   public get isDragDisabled(): boolean {
     return !this.selected && this.reorderMultiple && !!this.selection.selectedRows.size;
@@ -166,10 +164,9 @@ export class FsRowComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy
   }
 
   public ngOnInit() {
-    this._initRowEvents();
-
     if (this.row()) {
-      this._initRowActionsUpdate();
+      this._initRowActions();
+      this._initRowEvents();
 
       if(isGroupRow(this.row())) {
         if (this.row() && this.groupActionsRaw) {
@@ -182,12 +179,6 @@ export class FsRowComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy
 
         this._filterActionsByCategories();
       }
-    }
-  }
-
-  public ngDoCheck() {
-    if (this._rowDiffer.diff(this.row)) {
-      this.updateRowActions();
     }
   }
 
@@ -244,9 +235,6 @@ export class FsRowComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy
     }
   }
 
-  /**
-   * Set event listeners for row
-   */
   private _initRowEvents() {
     Object.keys(this.rowEvents || {})
       .forEach((event) => {
@@ -263,16 +251,14 @@ export class FsRowComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy
       });
   }
 
-  private _initRowActionsUpdate() : void {
-    if(this.row().actionsUpdated$) {
-      this.row().actionsUpdated$
-        .pipe(
-          takeUntil(this._destroy$),
-        )
-        .subscribe(() => {
-          this.updateRowActions();
-        });
-    }
+  private _initRowActions() {
+    merge(this.row().data$, this.row().actionsUpdated$)
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe(() => {
+        this.updateRowActions();
+      });
   }
 
   private _getRowClasses(rowClass): string[] {

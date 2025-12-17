@@ -14,14 +14,14 @@ export class RowAction {
   public remove: FsListRowActionRemove | boolean;
   public className: string;
   public type: ActionType;
-  public show: Function;
+  public show: (row: any, index: number) => boolean;
   public restore: boolean;
   public rowActions: RowAction[];
   public label = '';
   public routerLink: FsListRowActionLink;
   public classArray: string[] = [];
   public isShown = true;
-  public click: Function;
+  public click: (row: any, event: any, index: number, rowActionsRef?: RowAction) => void;
 
   public fileConfig: FsListRowActionFile;
 

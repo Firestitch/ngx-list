@@ -6,6 +6,7 @@ import { FsListReorderData } from '../../interfaces';
 export interface IBaseRow {
   data: object;
   index: number;
+  data$: Observable<object>;
   readyToSwap: boolean;
   actionsUpdated$: Observable<void>;
   updateActions(): void;
@@ -21,7 +22,7 @@ export abstract class BaseRow<T = RowType> implements IBaseRow{
   private _readyToSwap = true;
   private _actionsUpdated$ = new Subject<void>();
   private _data$ = new BehaviorSubject<object>({});
-
+  
   constructor(
     data: object = {},
   ) {

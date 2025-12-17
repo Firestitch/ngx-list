@@ -1,6 +1,6 @@
 import { QueryList, TemplateRef } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { isBoolean, isObject } from 'lodash-es';
 
@@ -44,7 +44,7 @@ export class Column {
 
   private _attributes: ColumnAttributes;
   private _defaultDirection: 'asc' | 'desc';
-  private _ordered = false;
+  private _ordered$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     colConfig: ListColumnConfig, 
@@ -120,16 +120,20 @@ export class Column {
     return (this.sortingDirection === SortingDirection.asc) ? 'Ascending' : 'Descending';
   }
 
+  public get ordered$(): Observable<boolean> {
+    return this._ordered$.asObservable();
+  }
+
   public get ordered() {
-    return this._ordered;
+    return this._ordered$.getValue();
   }
 
   public set ordered(value) {
-    if (value && this._ordered !== value) {
+    if (value && this._ordered$.getValue() !== value) {
       this.sortingDirection = this._defaultDirection ?? SortingDirection.asc;
     }
 
-    this._ordered = value;
+    this._ordered$.next(value);
   }
 
   /**

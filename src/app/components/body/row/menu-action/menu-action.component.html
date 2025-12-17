@@ -7,17 +7,17 @@
   {{ label| actionLabel:row }}
 } @else {
   <fs-file
-    class="action-button"
-    [accept]="file.accept || '*'"
-    [multiple]="file.multiple"
-    [minWidth]="file.minWidth"
-    [minHeight]="file.minHeight"
-    [imageWidth]="file.maxWidth"
-    [imageHeight]="file.maxHeight"
-    (click)="$event.stopPropagation();"
-    (select)="selectFile($event)"
-    (error)="errorFile($event)"
-    (cancel)="closeMenu()">
+      class="action-button"
+      [accept]="file.accept || '*'"
+      [multiple]="file.multiple"
+      [minWidth]="file.minWidth"
+      [minHeight]="file.minHeight"
+      [imageWidth]="file.maxWidth"
+      [imageHeight]="file.maxHeight"
+      (click)="$event.stopPropagation();"
+      (select)="selectFile($event)"
+      (error)="errorFile($event)"
+      (cancel)="closeMenu()">
     @if (icon) {
       <mat-icon>
         {{ icon }}

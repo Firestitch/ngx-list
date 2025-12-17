@@ -1,41 +1,26 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, KeyValueDiffer, KeyValueDiffers, inject } from '@angular/core';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+
+import { MatIcon } from '@angular/material/icon';
 
 import { FsCellComponent } from '../../body/row/cell/cell.component';
-import { NgTemplateOutlet, AsyncPipe } from '@angular/common';
-import { MatIcon } from '@angular/material/icon';
 
 
 @Component({
-    selector: '[fs-head-cell]',
-    templateUrl: './head-cell.component.html',
-    styleUrls: ['./head-cell.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
+  selector: '[fs-head-cell]',
+  templateUrl: './head-cell.component.html',
+  styleUrls: ['./head-cell.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
     NgTemplateOutlet,
     MatIcon,
-    AsyncPipe
-],
+    AsyncPipe,
+  ],
 })
-export class FsHeadCellComponent extends FsCellComponent implements DoCheck {
-  private _cdRef = inject(ChangeDetectorRef);
-  private _differs = inject(KeyValueDiffers);
-
+export class FsHeadCellComponent extends FsCellComponent {
 
   public cellContext: any = {};
-
-  private _columnDiffer: KeyValueDiffer<string, any>;
-
-  constructor() {
-    super();
-    this._columnDiffer = this._differs.find({}).create();
-  }
-
-  public ngDoCheck() {
-    if (this._columnDiffer.diff(this.column)) {
-      this._cdRef.markForCheck();
-    }
-  }
 
   public initCellContext() {
     this.cellContext.value = this.column.title;

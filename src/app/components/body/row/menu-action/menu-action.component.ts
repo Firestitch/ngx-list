@@ -1,30 +1,29 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 
+import { MatIcon } from '@angular/material/icon';
+
+import { FsFileModule } from '@firestitch/file';
 import { FsMenuComponent } from '@firestitch/menu';
 
 import { FsListRowActionFile } from '../../../../interfaces/listconfig.interface';
 import { Row } from '../../../../models/row';
 import { RowAction } from '../../../../models/row-action.model';
-
-import { MatIcon } from '@angular/material/icon';
-import { FsFileModule } from '@firestitch/file';
 import { ActionLabelPipe } from '../../../../pipes/action-label';
 
 
 @Component({
-    selector: 'fs-list-row-menu-action',
-    templateUrl: './menu-action.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
+  selector: 'fs-list-row-menu-action',
+  templateUrl: './menu-action.component.html',
+  styleUrl: './menu-action.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
     MatIcon,
     FsFileModule,
-    ActionLabelPipe
-],
+    ActionLabelPipe,
+  ],
 })
 export class FsRowMenuActionComponent implements OnInit, OnChanges {
-  private _menu = inject(FsMenuComponent);
-
 
   @Input()
   public row: Row;
@@ -43,6 +42,8 @@ export class FsRowMenuActionComponent implements OnInit, OnChanges {
 
   public icon: string;
   public label: string;
+
+  private _menu = inject(FsMenuComponent);
     
   public ngOnChanges(changes: SimpleChanges): void {
     if(changes.row) {

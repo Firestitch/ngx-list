@@ -10,7 +10,7 @@
       </ng-template>
     }
   </span>
-  @if (column.ordered) {
+  @if (column.ordered$ | async) {
     @switch (column.sortingDirection$ | async) {
       @case ('asc') {
         <mat-icon>
