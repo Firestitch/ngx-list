@@ -24,7 +24,7 @@
             [link]="action.routerLink?.link"
             [queryParams]="action.routerLink?.queryParams"
             [target]="action.routerLink?.target"
-            [hidden]="action.menu !== undefined && !action.isShown">
+            [hidden]="action.menu !== undefined && (action.hidden$ | async)">
           <fs-list-row-menu-action
             [rowAction]="action"
             [row]="row"
@@ -43,7 +43,7 @@
                   [link]="subAction.routerLink?.link"
                   [queryParams]="subAction.routerLink?.queryParams"
                   [target]="subAction.routerLink?.target"
-                  [hidden]="!subAction.isShown"
+                  [hidden]="subAction.hidden$ | async"
                   [class]="subAction.className"
                   (click)="actionClick(subAction, row, $event, menuRef);">
                 <fs-list-row-menu-action
@@ -62,7 +62,7 @@
               [link]="action.routerLink?.link"
               [queryParams]="action.routerLink?.queryParams"
               [target]="action.routerLink?.target"
-              [hidden]="!action.isShown"
+              [hidden]="action.hidden$ | async"
               [class]="action.className"
               (click)="actionClick(action, row, $event, menuRef);">
             <fs-list-row-menu-action

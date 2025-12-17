@@ -1,3 +1,4 @@
+import { AsyncPipe, NgClass, NgIf, NgSwitch, NgSwitchCase, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,42 +9,43 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
+
+import { MatAnchor, MatButton, MatFabAnchor, MatFabButton, MatIconAnchor, MatIconButton, MatMiniFabAnchor, MatMiniFabButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 import { FsFile, FsFileModule } from '@firestitch/file';
 
 import { ActionType } from '../../../../enums/action-type.enum';
 import { Row } from '../../../../models/row';
 import { RowAction } from '../../../../models/row-action.model';
-import { NgIf, NgSwitch, NgSwitchCase, NgClass, NgTemplateOutlet } from '@angular/common';
-import { MatButton, MatAnchor, MatIconButton, MatIconAnchor, MatFabButton, MatFabAnchor, MatMiniFabButton, MatMiniFabAnchor } from '@angular/material/button';
-import { RouterLink } from '@angular/router';
-import { MatIcon } from '@angular/material/icon';
 
 
 @Component({
-    selector: 'fs-list-row-inline-action',
-    styleUrls: ['./inline-action.component.scss'],
-    templateUrl: './inline-action.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        NgIf,
-        NgSwitch,
-        NgSwitchCase,
-        MatButton,
-        NgClass,
-        NgTemplateOutlet,
-        MatAnchor,
-        RouterLink,
-        MatIconButton,
-        MatIconAnchor,
-        MatFabButton,
-        MatFabAnchor,
-        MatMiniFabButton,
-        MatMiniFabAnchor,
-        MatIcon,
-        FsFileModule,
-    ],
+  selector: 'fs-list-row-inline-action',
+  styleUrls: ['./inline-action.component.scss'],
+  templateUrl: './inline-action.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    NgSwitch,
+    NgSwitchCase,
+    MatButton,
+    NgClass,
+    NgTemplateOutlet,
+    MatAnchor,
+    RouterLink,
+    MatIconButton,
+    MatIconAnchor,
+    MatFabButton,
+    MatFabAnchor,
+    MatMiniFabButton,
+    MatMiniFabAnchor,
+    MatIcon,
+    FsFileModule,
+    AsyncPipe,
+  ],
 })
 export class FsRowInlineActionComponent implements OnInit, OnChanges {
   

@@ -1,11 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
+
 import { Row } from '../models/row';
 
 
-
 @Pipe({
-    name: 'actionLabel',
-    standalone: true
+  name: 'actionLabel',
+  standalone: true,
 })
 export class ActionLabelPipe implements PipeTransform {
   public transform(label, row: Row) {

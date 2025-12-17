@@ -1,5 +1,5 @@
 <ng-container
-    *ngIf="rowAction.isShown"
+    *ngIf="rowAction.visible$ | async"
     [ngSwitch]="actionType">
   <!-- Basic button -->
   <ng-container *ngSwitchCase="'basic'">

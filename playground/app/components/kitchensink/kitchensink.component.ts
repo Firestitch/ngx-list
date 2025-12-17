@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
@@ -70,7 +70,6 @@ export class KitchenSinkComponent implements OnInit {
 
   protected _apiStrategy = inject(ApiStrategy);
   private _api = inject(FsApi);
-  private _destroyRef = inject(DestroyRef);
   
   public ngOnInit() {
     this.config = {
@@ -332,20 +331,22 @@ export class KitchenSinkComponent implements OnInit {
         },
         {
           label: () => {
-            return 'Go to google.com';
+            return 'Go to URL';
           },
           link: () => {
-            return { link: 'https://www.google.com', queryParams: { param: 1 } };
+            return { link: ['.'], queryParams: { param: 1 } };
           },
           className: 'test',
         },
         {
-          label: 'Menu Upload',
-          menu: true,
+          label: 'File Upload',
           file: {
             select: (file) => {
               console.log('files:', file);
             },
+          },
+          show: (row: any) => {
+            return row.checked === true;
           },
         },
         {

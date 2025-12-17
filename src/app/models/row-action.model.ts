@@ -1,3 +1,5 @@
+import { BehaviorSubject, Observable, map } from 'rxjs';
+
 import { ActionType } from '../enums/action-type.enum';
 import {
   FsListRowActionFile,
@@ -20,13 +22,13 @@ export class RowAction {
   public label = '';
   public routerLink: FsListRowActionLink;
   public classArray: string[] = [];
-  public isShown = true;
   public click: (row: any, event: any, index: number, rowActionsRef?: RowAction) => void;
 
   public fileConfig: FsListRowActionFile;
 
   private _linkFn: FsListRowActionLinkFn;
   private readonly _isGroup: boolean = false;
+  private _visible = new BehaviorSubject<boolean>(true);
 
   constructor(config: any = {}) {
     this._init(config);
@@ -42,6 +44,19 @@ export class RowAction {
 
   public getRowIcon(row: any) {
     return typeof this.icon === 'function' ? this.icon(row) : this.icon;
+  }
+
+  public get visible$(): Observable<boolean> {
+    return this._visible.asObservable();
+  }
+
+  public get hidden$(): Observable<boolean> {
+    return this._visible
+      .pipe(map((visible) => !visible));
+  }
+
+  public get visible(): boolean {
+    return this._visible.getValue();
   }
 
   public _init(value: any) {
@@ -94,14 +109,14 @@ export class RowAction {
 
       const groupVisible = !this.show || this.show(row, index);
 
-      this.isShown = groupVisible && this.rowActions.some((action) => action.isShown);
+      this._visible.next(groupVisible && this.rowActions.some((action) => action.visible));
     } else if (this.show) {
-      this.isShown = this.show(row, index);
+      this._visible.next(this.show(row, index));
     }
   }
 
   public updateLink(row) {
-    if (!this.isShown) {
+    if (!this.visible) {
       return;
     }
 

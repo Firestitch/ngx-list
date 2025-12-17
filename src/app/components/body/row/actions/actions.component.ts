@@ -1,4 +1,4 @@
-import { NgClass } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, inject } from '@angular/core';
 
 import { MatIcon } from '@angular/material/icon';
@@ -29,6 +29,7 @@ import { FsRowMenuActionComponent } from '../menu-action/menu-action.component';
     FsRowMenuActionComponent,
     MatIcon,
     ActionLabelPipe,
+    AsyncPipe,
   ],
 })
 export class FsRowActionsComponent {

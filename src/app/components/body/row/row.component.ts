@@ -167,18 +167,6 @@ implements OnInit, AfterViewInit, OnDestroy {
     if (this.row()) {
       this._initRowActions();
       this._initRowEvents();
-
-      if(isGroupRow(this.row())) {
-        if (this.row() && this.groupActionsRaw) {
-          this.rowActions = this.groupActionsRaw.map((action) => new RowAction(action));
-
-          this._filterActionsByCategories();
-        }
-      } else if (this.rowActionsRaw) {
-        this.rowActions = this.rowActionsRaw.map((action) => new RowAction(action));
-
-        this._filterActionsByCategories();
-      }
     }
   }
 
@@ -187,15 +175,13 @@ implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public updateRowActions() {
-    if (this.rowActions) {
-      this.rowActions.forEach((action) => {
+    this.rowActions
+      .forEach((action) => {
         action.checkShowStatus(this.row().data, this.rowIndex);
         action.updateLink(this.row().data);
       });
-      this._filterActionsByCategories();
-    }
-
-    this._cdRef.markForCheck();
+      
+    this._filterActionsByCategories();
   }
 
   public ngOnDestroy() {
@@ -252,7 +238,22 @@ implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _initRowActions() {
-    merge(this.row().data$, this.row().actionsUpdated$)
+    if(isGroupRow(this.row())) {
+      if (this.row() && this.groupActionsRaw) {
+        this.rowActions = this.groupActionsRaw.map((action) => new RowAction(action));
+
+        this._filterActionsByCategories();
+      }
+    } else if (this.rowActionsRaw) {
+      this.rowActions = this.rowActionsRaw.map((action) => new RowAction(action));
+
+      this._filterActionsByCategories();
+    }
+
+    merge(
+      this.row().data$, 
+      this.row().actionsUpdated$,
+    )
       .pipe(
         takeUntil(this._destroy$),
       )
@@ -338,7 +339,7 @@ implements OnInit, AfterViewInit, OnDestroy {
 
     this.rowActions.forEach((action) => {
 
-      if (!action.isShown) {
+      if (!action.visible) {
         return;
       }
 
