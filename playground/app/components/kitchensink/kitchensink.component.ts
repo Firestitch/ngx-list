@@ -30,7 +30,6 @@ import { ApiStrategy } from '../../services/api-strategy.service';
 
 import { SavedFilters } from './saved-filter';
 
-
 @Component({
   selector: 'kitchensink',
   templateUrl: './kitchensink.component.html',
@@ -57,6 +56,8 @@ export class KitchenSinkComponent implements OnInit {
   public config: FsListConfig;
 
   public linkVisible = true;
+  
+  public rowType!: KitchenSinkRow;
 
   public weekdays = [
     { id: 1, name: 'Monday' },
@@ -471,3 +472,13 @@ export class KitchenSinkComponent implements OnInit {
       });
   }
 }
+
+
+interface KitchenSinkRow {
+  index: number;
+  name: string;
+  guid: string;
+  input: string;
+  checked?: boolean;
+}
+
