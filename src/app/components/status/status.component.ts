@@ -1,4 +1,4 @@
-import { DecimalPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { DecimalPipe, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -37,11 +37,9 @@ import { SortingDirection } from '../../models/column.model';
     NgTemplateOutlet,
     MatTooltip,
     MatProgressSpinner,
-    NgIf,
     FsMenuModule,
-    NgFor,
-    DecimalPipe,
-  ],
+    DecimalPipe
+],
 })
 export class FsStatusComponent implements OnInit, OnDestroy {
 

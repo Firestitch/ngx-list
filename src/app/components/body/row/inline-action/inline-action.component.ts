@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass, NgIf, NgSwitch, NgSwitchCase, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -28,9 +28,6 @@ import { RowAction } from '../../../../models/row-action.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    NgIf,
-    NgSwitch,
-    NgSwitchCase,
     MatButton,
     NgClass,
     NgTemplateOutlet,
@@ -44,8 +41,8 @@ import { RowAction } from '../../../../models/row-action.model';
     MatMiniFabAnchor,
     MatIcon,
     FsFileModule,
-    AsyncPipe,
-  ],
+    AsyncPipe
+],
 })
 export class FsRowInlineActionComponent implements OnInit, OnChanges {
   
