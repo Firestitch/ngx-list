@@ -11,7 +11,14 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { MatAnchor, MatButton, MatFabAnchor, MatFabButton, MatIconAnchor, MatIconButton, MatMiniFabAnchor, MatMiniFabButton } from '@angular/material/button';
+import {
+  MatAnchor,
+  MatButton,
+  MatFabAnchor,
+  MatFabButton,
+  MatMiniFabAnchor,
+  MatMiniFabButton,
+} from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
 import { FsFile, FsFileModule } from '@firestitch/file';
@@ -19,6 +26,8 @@ import { FsFile, FsFileModule } from '@firestitch/file';
 import { ActionType } from '../../../../enums/action-type.enum';
 import { Row } from '../../../../models/row';
 import { RowAction } from '../../../../models/row-action.model';
+
+import { FsRowInlineIconButtonComponent } from './icon-button/icon-button.component';
 
 
 @Component({
@@ -28,13 +37,11 @@ import { RowAction } from '../../../../models/row-action.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    MatButton,
     NgClass,
     NgTemplateOutlet,
     MatAnchor,
     RouterLink,
-    MatIconButton,
-    MatIconAnchor,
+    MatButton,
     MatFabButton,
     MatFabAnchor,
     MatMiniFabButton,
@@ -42,11 +49,10 @@ import { RowAction } from '../../../../models/row-action.model';
     MatIcon,
     FsFileModule,
     AsyncPipe,
+    FsRowInlineIconButtonComponent,
   ],
 })
 export class FsRowInlineActionComponent implements OnInit, OnChanges {
-  
-  public actionType: ActionType;
 
   @Input()
   public rowAction: RowAction;
@@ -74,10 +80,8 @@ export class FsRowInlineActionComponent implements OnInit, OnChanges {
   }
 
   public ngOnInit(): void {
-    this.actionType = this.rowAction.type;
-
     if(!this.rowAction.label && this.rowAction.icon) {
-      this.actionType = ActionType.Icon;
+      this.rowAction.type = ActionType.Icon;
     }
   }
 

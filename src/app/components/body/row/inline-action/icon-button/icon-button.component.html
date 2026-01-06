@@ -1,0 +1,17 @@
+@if (!rowAction.routerLink) {
+  <button
+      type="button"
+      mat-icon-button
+      (click)="actionClick($event)"
+      [ngClass]="rowAction.classArray">
+    <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+  </button>
+} @else {
+  <a
+      mat-icon-button
+      [routerLink]="rowAction.routerLink.link"
+      [queryParams]="rowAction.routerLink.queryParams">
+    <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+  </a>
+}
+

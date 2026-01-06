@@ -5,29 +5,30 @@ import { ItemType } from '@firestitch/filter';
 import { FsListConfig, ReorderPosition } from '@firestitch/list';
 
 import { map } from 'rxjs/operators';
+
 import { FsListComponent } from '../../../../../src/app/components/list/list.component';
+import { FsListCellDirective } from '../../../../../src/app/directives/cell/cell.directive';
 import { FsListColumnDirective } from '../../../../../src/app/directives/column/column.directive';
 import { FsListHeaderDirective } from '../../../../../src/app/directives/header/header.directive';
-import { FsListCellDirective } from '../../../../../src/app/directives/cell/cell.directive';
 
 
 @Component({
-    selector: 'toggle-reorder',
-    templateUrl: './toggle.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        FsListComponent,
-        FsListColumnDirective,
-        FsListHeaderDirective,
-        FsListCellDirective,
-    ],
+  selector: 'toggle-reorder',
+  templateUrl: './toggle.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    FsListComponent,
+    FsListColumnDirective,
+    FsListHeaderDirective,
+    FsListCellDirective,
+  ],
 })
 export class ToggleReorderComponent implements OnInit {
-  private _fsApi = inject(FsApi);
-
 
   public config: FsListConfig = null;
+  
+  private _fsApi = inject(FsApi);
 
   public ngOnInit() {
     this.config = {
@@ -35,6 +36,8 @@ export class ToggleReorderComponent implements OnInit {
       subheading: 'With Always strategy and positioned to left',
       status: false,
       queryParam: false,
+      style: 'card',
+      rowHoverHighlight: false,
       rowEvents: {
         click: () => {
           console.log('click'); 
@@ -46,6 +49,28 @@ export class ToggleReorderComponent implements OnInit {
           type: ItemType.Keyword,
           label: 'Search',
           hide: true,
+        },
+      ],
+      rowActions: [
+        {
+          icon: (taskType) => {
+            return taskType.default ? 'check_circle' : 'radio_button_unchecked';
+          },
+          menu: false,
+          click: () => {
+            // TODO: Implement default action
+          },
+        },
+        {
+          icon: 'delete',
+          menu: false,
+          click: () => {
+            // TODO: Implement delete action
+          },
+          remove: {
+            title: 'Confirm',
+            template: 'Are you sure you want to delete this task type?',
+          },
         },
       ],
       persist: false,
@@ -69,4 +94,5 @@ export class ToggleReorderComponent implements OnInit {
       },
     };
   }
+
 }
