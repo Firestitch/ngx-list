@@ -41,8 +41,8 @@ import { RowAction } from '../../../../models/row-action.model';
     MatMiniFabAnchor,
     MatIcon,
     FsFileModule,
-    AsyncPipe
-],
+    AsyncPipe,
+  ],
 })
 export class FsRowInlineActionComponent implements OnInit, OnChanges {
   
