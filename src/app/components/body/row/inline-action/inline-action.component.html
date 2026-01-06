@@ -1,11 +1,11 @@
 <ng-template #buttonContent>
-  @if (!rowAction.fileConfig) {
+  @if (!rowAction?.fileConfig) {
     @if (icon) {
       <mat-icon>
         {{ icon }}
       </mat-icon>
     }
-    {{ rowAction.label }}
+    {{ rowAction?.label }}
   } @else {
     <fs-file
         class="action-button"
@@ -26,7 +26,7 @@
     </fs-file>
   }
 </ng-template>
-@if (rowAction.visible$ | async) {
+@if (rowAction?.visible$ | async) {
   @switch (actionType) {
     <!-- Basic button -->
     @case ('basic') {
@@ -36,14 +36,14 @@
             mat-button
             (click)="actionClick($event)"
             [ngClass]="rowAction.classArray">
-          <ng-container *ngTemplateOutlet="buttonContent"></ng-container>
+          <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
         </button>
       } @else {
         <a
             mat-button
             [routerLink]="rowAction.routerLink.link"
             [queryParams]="rowAction.routerLink.queryParams">
-          <ng-container *ngTemplateOutlet="buttonContent"></ng-container>
+          <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
         </a>
       }
     }
@@ -55,14 +55,14 @@
             mat-raised-button
             (click)="actionClick($event)"
             [ngClass]="rowAction.classArray">
-          <ng-container *ngTemplateOutlet="buttonContent"></ng-container>
+          <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
         </button>
       } @else {
         <a
             mat-raised-button
             [routerLink]="rowAction.routerLink.link"
             [queryParams]="rowAction.routerLink.queryParams">
-          <ng-container *ngTemplateOutlet="buttonContent"></ng-container>
+          <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
         </a>
       }
     }
@@ -74,14 +74,14 @@
             mat-icon-button
             (click)="actionClick($event)"
             [ngClass]="rowAction.classArray">
-          <ng-container *ngTemplateOutlet="buttonContent"></ng-container>
+          <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
         </button>
       } @else {
         <a
             mat-icon-button
             [routerLink]="rowAction.routerLink.link"
             [queryParams]="rowAction.routerLink.queryParams">
-          <ng-container *ngTemplateOutlet="buttonContent"></ng-container>
+          <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
         </a>
       }
     }
@@ -93,14 +93,14 @@
             mat-fab
             (click)="actionClick($event)"
             [ngClass]="rowAction.classArray">
-          <ng-container *ngTemplateOutlet="buttonContent"></ng-container>
+          <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
         </button>
       } @else {
         <a
             mat-fab
             [routerLink]="rowAction.routerLink.link"
             [queryParams]="rowAction.routerLink.queryParams">
-          <ng-container *ngTemplateOutlet="buttonContent"></ng-container>
+          <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
         </a>
       }
     }
@@ -112,14 +112,14 @@
             mat-mini-fab
             (click)="actionClick($event)"
             [ngClass]="rowAction.classArray">
-          <ng-container *ngTemplateOutlet="buttonContent"></ng-container>
+          <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
         </button>
       } @else {
         <a
             mat-mini-fab
             [routerLink]="rowAction.routerLink.link"
             [queryParams]="rowAction.routerLink.queryParams">
-          <ng-container *ngTemplateOutlet="buttonContent"></ng-container>
+          <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
         </a>
       }
     }

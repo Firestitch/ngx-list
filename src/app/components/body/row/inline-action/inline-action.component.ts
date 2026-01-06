@@ -60,6 +60,7 @@ export class FsRowInlineActionComponent implements OnInit, OnChanges {
   @Output()
   public fileSelect = new EventEmitter<FsFile | FsFile[]>();
 
+
   public icon: string;
   
   public ngOnChanges(changes: SimpleChanges): void {
