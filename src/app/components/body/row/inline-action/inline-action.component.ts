@@ -1,13 +1,11 @@
-import { AsyncPipe, NgClass, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   OnInit,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
@@ -19,14 +17,14 @@ import {
   MatMiniFabAnchor,
   MatMiniFabButton,
 } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
 
-import { FsFile, FsFileModule } from '@firestitch/file';
+import { FsFile } from '@firestitch/file';
 
 import { ActionType } from '../../../../enums/action-type.enum';
 import { Row } from '../../../../models/row';
 import { RowAction } from '../../../../models/row-action.model';
 
+import { FsRowInlineButtonContentComponent } from './button-content/button-content.component';
 import { FsRowInlineIconButtonComponent } from './icon-button/icon-button.component';
 
 
@@ -38,7 +36,6 @@ import { FsRowInlineIconButtonComponent } from './icon-button/icon-button.compon
   standalone: true,
   imports: [
     NgClass,
-    NgTemplateOutlet,
     MatAnchor,
     RouterLink,
     MatButton,
@@ -46,13 +43,12 @@ import { FsRowInlineIconButtonComponent } from './icon-button/icon-button.compon
     MatFabAnchor,
     MatMiniFabButton,
     MatMiniFabAnchor,
-    MatIcon,
-    FsFileModule,
     AsyncPipe,
+    FsRowInlineButtonContentComponent,
     FsRowInlineIconButtonComponent,
   ],
 })
-export class FsRowInlineActionComponent implements OnInit, OnChanges {
+export class FsRowInlineActionComponent implements OnInit {
 
   @Input()
   public rowAction: RowAction;
@@ -66,16 +62,7 @@ export class FsRowInlineActionComponent implements OnInit, OnChanges {
   @Output()
   public fileSelect = new EventEmitter<FsFile | FsFile[]>();
 
-
-  public icon: string;
-  
-  public ngOnChanges(changes: SimpleChanges): void {
-    if(changes.row) {
-      this.icon = this.rowAction.getRowIcon(this.row.data);
-    }
-  }
-
-  public actionClick(event) {
+  public actionClick(event: Event): void {
     this.clicked.emit(event);
   }
 
@@ -85,7 +72,7 @@ export class FsRowInlineActionComponent implements OnInit, OnChanges {
     }
   }
 
-  public fileSelected(event): void {
+  public fileSelected(event: FsFile | FsFile[]): void {
     this.fileSelect.emit(event);
   }
 }

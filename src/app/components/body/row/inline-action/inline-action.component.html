@@ -1,31 +1,3 @@
-<ng-template #buttonContent>
-  @if (!rowAction?.fileConfig) {
-    @if (icon) {
-      <mat-icon>
-        {{ icon }}
-      </mat-icon>
-    }
-    {{ rowAction?.label }}
-  } @else {
-    <fs-file
-        class="action-button"
-        [accept]="rowAction.fileConfig.accept || '*'"
-        [multiple]="rowAction.fileConfig.multiple"
-        [minWidth]="rowAction.fileConfig.minWidth"
-        [minHeight]="rowAction.fileConfig.minHeight"
-        [imageWidth]="rowAction.fileConfig.maxWidth"
-        [imageHeight]="rowAction.fileConfig.maxHeight"
-        (select)="fileSelected($event)"
-        (error)="rowAction.fileConfig.error && rowAction.fileConfig.error($event)">
-      @if (icon) {
-        <mat-icon>
-          {{ icon }}
-        </mat-icon>
-      }
-      {{ rowAction.label }}
-    </fs-file>
-  }
-</ng-template>
 @if (rowAction?.visible$ | async) {
   @switch (rowAction.type) {
     <!-- Basic button -->
@@ -36,14 +8,22 @@
             mat-button
             (click)="actionClick($event)"
             [ngClass]="rowAction.classArray">
-          <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+          <fs-list-row-inline-button-content
+            [rowAction]="rowAction"
+            [row]="row"
+            (fileSelect)="fileSelected($event)">
+          </fs-list-row-inline-button-content>
         </button>
       } @else {
         <a
             mat-button
             [routerLink]="rowAction.routerLink.link"
             [queryParams]="rowAction.routerLink.queryParams">
-          <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+          <fs-list-row-inline-button-content
+            [rowAction]="rowAction"
+            [row]="row"
+            (fileSelect)="fileSelected($event)">
+          </fs-list-row-inline-button-content>
         </a>
       }
     }
@@ -55,14 +35,22 @@
             mat-raised-button
             (click)="actionClick($event)"
             [ngClass]="rowAction.classArray">
-          <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+          <fs-list-row-inline-button-content
+            [rowAction]="rowAction"
+            [row]="row"
+            (fileSelect)="fileSelected($event)">
+          </fs-list-row-inline-button-content>
         </button>
       } @else {
         <a
             mat-raised-button
             [routerLink]="rowAction.routerLink.link"
             [queryParams]="rowAction.routerLink.queryParams">
-          <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+          <fs-list-row-inline-button-content
+            [rowAction]="rowAction"
+            [row]="row"
+            (fileSelect)="fileSelected($event)">
+          </fs-list-row-inline-button-content>
         </a>
       }
     }
@@ -71,8 +59,6 @@
       <fs-list-row-inline-icon-button
         [rowAction]="rowAction"
         [row]="row"
-        [icon]="icon"
-        [buttonContent]="buttonContent"
         (clicked)="actionClick($event)"
         (fileSelect)="fileSelected($event)">
       </fs-list-row-inline-icon-button>
@@ -85,14 +71,22 @@
             mat-fab
             (click)="actionClick($event)"
             [ngClass]="rowAction.classArray">
-          <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+          <fs-list-row-inline-button-content
+            [rowAction]="rowAction"
+            [row]="row"
+            (fileSelect)="fileSelected($event)">
+          </fs-list-row-inline-button-content>
         </button>
       } @else {
         <a
             mat-fab
             [routerLink]="rowAction.routerLink.link"
             [queryParams]="rowAction.routerLink.queryParams">
-          <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+          <fs-list-row-inline-button-content
+            [rowAction]="rowAction"
+            [row]="row"
+            (fileSelect)="fileSelected($event)">
+          </fs-list-row-inline-button-content>
         </a>
       }
     }
@@ -104,14 +98,22 @@
             mat-mini-fab
             (click)="actionClick($event)"
             [ngClass]="rowAction.classArray">
-          <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+          <fs-list-row-inline-button-content
+            [rowAction]="rowAction"
+            [row]="row"
+            (fileSelect)="fileSelected($event)">
+          </fs-list-row-inline-button-content>
         </button>
       } @else {
         <a
             mat-mini-fab
             [routerLink]="rowAction.routerLink.link"
             [queryParams]="rowAction.routerLink.queryParams">
-          <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+          <fs-list-row-inline-button-content
+            [rowAction]="rowAction"
+            [row]="row"
+            (fileSelect)="fileSelected($event)">
+          </fs-list-row-inline-button-content>
         </a>
       }
     }

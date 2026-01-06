@@ -1,0 +1,27 @@
+@if (!rowAction?.fileConfig) {
+  @if (icon) {
+    <mat-icon>
+      {{ icon }}
+    </mat-icon>
+  }
+  {{ rowAction?.label }}
+} @else {
+  <fs-file
+      class="action-button"
+      [accept]="rowAction.fileConfig.accept || '*'"
+      [multiple]="rowAction.fileConfig.multiple"
+      [minWidth]="rowAction.fileConfig.minWidth"
+      [minHeight]="rowAction.fileConfig.minHeight"
+      [imageWidth]="rowAction.fileConfig.maxWidth"
+      [imageHeight]="rowAction.fileConfig.maxHeight"
+      (select)="fileSelected($event)"
+      (error)="rowAction.fileConfig.error && rowAction.fileConfig.error($event)">
+    @if (icon) {
+      <mat-icon>
+        {{ icon }}
+      </mat-icon>
+    }
+    {{ rowAction.label }}
+  </fs-file>
+}
+
