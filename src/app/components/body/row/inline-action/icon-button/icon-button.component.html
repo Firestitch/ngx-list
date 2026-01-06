@@ -1,26 +1,11 @@
-@if (rowAction) {
-  @if (rowAction.routerLink) {
-    <a
-        mat-icon-button
-        [routerLink]="rowAction.routerLink.link"
-        [queryParams]="rowAction.routerLink.queryParams">
-      <fs-list-row-inline-button-content
-        [rowAction]="rowAction"
-        [row]="row"
-        (fileSelect)="fileSelected($event)">
-      </fs-list-row-inline-button-content>
-    </a>
-  } @else {
-    <button
-        type="button"
-        mat-icon-button
-        (click)="actionClick($event)"
-        [ngClass]="rowAction.classArray">
-      <fs-list-row-inline-button-content
-        [rowAction]="rowAction"
-        [row]="row"
-        (fileSelect)="fileSelected($event)">
-      </fs-list-row-inline-button-content>
-    </button>
-  }
-}
+<button
+    type="button"
+    mat-icon-button
+    (click)="actionClick($event)"
+    [ngClass]="rowAction.classArray">
+  <fs-list-row-inline-button-content
+    [rowAction]="rowAction"
+    [row]="row"
+    (fileSelect)="fileSelected($event)">
+  </fs-list-row-inline-button-content>
+</button>

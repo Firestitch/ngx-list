@@ -1,0 +1,11 @@
+@if (rowAction?.routerLink) {
+  <a
+      mat-icon-button
+      [routerLink]="rowAction.routerLink.link"
+      [queryParams]="rowAction.routerLink.queryParams">
+    <fs-list-row-inline-button-content
+      [rowAction]="rowAction"
+      [row]="row">
+    </fs-list-row-inline-button-content>
+  </a>
+}

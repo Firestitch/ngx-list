@@ -26,6 +26,7 @@ import { RowAction } from '../../../../models/row-action.model';
 
 import { FsRowInlineButtonContentComponent } from './button-content/button-content.component';
 import { FsRowInlineIconButtonComponent } from './icon-button/icon-button.component';
+import { FsRowInlineIconLinkComponent } from './icon-link/icon-link.component';
 
 
 @Component({
@@ -46,6 +47,7 @@ import { FsRowInlineIconButtonComponent } from './icon-button/icon-button.compon
     AsyncPipe,
     FsRowInlineButtonContentComponent,
     FsRowInlineIconButtonComponent,
+    FsRowInlineIconLinkComponent,
   ],
 })
 export class FsRowInlineActionComponent implements OnInit {

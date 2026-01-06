@@ -56,12 +56,19 @@
     }
     <!-- Icon button -->
     @case ('icon') {
-      <fs-list-row-inline-icon-button
-        [rowAction]="rowAction"
-        [row]="row"
-        (clicked)="actionClick($event)"
-        (fileSelect)="fileSelected($event)">
-      </fs-list-row-inline-icon-button>
+      @if (!rowAction.routerLink) {
+        <fs-list-row-inline-icon-button
+          [rowAction]="rowAction"
+          [row]="row"
+          (clicked)="actionClick($event)"
+          (fileSelect)="fileSelected($event)">
+        </fs-list-row-inline-icon-button>
+      } @else {
+        <fs-list-row-inline-icon-link
+          [rowAction]="rowAction"
+          [row]="row">
+        </fs-list-row-inline-icon-link>
+      }
     }
     <!-- Fab button -->
     @case ('fab') {

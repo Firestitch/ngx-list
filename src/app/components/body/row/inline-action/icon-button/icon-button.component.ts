@@ -6,9 +6,8 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
 
-import { MatIconAnchor, MatIconButton } from '@angular/material/button';
+import { MatIconButton } from '@angular/material/button';
 
 import { FsFile } from '@firestitch/file';
 
@@ -24,9 +23,7 @@ import { FsRowInlineButtonContentComponent } from '../button-content/button-cont
   standalone: true,
   imports: [
     NgClass,
-    RouterLink,
     MatIconButton,
-    MatIconAnchor,
     FsRowInlineButtonContentComponent,
   ],
 })
