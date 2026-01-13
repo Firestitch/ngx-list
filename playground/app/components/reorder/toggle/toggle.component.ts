@@ -1,10 +1,13 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild, inject } from '@angular/core';
+
+import { MatIcon } from '@angular/material/icon';
 
 import { FsApi } from '@firestitch/api';
 import { ItemType } from '@firestitch/filter';
-import { FsListConfig, ReorderPosition } from '@firestitch/list';
+import { FsListAbstractRow, FsListConfig, ReorderPosition } from '@firestitch/list';
 
-import { map } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { delay, map } from 'rxjs/operators';
 
 import { FsListComponent } from '../../../../../src/app/components/list/list.component';
 import { FsListCellDirective } from '../../../../../src/app/directives/cell/cell.directive';
@@ -22,9 +25,13 @@ import { FsListHeaderDirective } from '../../../../../src/app/directives/header/
     FsListColumnDirective,
     FsListHeaderDirective,
     FsListCellDirective,
+    MatIcon,
   ],
 })
 export class ToggleReorderComponent implements OnInit {
+
+  @ViewChild(FsListComponent, { static: true })
+  public list: FsListComponent;
 
   public config: FsListConfig = null;
   
@@ -53,15 +60,6 @@ export class ToggleReorderComponent implements OnInit {
       ],
       rowActions: [
         {
-          icon: (taskType) => {
-            return taskType.default ? 'check_circle' : 'radio_button_unchecked';
-          },
-          menu: false,
-          click: () => {
-            // TODO: Implement default action
-          },
-        },
-        {
           icon: 'delete',
           menu: false,
           click: () => {
@@ -79,20 +77,37 @@ export class ToggleReorderComponent implements OnInit {
         start: () => {
           console.log('reorder started');
         },
-        moved: (data) => {
+        moved: (data: any) => {
           console.log('reorder moved', data);
         },
-        done: (data) => {
+        done: (data: any) => {
           console.log('reorder finished', data);
         },
       },
-      fetch: (query) => {
+      fetch: (query: any) => {
         return this._fsApi.get('dummy', query)
           .pipe(
-            map((response) => ({ data: response.objects, paging: response.paging })),
+            map((response: any) => ({ data: response.objects, paging: response.paging })),
           );
       },
     };
+  }
+
+  public setDefault(taskType: any): void {
+    of(null)
+      .pipe(delay(100))
+      .subscribe(() => {
+        const allRows = this.list.getData();
+        const updatedRows = allRows.map((row: FsListAbstractRow) => {
+          return {
+            ...row,
+            default: row.id === taskType.id,
+          };
+        });
+        this.list.updateData(updatedRows, (item: FsListAbstractRow, targetRow?: FsListAbstractRow) => {
+          return (targetRow as any)?.id === item.id;
+        });
+      });
   }
 
 }

@@ -259,6 +259,7 @@ implements OnInit, AfterViewInit, OnDestroy {
       )
       .subscribe(() => {
         this.updateRowActions();
+        this._cdRef.markForCheck();
       });
   }
 
