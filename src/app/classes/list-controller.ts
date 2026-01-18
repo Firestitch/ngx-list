@@ -178,7 +178,11 @@ export class List {
   public get activeFiltersCount$(): Observable<number> {
     return this.filtersQuery$
       .pipe(
-        map((v) => Object.keys(v).length),
+        map((v) => {
+          return Object.keys(v)
+            .filter((key) => key !== 'order');
+        }),
+        map((v) => v.length),
         shareReplay(),
       );
   }
@@ -249,8 +253,8 @@ export class List {
 
     return this._fetchComplete$
       .asObservable()
-      .pipe(      
-        take(1),  
+      .pipe(
+        take(1),
         delay(0),
       );
   }
@@ -263,15 +267,15 @@ export class List {
       .pipe(
         tap((event: PageChange) => {
           this.dataController.setOperation(FsListState.PageChange);
-  
+
           // Remove all rows if limits was changed
           if (event.type === PageChangeType.LimitChanged && this.paging.hasPageStrategy) {
             this.dataController.clearRows();
           }
-  
+
           if (this.paging.hasOffsetStrategy) {
             this.paging.updatePagination();
-  
+
             if (this.selection) {
               this.selection.updateVisibleRecordsCount(this.paging.getPageRecords());
               this.selection.updateTotalRecordsCount(this.paging.records);
@@ -600,8 +604,8 @@ export class List {
               || this.dataController.operation === FsListState.Reload
             ) && this.paging.loadMoreEnabled;
 
-            query = allRecordsRangeNeeded ? 
-              Object.assign(query, this.paging.loadMoreQuery) : 
+            query = allRecordsRangeNeeded ?
+              Object.assign(query, this.paging.loadMoreQuery) :
               Object.assign(query, this.paging.query);
           }
 
