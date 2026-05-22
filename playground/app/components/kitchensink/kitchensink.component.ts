@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, ViewChild, inject } from '@
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
+import { CdkTableModule } from '@angular/cdk/table';
 import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 
@@ -22,12 +23,12 @@ import { delay, map } from 'rxjs/operators';
 
 
 import { FsListComponent as FsListComponent_1 } from '../../../../src/app/components/list/list.component';
-import { FsListCellDirective } from '../../../../src/app/directives/cell/cell.directive';
 import { FsListColumnDirective } from '../../../../src/app/directives/column/column.directive';
 import { FsListFooterDirective } from '../../../../src/app/directives/footer/footer.directive';
 import { FsListHeaderDirective } from '../../../../src/app/directives/header/header.directive';
 import { ApiStrategy } from '../../services/api-strategy.service';
 
+import { KitchenSinkListCellDirective, KitchenSinkRow } from './kitchensink-row';
 import { SavedFilters } from './saved-filter';
 
 @Component({
@@ -39,11 +40,12 @@ import { SavedFilters } from './saved-filter';
     FsListComponent_1,
     FsListColumnDirective,
     FsListHeaderDirective,
-    FsListCellDirective,
+    KitchenSinkListCellDirective,
     FsListFooterDirective,
     FsListHeadingDirective,
     RouterLink,
     FormsModule,
+    CdkTableModule,
     MatFormField,
     MatInput,
   ],
@@ -51,13 +53,11 @@ import { SavedFilters } from './saved-filter';
 export class KitchenSinkComponent implements OnInit {
 
   @ViewChild(FsListComponent, { static: true })
-  public list: FsListComponent;
+  public list: FsListComponent<KitchenSinkRow>;
   
-  public config: FsListConfig;
+  public config: FsListConfig<KitchenSinkRow>;
 
   public linkVisible = true;
-  
-  public rowType!: KitchenSinkRow;
 
   public weekdays = [
     { id: 1, name: 'Monday' },
@@ -346,7 +346,7 @@ export class KitchenSinkComponent implements OnInit {
               console.log('files:', file);
             },
           },
-          show: (row: any) => {
+          show: (row) => {
             return row.checked === true;
           },
         },
@@ -444,7 +444,10 @@ export class KitchenSinkComponent implements OnInit {
 
         return this._api.get('dummy', query)
           .pipe(
-            map((response) => ({ data: response.objects, paging: response.paging })),
+            map((response) => ({
+              data: response.objects as KitchenSinkRow[],
+              paging: response.paging,
+            })),
           );
       },
       beforeFetch: (query) => {
@@ -471,14 +474,5 @@ export class KitchenSinkComponent implements OnInit {
         return listRow.index === index;
       });
   }
-}
-
-
-interface KitchenSinkRow {
-  index: number;
-  name: string;
-  guid: string;
-  input: string;
-  checked?: boolean;
 }
 

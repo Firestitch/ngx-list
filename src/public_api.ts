@@ -22,6 +22,8 @@ export { FsStatusComponent } from './app/components/status/status.component';
 // Directives
 export { FsListHeadingDirective } from './app/directives';
 export { FsListCellDirective } from './app/directives/cell/cell.directive';
+export { FsListCellRowTypeScopeDirective } from './app/directives/cell/cell-row-type-scope.directive';
+export { FsTypedListCellDirective } from './app/directives/cell/typed-cell.directive';
 export { FsListColumnDirective } from './app/directives/column/column.directive';
 export { FsListContentDirective } from './app/directives/content/content.directive';
 export { FsListDraggableListDirective } from './app/directives/draggable-list/draggable-list.directive';

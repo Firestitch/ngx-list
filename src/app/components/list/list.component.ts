@@ -19,6 +19,7 @@ import { ReorderController } from '../../classes/reorder-controller';
 import {
   FsListHeadingDirective,
 } from '../../directives';
+import { FsListCellDirective } from '../../directives/cell/cell.directive';
 import { FsListColumnDirective } from '../../directives/column/column.directive';
 import { FsListContentInitDirective } from '../../directives/content-init/content-init.directive';
 import { FsListDraggableListDirective } from '../../directives/draggable-list/draggable-list.directive';
@@ -74,7 +75,7 @@ import { FsStatusComponent } from '../status/status.component';
     AsyncPipe,
   ],
 })
-export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
+export class FsListComponent<TRow = any> implements OnInit, OnDestroy, AfterContentInit {
   
   public reorderController = inject(ReorderController);
 
@@ -84,12 +85,34 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   public rowHoverHighlight: boolean;
 
   @Input('config')
-  public set config(config: FsListConfig) {
+  public set config(config: FsListConfig<TRow>) {
     this._initWithConfig(config);
   }
 
   @Input()
   public loaderLines = 3;
+
+  private _cellRowTypeInput?: unknown;
+  private _cellRowTypeFromConfig?: unknown;
+
+  /**
+   * Row typing anchor for cell templates. Overrides {@link FsListConfig.cellRowType}.
+   * Copied onto each `fs-list-cell` (and group cell templates) unless `[rowType]` is set on that cell.
+   */
+  @Input()
+  public set cellRowType(value: unknown) {
+    this._cellRowTypeInput = value;
+    this._propagateCellRowTypeAnchors();
+  }
+
+  public get cellRowType(): unknown {
+    return this._cellRowTypeInput !== undefined ? this._cellRowTypeInput : this._cellRowTypeFromConfig;
+  }
+
+  /** Merged config after defaults; used to type cells without per-template `[configTyping]`. */
+  public get mergedListConfig(): FsListConfig<TRow> | undefined {
+    return this._mergedListConfig as FsListConfig<TRow> | undefined;
+  }
 
   @Output()
   public filtersReady = new EventEmitter<void>();
@@ -107,6 +130,8 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
   public firstLoad = true;
 
   private _listColumnDirectives: QueryList<FsListColumnDirective>;
+  /** Merged list config (after defaults); used to populate cell `configTyping` when cells omit it. */
+  private _mergedListConfig?: FsListConfig<TRow>;
   private _filterRef: FilterComponent;
   private _filterParamsReady = false;
   private _destroy = new Subject();
@@ -137,6 +162,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
     if (this.list) {
       this.list.tranformTemplatesToColumns(listColumnDirectives);
     }
+    this._propagateCellRowTypeAnchors();
   }
 
   @ContentChild(FsListEmptyStateDirective, { read: TemplateRef })
@@ -333,12 +359,12 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
    *
    * @param config
    */
-  private _initWithConfig(config: FsListConfig) {
+  private _initWithConfig(config: FsListConfig<TRow>) {
     if (this.list) {
       this.list.destroy();
     }
 
-    const defaultConfig: FsListConfig = {
+    const defaultConfig: FsListConfig<TRow> = {
       queryParam: true,
       chips: true,
       paging: {
@@ -352,6 +378,9 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
 
     const globalConfig = cloneDeep(this._config || {});
     const listConfig = mergeWith(defaultConfig, globalConfig, config, this._configMergeCustomizer);
+
+    this._mergedListConfig = listConfig;
+    this._cellRowTypeFromConfig = listConfig.cellRowType;
 
     if (listConfig.persist !== false) {
       this._restorePersistance(listConfig.persist);
@@ -383,6 +412,7 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
       this.list.tranformTemplatesToColumns(this._listColumnDirectives);
     }
     this._listenSortingChange();
+    this._propagateCellRowTypeAnchors();
   }
 
   /**
@@ -485,5 +515,33 @@ export class FsListComponent implements OnInit, OnDestroy, AfterContentInit {
 
   private _restorePersistance(persistConfig: FsListPersitance) {
     this._persistance.init(persistConfig, this.inDialog);
+  }
+
+  private _propagateCellRowTypeAnchors() {
+    if (!this._listColumnDirectives || !this._mergedListConfig) {
+      return;
+    }
+
+    const anchor = this.cellRowType;
+
+    this._listColumnDirectives.forEach((col) => {
+      this._maybeApplyCellTyping(col.cellConfigs, anchor, this._mergedListConfig);
+      this._maybeApplyCellTyping(col.groupHeaderConfigs, anchor, this._mergedListConfig);
+      this._maybeApplyCellTyping(col.groupFooterConfigs, anchor, this._mergedListConfig);
+    });
+  }
+
+  private _maybeApplyCellTyping(dir: unknown, anchor: unknown, listConfig: FsListConfig<TRow>) {
+    if (!(dir instanceof FsListCellDirective)) {
+      return;
+    }
+    if (dir.rowType !== undefined || dir.configTyping !== undefined) {
+      return;
+    }
+    if (anchor != null) {
+      dir.rowType = anchor;
+    } else {
+      dir.configTyping = listConfig;
+    }
   }
 }

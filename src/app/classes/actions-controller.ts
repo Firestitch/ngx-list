@@ -48,8 +48,7 @@ export class ActionsController {
 
     action.click = () => {
       this._filterRef.updateActions([this._doneAction]);
-      this._filterRef.hideKeywordField();
-      this._filterRef.hideFilters();
+      this._filterRef.disableFilters();
       actionClickFn(null);
     };
 
@@ -62,8 +61,7 @@ export class ActionsController {
 
     this._doneAction.click = () => {
       this._filterRef.updateActions(this._actions);
-      this._filterRef.showKeywordField();
-      this._filterRef.showFilters();
+      this._filterRef.enableFilters();
       actionClickFn(null);
     };
   }

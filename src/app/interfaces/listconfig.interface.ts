@@ -31,7 +31,17 @@ export interface FsPaging {
   strategy?: PaginationStrategy;
 }
 
-export interface FsListConfig {
+/**
+ * List configuration. Use `FsListConfig<YourRow>` so `fetch` / `rowClass` / `cellRowType`
+ * share one row type (CDK-style). Defaults to `any` for backward compatibility.
+ */
+export interface FsListConfig<TRow = any> {
+  /**
+   * Optional row typing anchor (e.g. `{} as MyRow`). Applied to every `fs-list-cell`
+   * (and group header/footer cells) that does not set its own `[rowType]` / `[configTyping]`.
+   * Overridable per list via `[cellRowType]` on `fs-list`.
+   */
+  cellRowType?: TRow;
   heading?: string;
   trackBy?: string;
   subheading?: string;
@@ -49,13 +59,13 @@ export interface FsListConfig {
   persist?: FsListPersitance;
   rowActions?: (FsListRowActionGroup | FsListRowAction)[];
   rowActionsHover?: boolean;
-  rowClass?: (row: any, options?: FsListRowClassOptions) => string;
+  rowClass?: (row: TRow, options?: FsListRowClassOptions) => string;
   rowHover?: boolean;
   actions?: FsListAction[];
-  fetch?: FsListFetchFn;
-  afterFetch?: FsListAfterFetchFn;
+  fetch?: FsListFetchFn<TRow>;
+  afterFetch?: FsListAfterFetchFn<TRow>;
   beforeFetch?: FsListBeforeFetchFn;
-  afterContentInit?: FsListAfterContentInitFn;
+  afterContentInit?: FsListAfterContentInitFn<TRow>;
   afterInit?: FsListAfterInitFn;
   selection?: FsListSelectionConfig;
   initialFetch?: boolean;
@@ -295,18 +305,18 @@ export interface FsListPersistanceConfig {
 
 export type FsListPersitance = boolean | FsListPersistanceConfig;
 export type FsListStateValidationFn = (filters: any, rows: FsListAbstractRow[]) => boolean;
-export type FsListFetchFn =
+export type FsListFetchFn<TRow = any> =
   (query: Record<string, any>, options: FsListFetchOptions) =>
-    Observable<{ data: unknown[]; paging?: FsPaging }>;
+    Observable<{ data: TRow[]; paging?: FsPaging }>;
 
-export type FsListAfterFetchFn =
-  (query: Record<string, any>, data: unknown[]) => void;
+export type FsListAfterFetchFn<TRow = any> =
+  (query: Record<string, any>, data: TRow[]) => void;
 
 export type FsListBeforeFetchFn =
   (query) => Observable<Record<string, any>>;
 
-export type FsListAfterContentInitFn =
-  (query: Record<string, any>, data: unknown[]) => void;
+export type FsListAfterContentInitFn<TRow = any> =
+  (query: Record<string, any>, data: TRow[]) => void;
 
 export interface FsListRowClassOptions {
   index: number;

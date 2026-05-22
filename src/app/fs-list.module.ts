@@ -19,6 +19,7 @@ import { FsPaginationComponent } from './components/pagination/pagination.compon
 import { FsStatusComponent } from './components/status/status.component';
 import { FsListHeadingDirective } from './directives';
 import { FsListCellDirective } from './directives/cell/cell.directive';
+import { FsListCellRowTypeScopeDirective } from './directives/cell/cell-row-type-scope.directive';
 import { FsListColumnDirective } from './directives/column/column.directive';
 import { FsListContentInitDirective } from './directives/content-init/content-init.directive';
 import { FsListContentDirective } from './directives/content/content.directive';
@@ -54,6 +55,7 @@ import { ActionLabelPipe } from './pipes';
     FsPaginationComponent,
     FsListColumnDirective,
     FsListCellDirective,
+    FsListCellRowTypeScopeDirective,
     FsListHeaderDirective,
     FsListFooterDirective,
     FsListGroupHeaderDirective,
@@ -75,6 +77,7 @@ import { ActionLabelPipe } from './pipes';
     FsListLoaderComponent,
     FsListColumnDirective,
     FsListCellDirective,
+    FsListCellRowTypeScopeDirective,
     FsListHeaderDirective,
     FsListFooterDirective,
     FsListGroupHeaderDirective,
