@@ -7,7 +7,7 @@
       ID
     </ng-template>
     <ng-template
-        kitchenSinkCell
+        fsListCell
         let-row="row">
       {{ row.index }}
     </ng-template>
@@ -23,7 +23,7 @@
       [sortable]="true"
       [sortableDefault]="true">
     <ng-template
-        kitchenSinkCell
+        fsListCell
         let-row="row">
       {{ row.name }}
     </ng-template>
@@ -36,7 +36,7 @@
       GUID
     </ng-template>
     <ng-template
-        kitchenSinkCell
+        fsListCell
         let-row="row">
       {{ row.guid }}
     </ng-template>
@@ -52,7 +52,7 @@
       Input
     </ng-template>
     <ng-template
-        kitchenSinkCell
+        fsListCell
         let-row="row">
       <mat-form-field class="form-field-padless">
         <input
@@ -67,7 +67,7 @@
       title="Link"
       [show]="linkVisible">
     <ng-template
-        kitchenSinkCell
+        fsListCell
         let-row="row"
         [class]="['myTestClass', 'myTestClass2']">
       <a routerLink="/welcome">

@@ -76,7 +76,6 @@ export class KitchenSinkComponent implements OnInit {
     this.config = {
       status: true,
       chips: true,
-      reload: false,
       persist: {
         name: 'kitchensink',
       },

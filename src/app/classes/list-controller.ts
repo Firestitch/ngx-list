@@ -751,7 +751,9 @@ export class List {
       autoReload: this.autoReload,
       init: this._filterInit.bind(this),
       change: this._filterChange.bind(this),
-      reload: this._config.reload ?? true,
+      reload: (this._config.reload ?? true)
+        ? this._filterReload.bind(this)
+        : undefined,
       sortChange: this._filterSort.bind(this),
       heading: this.heading,
       subheading: this.subheading,
@@ -805,6 +807,27 @@ export class List {
     // Reset paging for request with correct offset
     this.paging.resetPaging();
     this._fetch$.next(null);
+  }
+
+  /**
+   * Callback when the filter reload button is clicked.
+   *
+   * Unlike a filter change, a reload must preserve the current page/offset,
+   * so we route to reload() which keeps paging intact instead of resetting it.
+   *
+   * @param query
+   * @param sort
+   */
+  private _filterReload(query, sort) {
+    if (this.filterChangeCb) {
+      this.filterChangeCb(query, sort);
+    }
+
+    query = this._processRestoreQuery(query);
+
+    this._filtersQuery.next(query);
+
+    this.reload();
   }
 
   private _processRestoreQuery(query) {
