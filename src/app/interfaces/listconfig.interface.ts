@@ -1,6 +1,7 @@
 import { FsFile } from '@firestitch/file';
 import {
   ChangeFn,
+  FilterConfig,
   FsFilterAction,
   FsFilterAutoReload,
   IFilterConfigDateItem,
@@ -55,6 +56,14 @@ export interface FsListConfig<TRow = any> {
   loadMore?: FsListLoadMoreConfig | boolean;
   columnDefaults?: any;
   filters?: (IFilterConfigItem | IFilterConfigDateItem)[];
+  /**
+   * Baseline `FsFilter` configuration. Any keys set here are used as defaults for the
+   * underlying filter; the list's own dedicated config options (`filters`, `chips`,
+   * `queryParam`, `autoReload`, `savedFilters`, `heading`, etc.) take precedence where
+   * they overlap. Use this to reach filter options the list does not surface directly,
+   * e.g. `{ minSecondaryItems: 3, maxEnabled: 5 }`.
+   */
+  filterConfig?: Partial<FilterConfig>;
   savedFilters?: IFilterSavedFiltersConfig;
   persist?: FsListPersitance;
   rowActions?: (FsListRowActionGroup | FsListRowAction)[];

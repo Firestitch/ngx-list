@@ -91,6 +91,7 @@ export class List {
   public externalParams: ExternalParamsController;
   public selection: SelectionController;
   public filterConfig: FilterConfig = null;
+  public filterBaseConfig: Partial<FilterConfig> = null;
   public status = true;
   public chips = false;
   public queryParam = false;
@@ -426,6 +427,7 @@ export class List {
     this.restore = config.restore;
     this.persist = config.persist;
     this.filters = config.filters ?? [];
+    this.filterBaseConfig = config.filterConfig ?? null;
     this.filterInitCb = config.filterInit;
     this.filterChangeCb = config.filterChange;
     this.savedFilters = config.savedFilters;
@@ -740,7 +742,11 @@ export class List {
       : null;
 
     // Config
+    // Baseline filter config is spread first so the list's own dedicated options
+    // (below) take precedence where they overlap, while any extra filter options
+    // (e.g. minSecondaryItems) flow through unchanged.
     this.filterConfig = {
+      ...this.filterBaseConfig,
       items: this.filters || [],
       savedFilters: this.savedFilters,
       actions: this.actions.actions,
