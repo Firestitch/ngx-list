@@ -1,7 +1,7 @@
 <table>
   <thead>
     <tr>
-      @for (col of cols; track col; let column = $index) {
+      @for (col of cols; track column; let column = $index) {
         <th [width]="widths[column] + '%'">
           <div class="fs-skeleton-placeholder" [style.width]="(placeholderWidths[0][column]/2)  + '%'"></div>
         </th>
@@ -9,9 +9,9 @@
     </tr>
   </thead>
   <tbody>
-    @for (row of rows; track row; let index = $index) {
+    @for (row of rows; track index; let index = $index) {
       <tr>
-        @for (col of cols; track col; let column = $index) {
+        @for (col of cols; track column; let column = $index) {
           <td>
             <div class="fs-skeleton-placeholder" [style.width]="placeholderWidths[index][column] + '%'"></div>
           </td>

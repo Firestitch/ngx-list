@@ -88,10 +88,7 @@ export class FsHeadComponent implements OnInit, OnDestroy {
    * @param column
    */
   public trackByFn(index: number, column: Column) {
-    // Combine the label with the index so columns without a name/title
-    // (whose name||title resolves to an empty string) never collide and
-    // produce duplicate "" keys -> NG0955.
-    return `${column.name || column.title || ''}_${index}`;
+    return column.name || column.title || index;
   }
 
   /**
