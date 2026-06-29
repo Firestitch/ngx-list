@@ -27,12 +27,10 @@ import { FsHeadCellComponent } from './head-cell/head-cell.component';
     MatCheckbox,
     FsHeadCellComponent,
     NgClass,
-    AsyncPipe
-],
+    AsyncPipe,
+  ],
 })
 export class FsHeadComponent implements OnInit, OnDestroy {
-  private _cdRef = inject(ChangeDetectorRef);
-
 
   @Input() public sorting: SortingController;
   @Input() public columns: Column[];
@@ -50,6 +48,7 @@ export class FsHeadComponent implements OnInit, OnDestroy {
   public readonly ReorderStrategyEnum = ReorderStrategy;
 
   private _destroy$ = new Subject();
+  private _cdRef = inject(ChangeDetectorRef);
 
   public get leftDragDropEnabled(): boolean {
     return this.reorderEnabled
@@ -89,7 +88,10 @@ export class FsHeadComponent implements OnInit, OnDestroy {
    * @param column
    */
   public trackByFn(index: number, column: Column) {
-    return column.name || column.title || index;
+    // Combine the label with the index so columns without a name/title
+    // (whose name||title resolves to an empty string) never collide and
+    // produce duplicate "" keys -> NG0955.
+    return `${column.name || column.title || ''}_${index}`;
   }
 
   /**
