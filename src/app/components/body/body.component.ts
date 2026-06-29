@@ -54,4 +54,16 @@ export class FsBodyComponent {
   @ContentChild(FsRowComponent, { read: TemplateRef, static: true })
   public headerTemplate: TemplateRef<any>;
 
+  /**
+   * Track rows by their underlying record id so that a reload (which creates
+   * fresh Row wrapper objects) reuses the existing DOM instead of destroying
+   * and recreating every row. Falls back to the row index when the data has
+   * no id (e.g. group/footer rows or id-less records) -> avoids NG0956.
+   */
+  public trackByFn(index: number, row: Row): unknown {
+    const id = (row?.data as { id?: unknown })?.id;
+
+    return id ?? index;
+  }
+
 }

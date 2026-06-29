@@ -1,4 +1,4 @@
-@for (row of rows; track row; let i = $index) {
+@for (row of rows; track trackByFn(i, row); let i = $index) {
   <tr
     fs-list-row
     fsListDraggableRow
