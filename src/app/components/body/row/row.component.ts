@@ -3,7 +3,7 @@ import {
   AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component,
   ElementRef, EventEmitter, HostBinding, Input,
   OnDestroy, OnInit, Renderer2,
-  computed, inject, input,
+  computed, effect, inject, input,
 } from '@angular/core';
 
 import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
@@ -135,10 +135,40 @@ implements OnInit, AfterViewInit, OnDestroy {
 
   private _eventListeners = [];
   private _destroy$ = new Subject();
+  // Torn down and recreated every time the row() wrapper swaps so the
+  // per-wrapper data$/selection subscriptions don't keep firing for a wrapper
+  // this DOM row no longer renders.
+  private _rowDestroy$ = new Subject<void>();
+  // The wrapper the imperative lifecycle wiring (ngOnInit/ngAfterViewInit)
+  // subscribed to. The row() effect re-wires only when the wrapper differs
+  // from this, so the first effect run (same wrapper) doesn't double-subscribe.
+  private _wiredRow: Row | undefined;
   private _el = inject(ElementRef);
   private _cdRef = inject(ChangeDetectorRef);
   private _renderer = inject(Renderer2);
   private _draggableList = inject(FsListDraggableListDirective, { optional: true });
+
+  constructor() {
+    // With row-level trackBy (track row.data.id) a reload reuses this DOM row
+    // but binds it to a brand-new Row wrapper holding fresh data. Re-wire the
+    // wrapper-scoped subscriptions (actions refresh via data$, selection) so
+    // row actions and selection reflect the new data instead of freezing on
+    // the previous wrapper (IEB-T117).
+    effect(() => {
+      const currentRow = this.row();
+
+      // Skip until lifecycle has done the first wiring, and skip the run where
+      // the wrapper is the one lifecycle already wired (avoids double-subscribe).
+      if (!currentRow || currentRow === this._wiredRow || !this._wiredRow) {
+        return;
+      }
+
+      this._rowDestroy$.next();
+      this._wiredRow = currentRow;
+      this._initRowActions();
+      this._initSelection();
+    });
+  }
 
   public get isDragDisabled(): boolean {
     return !this.selected && this.reorderMultiple && !!this.selection.selectedRows.size;
@@ -172,6 +202,9 @@ implements OnInit, AfterViewInit, OnDestroy {
 
   public ngAfterViewInit(): void {
     this._initSelection();
+    // Record the wrapper lifecycle just wired; from here the row() effect
+    // re-wires the wrapper-scoped subscriptions whenever the wrapper swaps.
+    this._wiredRow = this.row();
   }
 
   public updateRowActions() {
@@ -189,6 +222,8 @@ implements OnInit, AfterViewInit, OnDestroy {
       listener();
     });
 
+    this._rowDestroy$.next();
+    this._rowDestroy$.complete();
     this._destroy$.next(null);
     this._destroy$.complete();
   }
@@ -251,10 +286,11 @@ implements OnInit, AfterViewInit, OnDestroy {
     }
 
     merge(
-      this.row().data$, 
+      this.row().data$,
       this.row().actionsUpdated$,
     )
       .pipe(
+        takeUntil(this._rowDestroy$),
         takeUntil(this._destroy$),
       )
       .subscribe(() => {
@@ -309,6 +345,7 @@ implements OnInit, AfterViewInit, OnDestroy {
           //   return type === SelectionChangeType.AllVisibleSelectionChange
           //     || type === SelectionChangeType.SelectedAll;
           // }),
+          takeUntil(this._rowDestroy$),
           takeUntil(this._destroy$),
         )
         .subscribe(() => {

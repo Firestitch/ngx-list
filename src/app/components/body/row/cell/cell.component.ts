@@ -43,19 +43,33 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
 
   private _destroy$ = new Subject<void>();
 
+  // Torn down and recreated every time the row() wrapper swaps, so the
+  // per-wrapper data$/expanded$ subscriptions below never leak or keep
+  // firing for a wrapper this cell no longer renders.
+  private _rowDestroy$ = new Subject<void>();
+
   constructor() {
+    // React whenever the row() input swaps to a new wrapper. With row-level
+    // trackBy (track row.data.id) a reload reuses this DOM cell but points it
+    // at a brand-new Row wrapper holding fresh data, so we must rebuild the
+    // cell context and re-subscribe to the new wrapper's data$ here -> without
+    // this the cell stays frozen on the old wrapper's data (IEB-T117).
     effect(() => {
       const currentRow = this.row();
 
+      this._rowDestroy$.next();
+
       if (currentRow) {
-        this.cellContext.groupIndex = currentRow.index;
+        this._initCellTemplate();
+        this._initCellContext();
+        this._listenRowDataChange();
+        this._listenGroupOpen();
       }
     });
   }
 
   public ngOnInit() {
-    this._listenRowDataChange();
-    this._listenGroupOpen();
+    // Context/subscriptions are wired reactively from the row() effect above.
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -71,11 +85,19 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this._rowDestroy$.next();
+    this._rowDestroy$.complete();
     this._destroy$.next(null);
     this._destroy$.complete();
   }
 
   private _initCellContext() {
+    // The row() effect can fire before the column @Input is bound; bail until
+    // it is, ngOnChanges(column) re-runs this once column arrives.
+    if (!this.column) {
+      return;
+    }
+
     const currentRow = this.row();
 
     this.cellContext.index = this.rowIndex;
@@ -119,6 +141,7 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
       currentRow.data$
         .pipe(
           skip(1),
+          takeUntil(this._rowDestroy$),
           takeUntil(this._destroy$),
         )
         .subscribe(() => {
@@ -128,6 +151,10 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private _initCellTemplate() {
+    if (!this.column) {
+      return;
+    }
+
     const currentRow = this.row();
 
     if (currentRow && isGroupRow(currentRow)) {
@@ -145,6 +172,7 @@ export class FsCellComponent implements OnInit, OnChanges, OnDestroy {
     if (currentRow && isGroupRow(currentRow)) {
       currentRow.expanded$
         .pipe(
+          takeUntil(this._rowDestroy$),
           takeUntil(this._destroy$),
         )
         .subscribe((status) => {
