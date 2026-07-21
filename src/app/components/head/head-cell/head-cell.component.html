@@ -10,22 +10,24 @@
       </ng-template>
     }
   </span>
-  @if (column.ordered$ | async) {
-    @switch (column.sortingDirection$ | async) {
-      @case ('asc') {
-        <mat-icon>
-          arrow_downward
-        </mat-icon>
+  @if (column.sortIndicated) {
+    @if (column.sortSource.ordered$ | async) {
+      @switch (column.sortSource.sortingDirection$ | async) {
+        @case ('asc') {
+          <mat-icon>
+            arrow_downward
+          </mat-icon>
+        }
+        @case ('desc') {
+          <mat-icon>
+            arrow_upward
+          </mat-icon>
+        }
       }
-      @case ('desc') {
-        <mat-icon>
-          arrow_upward
-        </mat-icon>
-      }
+    } @else if (column.sortSource.sortable) {
+      <mat-icon>
+        unfold_more
+      </mat-icon>
     }
-  } @else if (column.sortable) {
-    <mat-icon>
-      unfold_more
-    </mat-icon>
   }
 </div>

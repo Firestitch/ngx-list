@@ -21,7 +21,7 @@ export class FsFooterComponent {
 
   @Input() public hasRowActions: boolean;
   @Input() public columns: Column[] = [];
-  @Input() public selection: SelectionController;
+  @Input() public selection: SelectionController | null;
   @Input() public activeFiltersCount: number;
   @Input() public reorderEnabled: boolean;
   @Input() public reorderPosition: ReorderPosition | null;

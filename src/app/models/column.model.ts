@@ -42,6 +42,19 @@ export class Column {
   public cellColspanned = false;
   public footerColspanned = false;
 
+  /**
+   * Stable identity for `@for (... ; track column.uid)` in the head/body/footer bands.
+   * Assigned by ColumnsController as `<setIndex>:<columnIndex>`, so columns from two
+   * different sets never collide and a breakpoint swap replaces every cell view.
+   */
+  public uid = '';
+
+  /**
+   * For a column declared inside `<fs-list-breakpoint>`, the same-named column in the
+   * base (desktop) set, or null. Base columns leave this null.
+   */
+  public baseColumn: Column | null = null;
+
   private _attributes: ColumnAttributes;
   private _defaultDirection: 'asc' | 'desc';
   private _ordered$ = new BehaviorSubject<boolean>(false);
@@ -134,6 +147,54 @@ export class Column {
     }
 
     this._ordered$.next(value);
+  }
+
+  /**
+   * The column that owns sort state for this one. A breakpoint column delegates to its
+   * same-named base column so `sorting.sortingColumn` is always a base Column -> the
+   * `order=<name>,<dir>` query param and the URL stay invariant across a resize.
+   * Base columns return themselves, so behaviour is unchanged without breakpoints.
+   */
+  public get sortSource(): Column {
+    return this.baseColumn ?? this;
+  }
+
+  /**
+   * Whether this column's head cell offers sorting -- the arrow and the click target.
+   *
+   * Sort *state* delegates to {@link sortSource}, but the affordance must not: a breakpoint
+   * column that stacks several base columns into one cell has no honest sort label, and
+   * `[sortable]="false"` on a breakpoint column has to be able to drop the control at that
+   * width. So a breakpoint column has to declare `sortable` itself, while a base column --
+   * whose `sortSource` is itself -- is unaffected.
+   */
+  public get sortIndicated(): boolean {
+    return this.baseColumn ? !!this.sortable : true;
+  }
+
+  /**
+   * Copy the TemplateRefs of slots this column left undeclared from `base`.
+   *
+   * Templates only -- never the StyleConfigs. A base `colspan="4"` copied into a
+   * 2-column breakpoint set would be bound straight to [attr.colspan] and overflow the
+   * row, and sharing a StyleConfig would alias one mutable object across two sets.
+   *
+   * The header slot is deliberately excluded, template and `title` both. A header labels
+   * the column as that set renders it, and a set that stacks five base columns into one
+   * cell has no honest label to borrow -- inheriting would print the base column's name
+   * over a cell that no longer holds only that value. So the header row is exactly what
+   * the active set declares: a set that declares none renders none.
+   */
+  public inheritTemplatesFrom(base: Column | null): void {
+    if (!base) {
+      return;
+    }
+
+    this.groupHeaderTemplate = this.groupHeaderTemplate ?? base.groupHeaderTemplate;
+    this.groupFooterTemplate = this.groupFooterTemplate ?? base.groupFooterTemplate;
+    this.cellTemplate = this.cellTemplate ?? base.cellTemplate;
+    this.footerTemplate = this.footerTemplate ?? base.footerTemplate;
+    this.expandTrigger = this.expandTrigger ?? base.expandTrigger;
   }
 
   /**

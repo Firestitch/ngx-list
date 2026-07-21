@@ -1,5 +1,5 @@
 export * from './actions';
-export * from './ago';
+export * from './breakpoints';
 export * from './empty-state';
 export * from './examples';
 export * from './filters';

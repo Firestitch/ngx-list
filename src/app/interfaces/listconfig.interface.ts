@@ -50,6 +50,7 @@ export interface FsListConfig<TRow = any> {
   rowHoverHighlight?: boolean;
   chips?: boolean;
   column?: FsListColumnConfig;
+  breakpoints?: FsListBreakpointsConfig;
   autoFocus?: boolean;
   queryParam?: boolean;
   paging?: FsPaging | false;
@@ -282,6 +283,28 @@ export interface FsListColumnConfig {
   init?: FsListColumnChangeFn;
   title?: FsListColumnTitleFn;
   selected?: FsListColumnSelectedFn;
+}
+
+/**
+ * Controls how `<fs-list-breakpoint>` sets decide they are active.
+ */
+export interface FsListBreakpointsConfig {
+  /**
+   * Measure the list's own container instead of the viewport. Defaults to `true`, which is
+   * what you want for a list inside a dialog, drawer or narrow flex column -- the viewport
+   * width lies about how much room the table actually has.
+   *
+   * Set `false` to match on viewport media queries instead, which costs no JS between
+   * thresholds and is SSR-safe.
+   */
+  container?: boolean;
+
+  /**
+   * Dead band in px around each threshold, so a container parked exactly on a breakpoint
+   * cannot oscillate between two sets on sub-pixel reflows. Container mode only.
+   * Defaults to 24.
+   */
+  hysteresis?: number;
 }
 
 export interface FsListColumn {

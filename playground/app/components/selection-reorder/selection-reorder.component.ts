@@ -7,24 +7,24 @@ import { SelectionActionType } from '@firestitch/selection';
 import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 
-import { ApiStrategy } from '../../services/api-strategy.service';
 import { FsListComponent as FsListComponent_1 } from '../../../../src/app/components/list/list.component';
+import { FsListCellDirective } from '../../../../src/app/directives/cell/cell.directive';
 import { FsListColumnDirective } from '../../../../src/app/directives/column/column.directive';
 import { FsListHeaderDirective } from '../../../../src/app/directives/header/header.directive';
-import { FsListCellDirective } from '../../../../src/app/directives/cell/cell.directive';
+import { ApiStrategy } from '../../services/api-strategy.service';
   
 
 @Component({
-    selector: 'selection-reorder',
-    templateUrl: './selection-reorder.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        FsListComponent_1,
-        FsListColumnDirective,
-        FsListHeaderDirective,
-        FsListCellDirective,
-    ],
+  selector: 'selection-reorder',
+  templateUrl: './selection-reorder.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    FsListComponent_1,
+    FsListColumnDirective,
+    FsListHeaderDirective,
+    FsListCellDirective,
+  ],
 })
 export class SelectionReorderComponent implements OnInit {
   protected _apiStrategy = inject(ApiStrategy);
@@ -106,9 +106,6 @@ export class SelectionReorderComponent implements OnInit {
         multiple: true,
       },
       fetch: (query) => {
-        query.limit = 10;
-        query.count = 10;
-
         return this._fsApi.get('dummy', query)
           .pipe(
             map((response) => ({ data: response.objects, paging: response.paging })),

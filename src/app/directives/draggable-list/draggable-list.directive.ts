@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Directive, ElementRef, Input, NgZone, Renderer2, inj
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { BreakpointController } from '../../classes/breakpoint-controller';
 import { ReorderController, ReorderStrategy } from '../../classes/reorder-controller';
 import { FsListDragChildRowElement } from '../../interfaces/draggable-list.interface';
 import { Row, isChildRow, isGroupRow } from '../../models/row';
@@ -20,6 +21,7 @@ export class FsListDraggableListDirective {
   private _containerElement = inject(ElementRef);
   private _reorderController = inject(ReorderController);
   private _renderer = inject(Renderer2);
+  private _breakpoints = inject(BreakpointController, { optional: true });
 
   // Draggable Element
   private _draggableElement: HTMLElement;
@@ -90,6 +92,11 @@ export class FsListDraggableListDirective {
     }
 
     this._dragInProgress = true;
+
+    // Row top/height are snapshotted once here and hit-tested against for the whole drag,
+    // with no invalidation path -- a breakpoint swap mid-drag would reflow the table and
+    // silently produce the wrong drop target. Held, not dropped: the swap applies on drop.
+    this._breakpoints?.suspend();
 
     window.document.body.classList.add('reorder-in-progress');
 
@@ -166,6 +173,7 @@ export class FsListDraggableListDirective {
    */
   public dragEnd() {
     this._dragInProgress = false;
+    this._breakpoints?.resume();
     this._reorderController.dataController.finishReorder();
 
     if (this._reorderController.movedCallback

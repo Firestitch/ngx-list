@@ -13,12 +13,15 @@ import { delay, filter, skip, take, takeUntil } from 'rxjs/operators';
 
 import { cloneDeep, mergeWith } from 'lodash-es';
 
+import { BreakpointController } from '../../classes/breakpoint-controller';
 import { List } from '../../classes/list-controller';
 import { PersistanceController } from '../../classes/persistance-controller';
 import { ReorderController } from '../../classes/reorder-controller';
+import { SelectionController } from '../../classes/selection-controller';
 import {
   FsListHeadingDirective,
 } from '../../directives';
+import { FsListBreakpointDirective } from '../../directives/breakpoint/breakpoint.directive';
 import { FsListCellDirective } from '../../directives/cell/cell.directive';
 import { FsListColumnDirective } from '../../directives/column/column.directive';
 import { FsListContentInitDirective } from '../../directives/content-init/content-init.directive';
@@ -55,6 +58,7 @@ import { FsStatusComponent } from '../status/status.component';
     GroupExpandNotifierService,
     PersistanceController,
     ReorderController,
+    BreakpointController,
   ],
   standalone: true,
   imports: [
@@ -129,7 +133,7 @@ export class FsListComponent<TRow = any> implements OnInit, OnDestroy, AfterCont
   public rowRemoved = new EventEmitter();
   public firstLoad = true;
 
-  private _listColumnDirectives: QueryList<FsListColumnDirective>;
+  private _contentInitialized = false;
   /** Merged list config (after defaults); used to populate cell `configTyping` when cells omit it. */
   private _mergedListConfig?: FsListConfig<TRow>;
   private _filterRef: FilterComponent;
@@ -144,6 +148,7 @@ export class FsListComponent<TRow = any> implements OnInit, OnDestroy, AfterCont
   private _groupExpandNotifier = inject(GroupExpandNotifierService);
   private _route = inject(ActivatedRoute);
   private _persistance = inject(PersistanceController);
+  private _breakpoints = inject(BreakpointController);
 
   @ViewChild(FilterComponent)
   public set filterReference(component) {
@@ -153,17 +158,20 @@ export class FsListComponent<TRow = any> implements OnInit, OnDestroy, AfterCont
   }
 
   /**
-   * Set columns to config
-   * Create Column Model instances
+   * Base (desktop) columns. Columns declared inside `<fs-list-breakpoint>` are excluded
+   * automatically: this query is `descendants: false`, and Angular only walks up through
+   * `<ng-container>` nodes, so a real `<fs-list-breakpoint>` element blocks it.
+   *
+   * Consumed from `_rebuildColumns()`, never from a setter -- `refreshContentQueries`
+   * populates queries in directive-creation order, so `<fs-list>`'s query resolves before
+   * `<fs-list-breakpoint>`'s and the breakpoint sets would still be undefined here.
    */
   @ContentChildren(FsListColumnDirective)
-  public set columnTemplates(listColumnDirectives: QueryList<FsListColumnDirective>) {
-    this._listColumnDirectives = listColumnDirectives;
-    if (this.list) {
-      this.list.tranformTemplatesToColumns(listColumnDirectives);
-    }
-    this._propagateCellRowTypeAnchors();
-  }
+  public columnTemplates: QueryList<FsListColumnDirective>;
+
+  /** Alternate column sets, each active at its own `maxWidth` and below. */
+  @ContentChildren(FsListBreakpointDirective)
+  public breakpointDirectives: QueryList<FsListBreakpointDirective>;
 
   @ContentChild(FsListEmptyStateDirective, { read: TemplateRef })
   private set _emptyStateTemplate(template: TemplateRef<any>) {
@@ -216,9 +224,38 @@ export class FsListComponent<TRow = any> implements OnInit, OnDestroy, AfterCont
   }
 
   public ngAfterContentInit(): void {
+    this._contentInitialized = true;
+    this._rebuildColumns();
+
+    this.columnTemplates.changes
+      .pipe(takeUntil(this._destroy))
+      .subscribe(() => this._rebuildColumns());
+
+    this.breakpointDirectives.changes
+      .pipe(takeUntil(this._destroy))
+      .subscribe(() => this._rebuildColumns());
+
     if (this.list.afterInit) {
       this.list.afterInit(this);
     }
+  }
+
+  /**
+   * Build every column set from the content queries. Safe to call repeatedly; the only
+   * entry point that touches columns.
+   */
+  private _rebuildColumns(): void {
+    if (!this.list || !this._contentInitialized || !this.columnTemplates) {
+      return;
+    }
+
+    this.list.tranformTemplatesToColumns(
+      this.columnTemplates,
+      this.breakpointDirectives?.toArray() ?? [],
+    );
+
+    this._propagateCellRowTypeAnchors();
+    this._cdRef.markForCheck();
   }
 
   public ngOnInit() {
@@ -343,6 +380,55 @@ export class FsListComponent<TRow = any> implements OnInit, OnDestroy, AfterCont
     return this.list.columns.visibleColumns$;
   }
 
+  /**
+   * The columns actually being rendered -- the active breakpoint set's visible columns.
+   * Equal to {@link visibleColumns$} when no `<fs-list-breakpoint>` is declared.
+   */
+  public get renderedColumns$(): Observable<Column[]> {
+    return this.list.columns.renderedColumns$;
+  }
+
+  /** `maxWidth` of the active breakpoint set, or null when the base set is active. */
+  public get activeBreakpoint(): number | null {
+    return this.list.columns.activeSet?.maxWidth ?? null;
+  }
+
+  /**
+   * Structural cells (selection checkbox, row actions, drag handle) render outside the
+   * column loop and must agree across `<thead>`, `<tbody>` and `<tfoot>`, so the active
+   * set's overrides are resolved here once and bound to all three bands.
+   */
+  public get selectionEnabled(): SelectionController | null {
+    return this.list.columns.activeSet?.selection === false
+      ? null
+      : this.list.selection;
+  }
+
+  public get rowActionsEnabled(): boolean {
+    return this.list.columns.activeSet?.rowActions === false
+      ? false
+      : this.list.hasRowActions;
+  }
+
+  public reorderEnabledFor(enabled: boolean | null): boolean {
+    return this.list.columns.activeSet?.reorder === false
+      ? false
+      : !!enabled;
+  }
+
+  /**
+   * The head band follows the active set's declared headers and nothing else: a set whose
+   * columns declare no header template and no title renders no `<thead>` at all, matching
+   * how `<tfoot>` follows `hasFooter`. An empty header row is worse than none -- it draws a
+   * rule and reserves height for labels that do not exist.
+   *
+   * Structural cells do not keep the band alive. The select-all checkbox lives in the head,
+   * so it goes with it; a set that wants select-all has to declare at least one header.
+   */
+  public get showHead(): boolean {
+    return this.list.columns.hasHeader;
+  }
+
   private _emitFiltersReadyEvent(): void {
     if (!!this.filterRef && this._filterParamsReady) {
       this.filtersReady.emit();
@@ -388,6 +474,11 @@ export class FsListComponent<TRow = any> implements OnInit, OnDestroy, AfterCont
 
     this._updateCustomizeAction(listConfig.actions);
 
+    // Before the List is built: initializeColumns reads the already-active breakpoint so
+    // the first paint uses the right set instead of flashing the desktop columns.
+    this._breakpoints.initConfig(listConfig.breakpoints);
+    this._breakpoints.observe(this._el.nativeElement);
+
     this.list = new List(
       this._el,
       listConfig,
@@ -395,6 +486,7 @@ export class FsListComponent<TRow = any> implements OnInit, OnDestroy, AfterCont
       this._route,
       this._persistance,
       this.inDialog,
+      this._breakpoints,
     );
 
     this.rowHoverHighlight = this.list.rowHoverHighlight;
@@ -408,11 +500,25 @@ export class FsListComponent<TRow = any> implements OnInit, OnDestroy, AfterCont
       this.list.selection,
     );
 
-    if (this._listColumnDirectives) {
-      this.list.tranformTemplatesToColumns(this._listColumnDirectives);
-    }
+    this._rebuildColumns();
     this._listenSortingChange();
     this._propagateCellRowTypeAnchors();
+    this._listenBreakpointChange();
+  }
+
+  /**
+   * The active set changes which structural cells render and whether `<thead>` has content,
+   * and this component is OnPush, so a swap has to mark it.
+   */
+  private _listenBreakpointChange() {
+    this.list.columns.activeSet$
+      .pipe(
+        takeUntil(this.list.destroy$),
+        takeUntil(this._destroy),
+      )
+      .subscribe(() => {
+        this._cdRef.markForCheck();
+      });
   }
 
   /**
@@ -518,16 +624,24 @@ export class FsListComponent<TRow = any> implements OnInit, OnDestroy, AfterCont
   }
 
   private _propagateCellRowTypeAnchors() {
-    if (!this._listColumnDirectives || !this._mergedListConfig) {
+    if (!this.columnTemplates || !this._mergedListConfig) {
       return;
     }
 
     const anchor = this.cellRowType;
 
-    this._listColumnDirectives.forEach((col) => {
+    const applyTo = (col: FsListColumnDirective) => {
       this._maybeApplyCellTyping(col.cellConfigs, anchor, this._mergedListConfig);
       this._maybeApplyCellTyping(col.groupHeaderConfigs, anchor, this._mergedListConfig);
       this._maybeApplyCellTyping(col.groupFooterConfigs, anchor, this._mergedListConfig);
+    };
+
+    this.columnTemplates.forEach(applyTo);
+
+    // Breakpoint columns are a separate query, so they need the same anchor or their
+    // cell templates lose `let-row` typing under strictTemplates.
+    this.breakpointDirectives?.forEach((breakpoint) => {
+      breakpoint.columnDirectives?.forEach(applyTo);
     });
   }
 

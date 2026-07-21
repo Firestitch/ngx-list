@@ -54,18 +54,18 @@
               'style-basic': list.style === 'basic',
               'style-line': (list.style || 'line') === 'line'
             }">
-          @if (list.columns.hasHeader) {
+          @if (showHead) {
             <thead
               fs-list-head
               class="fs-list-head"
               role="rowgroup"
               [ngClass]="list.columns.theadClass"
-              [columns]="list.columns.visibleColumns$ | async"
+              [columns]="renderedColumns$ | async"
               [sorting]="list.sorting"
-              [selection]="list.selection"
-              [hasRowActions]="list.hasRowActions"
+              [selection]="selectionEnabled"
+              [hasRowActions]="rowActionsEnabled"
               [activeFiltersCount]="list.activeFiltersCount$ | async"
-              [reorderEnabled]="reorderController.enabled$ | async"
+              [reorderEnabled]="reorderEnabledFor(reorderController.enabled$ | async)"
               [reorderPosition]="reorderController.position$ | async"
               [reorderStrategy]="reorderController.strategy$ | async">
             </thead>
@@ -79,15 +79,15 @@
             [rows]="listData"
             [rowActionsRaw]="list.rowActionsRaw"
             [groupActionsRaw]="list.groupActionsRaw"
-            [hasRowActions]="list.hasRowActions"
+            [hasRowActions]="rowActionsEnabled"
             [rowEvents]="list.rowEvents"
             [rowClass]="list.rowClass"
-            [columns]="list.columns.visibleColumns$ | async"
+            [columns]="renderedColumns$ | async"
             [restoreMode]="list.restoreMode"
-            [selection]="list.selection"
+            [selection]="selectionEnabled"
             [rowRemoved]="rowRemoved"
             [activeFiltersCount]="list.activeFiltersCount$ | async"
-            [reorderEnabled]="reorderController.enabled$ | async"
+            [reorderEnabled]="reorderEnabledFor(reorderController.enabled$ | async)"
             [reorderPosition]="reorderController.position$ | async"
             [reorderStrategy]="reorderController.strategy$ | async"
             [reorderMultiple]="reorderController.multiple">
@@ -96,11 +96,11 @@
             <tfoot
               fs-list-footer
               class="fs-list-footer"
-              [columns]="list.columns.visibleColumns$ | async"
-              [selection]="list.selection"
-              [hasRowActions]="list.hasRowActions"
+              [columns]="renderedColumns$ | async"
+              [selection]="selectionEnabled"
+              [hasRowActions]="rowActionsEnabled"
               [activeFiltersCount]="list.activeFiltersCount$ | async"
-              [reorderEnabled]="reorderController.enabled$ | async"
+              [reorderEnabled]="reorderEnabledFor(reorderController.enabled$ | async)"
               [reorderPosition]="reorderController.position$ | async"
               [reorderStrategy]="reorderController.strategy$ | async">
             </tfoot>

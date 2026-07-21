@@ -7,12 +7,14 @@
 @import "@firestitch/selection/styles.scss";
 @import "@firestitch/chip/styles";
 @import "@firestitch/drawer/styles";
+@import "@firestitch/filter/styles";
 @import '@firestitch/datepicker/styles';
 @import '@firestitch/skeleton/styles';
 
 @include fs-style.core();
 @include fs-selection(mat.$m2-blue-palette);
 @include fs-drawer(mat.$m2-blue-palette);
+@include fs-filter(mat.$m2-blue-palette);
 
 // Use this to include the table styles manually
 // @include fs-list.core();

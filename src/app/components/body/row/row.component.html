@@ -16,7 +16,7 @@
   </td>
 }
 <!-- Content -->
-@for (column of columns; track trackByFn($index); let isFirst = $first) {
+@for (column of columns; track column.uid; let isFirst = $first) {
   @if ((isGroupRow() && !column.groupHeaderColspanned) || (isGroupFooterRow() && !column.groupFooterColspanned) || (!isGroupRow() && !isGroupFooterRow() && !column.cellColspanned)) {
     <td
       fs-cell

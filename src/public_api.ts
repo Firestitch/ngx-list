@@ -21,6 +21,7 @@ export { FsStatusComponent } from './app/components/status/status.component';
 
 // Directives
 export { FsListHeadingDirective } from './app/directives';
+export { FsListBreakpointDirective } from './app/directives/breakpoint/breakpoint.directive';
 export { FsListCellDirective } from './app/directives/cell/cell.directive';
 export { FsListCellRowTypeScopeDirective } from './app/directives/cell/cell-row-type-scope.directive';
 export { FsTypedListCellDirective } from './app/directives/cell/typed-cell.directive';
@@ -35,11 +36,13 @@ export { FsListGroupHeaderDirective } from './app/directives/group-header/group-
 export { FsListHeaderDirective } from './app/directives/header/header.directive';
 
 // Models
+export { BreakpointController } from './app/classes/breakpoint-controller';
 export { List } from './app/classes/list-controller';
 export { PaginationController } from './app/classes/pagination-controller';
-export { ReorderController, ReorderPosition } from './app/classes/reorder-controller';
+export { ReorderController, ReorderPosition, ReorderStrategy } from './app/classes/reorder-controller';
 export { SelectionChangeType, SelectionController } from './app/classes/selection-controller';
 export { SortingController } from './app/classes/sorting-controller';
+export { ColumnSet } from './app/models/column-set.model';
 export { Column, SortingDirection } from './app/models/column.model';
 export { RowAction } from './app/models/row-action.model';
 export { StyleConfig } from './app/models/styleConfig.model';
@@ -47,7 +50,7 @@ export { StyleConfig } from './app/models/styleConfig.model';
 // Interfaces
 export { CellConfig } from './app/interfaces/cellconfig.interface';
 export {
-  FsListAbstractRow, FsListAction, FsListActionSelected, FsListCellConfig, FsListColumn, FsListColumnChangeFn, FsListColumnConfig, FsListColumnLoadFn, FsListConfig, FsListEmptyStateConfig, FsListFetchFn, FsListFetchOptions, FsListFetchSubscription, FsListFooterConfig, FsListGroupConfig, FsListHeaderConfig,
+  FsListAbstractRow, FsListAction, FsListActionSelected, FsListBreakpointsConfig, FsListCellConfig, FsListColumn, FsListColumnChangeFn, FsListColumnConfig, FsListColumnLoadFn, FsListConfig, FsListEmptyStateConfig, FsListFetchFn, FsListFetchOptions, FsListFetchSubscription, FsListFooterConfig, FsListGroupConfig, FsListHeaderConfig,
   FsListNoResultsConfig,
   FsListReorderConfig, FsListReorderData, FsListReorderDoneCallback, FsListReorderMoveInGroupCallback, FsListReorderMovedCallback, FsListRestoreConfig, FsListRowAction, FsListRowActionFile, FsListRowActionFileFn, FsListRowActionGroup, FsListRowActionLink,
   FsListRowActionLinkFn, FsListRowClassOptions,

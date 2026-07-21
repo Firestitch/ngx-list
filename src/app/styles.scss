@@ -41,17 +41,31 @@
         }
       }
         
-      &.style-card {  
-        tbody  {
+      &.style-card {
+        // Every band shares the card's horizontal padding. The head and foot sit outside
+        // the cards, so without this their cells -- the select-all checkbox above all,
+        // which has nothing but padding to place it -- land 8px inboard of the column
+        // they label.
+        thead th,
+        tbody td,
+        tfoot td {
+          padding: 8px 16px;
+        }
+
+        tbody {
           tr {
-            &:not(.fs-list-row-group-footer):not(.fs-list-row-group) {
-              clip-path: xywh(0 3px 100% calc(100% - 6px) round 10px);
-            }
-  
             td {
               border: none !important;
-              background-color: #fafafa;
-              padding: 8px 16px;
+            }
+
+            // Group header/footer rows keep the card padding so their content
+            // lines up with the cards, but get no card background.
+            &:not(.fs-list-row-group-footer):not(.fs-list-row-group) {
+              clip-path: xywh(0 3px 100% calc(100% - 6px) round 10px);
+
+              td {
+                background-color: #fafafa;
+              }
             }
           }
         }

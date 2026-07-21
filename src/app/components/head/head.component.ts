@@ -35,7 +35,7 @@ export class FsHeadComponent implements OnInit, OnDestroy {
   @Input() public sorting: SortingController;
   @Input() public columns: Column[];
   @Input() public hasRowActions: boolean;
-  @Input() public selection: SelectionController;
+  @Input() public selection: SelectionController | null;
   @Input() public activeFiltersCount: number;
   @Input() public reorderEnabled: boolean;
   @Input() public reorderPosition: ReorderPosition | null;
@@ -82,6 +82,21 @@ export class FsHeadComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Sort by the clicked column.
+   *
+   * Sorting always acts on `sortSource` -- the base column -- so the emitted `order` param
+   * is the same at every width. But a breakpoint column that shows no sort control must
+   * not sort when clicked either, hence the `sortIndicated` gate.
+   *
+   * @param column
+   */
+  public sortBy(column: Column) {
+    if (column.sortIndicated) {
+      this.sorting.sortBy(column.sortSource);
+    }
+  }
+
+  /**
    * Track By for improve change detection
    *
    * @param index
@@ -109,6 +124,8 @@ export class FsHeadComponent implements OnInit, OnDestroy {
    */
   private _initSelection() {
     if (this.selection) {
+      this.selectedAll = this.selection.selectedAllVisible;
+
       this.selection.selectionChange$
         .pipe(
           filter(

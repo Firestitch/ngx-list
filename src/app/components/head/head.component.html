@@ -13,12 +13,12 @@
     </th>
   }
   <!-- Content -->
-  @for (column of columns; track trackByFn($index, column)) {
+  @for (column of columns; track column.uid) {
     <th
       fs-head-cell
-      (click)="$event.stopPropagation(); sorting.sortBy(column)"
+      (click)="$event.stopPropagation(); sortBy(column)"
       [column]="column"
-      [class.sorting]="column.sortable"
+      [class.sorting]="column.sortIndicated && column.sortSource.sortable"
       [ngClass]="column.headerConfigs.classesArray"
       [attr.colspan]="column.headerConfigs.colspan"
       [attr.width]="column.width">

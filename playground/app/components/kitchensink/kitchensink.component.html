@@ -75,6 +75,33 @@
       </a>
     </ng-template>
   </fs-list-column>
+  <!-- ============================================================
+       COMPACT SET - active at 800px and below.
+
+       Collapses the whole table into a single stacked column. No header template
+       and no title anywhere in this set, so no header row renders; the one column
+       declares no footer, so no footer row renders either. The drag handle is
+       dropped since dragging is awkward once the table is this narrow.
+       ============================================================ -->
+  <fs-list-breakpoint [maxWidth]="800">
+    <fs-list-column name="name">
+      <ng-template
+          kitchenSinkCell
+          let-row="row">
+        <div class="stacked">
+          <div class="stacked-primary">
+            {{ row.name }}
+          </div>
+          <div class="stacked-secondary">
+            {{ row.guid }}
+          </div>
+          <div class="stacked-secondary">
+            #{{ row.index }}
+          </div>
+        </div>
+      </ng-template>
+    </fs-list-column>
+  </fs-list-breakpoint>
   <ng-template fsListHeading>
     <h2>
       Heading

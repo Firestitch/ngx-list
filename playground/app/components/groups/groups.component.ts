@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { MatIconButton } from '@angular/material/button';
@@ -48,11 +48,8 @@ import { ApiStrategy } from '../../services/api-strategy.service';
     RouterLink,
   ],
 })
-export class GroupsComponent implements OnInit, AfterContentInit {
-  protected _apiStrategy = inject(ApiStrategy);
-  private _fsApi = inject(FsApi);
-
-
+export class GroupsComponent implements OnInit {
+  
   @ViewChild('list', { static: true })
   public list: FsListComponent; // Controller fs-list
   public config: FsListConfig;
@@ -66,6 +63,9 @@ export class GroupsComponent implements OnInit, AfterContentInit {
     { id: 6, name: 'Saturday' },
     { id: 7, name: 'Sunday' },
   ];
+
+  protected _apiStrategy = inject(ApiStrategy);
+  private _fsApi = inject(FsApi);
 
   public ngOnInit() {
 
@@ -290,7 +290,7 @@ export class GroupsComponent implements OnInit, AfterContentInit {
       },
       fetch: (query) => {
         query.count = 500;
-        query.limit = 20;
+        query.limit = 10;
 
         return this._fsApi.get('dummy', query)
           .pipe(
@@ -298,9 +298,6 @@ export class GroupsComponent implements OnInit, AfterContentInit {
           );
       },
     };
-  }
-
-  ngAfterContentInit() {
   }
 
   public onClick(row, event) {

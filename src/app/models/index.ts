@@ -1,6 +1,7 @@
 export * from './row';
 export * from './column-async-attribute';
 export * from './column-attributes';
+export * from './column-set.model';
 export * from './column.model';
 export * from './columns-column.model';
 export * from './row-action.model';

@@ -1,0 +1,34 @@
+:host {
+  display: block;
+}
+
+.cell-guid {
+  font-family: monospace;
+  font-size: 12px;
+  opacity: .7;
+}
+
+.stacked {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 0;
+
+  .stacked-primary {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-weight: 500;
+  }
+
+  .stacked-secondary {
+    font-size: 12px;
+    opacity: .7;
+  }
+
+  .stacked-index {
+    font-weight: 400;
+    font-size: 12px;
+    opacity: .6;
+  }
+}

@@ -44,6 +44,7 @@ import {
 import { SortingDirection } from '../models/column.model';
 import { StyleConfig } from '../models/styleConfig.model';
 
+import { BreakpointController } from './breakpoint-controller';
 import { ColumnsController } from './columns-controller';
 import { DataController } from './data-controller';
 import { ExternalParamsController } from './external-params-controller';
@@ -120,8 +121,9 @@ export class List {
     private _route: ActivatedRoute,
     private _persistance: PersistanceController,
     private _inDialog: boolean,
+    private _breakpoints?: BreakpointController,
   ) {
-    this.columns = new ColumnsController(this._persistance);
+    this.columns = new ColumnsController(this._persistance, this._breakpoints);
     this.actions = new ActionsController();
     this.paging = new PaginationController();
     this.dataController = new DataController();
@@ -219,7 +221,7 @@ export class List {
    *
    * @param templates
    */
-  public tranformTemplatesToColumns(templates) {
+  public tranformTemplatesToColumns(templates, breakpointDirectives = []) {
     const defaultConfigs = {
       header: this._headerConfig,
       groupCell: this._groupCellConfig,
@@ -228,7 +230,7 @@ export class List {
     };
 
     this.columns.setDefaults(defaultConfigs);
-    this.columns.initializeColumns(templates);
+    this.columns.initializeColumns(templates, breakpointDirectives);
 
     // Set sortBy default column
     this._updateSortingColumns();

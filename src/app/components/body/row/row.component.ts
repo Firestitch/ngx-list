@@ -62,7 +62,7 @@ implements OnInit, AfterViewInit, OnDestroy {
   @Input() public restoreMode = false;
   @Input() public rowIndex: number;
   @Input() public columns: Column[];
-  @Input() public selection: SelectionController;
+  @Input() public selection: SelectionController | null;
   @Input() public rowRemoved: EventEmitter<any>;
   @Input() public activeFiltersCount: number;
 

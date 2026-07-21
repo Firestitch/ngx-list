@@ -23,6 +23,7 @@ import { delay, map } from 'rxjs/operators';
 
 
 import { FsListComponent as FsListComponent_1 } from '../../../../src/app/components/list/list.component';
+import { FsListBreakpointDirective } from '../../../../src/app/directives/breakpoint/breakpoint.directive';
 import { FsListColumnDirective } from '../../../../src/app/directives/column/column.directive';
 import { FsListFooterDirective } from '../../../../src/app/directives/footer/footer.directive';
 import { FsListHeaderDirective } from '../../../../src/app/directives/header/header.directive';
@@ -39,6 +40,7 @@ import { SavedFilters } from './saved-filter';
   imports: [
     FsListComponent_1,
     FsListColumnDirective,
+    FsListBreakpointDirective,
     FsListHeaderDirective,
     KitchenSinkListCellDirective,
     FsListFooterDirective,
@@ -49,6 +51,23 @@ import { SavedFilters } from './saved-filter';
     MatFormField,
     MatInput,
   ],
+  styles: [`
+    .stacked {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 4px 0;
+    }
+
+    .stacked-primary {
+      font-weight: 500;
+    }
+
+    .stacked-secondary {
+      font-size: 12px;
+      opacity: .7;
+    }
+  `],
 })
 export class KitchenSinkComponent implements OnInit {
 
@@ -437,7 +456,7 @@ export class KitchenSinkComponent implements OnInit {
         align: 'left',
       },
       fetch: (query) => {
-        query.count = 100;
+        query.count = 50;
 
         console.log('Fetch', query);
 

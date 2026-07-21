@@ -39,7 +39,7 @@ export class FsBodyComponent {
   @Input() public rowEvents = {};
   @Input() public rowClass;
   @Input() public hasRowActions = false;
-  @Input() public selection: SelectionController;
+  @Input() public selection: SelectionController | null;
   @Input() public restoreMode = false;
   @Input() public rowRemoved: EventEmitter<any>;
   @Input() public activeFiltersCount: number;

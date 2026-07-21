@@ -1,0 +1,259 @@
+<!--
+  Shared cell templates.
+
+  Declared outside <fs-list> so they are plain, reusable ng-templates -- nothing about them
+  is list-specific, and the same template can be pulled into a base column, into a breakpoint
+  column, or into any other component entirely. Each set then just renders the pieces it
+  wants, at the size it wants, without duplicating the markup.
+-->
+<ng-template
+    #nameTpl
+    let-row>
+  <span class="cell-name">
+    {{ row.name }}
+  </span>
+</ng-template>
+<ng-template
+    #guidTpl
+    let-row>
+  <span class="cell-guid">
+    {{ row.guid }}
+  </span>
+</ng-template>
+<fs-list
+    [config]="config"
+    #list>
+  <!-- ============================================================
+       BASE SET - the full desktop table. Ordinary markup, unchanged.
+       ============================================================ -->
+  <fs-list-column width="1%">
+    <ng-template fs-list-header>
+      №
+    </ng-template>
+    <ng-template
+        fs-list-cell
+        let-groupIndex="groupIndex">
+      {{ groupIndex }}
+    </ng-template>
+    <ng-template
+        fs-list-footer
+        colspan="2">
+      Totals
+    </ng-template>
+  </fs-list-column>
+  <fs-list-column
+      name="name"
+      title="Name"
+      [sortable]="true">
+    <ng-template fs-list-header>
+      Name
+    </ng-template>
+    <ng-template
+        fs-list-group-header
+        colspan="4"
+        let-row="row"
+        let-expanded="expanded">
+      <div class="fs-row">
+        Group {{ row.groupIndex }}
+        <button
+            mat-icon-button
+            fsListGroupExpandTrigger
+            [row]="row">
+          <mat-icon>
+            {{ expanded ? 'expand_less' : 'expand_more' }}
+          </mat-icon>
+        </button>
+      </div>
+    </ng-template>
+    <!-- reused: the shared #nameTpl, also used by both breakpoint sets below -->
+    <ng-template
+        fs-list-cell
+        let-row="row">
+      <ng-container *ngTemplateOutlet="nameTpl; context: { $implicit: row }"></ng-container>
+    </ng-template>
+    <ng-template
+        fs-list-group-footer
+        colspan="4"
+        let-groupChildren="groupChildren">
+      {{ groupChildren.length }} records
+    </ng-template>
+  </fs-list-column>
+  <fs-list-column
+      name="guid"
+      title="GUID"
+      [sortable]="true">
+    <ng-template fs-list-header>
+      GUID
+    </ng-template>
+    <!-- reused: the shared #guidTpl, also used by the 1000px set below -->
+    <ng-template
+        fs-list-cell
+        let-row="row">
+      <ng-container *ngTemplateOutlet="guidTpl; context: { $implicit: row }"></ng-container>
+    </ng-template>
+  </fs-list-column>
+  <fs-list-column
+      name="date"
+      title="Date">
+    <ng-template fs-list-header>
+      Date
+    </ng-template>
+    <ng-template
+        fs-list-cell
+        let-row="row">
+      {{ row.date }}
+    </ng-template>
+    <ng-template fs-list-footer>
+      {{ list.list.dataController.visibleRowsCount }} rows
+    </ng-template>
+  </fs-list-column>
+  <fs-list-column
+      name="index"
+      title="Index"
+      align="right"
+      [sortable]="true">
+    <ng-template fs-list-header>
+      Index
+    </ng-template>
+    <ng-template
+        fs-list-cell
+        let-row="row">
+      {{ row.index }}
+    </ng-template>
+  </fs-list-column>
+  <!-- ============================================================
+       COMPACT SET - active at 1000px and below.
+
+       Three columns instead of five. Keeps the selection checkbox and the row-actions
+       menu, but drops the drag handle: dragging a row is an awkward gesture once the
+       table is this narrow.
+       ============================================================ -->
+  <fs-list-breakpoint
+      [maxWidth]="1000"
+      [reorder]="false">
+    <fs-list-column
+        name="name"
+        title="Record"
+        [sortable]="true">
+      <ng-template fs-list-header>
+        Record
+      </ng-template>
+      <!-- group header re-authored for 3 rendered columns instead of 5 -->
+      <ng-template
+          fs-list-group-header
+          colspan="3"
+          let-row="row"
+          let-expanded="expanded">
+        <div class="fs-row">
+          Group {{ row.groupIndex }}
+          <button
+              mat-icon-button
+              fsListGroupExpandTrigger
+              [row]="row">
+            <mat-icon>
+              {{ expanded ? 'expand_less' : 'expand_more' }}
+            </mat-icon>
+          </button>
+        </div>
+      </ng-template>
+      <!-- both shared templates again, stacked into a single cell -->
+      <ng-template
+          fs-list-cell
+          let-row="row">
+        <div class="stacked">
+          <div class="stacked-primary">
+            <ng-container *ngTemplateOutlet="nameTpl; context: { $implicit: row }"></ng-container>
+          </div>
+          <div class="stacked-secondary">
+            <ng-container *ngTemplateOutlet="guidTpl; context: { $implicit: row }"></ng-container>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template
+          fs-list-group-footer
+          colspan="3"
+          let-groupChildren="groupChildren">
+        {{ groupChildren.length }} records
+      </ng-template>
+      <ng-template
+          fs-list-footer
+          colspan="3">
+        Totals
+      </ng-template>
+    </fs-list-column>
+    <!--
+      Declares no templates at all. A breakpoint column whose `name` matches one in the
+      base set inherits that column's templates for every slot it leaves undeclared, so
+      this renders exactly the base "Date" cell. Attributes like title/align/colspan/class
+      are never inherited -- they always come from this element, which is why the header
+      still needs its own `title="Date"` here.
+    -->
+    <fs-list-column
+      name="date"
+      title="Date">
+    </fs-list-column>
+    <fs-list-column
+      name="index"
+      title="Index"
+      align="right"
+      [sortable]="true">
+    </fs-list-column>
+  </fs-list-breakpoint>
+  <!-- ============================================================
+       SINGLE-COLUMN SET - active at 620px and below.
+
+       The narrowest matching set wins, so this one supersedes the 1000px set. Everything
+       collapses into one cell and the drag handle is dropped, but the row actions stay --
+       rendered as an ordinary trailing 1% column.
+
+       No header template and no `title` anywhere in this set, so there is no header row
+       to render -- one stacked cell holding name, guid, index and date has no single
+       label. The `<thead>` stays only to carry the select-all checkbox.
+       ============================================================ -->
+  <fs-list-breakpoint
+      [maxWidth]="620"
+      [reorder]="false">
+    <!-- Not sortable: there is no header cell here to hang a sort control off. -->
+    <fs-list-column name="name">
+      <ng-template
+          fs-list-group-header
+          let-row="row"
+          let-expanded="expanded">
+        <div class="fs-row">
+          Group {{ row.groupIndex }}
+          <button
+              mat-icon-button
+              fsListGroupExpandTrigger
+              [row]="row">
+            <mat-icon>
+              {{ expanded ? 'expand_less' : 'expand_more' }}
+            </mat-icon>
+          </button>
+        </div>
+      </ng-template>
+      <ng-template
+          fs-list-cell
+          let-row="row">
+        <div class="stacked">
+          <div class="stacked-primary">
+            <ng-container *ngTemplateOutlet="nameTpl; context: { $implicit: row }"></ng-container>
+            <span class="stacked-index">
+              #{{ row.index }}
+            </span>
+          </div>
+          <div class="stacked-secondary">
+            <ng-container *ngTemplateOutlet="guidTpl; context: { $implicit: row }"></ng-container>
+          </div>
+          <div class="stacked-secondary">
+            {{ row.date }}
+          </div>
+        </div>
+      </ng-template>
+      <ng-template
+          fs-list-group-footer
+          let-groupChildren="groupChildren">
+        {{ groupChildren.length }} records
+      </ng-template>
+    </fs-list-column>
+  </fs-list-breakpoint>
+</fs-list>

@@ -18,8 +18,9 @@ import { FsListLoaderComponent } from './components/loader/loader.component';
 import { FsPaginationComponent } from './components/pagination/pagination.component';
 import { FsStatusComponent } from './components/status/status.component';
 import { FsListHeadingDirective } from './directives';
-import { FsListCellDirective } from './directives/cell/cell.directive';
+import { FsListBreakpointDirective } from './directives/breakpoint/breakpoint.directive';
 import { FsListCellRowTypeScopeDirective } from './directives/cell/cell-row-type-scope.directive';
+import { FsListCellDirective } from './directives/cell/cell.directive';
 import { FsListColumnDirective } from './directives/column/column.directive';
 import { FsListContentInitDirective } from './directives/content-init/content-init.directive';
 import { FsListContentDirective } from './directives/content/content.directive';
@@ -54,6 +55,7 @@ import { ActionLabelPipe } from './pipes';
     FsFooterComponent,
     FsPaginationComponent,
     FsListColumnDirective,
+    FsListBreakpointDirective,
     FsListCellDirective,
     FsListCellRowTypeScopeDirective,
     FsListHeaderDirective,
@@ -76,6 +78,7 @@ import { ActionLabelPipe } from './pipes';
     FsCellComponent,
     FsListLoaderComponent,
     FsListColumnDirective,
+    FsListBreakpointDirective,
     FsListCellDirective,
     FsListCellRowTypeScopeDirective,
     FsListHeaderDirective,

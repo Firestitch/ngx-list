@@ -92,6 +92,15 @@ export class SelectionController {
     return this._selectedAll;
   }
 
+  /**
+   * Whether every currently visible row is selected -- the state of the select-all checkbox
+   * in `<thead>`. Exposed so a head band created after the fact (a breakpoint switch back to
+   * a set that declares headers) can seed itself instead of starting unchecked.
+   */
+  public get selectedAllVisible() {
+    return this._selectedAllVisible;
+  }
+
   public get selectionChange$() {
     return this._selectionChange.pipe(takeUntil(this._destroy$));
   }

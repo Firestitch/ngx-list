@@ -4,7 +4,7 @@
 @if (selection) {
   <td class="fs-list-col fs-list-col-selection"></td>
 }
-@for (column of columns; track trackByFn($index)) {
+@for (column of columns; track column.uid) {
   @if (!column.footerColspanned) {
     <td
       fs-list-footer-cell

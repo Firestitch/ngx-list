@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FsExampleModule } from '@firestitch/example';
 
 import { environment } from '../../../environments/environment';
+import { BreakpointsComponent } from '../breakpoints/breakpoints.component';
 import { EmptyStateComponent } from '../empty-state/empty-state.component';
 import { FiltersComponent } from '../filters/filters.component';
 import { GroupsComponent } from '../groups/groups.component';
@@ -26,6 +27,7 @@ import { StyleComponent } from '../style/style.component';
   imports: [
     FsExampleModule,
     KitchenSinkComponent,
+    BreakpointsComponent,
     GroupsComponent,
     FiltersComponent,
     RestoreComponent,
