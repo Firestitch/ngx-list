@@ -57,13 +57,18 @@ export class FsBodyComponent {
   /**
    * Track rows by their underlying record id so that a reload (which creates
    * fresh Row wrapper objects) reuses the existing DOM instead of destroying
-   * and recreating every row. Falls back to the row index when the data has
-   * no id (e.g. group/footer rows or id-less records) -> avoids NG0956.
+   * and recreating every row. Only a genuine, non-empty id counts as a stable
+   * identity: empty string / null / undefined (group & footer rows, id-less
+   * records) fall back to the row index, namespaced so it can never collide
+   * with a real id. Without the fallback every id-less row keys to the same
+   * value and Angular throws NG0955 (duplicate track keys) -> scrambled rows.
    */
   public trackByFn(index: number, row: Row): unknown {
     const id = (row?.data as { id?: unknown })?.id;
 
-    return id ?? index;
+    return id === undefined || id === null || id === ''
+      ? `__row_index_${index}`
+      : id;
   }
 
 }
