@@ -138,6 +138,7 @@ export class FsListComponent<TRow = any> implements OnInit, OnDestroy, AfterCont
   private _mergedListConfig?: FsListConfig<TRow>;
   private _filterRef: FilterComponent;
   private _filterParamsReady = false;
+  private _filtersReadyEmitted = false;
   private _destroy = new Subject();
   private _injector = inject(Injector);
   private _config = inject<FsListConfig>(FS_LIST_CONFIG, { optional: true });
@@ -358,8 +359,6 @@ export class FsListComponent<TRow = any> implements OnInit, OnDestroy, AfterCont
 
   public filterReady() {
     this.list.filtersReady();
-    this._filterParamsReady = true;
-    this._emitFiltersReadyEvent();
   }
 
   /**
@@ -430,10 +429,16 @@ export class FsListComponent<TRow = any> implements OnInit, OnDestroy, AfterCont
   }
 
   private _emitFiltersReadyEvent(): void {
-    if (!!this.filterRef && this._filterParamsReady) {
-      this.filtersReady.emit();
-      this._cdRef.markForCheck();
+    // The `filterReference` view query re-runs when the surrounding @if re-evaluates, so this
+    // is reached more than once with both conditions already met. Consumers treat the event as
+    // "here is the filter, set yourself up" -- emitting it repeatedly would re-run that setup.
+    if (this._filtersReadyEmitted || !this.filterRef || !this._filterParamsReady) {
+      return;
     }
+
+    this._filtersReadyEmitted = true;
+    this.filtersReady.emit();
+    this._cdRef.markForCheck();
   }
 
   public get inDialog() {
@@ -491,7 +496,12 @@ export class FsListComponent<TRow = any> implements OnInit, OnDestroy, AfterCont
 
     this.rowHoverHighlight = this.list.rowHoverHighlight;
 
+    // A new List brings a new filter, so the previous readiness must not carry over.
+    this._filterParamsReady = false;
+    this._filtersReadyEmitted = false;
+
     this._waitFirstLoad();
+    this._subscribeToFiltersReady();
 
     this.reorderController.initWithConfig(
       config.reorder,
@@ -583,6 +593,23 @@ export class FsListComponent<TRow = any> implements OnInit, OnDestroy, AfterCont
         this.list.dataController.removeData(row);
         this.list.dataController.visibleRows
           .forEach((item: Row) => item.updateActions());
+      });
+  }
+
+  /**
+   * The filter announces readiness through the `init` callback installed on its config, which
+   * lands in `List._filterInit`. Forwarding it here is what arms `(filtersReady)` -- without it
+   * `_filterParamsReady` never flips and the event cannot fire.
+   */
+  private _subscribeToFiltersReady() {
+    this.list.filtersReady$
+      .pipe(
+        takeUntil(this.list.destroy$),
+        takeUntil(this._destroy),
+      )
+      .subscribe(() => {
+        this._filterParamsReady = true;
+        this._emitFiltersReadyEvent();
       });
   }
 
