@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 
 import {
   FsListReorderConfig,
@@ -174,11 +174,15 @@ export class ReorderController implements OnDestroy {
 
         returnedValue
           .pipe(
+            // finalize, not the next handler: a start callback that errors would otherwise
+            // leave the reorder action disabled for good.
+            finalize(() => {
+              this.enableReorderAction();
+            }),
             takeUntil(this._destroy$),
           )
           .subscribe(() => {
             this.enabled = true;
-            this.enableReorderAction();
           });
 
         return;
@@ -197,11 +201,15 @@ export class ReorderController implements OnDestroy {
 
         returnedValue
           .pipe(
+            // finalize, not the next handler: a done callback that errors would otherwise
+            // leave the reorder action disabled for good.
+            finalize(() => {
+              this.enableReorderAction();
+            }),
             takeUntil(this._destroy$),
           )
           .subscribe(() => {
             this.enabled = false;
-            this.enableReorderAction();
           });
 
         return;

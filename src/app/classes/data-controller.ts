@@ -157,7 +157,12 @@ export class DataController {
   }
 
   /**
-   * Update data for specified row
+   * Shallow-merge new values into the matching row's data.
+   *
+   * The merge is a spread, so the result is always a plain object: a row whose data is a class
+   * instance loses its prototype here, and anything exposed through a prototype getter is
+   * dropped rather than copied. Reload the list instead when rows hold models.
+   *
    * @param rows
    * @param trackBy
    */

@@ -4,7 +4,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -20,7 +19,6 @@ import {
 
 import { FsFile } from '@firestitch/file';
 
-import { ActionType } from '../../../../enums/action-type.enum';
 import { Row } from '../../../../models/row';
 import { RowAction } from '../../../../models/row-action.model';
 
@@ -50,7 +48,7 @@ import { FsRowInlineIconLinkComponent } from './icon-link/icon-link.component';
     FsRowInlineIconLinkComponent,
   ],
 })
-export class FsRowInlineActionComponent implements OnInit {
+export class FsRowInlineActionComponent {
 
   @Input()
   public rowAction: RowAction;
@@ -66,12 +64,6 @@ export class FsRowInlineActionComponent implements OnInit {
 
   public actionClick(event: Event): void {
     this.clicked.emit(event);
-  }
-
-  public ngOnInit(): void {
-    if(!this.rowAction.label && this.rowAction.icon) {
-      this.rowAction.type = ActionType.Icon;
-    }
   }
 
   public fileSelected(event: FsFile | FsFile[]): void {

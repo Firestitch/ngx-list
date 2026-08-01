@@ -64,7 +64,12 @@ export class RowAction {
     this.menu = value.menu ?? true;
     this.remove = value.remove;
     this.className = value.className;
-    this.type = this.menu && this.icon && !this.label && !value.type ? ActionType.Icon : value.type ?? ActionType.Basic;
+    // An icon-only action renders as an icon button whether it sits in the menu or inline.
+    // This used to be gated on `menu`, so an inline action came out Basic and
+    // FsRowInlineActionComponent corrected `type` from its ngOnInit. That correction silently
+    // stopped happening once a reload re-bound a new RowAction into a reused view, flipping the
+    // template's @switch and blanking the action.
+    this.type = value.type ?? (this.icon && !this.label ? ActionType.Icon : ActionType.Basic);
     this.show = value.show;
     this.restore = value.restore;
     this.rowActions = value.rowActions
