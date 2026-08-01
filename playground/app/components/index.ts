@@ -4,6 +4,7 @@ export * from './empty-state';
 export * from './examples';
 export * from './filters';
 export * from './filters-extended';
+export * from './filters-ready';
 export * from './groups';
 export * from './kitchensink';
 export * from './no-results';
