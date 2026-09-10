@@ -20,6 +20,12 @@ import { FsCellComponent } from '../../body/row/cell/cell.component';
 })
 export class FsHeadCellComponent extends FsCellComponent {
 
+  // Overrides the inherited 'gridcell' from FsCellComponent. A head cell labels
+  // its column, it is not data -> without this the <th> announces as a data cell
+  // and nothing in the grid exposes a column header for its cells to associate
+  // with (CC-T3892).
+  public override role = 'columnheader';
+
   public cellContext: any = {};
 
   public initCellContext() {
