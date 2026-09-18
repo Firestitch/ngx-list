@@ -1,0 +1,37 @@
+<div class="controls">
+  <div class="info">
+    @if (failing) {
+      <p>
+        The fetch is
+        <b style="color: red">failing</b>
+        — the list shows its error message instead of stale rows.
+      </p>
+    } @else {
+      <p>
+        The fetch is
+        <b style="color: green">succeeding</b>
+        — reloading after an error brings the rows back.
+      </p>
+    }
+  </div>
+</div>
+<fs-list [config]="config">
+  <fs-list-column
+    name="name"
+    title="Name">
+    <ng-template
+      fs-list-cell
+      let-row="row">
+      {{ row.name }}
+    </ng-template>
+  </fs-list-column>
+  <fs-list-column
+    name="guid"
+    title="GUID">
+    <ng-template
+      fs-list-cell
+      let-row="row">
+      {{ row.guid }}
+    </ng-template>
+  </fs-list-column>
+</fs-list>

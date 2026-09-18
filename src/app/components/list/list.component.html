@@ -42,97 +42,103 @@
       </div>
     </div>
     <ng-content select="[fs-list-content]"></ng-content>
-    <!-- Table implementation -->
-    <div class="fs-list-table-container">
-      @if (!firstLoad && listData.length > 0 && !list.emptyStateEnabled) {
-        <table
-          class="fs-list-table"
-          role="grid"
-          [fsListContentInit]="list.afterContentInit"
-            [ngClass]="{
-              'style-card': list.style === 'card',
-              'style-basic': list.style === 'basic',
-              'style-line': (list.style || 'line') === 'line'
-            }">
-          @if (showHead) {
-            <thead
-              fs-list-head
-              class="fs-list-head"
+    @if (fetchFailed$ | async) {
+      <div class="fs-list-error">
+        <fs-message-error>{{ errorMessage }}</fs-message-error>
+      </div>
+    } @else {
+      <!-- Table implementation -->
+      <div class="fs-list-table-container">
+        @if (!firstLoad && listData.length > 0 && !list.emptyStateEnabled) {
+          <table
+            class="fs-list-table"
+            role="grid"
+            [fsListContentInit]="list.afterContentInit"
+              [ngClass]="{
+                'style-card': list.style === 'card',
+                'style-basic': list.style === 'basic',
+                'style-line': (list.style || 'line') === 'line'
+              }">
+            @if (showHead) {
+              <thead
+                fs-list-head
+                class="fs-list-head"
+                role="rowgroup"
+                [ngClass]="list.columns.theadClass"
+                [columns]="renderedColumns$ | async"
+                [sorting]="list.sorting"
+                [selection]="selectionEnabled"
+                [hasRowActions]="rowActionsEnabled"
+                [activeFiltersCount]="list.activeFiltersCount$ | async"
+                [reorderEnabled]="reorderEnabledFor(reorderController.enabled$ | async)"
+                [reorderPosition]="reorderController.position$ | async"
+                [reorderStrategy]="reorderController.strategy$ | async">
+              </thead>
+            }
+            <tbody
+              fs-list-body
+              fsListDraggableList
+              class="fs-list-body"
               role="rowgroup"
-              [ngClass]="list.columns.theadClass"
-              [columns]="renderedColumns$ | async"
-              [sorting]="list.sorting"
-              [selection]="selectionEnabled"
+              [class.disabled]="!!(reorderController.reorderDisabled$ | async)"
+              [rows]="listData"
+              [rowActionsRaw]="list.rowActionsRaw"
+              [groupActionsRaw]="list.groupActionsRaw"
               [hasRowActions]="rowActionsEnabled"
+              [rowEvents]="list.rowEvents"
+              [rowClass]="list.rowClass"
+              [columns]="renderedColumns$ | async"
+              [restoreMode]="list.restoreMode"
+              [selection]="selectionEnabled"
+              [rowRemoved]="rowRemoved"
               [activeFiltersCount]="list.activeFiltersCount$ | async"
               [reorderEnabled]="reorderEnabledFor(reorderController.enabled$ | async)"
               [reorderPosition]="reorderController.position$ | async"
-              [reorderStrategy]="reorderController.strategy$ | async">
-            </thead>
-          }
-          <tbody
-            fs-list-body
-            fsListDraggableList
-            class="fs-list-body"
-            role="rowgroup"
-            [class.disabled]="!!(reorderController.reorderDisabled$ | async)"
-            [rows]="listData"
-            [rowActionsRaw]="list.rowActionsRaw"
-            [groupActionsRaw]="list.groupActionsRaw"
-            [hasRowActions]="rowActionsEnabled"
-            [rowEvents]="list.rowEvents"
-            [rowClass]="list.rowClass"
-            [columns]="renderedColumns$ | async"
-            [restoreMode]="list.restoreMode"
-            [selection]="selectionEnabled"
-            [rowRemoved]="rowRemoved"
-            [activeFiltersCount]="list.activeFiltersCount$ | async"
-            [reorderEnabled]="reorderEnabledFor(reorderController.enabled$ | async)"
-            [reorderPosition]="reorderController.position$ | async"
-            [reorderStrategy]="reorderController.strategy$ | async"
-            [reorderMultiple]="reorderController.multiple">
-          </tbody>
-          @if (list.columns.hasFooter) {
-            <tfoot
-              fs-list-footer
-              class="fs-list-footer"
-              [columns]="renderedColumns$ | async"
-              [selection]="selectionEnabled"
-              [hasRowActions]="rowActionsEnabled"
-              [activeFiltersCount]="list.activeFiltersCount$ | async"
-              [reorderEnabled]="reorderEnabledFor(reorderController.enabled$ | async)"
-              [reorderPosition]="reorderController.position$ | async"
-              [reorderStrategy]="reorderController.strategy$ | async">
-            </tfoot>
-          }
-        </table>
-      }
-      @if (firstLoad) {
-        <fs-list-loader
-          [columns]="list.columns.columns"
-          [loaderLines]="loaderLines">
-        </fs-list-loader>
-      }
-    </div>
-    <fs-list-pagination
-      class="fs-list-pagination"
-      [rows]="listData"
-      [pagination]="list.paging">
-    </fs-list-pagination>
-    @if (!firstLoad) {
-      @if (listData.length === 0) {
-        <div
-          class="fs-list-no-results-container">
-          @if (list.noResults?.message && !list.emptyStateEnabled) {
-            <div
-              class="fs-list-no-results">
-              {{ list.noResults?.message }}
-            </div>
-          }
-          @if (list.emptyStateEnabled) {
-            <ng-template [ngTemplateOutlet]="list.emptyStateTemplate"></ng-template>
-          }
-        </div>
+              [reorderStrategy]="reorderController.strategy$ | async"
+              [reorderMultiple]="reorderController.multiple">
+            </tbody>
+            @if (list.columns.hasFooter) {
+              <tfoot
+                fs-list-footer
+                class="fs-list-footer"
+                [columns]="renderedColumns$ | async"
+                [selection]="selectionEnabled"
+                [hasRowActions]="rowActionsEnabled"
+                [activeFiltersCount]="list.activeFiltersCount$ | async"
+                [reorderEnabled]="reorderEnabledFor(reorderController.enabled$ | async)"
+                [reorderPosition]="reorderController.position$ | async"
+                [reorderStrategy]="reorderController.strategy$ | async">
+              </tfoot>
+            }
+          </table>
+        }
+        @if (firstLoad) {
+          <fs-list-loader
+            [columns]="list.columns.columns"
+            [loaderLines]="loaderLines">
+          </fs-list-loader>
+        }
+      </div>
+      <fs-list-pagination
+        class="fs-list-pagination"
+        [rows]="listData"
+        [pagination]="list.paging">
+      </fs-list-pagination>
+      @if (!firstLoad) {
+        @if (listData.length === 0) {
+          <div
+            class="fs-list-no-results-container">
+            @if (list.noResults?.message && !list.emptyStateEnabled) {
+              <div
+                class="fs-list-no-results">
+                {{ list.noResults?.message }}
+              </div>
+            }
+            @if (list.emptyStateEnabled) {
+              <ng-template [ngTemplateOutlet]="list.emptyStateTemplate"></ng-template>
+            }
+          </div>
+        }
       }
     }
   }

@@ -65,6 +65,29 @@ export class EmptyStateComponent implements OnInit {
           label: 'Search',
         },
       ],
+      // `label` is a static string, so each toggle is two actions that swap on `show()`.
+      actions: [
+        {
+          label: 'Toggle To Data State',
+          show: () => this.state === 'empty',
+          click: () => this.toggleEmptyDataStates(),
+        },
+        {
+          label: 'Toggle To Empty State',
+          show: () => this.state === 'data',
+          click: () => this.toggleEmptyDataStates(),
+        },
+        {
+          label: 'Toggle Valid Empty State',
+          show: () => !this.valid,
+          click: () => this.toggleValidState(),
+        },
+        {
+          label: 'Toggle InValid Empty State',
+          show: () => this.valid,
+          click: () => this.toggleValidState(),
+        },
+      ],
       emptyState: {
         validate: (query, rows) => {
           console.log('Query for validate: ', query);

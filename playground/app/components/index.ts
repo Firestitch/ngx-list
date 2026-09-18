@@ -1,6 +1,7 @@
 export * from './actions';
 export * from './breakpoints';
 export * from './empty-state';
+export * from './error';
 export * from './examples';
 export * from './filters';
 export * from './filters-extended';

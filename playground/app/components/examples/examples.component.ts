@@ -5,6 +5,7 @@ import { FsExampleModule } from '@firestitch/example';
 import { environment } from '../../../environments/environment';
 import { BreakpointsComponent } from '../breakpoints/breakpoints.component';
 import { EmptyStateComponent } from '../empty-state/empty-state.component';
+import { ErrorComponent } from '../error/error.component';
 import { FiltersReadyComponent } from '../filters-ready/filters-ready.component';
 import { FiltersComponent } from '../filters/filters.component';
 import { GroupsComponent } from '../groups/groups.component';
@@ -41,6 +42,7 @@ import { StyleComponent } from '../style/style.component';
     LoadMoreComponent,
     NoResultsComponent,
     EmptyStateComponent,
+    ErrorComponent,
     StyleComponent,
   ],
 })

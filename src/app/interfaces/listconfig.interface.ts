@@ -89,6 +89,7 @@ export interface FsListConfig<TRow = any> {
   sort?: FsListSortConfig;
   restore?: FsListRestoreConfig;
   noResults?: FsListNoResultsConfig;
+  error?: FsListErrorConfig;
   emptyState?: FsListEmptyStateConfig;
   filterInit?: ChangeFn;
   filterChange?: ChangeFn;
@@ -187,6 +188,10 @@ export interface FsListRestoreConfig {
 
 
 export interface FsListNoResultsConfig {
+  message?: string;
+}
+
+export interface FsListErrorConfig {
   message?: string;
 }
 

@@ -627,8 +627,8 @@ export class PaginationController {
    * @param params
    */
   private _fromParams(params): void {
-    if (!this.loadMoreEnabled) {
-      this._limit = params.limit ?? 25;
+    if (!this.loadMoreEnabled && params.limit) {
+      this._limit = params.limit;
     }
 
     this._records = params.records;

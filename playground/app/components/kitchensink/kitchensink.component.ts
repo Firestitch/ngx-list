@@ -100,6 +100,7 @@ export class KitchenSinkComponent implements OnInit {
       },
       queryParam: true,
       paging: {
+        limit: 5,
         limits: [5, 15, 50, 150, 250, 500, 1000],
       },
       rowHoverHighlight: true,

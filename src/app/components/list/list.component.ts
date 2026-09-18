@@ -6,6 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { DrawerRef } from '@firestitch/drawer';
 import { FilterComponent, FilterHeadingDirective, FilterStatusBarDirective } from '@firestitch/filter';
+import { FsMessageModule } from '@firestitch/message';
 import { SelectionDialog } from '@firestitch/selection';
 
 import { Observable, Subject } from 'rxjs';
@@ -49,6 +50,10 @@ import { FsPaginationComponent } from '../pagination/pagination.component';
 import { FsStatusComponent } from '../status/status.component';
 
 
+/** Shown when a fetch fails and the list has no `error.message` of its own. */
+const DEFAULT_ERROR_MESSAGE = 'There was a problem loading the list';
+
+
 @Component({
   selector: 'fs-list',
   templateUrl: './list.component.html',
@@ -76,6 +81,7 @@ import { FsStatusComponent } from '../status/status.component';
     FsListFooterDirective,
     FsListLoaderComponent,
     FsPaginationComponent,
+    FsMessageModule,
     AsyncPipe,
   ],
 })
@@ -115,7 +121,7 @@ export class FsListComponent<TRow = any> implements OnInit, OnDestroy, AfterCont
 
   /** Merged config after defaults; used to type cells without per-template `[configTyping]`. */
   public get mergedListConfig(): FsListConfig<TRow> | undefined {
-    return this._mergedListConfig as FsListConfig<TRow> | undefined;
+    return this._mergedListConfig;
   }
 
   @Output()
@@ -206,6 +212,15 @@ export class FsListComponent<TRow = any> implements OnInit, OnDestroy, AfterCont
         !this.reorderController.enabled ||
         (this.reorderController.enabled && this.reorderController.status)
       );
+  }
+
+  /** True while the last fetch failed; the list shows its error message instead of the table. */
+  public get fetchFailed$(): Observable<boolean> {
+    return this.list.fetchFailed$;
+  }
+
+  public get errorMessage(): string {
+    return this.list.error?.message ?? DEFAULT_ERROR_MESSAGE;
   }
 
   public get paginatorVisible(): boolean {
@@ -460,7 +475,6 @@ export class FsListComponent<TRow = any> implements OnInit, OnDestroy, AfterCont
       chips: true,
       paging: {
         strategy: PaginationStrategy.Offset,
-        limit: 25,
       },
       noResults: {
         message: 'No Results Found',

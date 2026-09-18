@@ -154,6 +154,10 @@ $primary-color: mat.m2-get-color-from-palette(fs-style-variables.$palette) !defa
     }
   }
 
+  .fs-list-error {
+    margin-top: 7px;
+  }
+
   .fs-list-table-container {
     width: 100%;
     overflow-x: auto;

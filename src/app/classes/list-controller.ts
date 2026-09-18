@@ -12,7 +12,7 @@ import {
 import {
   catchError, debounceTime,
   delay,
-  map, mapTo, shareReplay, switchMap, take, takeUntil, tap,
+  map, mapTo, retry, shareReplay, switchMap, take, takeUntil, tap,
 } from 'rxjs/operators';
 
 import { cloneDeep } from 'lodash-es';
@@ -26,6 +26,7 @@ import {
   FsListBeforeFetchFn,
   FsListConfig,
   FsListEmptyStateConfig,
+  FsListErrorConfig,
   FsListFetchFn,
   FsListFetchOptions,
   FsListFetchSubscription,
@@ -75,6 +76,7 @@ export class List {
   public filterChangeCb: ChangeFn;
   public savedFilters: IFilterSavedFiltersConfig;
   public noResults: FsListNoResultsConfig;
+  public error: FsListErrorConfig;
   public emptyState: FsListEmptyStateConfig;
   public fetchFn: FsListFetchFn;
   public beforeFetchFn: FsListBeforeFetchFn;
@@ -103,6 +105,7 @@ export class List {
   public emptyStateTemplate: TemplateRef<any>;
 
   private _loading$ = new BehaviorSubject(false);
+  private _fetchFailed$ = new BehaviorSubject(false);
   private _fetchComplete$ = new Subject<{ scrollIntoView?: boolean }>();
   private _filtersReady$ = new Subject<void>();
   private _destroy$ = new Subject();
@@ -145,6 +148,15 @@ export class List {
 
   public get loading$(): Observable<boolean> {
     return this._loading$.asObservable();
+  }
+
+  /**
+   * True while the last fetch ended in an error. The list renders its error message instead of
+   * the table until the next fetch starts, so a failed reload can no longer fade the previous
+   * rows back in as if they were fresh.
+   */
+  public get fetchFailed$(): Observable<boolean> {
+    return this._fetchFailed$.asObservable();
   }
 
   public filtersReady() {
@@ -434,6 +446,7 @@ export class List {
     this.filterChangeCb = config.filterChange;
     this.savedFilters = config.savedFilters;
     this.noResults = config.noResults;
+    this.error = config.error;
     this.emptyState = config.emptyState;
     this.fetchFn = config.fetch;
     this.afterFetchFn = config.afterFetch;
@@ -594,6 +607,7 @@ export class List {
         debounceTime(50),
         tap(() => {
           this._loading$.next(true);
+          this._fetchFailed$.next(false);
         }),
         tap(() => {
           this.selection?.closeSelectionDialog();
@@ -646,11 +660,7 @@ export class List {
             return this.beforeFetchFn(query)
               .pipe(
                 map((beforeFetchQuery) => ({ params, query: beforeFetchQuery })),
-                catchError((error) => {
-                  console.error(error);
-
-                  return EMPTY;
-                }),
+                catchError((error) => this._failFetch(error)),
               );
           }
 
@@ -659,22 +669,20 @@ export class List {
         switchMap(({ params, query }) => {
           const remoteFetch = this.fetchRemote(query)
             .pipe(
-              catchError((error) => {
-                console.error(error);
-                this._loading$.next(false);
-
-                return EMPTY;
-              }),
+              catchError((error) => this._failFetch(error)),
             );
 
           return combineLatest<any>([of({ params, query }), remoteFetch]);
         }),
-        catchError((error) => {
-          console.error(error);
-          this._loading$.next(false);
-
-          return EMPTY;
+        // Last resort for anything the inner handlers missed. `retry` resubscribes instead of
+        // recovering with EMPTY, which at this level would complete the whole fetch$
+        // subscription and silently kill every later fetch.
+        tap({
+          error: (error) => {
+            this._failFetch(error);
+          },
         }),
+        retry(),
         takeUntil(this._destroy$),
       )
       .subscribe(([paramsQuery, response]) => {
@@ -874,6 +882,21 @@ export class List {
       this.sorting.sortingColumn = undefined;
       this.reload();
     }
+  }
+
+  /**
+   * A fetch failed. The rows are dropped rather than left on screen: keeping them would fade the
+   * stale page back in and read as a successful reload, which is what users reported. The list
+   * shows its error message until the next fetch clears the flag.
+   */
+  private _failFetch(error: unknown): Observable<never> {
+    console.error(error);
+
+    this.dataController.clearRows();
+    this._fetchFailed$.next(true);
+    this._loading$.next(false);
+
+    return EMPTY;
   }
 
   private _completeFetch(params, query, response) {

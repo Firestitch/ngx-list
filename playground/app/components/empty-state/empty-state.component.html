@@ -32,26 +32,6 @@
       </p>
     }
   </div>
-  <div class="actions">
-    <button
-      mat-stroked-button
-      (click)="toggleEmptyDataStates()">
-      @if (state === 'empty') {
-        Toggle To Data State
-      } @else {
-        Toggle To Empty State
-      }
-    </button>
-    <button
-      mat-stroked-button
-      (click)="toggleValidState()">
-      @if (!valid) {
-        Toggle Valid Empty State
-      } @else {
-        Toggle InValid Empty State
-      }
-    </button>
-  </div>
 </div>
 <fs-list [config]="config">
   <fs-list-column>
