@@ -63,10 +63,6 @@
       [ngTemplateOutlet]="nextPageButton"
       [ngTemplateOutletContext]="{ disabled: !pagination.hasNextPage }">
     </ng-container>
-    <ng-container
-      [ngTemplateOutlet]="lastPageButton"
-      [ngTemplateOutletContext]="{ disabled: true }">
-    </ng-container>
   }
 </ng-template>
 <ng-template
