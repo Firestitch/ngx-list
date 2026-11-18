@@ -2,9 +2,12 @@
   display: inline-flex;
   align-items: center;
 
-  // A dotted underline says the heading explains itself on hover
+  // The same dashed underline as fs-popover's: the heading explains itself on hover
   .title.has-tooltip {
-    text-decoration: underline dotted;
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    text-decoration-color: #ccc;
+    text-decoration-thickness: 1px;
     text-underline-offset: 3px;
   }
 
