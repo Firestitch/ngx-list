@@ -1,5 +1,8 @@
 <div class="wrap">
-  <span class="title">
+  <span
+      class="title"
+      [class.has-tooltip]="!!column.tooltip"
+      [matTooltip]="column.tooltip">
     @if (!column.headerTemplate) {
       {{ column.title }}
     }

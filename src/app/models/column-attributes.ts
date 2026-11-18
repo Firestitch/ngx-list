@@ -5,6 +5,7 @@ import { ColumnAsyncAttribute } from './column-async-attribute';
 export class ColumnAttributes {
 
   private _title: string;
+  private _tooltip: string;
   private _name: string;
   private _customizable = true;
   private _sortable: boolean;
@@ -26,6 +27,15 @@ export class ColumnAttributes {
 
   public get title(): string {
     return this._title;
+  }
+
+  // tooltip: shown when the column heading is hovered
+  public set tooltip(value: string) {
+    this._tooltip = value;
+  }
+
+  public get tooltip(): string {
+    return this._tooltip;
   }
 
   // name
@@ -128,6 +138,7 @@ export class ColumnAttributes {
       .forEach((key) => {
         switch (key) {
           case 'title': { this.title = attrs[key]; } break;
+          case 'tooltip': { this.tooltip = attrs[key]; } break;
           case 'name': { this.name = attrs[key]; } break;
           case 'align': { this.align = attrs[key]; } break;
           case 'direction': { this.direction = attrs[key]; } break;

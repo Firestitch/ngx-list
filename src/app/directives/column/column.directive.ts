@@ -81,6 +81,12 @@ export class FsListColumnDirective {
     this._columnAttributes.title = value;
   }
 
+  /** Shown when the column heading is hovered: what the column means */
+  @Input()
+  public set tooltip(value: string) {
+    this._columnAttributes.tooltip = value;
+  }
+
   @Input()
   public set name(value: string) {
     this._columnAttributes.name = value;

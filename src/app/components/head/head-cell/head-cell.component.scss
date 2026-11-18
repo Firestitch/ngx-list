@@ -2,6 +2,12 @@
   display: inline-flex;
   align-items: center;
 
+  // A dotted underline says the heading explains itself on hover
+  .title.has-tooltip {
+    text-decoration: underline dotted;
+    text-underline-offset: 3px;
+  }
+
   mat-icon {
     font-size: 13px;
     display: block;

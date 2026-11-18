@@ -2,6 +2,7 @@ import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 
 import { FsCellComponent } from '../../body/row/cell/cell.component';
 
@@ -15,6 +16,7 @@ import { FsCellComponent } from '../../body/row/cell/cell.component';
   imports: [
     NgTemplateOutlet,
     MatIcon,
+    MatTooltip,
     AsyncPipe,
   ],
 })

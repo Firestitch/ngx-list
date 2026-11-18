@@ -81,6 +81,10 @@ export class Column {
     return this._attributes.title;
   }
 
+  public get tooltip(): string {
+    return this._attributes.tooltip;
+  }
+
   public get name(): string {
     return this._attributes.name;
   }
