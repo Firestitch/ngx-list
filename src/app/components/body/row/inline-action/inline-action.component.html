@@ -1,128 +1,140 @@
 @if (rowAction?.visible$ | async) {
-  @switch (rowAction.type) {
-    <!-- Basic button -->
-    @case ('basic') {
-      @if (!rowAction.routerLink) {
-        <button
-            type="button"
-            mat-button
-            (click)="actionClick($event)"
-            [ngClass]="rowAction.classArray">
-          <fs-list-row-inline-button-content
+  @let disabled = rowAction.isDisabled$ | async;
+  <!-- The tooltip sits on a wrapper: a disabled button fires no hover events of its own -->
+  <span
+      class="row-inline-action-tooltip"
+      [matTooltip]="rowAction.disabledTooltipText"
+      [matTooltipDisabled]="!disabled || !rowAction.disabledTooltipText">
+    @switch (rowAction.type) {
+      <!-- Basic button -->
+      @case ('basic') {
+        @if (!rowAction.routerLink) {
+          <button
+              type="button"
+              [disabled]="disabled"
+              mat-button
+              (click)="actionClick($event)"
+              [ngClass]="rowAction.classArray">
+            <fs-list-row-inline-button-content
+              [rowAction]="rowAction"
+              [row]="row"
+              (fileSelect)="fileSelected($event)">
+            </fs-list-row-inline-button-content>
+          </button>
+        } @else {
+          <a
+              mat-button
+              [routerLink]="rowAction.routerLink.link"
+              [queryParams]="rowAction.routerLink.queryParams">
+            <fs-list-row-inline-button-content
+              [rowAction]="rowAction"
+              [row]="row"
+              (fileSelect)="fileSelected($event)">
+            </fs-list-row-inline-button-content>
+          </a>
+        }
+      }
+      <!-- Raised button -->
+      @case ('raised') {
+        @if (!rowAction.routerLink) {
+          <button
+              type="button"
+              [disabled]="disabled"
+              mat-raised-button
+              (click)="actionClick($event)"
+              [ngClass]="rowAction.classArray">
+            <fs-list-row-inline-button-content
+              [rowAction]="rowAction"
+              [row]="row"
+              (fileSelect)="fileSelected($event)">
+            </fs-list-row-inline-button-content>
+          </button>
+        } @else {
+          <a
+              mat-raised-button
+              [routerLink]="rowAction.routerLink.link"
+              [queryParams]="rowAction.routerLink.queryParams">
+            <fs-list-row-inline-button-content
+              [rowAction]="rowAction"
+              [row]="row"
+              (fileSelect)="fileSelected($event)">
+            </fs-list-row-inline-button-content>
+          </a>
+        }
+      }
+      <!-- Icon button -->
+      @case ('icon') {
+        @if (!rowAction.routerLink) {
+          <fs-list-row-inline-icon-button
             [rowAction]="rowAction"
+            [disabled]="disabled"
             [row]="row"
+            (clicked)="actionClick($event)"
             (fileSelect)="fileSelected($event)">
-          </fs-list-row-inline-button-content>
-        </button>
-      } @else {
-        <a
-            mat-button
-            [routerLink]="rowAction.routerLink.link"
-            [queryParams]="rowAction.routerLink.queryParams">
-          <fs-list-row-inline-button-content
+          </fs-list-row-inline-icon-button>
+        } @else {
+          <fs-list-row-inline-icon-link
             [rowAction]="rowAction"
-            [row]="row"
-            (fileSelect)="fileSelected($event)">
-          </fs-list-row-inline-button-content>
-        </a>
+            [row]="row">
+          </fs-list-row-inline-icon-link>
+        }
+      }
+      <!-- Fab button -->
+      @case ('fab') {
+        @if (!rowAction.routerLink) {
+          <button
+              type="button"
+              [disabled]="disabled"
+              mat-fab
+              (click)="actionClick($event)"
+              [ngClass]="rowAction.classArray">
+            <fs-list-row-inline-button-content
+              [rowAction]="rowAction"
+              [row]="row"
+              (fileSelect)="fileSelected($event)">
+            </fs-list-row-inline-button-content>
+          </button>
+        } @else {
+          <a
+              mat-fab
+              [routerLink]="rowAction.routerLink.link"
+              [queryParams]="rowAction.routerLink.queryParams">
+            <fs-list-row-inline-button-content
+              [rowAction]="rowAction"
+              [row]="row"
+              (fileSelect)="fileSelected($event)">
+            </fs-list-row-inline-button-content>
+          </a>
+        }
+      }
+      <!-- Mini Fab button -->
+      @case ('mini-fab') {
+        @if (!rowAction.routerLink) {
+          <button
+              type="button"
+              [disabled]="disabled"
+              mat-mini-fab
+              (click)="actionClick($event)"
+              [ngClass]="rowAction.classArray">
+            <fs-list-row-inline-button-content
+              [rowAction]="rowAction"
+              [row]="row"
+              (fileSelect)="fileSelected($event)">
+            </fs-list-row-inline-button-content>
+          </button>
+        } @else {
+          <a
+              mat-mini-fab
+              [routerLink]="rowAction.routerLink.link"
+              [queryParams]="rowAction.routerLink.queryParams">
+            <fs-list-row-inline-button-content
+              [rowAction]="rowAction"
+              [row]="row"
+              (fileSelect)="fileSelected($event)">
+            </fs-list-row-inline-button-content>
+          </a>
+        }
       }
     }
-    <!-- Raised button -->
-    @case ('raised') {
-      @if (!rowAction.routerLink) {
-        <button
-            type="button"
-            mat-raised-button
-            (click)="actionClick($event)"
-            [ngClass]="rowAction.classArray">
-          <fs-list-row-inline-button-content
-            [rowAction]="rowAction"
-            [row]="row"
-            (fileSelect)="fileSelected($event)">
-          </fs-list-row-inline-button-content>
-        </button>
-      } @else {
-        <a
-            mat-raised-button
-            [routerLink]="rowAction.routerLink.link"
-            [queryParams]="rowAction.routerLink.queryParams">
-          <fs-list-row-inline-button-content
-            [rowAction]="rowAction"
-            [row]="row"
-            (fileSelect)="fileSelected($event)">
-          </fs-list-row-inline-button-content>
-        </a>
-      }
-    }
-    <!-- Icon button -->
-    @case ('icon') {
-      @if (!rowAction.routerLink) {
-        <fs-list-row-inline-icon-button
-          [rowAction]="rowAction"
-          [row]="row"
-          (clicked)="actionClick($event)"
-          (fileSelect)="fileSelected($event)">
-        </fs-list-row-inline-icon-button>
-      } @else {
-        <fs-list-row-inline-icon-link
-          [rowAction]="rowAction"
-          [row]="row">
-        </fs-list-row-inline-icon-link>
-      }
-    }
-    <!-- Fab button -->
-    @case ('fab') {
-      @if (!rowAction.routerLink) {
-        <button
-            type="button"
-            mat-fab
-            (click)="actionClick($event)"
-            [ngClass]="rowAction.classArray">
-          <fs-list-row-inline-button-content
-            [rowAction]="rowAction"
-            [row]="row"
-            (fileSelect)="fileSelected($event)">
-          </fs-list-row-inline-button-content>
-        </button>
-      } @else {
-        <a
-            mat-fab
-            [routerLink]="rowAction.routerLink.link"
-            [queryParams]="rowAction.routerLink.queryParams">
-          <fs-list-row-inline-button-content
-            [rowAction]="rowAction"
-            [row]="row"
-            (fileSelect)="fileSelected($event)">
-          </fs-list-row-inline-button-content>
-        </a>
-      }
-    }
-    <!-- Mini Fab button -->
-    @case ('mini-fab') {
-      @if (!rowAction.routerLink) {
-        <button
-            type="button"
-            mat-mini-fab
-            (click)="actionClick($event)"
-            [ngClass]="rowAction.classArray">
-          <fs-list-row-inline-button-content
-            [rowAction]="rowAction"
-            [row]="row"
-            (fileSelect)="fileSelected($event)">
-          </fs-list-row-inline-button-content>
-        </button>
-      } @else {
-        <a
-            mat-mini-fab
-            [routerLink]="rowAction.routerLink.link"
-            [queryParams]="rowAction.routerLink.queryParams">
-          <fs-list-row-inline-button-content
-            [rowAction]="rowAction"
-            [row]="row"
-            (fileSelect)="fileSelected($event)">
-          </fs-list-row-inline-button-content>
-        </a>
-      }
-    }
-  }
+  </span>
 }

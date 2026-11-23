@@ -16,6 +16,7 @@ import {
   MatMiniFabAnchor,
   MatMiniFabButton,
 } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
 
 import { FsFile } from '@firestitch/file';
 
@@ -43,6 +44,7 @@ import { FsRowInlineIconLinkComponent } from './icon-link/icon-link.component';
     MatMiniFabButton,
     MatMiniFabAnchor,
     AsyncPipe,
+    MatTooltip,
     FsRowInlineButtonContentComponent,
     FsRowInlineIconButtonComponent,
     FsRowInlineIconLinkComponent,

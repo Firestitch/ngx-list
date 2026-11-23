@@ -356,7 +356,19 @@ export class KitchenSinkComponent implements OnInit {
           link: () => {
             return { link: ['.'], queryParams: { param: 1 } };
           },
+          disabled: (row) => row.checked === true,
+          disabledTooltip: 'Uncheck the row to leave it',
           className: 'test',
+        },
+        {
+          label: 'Archive',
+          type: ActionType.Basic,
+          menu: false,
+          click: (row) => {
+            console.log('archive', row);
+          },
+          disabled: (row) => row.checked === true,
+          disabledTooltip: (row) => `Uncheck ${row.name} to archive it`,
         },
         {
           label: 'File Upload',
@@ -385,6 +397,8 @@ export class KitchenSinkComponent implements OnInit {
               show: () => {
                 return false;
               },
+              disabled: true,
+              disabledTooltip: 'Hidden wins over disabled',
               label: 'Hidden',
             },
             {
@@ -400,6 +414,8 @@ export class KitchenSinkComponent implements OnInit {
                 title: 'Confirm',
                 template: 'Are you sure you would like to delete this record?',
               },
+              disabled: (row) => row.checked === true,
+              disabledTooltip: (row) => `Uncheck ${row.name} to remove it`,
               label: 'Remove',
             },
             {
@@ -461,13 +477,12 @@ export class KitchenSinkComponent implements OnInit {
 
         console.log('Fetch', query);
 
-        return this._api.get('dummy', query)
-          .pipe(
-            map((response) => ({
-              data: response.objects as KitchenSinkRow[],
-              paging: response.paging,
-            })),
-          );
+        // TEMP-VERIFY: local rows, the dummy API is gone
+        return of({ data: [
+          { guid: 'a', name: 'Alpha', checked: false },
+          { guid: 'b', name: 'Bravo', checked: true },
+          { guid: 'c', name: 'Charlie', checked: false },
+        ] as any[] });
       },
       beforeFetch: (query) => {
         console.log(query);

@@ -1,6 +1,7 @@
 <button
     type="button"
     mat-icon-button
+    [disabled]="disabled"
     (click)="actionClick($event)"
     [ngClass]="rowAction.classArray">
   <fs-list-row-inline-button-content

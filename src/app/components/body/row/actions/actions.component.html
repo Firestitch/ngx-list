@@ -24,7 +24,9 @@
             [link]="action.routerLink?.link"
             [queryParams]="action.routerLink?.queryParams"
             [target]="action.routerLink?.target"
-            [hidden]="action.menu !== undefined && (action.hidden$ | async)">
+            [hidden]="action.menu !== undefined && (action.hidden$ | async)"
+            [disabled]="action.isDisabled$ | async"
+            [tooltip]="action.menuTooltip">
           <fs-list-row-menu-action
             [rowAction]="action"
             [row]="row"
@@ -44,6 +46,8 @@
                   [queryParams]="subAction.routerLink?.queryParams"
                   [target]="subAction.routerLink?.target"
                   [hidden]="subAction.hidden$ | async"
+                  [disabled]="subAction.isDisabled$ | async"
+                  [tooltip]="subAction.menuTooltip"
                   [class]="subAction.className"
                   (click)="actionClick(subAction, row, $event, menuRef);">
                 <fs-list-row-menu-action
@@ -63,6 +67,8 @@
               [queryParams]="action.routerLink?.queryParams"
               [target]="action.routerLink?.target"
               [hidden]="action.hidden$ | async"
+              [disabled]="action.isDisabled$ | async"
+              [tooltip]="action.menuTooltip"
               [class]="action.className"
               (click)="actionClick(action, row, $event, menuRef);">
             <fs-list-row-menu-action

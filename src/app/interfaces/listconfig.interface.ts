@@ -229,9 +229,22 @@ export interface FsListRowAction {
   link?: FsListRowActionLinkFn;
   file?: FsListRowActionFile;
   show?: (row, index: number) => boolean;
+  /**
+   * Shows the action greyed out and unclickable for a row, in place of hiding it.
+   * A hidden action (see `show`) stays hidden even when it is also disabled.
+   */
+  disabled?: boolean | FsListRowActionDisabledFn;
+  /**
+   * Explains why the action is unavailable. Shown on hover, only while the action is disabled.
+   */
+  disabledTooltip?: string | FsListRowActionDisabledTooltipFn;
   remove?: FsListRowActionRemove | boolean;
   restore?: boolean;
 }
+
+export type FsListRowActionDisabledFn = (row, index: number) => boolean;
+
+export type FsListRowActionDisabledTooltipFn = (row, index: number) => string;
 
 export interface FsListRowActionRemove {
   title?: string;

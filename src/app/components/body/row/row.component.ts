@@ -211,6 +211,7 @@ implements OnInit, AfterViewInit, OnDestroy {
     this.rowActions
       .forEach((action) => {
         action.checkShowStatus(this.row().data, this.rowIndex);
+        action.checkDisabledStatus(this.row().data, this.rowIndex);
         action.updateLink(this.row().data);
       });
       

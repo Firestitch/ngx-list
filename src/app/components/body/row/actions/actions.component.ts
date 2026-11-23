@@ -63,6 +63,12 @@ export class FsRowActionsComponent {
 
 
   public actionClick(action: RowAction, row: any, event: any, menuRef?) {
+    if (action.isDisabled) {
+      event?.stopPropagation();
+
+      return;
+    }
+
     if (action.remove) {
       if (
         action.remove instanceof Object

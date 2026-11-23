@@ -2,6 +2,8 @@ import { BehaviorSubject, Observable, map } from 'rxjs';
 
 import { ActionType } from '../enums/action-type.enum';
 import {
+  FsListRowActionDisabledFn,
+  FsListRowActionDisabledTooltipFn,
   FsListRowActionFile,
   FsListRowActionLink,
   FsListRowActionLinkFn,
@@ -17,6 +19,8 @@ export class RowAction {
   public className: string;
   public type: ActionType;
   public show: (row: any, index: number) => boolean;
+  public disabled: boolean | FsListRowActionDisabledFn;
+  public disabledTooltip: string | FsListRowActionDisabledTooltipFn;
   public restore: boolean;
   public rowActions: RowAction[];
   public label = '';
@@ -29,6 +33,15 @@ export class RowAction {
   private _linkFn: FsListRowActionLinkFn;
   private readonly _isGroup: boolean = false;
   private _visible = new BehaviorSubject<boolean>(true);
+  private _isDisabled = new BehaviorSubject<boolean>(false);
+  private _disabledTooltipText: string = null;
+
+  /**
+   * Handed to fs-menu as its tooltip. fs-menu only overwrites its stored tooltip when given a
+   * string or a function, so passing null after a row turns enabled would leave the old text
+   * showing. A function is always re-read, and returns nothing while the action is enabled.
+   */
+  public readonly menuTooltip = (): string => this._disabledTooltipText;
 
   constructor(config: any = {}) {
     this._init(config);
@@ -59,6 +72,18 @@ export class RowAction {
     return this._visible.getValue();
   }
 
+  public get isDisabled$(): Observable<boolean> {
+    return this._isDisabled.asObservable();
+  }
+
+  public get isDisabled(): boolean {
+    return this._isDisabled.getValue();
+  }
+
+  public get disabledTooltipText(): string {
+    return this._disabledTooltipText;
+  }
+
   public _init(value: any) {
     this.icon = value.icon;
     this.menu = value.menu ?? true;
@@ -71,6 +96,8 @@ export class RowAction {
     // template's @switch and blanking the action.
     this.type = value.type ?? (this.icon && !this.label ? ActionType.Icon : ActionType.Basic);
     this.show = value.show;
+    this.disabled = value.disabled;
+    this.disabledTooltip = value.disabledTooltip;
     this.restore = value.restore;
     this.rowActions = value.rowActions
       ?.map((action) => new RowAction(action));
@@ -120,8 +147,37 @@ export class RowAction {
     }
   }
 
+  public checkDisabledStatus(row, index) {
+    if (this.isGroup) {
+      this.rowActions.forEach((action) => {
+        action.checkDisabledStatus(row, index);
+      });
+
+      return;
+    }
+
+    const disabled = typeof this.disabled === 'function'
+      ? !!this.disabled(row, index)
+      : !!this.disabled;
+
+    this._disabledTooltipText = disabled
+      ? (typeof this.disabledTooltip === 'function'
+        ? this.disabledTooltip(row, index)
+        : this.disabledTooltip) || null
+      : null;
+
+    this._isDisabled.next(disabled);
+  }
+
   public updateLink(row) {
     if (!this.visible) {
+      return;
+    }
+
+    // A disabled action must not navigate: greying out a menu item does not stop its router link.
+    if (this.isDisabled) {
+      this.routerLink = null;
+
       return;
     }
 
@@ -141,6 +197,10 @@ export class RowAction {
   private _clickEvent(row, event, index, rowActionsRef, clickFn) {
     // Stop event propagation for parent
     event.stopPropagation();
+
+    if (this.isDisabled) {
+      return;
+    }
 
     // Close menu
     if (rowActionsRef) {

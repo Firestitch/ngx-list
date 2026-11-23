@@ -35,6 +35,9 @@ export class FsRowInlineIconButtonComponent {
   @Input()
   public row: Row;
 
+  @Input()
+  public disabled = false;
+
   @Output()
   public clicked = new EventEmitter();
 
