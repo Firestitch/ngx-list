@@ -477,12 +477,13 @@ export class KitchenSinkComponent implements OnInit {
 
         console.log('Fetch', query);
 
-        // TEMP-VERIFY: local rows, the dummy API is gone
-        return of({ data: [
-          { guid: 'a', name: 'Alpha', checked: false },
-          { guid: 'b', name: 'Bravo', checked: true },
-          { guid: 'c', name: 'Charlie', checked: false },
-        ] as any[] });
+        return this._api.get('dummy', query)
+          .pipe(
+            map((response) => ({
+              data: response.objects as KitchenSinkRow[],
+              paging: response.paging,
+            })),
+          );
       },
       beforeFetch: (query) => {
         console.log(query);
