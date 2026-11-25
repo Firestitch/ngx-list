@@ -88,8 +88,11 @@ export class FsRowActionsComponent {
           )
           .subscribe();
       } else {
-        this._removeAction(action, row.data, event, this.index);
-
+        // The action's own click asks, if it asks at all. That click stops the event
+        // before the menu can close on it, and closes the menu it is handed instead,
+        // so hand it the menu: without it the menu stays open behind the action's
+        // confirm, and after a Cancel too
+        this._removeAction(action, row.data, event, this.index, menuRef);
       }
     } else {
       action.click(row.data, event, this.index, menuRef);
@@ -112,9 +115,10 @@ export class FsRowActionsComponent {
    * @param row
    * @param event
    * @param index
+   * @param menuRef the row's menu, which the action closes before it runs
    */
-  private _removeAction(action, row, event, index) {
-    const removeObservable = action.click(row, event, index);
+  private _removeAction(action, row, event, index, menuRef = null) {
+    const removeObservable = action.click(row, event, index, menuRef);
 
     if (removeObservable && removeObservable instanceof Observable) {
       removeObservable
