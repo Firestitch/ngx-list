@@ -13,7 +13,7 @@ import { ReorderPosition, ReorderStrategy } from '../../classes/reorder-controll
 import { SelectionController } from '../../classes/selection-controller';
 import { FsListDraggableRowDirective } from '../../directives/draggable-row/draggable-row.directive';
 import { Column } from '../../models/column.model';
-import { Row } from '../../models/row';
+import { Row, isGroupFooterRow, isGroupRow } from '../../models/row';
 
 import { FsRowComponent } from './row/row.component';
 
@@ -57,17 +57,27 @@ export class FsBodyComponent {
   /**
    * Track rows by their underlying record id so that a reload (which creates
    * fresh Row wrapper objects) reuses the existing DOM instead of destroying
-   * and recreating every row. Only a genuine, non-empty id counts as a stable
-   * identity: empty string / null / undefined (group & footer rows, id-less
-   * records) fall back to the row index, namespaced so it can never collide
-   * with a real id. Without the fallback every id-less row keys to the same
-   * value and Angular throws NG0955 (duplicate track keys) -> scrambled rows.
+   * and recreating every row. A reused DOM row keeps the cell templates and
+   * actions it was first built with, so only a row that renders the same way
+   * may take it over:
+   * - Group headers and group footers are tracked by their wrapper, never by
+   *   id. Their data can be a child's own record (a groupBy that returns the
+   *   row), so the id would collide with that child's, and they render with
+   *   different templates and actions than a record row.
+   * - A record row without a genuine, non-empty id (empty string / null /
+   *   undefined) is tracked by its wrapper too. Tracking it by its position
+   *   handed each DOM row to whatever row landed there after the reload, so a
+   *   group header drew a record's cells and a record drew a group header.
    */
-  public trackByFn(index: number, row: Row): unknown {
+  public trackByFn(row: Row): unknown {
+    if (isGroupRow(row) || isGroupFooterRow(row)) {
+      return row;
+    }
+
     const id = (row?.data as { id?: unknown })?.id;
 
     return id === undefined || id === null || id === ''
-      ? `__row_index_${index}`
+      ? row
       : id;
   }
 
