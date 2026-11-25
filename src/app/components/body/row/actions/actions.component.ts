@@ -6,8 +6,8 @@ import { MatIcon } from '@angular/material/icon';
 import { FsMenuModule } from '@firestitch/menu';
 import { FsPrompt } from '@firestitch/prompt';
 
-import { Observable, Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { EMPTY, Observable, Subject } from 'rxjs';
+import { catchError, take, takeUntil, tap } from 'rxjs/operators';
 
 import { Row } from '../../../../models/row';
 import { RowAction } from '../../../../models/row-action.model';
@@ -73,18 +73,20 @@ export class FsRowActionsComponent {
       if (
         action.remove instanceof Object
       ) {
+        // Cancel, Escape and a click outside error the prompt's stream; backing
+        // out is not an error, so it ends here quietly and the row stays
         this._prompt.confirm({
           title: action.remove.title,
           template: action.remove.template,
           autofocus: true,
         })
           .pipe(
+            catchError(() => EMPTY),
             take(1),
+            tap(() => this._removeAction(action, row.data, event, this.index)),
             takeUntil(this._destroy$),
           )
-          .subscribe(() => {
-            this._removeAction(action, row.data, event, this.index);
-          });
+          .subscribe();
       } else {
         this._removeAction(action, row.data, event, this.index);
 
