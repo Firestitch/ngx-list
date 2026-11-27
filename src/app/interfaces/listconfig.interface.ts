@@ -100,7 +100,12 @@ export interface FsListConfig<TRow = any> {
 
 export interface FsListGroupConfig {
   enabled?: boolean;
-  initialExpand?: boolean;
+  /**
+   * Whether a group starts open (default true), or a function given the group (what groupBy
+   * returned) saying it for each one. A reload keeps each group open or closed as it was left,
+   * matched by compareBy; only a group the list has not shown before starts this way.
+   */
+  initialExpand?: boolean | ((group: any) => boolean);
   groupBy?: (row: any) => any;
   compareBy?: (row: any) => any;
   footer?: (

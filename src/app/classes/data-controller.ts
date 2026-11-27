@@ -33,7 +33,9 @@ export class DataController {
     }
   ) => boolean;
   private _compareByFn: (group) => any;
-  private _initialExpand = true;
+  private _initialExpand: boolean | ((group: any) => boolean) = true;
+  /** Each group's open state as the last fetch left it, by its compareBy key: a reload keeps it */
+  private _groupsExpanded = new Map<unknown, boolean>();
   private _groupEnabled = false;
 
   private _loadMoreEnabled: boolean;
@@ -256,6 +258,7 @@ export class DataController {
   public destroy() {
     this._destroyRowsStack();
     this._store.clear();
+    this._groupsExpanded.clear();
 
     this._destroy$.next(null);
     this._destroy$.complete();
@@ -287,6 +290,11 @@ export class DataController {
   }
 
   private _updateRowsStack(rows) {
+    // A reload leaves each group open or closed as the person left it; only a group new to the
+    // list starts as initialExpand says
+    this._groupsExpanded = new Map(Array.from(this._store.entries())
+      .filter(([, row]) => isGroupRow(row))
+      .map(([key, row]: [unknown, IGroupRow]) => [key, row.expanded]));
     this._destroyRowsStack();
 
     if (this.groupEnabled) {
@@ -309,6 +317,13 @@ export class DataController {
       });
       this._rowsStack = [...this._rowsStack, ...rows];
     }
+  }
+
+  /** Whether a group the list has not shown before starts open */
+  private _isInitiallyExpanded(groupData: unknown): boolean {
+    return typeof this._initialExpand === 'function'
+      ? this._initialExpand(groupData)
+      : this._initialExpand;
   }
 
   private _destroyRowsStack() {
@@ -391,7 +406,7 @@ export class DataController {
         group = makeRowFactory(
           groupData,
           RowType.Group,
-          { initialExpand: this._initialExpand },
+          { initialExpand: this._groupsExpanded.get(groupKey) ?? this._isInitiallyExpanded(groupData) },
         ) as IGroupRow;
 
         group.index = groupRows.length;
